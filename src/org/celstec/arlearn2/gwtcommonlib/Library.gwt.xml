@@ -1,0 +1,8 @@
+<module>
+	<inherits name="com.google.gwt.user.User"/>
+	<inherits name='com.google.gwt.appengine.channel.Channel'/>
+    <inherits name="com.smartgwt.Drawing"/>
+    <inherits name="com.google.gwt.json.JSON" /> "
+
+    <extend-property name="locale" values="nl"/>
+</module>

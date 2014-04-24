@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<datastore-indexes autoGenerate ="true">
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="ContactJDO" ancestor="false" source="auto">
+        <property name="fromAccountType" direction="asc"/>
+        <property name="fromLocalId" direction="asc"/>
+        <property name="lastModificationDate" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 3 times in query history -->
+    <datastore-index kind="GameAccessJDO" ancestor="false" source="auto">
+        <property name="accountType" direction="asc"/>
+        <property name="localId" direction="asc"/>
+        <property name="lastModificationDateGame" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="RunAccessJDO" ancestor="false" source="auto">
+        <property name="accountType" direction="asc"/>
+        <property name="localId" direction="asc"/>
+        <property name="lastModificationDateRun" direction="asc"/>
+    </datastore-index>
+
+    <datastore-index kind="ResponseJDO" ancestor="false" source="manual">
+        <property name="generalItemId" direction="asc"/>
+        <property name="runId" direction="asc"/>
+        <property name="lastModificationDate" direction="asc"/>
+    </datastore-index>
+
+    <datastore-index kind="ResponseJDO" ancestor="false" source="manual">
+    <property name="generalItemId" direction="asc"/>
+    <property name="runId" direction="asc"/>
+    <property name="userEmail" direction="asc"/>
+    <property name="lastModificationDate" direction="asc"/>
+    </datastore-index>
+
+    <datastore-index kind="ActionJDO" ancestor="false" source="manual">
+        <property name="runId" direction="asc"/>
+        <property name="time" direction="asc"/>
+    </datastore-index>
+
+    <datastore-index kind="ActionJDO" ancestor="false" source="manual">
+        <property name="runId" direction="asc"/>
+        <property name="userEmail" direction="asc"/>
+        <property name="time" direction="asc"/>
+    </datastore-index>
+
+</datastore-indexes>

@@ -1,0 +1,172 @@
+body{
+	margin:0;
+}
+
+:focus{
+	outline:0;
+}
+
+.my-mouse-out  img, .my-mouse-over  img  {
+	height: 40px;
+}
+
+#slide_right > div, #slide_left > div {
+	height: 40px !important;
+}
+
+.gwt-PopupPanelGlass{
+	opacity:0.7 !important;
+	background: black;
+}
+
+.popupContent{
+	padding:15px;
+	position:relative;
+	background: white;
+	min-height: 300px;
+}
+
+.popupContent table{
+	width:100%;
+}
+
+.popupContent table td{
+	text-align:center;
+}
+
+
+
+.gwt-PopupPanel{
+	top: 20px !important;
+}
+
+
+.gwt-HTML > p {
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+	margin-top: 4em;
+}
+
+
+
+input:focus{
+	outline:none;
+}
+
+.breadcrumb-style > b{
+	float:left;
+}
+
+.breadcrumb-style{
+	float:left;
+	margin: 5px 13px;
+	color: #FFF;
+	font-size: 13px;
+}
+
+
+
+.breadcrumb-left-side-style{
+	margin: 5px 13px;
+	font-size: 13px;
+	float:left;
+}
+
+.breadcrumb-left-side-style > b{
+	float:left;
+}
+
+
+/*
+* Side Bar Result display
+*/
+
+/**
+* Search
+*/
+
+form .formCell .textItem {
+	-webkit-border-radius: 14px 0 0 14px;
+	-moz-border-radius: 14px 0 0 14px;
+	border-radius: 14px 0 0 14px;
+	padding: 10px 36px 10px 10px;
+	width: 277px;
+}
+
+.gwt-Button{
+	margin: 12px 0 0 -12px !important;
+	width: 100px;
+	height: 38px;
+	
+	-webkit-border-radius: 0 14px 14px 0 !important;
+	-moz-border-radius: 0 14px 14px 0 !important;
+	border-radius: 0 14px 14px 0 !important;
+}
+
+#isc_F.imgButton, #isc_F.imgButtonOver, #isc_F.imgButtonDown{
+	left: 409px !important;
+	top: 22px !important;
+}
+	
+h1.toolbar {
+	text-align: left;
+	padding: 7px 28px;
+	font-size: 13px;
+	color: white;
+	margin: 0;
+}
+
+.layoutRight{
+	border-left: 29px solid #5DA5D7;
+}
+
+.listGridGeneralItemsStyle{
+	border-top: 10px solid #5DA5D7;
+}
+
+
+.toolbar-footer{
+	background-color: #5DA5D7;
+}
+
+.toolbar-footer .normal{
+position:relative !important;
+float:right;
+top:-12px;
+}
+
+.toolbar-footer .normal:nth-child(1){
+	left:-140px !important;
+}
+
+.button-download-game, .button-copy-game{
+
+	
+	margin:4px !important;
+	padding:1px;
+	width: 120px;
+	height: 35px;
+	-webkit-border-radius: 14px !important;
+	-moz-border-radius: 14px !important;
+	border-radius: 14px !important;
+}
+
+.button-download-game img, .button-copy-game img{
+	margin: 0 5px;
+}
+
+.icon_login{
+	margin: 15% 30%;
+}
+
+.footer-main-interface{
+	color:#FFF;
+	font-size:16px;
+}
+
+
+.listGrid, .tileGrid {
+	border: 0px !important;
+}

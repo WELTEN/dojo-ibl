@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Channel API Test page</title>
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+    <script type="text/javascript" src="_ah/channel/jsapi"></script>
+    <script>
+        $(document).ready(function(){
+            $('#tokenForm').submit(function () {
+                newToken();
+                return false;
+            });
+            if (QueryString.token != undefined) {
+                document.forms['tokenForm']['token'].value = QueryString.token;
+                newToken();
+            }
+        });
+
+        function newToken() {
+            var token = document.forms['tokenForm']['token'].value;
+            //alert('new token '+token);
+//            $("#events").append('<li>'+token+'</li>').listview('refresh');
+            channel = new goog.appengine.Channel(token);
+            socket = channel.open();
+            socket.onopen = onOpened;
+            socket.onmessage = onMessage;
+            socket.onerror = onError;
+            socket.onclose = onClose;
+        }
+
+        function onOpened() {
+            alert("Channel opened!");
+        }
+
+        function onMessage(msg) {
+            document.forms['tokenForm']['json'].value = JSON.stringify(msg.data);
+            var d = new Date();
+            $("#events").append('<li jsondata='+msg.data+' onclick="writeData(this);" >'+d.toLocaleString()+'</li>').listview('refresh');
+        }
+
+        function onError(err) {
+            alert(err);
+        }
+
+        function onClose() {
+            document.forms['tokenForm']['json'].value = JSON.stringify(msg.data);
+        }
+
+        function writeData(data) {
+
+            document.forms['tokenForm']['json'].value = data.getAttribute("jsondata")
+        }
+
+
+        var QueryString = function () {
+            var query_string = {};
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if (typeof query_string[pair[0]] === "undefined") {
+                    query_string[pair[0]] = pair[1];
+                } else if (typeof query_string[pair[0]] === "string") {
+                    var arr = [ query_string[pair[0]], pair[1] ];
+                    query_string[pair[0]] = arr;
+                } else {
+                    query_string[pair[0]].push(pair[1]);
+                }
+            }
+            return query_string;
+        } ();
+
+
+
+    </script>
+</head>
+<body>
+<form id="tokenForm" >
+    <label for="text-basic">Token:</label>
+    <input type="text" name="token" id="text-basic" value="">
+
+
+
+    <input class="submit" type="submit" value="Create Channel with token" />
+
+    <label for="json">Notifications returned from server:</label>
+    <textarea cols="40" rows="16" name="json" id="json"></textarea>
+
+
+</form>
+<ul id="events" data-role="listview">
+
+</ul>
+</body>
+</html>
