@@ -29,11 +29,7 @@ import org.celstec.arlearn2.api.Service;
 import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.beans.dependencies.ActionDependency;
 import org.celstec.arlearn2.beans.deserializer.json.JsonBeanDeserializer;
-import org.celstec.arlearn2.beans.game.Config;
-import org.celstec.arlearn2.beans.game.Game;
-import org.celstec.arlearn2.beans.game.GameAccess;
-import org.celstec.arlearn2.beans.game.GamesList;
-import org.celstec.arlearn2.beans.game.MapRegion;
+import org.celstec.arlearn2.beans.game.*;
 import org.celstec.arlearn2.beans.generalItem.GeneralItem;
 import org.celstec.arlearn2.beans.notification.GameModification;
 import org.celstec.arlearn2.beans.notification.GeneralItemModification;
@@ -44,10 +40,7 @@ import org.celstec.arlearn2.cache.MyGamesCache;
 import org.celstec.arlearn2.delegators.notification.ChannelNotificator;
 import org.celstec.arlearn2.jdo.UserLoggedInManager;
 import org.celstec.arlearn2.jdo.classes.GameAccessJDO;
-import org.celstec.arlearn2.jdo.manager.GameAccessManager;
-import org.celstec.arlearn2.jdo.manager.GameManager;
-import org.celstec.arlearn2.jdo.manager.GeneralItemManager;
-import org.celstec.arlearn2.jdo.manager.UserManager;
+import org.celstec.arlearn2.jdo.manager.*;
 import org.celstec.arlearn2.tasks.beans.DeleteGeneralItems;
 import org.celstec.arlearn2.tasks.beans.DeleteProgressDefinitions;
 import org.celstec.arlearn2.tasks.beans.DeleteRuns;
@@ -577,5 +570,10 @@ public class GameDelegator extends GoogleDelegator {
         }
         resultsList.setGames(list);
         return resultsList;
+    }
+
+    public Rating rateGame(long gameId, int rating, Account account) {
+        return RatingManager.createRating(gameId, account.getAccountType(), account.getLocalId(), rating);
+
     }
 }

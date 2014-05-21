@@ -262,7 +262,7 @@ public class ActionForm extends DynamicForm {
         if (rec != null) {
 		GeneralItem gi = GeneralItemsTab.recordToGeneralItem(rec);
 		scantagStringAppear = false;	
-		if (gi instanceof SingleChoiceTest || gi instanceof MultipleChoiceTest) {
+		if (gi instanceof SingleChoiceTest || gi instanceof MultipleChoiceTest ) {
 			LinkedHashMap<String, String> map = createSimpleDependencyValues();
 			for (MultipleChoiceAnswer answer :((SingleChoiceTest) gi).getAnswers()) {
 				map.put("answer_"+answer.getString(MultipleChoiceAnswer.ID), answer.getString(MultipleChoiceAnswer.ANSWER));
@@ -271,6 +271,16 @@ public class ActionForm extends DynamicForm {
 			}
 			selectAction.setValueMap(map);
 		}
+            if (gi instanceof MultipleChoiceImage || gi instanceof  SingleChoiceImage) {
+                LinkedHashMap<String, String> map = createSimpleDependencyValues();
+
+                    for (MultipleChoiceImageAnswerItem answer :((SingleChoiceImage) gi).getAnswers()) {
+                        map.put("answer_"+answer.getString(MultipleChoiceAnswer.ID), answer.getString("label"));
+                        map.put("answer_correct", constants.correctAnswer());
+                        map.put("answer_wrong", constants.wrongAnswer());
+                    }
+                selectAction.setValueMap(map);
+            }
         if (gi instanceof AudioObject) {
             LinkedHashMap<String, String> map = createSimpleDependencyValues();
             map.put("complete", constants.completePlaying());

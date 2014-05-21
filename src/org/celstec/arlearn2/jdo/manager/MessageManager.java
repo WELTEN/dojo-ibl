@@ -1,15 +1,15 @@
 package org.celstec.arlearn2.jdo.manager;
 
+import com.google.appengine.api.datastore.Cursor;
 import org.celstec.arlearn2.beans.run.Message;
 import org.celstec.arlearn2.beans.run.MessageList;
 import org.celstec.arlearn2.jdo.PMF;
 import org.celstec.arlearn2.jdo.classes.MessageJDO;
+import org.datanucleus.store.appengine.query.JDOCursorHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * ****************************************************************************
@@ -36,6 +36,9 @@ public class MessageManager {
     private static final String params[] = new String[] { "threadId", "runId" };
     private static final String paramsNames[] = new String[] { "threadIdParam", "runIdParam" };
     private static final String types[] = new String[] { "Long", "Long" };
+
+    private static final int MESSAGES_IN_LIST = 20;
+
 
     public static Message createMessage(Message message) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -92,4 +95,57 @@ public class MessageManager {
 
     }
 
+    public static MessageList getMessagesByThreadId(long threadId, Long from, Long until, String cursorString) {
+        MessageList returnList = new MessageList();
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+
+        try {
+            Query query = pm.newQuery(MessageJDO.class);
+            if (cursorString != null) {
+
+                Cursor c = Cursor.fromWebSafeString(cursorString);
+                Map<String, Object> extensionMap = new HashMap<String, Object>();
+                extensionMap.put(JDOCursorHelper.CURSOR_EXTENSION, c);
+                query.setExtensions(extensionMap);
+            }
+            query.setRange(0, MESSAGES_IN_LIST);
+            String filter = null;
+            String params = null;
+            Object args[] = null;
+            if (from == null) {
+                filter = "threadId == threadIdParam & date <= untilParam";
+                params = "Long threadIdParam, Long untilParam";
+                args = new Object[] { threadId, until };
+            } else if (until == null) {
+                filter = "threadId == threadIdParam & date >= fromParam";
+                params = "Long threadIdParam, Long fromParam";
+                args = new Object[] { threadId, from };
+            } else {
+                filter = "threadId == threadIdParam & date >= fromParam & date <= untilParam";
+                params = "Long threadIdParam, Long fromParam, Long untilParam";
+                args = new Object[] { threadId, from, until };
+            }
+            query.setFilter(filter);
+            query.declareParameters(params);
+            List<MessageJDO> results = (List<MessageJDO>) query.executeWithArray(args);
+            Iterator<MessageJDO> it = (results).iterator();
+            int i = 0;
+            while (it.hasNext()) {
+                i++;
+                MessageJDO object = it.next();
+                returnList.addMessage(toBean(object));
+
+            }
+            Cursor c = JDOCursorHelper.getCursor(results);
+            cursorString = c.toWebSafeString();
+            if (returnList.getMessages().size() == MESSAGES_IN_LIST) {
+                returnList.setResumptionToken(cursorString);
+            }
+            returnList.setServerTime(System.currentTimeMillis());
+
+        }finally {
+            pm.close();
+        }
+        return returnList;
+    }
 }

@@ -40,7 +40,13 @@ public class ResponseJDO extends RunClass{
 	
 	@Persistent
 	private Long lastModificationDate;
-	
+
+    @Persistent
+    private Double lat;
+
+    @Persistent
+    private Double lng;
+
 	@Persistent
     private boolean revoked;
 
@@ -97,6 +103,20 @@ public class ResponseJDO extends RunClass{
 	public void setResponseValue(Text responseValue) {
 		this.responseValue = responseValue;
 	}
-	
-	
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
 }

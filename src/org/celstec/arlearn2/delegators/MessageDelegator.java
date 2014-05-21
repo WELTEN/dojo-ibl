@@ -31,13 +31,27 @@ public class MessageDelegator extends GoogleDelegator {
         return returnMessage;
     }
 
-    public MessageList getMessagesForThread(long threadId){
+    public MessageList getMessagesForThread(long threadId) {
         return MessageManager.getMessagesByThreadId(threadId);
+    }
+
+    public MessageList getMessagesForThread(long threadId, Long from, Long until, String cursor){
+        return MessageManager.getMessagesByThreadId(threadId, from , until, cursor);
     }
 
 
     public MessageList getMessagesForDefaultThread(Long runId) {
         org.celstec.arlearn2.beans.run.Thread thread = ThreadManager.getDefaultThread(runId);
+        if (thread == null) thread = new ThreadDelegator(this).getDefaultThread(runId);
+        if (thread != null) {
+            return getMessagesForThread(thread.getThreadId());
+        }
+        return null;
+    }
+
+    public MessageList getMessagesForDefaultThread(Long runId, Long from, Long until, String cursor) {
+        org.celstec.arlearn2.beans.run.Thread thread = ThreadManager.getDefaultThread(runId);
+        if (thread == null) thread = new ThreadDelegator(this).getDefaultThread(runId);
         if (thread != null) {
             return getMessagesForThread(thread.getThreadId());
         }

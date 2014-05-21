@@ -42,6 +42,7 @@ import org.celstec.arlearn2.beans.run.Action;
 import org.celstec.arlearn2.beans.run.ActionList;
 import org.celstec.arlearn2.beans.run.Run;
 import org.celstec.arlearn2.beans.run.User;
+import org.celstec.arlearn2.cache.CSVCache;
 import org.celstec.arlearn2.cache.GeneralitemsCache;
 import org.celstec.arlearn2.cache.VisibleGeneralItemsCache;
 import org.celstec.arlearn2.delegators.notification.ChannelNotificator;
@@ -449,5 +450,4 @@ public class GeneralItemDelegator extends DependencyDelegator {
 		IndexSpec indexSpec = IndexSpec.newBuilder().setName("generalItem_index").build();
 		return SearchServiceFactory.getSearchService().getIndex(indexSpec);
 	}
-
 }

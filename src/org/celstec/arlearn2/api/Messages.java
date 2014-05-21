@@ -111,14 +111,19 @@ public class Messages extends Service {
     @Path("/threadId/{threadId}")
     public String getMessagesForThread(@HeaderParam("Authorization") String token,
                                        @PathParam("threadId") Long threadId,
+                                       @QueryParam("from") Long from,
+                                       @QueryParam("until") Long until,
+                                       @QueryParam("resumptionToken") String cursor,
                                        @DefaultValue("application/json") @HeaderParam("Accept") String accept)
              {
         if (!validCredentials(token))
             return serialise(getInvalidCredentialsBean(), accept);
         MessageDelegator md = new MessageDelegator(this);
+        if (from == null && until == null) {
+            return serialise(md.getMessagesForThread(threadId), accept);
+        }
+        return serialise(md.getMessagesForThread(threadId, from, until, cursor), accept);
 
-
-        return serialise(md.getMessagesForThread(threadId), accept);
     }
 
     @GET
@@ -126,14 +131,18 @@ public class Messages extends Service {
     @Path("/runId/{runId}/default")
     public String getMessagesForDefaultThread(@HeaderParam("Authorization") String token,
                                        @PathParam("runId") Long runId,
+                                       @QueryParam("from") Long from,
+                                       @QueryParam("until") Long until,
+                                       @QueryParam("resumptionToken") String cursor,
                                        @DefaultValue("application/json") @HeaderParam("Accept") String accept)
              {
         if (!validCredentials(token))
             return serialise(getInvalidCredentialsBean(), accept);
         MessageDelegator md = new MessageDelegator(this);
-
-
-        return serialise(md.getMessagesForDefaultThread(runId), accept);
+        if (from == null && until == null) {
+            return serialise(md.getMessagesForDefaultThread(runId), accept);
+        }
+        return serialise(md.getMessagesForDefaultThread(runId, from, until, cursor), accept);
     }
 
 }

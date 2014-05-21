@@ -57,8 +57,10 @@ public class MessageJDO {
     @Persistent
     private Long runId;
 
+    @Persistent
     private Integer senderProviderId;
 
+    @Persistent
     private String senderId;
 
     public Long getMessageId() {
@@ -149,4 +151,6 @@ public class MessageJDO {
     public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
+
+
 }

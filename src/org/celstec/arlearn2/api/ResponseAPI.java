@@ -31,7 +31,11 @@ import javax.ws.rs.core.MediaType;
 
 import org.celstec.arlearn2.beans.run.Response;
 import org.celstec.arlearn2.beans.run.ResponseList;
+import org.celstec.arlearn2.cache.CSVCache;
+import org.celstec.arlearn2.cache.CSVEntry;
+import org.celstec.arlearn2.delegators.GeneralItemDelegator;
 import org.celstec.arlearn2.delegators.ResponseDelegator;
+import org.celstec.arlearn2.tasks.beans.CSVGeneration;
 
 
 @Path("/response")
@@ -148,6 +152,59 @@ public class ResponseAPI extends Service {
 		}
 		return "{}";
 	}
-	
 
+    @GET
+    @Produces({"text/csv"})
+    @Path("/csv/{csvId}")
+    public String generateCSV(@HeaderParam("Authorization") String token,
+                              @PathParam("csvId") String csvId,
+                              @DefaultValue("application/json") @HeaderParam("Accept") String accept)  {
+        ResponseDelegator gid = new ResponseDelegator(token);
+//        GeneralItemDelegator gid = new GeneralItemDelegator(token);
+
+        CSVEntry entry  = CSVCache.getInstance().getCSV(csvId);
+        if (entry == null) {
+            return "{'error', 'entry with id "+csvId+" no (longer) exists'}";
+        } else {
+            if (entry.getStatus() == CSVEntry.BUILDING_STATUS) {
+                return "{'error', 'build in progress'}";
+            } else {
+                return entry.getCSV();
+            }
+        }
+    }
+
+    @GET
+    @Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
+    @Path("/csv/runId/{runIdentifier}/build")
+    public String rebuildCSV(@HeaderParam("Authorization") String token,
+                              @PathParam("runIdentifier") Long runIdentifier,
+                              @DefaultValue("application/json") @HeaderParam("Accept") String accept)  {
+        if (!validCredentials(token))
+            return serialise(getInvalidCredentialsBean(), accept);
+//        ResponseDelegator gid = new ResponseDelegator(token);
+        CSVGeneration generator = new CSVGeneration(null, runIdentifier, null);
+        CSVEntry entry = generator.firstIteration();
+        generator.getCsvId();
+        return "{'status': "+entry.getStatus()+", " +
+                "'id':'"+generator.getCsvId()+"'," +
+                "'info':'BUILDING (1) FINISHED (2)'}";
+    }
+
+
+    @GET
+    @Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON})
+    @Path("/csv/{csvId}/status")
+    public String statusCSV(@HeaderParam("Authorization") String token,
+                             @PathParam("csvId") String csvId,
+                             @DefaultValue("application/json") @HeaderParam("Accept") String accept)  {
+        ResponseDelegator gid = new ResponseDelegator(token);
+        CSVEntry entry  = CSVCache.getInstance().getCSV(csvId);
+        if (entry == null) {
+            return "{'error', 'entry with id "+csvId+" no (longer) exists'}";
+        }
+        return "{'status': "+entry.getStatus()+", " +
+                "'id':'"+csvId+"'," +
+                "'info':'BUILDING (1) FINISHED (2)'}";
+    }
 }

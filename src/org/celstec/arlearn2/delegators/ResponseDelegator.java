@@ -23,7 +23,6 @@ import org.celstec.arlearn2.beans.run.Response;
 import org.celstec.arlearn2.beans.run.ResponseList;
 import org.celstec.arlearn2.beans.run.Run;
 import org.celstec.arlearn2.beans.run.RunAccess;
-import org.celstec.arlearn2.delegators.notification.ChannelNotificator;
 import org.celstec.arlearn2.jdo.manager.ResponseManager;
 
 
@@ -51,7 +50,7 @@ public class ResponseDelegator extends GoogleDelegator {
 		UsersDelegator qu = new UsersDelegator(this);
 		r.setUserEmail(qu.getCurrentUserAccount());
 
-		long id = ResponseManager.addResponse(r.getGeneralItemId(), r.getResponseValue(), run.getRunId(), r.getUserEmail(), r.getTimestamp());
+		long id = ResponseManager.addResponse(r.getGeneralItemId(), r.getResponseValue(), run.getRunId(), r.getUserEmail(), r.getTimestamp(), r.getLat(), r.getLng());
         r.setResponseId(id);
         RunAccessDelegator rad = new RunAccessDelegator(this);
         NotificationDelegator nd = new NotificationDelegator(this);
@@ -92,4 +91,8 @@ public class ResponseDelegator extends GoogleDelegator {
 		ResponseManager.deleteResponses(runId, email);
 		
 	}
+
+//    public CSVEntry csv(Long runIdentifier) {
+//        return CSVCache.getInstance().getCSV(runIdentifier);
+//    }
 }

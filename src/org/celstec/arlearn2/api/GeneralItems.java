@@ -33,6 +33,7 @@ import javax.ws.rs.core.MediaType;
 //import org.celstec.arlearn2.beans.BeanDeserialiser;
 import org.celstec.arlearn2.beans.generalItem.GeneralItem;
 import org.celstec.arlearn2.beans.generalItem.GeneralItemList;
+import org.celstec.arlearn2.cache.CSVCache;
 import org.celstec.arlearn2.delegators.GeneralItemDelegator;
 import org.celstec.arlearn2.delegators.UsersDelegator;
 //import org.celstec.arlearn2.delegators.generalitems.CreateGeneralItems;
@@ -259,6 +260,5 @@ public class GeneralItems extends Service {
 
         return "{}";
     }
-	
 
 }

@@ -44,7 +44,7 @@ public class ResponseManager {
 
 	private static final int RESPONSES_IN_LIST = 20;
 	
-	public static long addResponse(Long generalItemId, String responseValue, Long runId, String userEmail, Long timeStamp) {
+	public static long addResponse(Long generalItemId, String responseValue, Long runId, String userEmail, Long timeStamp, Double lat, Double lng) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		ResponseJDO responseRecord = new ResponseJDO();
 		responseRecord.setGeneralItemId(generalItemId);
@@ -54,6 +54,8 @@ public class ResponseManager {
 		responseRecord.setTimeStamp(timeStamp);
 		responseRecord.setLastModificationDate(System.currentTimeMillis());
 		responseRecord.setRevoked(false);
+        if (lat != null) responseRecord.setLat(lat);
+        if (lng != null) responseRecord.setLng(lng);
 		try {
 			pm.makePersistent(responseRecord);
 		} finally {
@@ -287,6 +289,8 @@ public class ResponseManager {
 		pd.setTimestamp(jdo.getTimeStamp());
 		pd.setUserEmail(jdo.getUserEmail());
 		pd.setResponseValue(jdo.getResponseValue());
+        pd.setLat(jdo.getLat());
+        pd.setLng(jdo.getLng());
 		return pd;
 	}
 
@@ -323,4 +327,5 @@ public class ResponseManager {
 		}
 		
 	}
+
 }

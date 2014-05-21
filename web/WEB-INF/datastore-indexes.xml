@@ -46,4 +46,8 @@
         <property name="time" direction="asc"/>
     </datastore-index>
 
+    <datastore-index kind="MessageJDO" ancestor="false" source="manual">
+        <property name="threadId" direction="asc"/>
+        <property name="date" direction="asc"/>
+    </datastore-index>
 </datastore-indexes>

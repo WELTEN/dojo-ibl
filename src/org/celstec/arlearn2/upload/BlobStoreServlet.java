@@ -21,10 +21,12 @@ package org.celstec.arlearn2.upload;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.images.*;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -65,7 +67,22 @@ public class BlobStoreServlet extends HttpServlet {
 //		System.out.println(fileName);
 		BlobKey bk = FilePathManager.getBlobKey(account, Long.parseLong(runIdString), fileName);
 		if (bk != null) {
-			blobstoreService.serve(bk, resp);
+            if (req.getParameter("thumbnail") == null) {
+                blobstoreService.serve(bk, resp);
+            }  else {
+                ImagesService imagesService = ImagesServiceFactory.getImagesService();
+                ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(bk);
+                options.imageSize(Integer.parseInt(req.getParameter("thumbnail")));
+                boolean crop = false;
+                if (req.getParameter("crop")!=null) {
+                    crop = Boolean.parseBoolean(req.getParameter("crop"));
+                }
+                options.crop(req.getParameter("crop")!=null);
+                String thumbnailUrl =imagesService.getServingUrl(options);
+
+                resp.sendRedirect(thumbnailUrl);
+            }
+
 		} else {
 			resp.setStatus(404);
 		}

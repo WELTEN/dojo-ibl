@@ -434,5 +434,20 @@ public class MyGames extends Service {
         GameDelegator qg = new GameDelegator(token);
         return serialise(qg.search(lat, lng, distance), accept);
     }
+
+    @GET
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("/rate/gameId/{gameId}/rating/{rating}")
+    public String rateGame(@HeaderParam("Authorization") String token,
+                            @PathParam("gameId") Long gameId,
+                            @PathParam("rating") int rating,
+                            @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+                            @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+        if (!validCredentials(token))
+            return serialise(getInvalidCredentialsBean(), accept);
+        GameDelegator qg = new GameDelegator(token);
+        return serialise(qg.rateGame(gameId, rating, getAccount()), accept);
+    }
+
 	
 }
