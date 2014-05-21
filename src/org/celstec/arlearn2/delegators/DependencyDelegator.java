@@ -32,7 +32,7 @@ import java.util.Iterator;
 /**
  * This class serves as base class for GeneralItemDelegator and VariableDelegator
  * in order to unify the dependency analysis procedures.
- *
+ * <p/>
  * User: klemke
  * Date: 23.07.13
  * Time: 20:10
@@ -40,7 +40,7 @@ import java.util.Iterator;
  */
 public class DependencyDelegator extends GoogleDelegator {
 
-    public DependencyDelegator(String authToken)  {
+    public DependencyDelegator(String authToken) {
         super(authToken);
     }
 
@@ -175,17 +175,17 @@ public class DependencyDelegator extends GoogleDelegator {
         if (scope == null)
             scope = Dependency.USER_SCOPE;
         switch (scope) {
-        case Dependency.USER_SCOPE:
-            if (!a.getUserEmail().equals(u.getFullId()))
-                return -1;
-            break;
-        case Dependency.TEAM_SCOPE:
-            if (!uMap.get(a.getUserEmail()).getTeamId().equals(u.getTeamId()))
-                return -1;
-            break;
+            case Dependency.USER_SCOPE:
+                if (!a.getUserEmail().equals(u.getFullId()))
+                    return -1;
+                break;
+            case Dependency.TEAM_SCOPE:
+                if (!uMap.get(a.getUserEmail()).getTeamId().equals(u.getTeamId()))
+                    return -1;
+                break;
 
-        default:
-            break;
+            default:
+                break;
         }
         String role = dOn.getRole();
         if (role != null && !hasRole(uMap.get(a.getUserEmail()), role))

@@ -18,11 +18,6 @@
  ******************************************************************************/
 package org.celstec.arlearn2.delegators;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.celstec.arlearn2.beans.dependencies.ActionDependency;
 import org.celstec.arlearn2.beans.dependencies.BooleanDependency;
 import org.celstec.arlearn2.beans.dependencies.Dependency;
@@ -30,10 +25,14 @@ import org.celstec.arlearn2.beans.dependencies.TimeDependency;
 import org.celstec.arlearn2.beans.game.VariableEffectDefinition;
 import org.celstec.arlearn2.beans.run.Action;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Predicts, if a received action is relevant for a certain set of variable effect definitions.
  * Does so, by checking, if the dependencies of the variable effect definitions contain the action.
- *
+ * <p/>
  * Created with IntelliJ IDEA.
  * User: klemke
  * Date: 23.07.13
@@ -67,15 +66,16 @@ public class ActionRelevancyPredictorForVariables {
     }
 
     private void init(long gameId, VariableDelegator vd) {
-        for (VariableEffectDefinition ved: vd.getVariableEffectDefinitions(gameId)) {
+        for (VariableEffectDefinition ved : vd.getVariableEffectDefinitions(gameId)) {
             init(ved.getDependsOn(), ved);
         }
     }
+
     private void init(Dependency dep, VariableEffectDefinition ved) {
         if (dep != null) {
             List<ActionDependency> itemDependencies = getActionDependencies(dep);
 //            dependencies.addAll(itemDependencies);
-            for (ActionDependency aDep: itemDependencies) {
+            for (ActionDependency aDep : itemDependencies) {
                 List<VariableEffectDefinition> variableEffectDefinitionList = null;
                 if (actionDependencies.containsKey(aDep)) {
                     variableEffectDefinitionList = actionDependencies.get(aDep);
@@ -125,27 +125,27 @@ public class ActionRelevancyPredictorForVariables {
         if (dep instanceof ActionDependency) return getActionDependencies((ActionDependency) dep);
         if (dep instanceof BooleanDependency) return getActionDependencies((BooleanDependency) dep);
         if (dep instanceof TimeDependency) return getActionDependencies((TimeDependency) dep);
-        return  new ArrayList<ActionDependency>();
+        return new ArrayList<ActionDependency>();
     }
 
     private List<ActionDependency> getActionDependencies(BooleanDependency depsIn) {
         ArrayList<ActionDependency> deps = new ArrayList<ActionDependency>();
         List<Dependency> depList = depsIn.getDependencies();
         if (depList == null) return deps;
-        for (Dependency dep: depsIn.getDependencies()) {
+        for (Dependency dep : depsIn.getDependencies()) {
             deps.addAll(getActionDependencies(dep));
         }
-        return  deps;
+        return deps;
     }
 
     private List<ActionDependency> getActionDependencies(TimeDependency depsIn) {
-        return  getActionDependencies( depsIn.getOffset());
+        return getActionDependencies(depsIn.getOffset());
     }
 
     public String toString() {
         String toReturn = "";
         toReturn += "actionDependencies\n";
-        toReturn += actionDependencies+"\n";
+        toReturn += actionDependencies + "\n";
 //        toReturn += "roleDependencies\n";
 //        toReturn += roleDependencies+"\n";
 //        toReturn += "userDependencies\n";
@@ -195,11 +195,13 @@ public class ActionRelevancyPredictorForVariables {
      * @return
      */
     public List<VariableEffectDefinition> getRelevantVariableEffectDefinitions(Action action) {
-        for (ActionDependency dep: actionDependencies.keySet()) {
+        for (ActionDependency dep : actionDependencies.keySet()) {
             boolean soFar = true;
             if (dep.getAction() != null && !dep.getAction().equals(action.getAction())) soFar = false;
-            if (dep.getGeneralItemId() != null && !dep.getGeneralItemId().equals(action.getGeneralItemId()))soFar = false;
-            if (dep.getGeneralItemType() != null && !dep.getGeneralItemType().equals(action.getGeneralItemType())) soFar = false;
+            if (dep.getGeneralItemId() != null && !dep.getGeneralItemId().equals(action.getGeneralItemId()))
+                soFar = false;
+            if (dep.getGeneralItemType() != null && !dep.getGeneralItemType().equals(action.getGeneralItemType()))
+                soFar = false;
             if (soFar) return actionDependencies.get(dep);
         }
         return null;

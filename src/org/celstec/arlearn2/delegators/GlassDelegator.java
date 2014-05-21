@@ -4,20 +4,15 @@ import org.celstec.arlearn2.beans.generalItem.AudioObject;
 import org.celstec.arlearn2.beans.generalItem.GeneralItem;
 import org.celstec.arlearn2.beans.notification.GeneralItemModification;
 import org.celstec.arlearn2.beans.serializer.json.JsonBeanSerialiser;
-import org.celstec.arlearn2.gwtcommonlib.client.objects.VideoObject;
 import org.celstec.arlearn2.jdo.manager.GeneralItemManager;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.codehaus.jettison.json.JSONArray;
 
-import sun.misc.IOUtils;
-
-
-import java.io.*;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * ****************************************************************************
@@ -39,7 +34,7 @@ import java.util.Map;
  * Contributors: Stefaan Ternier
  * ****************************************************************************
  */
-public class GlassDelegator extends GoogleDelegator{
+public class GlassDelegator extends GoogleDelegator {
 
     private static GlassDelegator glassDelegator;
 
@@ -51,11 +46,11 @@ public class GlassDelegator extends GoogleDelegator{
         super();
     }
 
-    public static boolean glassCanProcess(String account, HashMap<String,Object> valueMap) {
+    public static boolean glassCanProcess(String account, HashMap<String, Object> valueMap) {
         if (account.equals("2:116757187626671489073")) {
             if (valueMap.containsKey("type")) {
 //                if (GeneralItemModification.class.getCanonicalName().equals(valueMap.get("type"))){
-                if (GeneralItemModification.class.getCanonicalName().equals(valueMap.get("type")) && valueMap.get("modificationType").equals(GeneralItemModification.VISIBLE)){
+                if (GeneralItemModification.class.getCanonicalName().equals(valueMap.get("type")) && valueMap.get("modificationType").equals(GeneralItemModification.VISIBLE)) {
                     return true;
                 }
             }
@@ -63,7 +58,7 @@ public class GlassDelegator extends GoogleDelegator{
         return false;
     }
 
-    public void processGlassRequest(String account, HashMap<String,Object> valueMap) {
+    public void processGlassRequest(String account, HashMap<String, Object> valueMap) {
         if (this.authToken == null || this.authToken.startsWith("onBehalfOf")) {
             return;
         }
@@ -83,7 +78,7 @@ public class GlassDelegator extends GoogleDelegator{
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
-            connection.setRequestProperty("Authorization", "Bearer "+this.authToken);
+            connection.setRequestProperty("Authorization", "Bearer " + this.authToken);
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestMethod("POST");
             connection.setUseCaches(false);
@@ -93,9 +88,9 @@ public class GlassDelegator extends GoogleDelegator{
 
             JSONObject json = getJson(gi);
             if (gi instanceof org.celstec.arlearn2.beans.generalItem.VideoObject) {
-                json = getJson((org.celstec.arlearn2.beans.generalItem.VideoObject)gi);
+                json = getJson((org.celstec.arlearn2.beans.generalItem.VideoObject) gi);
             } else if (gi instanceof AudioObject) {
-                json = getJson((AudioObject)gi);
+                json = getJson((AudioObject) gi);
             }
             OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
             writer.write(json.toString());
@@ -104,15 +99,16 @@ public class GlassDelegator extends GoogleDelegator{
                 System.out.println("ok");
 
             } else {
-                System.out.println("nok" +connection.getResponseCode());
+                System.out.println("nok" + connection.getResponseCode());
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public JSONObject getJson(GeneralItem gi) throws JSONException{
-        String html = "<article class=\"auto-paginate\"><h1>"+gi.getName()+"</h1><br>";
+
+    public JSONObject getJson(GeneralItem gi) throws JSONException {
+        String html = "<article class=\"auto-paginate\"><h1>" + gi.getName() + "</h1><br>";
         JSONObject json = JsonBeanSerialiser.serialiseToJson(gi);
         if (json.has("richText")) {
             html += json.getString("richText");
@@ -123,8 +119,8 @@ public class GlassDelegator extends GoogleDelegator{
         return json;
     }
 
-    public JSONObject getJson(org.celstec.arlearn2.beans.generalItem.VideoObject gi) throws JSONException{
-        String html = "<article class=\"auto-paginate\"><h1>"+gi.getName()+"</h1><br>";
+    public JSONObject getJson(org.celstec.arlearn2.beans.generalItem.VideoObject gi) throws JSONException {
+        String html = "<article class=\"auto-paginate\"><h1>" + gi.getName() + "</h1><br>";
         JSONObject json = JsonBeanSerialiser.serialiseToJson(gi);
 
         if (json.has("richText")) {
@@ -136,26 +132,26 @@ public class GlassDelegator extends GoogleDelegator{
         jsonresult.put("title", gi.getName());
         jsonresult.put("html", html);
         JSONArray menuItems = new JSONArray();
-        JSONObject menuItem =new JSONObject();
+        JSONObject menuItem = new JSONObject();
         jsonresult.put("menuItems", menuItems);
         menuItem.put("id", "play");
         menuItem.put("action", "PLAY_VIDEO");
         menuItem.put("payload", gi.getVideoFeed());
         JSONArray values = new JSONArray();
-        JSONObject valuesItem  =new JSONObject();
-        valuesItem.put("displayName","Play Video");
+        JSONObject valuesItem = new JSONObject();
+        valuesItem.put("displayName", "Play Video");
         menuItem.put("values", values);
         menuItems.put(menuItem);
         values.put(valuesItem);
-        JSONObject notification =new JSONObject();
+        JSONObject notification = new JSONObject();
         notification.put("level", "DEFAULT");
 
         jsonresult.put("notification", notification);
         return jsonresult;
     }
 
-    public JSONObject getJson(AudioObject gi) throws JSONException{
-        String html = "<article class=\"auto-paginate\"><h1>"+gi.getName()+"</h1><br>";
+    public JSONObject getJson(AudioObject gi) throws JSONException {
+        String html = "<article class=\"auto-paginate\"><h1>" + gi.getName() + "</h1><br>";
         JSONObject json = JsonBeanSerialiser.serialiseToJson(gi);
 
         if (json.has("richText")) {
@@ -167,18 +163,18 @@ public class GlassDelegator extends GoogleDelegator{
         jsonresult.put("title", gi.getName());
         jsonresult.put("html", html);
         JSONArray menuItems = new JSONArray();
-        JSONObject menuItem =new JSONObject();
+        JSONObject menuItem = new JSONObject();
         jsonresult.put("menuItems", menuItems);
         menuItem.put("id", "play");
         menuItem.put("action", "PLAY_VIDEO");
         menuItem.put("payload", gi.getAudioFeed());
         JSONArray values = new JSONArray();
-        JSONObject valuesItem  =new JSONObject();
-        valuesItem.put("displayName","Play Audio");
+        JSONObject valuesItem = new JSONObject();
+        valuesItem.put("displayName", "Play Audio");
         menuItem.put("values", values);
         menuItems.put(menuItem);
         values.put(valuesItem);
-        JSONObject notification =new JSONObject();
+        JSONObject notification = new JSONObject();
         notification.put("level", "DEFAULT");
 
         jsonresult.put("notification", notification);
@@ -187,7 +183,7 @@ public class GlassDelegator extends GoogleDelegator{
 
     private void displayItem(org.celstec.arlearn2.beans.generalItem.VideoObject gi) {
         String video = gi.getVideoFeed();
-        System.out.println("video url "+video);
+        System.out.println("video url " + video);
         System.out.println(this.authToken);
 
 

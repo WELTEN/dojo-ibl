@@ -48,12 +48,12 @@ public class ThreadDelegator extends GoogleDelegator {
         if (inThread.getName() == null) {
             inThread.setError("set a name for this thread");
             inThread.setErrorCode(1);
-            return  inThread;
+            return inThread;
         }
         if (inThread.getRunId() == null) {
             inThread.setError("set a runId for this thread");
             inThread.setErrorCode(1);
-            return  inThread;
+            return inThread;
         }
         return ThreadManager.createThread(inThread, false);
     }

@@ -18,21 +18,15 @@
  ******************************************************************************/
 package org.celstec.arlearn2.delegators.notification;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import com.google.appengine.api.xmpp.*;
 import org.celstec.arlearn2.beans.run.User;
 import org.celstec.arlearn2.delegators.UsersDelegator;
 import org.celstec.arlearn2.jdo.UserLoggedInManager;
 
-import com.google.appengine.api.xmpp.JID;
-import com.google.appengine.api.xmpp.Message;
-import com.google.appengine.api.xmpp.MessageBuilder;
-import com.google.appengine.api.xmpp.SendResponse;
-import com.google.appengine.api.xmpp.XMPPService;
-import com.google.appengine.api.xmpp.XMPPServiceFactory;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Deprecated
 public class Notification {

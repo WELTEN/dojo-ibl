@@ -1,7 +1,5 @@
 package org.celstec.arlearn2.delegators;
 
-import java.util.logging.Logger;
-
 import org.celstec.arlearn2.api.Service;
 import org.celstec.arlearn2.beans.run.Message;
 import org.celstec.arlearn2.beans.run.MessageList;
@@ -9,19 +7,19 @@ import org.celstec.arlearn2.jdo.manager.MessageManager;
 import org.celstec.arlearn2.jdo.manager.ThreadManager;
 import org.celstec.arlearn2.tasks.beans.NotifyUsersForMessage;
 
+import java.util.logging.Logger;
+
 public class MessageDelegator extends GoogleDelegator {
-	private static final Logger logger = Logger.getLogger(MessageDelegator.class.getName());
 
-	
-	public MessageDelegator(Service service) {
-		super(service);
-	}
+    public MessageDelegator(Service service) {
+        super(service);
+    }
 
 
-	public Message sendMessage(Message message, String userId) {
-		new NotificationDelegator(this).broadcast(message, account.getFullId());
-		return message;
-	}
+    public Message sendMessage(Message message, String userId) {
+        new NotificationDelegator(this).broadcast(message, account.getFullId());
+        return message;
+    }
 
     public Message createMessage(Message message) {
         message.setDate(System.currentTimeMillis());
@@ -35,8 +33,8 @@ public class MessageDelegator extends GoogleDelegator {
         return MessageManager.getMessagesByThreadId(threadId);
     }
 
-    public MessageList getMessagesForThread(long threadId, Long from, Long until, String cursor){
-        return MessageManager.getMessagesByThreadId(threadId, from , until, cursor);
+    public MessageList getMessagesForThread(long threadId, Long from, Long until, String cursor) {
+        return MessageManager.getMessagesByThreadId(threadId, from, until, cursor);
     }
 
 

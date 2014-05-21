@@ -7,13 +7,9 @@ import org.celstec.arlearn2.beans.store.CategoryList;
 import org.celstec.arlearn2.beans.store.GameCategory;
 import org.celstec.arlearn2.beans.store.GameCategoryList;
 import org.celstec.arlearn2.cache.CategoryCache;
-import org.celstec.arlearn2.jdo.classes.GameCategoryJDO;
 import org.celstec.arlearn2.jdo.manager.CategoryManager;
 import org.celstec.arlearn2.jdo.manager.GameCategoryManager;
 import org.celstec.arlearn2.tasks.beans.GenericBean;
-import org.codehaus.jettison.json.JSONArray;
-
-import java.util.List;
 
 /**
  * ****************************************************************************
@@ -35,11 +31,13 @@ import java.util.List;
  * Contributors: Stefaan Ternier
  * ****************************************************************************
  */
-public class CategoryDelegator  extends GoogleDelegator {
-    public CategoryDelegator(String authToken)  {
+public class CategoryDelegator extends GoogleDelegator {
+    public CategoryDelegator(String authToken) {
         super(authToken);
     }
-    public CategoryDelegator(){}
+
+    public CategoryDelegator() {
+    }
 
     public CategoryDelegator(GoogleDelegator gd) {
         super(gd);
@@ -95,6 +93,6 @@ public class CategoryDelegator  extends GoogleDelegator {
 
 
     public GameCategoryList getGames(Long categoryId) {
-         return GameCategoryManager.getGames(categoryId);
+        return GameCategoryManager.getGames(categoryId);
     }
 }

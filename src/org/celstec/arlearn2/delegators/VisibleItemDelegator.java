@@ -1,19 +1,19 @@
 /*******************************************************************************
  * Copyright (C) 2013 Open Universiteit Nederland
- * 
+ *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * Contributors: Stefaan Ternier
  ******************************************************************************/
 package org.celstec.arlearn2.delegators;
@@ -30,7 +30,7 @@ package org.celstec.arlearn2.delegators;
 //import com.google.gdata.util.AuthenticationException;
 
 public class VisibleItemDelegator {//extends GoogleDelegator {
-	
+
 //	public VisibleItemDelegator(String authtoken) throws AuthenticationException {
 //		super(authtoken);
 //	}
@@ -38,7 +38,7 @@ public class VisibleItemDelegator {//extends GoogleDelegator {
 //	public VisibleItemDelegator(GoogleDelegator gd) {
 //		super(gd);
 //	}
-	
+
 //	public VisibleItemsList getVisibleItems(Long runId, String itemId, String userEmail, String teamId) {
 //		List<VisibleItem> visibleItems = null;
 //		if (itemId == null) visibleItems = VisibleItemsCache.getInstance().getVisibleItems(runId, userEmail, teamId);

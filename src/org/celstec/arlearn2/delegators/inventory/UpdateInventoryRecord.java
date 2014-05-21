@@ -1,96 +1,96 @@
 /*******************************************************************************
  * Copyright (C) 2013 Open Universiteit Nederland
- * 
+ *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * Contributors: Stefaan Ternier
  ******************************************************************************/
 package org.celstec.arlearn2.delegators.inventory;
 
 import org.celstec.arlearn2.beans.run.InventoryRecord;
+import org.celstec.arlearn2.cache.InventoryRecordCache;
 import org.celstec.arlearn2.delegators.GoogleDelegator;
 import org.celstec.arlearn2.jdo.manager.InventoryRecordManager;
-import org.celstec.arlearn2.cache.InventoryRecordCache;
 
 
 public class UpdateInventoryRecord extends GoogleDelegator {
 
-	public UpdateInventoryRecord(String authToken)  {
-		super(authToken);
-	}
+    public UpdateInventoryRecord(String authToken) {
+        super(authToken);
+    }
 
-	public UpdateInventoryRecord(GoogleDelegator gd) {
-		super(gd);
-	}
+    public UpdateInventoryRecord(GoogleDelegator gd) {
+        super(gd);
+    }
 
-	public InventoryRecord updateInventoryRecord(Long runId, InventoryRecord ir) {
-		if (ir.getRunId() == null) {
-			ir.setError("No run identifier specified");
-			return ir;
-		}
-			QueryInventoryRecord qu = new QueryInventoryRecord(authToken);
-			InventoryRecord storedInventoryRecord = qu.getInventoryRecord(runId, ir.getGeneralItemId(), ir.getScope(), ir.getEmail(), ir.getTeamId());
+    public InventoryRecord updateInventoryRecord(Long runId, InventoryRecord ir) {
+        if (ir.getRunId() == null) {
+            ir.setError("No run identifier specified");
+            return ir;
+        }
+        QueryInventoryRecord qu = new QueryInventoryRecord(authToken);
+        InventoryRecord storedInventoryRecord = qu.getInventoryRecord(runId, ir.getGeneralItemId(), ir.getScope(), ir.getEmail(), ir.getTeamId());
 
-			String teamId = ir.getTeamId();
-			String email = ir.getEmail();
-			if ("all".equals(ir.getScope())) {
-				teamId = null;
-				email = null;
-			} else if ("team".equals(ir.getScope())) {
-				email = null;
-			} else if ("user".equals(ir.getScope())) {
-				teamId = null;
-			}
+        String teamId = ir.getTeamId();
+        String email = ir.getEmail();
+        if ("all".equals(ir.getScope())) {
+            teamId = null;
+            email = null;
+        } else if ("team".equals(ir.getScope())) {
+            email = null;
+        } else if ("user".equals(ir.getScope())) {
+            teamId = null;
+        }
 
-			InventoryRecordManager.updateInventoryRecord(runId, ir.getGeneralItemId(), ir.getScope(), email, teamId, ir.getLat(), ir.getLng(), ir.getStatus());
-			InventoryRecordCache.getInstance().putInventoryRecordList(ir, runId, ir.getScope(), ir.getGeneralItemId(),  email, teamId);
+        InventoryRecordManager.updateInventoryRecord(runId, ir.getGeneralItemId(), ir.getScope(), email, teamId, ir.getLat(), ir.getLng(), ir.getStatus());
+        InventoryRecordCache.getInstance().putInventoryRecordList(ir, runId, ir.getScope(), ir.getGeneralItemId(), email, teamId);
 
-		return ir;
-	}
+        return ir;
+    }
 
-	// public InventoryRecord updateInventoryRecord(Long runId, InventoryRecord
-	// ir) {
-	// try {
-	// QueryInventoryRecord qu = new QueryInventoryRecord(authToken);
-	// InventoryRecord storedInventoryRecord = qu.getInventoryRecord(runId,
-	// ir.getGeneralItemId(), ir.getScope(), ir.getEmail(), ir.getTeamId());
-	// if (ir.getRunId() == null) {
-	// ir.setError("No run identifier specified");
-	// return ir;
-	// }
-	// int tableId;
-	// tableId = (new
-	// QueryInventoryRecord(this)).getInventoryRecordTableIdForRun(ir.getRunId());
-	// if (tableId == -1) throw new
-	// ServiceException("table to update InventoryRecord "+ir.getEmail()+" does not exist.");
-	// if (tableId != -1) {
-	// updateRowInInventoryRecordTable(tableId, ir.getGeneralItemId(),
-	// ir.getScope(), ir.getEmail(), ir.getTeamId(), ir.getLat(), ir.getLng(),
-	// ir.getStatus());
-	// InventoryRecordCache.getInstance().removeInventoryRecord(runId,
-	// ir.getGeneralItemId(), ir.getScope(), ir.getEmail(), ir.getTeamId());
-	// InventoryRecordCache.getInstance().putInventoryRecord(runId, ir);
-	// }
-	// } catch (IOException e) {
-	// logger.log(Level.SEVERE, e.getMessage(), e);
-	// ir.setError(e.getMessage());
-	// } catch (ServiceException e) {
-	// logger.log(Level.SEVERE, e.getMessage(), e);
-	// ir.setError(e.getMessage());
-	// }
-	// return ir;
-	// }
+    // public InventoryRecord updateInventoryRecord(Long runId, InventoryRecord
+    // ir) {
+    // try {
+    // QueryInventoryRecord qu = new QueryInventoryRecord(authToken);
+    // InventoryRecord storedInventoryRecord = qu.getInventoryRecord(runId,
+    // ir.getGeneralItemId(), ir.getScope(), ir.getEmail(), ir.getTeamId());
+    // if (ir.getRunId() == null) {
+    // ir.setError("No run identifier specified");
+    // return ir;
+    // }
+    // int tableId;
+    // tableId = (new
+    // QueryInventoryRecord(this)).getInventoryRecordTableIdForRun(ir.getRunId());
+    // if (tableId == -1) throw new
+    // ServiceException("table to update InventoryRecord "+ir.getEmail()+" does not exist.");
+    // if (tableId != -1) {
+    // updateRowInInventoryRecordTable(tableId, ir.getGeneralItemId(),
+    // ir.getScope(), ir.getEmail(), ir.getTeamId(), ir.getLat(), ir.getLng(),
+    // ir.getStatus());
+    // InventoryRecordCache.getInstance().removeInventoryRecord(runId,
+    // ir.getGeneralItemId(), ir.getScope(), ir.getEmail(), ir.getTeamId());
+    // InventoryRecordCache.getInstance().putInventoryRecord(runId, ir);
+    // }
+    // } catch (IOException e) {
+    // logger.log(Level.SEVERE, e.getMessage(), e);
+    // ir.setError(e.getMessage());
+    // } catch (ServiceException e) {
+    // logger.log(Level.SEVERE, e.getMessage(), e);
+    // ir.setError(e.getMessage());
+    // }
+    // return ir;
+    // }
 
 //	public InventoryRecord pickupItem(Long runIdentifier, String email, String teamId, Long generalItemId) {
 //		QueryInventoryRecord qir = new QueryInventoryRecord(this);
