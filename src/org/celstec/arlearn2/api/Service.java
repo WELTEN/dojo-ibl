@@ -18,6 +18,7 @@
  ******************************************************************************/
 package org.celstec.arlearn2.api;
 
+import com.google.appengine.tools.mapreduce.MapReduceSettings;
 import org.celstec.arlearn2.beans.Bean;
 import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.beans.deserializer.json.JsonBeanDeserializer;
@@ -112,6 +113,8 @@ public class Service {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
-	
+
+    protected MapReduceSettings getSettings() {
+        return new MapReduceSettings().setWorkerQueueName("default").setBucketName("streetlearn-mapreduce").setModule("default");
+    }
 }

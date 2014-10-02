@@ -29,6 +29,9 @@ public class FilePathJDO extends RunClass {
 	@Persistent
     private String email;
 
+    @Persistent
+    private Long gameId;
+
 	@Persistent
     private String fileName;
 	
@@ -58,5 +61,12 @@ public class FilePathJDO extends RunClass {
 	public void setBlobKey(BlobKey blobKey) {
 		this.blobKey = blobKey;
 	}
-	
+
+    public Long getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
+    }
 }

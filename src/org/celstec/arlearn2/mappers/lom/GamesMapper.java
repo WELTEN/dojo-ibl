@@ -3,6 +3,7 @@ package org.celstec.arlearn2.mappers.lom;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.mapreduce.Mapper;
 import org.celstec.arlearn2.jdo.manager.LomManager;
+import org.celstec.arlearn2.oai.Configuration;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
@@ -51,6 +52,7 @@ public class GamesMapper extends Mapper<Entity, String, String> {
     @Override
     public void map(Entity entity) {
         log.log(Level.SEVERE, ""+entity.toString());
+
 
         String languageString = ""+ entity.getProperty("language");
 
@@ -105,6 +107,10 @@ public class GamesMapper extends Mapper<Entity, String, String> {
         Long lastModificationDate = (Long) entity.getProperty("lastModificationDate");
         Boolean deleted = (Boolean) entity.getProperty("deleted");
         if (deleted == null) deleted = false;
+        Long sharing = (Long) entity.getProperty("sharing");
+        if (sharing == null || sharing.intValue() != 3) {
+            deleted = true;
+        }
         if (lastModificationDate == null) {
             lastModificationDate = System.currentTimeMillis();
         }
@@ -118,7 +124,7 @@ public class GamesMapper extends Mapper<Entity, String, String> {
 
 
             Element location = new Element("location", lomNS);
-            location.setText("http://streetlearn.appspot.com/?"+entity.getKey().getId());
+            location.setText(Configuration.getBaseUrl()+"/resolve/"+entity.getKey().getId());
             technical.addContent(location);
 
 

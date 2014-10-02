@@ -35,9 +35,6 @@ public class LomJDO extends GameClass {
     @Persistent
     private Long generateTimestamp;
 
-    @Persistent
-    private Boolean deleted;
-
     public Long getGameId() {
         return id.getId();
     }

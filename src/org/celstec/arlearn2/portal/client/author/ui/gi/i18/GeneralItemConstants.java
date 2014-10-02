@@ -169,7 +169,7 @@ public interface GeneralItemConstants  extends Constants {
 	
 	//Metadata viewer
 
-    @DefaultStringValue("Generic properties")
+    @DefaultStringValue("Generic properties -test")
     String basicMetadata();
 
     @DefaultStringValue("Message dependent properties")

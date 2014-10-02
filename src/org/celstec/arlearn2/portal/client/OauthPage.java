@@ -93,6 +93,9 @@ public class OauthPage {
                     case 5:
                          Window.open((new OauthWespot()).getLoginRedirectURL(), "_self", "");
                          break;
+                    case 6:
+                            Window.open((new OauthECO()).getLoginRedirectURL(), "_self", "");
+                            break;
 					default:
 						break;
 					}
@@ -127,6 +130,11 @@ public class OauthPage {
             wespot.setAttribute("commonName", "Sign in with weSPOT");
             wespot.setAttribute("rec", 5);
 
+            Record eco = new Record();
+            eco.setAttribute("picture", "eco.png");
+            eco.setAttribute("commonName", "Sign in with ECO");
+            eco.setAttribute("rec", 6);
+
 	        DataSource ds =new DataSource();
 	        ds.setClientOnly(true);
 
@@ -140,7 +148,8 @@ public class OauthPage {
 	        ds.addData(facebook);
 	        ds.addData(google);
 	        ds.addData(linkedIn);
-            ds.addData(twitterRec);
+//            ds.addData(twitterRec);
+            ds.addData(eco);
 //            ds.addData(wespot);
 	        
 	        tileGrid.setDataSource(ds); 

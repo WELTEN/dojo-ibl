@@ -46,18 +46,16 @@ public class OaiServlet extends HttpServlet {
         Document feed = null;
         if (op.isIdentify()) {
             resp.getWriter().write(Identify.getXmlAsString(op));
-        }
-        else if (op.isListRecords()) {
+        } else if (op.isListRecords()) {
             resp.getWriter().write(ListRecords.getXmlAsString(op));
+        } else if (op.isListMetadataFormats()) {
+            resp.getWriter().write(ListMetadataFormats.getXmlAsString(op));
+        } else if (op.isListIdentifiers()) {
+            resp.getWriter().write(ListIdentifiers.getXmlAsString(op));
+        } else if (op.isGetRecord()) {
+            resp.getWriter().write(GetRecord.getXmlAsString(op));
+
         }
-//        else if (op.isListMetadataFormats()) {
-//            resp.getWriter().write(ListMetadataFormats.getXmlAsString(op));
-//        } else if (op.isListIdentifiers()) {
-//            resp.getWriter().write(ListIdentifiers.getXmlAsString(op));
-//        } else if (op.isGetRecord()) {
-//            resp.getWriter().write(GetRecord.getXmlAsString(op));
-//
-//        }
 
         if (feed != null) {
             resp.getWriter().write(out.outputString(feed));

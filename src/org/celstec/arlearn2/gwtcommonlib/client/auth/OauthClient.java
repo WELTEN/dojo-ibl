@@ -31,7 +31,7 @@ public class OauthClient {
 	public final static int GOOGLECLIENT = 2;
 	public final static int LINKEDINCLIENT = 3;
     public final static int WESPOTCLIENT = 5;
-	
+    public final static int ECOCLIENT = 6;
 	private String accessToken;
 	private int type;
 	
@@ -82,7 +82,9 @@ public class OauthClient {
 		case AccountJDO.LINKEDINCLIENT:
 			client = new OauthLinkedIn();
 			break;
-
+            case AccountJDO.ECOCLIENT:
+                client = new OauthECO();
+                break;
 		default:
 			break;
 		}
@@ -116,6 +118,9 @@ public class OauthClient {
 		case AccountJDO.LINKEDINCLIENT:
 			client = new OauthLinkedIn();
 			break;
+        case AccountJDO.ECOCLIENT:
+                client = new OauthECO();
+                break;
 		default:
 			break;
 		}

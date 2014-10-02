@@ -1,6 +1,13 @@
 package org.celstec.arlearn2.portal.client;
 
+import com.google.gwt.json.client.JSONValue;
+import com.smartgwt.client.types.Encoding;
+import com.smartgwt.client.widgets.form.DynamicForm;
+import com.smartgwt.client.widgets.form.fields.SubmitItem;
+import com.smartgwt.client.widgets.form.fields.UploadItem;
 import org.celstec.arlearn2.gwtcommonlib.client.datasource.desktop.QueryGameDataSource;
+import org.celstec.arlearn2.gwtcommonlib.client.network.JsonCallback;
+import org.celstec.arlearn2.gwtcommonlib.client.network.game.GameClient;
 import org.celstec.arlearn2.portal.client.account.AccountManager;
 import org.celstec.arlearn2.portal.client.account.AccountManager.NotifyAccountLoaded;
 import org.celstec.arlearn2.portal.client.search.ListSearch;
@@ -120,5 +127,6 @@ public class SearchPage {
 		vLayout.addMember(toolbarFooter);
 		RootPanel.get("search").add(vLayout);
 	}
+
 
 }

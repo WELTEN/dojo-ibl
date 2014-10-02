@@ -31,6 +31,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 //import org.celstec.arlearn2.beans.BeanDeserialiser;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import org.celstec.arlearn2.beans.generalItem.GeneralItem;
 import org.celstec.arlearn2.beans.generalItem.GeneralItemList;
 import org.celstec.arlearn2.cache.CSVCache;
@@ -195,20 +197,43 @@ public class GeneralItems extends Service {
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public String put(@HeaderParam("Authorization") String token, String gi, @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
 			@DefaultValue("application/json") @HeaderParam("Accept") String accept)  {
-		if (!validCredentials(token))
-			return serialise(getInvalidCredentialsBean(), accept);
+        System.out.println("generalItem "+gi);
+        if (!validCredentials(token)){
+            System.out.println("unvalid" +serialise(getInvalidCredentialsBean(), accept));
+            return serialise(getInvalidCredentialsBean(), accept);
+        }
+
 
 		Object inItem = deserialise(gi, GeneralItem.class, contentType);
-		if (inItem instanceof java.lang.String)
-			return serialise(getBeanDoesNotParseException((String) inItem), accept);
+		if (inItem instanceof java.lang.String){
+            System.out.println("bean does not parse" + serialise(getBeanDoesNotParseException((String) inItem), accept));
+            return serialise(getBeanDoesNotParseException((String) inItem), accept);
+        }
+
 		try {
 			inItem = deserialise(gi, Class.forName(((GeneralItem) inItem).getType()), contentType);
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
 		GeneralItemDelegator gid = new GeneralItemDelegator(token);
-		return serialise(gid.createGeneralItem((GeneralItem) inItem), accept);
+        String result = serialise(gid.createGeneralItem((GeneralItem) inItem), accept);
+        System.out.println(result);
+        return result;
+//		return serialise(gid.createGeneralItem((GeneralItem) inItem), accept);
 	}
+
+    @GET
+    @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    @Path("/createDummy/gameId/{gameIdentifier}")
+    public String createDummyItem(@HeaderParam("Authorization") String token,
+                           @PathParam("gameIdentifier") Long gameIdentifier,
+                           @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+    @DefaultValue("application/json") @HeaderParam("Accept") String accept)  {
+        if (!validCredentials(token))
+            return serialise(getInvalidCredentialsBean(), accept);
+        GeneralItemDelegator gid = new GeneralItemDelegator(token);
+        return serialise(gid.createDummyItem(gameIdentifier), accept);
+    }
 
     @POST
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -259,6 +284,22 @@ public class GeneralItems extends Service {
                 new UpdateMdHash(getToken(), getAccount(), md5Hashes).scheduleTask();
 
         return "{}";
+    }
+
+    @GET
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("/pictureUrl/gameId/{gameIdentifier}/generalItem/{itemId}/{key}")
+    public String getPictureUploadUrl(@HeaderParam("Authorization") String token,
+                                      @PathParam("gameIdentifier") Long gameId,
+                                      @PathParam("itemId") Long itemId,
+                                      @PathParam("key") String key,
+                                      @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+                                      @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+        if (!validCredentials(token))
+            return serialise(getInvalidCredentialsBean(), accept);
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        String url = blobstoreService.createUploadUrl("/uploadGameContent/generalItems/"+itemId+"/"+key + "?gameId=" + gameId);
+        return "{ 'uploadUrl': '"+url+"'}";
     }
 
 }

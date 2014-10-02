@@ -13,7 +13,10 @@ public class ScanTagEditor extends VLayout implements ExtensionEditor{
 
 	protected DynamicForm form;
 	private static GeneralItemConstants constants = GWT.create(GeneralItemConstants.class);
-
+    private GeneralItem generalItem;
+    public void setGeneralItem(GeneralItem generalItem) {
+        this.generalItem = generalItem;
+    }
 	
 	public ScanTagEditor() {
 		form = new DynamicForm();

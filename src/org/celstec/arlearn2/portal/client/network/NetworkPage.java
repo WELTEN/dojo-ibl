@@ -74,7 +74,7 @@ public class NetworkPage {
 	private void createNetworkPane() {
 
 		final DynamicForm selectForm = new DynamicForm();
-		selectForm.setNumCols(8);
+		selectForm.setNumCols(12);
 
 		HeaderItem header = new HeaderItem();
 		header.setDefaultValue("Web service selection");
@@ -133,10 +133,35 @@ public class NetworkPage {
 				}
 			}
 		});
+
+        ButtonItem deleteButton = new ButtonItem();
+        deleteButton.setTitle("DELETE");
+        deleteButton.setStartRow(false);
+        deleteButton.setEndRow(false);
+        deleteButton.addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                String value = (String) selectForm.getValue("path");
+                PathClient pc = new PathClient();
+
+                if (onBehalfOfTextItem.getValueAsString() != null && !onBehalfOfTextItem.getValueAsString().equals("")){
+                    String onBehalfOfString = onBehalfOfTextItem.getValueAsString();
+                    if (onBehalfOfString.contains(":")) {
+                        pc.deletePath(value, onBehalfOfTextItem.getValueAsString());
+                    } else {
+                        pc.deletePath(value, onBehalfOfTextItem.getValueAsString()+":"+AccountManager.getInstance().getAccount().getAccountType()+":"+AccountManager.getInstance().getAccount().getLocalId());
+                    }
+                } else {
+                    pc.deletePath(value);
+                }
+
+            }
+        });
 		
 		onBehalfOfTextItem = new TextItem("onBehalfOf", "onBehalfOf Token");
 
-		selectForm.setFields(header, pathTextItem, getButton, post, onBehalfOfTextItem);
+		selectForm.setFields(header, pathTextItem, getButton, deleteButton, post,  onBehalfOfTextItem);
 		networkLayout.addMember(selectForm);
 		HLayout panes = new HLayout();
 		panes.addMember(postForm);
@@ -225,6 +250,14 @@ public class NetworkPage {
 			
 		}
 
+        public void deletePath(String path) {
+            invokeJsonDELETE(path, dummyCb);
+        }
+
+        public void deletePath(String path, String onBehalfOf) {
+            invokeJsonDELETE(path, onBehalfOf, dummyCb);
+        }
+
 		public void getPath(String path, JsonCallback jc) {
 			invokeJsonGET(path, jc);
 		}
@@ -252,6 +285,6 @@ public class NetworkPage {
 	}
 
 	public static native String indent(String json) /*-{
-		return JSON.stringify(eval(+'(' + json + ')'), undefined, 5);
+		return JSON.stringify(eval('(' + json + ')'), undefined, 5);
 	}-*/;
 }

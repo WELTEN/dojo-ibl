@@ -24,6 +24,11 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 
 @Path("/info")
@@ -37,6 +42,28 @@ public class Info extends Service {
 		info.setTimestamp(System.currentTimeMillis());
 		return serialise(info, accept);
 	}
-	
-	
+
+    @GET
+    @Produces({ MediaType.TEXT_PLAIN })
+    @Path("/domain")
+    public String getDomain( @DefaultValue("application/json") @HeaderParam("Accept") String accept)  {
+        String result = "";
+        try {
+            URL url = new URL("http://inquiry.wespot.net/services/api/rest/xml/?method=test.domain");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                result +=line;
+            }
+            reader.close();
+
+        } catch (MalformedURLException e) {
+            // ...
+        } catch (IOException e) {
+            // ...
+        }
+        return result;
+    }
 }

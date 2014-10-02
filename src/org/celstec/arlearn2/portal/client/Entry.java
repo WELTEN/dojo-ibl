@@ -21,24 +21,20 @@ package org.celstec.arlearn2.portal.client;
 import org.celstec.arlearn2.gwtcommonlib.client.LocalSettings;
 import org.celstec.arlearn2.gwtcommonlib.client.auth.*;
 import org.celstec.arlearn2.gwtcommonlib.client.datasource.JsonObjectListCallback;
-import org.celstec.arlearn2.gwtcommonlib.client.network.JsonCallback;
 import org.celstec.arlearn2.gwtcommonlib.client.network.OauthNetworkClient;
 import org.celstec.arlearn2.portal.client.author.AuthorPage;
 import org.celstec.arlearn2.portal.client.debug.DebugPage;
 import org.celstec.arlearn2.portal.client.game.GamePage;
 import org.celstec.arlearn2.portal.client.htmlDisplay.CrsDisplay;
-import org.celstec.arlearn2.portal.client.htmlDisplay.HtmlDisplayPage;
 import org.celstec.arlearn2.portal.client.network.NetworkPage;
 import org.celstec.arlearn2.portal.client.resultDisplay.ResultDisplayPage;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.layout.VLayout;
 
 import java.util.List;
@@ -94,7 +90,10 @@ public class Entry implements EntryPoint {
                     case OauthClient.WESPOTCLIENT:
                             OauthWespot.init(object.get("clientId").isString().stringValue(), object.get("redirectUri").isString().stringValue());
                             break;
-					default:
+                        case OauthClient.ECOCLIENT:
+                         OauthECO.init(object.get("clientId").isString().stringValue(), object.get("redirectUri").isString().stringValue());
+                            break;
+                        default:
 						break;
 				}
 			 }
@@ -127,6 +126,7 @@ public class Entry implements EntryPoint {
 				if (RootPanel.get("search") != null) (new SearchPage()).loadPage();
 				if (RootPanel.get("game") != null) (new GamePage()).loadPage();
                 if (RootPanel.get("debug") != null) (new DebugPage()).loadPage();
+                if (RootPanel.get("testContentUpload") != null) (new ContentUploadPage()).loadPage();
 			}
 		} else {
 			String href = Window.Location.getHref();

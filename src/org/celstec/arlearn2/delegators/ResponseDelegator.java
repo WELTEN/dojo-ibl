@@ -62,7 +62,7 @@ public class ResponseDelegator extends GoogleDelegator {
 
     public ResponseList getResponses(Long runId, Long itemId, String account) {
         ResponseList rl = new ResponseList();
-        rl.setResponses(ResponseManager.getResponse(runId, itemId, account, null, false));
+        rl.setResponses(ResponseManager.getResponse(runId, itemId, account, null, null));
         return rl;
     }
 
@@ -78,6 +78,9 @@ public class ResponseDelegator extends GoogleDelegator {
         return ResponseManager.getResponse(runId, from, until, cursor);
     }
 
+    public Response revokeResponse(Long responseId) {
+        return ResponseManager.revokeResponse(responseId);
+    }
 
     public Response revokeResponse(Response r) {
         return ResponseManager.revokeResponse(r.getRunId(), r.getGeneralItemId(), r.getUserEmail(), r.getTimestamp());

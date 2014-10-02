@@ -26,7 +26,7 @@ public class ScanTagObjectWindow  extends GeneralItemWindow {
 	@Override
 	protected GeneralItem createItem() {
 		ScanTagObject returnObject = new ScanTagObject();
-		editor.saveToBean(returnObject);
+		if (editor!=null) editor.saveToBean(returnObject);
 		return returnObject;
 	}
 	

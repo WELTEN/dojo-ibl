@@ -26,7 +26,7 @@ public class SingleChoiceTestWindow extends GeneralItemWindow {
 	@Override
 	protected GeneralItem createItem() {
 		SingleChoiceTest returnObject = new SingleChoiceTest();
-		editor.saveToBean(returnObject);
+		if (editor !=null) editor.saveToBean(returnObject);
 		return returnObject;
 	}
 	

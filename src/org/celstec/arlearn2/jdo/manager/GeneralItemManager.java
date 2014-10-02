@@ -65,6 +65,7 @@ public class GeneralItemManager {
 		gi.setType(bean.getType());
 		gi.setIconUrl(bean.getIconUrl());
 		gi.setDeleted(false);
+        if (bean.getDeleted() != null) gi.setDeleted(bean.getDeleted());
 		gi.setLastModificationDate(System.currentTimeMillis());
 		jbs = new JsonBeanSerialiser(bean);
 		gi.setPayload(new Text(jbs.serialiseToJson().toString()));

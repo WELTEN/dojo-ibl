@@ -26,7 +26,7 @@ public class MultipleChoiceImageWindow  extends GeneralItemWindow {
 	@Override
 	protected GeneralItem createItem() {
 		MultipleChoiceImage returnObject = new MultipleChoiceImage();
-		editor.saveToBean(returnObject);
+        if (editor !=null) editor.saveToBean(returnObject);
 		return returnObject;
 	}
 	

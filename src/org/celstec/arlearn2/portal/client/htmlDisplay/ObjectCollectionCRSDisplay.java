@@ -63,7 +63,7 @@ public class ObjectCollectionCRSDisplay extends GeneralItemDisplay{
 
     public ObjectCollectionCRSDisplay(ObjectCollectionDisplay objectCollectionDisplay){
         this.objectCollectionDisplay = objectCollectionDisplay;
-
+        showWrong = objectCollectionDisplay.getBoolean("showWrong");
 
         hLayout = new HLayout();
         hLayout.setPadding(3);
@@ -71,7 +71,7 @@ public class ObjectCollectionCRSDisplay extends GeneralItemDisplay{
         hLayout.setHeight100();
         String description = objectCollectionDisplay.getRichText();
 
-        List zonesList = objectCollectionDisplay.getZones();
+        List<ObjectCollectionDisplay.Zone> zonesList = objectCollectionDisplay.getZones();
         canvasesCorrect = new Canvas[zonesList.size()];
         if (showWrong) canvasesWrong = new Canvas[zonesList.size()];
         zones = new ObjectCollectionDisplay.Zone[zonesList.size()];
@@ -79,7 +79,7 @@ public class ObjectCollectionCRSDisplay extends GeneralItemDisplay{
 
         int j = 0;
 
-        for (ObjectCollectionDisplay.Zone zone: objectCollectionDisplay.getZones()) {
+        for (ObjectCollectionDisplay.Zone zone: zonesList) {
 
             if (showWrong) {
                 Canvas canvas = createAnswerCanvas("wrong"+j);
@@ -143,11 +143,8 @@ public class ObjectCollectionCRSDisplay extends GeneralItemDisplay{
 
             for (ObjectCollectionDisplay.DisplayObject displayObject : zone.getZones()) {
                 if (displayObject.getGeneralItemId() != null) {
-                    wrongCanvas.put(displayObject.getGeneralItemId(), canvasesWrong[j]);
-
-
+                    if (canvasesWrong != null) wrongCanvas.put(displayObject.getGeneralItemId(), canvasesWrong[j]);
                 }
-
             }
             j++;
         }
@@ -190,6 +187,13 @@ public class ObjectCollectionCRSDisplay extends GeneralItemDisplay{
             object.redraw();
         }
     }
+    @Override
+    public void exportMethod() {
+        exportStaticMethod();
+    }
 
-
+    public static native void exportStaticMethod() /*-{
+        $wnd.showAlert =
+            $entry(@org.celstec.arlearn2.portal.client.htmlDisplay.ObjectCollectionCRSDisplay::showAlert());
+    }-*/;
 }

@@ -93,7 +93,8 @@ public class ActionDelegator extends GoogleDelegator {
 
         //TODO migrate these to list of relevant dependecies (getActionDependencies[])
         boolean relevancy = arp.isRelevant(action);
-        ActionManager.addAction(action.getRunId(), action.getAction(), action.getUserEmail(), action.getGeneralItemId(), action.getGeneralItemType(), action.getTimestamp());
+        Long actionId = ActionManager.addAction(action.getRunId(), action.getAction(), action.getUserEmail(), action.getGeneralItemId(), action.getGeneralItemType(), action.getTimestamp());
+        action.setIdentifier(actionId);
         ActionCache.getInstance().removeRunAction(action.getRunId());
 
         RunAccessDelegator rad = new RunAccessDelegator(this);

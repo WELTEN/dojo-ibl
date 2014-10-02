@@ -26,7 +26,7 @@ public class YoutubeObjectWindow extends GeneralItemWindow {
 	@Override
 	protected GeneralItem createItem() {
 		YoutubeObject returnObject = new YoutubeObject();
-		editor.saveToBean(returnObject);
+        if (editor !=null) editor.saveToBean(returnObject);
 		return returnObject;
 	}
 	

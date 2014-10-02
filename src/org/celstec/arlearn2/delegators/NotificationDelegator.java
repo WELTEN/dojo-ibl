@@ -50,8 +50,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-0
-
 public class NotificationDelegator extends GoogleDelegator {
     //AIzaSyAczgll7jcWPwGvepcso_YEE_zI_V9qSWU
     public static final String GCM_KEY = "GCM_KEY";

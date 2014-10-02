@@ -94,6 +94,6 @@ public class JsonEditor extends SectionConfig {
 	}
 
 	public static native String indent(String json) /*-{
-	  return JSON.stringify(eval(+'(' +json+')'), undefined, 5);
+	  return JSON.stringify(eval('(' +json+')'), undefined, 5);
 	}-*/;
 }

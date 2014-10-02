@@ -23,6 +23,9 @@ public class MessageDelegator extends GoogleDelegator {
 
     public Message createMessage(Message message) {
         message.setDate(System.currentTimeMillis());
+        if ((message.getThreadId() == null || message.getThreadId() ==0l) && message.getRunId()!= null) {
+            message.setThreadId(new ThreadDelegator(this).getDefaultThread(message.getRunId()).getThreadId());
+        }
         Message returnMessage = MessageManager.createMessage(message);
         (new NotifyUsersForMessage(authToken, returnMessage)).scheduleTask();
 

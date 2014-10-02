@@ -32,6 +32,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.utils.SystemProperty;
 import org.celstec.arlearn2.beans.Bean;
 import org.celstec.arlearn2.beans.deserializer.json.ListDeserializer;
@@ -190,10 +192,16 @@ public class MyGames extends Service {
 	@Path("/gameId/{gameIdentifier}")
 	public String getGame(@HeaderParam("Authorization") String token, @PathParam("gameIdentifier") Long gameIdentifier, @DefaultValue("application/json") @HeaderParam("Accept") String accept)
 			  {
-		if (!validCredentials(token))
-			return serialise(getInvalidCredentialsBean(), accept);
 		GameDelegator qg = new GameDelegator(account, token);
-		return serialise(qg.getGame(gameIdentifier), accept);
+        Game g = qg.getGame(gameIdentifier);
+        if (g.getError() != null) {
+            return serialise(g, accept);
+        }
+        if (g.getSharing() == null || g.getSharing() == Game.PRIVATE) {
+            if (!validCredentials(token))
+                return serialise(getInvalidCredentialsBean(), accept);
+        }
+		return serialise(g, accept);
 	}
 	
 	@GET
@@ -221,8 +229,8 @@ public class MyGames extends Service {
 			@PathParam("accessRight") Integer accessRight, 
 			@DefaultValue("application/json") @HeaderParam("Accept") String accept)
 			  {
-		if (!validCredentials(token))
-			return serialise(getInvalidCredentialsBean(), accept);
+//		if (!validCredentials(token))
+//			return serialise(getInvalidCredentialsBean(), accept);
 		GameAccessDelegator gad = new GameAccessDelegator(token);
 
 		return serialise(gad.getAccessList(gameIdentifier), accept);
@@ -413,8 +421,8 @@ public class MyGames extends Service {
 			String searchQuery, 
 			@DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
 			@DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
-		if (!validCredentials(token))
-			return serialise(getInvalidCredentialsBean(), accept);
+//		if (!validCredentials(token))
+//			return serialise(getInvalidCredentialsBean(), accept);
 		GameDelegator qg = new GameDelegator(token);
 			return serialise(qg.search(searchQuery), accept);
 	}
@@ -429,8 +437,8 @@ public class MyGames extends Service {
                          @PathParam("distance") Long distance,
                          @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
                          @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
-        if (!validCredentials(token))
-            return serialise(getInvalidCredentialsBean(), accept);
+//        if (!validCredentials(token))
+//            return serialise(getInvalidCredentialsBean(), accept);
         GameDelegator qg = new GameDelegator(token);
         return serialise(qg.search(lat, lng, distance), accept);
     }
@@ -449,5 +457,31 @@ public class MyGames extends Service {
         return serialise(qg.rateGame(gameId, rating, getAccount()), accept);
     }
 
+    @GET
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("/pictureUrl/gameId/{gameId}")
+    public String getPictureUploadUrl(@HeaderParam("Authorization") String token,
+                           @PathParam("gameId") Long gameId,
+                           @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+                           @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+        if (!validCredentials(token))
+            return serialise(getInvalidCredentialsBean(), accept);
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        String url = blobstoreService.createUploadUrl("/uploadGameContent/gameThumbnail" + "?gameId=" + gameId);
+        return "{ 'uploadUrl': '"+url+"'}";
+    }
+
+    @GET
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("/gameContent/gameId/{gameId}")
+    public String getGameContent(@HeaderParam("Authorization") String token,
+                                      @PathParam("gameId") Long gameId,
+                                      @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+                                      @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+        if (!validCredentials(token))
+            return serialise(getInvalidCredentialsBean(), accept);
+        GameDelegator gameDelegator = new GameDelegator(token);
+        return serialise(gameDelegator.getGameContentDescription(gameId), accept);
+    }
 	
 }

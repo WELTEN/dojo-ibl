@@ -59,7 +59,7 @@ public class ActionManager {
 	}
 	
 	
-	public static void addAction(Long runId, String action, String userEmail, Long generalItemId, String generalItemType, Long time) {
+	public static Long addAction(Long runId, String action, String userEmail, Long generalItemId, String generalItemType, Long time) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		ActionJDO actionJDO = new ActionJDO();
 		actionJDO.setAction(action);
@@ -70,6 +70,7 @@ public class ActionManager {
 		actionJDO.setUserEmail(userEmail);
 		try {
 			pm.makePersistent(actionJDO);
+            return actionJDO.getId();
 		} finally {
 			pm.close();
 		}
@@ -108,6 +109,7 @@ public class ActionManager {
 		actionBean.setTime(jdo.getTime());
 		actionBean.setTimestamp(jdo.getTime());
 		actionBean.setUserEmail(jdo.getUserEmail());
+        actionBean.setIdentifier(jdo.getId());
 		return actionBean;
 	}
 

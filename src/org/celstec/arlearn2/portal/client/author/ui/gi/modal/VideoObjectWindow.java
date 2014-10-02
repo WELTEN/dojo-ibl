@@ -26,7 +26,7 @@ public class VideoObjectWindow extends GeneralItemWindow {
 	@Override
 	protected GeneralItem createItem() {
 		VideoObject returnObject = new VideoObject();
-		editor.saveToBean(returnObject);
+        if (editor !=null) editor.saveToBean(returnObject);
 		return returnObject;
 	}
 	

@@ -51,8 +51,6 @@ public class UploadUserContentServlet extends HttpServlet {
 			page += "</form></body>";
 			res.getWriter().write(page);
 		}
-
-		// http://streetlearn.appspot.com//uploadService/623053/arlearn1/recording52396.amr
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -61,32 +59,21 @@ public class UploadUserContentServlet extends HttpServlet {
 		System.out.println(req.getPathInfo());
 		java.util.Map<java.lang.String,java.util.List<BlobKey>> blobs = blobstoreService.getUploads(req);
 		for (String key: blobs.keySet()) {
-			
+			deleteIfFileExists(req.getParameter("account"), req.getPathInfo());
 			FilePathManager.addFile(null, req.getParameter("account"), req.getPathInfo(), blobs.get(key).get(0));
 		}
-		// try {
-		// Long runId = null;
-		// String account = null;
-		// String fileName = null;
-		// runId = Long.parseLong(req.getParameter("runId"));
-		// account = req.getParameter("account");
-		// fileName = req.getParameter("fileName");
-		// if (req.getParameter("withBlob") == null) {
-		// String uploadUrl =
-		// blobstoreService.createUploadUrl("/uploadServiceWithUrl?withBlob=true&runId="+runId+"&account="+account+"&fileName="+fileName);
-		// res.getWriter().write(uploadUrl);
-		// } else {
-		//
-		// java.util.Map<java.lang.String,java.util.List<BlobKey>> blobs =
-		// blobstoreService.getUploads(req);
-		// for (String key: blobs.keySet()) {
-		// FilePathManager.addFile(runId, account, fileName,
-		// blobs.get(key).get(0));
-		// }
-		// }
-		//
-		// } catch (Exception ex) {
-		// throw new ServletException(ex);
-		// }
 	}
+
+    private void deleteIfFileExists(String email, String path){
+        BlobKey bk = FilePathManager.getBlobKey(email, null, path);
+        if (bk != null) {
+            try {
+                blobstoreService.delete(bk);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            FilePathManager.delete(bk);
+        }
+
+    }
 }

@@ -105,6 +105,11 @@ public class SingleChoiceDisplay extends GeneralItemDisplay{
     @Override
     public void handleAction(Action action) {}
 
+    @Override
+    public void exportMethod() {
+
+    }
+
     public void handleResponse(Response response) {
         String userId = response.getString(Response.FULL_ID);
         String responseValue = JSONParser.parseLenient(response.getString(Response.RESPONSE_VALUE)).isObject().get("answer").isString().stringValue();

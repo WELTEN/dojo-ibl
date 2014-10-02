@@ -28,16 +28,17 @@ import org.celstec.arlearn2.beans.run.Run;
 import org.celstec.arlearn2.beans.run.User;
 import org.celstec.arlearn2.cache.MyGamesCache;
 import org.celstec.arlearn2.delegators.notification.ChannelNotificator;
+import org.celstec.arlearn2.jdo.PMF;
 import org.celstec.arlearn2.jdo.UserLoggedInManager;
+import org.celstec.arlearn2.jdo.classes.FilePathJDO;
 import org.celstec.arlearn2.jdo.classes.GameAccessJDO;
-import org.celstec.arlearn2.jdo.manager.GameAccessManager;
-import org.celstec.arlearn2.jdo.manager.GameManager;
-import org.celstec.arlearn2.jdo.manager.UserManager;
+import org.celstec.arlearn2.jdo.manager.*;
 import org.celstec.arlearn2.tasks.beans.DeleteGeneralItems;
 import org.celstec.arlearn2.tasks.beans.DeleteRuns;
 import org.celstec.arlearn2.tasks.beans.GameSearchIndex;
 import org.celstec.arlearn2.tasks.beans.NotifyRunsFromGame;
 
+import javax.jdo.PersistenceManager;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -145,36 +146,36 @@ public class GameDelegator extends GoogleDelegator {
 
     }
 
-    public Game getGame(Long gameId) {
-        if (account != null) {
-            return getGameNew(gameId);
-        }
-        String myAccount = UserLoggedInManager.getUser(authToken);
-        if (myAccount == null) {
-            Game game = new Game();
-            game.setGameId(gameId);
-            game.setError("login to retrieve game");
-            return game;
-        }
-//		if (myAccount.contains(":")) {
-//			//TODO check if this user can access the game
-//			return getGame(myAccount, gameId);
-//		}
-        List<Game> list = MyGamesCache.getInstance().getGameList(gameId, null, myAccount, null, null);
-        if (list == null) {
-            list = GameManager.getGames(gameId, null, myAccount, null, null);
-            MyGamesCache.getInstance().putGameList(list, gameId, null, myAccount, null, null);
-        }
-        if (list.isEmpty()) {
-            Game game = new Game();
-            game.setGameId(gameId);
-            game.setError("game does not exist");
-            return game;
-        }
-        return list.get(0);
-    }
+//    public Game getGame(Long gameId) {
+//        if (account != null) {
+//            return getGameNew(gameId);
+//        }
+//        String myAccount = UserLoggedInManager.getUser(authToken);
+//        if (myAccount == null) {
+//            Game game = new Game();
+//            game.setGameId(gameId);
+//            game.setError("login to retrieve game");
+//            return game;
+//        }
+////		if (myAccount.contains(":")) {
+////			//TODO check if this user can access the game
+////			return getGame(myAccount, gameId);
+////		}
+//        List<Game> list = MyGamesCache.getInstance().getGameList(gameId, null, myAccount, null, null);
+//        if (list == null) {
+//            list = GameManager.getGames(gameId, null, myAccount, null, null);
+//            MyGamesCache.getInstance().putGameList(list, gameId, null, myAccount, null, null);
+//        }
+//        if (list.isEmpty()) {
+//            Game game = new Game();
+//            game.setGameId(gameId);
+//            game.setError("game does not exist");
+//            return game;
+//        }
+//        return list.get(0);
+//    }
 
-    public Game getGameNew(Long gameId) {
+    public Game getGame(Long gameId) {
         Game gameCache = MyGamesCache.getInstance().getGame(gameId);
         if (gameCache == null) {
             List<Game> list = GameManager.getGames(gameId, null, null, null, null);
@@ -568,6 +569,9 @@ public class GameDelegator extends GoogleDelegator {
 
     public Rating rateGame(long gameId, int rating, Account account) {
         return RatingManager.createRating(gameId, account.getAccountType(), account.getLocalId(), rating);
+    }
 
+    public GameFileList getGameContentDescription(Long gameId) {
+        return FilePathManager.getFilePathJDOs(null, null, gameId, null);
     }
 }

@@ -26,7 +26,10 @@ public class SingleChoiceImageExtensionEditor extends VStack implements Extensio
 
 	protected  ArrayList<AnswerForm> forms = new ArrayList<AnswerForm>();
     protected DynamicForm questionForm = new DynamicForm();
-
+    private GeneralItem generalItem;
+    public void setGeneralItem(GeneralItem generalItem) {
+        this.generalItem = generalItem;
+    }
     public SingleChoiceImageExtensionEditor() {
         setOverflow(Overflow.AUTO);
         setWidth100();

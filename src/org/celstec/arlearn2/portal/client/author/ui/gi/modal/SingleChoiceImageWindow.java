@@ -25,7 +25,7 @@ public class SingleChoiceImageWindow extends GeneralItemWindow {
 	@Override
 	protected GeneralItem createItem() {
 		SingleChoiceImage returnObject = new SingleChoiceImage();
-		editor.saveToBean(returnObject);
+        if (editor !=null) editor.saveToBean(returnObject);
 		return returnObject;
 	}
 	

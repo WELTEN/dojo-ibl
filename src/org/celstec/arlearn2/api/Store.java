@@ -7,12 +7,17 @@ import org.celstec.arlearn2.beans.store.Category;
 import org.celstec.arlearn2.delegators.AccountDelegator;
 import org.celstec.arlearn2.delegators.ActionDelegator;
 import org.celstec.arlearn2.delegators.CategoryDelegator;
+import org.celstec.arlearn2.delegators.FeaturedGameDelegator;
 import org.celstec.arlearn2.mappers.CountOutput;
 import org.celstec.arlearn2.mappers.CountReducer;
 import org.celstec.arlearn2.mappers.CountRunsMapper;
 import org.celstec.arlearn2.mappers.lom.GamesMapper;
 import org.celstec.arlearn2.mappers.lom.LomOutput;
 import org.celstec.arlearn2.mappers.lom.LomReducer;
+import org.celstec.arlearn2.mappers.rating.RatingMapper;
+import org.celstec.arlearn2.mappers.rating.RatingMarshaller;
+import org.celstec.arlearn2.mappers.rating.RatingOutput;
+import org.celstec.arlearn2.mappers.rating.RatingReducer;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -121,6 +126,32 @@ public class Store extends Service {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @CacheControlHeader("no-cache")
+    @Path("/games/featured/lang/{lang}")
+    public String getFeaturedGames(
+            @PathParam("lang") String lang,
+            @DefaultValue("application/json") @HeaderParam("Accept") String accept){
+        return serialise(new FeaturedGameDelegator(this).getFeaturedGames(lang), accept);
+    }
+
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @CacheControlHeader("no-cache")
+    @Path("/games/featured/create/lang/{lang}/gameId/{gameId}/rank/{rank}")
+    public String createFeaturedGame(
+            @PathParam("lang") String lang,
+            @PathParam("gameId") Long gameId,
+            @PathParam("rank") Integer rank,
+            @HeaderParam("Authorization") String token,
+            @DefaultValue("application/json") @HeaderParam("Accept") String accept){
+        if (!isAdministrator(token)) {
+            return serialise(getInvalidCredentialsBean(), accept);
+        }
+        return serialise(new FeaturedGameDelegator(this).createFeaturedGame(lang, gameId, rank), accept);
+    }
+
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @CacheControlHeader("no-cache")
     @Path("/games/countUsers")
     public String startUsersMapReduce(
             @DefaultValue("application/json") @HeaderParam("Accept") String accept){
@@ -147,19 +178,15 @@ public class Store extends Service {
         String id = MapReduceJob.start(
                 MapReduceSpecification.of(
                         "Lom Map Reduce",
-                        new DatastoreInput("GameJDO", 2),
+                        new DatastoreInput("GameJDO", 4),
                         new GamesMapper(),
                         Marshallers.getStringMarshaller(),
                         Marshallers.getStringMarshaller(),
                         new LomReducer(),
-                        new LomOutput(2)),
+                        new LomOutput(4)),
                 getSettings());
 
         return "{ 'jobId':"+id+"}";
     }
 
-
-    private MapReduceSettings getSettings() {
-        return new MapReduceSettings().setWorkerQueueName("default").setBucketName("ar-learn-mapreduce").setModule("default");
-    }
 }

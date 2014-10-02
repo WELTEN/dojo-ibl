@@ -42,7 +42,10 @@ public class YoutubeObjectEditor extends VLayout implements ExtensionEditor{
 		form.setWidth100();
 		addMember(form);
 	}
-
+    private GeneralItem generalItem;
+    public void setGeneralItem(GeneralItem generalItem) {
+        this.generalItem = generalItem;
+    }
     private void setValue(String urlRemainder) {
         if (urlRemainder.contains("&")) urlRemainder = urlRemainder.substring(0, urlRemainder.indexOf("&"));
         videoText.setValue(urlRemainder);

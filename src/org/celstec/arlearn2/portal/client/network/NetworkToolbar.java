@@ -51,7 +51,7 @@ public class NetworkToolbar extends ToolBar {
 
                                 "\"name\": \"Item name\","  +
                                 "\"description\": \"Item description\","  +
-                                "\"richText\": \"<p>Item description</p>\","  +
+                                "\"richText\": \"<p>Item description</p>\""  +
                                 "}"),
                 separator,
                 createMenuItemPOST(

@@ -283,6 +283,11 @@ public class RunDelegator extends GoogleDelegator {
 
     }
 
+//    public List<Run> getRunsForGame(long gameId, Account account) {
+//
+//
+//    }
+
     public Run selfRegister(String tagId) {
         UsersDelegator qu = new UsersDelegator(this);
         String myAccount = qu.getCurrentUserAccount();
@@ -343,6 +348,7 @@ public class RunDelegator extends GoogleDelegator {
             return run;
         }
     }
+
 
 
 }

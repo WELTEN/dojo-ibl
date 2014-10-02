@@ -25,7 +25,7 @@ public class MultipleChoiceTestWindow extends GeneralItemWindow {
 	@Override
 	protected GeneralItem createItem() {
 		MultipleChoiceTest returnObject = new MultipleChoiceTest();
-		editor.saveToBean(returnObject);
+        if (editor !=null) editor.saveToBean(returnObject);
 		return returnObject;
 	}
 	

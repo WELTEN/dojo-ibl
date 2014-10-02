@@ -10,7 +10,10 @@ import com.smartgwt.client.widgets.layout.VLayout;
 public class MozillaOpenBadgeExtensionEditor extends VLayout implements ExtensionEditor{
 	
 	protected DynamicForm form;
-	
+    private GeneralItem generalItem;
+    public void setGeneralItem(GeneralItem generalItem) {
+        this.generalItem = generalItem;
+    }
 	public MozillaOpenBadgeExtensionEditor() {
 		form = new DynamicForm();
 		final TextItem badgeUrlItem = new TextItem(MozillaOpenBadge.BADGE_URL, "badge url");

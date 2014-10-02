@@ -187,10 +187,14 @@ public class MyRuns extends Service {
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Path("/gameId/{gameIdentifier}")
-	public RunList getRuns(@HeaderParam("Authorization") String token, @PathParam("gameIdentifier") String gameIdentifier, @HeaderParam("Accept") String accept)  {
-		// TODO
-		return null;
-	}
+	public String getRuns(@HeaderParam("Authorization") String token, @PathParam("gameIdentifier") String gameIdentifier, @HeaderParam("Accept") String accept)  {
+        // TODO
+//        if (!validCredentials(token))
+//            return serialise(getInvalidCredentialsBean(), accept);
+//        RunDelegator rd = new RunDelegator(this);
+//        return serialise(rd.getRunsForGame(Long.parseLong(gameIdentifier), account), accept);
+        return "{}";
+    }
 
 	@POST
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })

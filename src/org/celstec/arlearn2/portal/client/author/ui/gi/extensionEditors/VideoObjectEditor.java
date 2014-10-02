@@ -15,7 +15,10 @@ public class VideoObjectEditor extends VLayout implements ExtensionEditor{
 	private static GeneralItemConstants constants = GWT.create(GeneralItemConstants.class);
 
 	protected DynamicForm form;
-
+    private GeneralItem generalItem;
+    public void setGeneralItem(GeneralItem generalItem) {
+        this.generalItem = generalItem;
+    }
     public VideoObjectEditor() {
         this (false);
     }

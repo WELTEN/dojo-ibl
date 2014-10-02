@@ -37,7 +37,11 @@ public class GeneralItemsClient extends GenericClient {
 	public void getGeneralItem(long gameId, long itemId, final JsonCallback jcb) {
 		invokeJsonGET("/gameId/"+gameId+"/generalItem/"+itemId+"/", jcb);
 	}
-	
+
+    public void createDummyItem(long gameId,  final JsonCallback jcb) {
+        invokeJsonGET("/createDummy/gameId/"+gameId, jcb);
+    }
+
 	public void createGeneralItem(JSONObject object, JsonCallback jcb) {
 		invokeJsonPOST(null, object, jcb);
 	}
@@ -57,7 +61,11 @@ public class GeneralItemsClient extends GenericClient {
 	public void deleteGeneralItem(long gameId, long itemId, final JsonCallback jcb) {
 		invokeJsonDELETE("/gameId/"+gameId+"/generalItem/"+itemId+"/", jcb);
 	}
-	
+
+    public void getMediaUploadUrl(long gameId, long itemId, String key, JsonCallback jsonCallback) {
+        invokeJsonGET("/pictureUrl/gameId/"+gameId+"/generalItem/"+itemId+"/"+key, jsonCallback);
+    }
+
 	public void search(String query, JsonCallback jsonCallback) {
 		invokeJsonPOST("/search", query, jsonCallback);
 	}

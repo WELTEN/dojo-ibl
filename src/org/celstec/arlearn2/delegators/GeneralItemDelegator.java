@@ -25,6 +25,7 @@ import org.celstec.arlearn2.beans.dependencies.Dependency;
 import org.celstec.arlearn2.beans.game.Game;
 import org.celstec.arlearn2.beans.generalItem.GeneralItem;
 import org.celstec.arlearn2.beans.generalItem.GeneralItemList;
+import org.celstec.arlearn2.beans.generalItem.NarratorItem;
 import org.celstec.arlearn2.beans.generalItem.PickupItem;
 import org.celstec.arlearn2.beans.notification.GeneralItemModification;
 import org.celstec.arlearn2.beans.run.Action;
@@ -74,6 +75,15 @@ public class GeneralItemDelegator extends DependencyDelegator {
             GeneralItemVisibilityManager.delete(null, gi.getId(), null, null);
         }
         return gi;
+    }
+
+    public GeneralItem createDummyItem(Long gameId) {
+        NarratorItem item = new NarratorItem();
+        item.setName("dummy");
+        item.setDeleted(true);
+        item.setGameId(gameId);
+        GeneralItemManager.addGeneralItem(item);
+        return item;
     }
 
     public void deleteGeneralItems(long gameId) {
@@ -406,23 +416,6 @@ public class GeneralItemDelegator extends DependencyDelegator {
     }
 
     public GeneralItemList search(String searchQuery) {
-        try {
-            Results<ScoredDocument> results = getIndex().search(searchQuery);
-            GeneralItemList resultsList = new GeneralItemList();
-            for (ScoredDocument document : results) {
-                GeneralItem gi = new GeneralItem();
-                gi.setName(document.getFields("title").iterator().next().getText());
-                gi.setGameId(document.getFields("gameId").iterator().next().getNumber().longValue());
-                gi.setId(document.getFields("generalItemId").iterator().next().getNumber().longValue());
-
-                resultsList.addGeneralItem(gi);
-            }
-            return resultsList;
-        } catch (SearchException e) {
-            if (StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
-                // retry
-            }
-        }
         return null;
     }
 
@@ -430,4 +423,7 @@ public class GeneralItemDelegator extends DependencyDelegator {
         IndexSpec indexSpec = IndexSpec.newBuilder().setName("generalItem_index").build();
         return SearchServiceFactory.getSearchService().getIndex(indexSpec);
     }
+
+
+
 }

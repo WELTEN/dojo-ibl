@@ -63,16 +63,29 @@ public abstract class GeneralItemWindow extends Window {
 		createButtonLayout(toggleHtml, submitButton);
 
 		addItem(editor);
-		
-		Canvas extensions = getMetadataExtensions();
-		if (extensions != null) {
-			addItem(extensions);
-		}
-		addItem(buttonLayout);
+
+        GeneralItemsClient.getInstance().createDummyItem(game.getGameId(),  new JsonCallback(){
+            public void onJsonReceived(JSONValue jsonValue) {
+                GeneralItem gi = GeneralItem.createObject
+                        (jsonValue.isObject());
+                Canvas extensions = getMetadataExtensions(gi);
+                if (extensions != null) {
+                    addItem(extensions);
+                }
+                addItem(buttonLayout);
+            }
+
+        });
+
+
 
 	}
+
+    protected Canvas getMetadataExtensions() {
+        return null;
+    }
 	
-	protected Canvas getMetadataExtensions() {
+	protected Canvas getMetadataExtensions(GeneralItem gi ) {
 		return null;
 	}
 

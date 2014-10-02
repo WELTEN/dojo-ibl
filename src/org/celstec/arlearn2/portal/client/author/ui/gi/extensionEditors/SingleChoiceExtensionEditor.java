@@ -24,8 +24,11 @@ public class SingleChoiceExtensionEditor  extends VStack implements ExtensionEdi
 	private static GeneralItemConstants constants = GWT.create(GeneralItemConstants.class);
 
 	protected  ArrayList<AnswerForm> forms = new ArrayList<AnswerForm>();
-	
 
+    private GeneralItem generalItem;
+    public void setGeneralItem(GeneralItem generalItem) {
+        this.generalItem = generalItem;
+    }
 	
 	public SingleChoiceExtensionEditor() {
         setOverflow(Overflow.AUTO);

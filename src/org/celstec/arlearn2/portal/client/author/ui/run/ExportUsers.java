@@ -55,6 +55,7 @@ public class ExportUsers extends Window {
         HLayout hLayout = new HLayout(10);
         hLayout.addMember(getFrom());
         hLayout.addMember(getTo());
+        setTitle("Export Users");
         setWidth(500);
         setHeight(300);
         addItem(hLayout);

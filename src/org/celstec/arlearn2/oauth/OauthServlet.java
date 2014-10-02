@@ -34,6 +34,7 @@ public class OauthServlet  extends HttpServlet {
 	private static final String LINKEDIN = "linkedin";
     private static final String TWITTER = "twitter";
     private static final String WESPOT = "wespot";
+    private static final String ECO = "eco";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -72,6 +73,8 @@ public class OauthServlet  extends HttpServlet {
             }
         } else if (req.getPathInfo().contains(WESPOT)) {
             worker = new OauthWespotWorker();
+        } else if (req.getPathInfo().contains(ECO)) {
+            worker = new OauthEcoWorker();
         }
 		if (worker != null) {
 			worker.setBaseUrl(baseUrl);

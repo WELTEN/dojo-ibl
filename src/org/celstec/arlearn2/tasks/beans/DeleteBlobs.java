@@ -70,7 +70,7 @@ public class DeleteBlobs extends GenericBean {
 	public void run() {
 		BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		for (Iterator<FilePathJDO> iterator = FilePathManager.getFilePathJDOs(pm, getFullAccount(), getRunId(), null).iterator(); iterator.hasNext();) {               //TODO check if this deletion works and iff fullAccount is not an email but 1:123
+		for (Iterator<FilePathJDO> iterator = FilePathManager.getFilePathJDOs(pm, getFullAccount(), getRunId(), null, null).iterator(); iterator.hasNext();) {               //TODO check if this deletion works and iff fullAccount is not an email but 1:123
 			FilePathJDO fpjdo = (FilePathJDO) iterator.next();
 			try {
 				blobstoreService.delete(fpjdo.getBlobKey());

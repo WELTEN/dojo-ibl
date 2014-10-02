@@ -8,4 +8,5 @@ public interface ExtensionEditor {
 	public void saveToBean(GeneralItem gi);
 	public boolean validate();
 
+    public void setGeneralItem(GeneralItem gi);
 }

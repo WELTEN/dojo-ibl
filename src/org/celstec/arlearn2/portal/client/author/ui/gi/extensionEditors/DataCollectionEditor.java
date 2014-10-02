@@ -19,7 +19,10 @@ import com.smartgwt.client.widgets.layout.VLayout;
 
 public class DataCollectionEditor extends VLayout implements ExtensionEditor{
 	private static GeneralItemConstants constants = GWT.create(GeneralItemConstants.class);
-
+    private GeneralItem generalItem;
+    public void setGeneralItem(GeneralItem generalItem) {
+        this.generalItem = generalItem;
+    }
 	protected DynamicForm form;
 	private CheckboxItem openQuestionCBItem ;
 	private CheckboxItem openQuestionWithImageCBItem ;

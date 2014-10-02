@@ -29,8 +29,8 @@ public class AudioObjectWindow extends GeneralItemWindow {
 		return returnObject;
 	}
 	
-	protected Canvas getMetadataExtensions() {
-		editor = new AudioExtensionEditor();
+	protected Canvas getMetadataExtensions(GeneralItem gi) {
+		editor = new AudioExtensionEditor(gi);
 		return editor;
 	}
 	

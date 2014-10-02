@@ -1,11 +1,4 @@
-package org.celstec.arlearn2.portal.client.htmlDisplay;
-
-import com.smartgwt.client.widgets.Canvas;
-import org.celstec.arlearn2.gwtcommonlib.client.objects.Account;
-import org.celstec.arlearn2.gwtcommonlib.client.objects.Action;
-import org.celstec.arlearn2.gwtcommonlib.client.objects.Response;
-
-import java.util.HashMap;
+package org.celstec.arlearn2.gwtcommonlib.client.auth;
 
 /**
  * ****************************************************************************
@@ -27,18 +20,18 @@ import java.util.HashMap;
  * Contributors: Stefaan Ternier
  * ****************************************************************************
  */
-public abstract class GeneralItemDisplay {
+public class OauthECO extends OauthClient {
 
-    protected HashMap<String, Account> accountMap = new HashMap<String, Account>();
+    private static  String client_id_eco ;
+    private static  String redirect_uri ;
 
-    public abstract Canvas getCanvas();
-    public abstract void handleResponse(Response response);
-    public abstract void handleAction(Action action);
-
-    public void putAccount(Account account) {
-        accountMap.put(account.getFullId(), account);
+    public static void init(String clientId, String redirectUri) {
+        client_id_eco = clientId;
+        redirect_uri = redirectUri;
     }
 
-
-    public abstract void exportMethod();
+    public String getLoginRedirectURL() {
+        return "http://ecoidp.test.reimeritsolutions.nl/authorize?response_type=code&scope=openid+profile+email&" +
+                "client_id="+client_id_eco+"&redirect_uri="+redirect_uri;
+    }
 }

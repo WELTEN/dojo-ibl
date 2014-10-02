@@ -146,6 +146,8 @@ public abstract class GeneralItem extends Bean {
 			return new MozillaOpenBadge(object);
 		} else if (type.equals (ObjectCollectionDisplay.TYPE)) {
             return new ObjectCollectionDisplay(object);
+        } else if (type.equals (MatrixCollectionDisplay.TYPE)) {
+            return new MatrixCollectionDisplay(object);
         }
 		return null;
 	}

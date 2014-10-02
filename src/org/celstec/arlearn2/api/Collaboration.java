@@ -90,8 +90,8 @@ public class Collaboration extends Service {
 			@DefaultValue("application/json") @HeaderParam("Accept") String accept,
 			@PathParam("accountId") String accountId
 			)  {
-		if (!validCredentials(token))
-			return serialise(getInvalidCredentialsBean(), accept);
+//		if (!validCredentials(token))
+//			return serialise(getInvalidCredentialsBean(), accept);
 		AccountDelegator gd = new AccountDelegator(this);
 		return serialise(gd.getContactDetails(accountId), accept);
 	}

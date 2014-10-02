@@ -5,9 +5,12 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.ui.RootPanel;
 import org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest;
+import org.celstec.arlearn2.gwtcommonlib.client.datasource.JsonResumptionListCallback;
+import org.celstec.arlearn2.gwtcommonlib.client.datasource.desktop.ActionsDataSource;
 import org.celstec.arlearn2.gwtcommonlib.client.network.JsonCallback;
 import org.celstec.arlearn2.gwtcommonlib.client.network.JsonCallbackGeneralItem;
 import org.celstec.arlearn2.gwtcommonlib.client.network.UserClient;
+import org.celstec.arlearn2.gwtcommonlib.client.network.action.ActionClient;
 import org.celstec.arlearn2.gwtcommonlib.client.network.generalItem.GeneralItemsClient;
 import org.celstec.arlearn2.gwtcommonlib.client.network.response.ResponseClient;
 import org.celstec.arlearn2.gwtcommonlib.client.notification.NotificationHandler;
@@ -86,36 +89,39 @@ public class CrsDisplay {
 
     private GeneralItemDisplay generalItemDisplay;
 
-    public static native void exportStaticMethod() /*-{
-        $wnd.showAlert =
-            $entry(@org.celstec.arlearn2.portal.client.htmlDisplay.ObjectCollectionCRSDisplay::showAlert());
-    }-*/;
+
 
     private void loadGeneralItem() {
-        exportStaticMethod();
+//        exportStaticMethod();
         GeneralItemsClient.getInstance().getGeneralItem(gameId, generalItemId, new JsonCallbackGeneralItem(){
 
             public void onGeneralItemReceived(GeneralItem gi) {
                 if (gi.getType().equals(SingleChoiceTest.TYPE)) {
                     generalItemDisplay = new SingleChoiceDisplay((SingleChoiceTest) gi);
                     SingleChoiceTest sct = (SingleChoiceTest) gi;
-                    loadResponses(runId);
+//                    loadResponses(runId);
                 } else if (gi.getType().equals(SingleChoiceImage.TYPE)) {
                     generalItemDisplay = new SingleChoiceDisplay((SingleChoiceImage) gi);
                     SingleChoiceTest sct = new SingleChoiceTest(gi.getJsonRep());
-                    loadResponses(runId);
+//                    loadResponses(runId);
 
                 } else if (gi.getType().equals(ObjectCollectionDisplay.TYPE)) {
                     generalItemDisplay = new ObjectCollectionCRSDisplay((ObjectCollectionDisplay) gi);
+//                    loadActions(runId);
+                } else if (gi.getType().equals(MatrixCollectionDisplay.TYPE)) {
+                    generalItemDisplay = new MatrixCollectionCRSDisplay((MatrixCollectionDisplay) gi);
+//                    loadActions(runId);
                 }
+                generalItemDisplay.exportMethod();
                 loadUsers(runId);
-
                 RootPanel.get("htmlDisplay").add(generalItemDisplay.getCanvas());
             }
 
 
 
         });
+
+
     }
 
 
@@ -136,10 +142,39 @@ public class CrsDisplay {
             };
         });
     }
+    protected static long lastSyncDate = 0;
+    private void loadActions(final long runId) {
+
+        JsonResumptionListCallback callback = new JsonResumptionListCallback("actions", ActionsDataSource.getInstance().getDataSourceModel(), 0l) {
+
+            @Override
+            public void nextCall() {
+                ActionClient.getInstance().getActions(runId, lastSyncDate, resumptionToken, this);
+            }
+
+//            public void onJsonReceived(JSONValue jsonValue) {
+//                if (jsonValue.isObject().containsKey("actions")) {
+//                    JSONArray array = jsonValue.isObject().get("actions").isArray();
+//                    for (int i = 0; i< array.size(); i++) {
+//                        Action action = new Action(array.get(i).isObject());
+//
+//                        generalItemDisplay.handleAction(action);
+//
+//                    }
+//                }
+//            }
+
+            public void onJsonObjectReceived(JSONObject jsonObject) {
+                Action action = new Action(jsonObject);
+
+                generalItemDisplay.handleAction(action);
+            }
+        };
+        ActionClient.getInstance().getActions(runId, lastSyncDate, null, callback);
+    }
 
 
-
-    private void loadUsers(long runId) {
+    private void loadUsers(final long runId) {
         UserClient.getInstance().getUsers(runId, new JsonCallback() {
             public void onJsonReceived(JSONValue jsonValue) {
 
@@ -152,6 +187,8 @@ public class CrsDisplay {
 
                     }
                 }
+                loadResponses(runId);
+                loadActions(runId);
 
             }
         });

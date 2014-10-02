@@ -139,39 +139,40 @@ public class GenericClient {
 	}
 
 	protected void invokeJsonDELETE(String urlPostfix, final JsonCallback jcb) {
-		RequestBuilder builder = getRequestBuilder(urlPostfix, RequestBuilder.DELETE);
-		try {
-			Request request = builder.sendRequest(null, new RequestCallback() {
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					if (200 == response.getStatusCode()) {
-						if (jcb != null) {
-							try {
-								if (response.getText().equals("")) {
-									jcb.onJsonReceived(new JSONObject());
-									return;
-								}
-								JSONValue jsonValue = JSONParser.parseLenient(response.getText());
-								if (jsonValue.isObject() != null) {
-									jcb.onJsonReceived(jsonValue);
-								}
-
-							} catch (JSONException e) {
-								jcb.onError();
-							}
-						}
-					}
-
-				}
-
-				@Override
-				public void onError(Request request, Throwable exception) {
-
-				}
-			});
-		} catch (RequestException e) {
-			jcb.onError();
-		}
+        invokeJsonDELETE(urlPostfix, null, jcb);
+//		RequestBuilder builder = getRequestBuilder(urlPostfix, RequestBuilder.DELETE);
+//		try {
+//			Request request = builder.sendRequest(null, new RequestCallback() {
+//				@Override
+//				public void onResponseReceived(Request request, Response response) {
+//					if (200 == response.getStatusCode()) {
+//						if (jcb != null) {
+//							try {
+//								if (response.getText().equals("")) {
+//									jcb.onJsonReceived(new JSONObject());
+//									return;
+//								}
+//								JSONValue jsonValue = JSONParser.parseLenient(response.getText());
+//								if (jsonValue.isObject() != null) {
+//									jcb.onJsonReceived(jsonValue);
+//								}
+//
+//							} catch (JSONException e) {
+//								jcb.onError();
+//							}
+//						}
+//					}
+//
+//				}
+//
+//				@Override
+//				public void onError(Request request, Throwable exception) {
+//
+//				}
+//			});
+//		} catch (RequestException e) {
+//			jcb.onError();
+//		}
 	}
 
 	protected void invokeJsonGETEvenIfNotAuthenticated(String urlPostfix, final JsonCallback jcb) {
@@ -239,6 +240,43 @@ public class GenericClient {
 			jcb.onError();
 		}
 	}
+
+    protected void invokeJsonDELETE(String urlPostfix, String onBehalfOf, final JsonCallback jcb) {
+        RequestBuilder builder = getRequestBuilder(urlPostfix, RequestBuilder.DELETE);
+        if (onBehalfOf != null) builder.setHeader("Authorization", onBehalfOf);
+        try {
+            Request request = builder.sendRequest(null, new RequestCallback() {
+                @Override
+                public void onResponseReceived(Request request, Response response) {
+                    if (200 == response.getStatusCode()) {
+                        if (jcb != null) {
+                            try {
+                                if (response.getText().equals("")) {
+                                    jcb.onJsonReceived(new JSONObject());
+                                    return;
+                                }
+                                JSONValue jsonValue = JSONParser.parseLenient(response.getText());
+                                if (jsonValue.isObject() != null) {
+                                    jcb.onJsonReceived(jsonValue);
+                                }
+
+                            } catch (JSONException e) {
+                                jcb.onError();
+                            }
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onError(Request request, Throwable exception) {
+
+                }
+            });
+        } catch (RequestException e) {
+            jcb.onError();
+        }
+    }
 
 	public void getItemsForRun(long runId, JsonCallback jsonCallback) {
 		invokeJsonGET(getRunUrlPostfix(runId), jsonCallback);

@@ -12,7 +12,8 @@ public class AccountManager {
 	
 	private Account account;
 	private NotifyAccountLoaded notification = null;
-	
+
+
 	private AccountManager() {
 		loadAccount();
 	}

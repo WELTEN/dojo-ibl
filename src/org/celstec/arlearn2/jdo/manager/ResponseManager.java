@@ -27,6 +27,7 @@ import java.util.Map;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import com.google.appengine.api.datastore.KeyFactory;
 import org.celstec.arlearn2.beans.run.Response;
 import org.celstec.arlearn2.beans.run.ResponseList;
 import org.celstec.arlearn2.jdo.PMF;
@@ -85,6 +86,19 @@ public class ResponseManager {
 			pm.close();
 		}
 	}
+
+    public static Response revokeResponse(Long responseId) {
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+        try {
+            ResponseJDO response = pm.getObjectById(ResponseJDO.class, KeyFactory.createKey(ResponseJDO.class.getSimpleName(), responseId));
+            response.setRevoked(true);
+            pm.makePersistent(response);
+            return toBean(response);
+        } finally {
+            pm.close();
+        }
+
+    }
 	
 	public static List<Response> getResponse(Long runId, Long generalItemId, String userEmail, Long timestamp, Boolean revoked) {
 		ArrayList<Response> returnProgressDefinitions = new ArrayList<Response>();
@@ -291,6 +305,7 @@ public class ResponseManager {
 		pd.setResponseValue(jdo.getResponseValue());
         pd.setLat(jdo.getLat());
         pd.setLng(jdo.getLng());
+        pd.setRevoked(jdo.isRevoked());
 		return pd;
 	}
 

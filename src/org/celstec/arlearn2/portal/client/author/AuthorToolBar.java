@@ -11,6 +11,7 @@ import org.celstec.arlearn2.gwtcommonlib.client.objects.Game;
 import org.celstec.arlearn2.portal.client.account.AccountManager;
 import org.celstec.arlearn2.portal.client.author.ui.game.ImportGame;
 import org.celstec.arlearn2.portal.client.author.ui.game.ManageGameFiles;
+import org.celstec.arlearn2.portal.client.author.ui.game.UploadGamePictureWindow;
 import org.celstec.arlearn2.portal.client.author.ui.run.ExportUsers;
 import org.celstec.arlearn2.portal.client.toolbar.ToolBar;
 
@@ -97,6 +98,16 @@ public class AuthorToolBar extends ToolBar {
 				});
 			}
 		});
+        MenuItem addPicture = new MenuItem("add picture - i18");
+        addPicture.addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(MenuItemClickEvent event) {
+                new UploadGamePictureWindow().show();
+            }
+        });
+
+
 		MenuItem importGame = new MenuItem(constants.importGame());
 		importGame.addClickHandler(new ClickHandler() {
 
@@ -134,7 +145,7 @@ public class AuthorToolBar extends ToolBar {
         viewSections.setSubmenu(viewSubMenu);
 
         if (AccountManager.getInstance().isAdvancedUser()) {
-            menu.setItems(gameAccess, importGame, manageFiles, viewSections);
+            menu.setItems(gameAccess, addPicture, importGame, manageFiles, viewSections);
         } else {
             menu.setItems(gameAccess);
         }

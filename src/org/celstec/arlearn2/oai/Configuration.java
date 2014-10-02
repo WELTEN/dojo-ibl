@@ -11,6 +11,6 @@ public class Configuration {
 	
 
 	public static String getBaseUrl() {
-		return "http://ar-learn.appspot.com/oai";
+		return "http://streetlearn.appspot.com/oai";
 	}
 }

@@ -18,15 +18,9 @@
  ******************************************************************************/
 package org.celstec.arlearn2.api;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.celstec.arlearn2.beans.run.Response;
@@ -131,6 +125,20 @@ public class ResponseAPI extends Service {
 			return serialise(cr.createResponse(r.getRunId(), r), accept);
 		}
 	}
+
+    @DELETE
+    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    @Path("/responseId/{responseId}")
+    public String deleteResponse(@HeaderParam("Authorization") String token,
+                                 @PathParam("responseId") Long responseId,
+                                 @DefaultValue("application/json") @HeaderParam("Accept") String accept){
+        if (!validCredentials(token))
+            return serialise(getInvalidCredentialsBean(), accept);
+        ResponseDelegator cr = new ResponseDelegator(this);
+
+        return serialise(cr.revokeResponse(responseId), accept);
+
+    }
 	
 	
 	@POST
@@ -158,17 +166,19 @@ public class ResponseAPI extends Service {
     @Path("/csv/{csvId}")
     public String generateCSV(@HeaderParam("Authorization") String token,
                               @PathParam("csvId") String csvId,
-                              @DefaultValue("application/json") @HeaderParam("Accept") String accept)  {
+                              @DefaultValue("application/json") @HeaderParam("Accept") String accept,
+                              @Context HttpServletResponse response)  {
         ResponseDelegator gid = new ResponseDelegator(token);
 //        GeneralItemDelegator gid = new GeneralItemDelegator(token);
 
         CSVEntry entry  = CSVCache.getInstance().getCSV(csvId);
         if (entry == null) {
-            return "{'error', 'entry with id "+csvId+" no (longer) exists'}";
+            return "{\"error\", \"entry with id "+csvId+" no (longer) exists\"}";
         } else {
             if (entry.getStatus() == CSVEntry.BUILDING_STATUS) {
-                return "{'error', 'build in progress'}";
+                return "{\"error\", \"build in progress\"}";
             } else {
+                response.setHeader( "Content-Disposition", "\"filename=" +csvId+".csv\"" );
                 return entry.getCSV();
             }
         }
@@ -186,9 +196,9 @@ public class ResponseAPI extends Service {
         CSVGeneration generator = new CSVGeneration(null, runIdentifier, null);
         CSVEntry entry = generator.firstIteration();
         generator.getCsvId();
-        return "{'status': "+entry.getStatus()+", " +
-                "'id':'"+generator.getCsvId()+"'," +
-                "'info':'BUILDING (1) FINISHED (2)'}";
+        return "{\"status\": "+entry.getStatus()+", " +
+                "\"id':\""+generator.getCsvId()+"'," +
+                "\"info\":\"BUILDING (1) FINISHED (2)\"}";
     }
 
 
@@ -203,8 +213,8 @@ public class ResponseAPI extends Service {
         if (entry == null) {
             return "{'error', 'entry with id "+csvId+" no (longer) exists'}";
         }
-        return "{'status': "+entry.getStatus()+", " +
-                "'id':'"+csvId+"'," +
-                "'info':'BUILDING (1) FINISHED (2)'}";
+        return "{\"status\": "+entry.getStatus()+", " +
+                "\"id\":'"+csvId+"'," +
+                "\"info\":'BUILDING (1) FINISHED (2)\"}";
     }
 }

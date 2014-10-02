@@ -38,7 +38,7 @@ public class GameClass {
 	private Long gameId;
 	
 	@Persistent
-	private Boolean deleted;
+	protected Boolean deleted;
 	
 	@Persistent
 	private Long lastModificationDate;
