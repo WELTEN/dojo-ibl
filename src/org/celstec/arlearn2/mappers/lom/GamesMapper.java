@@ -2,8 +2,13 @@ package org.celstec.arlearn2.mappers.lom;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.mapreduce.Mapper;
+import org.celstec.arlearn2.beans.account.Account;
+import org.celstec.arlearn2.beans.game.GameAccess;
+import org.celstec.arlearn2.jdo.manager.AccountManager;
+import org.celstec.arlearn2.jdo.manager.GameAccessManager;
 import org.celstec.arlearn2.jdo.manager.LomManager;
 import org.celstec.arlearn2.oai.Configuration;
+import org.jdom.CDATA;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
@@ -43,6 +48,8 @@ public class GamesMapper extends Mapper<Entity, String, String> {
             "http://www.openarchives.org/OAI/2.0/");
     private static Namespace lomNS = Namespace.getNamespace("lom",
             "http://ltsc.ieee.org/xsd/LOM");
+    private static Namespace ecoNS = Namespace.getNamespace("eco",
+            "http://www.ecolearning.eu/xsd/LOM");
     public static XMLOutputter out;
     static {
         out = new XMLOutputter();
@@ -55,9 +62,9 @@ public class GamesMapper extends Mapper<Entity, String, String> {
 
 
         String languageString = ""+ entity.getProperty("language");
+        if (languageString == null || languageString.equals("null")) languageString = "en";
 
 
-        Object property = entity.getProperty("gameId");
 
         Document lom = new Document();
         Element lomElement = new Element("lom", lomNS);
@@ -70,7 +77,7 @@ public class GamesMapper extends Mapper<Entity, String, String> {
         general.addContent(identifier);
 
         Element catalog = new Element("catalog", lomNS);
-        catalog.setText("ARLearn");
+        catalog.setText("org.celstec.arlearn2");
         identifier.addContent(catalog);
         Element entry = new Element("entry", lomNS);
         entry.setText(entity.getKey().getId()+"");
@@ -100,7 +107,15 @@ public class GamesMapper extends Mapper<Entity, String, String> {
         Element language = new Element("language", lomNS);
         language.setText(languageString);
         general.addContent(language);
+
+        Element nrOfUnits = new Element("nrOfUnits", ecoNS);
+        nrOfUnits.setText("1");
+        general.addContent(nrOfUnits);
+
+        lomElement.addContent(getLifeCyle(entity));
         lomElement.addContent(getTechnical(entity));
+        lomElement.addContent(getEducational(entity));
+
 
         String lomString =out.outputString(lom).replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
         long gameId = entity.getKey().getId();
@@ -132,6 +147,53 @@ public class GamesMapper extends Mapper<Entity, String, String> {
 
     }
 
+    private static Element getEducational(Entity entity) {
+        Element educational = new Element("educational", lomNS);
 
-    
+
+        Element typicalLearningTime = new Element("typicalLearningTime", lomNS);
+        Element duration = new Element("duration", lomNS);
+        duration.setText("PT30M");
+        typicalLearningTime.addContent(duration);
+        educational.addContent(typicalLearningTime);
+
+
+        return educational;
+
+    }
+
+    private static Element getLifeCyle(Entity entity) {
+        Element lifeCycle = new Element("lifeCycle", lomNS);
+
+        for (GameAccess access: GameAccessManager.getGameList(entity.getKey().getId())){
+            if (access.getAccessRights().equals(1) || access.getAccessRights().equals(2)) {
+                Element contribute = new Element("contribute", lomNS);
+                Element role = new Element("role", lomNS);
+
+                Element source = new Element("source", lomNS);
+                source.setText("LOMv1.0");
+                Element value = new Element("value", lomNS);
+                value.setText("author");
+                role.addContent(source);
+                role.addContent(value);
+
+                Element entityElement = new Element("entity", lomNS);
+                Account account = AccountManager.getAccount(access.getAccount());
+                CDATA cdata = new CDATA("BEGIN:VCARD\n" +
+                        "FN:" + account.getName() + "\n" +
+                        "N:" + account.getFamilyName() + ";" + account.getGivenName() + "\n" +
+                        "UID:urn:uuid:" + access.getAccount() + "\n" +
+                        "VERSION:3.0\n" +
+                        "END:VCARD");
+                entityElement.addContent(cdata);
+
+                contribute.addContent(role);
+                contribute.addContent(entityElement);
+                lifeCycle.addContent(contribute);
+            }
+        }
+
+        return lifeCycle;
+
+    }
 }

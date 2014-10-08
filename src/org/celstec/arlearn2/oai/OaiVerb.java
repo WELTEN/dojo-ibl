@@ -54,7 +54,7 @@ public abstract class OaiVerb {
 		} else {
 			returnString += "<header>";
 		}
-		returnString += "<identifier>"
+		returnString += "<identifier>oai:org.celstec.arlearn2:"
 			+ l.getGameId()
 			+ "</identifier>"
 			+ "<datestamp>"
