@@ -24,6 +24,7 @@ import org.celstec.arlearn2.beans.dependencies.ActionDependency;
 import org.celstec.arlearn2.beans.run.*;
 import org.celstec.arlearn2.delegators.progressRecord.CreateProgressRecord;
 import org.celstec.arlearn2.jdo.manager.ActionManager;
+import org.celstec.arlearn2.tasks.beans.SendToLearningLocker;
 import org.celstec.arlearn2.tasks.beans.UpdateGeneralItems;
 import org.celstec.arlearn2.tasks.beans.UpdateVariables;
 import org.celstec.arlearn2.util.ActionCache;
@@ -108,6 +109,10 @@ public class ActionDelegator extends GoogleDelegator {
         }
         System.out.println("Now also schedule the variable update!");
         (new UpdateVariables(authToken, action.getRunId(), action.getAction(), action.getUserEmail(), action.getGeneralItemId(), action.getGeneralItemType(), action.getTimestamp())).scheduleTask();
+        if (qu.getCurrentAccount().getAccountType().equals(Account.ECO)) {
+            (new SendToLearningLocker(authToken, action.getRunId(), action.getAction(), action.getUserEmail(), action.getTimestamp())).scheduleTask();
+        }
+
         return action;
     }
 
