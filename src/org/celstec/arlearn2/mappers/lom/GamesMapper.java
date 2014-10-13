@@ -115,6 +115,7 @@ public class GamesMapper extends Mapper<Entity, String, String> {
         lomElement.addContent(getLifeCyle(entity));
         lomElement.addContent(getTechnical(entity));
         lomElement.addContent(getEducational(entity));
+        lomElement.addContent(getClassification(entity));
 
 
         String lomString =out.outputString(lom).replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
@@ -194,6 +195,59 @@ public class GamesMapper extends Mapper<Entity, String, String> {
         }
 
         return lifeCycle;
+
+    }
+//    <lom:classification>
+
+//    <lom:taxonPath>
+//    <lom:source>
+//    <lom:string language="en">ECO Area of Interests</lom:string>
+//    </lom:source>
+//    <lom:taxon>
+//    <lom:id>ECO:ES</lom:id>
+//    <lom:entry>
+//    <lom:string>Educational Science</lom:string>
+//    </lom:entry>
+//    </lom:taxon>
+//    </lom:taxonPath>
+//    </lom:classification>
+
+    private static Element getClassification(Entity entity) {
+        Element classification = new Element("classification", lomNS);
+        Element purpose = new Element("purpose", lomNS);
+        Element source = new Element("source", lomNS);
+        source.setText("LOMv1.0");
+        Element value = new Element("value", lomNS);
+        value.setText("discipline");
+
+        purpose.addContent(source);
+        purpose.addContent(value);
+
+        Element taxonPath = new Element("taxonPath", lomNS);
+        Element sourceTaxon = new Element("source", lomNS);
+        Element sourceLangstring = new Element("string", lomNS);
+        sourceLangstring.setAttribute("language", "en");
+        sourceLangstring.setText("ECO Area of Interests");
+
+        Element taxon = new Element("taxon", lomNS);
+        Element id = new Element("id", lomNS);
+        id.setText("ECO:ES");
+        Element entry = new Element("entry", lomNS);
+        Element taxonstring = new Element("string", lomNS);
+        taxonstring.setText("Educational Science");
+
+        taxon.addContent(id);
+        taxon.addContent(entry);
+        entry.addContent(taxonstring);
+        taxonPath.addContent(sourceTaxon);
+        taxonPath.addContent(taxon);
+        sourceTaxon.addContent(sourceLangstring);
+
+        classification.addContent(purpose);
+        classification.addContent(taxonPath);
+
+
+        return classification;
 
     }
 }
