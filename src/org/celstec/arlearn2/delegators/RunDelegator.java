@@ -124,6 +124,30 @@ public class RunDelegator extends GoogleDelegator {
         return rl;
     }
 
+    public RunList getRuns(String accountId) {
+        UsersDelegator qu = new UsersDelegator(this);
+
+        // TODO migrate this method to UserQuery
+        // TODO add this to cache
+        // TODO migrate RunsCache
+        Iterator<User> it = UserManager.getUserList(null, accountId, null, null).iterator();
+        RunList rl = new RunList();
+        while (it.hasNext()) {
+            User user = (User) it.next();
+            Run r = getRun(user.getRunId());
+            if (r != null) {
+                if (r.getDeleted() == null || r.getDeleted() == false) r.setDeleted(user.getDeleted());
+                rl.addRun(r);
+            } else {
+                logger.severe("following run does not exist" + user.getRunId());
+
+            }
+        }
+        rl.setServerTime(System.currentTimeMillis());
+
+        return rl;
+    }
+
     public RunList getParticipateRuns(Long from, Long until) {
         UsersDelegator qu = new UsersDelegator(this);
         String myAccount = qu.getCurrentUserAccount();

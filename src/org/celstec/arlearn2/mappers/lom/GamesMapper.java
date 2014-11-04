@@ -127,6 +127,9 @@ public class GamesMapper extends Mapper<Entity, String, String> {
         if (sharing == null || sharing.intValue() != 3) {
             deleted = true;
         }
+        if (descText == null || descText.toString().trim() == null) {
+            deleted = true;
+        }
         if (lastModificationDate == null) {
             lastModificationDate = System.currentTimeMillis();
         }
@@ -180,11 +183,11 @@ public class GamesMapper extends Mapper<Entity, String, String> {
 
                 Element entityElement = new Element("entity", lomNS);
                 Account account = AccountManager.getAccount(access.getAccount());
-                CDATA cdata = new CDATA("BEGIN:VCARD\n" +
-                        "FN:" + account.getName() + "\n" +
-                        "N:" + account.getFamilyName() + ";" + account.getGivenName() + "\n" +
-                        "UID:urn:uuid:" + access.getAccount() + "\n" +
-                        "VERSION:3.0\n" +
+                CDATA cdata = new CDATA("BEGIN:VCARD\r\n" +
+                        "FN:" + account.getName() + "\r\n" +
+                        "N:" + account.getFamilyName() + ";" + account.getGivenName() + "\r\n" +
+                        "UID:urn:uuid:" + access.getAccount() + "\r\n" +
+                        "VERSION:3.0\r\n" +
                         "END:VCARD");
                 entityElement.addContent(cdata);
 

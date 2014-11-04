@@ -4,10 +4,7 @@ import com.google.appengine.tools.mapreduce.*;
 import com.google.appengine.tools.mapreduce.inputs.DatastoreInput;
 import com.google.appengine.tools.mapreduce.outputs.InMemoryOutput;
 import org.celstec.arlearn2.beans.store.Category;
-import org.celstec.arlearn2.delegators.AccountDelegator;
-import org.celstec.arlearn2.delegators.ActionDelegator;
-import org.celstec.arlearn2.delegators.CategoryDelegator;
-import org.celstec.arlearn2.delegators.FeaturedGameDelegator;
+import org.celstec.arlearn2.delegators.*;
 import org.celstec.arlearn2.mappers.CountOutput;
 import org.celstec.arlearn2.mappers.CountReducer;
 import org.celstec.arlearn2.mappers.CountRunsMapper;
@@ -120,7 +117,7 @@ public class Store extends Service {
             @QueryParam("resumptionToken") String cursor,
             @DefaultValue("application/json") @HeaderParam("Accept") String accept){
 //        private String startStatsJob(int mapShardCount, int reduceShardCount) {
-           return "";
+        return serialise(new TopGamesDelegator(this).getTopGames(lang), accept);
     }
 
     @GET

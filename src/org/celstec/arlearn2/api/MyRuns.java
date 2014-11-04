@@ -36,6 +36,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.beans.game.Config;
+import org.celstec.arlearn2.beans.game.Game;
 import org.celstec.arlearn2.beans.generalItem.GeneralItem;
 import org.celstec.arlearn2.beans.generalItem.GeneralItemList;
 import org.celstec.arlearn2.beans.generalItem.OpenBadge;
@@ -50,6 +51,9 @@ import org.celstec.arlearn2.delegators.RunDelegator;
 import org.celstec.arlearn2.jdo.manager.GeneralItemManager;
 import org.celstec.arlearn2.jdo.manager.RunManager;
 import org.celstec.arlearn2.jdo.manager.UserManager;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 
 @Path("/myRuns")
@@ -99,6 +103,7 @@ public class MyRuns extends Service {
 		}
 		return serialise(rd.getParticipateRuns(from, until), accept);
 	}
+
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })

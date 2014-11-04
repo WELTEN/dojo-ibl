@@ -88,6 +88,7 @@ public class MessageManager {
 
     private static List<MessageJDO> getMessages(PersistenceManager pm, Long threadId, Long runId) {
         Query query = pm.newQuery(MessageJDO.class);
+        query.setOrdering("date asc");
         Object args[] = {threadId, runId};
         query.setFilter(ManagerUtil.generateFilter(args, params, paramsNames));
         query.declareParameters(ManagerUtil.generateDeclareParameters(args, types, params, paramsNames));
@@ -101,6 +102,7 @@ public class MessageManager {
 
         try {
             Query query = pm.newQuery(MessageJDO.class);
+            query.setOrdering("date asc");
             if (cursorString != null) {
 
                 Cursor c = Cursor.fromWebSafeString(cursorString);

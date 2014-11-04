@@ -35,6 +35,15 @@ public class TopGames extends GameClass {
     @Persistent
     private Long generateTimestamp;
 
+    @Persistent
+    private Integer sharing;
+
+    @Persistent
+    private String language;
+
+    @Persistent
+    private String title;
+
     public Long getGameId() {
         return id.getId();
     }
@@ -63,5 +72,29 @@ public class TopGames extends GameClass {
 
     public void setGenerateTimestamp(Long generateTimestamp) {
         this.generateTimestamp = generateTimestamp;
+    }
+
+    public Integer getSharing() {
+        return sharing;
+    }
+
+    public void setSharing(Integer sharing) {
+        this.sharing = sharing;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

@@ -54,7 +54,7 @@ public class MessageDelegator extends GoogleDelegator {
         org.celstec.arlearn2.beans.run.Thread thread = ThreadManager.getDefaultThread(runId);
         if (thread == null) thread = new ThreadDelegator(this).getDefaultThread(runId);
         if (thread != null) {
-            return getMessagesForThread(thread.getThreadId());
+            return getMessagesForThread(thread.getThreadId(), from, until, cursor);
         }
         return null;
     }

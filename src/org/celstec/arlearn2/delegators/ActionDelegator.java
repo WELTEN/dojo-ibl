@@ -110,7 +110,7 @@ public class ActionDelegator extends GoogleDelegator {
         System.out.println("Now also schedule the variable update!");
         (new UpdateVariables(authToken, action.getRunId(), action.getAction(), action.getUserEmail(), action.getGeneralItemId(), action.getGeneralItemType(), action.getTimestamp())).scheduleTask();
         if (qu.getCurrentAccount().getAccountType().equals(Account.ECO)) {
-            (new SendToLearningLocker(authToken, action.getRunId(), action.getAction(), action.getUserEmail(), action.getTimestamp())).scheduleTask();
+            (new SendToLearningLocker(authToken, action.getRunId(), action.getAction(), action.getUserEmail(), action.getTimestamp(), run.getGame().getTitle())).scheduleTask();
         }
 
         return action;

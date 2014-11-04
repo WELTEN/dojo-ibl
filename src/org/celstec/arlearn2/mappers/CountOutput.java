@@ -10,6 +10,8 @@ import com.google.appengine.tools.mapreduce.OutputWriter;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import org.celstec.arlearn2.beans.game.Game;
+import org.celstec.arlearn2.jdo.manager.GameManager;
 import org.celstec.arlearn2.jdo.manager.TopGamesManager;
 
 import java.io.IOException;
@@ -57,7 +59,9 @@ public class CountOutput extends Output<KeyValue<String, Long>, List<List<KeyVal
         @Override
         public void write(KeyValue<String, Long> value) {
             Preconditions.checkState(!closed, "%s: Already closed", this);
-            TopGamesManager.addGame(Long.parseLong(value.getKey()), value.getValue());
+            Long gameId = Long.parseLong(value.getKey());
+            Game game = GameManager.getGame(gameId);
+            TopGamesManager.addGame(gameId, value.getValue(), game);
 //            accu.add(value);
         }
 

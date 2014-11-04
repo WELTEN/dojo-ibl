@@ -44,21 +44,27 @@ public class OaiServlet extends HttpServlet {
         OaiParameters op = new OaiParameters(req);
         String verb = req.getParameter("verb");
         Document feed = null;
-        if (op.isIdentify()) {
-            resp.getWriter().write(Identify.getXmlAsString(op));
-        } else if (op.isListRecords()) {
-            resp.getWriter().write(ListRecords.getXmlAsString(op));
-        } else if (op.isListMetadataFormats()) {
-            resp.getWriter().write(ListMetadataFormats.getXmlAsString(op));
-        } else if (op.isListIdentifiers()) {
-            resp.getWriter().write(ListIdentifiers.getXmlAsString(op));
-        } else if (op.isGetRecord()) {
-            resp.getWriter().write(GetRecord.getXmlAsString(op));
+        if (verb != null) {
+            if (op.isIdentify()) {
+                resp.getWriter().write(Identify.getXmlAsString(op));
+            } else if (op.isListRecords()) {
+                resp.getWriter().write(ListRecords.getXmlAsString(op));
+            } else if (op.isListMetadataFormats()) {
+                resp.getWriter().write(ListMetadataFormats.getXmlAsString(op));
+            } else if (op.isListIdentifiers()) {
+                resp.getWriter().write(ListIdentifiers.getXmlAsString(op));
+            } else if (op.isGetRecord()) {
+                resp.getWriter().write(GetRecord.getXmlAsString(op));
 
-        }
+            }
 
-        if (feed != null) {
-            resp.getWriter().write(out.outputString(feed));
+            if (feed != null) {
+                resp.getWriter().write(out.outputString(feed));
+            }
+        } else {
+            if (req.getPathInfo().contains("resolve/")) {
+                resp.sendRedirect("https://play.google.com/store/apps/details?id=org.celstec.arlearn2.android");
+            }
         }
     }
 }

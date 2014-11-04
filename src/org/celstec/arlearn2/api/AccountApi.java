@@ -6,6 +6,8 @@ import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.delegators.AccountDelegator;
 import org.celstec.arlearn2.jdo.UserLoggedInManager;
 import org.celstec.arlearn2.jdo.manager.AccountManager;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -83,7 +85,7 @@ public class AccountApi extends Service {
 			) {
 		if (!validCredentials(token))
 			return serialise(getInvalidCredentialsBean(), accept);
-		
+
 		AccountDelegator ad = new AccountDelegator(this);
 		String myAccount = UserLoggedInManager.getUser(token);
 		if (myAccount == null) {

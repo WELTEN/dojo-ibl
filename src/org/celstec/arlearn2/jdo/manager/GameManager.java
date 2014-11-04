@@ -145,6 +145,15 @@ public class GameManager {
 		return ((List<GameJDO>) query.executeWithArray(ManagerUtil.filterOutNulls(args)));
 	}
 
+    public static Game getGame(Long gameId){
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+        try{
+            return toBean(pm.getObjectById(GameJDO.class, KeyFactory.createKey(GameJDO.class.getSimpleName(), gameId)));
+        } finally {
+            pm.close();
+        }
+    }
+
 	public static List<Game> getGames(String email, Long from, Long until) {
 		ArrayList<Game> returnProgressDefinitions = new ArrayList<Game>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
