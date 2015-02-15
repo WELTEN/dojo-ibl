@@ -1,0 +1,11 @@
+.DS_Store
+/.idea
+/.idea/*
+/lib
+/libs
+/out
+*.iml
+arlearn.gae.iml
+.settings
+bin/*
+
