@@ -34,6 +34,11 @@ public class VideoObjectWindow extends GeneralItemWindow {
 		editor = new VideoObjectEditor();
 		return editor;
 	}
+
+    protected Canvas getMetadataExtensions(GeneralItem gi) {
+        editor = new VideoObjectEditor(gi);
+        return editor;
+    }
 	
 	public boolean validate() {
 		return super.validate() && editor.validate();

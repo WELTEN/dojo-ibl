@@ -38,6 +38,9 @@ public class GameAverageRating {
     @Persistent
     protected Double averageRating;
 
+    @Persistent
+    protected Long amount;
+
     public void setGameId(long gameId){
         setGameId(KeyFactory.createKey(GameAverageRating.class.getSimpleName(), gameId));
     }
@@ -56,5 +59,13 @@ public class GameAverageRating {
 
     public void setGameId(Key gameId) {
         this.gameId = gameId;
+    }
+
+    public Long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
     }
 }

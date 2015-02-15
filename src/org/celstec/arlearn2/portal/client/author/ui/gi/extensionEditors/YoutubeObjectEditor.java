@@ -53,7 +53,7 @@ public class YoutubeObjectEditor extends VLayout implements ExtensionEditor{
 	public YoutubeObjectEditor(GeneralItem gi) {
 		this();
         String youUrl = gi.getValueAsString(YoutubeObject.YOUTUBE_URL);
-		form.setValue(YoutubeObject.YOUTUBE_URL, youUrl.substring(youUrl.indexOf("=")+1));
+		if (youUrl != null)form.setValue(YoutubeObject.YOUTUBE_URL, youUrl.substring(youUrl.indexOf("=")+1));
 	}
 
 //	public void writeMetadataToObject(GeneralItem gi) {

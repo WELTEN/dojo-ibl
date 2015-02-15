@@ -42,7 +42,7 @@ public class RatingOutput extends Output<KeyValue<String, Rating>, List<List<Key
 //            LomManager.addGame(gameId, lomString);
             System.out.println("about to write "+gameId + " lom : "+lomString.getAmoutOfRatings() +" "+lomString.getTotalRating());
             double averageRating = ((double) lomString.getTotalRating()) / ((double) lomString.getAmoutOfRatings());
-            GameAverageRatingManager.createRating(gameId, averageRating);
+            GameAverageRatingManager.createRating(gameId, averageRating, lomString.getAmoutOfRatings());
         }
 
         @Override

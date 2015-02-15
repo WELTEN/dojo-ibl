@@ -91,6 +91,7 @@ public class ResponseManager {
         PersistenceManager pm = PMF.get().getPersistenceManager();
         try {
             ResponseJDO response = pm.getObjectById(ResponseJDO.class, KeyFactory.createKey(ResponseJDO.class.getSimpleName(), responseId));
+            response.setLastModificationDate(System.currentTimeMillis());
             response.setRevoked(true);
             pm.makePersistent(response);
             return toBean(response);
@@ -306,6 +307,7 @@ public class ResponseManager {
         pd.setLat(jdo.getLat());
         pd.setLng(jdo.getLng());
         pd.setRevoked(jdo.isRevoked());
+        pd.setLastModificationDate(jdo.getLastModificationDate());
 		return pd;
 	}
 

@@ -143,10 +143,18 @@ public class MyRuns extends Service {
 	public String getRun(@HeaderParam("Authorization") String token, 
 			@PathParam("runIdentifier") Long runIdentifier,
 			@DefaultValue("application/json") @HeaderParam("Accept") String accept)  {
-		if (!validCredentials(token))
-			return serialise(getInvalidCredentialsBean(), accept);
+
 		RunDelegator rd = new RunDelegator(this);
-		return serialise(rd.getRun(runIdentifier), accept);
+        Run r = rd.getRun(runIdentifier);
+        if (r.getRunConfig()!= null &&r.getRunConfig().getSelfRegistration()!=null) {
+            if (r.getRunConfig().getSelfRegistration()) {
+                return serialise(r, accept);
+            }
+        }
+        if (!validCredentials(token))
+            return serialise(getInvalidCredentialsBean(), accept);
+
+        return serialise(r, accept);
 	}
 	
 	
@@ -163,18 +171,18 @@ public class MyRuns extends Service {
 		return serialise(c, accept);
 	}
 	
-	@GET
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	@Path("/selfRegister/tagId/{tagId}")
-	public String selfRegister(@HeaderParam("Authorization") String token, 
-			@PathParam("tagId") String tagId, 
-			@DefaultValue("application/json") @HeaderParam("Accept") String accept)  {
-
-		if (!validCredentials(token))
-			return serialise(getInvalidCredentialsBean(), accept);
-		RunDelegator rd = new RunDelegator(this);
-		return serialise(rd.selfRegister(tagId), accept);
-	}
+//	@GET
+//	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+//	@Path("/selfRegister/tagId/{tagId}")
+//	public String selfRegister(@HeaderParam("Authorization") String token,
+//			@PathParam("tagId") String tagId,
+//			@DefaultValue("application/json") @HeaderParam("Accept") String accept)  {
+//
+//		if (!validCredentials(token))
+//			return serialise(getInvalidCredentialsBean(), accept);
+//		RunDelegator rd = new RunDelegator(this);
+//		return serialise(rd.selfRegister(tagId), accept);
+//	}
 	
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })

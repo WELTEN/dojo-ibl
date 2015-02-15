@@ -114,6 +114,14 @@ public class GameClient extends GenericClient {
     public void getPictureUrl(long gameId, JsonCallback jsonCallback) {
         invokeJsonGET("/pictureUrl/gameId/"+gameId, jsonCallback);
     }
+
+    public void getHeaderUrl(long gameId, JsonCallback jsonCallback) {
+        invokeJsonGET("/headerUrl/gameId/"+gameId, jsonCallback);
+    }
+
+    public void getSplashUrl(long gameId, JsonCallback jsonCallback) {
+        invokeJsonGET("/splashUrl/gameId/"+gameId, jsonCallback);
+    }
 	
 	public void search(String query, JsonCallback jsonCallback) {
 		invokeJsonPOST("/search", query, jsonCallback);

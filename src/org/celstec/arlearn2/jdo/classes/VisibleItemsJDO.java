@@ -26,7 +26,7 @@ public class VisibleItemsJDO extends RunClass {
 
 	@Persistent
     private Long generalItemId;
-	
+
 	@Persistent
     private String email;
 

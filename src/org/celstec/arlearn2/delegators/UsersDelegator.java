@@ -107,7 +107,7 @@ public class UsersDelegator extends GoogleDelegator {
         UsersCache.getInstance().removeUser(u.getRunId()); // removing because
         // user might be
         // cached in a team
-        u.setEmail(User.normalizeEmail(u.getEmail()));
+//        u.setEmail(User.normalizeEmail(u.getEmail()));
 
         UserManager.deleteUser(u.getRunId(), u.getEmail());
 

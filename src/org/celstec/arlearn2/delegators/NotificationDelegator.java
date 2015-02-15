@@ -127,7 +127,7 @@ public class NotificationDelegator extends GoogleDelegator {
     private void sendGCMNotification(String account, HashMap<String, Object> valueMap) {
         for (DeviceDescription deviceDesc : GCMDevicesRegistryManager.getDeviceTokens(account)) {
             GCMDeviceDescription gcmDesc = (GCMDeviceDescription) deviceDesc;
-            sendGCMNotificationAsJson(account, gcmDesc.getRegistrationId(), valueMap);
+            sendGCMNotificationAsJson(account, gcmDesc.getRegistrationId(), valueMap, gcmDesc.getPackageIdentifier());
         }
 
     }
@@ -139,10 +139,12 @@ public class NotificationDelegator extends GoogleDelegator {
 
     private static final Logger log = Logger.getLogger(NotificationDelegator.class.getName());
 
-    public void sendGCMNotificationAsJson(String account, String registrationId, HashMap<String, Object> valueMap) {
-        log.log(Level.WARNING, "gcm key " + ConfigurationManager.getValue(GCM_KEY));
+    public void sendGCMNotificationAsJson(String account, String registrationId, HashMap<String, Object> valueMap, String packageIdentifier) {
+        if (packageIdentifier == null || "".equals(packageIdentifier)) return;
+        log.log(Level.WARNING, "gcm key " + ConfigurationManager.getValue(GCM_KEY+packageIdentifier));
+        log.log(Level.WARNING, "packageIdentifier " + packageIdentifier);
         log.log(Level.WARNING, "regId " + registrationId);
-        Sender sender = new Sender(ConfigurationManager.getValue(GCM_KEY));
+        Sender sender = new Sender(ConfigurationManager.getValue(GCM_KEY+packageIdentifier));
         Message.Builder builder = new Message.Builder();
         for (Map.Entry<String, Object> entry : valueMap.entrySet()) {
             builder.addData(entry.getKey(), "" + entry.getValue());

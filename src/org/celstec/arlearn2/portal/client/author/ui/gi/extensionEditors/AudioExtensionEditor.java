@@ -41,6 +41,8 @@ public class AudioExtensionEditor  extends VLayout implements ExtensionEditor{
         final CheckboxItem autoPlay = new CheckboxItem(AudioObject.AUTO_PLAY, constants.autoPlayAudio());
         final TextItem md5Text = new TextItem(AudioObject.MD5_HASH, "MD5 Hash");
         md5Text.setWidth("100%");
+
+
         if (editing && AccountManager.getInstance().isAdvancedUser()) {
             form.setFields(audioFeedText,autoPlay, md5Text);
         } else {

@@ -31,7 +31,7 @@ public class OauthECO extends OauthClient {
     }
 
     public String getLoginRedirectURL() {
-        return "http://ecoidp.test.reimeritsolutions.nl/authorize?response_type=code&scope=openid+profile+email&" +
+        return "http://idp.ecolearning.eu/authorize?response_type=code&scope=openid+profile+email&" +
                 "client_id="+client_id_eco+"&redirect_uri="+redirect_uri;
     }
 }

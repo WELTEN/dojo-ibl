@@ -196,6 +196,27 @@ public class GamesMapper extends Mapper<Entity, String, String> {
                 lifeCycle.addContent(contribute);
             }
         }
+        Element contribute = new Element("contribute", lomNS);
+        Element role = new Element("role", lomNS);
+
+        Element source = new Element("source", lomNS);
+        source.setText("LOMv1.0");
+        Element value = new Element("value", lomNS);
+        value.setText("content provider");
+        role.addContent(source);
+        role.addContent(value);
+
+        Element entityElement = new Element("entity", lomNS);
+//        Account account = AccountManager.getAccount(access.getAccount());
+        CDATA cdata = new CDATA("BEGIN:VCARD\r\n" +
+                "ORG: Open Universiteit Nederland"  + "\r\n" +
+                "VERSION:3.0\r\n" +
+                "END:VCARD");
+        entityElement.addContent(cdata);
+
+        contribute.addContent(role);
+        contribute.addContent(entityElement);
+        lifeCycle.addContent(contribute);
 
         return lifeCycle;
 

@@ -43,6 +43,7 @@ public class CollaboratorsConfig extends SectionConfig {
 		super(constants.addCollaborators());
 		VLayout collabLayout = new VLayout();
 //		collabLayout.setWidth(200);
+
 		
 		HStack layout = new HStack();
 		LayoutSpacer vSpacer = new LayoutSpacer();

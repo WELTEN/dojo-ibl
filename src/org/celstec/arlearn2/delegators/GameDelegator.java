@@ -571,6 +571,10 @@ public class GameDelegator extends GoogleDelegator {
         return RatingManager.createRating(gameId, account.getAccountType(), account.getLocalId(), rating);
     }
 
+    public Rating getRating(long gameId) {
+        return GameAverageRatingManager.getAverageRatingBean(gameId);
+    }
+
     public GameFileList getGameContentDescription(Long gameId) {
         return FilePathManager.getFilePathJDOs(null, null, gameId, null);
     }

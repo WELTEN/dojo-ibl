@@ -42,6 +42,7 @@ import org.celstec.arlearn2.beans.game.MapRegion;
 import org.celstec.arlearn2.beans.notification.GameModification;
 import org.celstec.arlearn2.delegators.GameAccessDelegator;
 import org.celstec.arlearn2.delegators.GameDelegator;
+import org.celstec.arlearn2.delegators.MigrationDelegator;
 import org.celstec.arlearn2.gwtcommonlib.client.objects.Account;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -457,6 +458,18 @@ public class MyGames extends Service {
         return serialise(qg.rateGame(gameId, rating, getAccount()), accept);
     }
 
+
+    @GET
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("/rate/gameId/{gameId}")
+    public String rateGame(@HeaderParam("Authorization") String token,
+                           @PathParam("gameId") Long gameId,
+                           @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+                           @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+        GameDelegator qg = new GameDelegator(token);
+        return serialise(qg.getRating(gameId), accept);
+    }
+
     @GET
     @Consumes({ MediaType.APPLICATION_JSON })
     @Path("/pictureUrl/gameId/{gameId}")
@@ -473,6 +486,34 @@ public class MyGames extends Service {
 
     @GET
     @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("/headerUrl/gameId/{gameId}")
+    public String getHeaderUploadUrl(@HeaderParam("Authorization") String token,
+                                      @PathParam("gameId") Long gameId,
+                                      @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+                                      @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+        if (!validCredentials(token))
+            return serialise(getInvalidCredentialsBean(), accept);
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        String url = blobstoreService.createUploadUrl("/uploadGameContent/gameMessagesHeader" + "?gameId=" + gameId);
+        return "{ 'uploadUrl': '"+url+"'}";
+    }
+
+    @GET
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("/splashUrl/gameId/{gameId}")
+    public String getSplashUploadUrl(@HeaderParam("Authorization") String token,
+                                      @PathParam("gameId") Long gameId,
+                                      @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+                                      @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+        if (!validCredentials(token))
+            return serialise(getInvalidCredentialsBean(), accept);
+        BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+        String url = blobstoreService.createUploadUrl("/uploadGameContent/gameSplashScreen" + "?gameId=" + gameId);
+        return "{ 'uploadUrl': '"+url+"'}";
+    }
+
+    @GET
+    @Consumes({ MediaType.APPLICATION_JSON })
     @Path("/gameContent/gameId/{gameId}")
     public String getGameContent(@HeaderParam("Authorization") String token,
                                       @PathParam("gameId") Long gameId,
@@ -483,5 +524,18 @@ public class MyGames extends Service {
         GameDelegator gameDelegator = new GameDelegator(token);
         return serialise(gameDelegator.getGameContentDescription(gameId), accept);
     }
-	
+
+
+    @GET
+    @Consumes({ MediaType.APPLICATION_JSON })
+    @Path("/migrate/gameId/{gameId}")
+    public String migrate(@HeaderParam("Authorization") String token,
+                                 @PathParam("gameId") Long gameId,
+                                 @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+                                 @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+        if (!validCredentials(token))
+            return serialise(getInvalidCredentialsBean(), accept);
+        MigrationDelegator gameDelegator = new MigrationDelegator(token);
+        return gameDelegator.migrateGame(gameId);
+    }
 }

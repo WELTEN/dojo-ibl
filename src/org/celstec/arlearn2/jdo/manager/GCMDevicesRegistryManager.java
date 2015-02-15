@@ -20,6 +20,7 @@ public class GCMDevicesRegistryManager {
 		jdo.setAccount(deviceDes.getAccount());
 		jdo.setRegistrationId(deviceDes.getRegistrationId());
 		jdo.setDeviceId(deviceDes.getDeviceUniqueIdentifier());
+        jdo.setPackageIdentifier(deviceDes.getPackageIdentifier());
 		try {
 			pm.makePersistent(jdo);
 		} finally {
@@ -50,6 +51,7 @@ public class GCMDevicesRegistryManager {
 		GCMDeviceDescription gcmReturn = new GCMDeviceDescription();
 		gcmReturn.setAccount(jdo.getAccount());
 		gcmReturn.setRegistrationId(jdo.getRegistrationId());
+        gcmReturn.setPackageIdentifier(jdo.getPackageIdentifier());
 		return gcmReturn;
 	}
 }

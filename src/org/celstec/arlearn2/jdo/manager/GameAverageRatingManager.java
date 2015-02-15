@@ -13,11 +13,12 @@ import javax.jdo.PersistenceManager;
  */
 public class GameAverageRatingManager {
 
-    public static GameAverageRating createRating(long gameId, double rating) {
+    public static GameAverageRating createRating(long gameId, double rating, long amountOfRatings) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
         GameAverageRating averageRating = new GameAverageRating();
         averageRating.setGameId(gameId);
         averageRating.setAverageRating(rating);
+        averageRating.setAmount(amountOfRatings);
         try {
             pm.makePersistent(averageRating);
             return averageRating;
@@ -35,6 +36,7 @@ public class GameAverageRatingManager {
         Rating returnRating = new Rating();
         returnRating.setGameId(gameId);
         returnRating.setRating(rating.getAverageRating().intValue());
+        returnRating.setAmount(rating.getAmount());
         return returnRating;
     }
 }

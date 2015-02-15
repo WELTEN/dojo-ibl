@@ -1,6 +1,10 @@
 package org.celstec.arlearn2.tasks.beans;
 
 import com.sun.jersey.core.util.Base64;
+import org.celstec.arlearn2.beans.account.Account;
+import org.celstec.arlearn2.beans.generalItem.GeneralItem;
+import org.celstec.arlearn2.delegators.AccountDelegator;
+import org.celstec.arlearn2.delegators.GeneralItemDelegator;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
@@ -38,6 +42,7 @@ import java.util.logging.Logger;
 public class SendToLearningLocker extends GenericBean {
 
     private Long runId;
+    private Long itemId;
     private String action;
     private String userEmail;
     private Long timestamp;
@@ -55,13 +60,14 @@ public class SendToLearningLocker extends GenericBean {
 
     }
 
-    public SendToLearningLocker(String token, Long runId, String action, String userEmail, Long timestamp, String title) {
+    public SendToLearningLocker(String token, Long runId, String action, String userEmail, Long timestamp, String title, Long itemId) {
         super(token);
         this.runId = runId;
         this.action = action;
         this.userEmail = userEmail;
         this.timestamp = timestamp;
         this.title = title;
+        this.itemId = itemId;
     }
 
     public Long getRunId() {
@@ -70,6 +76,14 @@ public class SendToLearningLocker extends GenericBean {
 
     public void setRunId(Long runId) {
         this.runId = runId;
+    }
+
+    public Long getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
     }
 
     public String getAction() {
@@ -108,10 +122,17 @@ public class SendToLearningLocker extends GenericBean {
     public void run() {
         JSONObject lockerStatement = new JSONObject();
         try {
-            lockerStatement.put("actor", createActorStatement("Stefaan Ternier", "stefaan.ternier@gmail.com"));
+            AccountDelegator accountDelegator = new AccountDelegator("auth=" + getToken());
+            Account account = accountDelegator.getContactDetails(getUserEmail());
+            if (account != null) {
+                lockerStatement.put("actor", createActorStatement(account.getName(), account.getEmail()));
+            } else {
+                lockerStatement.put("actor", createActorStatement("Nobody", "stefaan.ternier@gmail.com"));
+            }
+
             JSONObject verb = createVerbStatement(action);
             if (verb != null) lockerStatement.put("verb", verb);
-            lockerStatement.put("object", createObjectStatement());
+            lockerStatement.put("object", createObjectStatement(action));
             lockerStatement.put("timestamp", df.format(new Date(getTimestamp())));
             lockerStatement.put("version", "1.0.1");
             if (verb != null) {
@@ -127,12 +148,11 @@ public class SendToLearningLocker extends GenericBean {
     }
 
     private void publish(JSONObject lockerStatement) {
-        System.out.println(lockerStatement);
         try {
             URL url = new URL("http://sharetec.celstec.org/learninglocker/public/data/xAPI/statements");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
-            String userCredentials = "b6320653969d79f453b748b6574b8de4085b8251:3185603aa50e6ba74e57568712a4ca6339ec5bd7";
+            String userCredentials = "3e77d217c66e25b5e75ba4dd2abe610cee967f33:0e88ec851341584b8eb8322135d039ad01e14c6d";
             String basicAuth = "Basic " + new String(new Base64().encode(userCredentials.getBytes()));
             connection.setRequestProperty("X-Experience-API-Version", "1.0.0");
             connection.setRequestProperty("Authorization", basicAuth);
@@ -170,8 +190,23 @@ public class SendToLearningLocker extends GenericBean {
             JSONObject display = new JSONObject();
             display.put("en-US", "User started run");
             verbStatement.put("display", display);
+        } else if (action.equals("read")){
+            verbStatement.put("id", "http://ou.nl/arlearn/action/read");
+            JSONObject display = new JSONObject();
+            display.put("en-US", "User read message");
+            verbStatement.put("display", display);
+        } else if (action.equals("answer_given")) {
+            verbStatement.put("id", "http://ou.nl/arlearn/action/answer_given");
+            JSONObject display = new JSONObject();
+            display.put("en-US", "User has given an answer");
+            verbStatement.put("display", display);
+        } else if (action.equals("complete")) {
+            verbStatement.put("id", "http://ou.nl/arlearn/action/complete");
+            JSONObject display = new JSONObject();
+            display.put("en-US", "User has completed listening or watching");
+            verbStatement.put("display", display);
         }
-        if (verbStatement.has("id")) {
+            if (verbStatement.has("id")) {
             return verbStatement;
         } else {
             return null;
@@ -179,16 +214,30 @@ public class SendToLearningLocker extends GenericBean {
 
     }
 
-    private JSONObject createObjectStatement() throws JSONException {
+    private JSONObject createObjectStatement(String action) throws JSONException {
         JSONObject objectStatement = new JSONObject();
-        objectStatement.put("objectType", "Activity");
-        objectStatement.put("id", "http://ou/nl/arlearn/run/"+runId);
-        JSONObject definition = new JSONObject();
-        JSONObject name = new JSONObject();
-        name.put("en-US", getTitle());
-        definition.put("name", name);
+        if (action.equals("startRun")) {
+            objectStatement.put("objectType", "Activity");
+            objectStatement.put("id", "http://ou.nl/arlearn/run/"+runId);
+            JSONObject definition = new JSONObject();
+            JSONObject name = new JSONObject();
+            name.put("en-US", getTitle());
+            definition.put("name", name);
+            objectStatement.put("definition", definition);
+        } else if (action.equals("read") || action.equals("answer_given") ||action.equals("complete")) {
+            objectStatement.put("objectType", "Activity");
+            objectStatement.put("id", "http://ou.nl/arlearn/generalItem/"+getItemId());
+            JSONObject definition = new JSONObject();
+            JSONObject name = new JSONObject();
+            GeneralItemDelegator gid = new GeneralItemDelegator("auth=" + getToken());
+            GeneralItem gi = gid.getGeneralItem(getItemId());
+            String title = "no corresponding activity";
+            if (gi != null) title = gi.getName();
+            name.put("en-US", title);
+            definition.put("name", name);
+            objectStatement.put("definition", definition);
+        }
 
-        objectStatement.put("definition", definition);
         return objectStatement;
     }
 

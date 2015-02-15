@@ -51,7 +51,7 @@ public class OauthEcoWorker extends OauthWorker {
 
     @Override
     protected String getAuthUrl(String authCode) {
-        return "http://ecoidp.test.reimeritsolutions.nl/token";
+        return "http://idp.ecolearning.eu/token";
     }
 
     public void exchangeCodeForAccessToken() {
@@ -72,7 +72,7 @@ public class OauthEcoWorker extends OauthWorker {
 
     public void saveAccount(String accessToken) {
         try {
-            JSONObject profileJson = new JSONObject(readURL(new URL("http://ecoidp.test.reimeritsolutions.nl/userinfo"), accessToken));
+            JSONObject profileJson = new JSONObject(readURL(new URL("http://idp.ecolearning.eu/userinfo"), accessToken));
             String id = "";
             String picture = "";
             String email = "";

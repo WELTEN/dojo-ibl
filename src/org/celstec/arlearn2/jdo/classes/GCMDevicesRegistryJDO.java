@@ -25,6 +25,9 @@ public class GCMDevicesRegistryJDO {
 	
 	@Persistent
 	private String deviceId;
+
+    @Persistent
+    private String packageIdentifier;
 	
 	public String getAccount() {
 		return account;
@@ -51,7 +54,13 @@ public class GCMDevicesRegistryJDO {
 	public void setRegistrationId(String registrationId) {
 		this.registrationId = registrationId;
 	}
-	
-	
+
+    public String getPackageIdentifier() {
+        return packageIdentifier;
+    }
+
+    public void setPackageIdentifier(String packageIdentifier) {
+        this.packageIdentifier = packageIdentifier;
+    }
 }
 

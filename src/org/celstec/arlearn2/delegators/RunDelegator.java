@@ -312,19 +312,19 @@ public class RunDelegator extends GoogleDelegator {
 //
 //    }
 
-    public Run selfRegister(String tagId) {
-        UsersDelegator qu = new UsersDelegator(this);
-        String myAccount = qu.getCurrentUserAccount();
-
-        List<Run> runList = RunManager.getRuns(null, null, null, null, tagId);
-        if (!runList.isEmpty()) {
-            return selfRegister(runList.get(0), myAccount);
-        } else {
-            Run run = new Run();
-            run.setError("No run with tagid " + tagId + " exists");
-            return run;
-        }
-    }
+//    public Run selfRegister(String tagId) {
+//        UsersDelegator qu = new UsersDelegator(this);
+//        String myAccount = qu.getCurrentUserAccount();
+//
+//        List<Run> runList = RunManager.getRuns(null, null, null, null, tagId);
+//        if (!runList.isEmpty()) {
+//            return selfRegister(runList.get(0), myAccount);
+//        } else {
+//            Run run = new Run();
+//            run.setError("No run with tagid " + tagId + " exists");
+//            return run;
+//        }
+//    }
 
     public RunList getTaggedRuns(String tagId) {
         RunList rl = new RunList();
@@ -333,29 +333,32 @@ public class RunDelegator extends GoogleDelegator {
     }
 
 
-    private Run selfRegister(Run run, String myAccount) {
+    private Run selfRegister(Run run) { //, String myAccount
         TeamsDelegator td = new TeamsDelegator(this);
         TeamList tl = td.getTeams(run.getRunId());
         for (Team team : tl.getTeams()) {
             if ("default".equals(team.getName())) {
-                return selfRegister(run, myAccount, team);
+                return selfRegister(run, team); //, myAccount
             }
         }
         if (!tl.getTeams().isEmpty()) {
-            return selfRegister(run, myAccount, tl.getTeams().get(0));
+            return selfRegister(run, tl.getTeams().get(0)); //, myAccount
         }
         Team team = td.createTeam(run.getRunId(), null, "default");
-        return selfRegister(run, myAccount, team);
+        return selfRegister(run,  team); //myAccount,
     }
 
-    private Run selfRegister(Run run, String myAccount, Team team) {
+    private Run selfRegister(Run run, Team team) { //, String myAccount
         UsersDelegator ud = new UsersDelegator(this);
         User u = new User();
         u.setRunId(run.getRunId());
-        u.setEmail(myAccount);
-        u.setName("anonymous");
+        u.setEmail(account.getEmail());
+        u.setName(account.getName());
         u.setTeamId(team.getTeamId());
+        u.setFullIdentifier(account.getFullId());
+        u.setGameId(run.getGameId());
         ud.selfRegister(u, run);
+
         return run;
     }
 
@@ -363,9 +366,10 @@ public class RunDelegator extends GoogleDelegator {
         UsersDelegator qu = new UsersDelegator(this);
         String myAccount = qu.getCurrentUserAccount();
 
+
         List<Run> runList = RunManager.getRuns(runId, null, null, null, null);
-        if (!runList.isEmpty() && runList.get(0).getTagId() != null) {
-            return selfRegister(runList.get(0), myAccount);
+        if (!runList.isEmpty() ) { //&& runList.get(0).getTagId() != null
+            return selfRegister(runList.get(0));
         } else {
             Run run = new Run();
             run.setError("No run with runId " + runId + " exists");

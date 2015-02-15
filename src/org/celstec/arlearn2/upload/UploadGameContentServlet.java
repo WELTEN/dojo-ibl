@@ -20,9 +20,11 @@ public class UploadGameContentServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
         String path = req.getPathInfo();
-
-        String uploadUrl = blobstoreService.createUploadUrl("/uploadGameContent" + path);
+        Long gameId = Long.parseLong(req.getParameter("gameId"));
+        String newPath = "/uploadGameContent" + path+"?gameId="+gameId;
+        String uploadUrl = blobstoreService.createUploadUrl(newPath);
         String page = "<body>";
+        page += "Example invocation: uploadGameContent/filePath?gameId=&lt;gameId&gt; + <br>";
         page += "<form action=\"" + uploadUrl + "\" method=\"post\" enctype=\"multipart/form-data\">";
         page += "<input type=\"file\" name=\"myFile\">";
         page += "<input type=\"submit\" value=\"Submit\">";
