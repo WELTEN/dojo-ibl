@@ -1,0 +1,112 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.celstec.arlearn.gae</groupId>
+    <artifactId>arlearn-gae</artifactId>
+    <packaging>jar</packaging>
+    <version>2.0.0</version>
+    <url>http://maven.apache.org</url>
+    <repositories>
+        <repository>
+            <id>gcm-server-repository</id>
+            <url>https://github.com/slorber/gcm-server-repository/raw/master/releases/</url>
+        </repository>
+    </repositories>
+    <build>
+        <finalName>SpringApp</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet-core</artifactId>
+            <version>2.16</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>nl.ou.arlearn</groupId>
+            <artifactId>java-beans</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>2.7.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.rwl</groupId>
+            <artifactId>gwt-maps</artifactId>
+            <version>3.8.0-pre1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.appengine.tools</groupId>
+            <artifactId>appengine-gcs-client</artifactId>
+            <version>0.4.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.android.gcm</groupId>
+            <artifactId>gcm-server</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.htmlparser</groupId>
+            <artifactId>htmlparser</artifactId>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.google.appengine.tools</groupId>-->
+            <!--<artifactId>appengine-mapreduce</artifactId>-->
+            <!--<version>0.8</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.twitter4j</groupId>
+            <artifactId>twitter4j-core</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.appengine.tools</groupId>
+            <artifactId>appengine-mapreduce</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zsoltsafrany</groupId>
+            <artifactId>java-apns-gae</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+    </dependencies>
+
+</project>
