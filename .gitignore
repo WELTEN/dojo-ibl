@@ -4,6 +4,7 @@
 /lib
 /libs
 /out
+/src/main/resources/apns/*
 *.iml
 arlearn.gae.iml
 .settings
