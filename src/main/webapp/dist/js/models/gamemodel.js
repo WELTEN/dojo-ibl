@@ -7,7 +7,9 @@ window.GameAccess = Backbone.Model.extend({
 
 window.Game = Backbone.Model.extend({
     initialize: function(a){
-    }
+    },
+    urlRoot: '/rest/myGames/gameId/'
+
 });
 
 window.RunAccess = Backbone.Model.extend({
@@ -88,20 +90,23 @@ window.ChannelAPI = Backbone.Model.extend({
 // Collections
 window.GameAccessCollection = Backbone.Collection.extend({
     model: GameAccess,
-    url: "/rest/myGames/gameAccess"
+    url: "/rest/myGames/gameAccess",
+    parse: function(response){
+        return response.gamesAccess;
+    }
 });
 
 window.GameCollection = Backbone.Collection.extend({
-    model: Game,
-    url: function(){
-        return "/rest/myGames/gameId/"+ this.id;
-    }
+    model: Game
 });
 
 window.GameParticipateCollection = Backbone.Collection.extend({
     model: Game,
     url: function(){
         return "/rest/myGames/participate";
+    },
+    parse: function(response){
+        return response.games;
     }
 });
 

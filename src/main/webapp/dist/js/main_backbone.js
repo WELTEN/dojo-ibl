@@ -28,17 +28,25 @@ var AppRouter = Backbone.Router.extend({
 
         $('#inquiries').html( new MainView({ }).render().el );
 
-        this.GameParticipateList = new GameParticipateCollection();
-        this.GameParticipateList.fetch({
-            beforeSend: setHeader,
-            success: successGameParticipateHandler
-        });
+        this.GameList = new GameCollection();
 
         this.GameAccessList = new GameAccessCollection();
         this.GameAccessList.fetch({
             beforeSend: setHeader,
             success: successGameHandler
         });
+
+
+        this.GameParticipateList = new GameParticipateCollection();
+        this.GameParticipateList.fetch({
+            beforeSend: setHeader,
+            success: successGameParticipateHandler
+        });
+
+
+        console.log("GameAccessList",app.GameAccessList);
+        console.log("GameParticipateList", app.GameParticipateList);
+        console.log("GameList", app.GameList);
     },
     initialRun: function(callback) {
         if (this.RunList) {
@@ -438,24 +446,25 @@ var AppRouter = Backbone.Router.extend({
 
 var successGameHandler = function(response, xhr){
     _.each(xhr.gamesAccess, function(e){
-        this.GameList = new GameCollection({ });
-        var gameId = e.gameId;
-        this.GameList.id = gameId;
-
-        this.GameList.fetch({
-            beforeSend: setHeader,
-            success: function (response, game) {
-                $('#inquiries > div > div.box-body').append( new GameListView({ model: game, v: 1 }).render().el );
-            }
-        });
+        if(app.GameList.where({ 'gameId': e.gameId }) == ""){
+            this.Game = new Game({ id: e.gameId });
+            this.Game.fetch({
+                beforeSend: setHeader,
+                success: function (response, game) {
+                    $('#inquiries > div > div.box-body').append( new GameListView({ model: game, v: 1 }).render().el );
+                }
+            });
+            app.GameList.add(this.Game);
+        }
     });
 };
 
 var successGameParticipateHandler = function(response, xhr){
     _.each(xhr.games, function(game){
-
-        //console.log(2,$('#inquiries > div > div.box-body').find( new GameListView({ model: game }).render().el ));
-        $('#inquiries > div > div.box-body').append( new GameListView({ model: game, v: 2 }).render().el );
+        if(app.GameList.where({ 'gameId': game.id }) == ""){
+            app.GameList.add(game);
+            $('#inquiries > div > div.box-body').append( new GameListView({ model: game, v: 2 }).render().el );
+        }
     });
 };
 
@@ -635,7 +644,7 @@ var successActivityHandler = function(response, xhr){
 //    });
 //};
 
-tpl.loadTemplates(['main', 'game', 'inquiry', 'run', 'user', 'user_sidebar', 'phase', 'activity', 'activity_detail','activity_details', 'inquiry_structure',
+tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry', 'run', 'user', 'user_sidebar', 'phase', 'activity', 'activity_detail','activity_details', 'inquiry_structure',
     'inquiry_sidebar', 'activityDependency', 'message', 'message_right', 'inquiry_left_sidebar','message_own', 'response',
     'message_notification', 'activity_video', 'activity_widget'], function() {
     app = new AppRouter();

@@ -76,11 +76,18 @@ window.MainView = Backbone.View.extend({
 window.GameListView = Backbone.View.extend({
     tagName:  "div",
     initialize:function (options) {
-        //console.log(options);
+        console.log(options);
 
-        //if(options.model){
+        //var variables = { search_label: options.v };
+        var data = {"data": {"title": options.v}};
+
+        if(options.v == 1){
+            this.template = _.template(tpl.get('game_teacher'));
+        }
+
+        if(options.v == 2){
             this.template = _.template(tpl.get('game'));
-        //}
+        }
 
         //if(options.model2){
         //    this.template = _.template(tpl.get('game'));
