@@ -58,11 +58,11 @@ window.Response = Backbone.Model.extend({
     },
     urlRoot: '/rest/response',
     defaults:{
-        "id":null,
         "generalItemId": 0,
         "responseValue": "",
         "runId": 0,
-        "userEmail": ""
+        "userEmail": "",
+        "lastModificationDate": 0
     }
 });
 
@@ -183,9 +183,20 @@ window.MessageCollection = Backbone.Collection.extend({
     }
 });
 
+//Users
 window.UserCollection = Backbone.Collection.extend({
     model: User,
     url: "/rest/account/accountDetails"
+});
+
+window.UserRunCollection = Backbone.Collection.extend({
+    model: User,
+    url: function(){
+        return "/rest/users/runId/"+this.runId;
+    },
+    parse: function(response){
+        return response.users;
+    }
 });
 
 window.RunByGameCollection = Backbone.Collection.extend({

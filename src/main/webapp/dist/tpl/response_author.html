@@ -1,0 +1,9 @@
+<!--<td><img src="<%= picture %>" /></td>-->
+<td><img src="<%
+    if ( picture != '') {
+        %> <%=picture%> <%
+    }else{
+        %> http://www.blogtard.com/img/5f.png <%
+    }
+    %>" /></td>
+<td><%= name %></td>

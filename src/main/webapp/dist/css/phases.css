@@ -17,3 +17,7 @@
 	width: 100%;
 	height: 383px;
 }
+
+#activity-responses td img{
+	width: 40px;
+}

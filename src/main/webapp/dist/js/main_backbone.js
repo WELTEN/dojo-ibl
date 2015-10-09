@@ -12,7 +12,6 @@ var AppRouter = Backbone.Router.extend({
     initialize: function() {
     },
     routes: {
-        "login"			: "login",
         ""			: "main",
         "inquiry/:id"	: "showInquiry",
         "inquiry/:id/phase/:phase" : "showPhase",
@@ -35,7 +34,6 @@ var AppRouter = Backbone.Router.extend({
             beforeSend: setHeader,
             success: successGameHandler
         });
-
 
         this.GameParticipateList = new GameParticipateCollection();
         this.GameParticipateList.fetch({
@@ -87,6 +85,7 @@ var AppRouter = Backbone.Router.extend({
         $.cookie("dojoibl.run", id, {expires: date, path: "/"});
 
         this.common();
+        this.loadInquiryUsers(id);
         this.initializeChannelAPI();
         this.loadChat(id);
 
@@ -128,6 +127,8 @@ var AppRouter = Backbone.Router.extend({
             });
 
         });
+
+
 
         this.RunList = new RunCollection({ });
         this.RunList.id = id;
@@ -201,6 +202,7 @@ var AppRouter = Backbone.Router.extend({
                         _self.loadPhaseActivities(_id);
                         _self.common();
                         _self.loadChat($.cookie("dojoibl.run"));
+                        _self.loadInquiryUsers($.cookie("dojoibl.run"));
                     }
                 });
             }
@@ -211,10 +213,13 @@ var AppRouter = Backbone.Router.extend({
     },
     showActivity: function(id, phase, activity){
 
-        //console.debug(id, phase, activity);
+        this.loadInquiryUsers(window.Run.global_identifier);
 
-        if ( $(".phase-master").length == 0){
+
+        if ($(".phase-master").length == 0){
             this.showPhase(id, phase);
+            console.log("show phase", $(".phase-master"));
+
         }
 
         $(".phase-master").animate({
@@ -241,10 +246,9 @@ var AppRouter = Backbone.Router.extend({
             window.Run.global_identifier = $.cookie("dojoibl.run");
         }
 
-        this.Responses = new window.ResponseCollection(),
-            view = new window.ResponseListView({
-                collection: this.Responses
-            });
+        console.log("InquiryUsers ->", app.InquiryUsers);
+
+        this.Responses = new window.ResponseCollection(), new window.ResponseListView({ collection: this.Responses, users: app.InquiryUsers });
 
         this.Responses.id = window.Run.global_identifier;
         this.Responses.itemId = activity;
@@ -441,9 +445,37 @@ var AppRouter = Backbone.Router.extend({
                 success: successActivitiesHandler
             });
         });
+    },
+    loadInquiryUsers: function(id){
+        if(!this.InquiryUsers){
+            // Load users of the Inquiry
+            this.InquiryUsers = new UserRunCollection({});
+            this.InquiryUsers.runId = id;
+            this.InquiryUsers.fetch({
+                beforeSend: setHeader,
+                success: successInquiryUsers
+            });
+        }
     }
 });
 
+var successInquiryUsers = function(response, xhr){
+    //_.each(xhr.gamesAccess, function(e){
+    //    if(app.GameList.where({ 'gameId': e.gameId }) == ""){
+    //        this.Game = new Game({ id: e.gameId });
+    //        this.Game.fetch({
+    //            beforeSend: setHeader,
+    //            success: function (response, game) {
+    //                $('#inquiries > div > div.box-body').append( new GameListView({ model: game, v: 1 }).render().el );
+    //            }
+    //        });
+    //        app.GameList.add(this.Game);
+    //    }
+    //});
+
+    console.log(xhr.users);
+
+};
 var successGameHandler = function(response, xhr){
     _.each(xhr.gamesAccess, function(e){
         if(app.GameList.where({ 'gameId': e.gameId }) == ""){
@@ -547,21 +579,10 @@ var successActivityHandler = function(response, xhr){
             var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('textarea.response').val(), runId: window.Run.global_identifier, userEmail: 0 });
             newResponse.save({}, {
                 beforeSend:setHeader,
-                success: function(r, s){
-                    console.log(s);
-
-
-
-                    //this.Responses = new Response({ id: s.responseId });
-                    ////this.Responses.id = window.Run.global_identifier;
-                    //this.Responses.fetch({
-                    //    beforeSend: setHeader,
-                    //    success: successResponsesHandler
-                    //});
+                success: function(r, new_response){
+                    app.Responses.add(new_response);
                 }
             });
-
-            //window.Responses.add(newResponse);
         }
     });
 
@@ -645,7 +666,7 @@ var successActivityHandler = function(response, xhr){
 //};
 
 tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry', 'run', 'user', 'user_sidebar', 'phase', 'activity', 'activity_detail','activity_details', 'inquiry_structure',
-    'inquiry_sidebar', 'activityDependency', 'message', 'message_right', 'inquiry_left_sidebar','message_own', 'response',
+    'inquiry_sidebar', 'activityDependency', 'message', 'message_right', 'inquiry_left_sidebar','message_own', 'response','response_author',
     'message_notification', 'activity_video', 'activity_widget'], function() {
     app = new AppRouter();
     Backbone.history.start();

@@ -363,7 +363,7 @@ window.ActivityView = Backbone.View.extend({
     tagName: 'section',
     className: 'phase-detail box box-success box-solid',
     initialize:function (xhr) {
-        console.log(xhr);
+        //console.log(xhr);
         if(xhr.model.type.indexOf("VideoObject") > -1){
             this.template = _.template(tpl.get('activity_video'));
         }else if(xhr.model.type.indexOf("OpenBadge") > -1) {
@@ -391,37 +391,29 @@ window.ActivityDepencyView = window.ActivityView.extend({
 // Responses
 window.ResponseListView = Backbone.View.extend({
     tagName: "tbody",
-    initialize: function(){
+    initialize: function(options){
         this.template = _.template(tpl.get('activity_details'));
 
         _(this).bindAll('render');
+
         this.collection.bind('add', this.render);
-        //this.model.bind('change', this.render);
-        //console.log(this.model);
+
+        this.users = options.users;
+
+        //console.log("hola", options);
+        //console.log("hola", this.users);
+
     },
-    //events: {
-    //    'click .save' : 'createResponse'
-    //},
-    //createResponse: function() {
-    //    $(".message-user").html("Saving..").show().delay(500).fadeOut();
-    //
-    //    if  ($('textarea.response').val() == ""){
-    //
-    //    }else{
-    //        var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('textarea.response').val(), runId: window.Run.global_identifier, userEmail: 0 });
-    //        newResponse.save({}, { beforeSend:setHeader });
-    //
-    //        this.collection.add(newResponse);
-    //        console.log(this.collection);
-    //    }
-    //},
     render: function(){
-        //console.log("render");
-        $('#activity-responses').append(this.template());
-        _.each(this.collection.models, function(model){
-            //console.log(model.toJSON().responseValue);
-            $('#activity-responses').append(new ResponseView({ model: model.toJSON() }).render().el);
+
+        //$('#activity-responses').append(this.template());
+
+        _.each(this.collection.models, function(response){
+            var aux = response.toJSON().userEmail.split(':');
+            var user = this.users.where({ 'localId': aux[1] });
+            $('#activity-responses').append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
         }, this);
+
         this.collection.reset();
 
         $(".form-control.input-sm.pull-right").keyup(function () {
@@ -463,11 +455,20 @@ window.ResponseListView = Backbone.View.extend({
 window.ResponseView = Backbone.View.extend({
     tagName: "tr",
     model: Response,
-    initialize: function() {
+    initialize: function(options) {
          this.template = _.template(tpl.get('response'));
+         this.template_author = _.template(tpl.get('response_author'));
+
+        this.user = options.user;
+
+        //console.log(options.user.toJSON());
     },
     render:function () {
-        $(this.el).html(this.template(this.model));
+        console.log(this.model);
+        //console.log(this.user.toJSON());
+
+        $(this.el).append(this.template_author(this.user.toJSON()));
+        $(this.el).append(this.template(this.model));
         return this;
     }
 });
