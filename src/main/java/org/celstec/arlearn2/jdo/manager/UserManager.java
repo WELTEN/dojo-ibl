@@ -18,18 +18,13 @@
  ******************************************************************************/
 package org.celstec.arlearn2.jdo.manager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-
+import com.google.appengine.api.datastore.Cursor;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
+import com.google.appengine.datanucleus.query.JDOCursorHelper;
 import org.celstec.arlearn2.beans.deserializer.json.JsonBeanDeserializer;
 import org.celstec.arlearn2.beans.game.Game;
-import org.celstec.arlearn2.beans.notification.GameModification;
 import org.celstec.arlearn2.beans.run.Run;
 import org.celstec.arlearn2.beans.run.User;
 import org.celstec.arlearn2.beans.serializer.json.JsonBeanSerialiser;
@@ -37,16 +32,14 @@ import org.celstec.arlearn2.delegators.GameDelegator;
 import org.celstec.arlearn2.delegators.GoogleDelegator;
 import org.celstec.arlearn2.delegators.NotificationDelegator;
 import org.celstec.arlearn2.delegators.RunDelegator;
-import org.celstec.arlearn2.delegators.notification.ChannelNotificator;
 import org.celstec.arlearn2.jdo.PMF;
 import org.celstec.arlearn2.jdo.classes.UserJDO;
-import com.google.appengine.datanucleus.query.JDOCursorHelper;
-;
 
-import com.google.appengine.api.datastore.Cursor;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+import java.util.*;
+
+;
 
 public class UserManager {
 
@@ -113,7 +106,7 @@ public class UserManager {
 	public static List<User> getUserList(String name, String email, String teamId, Long runId, Long gameId) {
 		ArrayList<User> returnProgressDefinitions = new ArrayList<User>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Iterator<UserJDO> it = getUsers(pm, name, email, teamId, runId, null).iterator();
+		Iterator<UserJDO> it = getUsers(pm, name, email, teamId, runId, gameId).iterator();
 		while (it.hasNext()) {
 			returnProgressDefinitions.add(toBean((UserJDO) it.next()));
 		}

@@ -18,35 +18,30 @@
  ******************************************************************************/
 package org.celstec.arlearn2.api;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
-//import org.celstec.arlearn2.beans.BeanDeserialiser;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import org.celstec.arlearn2.beans.game.Game;
 import org.celstec.arlearn2.beans.generalItem.GeneralItem;
 import org.celstec.arlearn2.beans.generalItem.GeneralItemList;
-import org.celstec.arlearn2.cache.CSVCache;
+import org.celstec.arlearn2.beans.generalItem.OpenBadge;
 import org.celstec.arlearn2.delegators.GameDelegator;
 import org.celstec.arlearn2.delegators.GeneralItemDelegator;
 import org.celstec.arlearn2.delegators.UsersDelegator;
-//import org.celstec.arlearn2.delegators.generalitems.CreateGeneralItems;
-//import org.celstec.arlearn2.delegators.generalitems.QueryGeneralItems;
 import org.celstec.arlearn2.jdo.manager.GeneralItemVisibilityManager;
 import org.celstec.arlearn2.tasks.beans.UpdateMdHash;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
+import org.jdom.Document;
+import org.jdom.input.SAXBuilder;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+//import org.celstec.arlearn2.beans.BeanDeserialiser;
+//import org.celstec.arlearn2.delegators.generalitems.CreateGeneralItems;
+//import org.celstec.arlearn2.delegators.generalitems.QueryGeneralItems;
 
 
 @Path("/generalItems")
@@ -76,6 +71,41 @@ public class GeneralItems extends Service {
                 } else {
                     return serialise(gid.getGeneralItems(gameIdentifier, from, until), accept);
                 }
+	}
+
+	@GET
+	@Produces({ MediaType.TEXT_HTML })
+	@Path("/widget/{generalItemId}")
+	public String getWidget(
+			@HeaderParam("Authorization") String token,
+			@PathParam("generalItemId") Long giIdentifier)
+
+	{
+		GeneralItemDelegator generalItemDelegator = new GeneralItemDelegator(account, token);
+		OpenBadge generalItem = (OpenBadge) generalItemDelegator.getGeneralItem(giIdentifier);
+		String urlString = generalItem.getBadgeUrl();
+		try {
+			URL url = new URL(urlString);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+			String line;
+			StringBuilder sb = new StringBuilder();
+			while ((line = reader.readLine()) != null) {
+				sb.append(line);
+
+			}
+			System.out.println(sb.toString());
+			SAXBuilder builder = new SAXBuilder();
+
+			Document document = (Document) builder.build(new ByteArrayInputStream(sb.toString().getBytes()));
+			reader.close();
+			return document.getRootElement().getChildText("Content");
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+		return "";
 	}
 
 	@POST

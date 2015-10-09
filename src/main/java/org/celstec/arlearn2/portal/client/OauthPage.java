@@ -1,24 +1,19 @@
 package org.celstec.arlearn2.portal.client;
 
-import com.smartgwt.client.data.DataSourceField;
-import com.smartgwt.client.data.fields.DataSourceTextField;
-import org.celstec.arlearn2.gwtcommonlib.client.auth.*;
-import org.celstec.arlearn2.portal.client.toolbar.ToolBar;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.smartgwt.client.data.DataSource;
+import com.smartgwt.client.data.DataSourceField;
 import com.smartgwt.client.data.Record;
 import com.smartgwt.client.types.Alignment;
-import com.smartgwt.client.util.SC;
 import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.tile.TileGrid;
 import com.smartgwt.client.widgets.tile.events.RecordClickEvent;
 import com.smartgwt.client.widgets.tile.events.RecordClickHandler;
 import com.smartgwt.client.widgets.viewer.DetailFormatter;
 import com.smartgwt.client.widgets.viewer.DetailViewerField;
+import org.celstec.arlearn2.gwtcommonlib.client.auth.*;
+import org.celstec.arlearn2.portal.client.toolbar.ToolBar;
 
 public class OauthPage {
 	ToolBar toolStrip;
@@ -63,6 +58,12 @@ public class OauthPage {
 	}
 	
 	private void createButtons() {
+
+		RootPanel.get("login_google_anchor");
+
+
+
+
 		  tileGrid = new TileGrid();  
 	        tileGrid.setTileWidth(250);
 	        tileGrid.setTileHeight(250);  

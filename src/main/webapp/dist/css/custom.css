@@ -1,0 +1,175 @@
+
+.logo-footer{
+	width: 80px;
+}
+
+.header-breadcrumb a:after {
+  content: '>\00a0';
+  padding: 0;
+  color: #ccc;
+  margin: 0px 0px 0px 10px;
+  font-size: 20px;
+}
+
+.skill-tree-header {
+  color: #999;
+  display: block;
+  margin-left: 40px;
+}
+
+.skill-tree {
+  padding: 21px;
+  margin: 0px 21px;
+  background-color: white;
+  border-radius: 12px;
+}
+
+.skill-tree-row {
+  margin: 0 0 40px 0;
+  text-align: center;
+  vertical-align: top;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  -ms-transition: all .5s;
+  -o-transition: all .5s;
+  transition: all .5s;
+}
+
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skill-badge-small {
+  width: 130px;
+  font-size: 15px;
+  text-align: center;
+  color: #3c3c3c;
+  margin: 0 5px;
+}
+
+.skill-badge-name {
+  display: block;
+}
+
+.skill-badge-big, .skill-badge-small {
+  display: inline-block;
+}
+
+.skill-icon {
+  -webkit-border-radius: 400px;
+  -moz-border-radius: 400px;
+  border-radius: 400px;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+}
+
+.phase-icon {
+  -webkit-border-radius: 400px;
+  -moz-border-radius: 400px;
+  border-radius: 400px;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+}
+
+.phase-icon span{
+  font-size: 4em;
+  padding: 0px;
+  display: block;
+}
+
+.skill-icon span{
+  font-size: 4em;
+  padding: 0px;
+  display: block;
+}
+
+.skill-icon.red {
+  background: #dd381d;
+}
+
+.skill-icon.yellow {
+  background: #FFE93D;
+}
+
+.skill-icon.green {
+  background: #7eb530;
+}
+.phase-icon.green {
+  background: #7eb530;
+}
+
+.skill-icon.blue {
+  background: #3046B5;
+}
+
+.skill-icon.gold {
+  background-color: #faa919;
+  background: -moz-linear-gradient(-45deg, #fbb430 0, #fbb430 26%, #faa919 26%, #faa919 39%, #fbb430 39%, #fbb430 52%, #faa919 52%, #faa919 57%, #fbb430 57%, #fbb430 78%, #faa919 78%, #faa919 90%, #fbb430 90%, #fbb430 100%);
+  background: -webkit-gradient(linear, left top, right bottom, color-stop(0, #fbb430), color-stop(26%, #fbb430), color-stop(26%, #faa919), color-stop(39%, #faa919), color-stop(39%, #fbb430), color-stop(52%, #fbb430), color-stop(52%, #faa919), color-stop(57%, #faa919), color-stop(57%, #ffc10d), color-stop(78%, #ffc10d), color-stop(78%, #faa919), color-stop(90%, #faa919), color-stop(90%, #ffc10d), color-stop(100%, #ffc10d));
+  background: -webkit-linear-gradient(-45deg, #fbb430 0, #fbb430 26%, #faa919 26%, #faa919 39%, #fbb430 39%, #fbb430 52%, #faa919 52%, #faa919 57%, #fbb430 57%, #fbb430 78%, #faa919 78%, #faa919 90%, #fbb430 90%, #fbb430 100%);
+  background: -o-linear-gradient(-45deg, #fbb430 0, #fbb430 26%, #faa919 26%, #faa919 39%, #fbb430 39%, #fbb430 52%, #faa919 52%, #faa919 57%, #fbb430 57%, #fbb430 78%, #faa919 78%, #faa919 90%, #fbb430 90%, #fbb430 100%);
+  background: -ms-linear-gradient(-45deg, #fbb430 0, #fbb430 26%, #faa919 26%, #faa919 39%, #fbb430 39%, #fbb430 52%, #faa919 52%, #faa919 57%, #fbb430 57%, #fbb430 78%, #faa919 78%, #faa919 90%, #fbb430 90%, #fbb430 100%);
+  background: linear-gradient(135deg, #fbb430 0, #fbb430 26%, #faa919 26%, #faa919 39%, #fbb430 39%, #fbb430 52%, #faa919 52%, #faa919 57%, #fbb430 57%, #fbb430 78%, #faa919 78%, #faa919 90%, #fbb430 90%, #fbb430 100%);
+}
+
+.btn-yellow {
+  background: #ffcb1f;
+  color: #3c3c3c;
+}
+
+.btn-lg {
+  font-size: 17px;
+  font-weight: 700;
+  padding: 10px 25px;
+}
+
+.button {
+  display: inline-block;
+  padding: 8px 20px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  line-height: 20px;
+  font-weight: 700;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.skill-icon.locked {
+  background: #f0f0f0;
+}
+
+.skill-badge-small.locked {
+   cursor: default; 
+}
+
+.skill-icon.small {
+  width: 80px;
+  height: 80px;
+  margin: 0 0 13px 0;
+}
+
+/*.skill-icon-strength-small {
+  width: 54px;
+  height: 120px;
+  top: -17px;
+  left: -14px;
+  background-size: 432px 432px;
+  font-size: 1em;
+}
+
+.skill-icon-strength {
+  position: absolute;
+  background: url("//d7mj4aqfscim2.cloudfront.net/images/skill-strength-sprite2.svg");
+}
+
+.skill-icon-strength.strength-5 {
+  background-position: 0 0;
+}*/

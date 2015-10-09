@@ -1,0 +1,70 @@
+a:hover, a:active, a:focus {
+	outline: none;
+	text-decoration: none;
+	color: #4731FF;
+}
+
+
+#inquiries .info-box{
+	width: 23%;
+	float: left;
+	margin: 5px;
+}
+
+.content{
+	overflow: hidden;
+}
+
+.info-box-text {
+	text-transform: capitalize !important;
+}
+
+.info-box-text a{
+	color: #653c00;
+	display: block;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+.info-box-text a:hover{
+	color: #a66b00;
+}
+
+.small-box{
+	width: 18em;
+	float: left;
+	margin: 1em;
+}
+
+.game-runs{
+	background-color: rgba(0, 129, 71, 0.30);
+	overflow: hidden;
+}
+
+.show-runs-student, .show-runs-teacher{
+	color: #ffffff;
+}
+.show-runs-student:hover, .show-runs-teacher:hover{
+	color: rgba(26, 26, 26, 0.34);
+}
+
+.box-widget {
+	/*height: 19em;*/
+	max-width: 23em;
+	float: left;
+	margin: 1em;
+}
+
+.box-sub-footer{
+	padding: 10px;
+	border-top: 1px solid #f4f4f4;
+}
+
+.widget-user .widget-user-header{
+	height: 128px;
+}
+.widget-user .widget-user-image{
+	top: 62px;
+	left: 67%;
+	/*top: 78px;*/
+}

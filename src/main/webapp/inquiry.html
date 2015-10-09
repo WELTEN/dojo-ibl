@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Dojo IBL | IBL </title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.4 -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- Font Awesome Icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!-- Ionicons -->
+    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <!-- Theme style -->
+    <link href="dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <!-- Breadcrumb style -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect.
+    -->
+    <link href="dist/css/custom.css" rel="stylesheet" type="text/css" />
+    <link href="dist/css/skins/skin-blue.min.css" rel="stylesheet" type="text/css" />
+    <link href="dist/css/skins/skin-red.min.css" rel="stylesheet" type="text/css" />
+    <link href="dist/css/skins/skin-black.min.css" rel="stylesheet" type="text/css" />
+    <link href="dist/css/skins/skin-green.min.css" rel="stylesheet" type="text/css" />
+    <link href="dist/css/skins/skin-purple.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Circular menu -->
+    <link href="dist/css/inquiry.css" rel="stylesheet" type="text/css" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="skin-green sidebar-mini">
+<div class="wrapper">
+
+    <!-- Main Header -->
+    <header class="main-header">
+
+        <!-- Logo -->
+        <a href="index2.html" class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>I</b>BL</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Dojo</b>IBL</span>
+        </a>
+
+        <!-- Header Navbar -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- Messages: style can be found in dropdown.less-->
+                    <li class="dropdown messages-menu">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="label label-success">4</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have 4 messages</li>
+                            <li>
+                                <!-- inner menu: contains the messages -->
+                                <ul class="menu">
+                                    <li><!-- start message -->
+                                        <a href="#">
+                                            <div class="pull-left">
+                                                <!-- User Image -->
+                                                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                                            </div>
+                                            <!-- Message title and timestamp -->
+                                            <h4>
+                                                Support Team
+                                                <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                            </h4>
+                                            <!-- The message -->
+                                            <p>Why not buy a new awesome theme?</p>
+                                        </a>
+                                    </li><!-- end message -->
+                                </ul><!-- /.menu -->
+                            </li>
+                            <li class="footer"><a href="#">See All Messages</a></li>
+                        </ul>
+                    </li><!-- /.messages-menu -->
+
+                    <!-- Notifications Menu -->
+                    <li class="dropdown notifications-menu">
+                        <!-- Menu toggle button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning">10</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have 10 notifications</li>
+                            <li>
+                                <!-- Inner Menu: contains the notifications -->
+                                <ul class="menu">
+                                    <li><!-- start notification -->
+                                        <a href="#">
+                                            <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                        </a>
+                                    </li><!-- end notification -->
+                                </ul>
+                            </li>
+                            <li class="footer"><a href="#">View all</a></li>
+                        </ul>
+                    </li>
+                    <!-- Tasks Menu -->
+                    <li class="dropdown tasks-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-flag-o"></i>
+                            <span class="label label-danger">9</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have 9 tasks</li>
+                            <li>
+                                <!-- Inner menu: contains the tasks -->
+                                <ul class="menu">
+                                    <li><!-- Task item -->
+                                        <a href="#">
+                                            <!-- Task title and progress text -->
+                                            <h3>
+                                                Design some buttons
+                                                <small class="pull-right">20%</small>
+                                            </h3>
+                                            <!-- The progress bar -->
+                                            <div class="progress xs">
+                                                <!-- Change the css width attribute to simulate progress -->
+                                                <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                    <span class="sr-only">20% Complete</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li><!-- end task item -->
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="#">View all tasks</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- User Account Menu -->
+                    <li class="dropdown user user-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <!-- The user image in the navbar-->
+                            <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image" />
+                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                            <span class="hidden-xs">Angel Suarez</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- The user image in the menu -->
+                            <li class="user-header">
+                                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                                <p>
+                                    Angel Suarez - Web Developer
+                                    <small>Member since Nov. 2012</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body">
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Followers</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Sales</a>
+                                </div>
+                                <div class="col-xs-4 text-center">
+                                    <a href="#">Friends</a>
+                                </div>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Control Sidebar Toggle Button -->
+                    <li>
+                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                </div>
+                <div class="pull-left info">
+                    <p>Angel Suarez</p>
+                    <!-- Status -->
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+
+            <!-- search form (Optional) -->
+            <form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search..." />
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+              </span>
+                </div>
+            </form>
+            <!-- /.search form -->
+
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu">
+                <li class="header">HEADER</li>
+                <!-- Optionally, you can add icons to the links -->
+                <li class="active" class="treeview">
+                    <a href="#"><i class="fa fa-link"></i> <span>Questions</span> <i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="treeview-menu">
+                        <li><a href="inquiry/phase1.html">Link in level 2</a></li>
+                        <li><a href="#">Link in level 2</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-link"></i> <span>Operationalization</span> <i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="treeview-menu">
+                        <li><a href="#">Link in level 2</a></li>
+                        <li><a href="#">Link in level 2</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-link"></i> <span>Data collection</span> <i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="treeview-menu">
+                        <li><a href="#">Link in level 2</a></li>
+                        <li><a href="#">Link in level 2</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-link"></i> <span>Data analysis</span> <i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="treeview-menu">
+                        <li><a href="#">Link in level 2</a></li>
+                        <li><a href="#">Link in level 2</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-link"></i> <span>Interpretation</span> <i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="treeview-menu">
+                        <li><a href="#">Link in level 2</a></li>
+                        <li><a href="#">Link in level 2</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-link"></i> <span>Communication</span> <i class="fa fa-angle-left pull-right"></i></a>
+                    <ul class="treeview-menu">
+                        <li><a href="#">Link in level 2</a></li>
+                        <li><a href="#">Link in level 2</a></li>
+                    </ul>
+                </li>
+            </ul><!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1 class="header-breadcrumb">
+                <a href="main.html"><i class="fa fa-dashboard"></i> Inquiries list</a>
+                Healthy food
+                <small>The inquiry about food for all students in the world</small>
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <section>
+                    <div class="col-md-9">
+
+                        <!-- Custom Tabs -->
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="pull-left header"><i class="fa fa-th"></i> Title of the inquiry</li>
+                                <li class="active"><a href="#tab_1" data-toggle="tab">Overview</a></li>
+                                <li><a href="#tab_2" data-toggle="tab">Timeline</a></li>
+                                <li><a href="#tab_3" data-toggle="tab">Statistics</a></li>
+                                <li><a href="#tab_4" data-toggle="tab">Analytics</a></li>
+                                <!-- <li class="dropdown">
+                                  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Dropdown <span class="caret"></span>
+                                  </a>
+                                  <ul class="dropdown-menu">
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                                    <li role="presentation" class="divider"></li>
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                                  </ul>
+                                </li> -->
+                                <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active inquiry-structure" id="tab_1">
+                                    <ul id="circlemenu" class="list">
+                                        <li class="question">
+                                            <input type="text" class="knob" data-readonly="true" value="95" data-width="50" data-height="50" data-fgColor="#39CCCC" />
+                                            <div class="knob-label"><a href="inquiry/phase1.html">Question</a></div>
+                                        </li>
+                                        <li class="method">
+                                            <input type="text" class="knob" data-readonly="true" value="80" data-width="50" data-height="50" data-fgColor="#39CCCC" />
+                                            <div class="knob-label"><a href="inquiry/phase2.html">Plan the method</a></div>
+                                        </li>
+                                        <li class="collection">
+                                            <input type="text" class="knob" data-readonly="true" value="55" data-width="50" data-height="50" data-fgColor="#39CCCC" />
+                                            <div class="knob-label"><a href="inquiry/phase3.html">Data collection</a></div>
+                                        </li>
+                                        <li class="analysis">
+                                            <input type="text" class="knob" data-readonly="true" value="5" data-width="50" data-height="50" data-fgColor="#39CCCC" />
+                                            <div class="knob-label"><a href="inquiry/phase4.html">Data analysis</a></div>
+                                        </li>
+                                        <li class="interpretation">
+                                            <input type="text" class="knob" data-readonly="true" value="5" data-width="50" data-height="50" data-fgColor="#39CCCC" />
+                                            <div class="knob-label"><a href="inquiry/phase5.html">Interpretation</a></div>
+                                        </li>
+                                        <li class="communication">
+                                            <input type="text" class="knob" data-readonly="true" value="5" data-width="50" data-height="50" data-fgColor="#39CCCC" />
+                                            <div class="knob-label"><a href="inquiry/phase6.html">Communication</a></div>
+                                        </li>
+                                    </ul>
+                                    <div id="inquiry-explanation">
+
+                                        <div class="general">
+                                            <h1>Healthy food inquiry</h1>
+                                            <dl class="dl-horizontal inquiry-description">
+                                                <dt>Description</dt>
+                                                <dd>This inquiry is designed to be used to make virtual experiments online, based on data collected from thermal swimming pools in a real setting. For example, users of this inquiry could observe buoyancy in serveral thermal bath pools of different temperature with different minerals. Thus, experiment designers think out different means and methods with limited existing resources arround the swimming pools.</dd>
+                                                <dt>Owner</dt>
+                                                <dd>Pedro Martinez</dd>
+                                                <dt>Inquiry members</dt>
+                                                <dd>10 participants</dd>
+                                                <dt>Type of inquiry</dt>
+                                                <dd>Open inquiry<dd>
+                                            </dl>
+                                            <div class="alert alert-danger alert-dismissable">
+                                                <h4><i class="icon fa fa-info"></i> For data collection, use <a target="_blank" href="https://play.google.com/store/apps/details?id=net.wespot.pim">PIM</a></h4>
+                                                Looking for the Mobile app? Yes, follow the link and install the Personal Inquiry Manager (PIM) in your mobile devices
+                                                <ul>
+                                                    <li>
+                                                        <a target="_blank" href="https://play.google.com/store/apps/details?id=net.wespot.pim">Android</a></li>
+                                                    <a target="_blank" href="https://play.google.com/store/apps/details?id=net.wespot.pim">iOS</a></li>
+                                                </ul>
+                                            </div>
+                                            <p></p>
+                                            <p></p>
+                                        </div>
+
+                                        <div class="question">
+                                            <h1>Question phase?</h1>
+                                            <p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>
+                                            <div class="alert alert-info alert-dismissable">
+                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                <h4><i class="icon fa fa-info"></i> Goal for this phase</h4>
+                                                <p>Come up with a question</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="method">
+                                            <h1>Method phase</h1>
+                                            <p>You need to find.....</p>
+                                            <div class="alert alert-info alert-dismissable">
+                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                <h4><i class="icon fa fa-info"></i> Goal for this phase</h4>
+                                                <p>-</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="collection">
+                                            <h1>Collection phase?</h1>
+                                            <p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>
+                                            <div class="alert alert-info alert-dismissable">
+                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                <h4><i class="icon fa fa-info"></i> Goal for this phase</h4>
+                                                <p>-</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="analysis">
+                                            <h1>Analysis phase?</h1>
+                                            <p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>
+                                            <div class="alert alert-info alert-dismissable">
+                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                <h4><i class="icon fa fa-info"></i> Goal for this phase</h4>
+                                                <p>-</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="interpretation">
+                                            <h1>Interpretation phase?</h1>
+                                            <p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>
+                                            <div class="alert alert-info alert-dismissable">
+                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                <h4><i class="icon fa fa-info"></i> Goal for this phase</h4>
+                                                <p>-</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="communication">
+                                            <h1>Communication phase?</h1>
+                                            <p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>
+                                            <div class="alert alert-info alert-dismissable">
+                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                <h4><i class="icon fa fa-info"></i> Goal for this phase</h4>
+                                                <p>-</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab_2">
+                                    <!-- The time line -->
+                                    <ul class="timeline">
+                                        <!-- timeline time label -->
+                                        <li class="time-label">
+                        <span class="bg-red">
+                          10 Feb. 2014
+                        </span>
+                                        </li>
+                                        <!-- /.timeline-label -->
+                                        <!-- timeline item -->
+                                        <li>
+                                            <i class="fa fa-envelope bg-blue"></i>
+                                            <div class="timeline-item">
+                                                <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+                                                <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
+                                                <div class="timeline-body">
+                                                    Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
+                                                    weebly ning heekya handango imeem plugg dopplr jibjab, movity
+                                                    jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
+                                                    quora plaxo ideeli hulu weebly balihoo...
+                                                </div>
+                                                <div class="timeline-footer">
+                                                    <a class="btn btn-primary btn-xs">Read more</a>
+                                                    <a class="btn btn-danger btn-xs">Delete</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <!-- END timeline item -->
+                                        <!-- timeline item -->
+                                        <li>
+                                            <i class="fa fa-user bg-aqua"></i>
+                                            <div class="timeline-item">
+                                                <span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>
+                                                <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request</h3>
+                                            </div>
+                                        </li>
+                                        <!-- END timeline item -->
+                                        <!-- timeline item -->
+                                        <li>
+                                            <i class="fa fa-comments bg-yellow"></i>
+                                            <div class="timeline-item">
+                                                <span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>
+                                                <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
+                                                <div class="timeline-body">
+                                                    Take me to your leader!
+                                                    Switzerland is small and neutral!
+                                                    We are more like Germany, ambitious and misunderstood!
+                                                </div>
+                                                <div class="timeline-footer">
+                                                    <a class="btn btn-warning btn-flat btn-xs">View comment</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <!-- END timeline item -->
+                                        <!-- timeline time label -->
+                                        <li class="time-label">
+                        <span class="bg-green">
+                          3 Jan. 2014
+                        </span>
+                                        </li>
+                                        <!-- /.timeline-label -->
+                                        <!-- timeline item -->
+                                        <li>
+                                            <i class="fa fa-camera bg-purple"></i>
+                                            <div class="timeline-item">
+                                                <span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>
+                                                <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
+                                                <div class="timeline-body">
+                                                    <img src="http://placehold.it/150x100" alt="..." class="margin" />
+                                                    <img src="http://placehold.it/150x100" alt="..." class="margin" />
+                                                    <img src="http://placehold.it/150x100" alt="..." class="margin" />
+                                                    <img src="http://placehold.it/150x100" alt="..." class="margin" />
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <!-- END timeline item -->
+                                        <!-- timeline item -->
+                                        <li>
+                                            <i class="fa fa-video-camera bg-maroon"></i>
+                                            <div class="timeline-item">
+                                                <span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>
+                                                <h3 class="timeline-header"><a href="#">Mr. Doe</a> shared a video</h3>
+                                                <div class="timeline-body">
+                                                    <div class="embed-responsive embed-responsive-16by9">
+                                                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/tMWkeBIohBs" frameborder="0" allowfullscreen></iframe>
+                                                    </div>
+                                                </div>
+                                                <div class="timeline-footer">
+                                                    <a href="#" class="btn btn-xs bg-maroon">See comments</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <!-- END timeline item -->
+                                        <li>
+                                            <i class="fa fa-clock-o bg-gray"></i>
+                                        </li>
+                                    </ul>
+                                </div><!-- /.tab-pane -->
+                                <div class="tab-pane" id="tab_3">
+                                    <h2>Inquiry goal completion</h2>
+                                    <p>Below is shown the amount of tasks completed per Inquiry phase but also the remain ones you guys need to complete to achieve you final GOAL. <b>Don't let it go down and push harder!!</b></p>
+                                    <div class="row">
+                                        <div class="box-body">
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <th style="width: 1px">#</th>
+                                                    <th style="width: 120px">Phase</th>
+                                                    <th>Progress</th>
+                                                    <th style="width: 96px">Traffic ligth</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>1.</td>
+                                                    <td>Questions</td>
+                                                    <td>
+                                                        <div class="progress-group">
+                                                            <b>19</b>/20 tasks completed
+                                                            <div class="progress sm">
+                                                                <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+                                                            </div>
+                                                    </td>
+                                                    <td><span class="badge bg-green">95%</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2.</td>
+                                                    <td>Operationalization</td>
+                                                    <td>
+                                                        <div class="progress-group">
+                                                            <b>16</b>/20 tasks completed
+                                                            <div class="progress sm">
+                                                                <div class="progress-bar progress-bar-primary" style="width: 80%"></div>
+                                                            </div>
+                                                    </td>
+                                                    <td><span class="badge bg-light-blue">80%</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3.</td>
+                                                    <td>Data collection</td>
+                                                    <td>
+                                                        <div class="progress-group">
+                                                            <b>11</b>/20 tasks completed
+                                                            <div class="progress sm">
+                                                                <div class="progress-bar progress-bar-yellow" style="width: 55%"></div>
+                                                            </div>
+                                                    </td>
+                                                    <td><span class="badge bg-yellow">55%</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4.</td>
+                                                    <td>Data analysis</td>
+                                                    <td>
+                                                        <div class="progress-group">
+                                                            <b>1</b>/20 tasks completed
+                                                            <div class="progress sm">
+                                                                <div class="progress-bar progress-bar-danger" style="width: 5%"></div>
+                                                            </div>
+                                                    </td>
+                                                    <td><span class="badge bg-red">5%</span></td>
+                                                </tr>                          <tr>
+                                                <td>5.</td>
+                                                <td>Interpretation</td>
+                                                <td>
+                                                    <div class="progress-group">
+                                                        <b>1</b>/20 tasks completed
+                                                        <div class="progress sm">
+                                                            <div class="progress-bar progress-bar-danger" style="width: 5%"></div>
+                                                        </div>
+                                                </td>
+                                                <td><span class="badge bg-red">5%</span></td>
+                                            </tr>
+                                                <tr>
+                                                    <td>6.</td>
+                                                    <td>Communication</td>
+                                                    <td>
+                                                        <div class="progress-group">
+                                                            <b>1</b>/20 tasks completed
+                                                            <div class="progress sm">
+                                                                <div class="progress-bar progress-bar-danger" style="width: 5%"></div>
+                                                            </div>
+                                                    </td>
+                                                    <td><span class="badge bg-red">5%</span></td>
+                                                </tr>
+                                            </table>
+                                        </div><!-- /.box-body -->
+                                    </div>
+
+
+                                    <h2>Role goal completion</h2>
+                                    <div class="row">
+                                        <div class="box-body">
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <th style="width: 10px">#</th>
+                                                    <th>Task</th>
+                                                    <th>Progress</th>
+                                                    <th style="width: 40px">Label</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>1.</td>
+                                                    <td>Explainer</td>
+                                                    <td>
+                                                        <div class="progress-group">
+                                                            <b>160</b>/200 tasks completed
+                                                            <div class="progress sm">
+                                                                <div class="progress-bar progress-bar-aqua" style="width: 80%"></div>
+                                                            </div>
+                                                        </div>
+
+                                                    </td>
+                                                    <td><span class="badge bg-red">55%</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2.</td>
+                                                    <td>Clean database</td>
+                                                    <td>
+                                                        <div class="progress progress-xs">
+                                                            <div class="progress-bar progress-bar-yellow" style="width: 70%"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td><span class="badge bg-yellow">70%</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3.</td>
+                                                    <td>Cron job running</td>
+                                                    <td>
+                                                        <div class="progress progress-xs progress-striped active">
+                                                            <div class="progress-bar progress-bar-primary" style="width: 30%"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td><span class="badge bg-light-blue">30%</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4.</td>
+                                                    <td>Fix and squish bugs</td>
+                                                    <td>
+                                                        <div class="progress progress-xs progress-striped active">
+                                                            <div class="progress-bar progress-bar-success" style="width: 90%"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td><span class="badge bg-green">90%</span></td>
+                                                </tr>
+                                            </table>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                </div><!-- /.tab-pane -->
+                                <div class="tab-pane" id="tab_4">
+                                    Here we can show analytics in a table format. Show engagement in graphs.
+                                </div><!-- /.tab-pane -->
+                            </div><!-- /.tab-content -->
+                        </div><!-- nav-tabs-custom -->
+
+
+                    </div><!-- /.col -->
+                </section><!-- /.content -->
+                <aside>
+                    <div class="col-md-3 pull-right">
+                        <!-- Construct the box with style you want. Here we are using box-danger -->
+                        <!-- Then add the class direct-chat and choose the direct-chat-* contexual class -->
+                        <!-- The contextual class should match the box, so we are using direct-chat-danger -->
+                        <div class="box box-danger direct-chat direct-chat-danger">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Direct Chat</h3>
+                                <div class="box-tools pull-right">
+                                    <span data-toggle="tooltip" title="3 New Messages" class='badge bg-red'>3</span>
+                                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    <!-- In box-tools add this button if you intend to use the contacts pane -->
+                                    <button class="btn btn-box-tool" data-toggle="tooltip" title="Contacts" data-widget="chat-pane-toggle"><i class="fa fa-comments"></i></button>
+                                    <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                                <!-- Conversations are loaded here -->
+                                <div class="direct-chat-messages">
+                                    <!-- Message. Default to the left -->
+                                    <div class="direct-chat-msg">
+                                        <div class='direct-chat-info clearfix'>
+                                            <span class='direct-chat-name pull-left'>Angel Suarez</span>
+                                            <span class='direct-chat-timestamp pull-right'>23 Jan 2:00 pm</span>
+                                        </div><!-- /.direct-chat-info -->
+                                        <!-- <img class="direct-chat-img" src="../dist/img/user1-128x128.jpg" alt="message user image" /> --><!-- /.direct-chat-img -->
+                                        <div class="direct-chat-text">
+                                            Is this template really for free? That's unbelievable!
+                                        </div><!-- /.direct-chat-text -->
+                                    </div><!-- /.direct-chat-msg -->
+
+                                    <!-- Message to the right -->
+                                    <div class="direct-chat-msg right">
+                                        <div class='direct-chat-info clearfix'>
+                                            <span class='direct-chat-name pull-right'>Sarah Bullock</span>
+                                            <span class='direct-chat-timestamp pull-left'>23 Jan 2:05 pm</span>
+                                        </div><!-- /.direct-chat-info -->
+                                        <!-- <img class="direct-chat-img" src="../dist/img/user3-128x128.jpg" alt="message user image" /> --><!-- /.direct-chat-img -->
+                                        <div class="direct-chat-text">
+                                            You better believe it!
+                                        </div><!-- /.direct-chat-text -->
+                                    </div><!-- /.direct-chat-msg -->
+                                </div><!--/.direct-chat-messages-->
+
+                                <!-- Contacts are loaded here -->
+                                <div class="direct-chat-contacts">
+                                    <ul class='contacts-list'>
+                                        <li>
+                                            <a href='#'>
+                                                <img class='contacts-list-img' src='../dist/img/user1-128x128.jpg' alt="Contact Avatar"/>
+                                                <div class='contacts-list-info'>
+                              <span class='contacts-list-name'>
+                                Count Dracula
+                                <small class='contacts-list-date pull-right'>2/28/2015</small>
+                              </span>
+                                                    <span class='contacts-list-msg'>How have you been? I was...</span>
+                                                </div><!-- /.contacts-list-info -->
+                                            </a>
+                                        </li><!-- End Contact Item -->
+                                    </ul><!-- /.contatcts-list -->
+                                </div><!-- /.direct-chat-pane -->
+                            </div><!-- /.box-body -->
+                            <div class="box-footer">
+                                <div class="input-group">
+                                    <input type="text" name="message" placeholder="Type Message ..." class="form-control"/>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-danger btn-flat">Send</button>
+                      </span>
+                                </div>
+                            </div><!-- /.box-footer-->
+                        </div>
+                        <!--/.direct-chat -->
+
+                        <!-- USERS LIST -->
+                        <div class="box box-danger">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Inquiry members</h3>
+                                <div class="box-tools pull-right">
+                                    <span class="label label-danger">8 Members</span>
+                                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                                </div>
+                            </div><!-- /.box-header -->
+                            <div class="box-body no-padding">
+                                <ul class="users-list clearfix">
+                                    <li>
+                                        <img src="dist/img/user1-128x128.jpg" alt="User Image" />
+                                        <a class="users-list-name" href="#">Angel Suarez</a>
+                                        <span class="users-list-date">Today</span>
+                                    </li>
+                                    <li>
+                                        <img src="dist/img/user8-128x128.jpg" alt="User Image" />
+                                        <a class="users-list-name" href="#">Norman</a>
+                                        <span class="users-list-date">Yesterday</span>
+                                    </li>
+                                    <li>
+                                        <img src="dist/img/user7-128x128.jpg" alt="User Image" />
+                                        <a class="users-list-name" href="#">Jane</a>
+                                        <span class="users-list-date">12 Jan</span>
+                                    </li>
+                                    <li>
+                                        <img src="dist/img/user6-128x128.jpg" alt="User Image" />
+                                        <a class="users-list-name" href="#">John</a>
+                                        <span class="users-list-date">12 Jan</span>
+                                    </li>
+                                    <li>
+                                        <img src="dist/img/user2-160x160.jpg" alt="User Image" />
+                                        <a class="users-list-name" href="#">Alexander</a>
+                                        <span class="users-list-date">13 Jan</span>
+                                    </li>
+                                    <li>
+                                        <img src="dist/img/user5-128x128.jpg" alt="User Image" />
+                                        <a class="users-list-name" href="#">Sarah</a>
+                                        <span class="users-list-date">14 Jan</span>
+                                    </li>
+                                    <li>
+                                        <img src="dist/img/user4-128x128.jpg" alt="User Image" />
+                                        <a class="users-list-name" href="#">Nora</a>
+                                        <span class="users-list-date">15 Jan</span>
+                                    </li>
+                                    <li>
+                                        <img src="dist/img/user3-128x128.jpg" alt="User Image" />
+                                        <a class="users-list-name" href="#">Nadia</a>
+                                        <span class="users-list-date">15 Jan</span>
+                                    </li>
+                                </ul><!-- /.users-list -->
+                            </div><!-- /.box-body -->
+                            <div class="box-footer text-center">
+                                <a href="javascript::" class="uppercase">View All Users</a>
+                            </div><!-- /.box-footer -->
+                        </div><!--/.box -->
+                    </div>
+                </aside>
+            </div>
+
+
+
+        </section><!-- /.content -->
+    </div><!-- /.content-wrapper -->
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+            Open Universiteit
+            <img class="logo-footer" src="dist/img/corporate/logo.png">
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Create the tabs -->
+        <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+            <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+            <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- Home tab content -->
+            <div class="tab-pane active" id="control-sidebar-home-tab">
+                <h3 class="control-sidebar-heading">Recent Activity</h3>
+                <ul class="control-sidebar-menu">
+                    <li>
+                        <a href="javascript::;">
+                            <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+                            <div class="menu-info">
+                                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+                                <p>Will be 23 on April 24th</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul><!-- /.control-sidebar-menu -->
+
+                <h3 class="control-sidebar-heading">Tasks Progress</h3>
+                <ul class="control-sidebar-menu">
+                    <li>
+                        <a href="javascript::;">
+                            <h4 class="control-sidebar-subheading">
+                                Custom Template Design
+                                <span class="label label-danger pull-right">70%</span>
+                            </h4>
+                            <div class="progress progress-xxs">
+                                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+                            </div>
+                        </a>
+                    </li>
+                </ul><!-- /.control-sidebar-menu -->
+
+            </div><!-- /.tab-pane -->
+            <!-- Stats tab content -->
+            <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div><!-- /.tab-pane -->
+            <!-- Settings tab content -->
+            <div class="tab-pane" id="control-sidebar-settings-tab">
+                <form method="post">
+                    <h3 class="control-sidebar-heading">General Settings</h3>
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading">
+                            Report panel usage
+                            <input type="checkbox" class="pull-right" checked />
+                        </label>
+                        <p>
+                            Some information about this general settings option
+                        </p>
+                    </div><!-- /.form-group -->
+                </form>
+            </div><!-- /.tab-pane -->
+        </div>
+    </aside><!-- /.control-sidebar -->
+    <!-- Add the sidebar's background. This div must be placed
+         immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+</div><!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery 2.1.4 -->
+<script src="plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
+<script src="plugins/knob/jquery.knob.js" type="text/javascript"></script>
+
+<!-- Bootstrap 3.3.2 JS -->
+<script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/app.min.js" type="text/javascript"></script>
+
+<script src="dist/js/inquiry.js" type="text/javascript"></script>
+
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
+      Both of these plugins are recommended to enhance the
+      user experience. Slimscroll is required when using the
+      fixed layout. -->
+</body>
+</html>

@@ -18,22 +18,21 @@
  ******************************************************************************/
 package org.celstec.arlearn2.api;
 
+import org.celstec.arlearn2.jdo.manager.ApplicationKeyManager;
+import org.celstec.arlearn2.jdo.manager.OauthKeyManager;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-
-import org.celstec.arlearn2.jdo.manager.ApplicationKeyManager;
-import org.celstec.arlearn2.jdo.manager.OauthKeyManager;
+//import javax.servlet.http.Cookie;
 
 
 @Path("/oauth")
@@ -61,7 +60,66 @@ public class Oauth extends Service {
 		ApplicationKeyManager.addKey(appName);
 		return "{}";
 	}
-	
+
+	@POST
+	@Produces({ MediaType.MULTIPART_FORM_DATA })
+	@Path("/authenticate")
+	public Response authenticate(
+			@DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+								 @DefaultValue("application/json") @HeaderParam("Accept") String accept,
+								 String account)  {
+
+
+//if (true) {
+	String output = "File saved to server location : test" ;
+	return Response.status(200).entity(output).build();
+//}
+
+
+//		try {
+//			JSONObject toWespot = new JSONObject();
+//			toWespot.put("username", account.get("email").get(0));
+//			toWespot.put("password", account.get("password").get(0));
+//
+//			URL url = new URL("http://wespot-arlearn.appspot.com/oauth/account/authenticate");
+//
+//			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//			connection.setDoOutput(true);
+//			connection.setRequestMethod("POST");
+//
+//			OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+//			writer.write(toWespot.toString());
+//			writer.close();
+//
+//			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+//				System.out.println(" ok");
+//				 ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//				InputStream is = connection.getInputStream();
+//				int r;
+//				while ((r = is.read()) != -1) {
+//					baos.write(r);
+//				}
+//				String result = new String(baos.toByteArray());
+//				JSONObject resultJson = new JSONObject(result);
+//				System.out.println(resultJson);
+//
+////				response.addCookie(new Cookie("arlearn.AccessToken", resultJson.getString("token")));
+////				response.addCookie(new Cookie("arlearn.OauthType", "5"));
+//				new OauthWespotWorker().saveAccount(resultJson.getString("token"));
+////				return result;
+////				return Response.ok().entity(new ArrayList<>()).cookie(new NewCookie("arlearn.AccessToken", resultJson.getString("token"))).build();
+//				String output = "File saved to server location : test" ;
+//				return Response.status(200).entity(output).build();
+//			} else {
+//				System.out.println("not ok");
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return null;
+	}
+
 	@GET
 	@Path("/getOauthInfo")
 	public String getOauthClient(@DefaultValue("application/json") @HeaderParam("Accept") String accept) {

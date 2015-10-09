@@ -1,0 +1,19 @@
+.phase-detail{
+	float: left;
+	display: none;
+	width: 99%;
+	margin: 0px 10px;
+}
+
+.phase-master{
+	float: left;
+    width: 100%;
+}
+
+.box-body video {
+	width: 100%;
+}
+.box-body iframe {
+	width: 100%;
+	height: 383px;
+}

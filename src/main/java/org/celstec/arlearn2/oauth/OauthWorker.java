@@ -18,23 +18,16 @@
  ******************************************************************************/
 package org.celstec.arlearn2.oauth;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import org.celstec.arlearn2.jdo.UserLoggedInManager;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.servlet.http.HttpServletResponse;
-
-import com.google.appengine.api.urlfetch.FetchOptions;
-import org.celstec.arlearn2.jdo.UserLoggedInManager;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 
 public abstract class OauthWorker {
 
@@ -59,7 +52,7 @@ public abstract class OauthWorker {
 	protected void sendRedirect(String accessToken, String expires, int type) {
 		long expiresLong = 3600*24*7l; 
 		try {
-			resp.sendRedirect(baseUrl+"/oauth.html?accessToken=" + accessToken + "&type=" + type + "&exp=" + expiresLong);
+			resp.sendRedirect(baseUrl+"/index.html?accessToken=" + accessToken + "&type=" + type + "&exp=" + expiresLong);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

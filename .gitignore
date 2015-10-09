@@ -9,4 +9,5 @@
 arlearn.gae.iml
 .settings
 bin/*
+target/*
 
