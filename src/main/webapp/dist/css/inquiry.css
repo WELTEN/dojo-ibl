@@ -28,7 +28,7 @@
   background-size: 27em;*/
 }
 
-#circlemenu li {
+#circlemenu li, #circlemenu2 li {
   display: block;
   width: 120px;
   height: 120px;
@@ -96,6 +96,40 @@
   margin-left: -55px;
 }
 
+#circlemenu2 {
+  width: 50%;
+  height: 122px;
+  position: relative;
+  /*margin: 0px auto 0;*/
+  opacity: .8;
+  float: left;
+  margin-left: 8%;
+  /*background: url('http://www.clker.com/cliparts/s/h/5/r/K/K/blue-arrows-hi.png');
+  background-repeat: no-repeat;
+  background-position: 1.5em 5em;
+  background-size: 27em;*/
+}
+
+#circlemenu2 li.question,
+#circlemenu2 li.communication,
+#circlemenu2 li.method,
+#circlemenu2 li.interpretation,
+#circlemenu2 li.collection,
+#circlemenu2 li.analysis {
+  top: 0px;
+  left: 0;
+  margin-left: 0;
+}
+
+ul#circlemenu > li > div > a:active{
+  text-align: center;
+  color: white;
+}
+
+
+
+
+
 #inquiry-explanation{
   float: left;
   margin-left: 10px;
@@ -115,21 +149,4 @@
 
 .inquiry-description dd{
   margin-left: 120px; 
-}
-
-@media screen and (max-width: 680px) {
-  #inquiry-explanation {
-      float:none;
-      width: 100%;
-  }
-  #circlemenu {
-    width: 100%;
-    float: none; 
-  }
-}
-
-@media screen and (max-width: 1180px){
-  .col-md-9 {
-     width: 100% !important; 
-  }
 }

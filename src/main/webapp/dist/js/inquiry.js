@@ -8,7 +8,7 @@
 
 $(function () {
 
-  	$(".knob").knob();
+  	//$(".knob").knob();
 
     ////////////////////////////////////
     // Extra information hovering phases

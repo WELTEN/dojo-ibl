@@ -75,6 +75,7 @@ window.MainView = Backbone.View.extend({
 // Game
 window.GameListView = Backbone.View.extend({
     tagName:  "div",
+    className: "col-md-3 col-lg-3 col-xl-3",
     initialize:function (options) {
         console.log(options);
 
@@ -113,7 +114,10 @@ window.GameListView = Backbone.View.extend({
     showRunsStudents: function(e){
         e.preventDefault();
         var aux = $(this.el);
-        $(".nav.nav-stacked").slideUp(400).html("");
+
+        console.log(aux);
+
+        $(".nav.nav-stacked").slideUp(200).html("");
 
         this.RunAccessList = new RunByGameCollection({ id: this.model.gameId });
         this.RunAccessList.fetch({
@@ -122,10 +126,10 @@ window.GameListView = Backbone.View.extend({
             success: function(response, xhr) {
 
                 if(xhr.runs.length == 0){
-                    $(aux).find(".nav.nav-stacked").hide().html("<li><a href=''>No inquiries</a></li>").slideDown(400);
+                    $(aux).find(".nav.nav-stacked").hide().html("<li><a href=''>No inquiries</a></li>").slideDown(200);
                 }else{
                     _.each(xhr.runs, function(run){
-                        $(aux).find(".nav.nav-stacked").hide().html(new this.RunListView({ model: run }).render().el).slideDown(400);
+                        $(aux).find(".nav.nav-stacked").hide().html(new this.RunListView({ model: run }).render().el).slideDown(200);
                     });
                 }
             }
@@ -195,22 +199,25 @@ window.InquiryStructureView = Backbone.View.extend({
         this.template = _.template(tpl.get('inquiry_structure'));
     },
     events: {
-        //'click .fade-this-in.skill-badge-small': 'add',
-        //'click ul > li > a': 'access_phase'
+        'click ul#circlemenu > li > div > a': 'open_phase'
+    },
+    open_phase: function(e){
+        console.debug("Access phase");
+
+        $(e.currentTarget).parent().parent().siblings().hide();
+
+        $("ul#circlemenu").attr("id", "circlemenu2");
+
+        $("#summary .title-summary").show();
+        $("#summary ul.nav-tabs.box-header").hide();
+
+        $("#inquiry-explanation").hide();
+
+        $("ul.box-header.with-border.nav.nav-tabs > li").fadeOut(100);
 
     },
-    access_phase: function (ev){
-
-        //var name_class = $(ev.target).parent();
-        //var menu_div = $(ev.target).parent().parent().parent();
-
-        //$(ev.target).parent().siblings().hide();
-
-        //$(name_class).css('-webkit-transform','rotate(0deg) translate(0) rotate(0deg)');
-      },
     add: function(ev){
         console.debug("[Add event InquiryStructureView]","Click in activity. Hiding siblings...");
-        //$(ev.target).parent().parent().parent().parent().siblings().hide();
     },
     render:function () {
         $(this.el).html(this.template(this.model));
@@ -220,6 +227,8 @@ window.InquiryStructureView = Backbone.View.extend({
 
 // Phases
 window.PhaseView = Backbone.View.extend({
+    tagName: "div",
+    className: "col-md-7",
     initialize:function () {
         this.template = _.template(tpl.get('phase'));
     },
@@ -227,70 +236,28 @@ window.PhaseView = Backbone.View.extend({
         'click .close-phase': 'close_phase'
     },
     close_phase: function (ev){
+
         console.debug("[close_phase event PhaseView]","Closing phase.");
 
         if($.cookie("dojoibl.run")){
-        //    app.showInquiry($.cookie("dojoibl.run"));
             app.navigate('inquiry/' + $.cookie("dojoibl.run"));
         }
 
-        $("aside#summary > div").switchClass( "col-md-2", "col-md-9",  200, function(){
+        $("aside#summary > div").switchClass( "col-md-2", "col-md-9", 200, function(){
 
+            $("ul#circlemenu2").attr("id", "circlemenu");
 
             //$(".circle-container li.deg0").css('-webkit-transform','translate(10em)');
             //$(".circle-container li.deg0").css('-ms-transform','translate(10em)');
             //$(".circle-container li.deg0").css('transform','translate(10em)');
 
             $("#inquiry-explanation").fadeIn();
-            $("ul > li").show();
+            $("ul#circlemenu").children().show();
+            //$("ul > li").show();
             $("ul.box-header.with-border.nav.nav-tabs > li").show();
             $("#summary .title-summary").hide();
             $("#summary ul.nav-tabs.box-header").show();
         });
-
-        $(".menu_1 a.deg0_1").switchClass( "deg0_1", "deg0",  400);
-        $(".menu_1 a.deg45_1").switchClass( "deg45_1", "deg45",  400);
-        $(".menu_1 a.deg135_1").switchClass( "deg135_1", "deg135",  400);
-        $(".menu_1 a.deg180_1").switchClass( "deg180_1", "deg180",  400);
-        $(".menu_1 a.deg225_1").switchClass( "deg225_1", "deg225",  400);
-        $(".menu_1 a.deg315_1").switchClass( "deg315_1", "deg315",  400);
-
-        $(".menu_1").switchClass( "menu_1", "menu",  400);
-
-        //$("ul.circle-container-secondary").switchClass( "circle-container-secondary", "circle-container",  800,function(){
-        //    //$(".circle-container li.deg0").css('-webkit-transform','translate(10em)');
-        //    //$(".circle-container li.deg0").css('-ms-transform','translate(10em)');
-        //    //$(".circle-container li.deg0").css('transform','translate(10em)');
-        //    //
-        //    //$(".circle-container > *:nth-of-type(2)").css('-webkit-transform','rotate(60deg) translate(10em) rotate(-60deg)');
-        //    //$(".circle-container > *:nth-of-type(2)").css('-ms-transform','rotate(60deg) translate(10em) rotate(-60deg)');
-        //    //$(".circle-container > *:nth-of-type(2)").css('transform','rotate(60deg) translate(10em) rotate(-60deg)');
-        //    //
-        //    //$(".circle-container > *:nth-of-type(3)").css('-webkit-transform','rotate(120deg) translate(10em) rotate(-120deg)');
-        //    //$(".circle-container > *:nth-of-type(3)").css('-ms-transform','rotate(120deg) translate(10em) rotate(-120deg)');
-        //    //$(".circle-container > *:nth-of-type(3)").css('transform','rotate(120deg) translate(10em) rotate(-120deg)');
-        //    //
-        //    //$(".circle-container > *:nth-of-type(4)").css('-webkit-transform','rotate(180deg) translate(10em) rotate(-180deg)');
-        //    //$(".circle-container > *:nth-of-type(4)").css('-ms-transform','rotate(180deg) translate(10em) rotate(-180deg)');
-        //    //$(".circle-container > *:nth-of-type(4)").css('transform','rotate(180deg) translate(10em) rotate(-180deg)');
-        //    //
-        //    //$(".circle-container > *:nth-of-type(5)").css('-webkit-transform','rotate(240deg) translate(10em) rotate(-240deg)');
-        //    //$(".circle-container > *:nth-of-type(5)").css('-ms-transform','rotate(240deg) translate(10em) rotate(-240deg)');
-        //    //$(".circle-container > *:nth-of-type(5)").css('transform','rotate(240deg) translate(10em) rotate(-240deg)');
-        //    //
-        //    //$(".circle-container > *:nth-of-type(6)").css('-webkit-transform','rotate(300deg) translate(10em) rotate(-300deg)');
-        //    //$(".circle-container > *:nth-of-type(6)").css('-ms-transform','rotate(300deg) translate(10em) rotate(-300deg)');
-        //    //$(".circle-container > *:nth-of-type(6)").css('transform','rotate(300deg) translate(10em) rotate(-300deg)');
-        //
-        //
-        //});
-
-
-        //$(".circle-container li").switchClass( "deg0", "deg0_1",  800);
-
-        //$(".circle-container li.deg0").css('-webkit-transform','translate(10em)');
-        //$(".circle-container li.deg0").css('-ms-transform','translate(10em)');
-        //$(".circle-container li.deg0").css('transform','translate(10em)');
 
         $("#inquiry").hide();
 
@@ -368,6 +335,8 @@ window.ActivityView = Backbone.View.extend({
             this.template = _.template(tpl.get('activity_video'));
         }else if(xhr.model.type.indexOf("OpenBadge") > -1) {
             this.template = _.template(tpl.get('activity_widget'));
+        }else if(xhr.model.type.indexOf("AudioObject") > -1) {
+            this.template = _.template(tpl.get('activity_discussion'));
         }else{
             this.template = _.template(tpl.get('activity_detail'));
         }
@@ -399,20 +368,29 @@ window.ResponseListView = Backbone.View.extend({
         this.collection.bind('add', this.render);
 
         this.users = options.users;
-
-        //console.log("hola", options);
-        //console.log("hola", this.users);
-
     },
     render: function(){
 
-        //$('#activity-responses').append(this.template());
+        console.debug("New response");
 
-        _.each(this.collection.models, function(response){
-            var aux = response.toJSON().userEmail.split(':');
-            var user = this.users.where({ 'localId': aux[1] });
-            $('#activity-responses').append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
-        }, this);
+        if($(".box-footer.box-comments").length == 0){
+            console.debug("Add discussion");
+            _.each(this.collection.models, function(response){
+                var aux = response.toJSON().userEmail.split(':');
+                var user = this.users.where({ 'localId': aux[1] });
+                $('.box-footer.box-comments').prepend(new ResponseDiscussionView({ model: response.toJSON(), user: user[0] }).render().el);
+            }, this);
+        }
+
+        if($('#activity-responses').length == 0){
+            console.debug("Add normal response");
+            _.each(this.collection.models, function(response){
+                var aux = response.toJSON().userEmail.split(':');
+                var user = this.users.where({ 'localId': aux[1] });
+                $('#activity-responses').append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
+            }, this);
+        }
+
 
         this.collection.reset();
 
@@ -464,9 +442,27 @@ window.ResponseView = Backbone.View.extend({
         //console.log(options.user.toJSON());
     },
     render:function () {
-        console.log(this.model);
-        //console.log(this.user.toJSON());
+        // TODO sometimes JSON error. I need to check this.
+        $(this.el).append(this.template_author(this.user.toJSON()));
+        $(this.el).append(this.template(this.model));
+        return this;
+    }
+});
 
+window.ResponseDiscussionView = Backbone.View.extend({
+    tagName: "div",
+    className: "box-comment",
+    model: Response,
+    initialize: function(options) {
+         this.template = _.template(tpl.get('response_discussion'));
+         this.template_author = _.template(tpl.get('response_author'));
+
+        this.user = options.user;
+
+        //console.log(options.user.toJSON());
+    },
+    render:function () {
+        // TODO sometimes JSON error. I need to check this.
         $(this.el).append(this.template_author(this.user.toJSON()));
         $(this.el).append(this.template(this.model));
         return this;
@@ -500,11 +496,46 @@ window.UserSidebarView = Backbone.View.extend({
     }
 });
 
+window.UsersInquiryView = Backbone.View.extend({
+    tagName:  "li",
+    initialize:function () {
+        this.template = _.template(tpl.get('user_inquiry'));
+    },
+
+    render:function () {
+        $(this.el).html(this.template(this.model));
+        return this;
+    }
+});
+
 // Notifications
 window.MessageNotificationView = Backbone.View.extend({
     tagName:  "li",
     initialize:function () {
         this.template = _.template(tpl.get('message_notification'));
+    },
+    render:function () {
+        $(this.el).html(this.template(this.model));
+        return this;
+    }
+});
+
+window.GeneralFloatingNotificationView = Backbone.View.extend({
+    tagName:  "div",
+    className: "ui-pnotify stack-topleft",
+    initialize:function () {
+        this.template = _.template(tpl.get('notification_floating'));
+    },
+    render:function () {
+        $(this.el).html(this.template(this.model));
+        return this;
+    }
+});
+
+window.NotificationSideBarView = Backbone.View.extend({
+    tagName:  "li",
+    initialize:function () {
+        this.template = _.template(tpl.get('notification_sidebar'));
     },
     render:function () {
         $(this.el).html(this.template(this.model));

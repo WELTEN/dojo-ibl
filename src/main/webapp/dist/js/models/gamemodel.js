@@ -69,7 +69,7 @@ window.Response = Backbone.Model.extend({
 window.Message = Backbone.Model.extend({
     idAttribute: "messageId",
     initialize: function(a){
-        console.log("Message initialize");
+        //console.log("Message initialize");
     },
     urlRoot: '/rest/messages/message',
     defaults:{

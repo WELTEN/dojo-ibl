@@ -25,7 +25,7 @@ var AppRouter = Backbone.Router.extend({
     },
     initialGame: function(callback) {
 
-        $('#inquiries').html( new MainView({ }).render().el );
+        //$('#inquiries').html( new MainView({ }).render().el );
 
         this.GameList = new GameCollection();
 
@@ -128,8 +128,6 @@ var AppRouter = Backbone.Router.extend({
 
         });
 
-
-
         this.RunList = new RunCollection({ });
         this.RunList.id = id;
 
@@ -140,24 +138,13 @@ var AppRouter = Backbone.Router.extend({
                 this.inquiryView = new InquiryView({ model: results });
 
                 $('aside#summary').html(this.inquiryView.render().el);
+                $(".knob").knob();
                 $("#inquiry").hide();
-                //$("#inquiry-explanation").children().hide();
-                //$( "#inquiry-explanation .general").show();
-                //$("#circlemenu .question, #circlemenu .method, #circlemenu .collection, #circlemenu .analysis, #circlemenu .interpretation, #circlemenu .communication").hover(
-                //    function(e) {
-                //        $("#inquiry-explanation .general").hide();
-                //        $("#inquiry-explanation ."+$(e.toElement).attr('class')).show();
-                //    }, function() {
-                //        $( "#inquiry-explanation").children().hide();
-                //        $( "#inquiry-explanation .general").show();
-                //    }
-                //);
+
             }
         });
     },
     showPhase: function(id, phase){
-        options = { to: { width: 200, height: 60 } };
-
         var _self = this;
         var _id = id;
 
@@ -167,9 +154,8 @@ var AppRouter = Backbone.Router.extend({
         $.cookie("dojoibl.game", id, {expires: date, path: "/"});
 
         if ( $("#inquiry").length == 0 || $("aside#summary").length == 0 ){
-            $('#inquiries').html(new InquiryStructureView({ }).render().el).hide().fadeIn();
-            if($.cookie("dojoibl.run")){
 
+            if($.cookie("dojoibl.run")){
                 ////////////////////////////////////////////////////////////
                 // If we refresh the wepage we need to load everything again
                 ////////////////////////////////////////////////////////////
@@ -185,19 +171,8 @@ var AppRouter = Backbone.Router.extend({
                         this.inquiryView = new InquiryView({ model: results });
 
                         $('aside#summary').html(this.inquiryView.render().el);
+                        $(".knob").knob();
                         $("#inquiry").hide();
-
-                        //$("#inquiry-explanation").children().hide();
-                        //$( "#inquiry-explanation .general").show();
-                        //$("#circlemenu .question, #circlemenu .method, #circlemenu .collection, #circlemenu .analysis, #circlemenu .interpretation, #circlemenu .communication").hover(
-                        //    function(e) {
-                        //        $("#inquiry-explanation .general").hide();
-                        //        $("#inquiry-explanation ."+$(e.toElement).attr('class')).show();
-                        //    }, function() {
-                        //        $( "#inquiry-explanation").children().hide();
-                        //        $( "#inquiry-explanation .general").show();
-                        //    }
-                        //);
 
                         _self.loadPhaseActivities(_id);
                         _self.common();
@@ -208,25 +183,23 @@ var AppRouter = Backbone.Router.extend({
             }
         }
 
-        this.loadPhaseActivities(id);
+        this.loadPhaseActivities(id, phase);
 
     },
     showActivity: function(id, phase, activity){
 
         this.loadInquiryUsers(window.Run.global_identifier);
 
-
         if ($(".phase-master").length == 0){
             this.showPhase(id, phase);
             console.log("show phase", $(".phase-master"));
-
         }
 
         $(".phase-master").animate({
-            'marginLeft' : '-30%',
-            'width': '26%',
-            'top': '264px'
-        }, 800, function() {
+            'marginLeft' : '-14em',
+            'width': '167px',
+            'top': '222px'
+        }, 200, function() {
 
             $(this).find(".box-tools.pull-right").hide();
 
@@ -245,24 +218,6 @@ var AppRouter = Backbone.Router.extend({
         if($.cookie("dojoibl.run")){
             window.Run.global_identifier = $.cookie("dojoibl.run");
         }
-
-        console.log("InquiryUsers ->", app.InquiryUsers);
-
-        this.Responses = new window.ResponseCollection(), new window.ResponseListView({ collection: this.Responses, users: app.InquiryUsers });
-
-        this.Responses.id = window.Run.global_identifier;
-        this.Responses.itemId = activity;
-        this.Responses.fetch({
-            beforeSend: setHeader
-        });
-
-        //this.Responses = new ResponseCollection({ });
-        //this.Responses.id = window.Run.global_identifier;
-        //this.Responses.itemId = activity;
-        //this.Responses.fetch({
-        //    beforeSend: setHeader,
-        //    success: successResponsesHandler
-        //});
     },
     initializeChannelAPI: function(){
         console.debug("[initializeChannelAPI]", "Initializing the chat");
@@ -284,8 +239,9 @@ var AppRouter = Backbone.Router.extend({
                 };
 
                 socket.onmessage = function(message) {
-
                     var a = $.parseJSON(message.data);
+
+                    console.log("Controling type of notification", a, a.type);
 
                     if(a.type == "org.celstec.arlearn2.beans.notification.MessageNotification") {
 
@@ -294,29 +250,10 @@ var AppRouter = Backbone.Router.extend({
                         if ($('.direct-chat-messages').length){
                             console.log(a);
                             var aux = a.messageId;
-
-                            //if(app.MessagesList.get(aux) != "undefined"){
-                                //console.debug(app.MessagesList.get(aux).toJSON());
-
-                                //this.MessageReceived = new MessageCollection({ id: a.messageId });
-                                //this.MessageReceived.fetch({
-                                //    beforeSend: setHeader,
-                                //    success: function (response, xhr) {
-                                //        console.log(response, xhr);
-                                //    }
-                                //});
-
-                                console.log(app.MessagesList.where({'messageId': 6438740092256256}));
-
-                                console.log(a, app.UserList.at(0).toJSON());
-
-
                                 $('.direct-chat-messages').append(new MessageOwnView({ model: a }).render().el);
                                 $('.direct-chat-messages').animate({
                                     scrollTop: $('.direct-chat-messages')[0].scrollHeight
                                 }, 200);
-                            //}
-
                             $('input#add-new-message').val('');
                         }else{
                             ///////////////////////////////////////////////////////////////////////////////////////
@@ -324,7 +261,8 @@ var AppRouter = Backbone.Router.extend({
                             // TODO Changes in one collection modifies a view: http://stackoverflow.com/questions/10341141/backbone-multiple-views-subscribing-to-a-single-collections-event-is-this-a-b
                             ///////////////////////////////////////////////////////////////////////////////////////
                             $('.messages-menu > ul').append(new MessageNotificationView({ model: a }).render().el);
-                            console.log("Message notifications:", $('.messages-menu span.label-success').html());
+
+                            var new_floating_notification = new GeneralFloatingNotificationView({ model: a }).render().el;
 
                             var message_notifications = $('.messages-menu span.label-success').html();
 
@@ -334,7 +272,53 @@ var AppRouter = Backbone.Router.extend({
                             }else{
                                 $('.messages-menu span.label-success').html(1);
                             }
+
+                            /////////////////////////
+                            // Floating notifications
+                            /////////////////////////
+                            var top = $(new_floating_notification).position().top;
+
+                            var max_top = 64;
+
+                            var pile_notifications = $('body').find($(".ui-pnotify.stack-topleft")).length;
+
+                            max_top = max_top + 100 * pile_notifications;
+
+                            console.log("Adding notification: Pixels:",max_top, "Bubbles:"+pile_notifications);
+
+                            $(new_floating_notification).css({top: max_top+'px'});
+
+                            $('body').append(new_floating_notification);
+
+                            setTimeout(showNotifications, 5000);
+                            function showNotifications(){
+                                $(new_floating_notification).remove();
+
+                                $.each( $(".ui-pnotify.stack-topleft"), function( key, value ) {
+                                    var top = $(this).position().top;
+
+                                    if(top == "64"){
+                                        $(this).remove();
+                                    }
+
+                                    var descrease_top = top - 100 * pile_notifications;
+                                    //max_top = max_top - 100;
+
+                                    console.log("Removing notification: Pixels:",max_top, "Bubbles:"+pile_notifications, "Decrementar pixels:"+descrease_top);
+
+
+                                    $(this).css({top: descrease_top+'px'});
+                                });
+                            }
+
                         }
+                    }
+
+                    if(a.type == "org.celstec.arlearn2.beans.run.Response"){
+                        /////////////////////////
+                        // Sidebar notifications
+                        /////////////////////////
+                        $("ul.notifications-side-bar").prepend(new NotificationSideBarView({ model: a }).render().el)
                     }
                 };
 
@@ -351,26 +335,18 @@ var AppRouter = Backbone.Router.extend({
         this.MessagesList.fetch({
             beforeSend: setHeader,
             success: function (response, xhr) {
-                //console.log("list of messages", xhr);
+
+                console.info("TODO: retrieve messages per blocks");
+
                 _.each(xhr.messages, function(message){
                     //////////////////////////////////////////////////////////////
                     // TODO make different type of message if it is not my message
                     // TODO place the focus at the end of the chat box
                     //////////////////////////////////////////////////////////////
-                    //console.log(message);
-
-
-                    //var localId =  app.MessagesList.where({'messageId': message.messageId});
-                    //console.log(message.senderId);
-                    //
-                    //console.log(message.senderId +"=="+app.UserList.at(0).toJSON().localId);
-
                     if (message.senderId == app.UserList.at(0).toJSON().localId){
                         $('.direct-chat-messages').append(new MessageLeftView({ model: message }).render().el);
-                        console.log("yes");
                     }else{
                         $('.direct-chat-messages').append(new MessageRightView({ model: message }).render().el);
-                        console.log("no");
                     }
 
                     $('.direct-chat-messages').animate({
@@ -416,24 +392,20 @@ var AppRouter = Backbone.Router.extend({
             });
         }
     },
-    loadPhaseActivities: function(id){
-        //$("ul.circle-container").switchClass( "circle-container", "circle-container-secondary",  500);
+    loadPhaseActivities: function(id, phase){
 
-        $(".menu a.deg0").switchClass( "deg0", "deg0_1",  400);
-        $(".menu a.deg45").switchClass( "deg45", "deg45_1",  400);
-        $(".menu a.deg135").switchClass( "deg135", "deg135_1",  400);
-        $(".menu a.deg180").switchClass( "deg180", "deg180_1",  400);
-        $(".menu a.deg225").switchClass( "deg225", "deg225_1",  400);
-        $(".menu a.deg315").switchClass( "deg315", "deg315_1",  400);
-
-        $(".menu").switchClass( "menu", "menu_1",  400);
-
-        $("#summary .title-summary").show();
-        $("#summary ul.nav-tabs.box-header").hide();
-
-        $("#inquiry-explanation").hide();
-
-        $("ul.box-header.with-border.nav.nav-tabs > li").fadeOut(100);
+        //console.debug("Access phase",phase);
+        //
+        //$("ul#circlemenu li:nth-child("+phase+")").siblings().hide();
+        //
+        //$("ul#circlemenu").attr("id", "circlemenu2");
+        //
+        //$("#summary .title-summary").show();
+        //$("#summary ul.nav-tabs.box-header").hide();
+        //
+        //$("#inquiry-explanation").hide();
+        //
+        //$("ul.box-header.with-border.nav.nav-tabs > li").fadeOut(100);
 
         $("aside#summary > div").switchClass( "col-md-9", "col-md-2", 500, function(){
             this.ActivityList = new ActivitiesCollection({ });
@@ -460,22 +432,12 @@ var AppRouter = Backbone.Router.extend({
 });
 
 var successInquiryUsers = function(response, xhr){
-    //_.each(xhr.gamesAccess, function(e){
-    //    if(app.GameList.where({ 'gameId': e.gameId }) == ""){
-    //        this.Game = new Game({ id: e.gameId });
-    //        this.Game.fetch({
-    //            beforeSend: setHeader,
-    //            success: function (response, game) {
-    //                $('#inquiries > div > div.box-body').append( new GameListView({ model: game, v: 1 }).render().el );
-    //            }
-    //        });
-    //        app.GameList.add(this.Game);
-    //    }
-    //});
-
-    console.log(xhr.users);
-
+    $('span.label.label-success.number-participants').html((xhr.users.length == 1) ? xhr.users.length+" user" :xhr.users.length+" users" );
+    _.each(xhr.users, function(participant){
+        $('ul.users-list').append( new UsersInquiryView({ model: participant}).render().el );
+    });
 };
+
 var successGameHandler = function(response, xhr){
     _.each(xhr.gamesAccess, function(e){
         if(app.GameList.where({ 'gameId': e.gameId }) == ""){
@@ -483,7 +445,8 @@ var successGameHandler = function(response, xhr){
             this.Game.fetch({
                 beforeSend: setHeader,
                 success: function (response, game) {
-                    $('#inquiries > div > div.box-body').append( new GameListView({ model: game, v: 1 }).render().el );
+                    $('.content').append( new GameListView({ model: game, v: 1 }).render().el );
+                    //$('#inquiries > div > div.box-body').append( new GameListView({ model: game, v: 1 }).render().el );
                 }
             });
             app.GameList.add(this.Game);
@@ -495,7 +458,8 @@ var successGameParticipateHandler = function(response, xhr){
     _.each(xhr.games, function(game){
         if(app.GameList.where({ 'gameId': game.id }) == ""){
             app.GameList.add(game);
-            $('#inquiries > div > div.box-body').append( new GameListView({ model: game, v: 2 }).render().el );
+            $('.content').append( new GameListView({ model: game, v: 2 }).render().el );
+            //$('#inquiries > div > div.box-body').append( new GameListView({ model: game, v: 2 }).render().el );
         }
     });
 };
@@ -504,9 +468,6 @@ var successActivitiesHandler = function (response, results) {
     $('#inquiry').html( new PhaseView({ }).render().el );
     $("#inquiry").show();
 
-
-
-    console.log(results.generalItems);
     _.each(results.generalItems, function(generalItem){
         //console.log(generalItem);
         ///////////////////////////////////////////////////////////////////////////////////////
@@ -525,7 +486,17 @@ var successActivitiesHandler = function (response, results) {
 
 var successActivityHandler = function(response, xhr){
 
-    //console.debug("Global identifier (RUN)",window.Run.global_identifier);
+    console.debug("Activity", xhr);
+
+    console.info("Responses",xhr.type, "Time spent waiting for the initial response, also known as the Time To First Byte. This time captures the latency of a round trip to the server in addition to the time spent waiting for the server to deliver the response.");
+    this.Responses = new window.ResponseCollection();
+    new window.ResponseListView({ collection: this.Responses, users: app.InquiryUsers });
+
+    this.Responses.id = window.Run.global_identifier;
+    this.Responses.itemId = xhr.id;
+    this.Responses.fetch({
+        beforeSend: setHeader
+    });
 
     var _self = this;
 
@@ -536,6 +507,7 @@ var successActivityHandler = function(response, xhr){
     //    $('section.phase-master').after(new ActivityView({ model: xhr }).render().el);
     //}
 
+    //$('section#inquiry').after(new ActivityView({ model: xhr }).render().el);
     $('section.phase-master').after(new ActivityView({ model: xhr }).render().el);
 
     $(".close-detail, .cancel").click(function(e){
@@ -653,21 +625,31 @@ var successActivityHandler = function(response, xhr){
         }
     });
 
+
+    $('input.response').keypress(function (e) {
+        var key = e.which;
+        if(key == 13){
+            //$(".message-user").html("Saving..").show().delay(500).fadeOut();
+
+            if  ($('input.response').val() == ""){
+
+            }else{
+                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('input.response').val(), runId: window.Run.global_identifier, userEmail: 0 });
+                newResponse.save({}, {
+                    beforeSend:setHeader,
+                    success: function(r, new_response){
+                        app.Responses.add(new_response);
+                    }
+                });
+            }
+        }
+    });
+
 };
 
-//var successResponsesHandler = function(response, xhr){
-//
-//    //console.debug("successResponsesHandler", xhr);
-//
-//    _.each(xhr.responses, function(response){
-//        //console.debug(response,$('.table-hover > tbody'));
-//        $('.table-hover > tbody').append(new ResponseView({ model: response }).render().el);
-//    });
-//};
-
 tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry', 'run', 'user', 'user_sidebar', 'phase', 'activity', 'activity_detail','activity_details', 'inquiry_structure',
-    'inquiry_sidebar', 'activityDependency', 'message', 'message_right', 'inquiry_left_sidebar','message_own', 'response','response_author',
-    'message_notification', 'activity_video', 'activity_widget'], function() {
+    'inquiry_sidebar', 'activityDependency', 'message', 'message_right', 'inquiry_left_sidebar','message_own', 'response', 'response_discussion','response_author',
+    'message_notification','notification_floating', 'activity_video', 'activity_widget', 'activity_discussion', 'notification_sidebar', 'user_inquiry'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });

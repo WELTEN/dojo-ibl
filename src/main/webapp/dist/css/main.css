@@ -48,12 +48,12 @@ a:hover, a:active, a:focus {
 	color: rgba(26, 26, 26, 0.34);
 }
 
-.box-widget {
+/*.box-widget {*/
 	/*height: 19em;*/
-	max-width: 23em;
-	float: left;
-	margin: 1em;
-}
+	/*max-width: 23em;*/
+	/*float: left;*/
+	/*margin: 1em;*/
+/*}*/
 
 .box-sub-footer{
 	padding: 10px;
@@ -68,3 +68,115 @@ a:hover, a:active, a:focus {
 	left: 67%;
 	/*top: 78px;*/
 }
+
+/*
+	Panel game screen
+*/
+.panel {
+	background: transparent;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border: none;
+}
+.panel {
+	margin-bottom: 20px;
+	background-color: #fff;
+	/*border: 1px solid transparent;*/
+	border-radius: 4px;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+
+.panel-heading.bg-white {
+	background: #fff;
+	border-bottom: 0 none;
+	border-right: 0 none;
+}
+.panel-heading.bg-primary {
+	background: #0088cc;
+	border-bottom: 0 none;
+	border-right: 0 none;
+}
+
+.panel-heading {
+	background: #f6f6f6;
+	border-radius: 5px 5px 0 0;
+	border-bottom: 1px solid #DADADA;
+	padding: 18px;
+	position: relative;
+}
+.panel-heading {
+	padding: 10px 15px;
+	border-bottom: 1px solid transparent;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.panel-heading-icon.bg-primary {
+	background: #0088cc;
+}
+
+.bg-primary {
+			  background: #0088cc;
+		  }
+.panel-heading-icon {
+	margin: 0 auto;
+	font-size: 42px;
+	font-size: 4.2rem;
+	width: 90px;
+	height: 90px;
+	line-height: 90px;
+	text-align: center;
+	color: #fff;
+	background-color: rgba(0, 0, 0, 0.1);
+	-webkit-border-radius: 55px;
+	border-radius: 55px;
+}
+
+.panel-heading + .panel-body {
+	border-radius: 0 0 5px 5px;
+}
+.panel-body {
+	background: #fdfdfd;
+	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+	border-radius: 5px;
+}
+.panel-body {
+	padding: 7px 15px
+}
+
+.panel-body h3{
+	margin: 5px 0px;
+}
+
+.panel-footer{
+	padding: 0px;
+	background-color: #0088cc;
+	overflow: hidden;
+}
+
+.panel-footer > .half{
+	width: 50%;
+	float: left;
+	padding: 10px;
+	text-align: center;
+}
+
+.panel-footer .bg-red{
+	background-color: #dd4b39;
+}
+
+.panel-footer a{
+	color: white;
+
+}
+.panel-footer div.half:nth-child(2){
+	border-left: 1px solid;
+	border-color: white;
+}
+
+object.img-circle{
+	width: 90px;
+}
+
