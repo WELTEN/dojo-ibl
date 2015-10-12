@@ -23,7 +23,8 @@ var AppRouter = Backbone.Router.extend({
         $.cookie("dojoibl.game", null, { path: '/' });
         $.cookie("arlearn.AccessToken", null, { path: '/' });
         $.cookie("arlearn.OauthType", null, { path: '/' });
-        app.navigate('/');
+        app.navigate('');
+        window.location.replace("/");
     },
     main: function() {
         this.common();
