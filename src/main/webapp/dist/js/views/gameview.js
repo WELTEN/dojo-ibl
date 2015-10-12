@@ -315,11 +315,6 @@ window.ActivityBulletView = Backbone.View.extend({
     initialize:function () {
         this.template = _.template(tpl.get('activity'));
     },
-    events: {
-        //'click .skill-badge-small' : 'showDetail',
-        //'click .close-detail.cancel.save' : 'closeDetail',
-        //'click .save' : 'saveActivity'
-    },
     render:function () {
         $(this.el).html(this.template(this.model));
         return this;
@@ -330,13 +325,15 @@ window.ActivityView = Backbone.View.extend({
     tagName: 'section',
     className: 'phase-detail box box-success box-solid',
     initialize:function (xhr) {
-        //console.log(xhr);
+        console.log(xhr);
         if(xhr.model.type.indexOf("VideoObject") > -1){
             this.template = _.template(tpl.get('activity_video'));
         }else if(xhr.model.type.indexOf("OpenBadge") > -1) {
             this.template = _.template(tpl.get('activity_widget'));
         }else if(xhr.model.type.indexOf("AudioObject") > -1) {
             this.template = _.template(tpl.get('activity_discussion'));
+        }else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
+            this.template = _.template(tpl.get('activity_tree_view'));
         }else{
             this.template = _.template(tpl.get('activity_detail'));
         }
@@ -344,6 +341,7 @@ window.ActivityView = Backbone.View.extend({
 
     render:function () {
         $(this.el).html(this.template(this.model));
+        $(this.el).find('#nestable3').nestable();
         return this;
     }
 });
@@ -370,27 +368,14 @@ window.ResponseListView = Backbone.View.extend({
         this.users = options.users;
     },
     render: function(){
-
-        console.debug("New response");
-
-        if($(".box-footer.box-comments").length == 0){
-            console.debug("Add discussion");
+        //if($('#activity-responses').length == 0){
             _.each(this.collection.models, function(response){
-                var aux = response.toJSON().userEmail.split(':');
-                var user = this.users.where({ 'localId': aux[1] });
-                $('.box-footer.box-comments').prepend(new ResponseDiscussionView({ model: response.toJSON(), user: user[0] }).render().el);
-            }, this);
-        }
-
-        if($('#activity-responses').length == 0){
-            console.debug("Add normal response");
-            _.each(this.collection.models, function(response){
+                console.debug(response);
                 var aux = response.toJSON().userEmail.split(':');
                 var user = this.users.where({ 'localId': aux[1] });
                 $('#activity-responses').append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
             }, this);
-        }
-
+        //}
 
         this.collection.reset();
 
@@ -430,6 +415,7 @@ window.ResponseListView = Backbone.View.extend({
     }
 });
 
+
 window.ResponseView = Backbone.View.extend({
     tagName: "tr",
     model: Response,
@@ -438,8 +424,6 @@ window.ResponseView = Backbone.View.extend({
          this.template_author = _.template(tpl.get('response_author'));
 
         this.user = options.user;
-
-        //console.log(options.user.toJSON());
     },
     render:function () {
         // TODO sometimes JSON error. I need to check this.
@@ -449,22 +433,85 @@ window.ResponseView = Backbone.View.extend({
     }
 });
 
+window.ResponseDiscussionListView = Backbone.View.extend({
+    el: $(".box-footer.box-comments"),
+    initialize: function(options){
+
+        _(this).bindAll('render');
+
+        this.collection.bind('add', this.render);
+
+        this.users = options.users;
+    },
+    render: function(){
+        _.each(this.collection.models, function(response){
+
+            var aux = response.toJSON().userEmail.split(':');
+            var user = this.users.where({ 'localId': aux[1] });
+
+            $(".box-footer.box-comments").append(new ResponseDiscussionView({ model: response.toJSON(), user: user[0] }).render().el);
+        }, this);
+
+        $(".number-comments").html(this.collection.models.length == 1) ?
+        this.collection.models.length+" comment" :
+        this.collection.models.length+" comments"
+
+        this.collection.reset();
+    }
+});
+
 window.ResponseDiscussionView = Backbone.View.extend({
     tagName: "div",
     className: "box-comment",
     model: Response,
     initialize: function(options) {
-         this.template = _.template(tpl.get('response_discussion'));
-         this.template_author = _.template(tpl.get('response_author'));
+        this.template = _.template(tpl.get('response_discussion'));
+        this.template_author = _.template(tpl.get('response_discussion_author'));
 
         this.user = options.user;
-
-        //console.log(options.user.toJSON());
     },
     render:function () {
         // TODO sometimes JSON error. I need to check this.
         $(this.el).append(this.template_author(this.user.toJSON()));
+
         $(this.el).append(this.template(this.model));
+        $(this.el).find(".username").prepend(this.user.toJSON().name);
+        if(this.model.lastModificationDate == 0){
+            $(this.el).find(".username > .text-muted.pull-right").prepend("Now");
+        }else{
+            $(this.el).find(".username > .text-muted.pull-right").prepend(jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()));
+        }
+        return this;
+    }
+});
+
+window.ResponseTreeView = Backbone.View.extend({
+    el: $(".box-footer.box-comments"),
+    initialize: function(options){
+
+        _(this).bindAll('render');
+
+        this.collection.bind('add', this.render);
+    },
+    render: function(){
+        _.each(this.collection.models, function(response){
+            $(".box-footer.box-comments").append(new ResponseTreeviewItemView({ model: response.toJSON() }).render().el);
+        }, this);
+
+        this.collection.reset();
+    }
+});
+window.ResponseTreeviewItemView = Backbone.View.extend({
+    tagName: "li",
+    className: "dd-item dd3-item",
+    model: Response,
+    initialize: function(options) {
+        this.template = _.template(tpl.get('response_treeview'));
+    },
+    render:function () {
+
+        $(this.el).append(this.template(this.model));
+
         return this;
     }
 });
