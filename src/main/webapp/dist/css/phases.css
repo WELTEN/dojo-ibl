@@ -21,3 +21,7 @@
 #activity-responses td img{
 	width: 40px;
 }
+
+ol.dd-list.hide{
+	display: none;
+}
