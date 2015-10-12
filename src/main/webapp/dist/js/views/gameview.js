@@ -486,8 +486,7 @@ window.ResponseDiscussionView = Backbone.View.extend({
 });
 
 window.ResponseTreeView = Backbone.View.extend({
-    el: $(".box-footer.box-comments"),
-    initialize: function(options){
+    initialize: function(){
 
         _(this).bindAll('render');
 
@@ -495,7 +494,7 @@ window.ResponseTreeView = Backbone.View.extend({
     },
     render: function(){
         _.each(this.collection.models, function(response){
-            $(".box-footer.box-comments").append(new ResponseTreeviewItemView({ model: response.toJSON() }).render().el);
+            $("#nestable3 ol.dd-list").append(new ResponseTreeviewItemView({ model: response.toJSON() }).render().el);
         }, this);
 
         this.collection.reset();

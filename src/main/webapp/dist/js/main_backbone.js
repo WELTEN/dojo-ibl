@@ -205,7 +205,7 @@ var AppRouter = Backbone.Router.extend({
         }
 
         if ($(".phase-detail").length != 0){
-            console.log("Activity is already open");
+            console.info("Activity is already open");
             $(".phase-detail").remove();
         }
 
@@ -496,14 +496,11 @@ var successActivitiesHandler = function (response, results) {
 
 var successActivityHandler = function(response, xhr){
 
-    console.debug("Activity", xhr);
-
-
     var _self = this;
 
     $('section.phase-master').after(new ActivityView({ model: xhr }).render().el);
 
-    console.info("Responses",xhr.type, "Time spent waiting for the initial response, also known as the Time To First Byte. This time captures the latency of a round trip to the server in addition to the time spent waiting for the server to deliver the response.");
+    //console.info("Responses",xhr.type, "Time spent waiting for the initial response, also known as the Time To First Byte. This time captures the latency of a round trip to the server in addition to the time spent waiting for the server to deliver the response.");
 
     app.Responses = new window.ResponseCollection();
 
@@ -512,7 +509,7 @@ var successActivityHandler = function(response, xhr){
     }else if(xhr.type.indexOf("OpenBadge") > -1) {
 
     }else if(xhr.type.indexOf("MultipleChoiceImageTest") > -1) {
-        new window.ResponseTreeView({ collection: app.Responses, users: app.InquiryUsers });
+        new window.ResponseTreeView({ collection: app.Responses });
     }else if(xhr.type.indexOf("AudioObject") > -1) {
         new window.ResponseDiscussionListView({ collection: app.Responses, users: app.InquiryUsers });
     }else{
