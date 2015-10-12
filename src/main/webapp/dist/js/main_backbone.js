@@ -13,9 +13,17 @@ var AppRouter = Backbone.Router.extend({
     },
     routes: {
         ""			: "main",
+        "logout"			: "logout",
         "inquiry/:id"	: "showInquiry",
         "inquiry/:id/phase/:phase" : "showPhase",
         "inquiry/:id/phase/:phase/activity/:activity" : "showActivity"
+    },
+    logout: function() {
+        $.cookie("dojoibl.run", null, { path: '/' });
+        $.cookie("dojoibl.game", null, { path: '/' });
+        $.cookie("arlearn.AccessToken", null, { path: '/' });
+        $.cookie("arlearn.OauthType", null, { path: '/' });
+        app.navigate('/');
     },
     main: function() {
         this.common();
@@ -195,16 +203,17 @@ var AppRouter = Backbone.Router.extend({
             console.log("show phase", $(".phase-master"));
         }
 
+        if ($(".phase-detail").length != 0){
+            console.log("Activity is already open");
+            $(".phase-detail").remove();
+        }
+
         $(".phase-master").animate({
             'marginLeft' : '-14em',
             'width': '167px',
             'top': '222px'
         }, 200, function() {
-
             $(this).find(".box-tools.pull-right").hide();
-
-            $(".phase-detail").show();
-
         });
 
         this.Activity = new ActivityCollection({ });
@@ -488,28 +497,36 @@ var successActivityHandler = function(response, xhr){
 
     console.debug("Activity", xhr);
 
-    console.info("Responses",xhr.type, "Time spent waiting for the initial response, also known as the Time To First Byte. This time captures the latency of a round trip to the server in addition to the time spent waiting for the server to deliver the response.");
-    this.Responses = new window.ResponseCollection();
-    new window.ResponseListView({ collection: this.Responses, users: app.InquiryUsers });
-
-    this.Responses.id = window.Run.global_identifier;
-    this.Responses.itemId = xhr.id;
-    this.Responses.fetch({
-        beforeSend: setHeader
-    });
 
     var _self = this;
 
-    //if(xhr.type.indexOf("VideoObject") > -1){
-    //    console.log(xhr);
-    //    $('section.phase-master').after(new ActivityVideoView({ model: xhr }).render().el);
-    //}else{
-    //    $('section.phase-master').after(new ActivityView({ model: xhr }).render().el);
-    //}
-
-    //$('section#inquiry').after(new ActivityView({ model: xhr }).render().el);
     $('section.phase-master').after(new ActivityView({ model: xhr }).render().el);
 
+    console.info("Responses",xhr.type, "Time spent waiting for the initial response, also known as the Time To First Byte. This time captures the latency of a round trip to the server in addition to the time spent waiting for the server to deliver the response.");
+
+    app.Responses = new window.ResponseCollection();
+
+    if(xhr.type.indexOf("VideoObject") > -1){
+
+    }else if(xhr.type.indexOf("OpenBadge") > -1) {
+
+    }else if(xhr.type.indexOf("MultipleChoiceImageTest") > -1) {
+        new window.ResponseTreeView({ collection: app.Responses, users: app.InquiryUsers });
+    }else if(xhr.type.indexOf("AudioObject") > -1) {
+        new window.ResponseDiscussionListView({ collection: app.Responses, users: app.InquiryUsers });
+    }else{
+        new window.ResponseListView({ collection: app.Responses, users: app.InquiryUsers });
+    }
+
+    app.Responses.id = window.Run.global_identifier;
+    app.Responses.itemId = xhr.id;
+    app.Responses.fetch({
+        beforeSend: setHeader
+    });
+
+    ///////////////////////////////
+    // Listener to submit responses
+    ///////////////////////////////
     $(".close-detail, .cancel").click(function(e){
         //$(".phase-master").animate({
         //    'marginLeft' : '+0%'
@@ -625,12 +642,9 @@ var successActivityHandler = function(response, xhr){
         }
     });
 
-
     $('input.response').keypress(function (e) {
         var key = e.which;
         if(key == 13){
-            //$(".message-user").html("Saving..").show().delay(500).fadeOut();
-
             if  ($('input.response').val() == ""){
 
             }else{
@@ -642,14 +656,41 @@ var successActivityHandler = function(response, xhr){
                     }
                 });
             }
+            $('input.response').val("");
         }
     });
+
+    $("button.new-todo-task").click(function(e){
+        $("div.new-todo-task").removeClass("hide");
+    });
+
+    $('input.new-todo-tasks-value').keypress(function (e) {
+        var key = e.which;
+        if(key == 13){
+            if  ($('input.new-todo-tasks-value').val() == ""){
+
+            }else{
+                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('input.new-todo-tasks-value').val(), runId: window.Run.global_identifier, userEmail: 0 });
+                newResponse.save({}, {
+                    beforeSend:setHeader,
+                    success: function(r, new_response){
+                        app.Responses.add(new_response);
+                    }
+                });
+            }
+
+            $('input.new-todo-tasks-value').val("");
+            $("div.new-todo-task").addClass("hide");
+        }
+    });
+
+    $(".phase-detail").show();
 
 };
 
 tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry', 'run', 'user', 'user_sidebar', 'phase', 'activity', 'activity_detail','activity_details', 'inquiry_structure',
-    'inquiry_sidebar', 'activityDependency', 'message', 'message_right', 'inquiry_left_sidebar','message_own', 'response', 'response_discussion','response_author',
-    'message_notification','notification_floating', 'activity_video', 'activity_widget', 'activity_discussion', 'notification_sidebar', 'user_inquiry'], function() {
+    'inquiry_sidebar', 'activityDependency', 'message', 'message_right', 'inquiry_left_sidebar','message_own', 'response', 'response_discussion', 'response_treeview','response_author', 'response_discussion_author',
+    'message_notification','notification_floating', 'activity_video', 'activity_widget', 'activity_discussion', 'notification_sidebar', 'user_inquiry','activity_tree_view'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });
