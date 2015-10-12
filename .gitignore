@@ -25,10 +25,13 @@ src/main/webapp/gameOverview.jsp
 src/main/webapp/gamesOverview.jsp
 src/main/webapp/index.jsp
 src/main/webapp/issuebadge.jsp
-src/main/webapp/network.html
 src/main/webapp/portal.html
 src/main/webapp/qrsFor.jsp
 src/main/webapp/register.html
 src/main/webapp/resultDisplayRuns.html
 src/main/webapp/runsParticipateDisplay.html
 src/main/webapp/search.html
+src/main/webapp/htmlDisplay.html
+src/main/webapp/inquiry.html
+src/main/webapp/main.html
+src/main/webapp/oauth copy.html
