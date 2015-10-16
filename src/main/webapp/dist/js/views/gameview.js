@@ -113,10 +113,7 @@ window.GameListView = Backbone.View.extend({
     },
     showRunsStudents: function(e){
         e.preventDefault();
-        var aux = $(this.el);
-
-        console.log(aux);
-
+        var _aux = $(this.el);
         $(".nav.nav-stacked").slideUp(200).html("");
 
         this.RunAccessList = new RunByGameCollection({ id: this.model.gameId });
@@ -126,10 +123,10 @@ window.GameListView = Backbone.View.extend({
             success: function(response, xhr) {
 
                 if(xhr.runs.length == 0){
-                    $(aux).find(".nav.nav-stacked").hide().html("<li><a href=''>No inquiries</a></li>").slideDown(200);
+                    $(_aux).find(".nav.nav-stacked").hide().html("<li><a href=''>No inquiries</a></li>").slideDown(200);
                 }else{
                     _.each(xhr.runs, function(run){
-                        $(aux).find(".nav.nav-stacked").hide().html(new this.RunListView({ model: run }).render().el).slideDown(200);
+                        $(_aux).find(".nav.nav-stacked").hide().html(new this.RunListView({ model: run }).render().el).slideDown(200);
                     });
                 }
             }
@@ -368,14 +365,12 @@ window.ResponseListView = Backbone.View.extend({
         this.users = options.users;
     },
     render: function(){
-        //if($('#activity-responses').length == 0){
-            _.each(this.collection.models, function(response){
-                console.debug(response);
-                var aux = response.toJSON().userEmail.split(':');
-                var user = this.users.where({ 'localId': aux[1] });
-                $('#activity-responses').append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
-            }, this);
-        //}
+        _.each(this.collection.models, function(response){
+            console.debug(response);
+            var aux = response.toJSON().userEmail.split(':');
+            var user = this.users.where({ 'localId': aux[1] });
+            $('#activity-responses').append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
+        }, this);
 
         this.collection.reset();
 

@@ -449,27 +449,26 @@ var successInquiryUsers = function(response, xhr){
 };
 
 var successGameHandler = function(response, xhr){
+
     _.each(xhr.gamesAccess, function(e){
-        if(app.GameList.where({ 'gameId': e.gameId }) == ""){
-            this.Game = new Game({ id: e.gameId });
-            this.Game.fetch({
+        if(app.GameList.where({ id: e.gameId}).length == 0){
+            var game = new Game({ id: e.gameId });
+            game.fetch({
                 beforeSend: setHeader,
                 success: function (response, game) {
                     $('.content').append( new GameListView({ model: game, v: 1 }).render().el );
-                    //$('#inquiries > div > div.box-body').append( new GameListView({ model: game, v: 1 }).render().el );
                 }
             });
-            app.GameList.add(this.Game);
+            app.GameList.add(game);
         }
     });
 };
 
 var successGameParticipateHandler = function(response, xhr){
     _.each(xhr.games, function(game){
-        if(app.GameList.where({ 'gameId': game.id }) == ""){
+        if(app.GameList.where({ id: game.gameId}).length == 0){
             app.GameList.add(game);
             $('.content').append( new GameListView({ model: game, v: 2 }).render().el );
-            //$('#inquiries > div > div.box-body').append( new GameListView({ model: game, v: 2 }).render().el );
         }
     });
 };
@@ -499,8 +498,6 @@ var successActivityHandler = function(response, xhr){
     var _self = this;
 
     $('section.phase-master').after(new ActivityView({ model: xhr }).render().el);
-
-    //console.info("Responses",xhr.type, "Time spent waiting for the initial response, also known as the Time To First Byte. This time captures the latency of a round trip to the server in addition to the time spent waiting for the server to deliver the response.");
 
     app.Responses = new window.ResponseCollection();
 
@@ -692,10 +689,3 @@ tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry', 'run', 'user', 'use
     app = new AppRouter();
     Backbone.history.start();
 });
-
-/////////////////
-// For the future
-/////////////////
-//window.addEventListener('popstate', function(e) {
-//    app.navigate(Backbone.history.getFragment(), { trigger: true, replace: true });
-//});

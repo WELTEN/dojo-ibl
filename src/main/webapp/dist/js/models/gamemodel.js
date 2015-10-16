@@ -24,7 +24,7 @@ window.RunAccess = Backbone.Model.extend({
 window.Run = Backbone.Model.extend({
     global_identifier: 0,
     initialize: function(a){
-        console.log("Run initialize");
+        //console.log("Run initialize");
     }
 });
 
