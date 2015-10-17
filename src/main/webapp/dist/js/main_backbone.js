@@ -197,37 +197,227 @@ var AppRouter = Backbone.Router.extend({
     },
     showActivity: function(id, phase, activity){
 
-        this.loadInquiryUsers(window.Run.global_identifier);
+        var _phase = phase;
+
+        this.loadInquiryUsers($.cookie("dojoibl.run"));
 
         if ($(".phase-master").length == 0){
             this.showPhase(id, phase);
-            console.log("show phase", $(".phase-master"));
+            console.log("show phase", $(".phase-master").html());
+            app.navigate('inquiry/'+id+'/phase/'+phase);
+        }else{
+            if ($(".phase-detail").length != 0){
+                console.info("Activity is already open");
+                $(".phase-detail").remove();
+            }
+
+            $(".phase-master").animate({
+                'marginLeft' : '-14em',
+                'width': '167px',
+                'top': '222px'
+            }, 200, function() {
+                $(this).find(".box-tools.pull-right").hide();
+            });
+
+            this.Activity = new ActivityCollection({ });
+            this.Activity.id = activity;
+            this.Activity.gameId = id;
+            this.Activity.fetch({
+                beforeSend: setHeader,
+                success: function(response, xhr){
+
+                    $('section.phase-master').after(new ActivityView({ model: xhr }).render().el);
+
+                    app.Responses = new window.ResponseCollection();
+
+                    if(xhr.type.indexOf("VideoObject") > -1){
+
+                    }else if(xhr.type.indexOf("OpenBadge") > -1) {
+
+                    }else if(xhr.type.indexOf("MultipleChoiceImageTest") > -1) {
+                        new window.ResponseTreeView({ collection: app.Responses });
+                    }else if(xhr.type.indexOf("AudioObject") > -1) {
+                        new window.ResponseDiscussionListView({ collection: app.Responses, users: app.InquiryUsers });
+                    }else{
+                        new window.ResponseListView({ collection: app.Responses, users: app.InquiryUsers });
+                    }
+
+                    app.Responses.id = window.Run.global_identifier;
+                    app.Responses.itemId = xhr.id;
+                    app.Responses.fetch({
+                        beforeSend: setHeader
+                    });
+
+                    ///////////////////////////////
+                    // Listener to submit responses
+                    ///////////////////////////////
+                    $(".close-detail, .cancel").click(function(e){
+                        //$(".phase-master").animate({
+                        //    'marginLeft' : '+0%'
+                        //});
+
+                        $(".phase-master").animate({
+                            'marginLeft' : '+0%',
+                            'width': '100%',
+                            'top': '0px'
+                        });
+                        $(".phase-master").find(".box-tools.pull-right").show();
+                        $(".phase-master").find(".skill-tree-row.row-1").show();
+
+
+                        //console.debug(xhr,"saving or closing...");
+
+                        app.navigate('inquiry/'+xhr.gameId+'/phase/'+_phase);
+
+                        $(".phase-detail").hide();
+                        $(".phase-detail").remove();
+
+                        e.preventDefault();
+                    });
+
+                    $('textarea').keyup(function(e){
+                        //console.log(e);
+                        if(e.keyCode == 51){
+                            console.debug("[successActivityHandl]","Display other responses to link them.");
+                            $(this).trigger('enter');
+                        }
+                    });
+
+                    $(".save").click(function(){
+                        $(".message-user").html("Saving..").show().delay(500).fadeOut();
+
+                        if  ($('textarea.response').val() == ""){
+
+                        }else{
+                            var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('textarea.response').val(), runId: window.Run.global_identifier, userEmail: 0 });
+                            newResponse.save({}, {
+                                beforeSend:setHeader,
+                                success: function(r, new_response){
+                                    app.Responses.add(new_response);
+                                }
+                            });
+                        }
+                    });
+
+                    $(".save-close").click(function(){
+                        $(".message-user").html("Saving..").show().delay(500).fadeOut();
+
+                        if  ($('textarea.response').val() == ""){
+                            //$(".phase-master").animate({
+                            //    'marginLeft' : '+0%'
+                            //});
+
+                            $(".phase-master").animate({
+                                'marginLeft' : '+0%',
+                                'width': '100%',
+                                'top': '0px'
+                            });
+                            $(".phase-master").find(".box-tools.pull-right").show();
+                            $(".phase-master").find(".skill-tree-row.row-1").show();
+
+
+                            //console.debug(xhr,"saving or closing...");
+
+                            app.navigate('inquiry/'+xhr.gameId+'/phase/1');
+
+                            $(".phase-detail").hide();
+                            $(".phase-detail").remove();
+                        }else{
+                            var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('textarea.response').val(), runId: window.Run.global_identifier, userEmail: 0 });
+                            newResponse.save({}, {
+                                beforeSend:setHeader,
+                                success: function(r, s){
+
+                                    //
+                                    //$(".phase-master").animate({
+                                    //    'marginLeft' : '+0%',
+                                    //    'width': '100%',
+                                    //    'top': '0px'
+                                    //});
+                                    //$(".phase-master").find(".box-tools.pull-right").show();
+                                    //
+                                    //console.debug(s, xhr,"saving or closing...");
+                                    //
+                                    //app.navigate('inquiry/'+xhr.gameId+'/phase/1');
+                                    //
+                                    //$(".phase-detail").hide();
+                                    //$(".phase-detail").remove();
+
+
+                                    e.preventDefault();
+                                }
+                            });
+
+                            $(".phase-master").animate({
+                                'marginLeft' : '+0%',
+                                'width': '100%',
+                                'top': '0px'
+                            });
+                            $(".phase-master").find(".box-tools.pull-right").show();
+                            $(".phase-master").find(".skill-tree-row.row-1").show();
+
+
+                            //console.debug(xhr,"saving or closing...");
+
+                            app.navigate('inquiry/'+xhr.gameId+'/phase/1');
+
+                            $(".phase-detail").hide();
+                            $(".phase-detail").remove();
+                        }
+                    });
+
+                    $('input.response').keypress(function (e) {
+                        var key = e.which;
+                        if(key == 13){
+                            if  ($('input.response').val() == ""){
+
+                            }else{
+                                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('input.response').val(), runId: window.Run.global_identifier, userEmail: 0 });
+                                newResponse.save({}, {
+                                    beforeSend:setHeader,
+                                    success: function(r, new_response){
+                                        app.Responses.add(new_response);
+                                    }
+                                });
+                            }
+                            $('input.response').val("");
+                        }
+                    });
+
+                    $("button.new-todo-task").click(function(e){
+                        $("div.new-todo-task").removeClass("hide");
+                    });
+
+                    $('input.new-todo-tasks-value').keypress(function (e) {
+                        var key = e.which;
+                        if(key == 13){
+                            if  ($('input.new-todo-tasks-value').val() == ""){
+
+                            }else{
+                                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('input.new-todo-tasks-value').val(), runId: window.Run.global_identifier, userEmail: 0 });
+                                newResponse.save({}, {
+                                    beforeSend:setHeader,
+                                    success: function(r, new_response){
+                                        app.Responses.add(new_response);
+                                    }
+                                });
+                            }
+
+                            $('input.new-todo-tasks-value').val("");
+                            $("div.new-todo-task").addClass("hide");
+                        }
+                    });
+
+                    $(".phase-detail").show();
+                }
+            });
+
+            if($.cookie("dojoibl.run")){
+                window.Run.global_identifier = $.cookie("dojoibl.run");
+            }
         }
 
-        if ($(".phase-detail").length != 0){
-            console.info("Activity is already open");
-            $(".phase-detail").remove();
-        }
 
-        $(".phase-master").animate({
-            'marginLeft' : '-14em',
-            'width': '167px',
-            'top': '222px'
-        }, 200, function() {
-            $(this).find(".box-tools.pull-right").hide();
-        });
-
-        this.Activity = new ActivityCollection({ });
-        this.Activity.id = activity;
-        this.Activity.gameId = id;
-        this.Activity.fetch({
-            beforeSend: setHeader,
-            success: successActivityHandler
-        });
-
-        if($.cookie("dojoibl.run")){
-            window.Run.global_identifier = $.cookie("dojoibl.run");
-        }
     },
     initializeChannelAPI: function(){
         console.debug("[initializeChannelAPI]", "Initializing the chat");
@@ -425,20 +615,7 @@ var AppRouter = Backbone.Router.extend({
         }
     },
     loadPhaseActivities: function(id, phase){
-
-        //console.debug("Access phase",phase);
-        //
-        //$("ul#circlemenu li:nth-child("+phase+")").siblings().hide();
-        //
-        //$("ul#circlemenu").attr("id", "circlemenu2");
-        //
-        //$("#summary .title-summary").show();
-        //$("#summary ul.nav-tabs.box-header").hide();
-        //
-        //$("#inquiry-explanation").hide();
-        //
-        //$("ul.box-header.with-border.nav.nav-tabs > li").fadeOut(100);
-
+        var _phase = phase;
         $("aside#summary > div").switchClass( "col-md-9", "col-md-2", 500, function(){
             this.ActivityList = new ActivitiesCollection({ });
             this.ActivityList
@@ -471,7 +648,7 @@ var AppRouter = Backbone.Router.extend({
                         //$('section.phase-master > .box-body > ul').append(new ActivityDepencyView({ model: generalItem }).render().el);
                         //}else{
                         //    console.log("no depen");
-                        $('section.phase-master > .box-body > ul').append(new ActivityBulletView({ model: generalItem }).render().el);
+                        $('section.phase-master > .box-body > ul').append(new ActivityBulletView({ model: generalItem, phase: _phase }).render().el);
                         //}
                     });
                 }
@@ -521,196 +698,6 @@ var successGameParticipateHandler = function(response, xhr){
             $('.content').append( new GameListView({ model: game, v: 2 }).render().el );
         }
     });
-};
-
-var successActivityHandler = function(response, xhr){
-
-    var _self = this;
-
-    $('section.phase-master').after(new ActivityView({ model: xhr }).render().el);
-
-    app.Responses = new window.ResponseCollection();
-
-    if(xhr.type.indexOf("VideoObject") > -1){
-
-    }else if(xhr.type.indexOf("OpenBadge") > -1) {
-
-    }else if(xhr.type.indexOf("MultipleChoiceImageTest") > -1) {
-        new window.ResponseTreeView({ collection: app.Responses });
-    }else if(xhr.type.indexOf("AudioObject") > -1) {
-        new window.ResponseDiscussionListView({ collection: app.Responses, users: app.InquiryUsers });
-    }else{
-        new window.ResponseListView({ collection: app.Responses, users: app.InquiryUsers });
-    }
-
-    app.Responses.id = window.Run.global_identifier;
-    app.Responses.itemId = xhr.id;
-    app.Responses.fetch({
-        beforeSend: setHeader
-    });
-
-    ///////////////////////////////
-    // Listener to submit responses
-    ///////////////////////////////
-    $(".close-detail, .cancel").click(function(e){
-        //$(".phase-master").animate({
-        //    'marginLeft' : '+0%'
-        //});
-
-        $(".phase-master").animate({
-            'marginLeft' : '+0%',
-            'width': '100%',
-            'top': '0px'
-        });
-        $(".phase-master").find(".box-tools.pull-right").show();
-        $(".phase-master").find(".skill-tree-row.row-1").show();
-
-
-        //console.debug(xhr,"saving or closing...");
-
-        app.navigate('inquiry/'+xhr.gameId+'/phase/1');
-
-        $(".phase-detail").hide();
-        $(".phase-detail").remove();
-
-        e.preventDefault();
-    });
-
-    $('textarea').keyup(function(e){
-        //console.log(e);
-        if(e.keyCode == 51){
-            console.debug("[successActivityHandler]","Display other responses to link them.");
-            $(this).trigger('enter');
-        }
-    });
-
-    $(".save").click(function(){
-        $(".message-user").html("Saving..").show().delay(500).fadeOut();
-
-        if  ($('textarea.response').val() == ""){
-
-        }else{
-            var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('textarea.response').val(), runId: window.Run.global_identifier, userEmail: 0 });
-            newResponse.save({}, {
-                beforeSend:setHeader,
-                success: function(r, new_response){
-                    app.Responses.add(new_response);
-                }
-            });
-        }
-    });
-
-    $(".save-close").click(function(){
-        $(".message-user").html("Saving..").show().delay(500).fadeOut();
-
-        if  ($('textarea.response').val() == ""){
-            //$(".phase-master").animate({
-            //    'marginLeft' : '+0%'
-            //});
-
-            $(".phase-master").animate({
-                'marginLeft' : '+0%',
-                'width': '100%',
-                'top': '0px'
-            });
-            $(".phase-master").find(".box-tools.pull-right").show();
-            $(".phase-master").find(".skill-tree-row.row-1").show();
-
-
-            //console.debug(xhr,"saving or closing...");
-
-            app.navigate('inquiry/'+xhr.gameId+'/phase/1');
-
-            $(".phase-detail").hide();
-            $(".phase-detail").remove();
-        }else{
-            var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('textarea.response').val(), runId: window.Run.global_identifier, userEmail: 0 });
-            newResponse.save({}, {
-                beforeSend:setHeader,
-                success: function(r, s){
-
-                    //
-                    //$(".phase-master").animate({
-                    //    'marginLeft' : '+0%',
-                    //    'width': '100%',
-                    //    'top': '0px'
-                    //});
-                    //$(".phase-master").find(".box-tools.pull-right").show();
-                    //
-                    //console.debug(s, xhr,"saving or closing...");
-                    //
-                    //app.navigate('inquiry/'+xhr.gameId+'/phase/1');
-                    //
-                    //$(".phase-detail").hide();
-                    //$(".phase-detail").remove();
-
-
-                    e.preventDefault();
-                }
-            });
-
-            $(".phase-master").animate({
-                'marginLeft' : '+0%',
-                'width': '100%',
-                'top': '0px'
-            });
-            $(".phase-master").find(".box-tools.pull-right").show();
-            $(".phase-master").find(".skill-tree-row.row-1").show();
-
-
-            //console.debug(xhr,"saving or closing...");
-
-            app.navigate('inquiry/'+xhr.gameId+'/phase/1');
-
-            $(".phase-detail").hide();
-            $(".phase-detail").remove();
-        }
-    });
-
-    $('input.response').keypress(function (e) {
-        var key = e.which;
-        if(key == 13){
-            if  ($('input.response').val() == ""){
-
-            }else{
-                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('input.response').val(), runId: window.Run.global_identifier, userEmail: 0 });
-                newResponse.save({}, {
-                    beforeSend:setHeader,
-                    success: function(r, new_response){
-                        app.Responses.add(new_response);
-                    }
-                });
-            }
-            $('input.response').val("");
-        }
-    });
-
-    $("button.new-todo-task").click(function(e){
-        $("div.new-todo-task").removeClass("hide");
-    });
-
-    $('input.new-todo-tasks-value').keypress(function (e) {
-        var key = e.which;
-        if(key == 13){
-            if  ($('input.new-todo-tasks-value').val() == ""){
-
-            }else{
-                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('input.new-todo-tasks-value').val(), runId: window.Run.global_identifier, userEmail: 0 });
-                newResponse.save({}, {
-                    beforeSend:setHeader,
-                    success: function(r, new_response){
-                        app.Responses.add(new_response);
-                    }
-                });
-            }
-
-            $('input.new-todo-tasks-value').val("");
-            $("div.new-todo-task").addClass("hide");
-        }
-    });
-
-    $(".phase-detail").show();
-
 };
 
 tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry', 'run', 'user', 'user_sidebar', 'phase', 'activity', 'activity_detail','activity_details', 'inquiry_structure',

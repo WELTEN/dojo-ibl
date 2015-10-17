@@ -309,11 +309,12 @@ window.MessageRightView = Backbone.View.extend({
 window.ActivityBulletView = Backbone.View.extend({
     tagName:  "li",
     className: "skill-tree-row row-1",
-    initialize:function () {
+    initialize:function (options) {
+        this.phase = options.phase
         this.template = _.template(tpl.get('activity'));
     },
     render:function () {
-        $(this.el).html(this.template(this.model));
+        $(this.el).html(this.template({model: this.model, phase: this.phase}));
         return this;
     }
 });
@@ -322,7 +323,6 @@ window.ActivityView = Backbone.View.extend({
     tagName: 'section',
     className: 'phase-detail box box-success box-solid',
     initialize:function (xhr) {
-        console.log(xhr);
         if(xhr.model.type.indexOf("VideoObject") > -1){
             this.template = _.template(tpl.get('activity_video'));
         }else if(xhr.model.type.indexOf("OpenBadge") > -1) {
@@ -366,7 +366,6 @@ window.ResponseListView = Backbone.View.extend({
     },
     render: function(){
         _.each(this.collection.models, function(response){
-            console.debug(response);
             var aux = response.toJSON().userEmail.split(':');
             var user = this.users.where({ 'localId': aux[1] });
             $('#activity-responses').append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
