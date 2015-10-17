@@ -156,18 +156,18 @@ var AppRouter = Backbone.Router.extend({
     showPhase: function(id, phase){
         var _self = this;
         var _id = id;
+        var _phase = phase;
 
         var date = new Date();
         date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
         var expires = "; expires=" + date.toGMTString();
         $.cookie("dojoibl.game", id, {expires: date, path: "/"});
 
+        ///////////////////////////////////////////////////////////////////
+        // If we refresh the in phase view we need to load everything again
+        ///////////////////////////////////////////////////////////////////
         if ( $("#inquiry").length == 0 || $("aside#summary").length == 0 ){
-
             if($.cookie("dojoibl.run")){
-                ////////////////////////////////////////////////////////////
-                // If we refresh the wepage we need to load everything again
-                ////////////////////////////////////////////////////////////
                 $('#inquiries').html(new InquiryStructureView({ }).render().el);
 
                 this.RunList = new RunCollection({ });
@@ -183,7 +183,7 @@ var AppRouter = Backbone.Router.extend({
                         $(".knob").knob();
                         $("#inquiry").hide();
 
-                        _self.loadPhaseActivities(_id);
+                        _self.loadPhaseActivities(_id, _phase);
                         _self.common();
                         _self.loadChat($.cookie("dojoibl.run"));
                         _self.loadInquiryUsers($.cookie("dojoibl.run"));
@@ -251,6 +251,21 @@ var AppRouter = Backbone.Router.extend({
                 socket.onmessage = function(message) {
                     var a = $.parseJSON(message.data);
 
+
+                    // TODO create a getMessage service on the API
+                    if(app.MessagesList.where({ id: a.messageId }).length == 0){
+                        console.log("dentro");
+                        var message = new Message({ id: a.messageId });
+                        message.fetch({
+                            beforeSend: setHeader
+                        });
+                        app.MessagesList.add(message);
+                    }
+                    console.log(app.MessagesList.get(a.messageId));
+                    console.log(app.MessagesList);
+
+
+
                     console.log("Controling type of notification", a, a.type);
 
                     if(a.type == "org.celstec.arlearn2.beans.notification.MessageNotification") {
@@ -261,7 +276,14 @@ var AppRouter = Backbone.Router.extend({
                             console.log(a);
                             var aux = a.messageId;
                                 $('.direct-chat-messages').append(new MessageOwnView({ model: a }).render().el);
-                                $('.direct-chat-messages').animate({
+                                //if (a.senderId == app.UserList.at(0).toJSON().localId){
+                                //    $('.direct-chat-messages').append(new MessageLeftView({ model: a }).render().el);
+                                //}else{
+                                //    $('.direct-chat-messages').append(new MessageRightView({ model: a }).render().el);
+                                //}
+
+
+                            $('.direct-chat-messages').animate({
                                     scrollTop: $('.direct-chat-messages')[0].scrollHeight
                                 }, 200);
                             $('input#add-new-message').val('');
@@ -424,7 +446,35 @@ var AppRouter = Backbone.Router.extend({
 
             this.ActivityList.fetch({
                 beforeSend: setHeader,
-                success: successActivitiesHandler
+                success: function (response, results){
+                    $('#inquiry').html( new PhaseView({ }).render().el );
+                    $("#inquiry").show();
+
+                    $("#circlemenu").children().hide();
+                    $("#circlemenu li:nth-child("+phase+")").show();
+                    $("ul#circlemenu").attr("id", "circlemenu2");
+
+                    $("#summary .title-summary").show();
+                    $("#summary ul.nav-tabs.box-header").hide();
+
+                    $("#inquiry-explanation").hide();
+
+                    $("ul.box-header.with-border.nav.nav-tabs > li").fadeOut(100);
+
+                    _.each(results.generalItems, function(generalItem){
+                        //console.log(generalItem);
+                        ///////////////////////////////////////////////////////////////////////////////////////
+                        // TODO Re-think how to display the activities
+                        ///////////////////////////////////////////////////////////////////////////////////////
+                        //if(typeof(generalItem.dependsOn) != "undefined" && generalItem.dependsOn !== null) {
+                        //console.log("yes depen");
+                        //$('section.phase-master > .box-body > ul').append(new ActivityDepencyView({ model: generalItem }).render().el);
+                        //}else{
+                        //    console.log("no depen");
+                        $('section.phase-master > .box-body > ul').append(new ActivityBulletView({ model: generalItem }).render().el);
+                        //}
+                    });
+                }
             });
         });
     },
@@ -471,26 +521,6 @@ var successGameParticipateHandler = function(response, xhr){
             $('.content').append( new GameListView({ model: game, v: 2 }).render().el );
         }
     });
-};
-
-var successActivitiesHandler = function (response, results) {
-    $('#inquiry').html( new PhaseView({ }).render().el );
-    $("#inquiry").show();
-
-    _.each(results.generalItems, function(generalItem){
-        //console.log(generalItem);
-        ///////////////////////////////////////////////////////////////////////////////////////
-        // TODO Re-think how to display the activities
-        ///////////////////////////////////////////////////////////////////////////////////////
-        //if(typeof(generalItem.dependsOn) != "undefined" && generalItem.dependsOn !== null) {
-        //console.log("yes depen");
-        //$('section.phase-master > .box-body > ul').append(new ActivityDepencyView({ model: generalItem }).render().el);
-        //}else{
-        //    console.log("no depen");
-        $('section.phase-master > .box-body > ul').append(new ActivityBulletView({ model: generalItem }).render().el);
-        //}
-    });
-
 };
 
 var successActivityHandler = function(response, xhr){

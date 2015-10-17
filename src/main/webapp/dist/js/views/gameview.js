@@ -201,16 +201,16 @@ window.InquiryStructureView = Backbone.View.extend({
     open_phase: function(e){
         console.debug("Access phase");
 
-        $(e.currentTarget).parent().parent().siblings().hide();
+        //$(e.currentTarget).parent().parent().siblings().hide();
 
-        $("ul#circlemenu").attr("id", "circlemenu2");
+        //$("ul#circlemenu").attr("id", "circlemenu2");
 
-        $("#summary .title-summary").show();
-        $("#summary ul.nav-tabs.box-header").hide();
-
-        $("#inquiry-explanation").hide();
-
-        $("ul.box-header.with-border.nav.nav-tabs > li").fadeOut(100);
+        //$("#summary .title-summary").show();
+        //$("#summary ul.nav-tabs.box-header").hide();
+        //
+        //$("#inquiry-explanation").hide();
+        //
+        //$("ul.box-header.with-border.nav.nav-tabs > li").fadeOut(100);
 
     },
     add: function(ev){
