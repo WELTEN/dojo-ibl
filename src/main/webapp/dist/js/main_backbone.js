@@ -124,6 +124,7 @@ var AppRouter = Backbone.Router.extend({
                 newMessage.save({}, {
                     beforeSend:setHeader
                 });
+                $('input#add-new-message').val('');
             }
         });
 
@@ -134,7 +135,7 @@ var AppRouter = Backbone.Router.extend({
             newMessage.save({}, {
                 beforeSend:setHeader
             });
-
+            $('input#add-new-message').val('');
         });
 
         this.RunList = new RunCollection({ });
@@ -459,9 +460,6 @@ var AppRouter = Backbone.Router.extend({
                     console.log("Controling type of notification", a, a.type);
 
                     if(a.type == "org.celstec.arlearn2.beans.notification.MessageNotification") {
-
-                        //console.debug(a);
-
                         if ($('.direct-chat-messages').length){
                             console.log(a);
                             var aux = a.messageId;
@@ -472,11 +470,9 @@ var AppRouter = Backbone.Router.extend({
                                 //    $('.direct-chat-messages').append(new MessageRightView({ model: a }).render().el);
                                 //}
 
-
                             $('.direct-chat-messages').animate({
                                     scrollTop: $('.direct-chat-messages')[0].scrollHeight
                                 }, 200);
-                            $('input#add-new-message').val('');
                         }else{
                             ///////////////////////////////////////////////////////////////////////////////////////
                             // TODO We would need to check here if I have other windows open not nofifying myself again.
@@ -684,6 +680,7 @@ var successGameHandler = function(response, xhr){
                 beforeSend: setHeader,
                 success: function (response, game) {
                     $('.content').append( new GameListView({ model: game, v: 1 }).render().el );
+
                 }
             });
             app.GameList.add(game);

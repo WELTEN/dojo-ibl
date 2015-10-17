@@ -409,7 +409,6 @@ window.ResponseListView = Backbone.View.extend({
     }
 });
 
-
 window.ResponseView = Backbone.View.extend({
     tagName: "tr",
     model: Response,
