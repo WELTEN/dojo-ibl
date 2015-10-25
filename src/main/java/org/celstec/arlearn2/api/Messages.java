@@ -1,29 +1,18 @@
 package org.celstec.arlearn2.api;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.mapreduce.*;
-import com.google.appengine.tools.mapreduce.inputs.ConsecutiveLongInput;
 import com.google.appengine.tools.mapreduce.inputs.DatastoreInput;
-import com.google.appengine.tools.mapreduce.inputs.DatastoreKeyInput;
-import com.google.appengine.tools.mapreduce.outputs.DatastoreOutput;
 import com.google.appengine.tools.mapreduce.outputs.InMemoryOutput;
-import org.celstec.arlearn2.beans.run.*;
+import org.celstec.arlearn2.beans.run.Message;
 import org.celstec.arlearn2.beans.run.Thread;
 import org.celstec.arlearn2.delegators.MessageDelegator;
-
 import org.celstec.arlearn2.delegators.ThreadDelegator;
-import org.celstec.arlearn2.mappers.lom.GamesMapper;
-import org.celstec.arlearn2.mappers.lom.LomOutput;
-import org.celstec.arlearn2.mappers.lom.LomReducer;
-import org.celstec.arlearn2.mappers.messages.MessagesMapper;
-import com.google.appengine.tools.mapreduce.outputs.DatastoreOutput;
-import com.google.appengine.api.datastore.Key;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.io.Serializable;
 import java.util.List;
 
@@ -99,6 +88,40 @@ public class Messages extends Service implements Serializable{
         return serialise(td.getDefaultThread(runId), accept);
     }
 
+//    @GET
+//    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+//    @Path("/gameId/{gameIdentifier}")
+//    public String getGame(@HeaderParam("Authorization") String token, @PathParam("gameIdentifier") Long gameIdentifier, @DefaultValue("application/json") @HeaderParam("Accept") String accept)
+//    {
+//        MessageDelegator qg = new MessageDelegator(account, token);
+//        Game g = qg.getGame(gameIdentifier);
+//        if (g.getError() != null) {
+//            return serialise(g, accept);
+//        }
+//        if (g.getSharing() == null || g.getSharing() == Game.PRIVATE) {
+//            if (!validCredentials(token))
+//                return serialise(getInvalidCredentialsBean(), accept);
+//        }
+//        return serialise(g, accept);
+//    }
+
+//    /*
+//    * Get message
+//    * */
+//    @GET
+//    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+//    @Path("/message/{messageId}")
+//    public String getMessage(@HeaderParam("Authorization") String token,
+//                                       @PathParam("messageId") Long messageId,
+//                                       @DefaultValue("application/json") @HeaderParam("Accept") String accept)
+//    {
+//        if (!validCredentials(token))
+//            return serialise(getInvalidCredentialsBean(), accept);
+//        MessageDelegator md = new MessageDelegator(this);
+//
+//        return serialise(md.getMessageForId(messageId), accept);
+//
+//    }
 
     @POST
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })

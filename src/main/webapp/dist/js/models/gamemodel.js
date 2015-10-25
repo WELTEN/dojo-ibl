@@ -184,7 +184,7 @@ window.MessageCollection = Backbone.Collection.extend({
 });
 
 //Users
-window.UserCollection = Backbone.Collection.extend({
+window.CurrentUser = Backbone.Collection.extend({
     model: User,
     url: "/rest/account/accountDetails"
 });

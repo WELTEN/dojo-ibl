@@ -464,7 +464,7 @@ var AppRouter = Backbone.Router.extend({
                             console.log(a);
                             var aux = a.messageId;
                                 $('.direct-chat-messages').append(new MessageOwnView({ model: a }).render().el);
-                                //if (a.senderId == app.UserList.at(0).toJSON().localId){
+                                //if (a.senderId == app.CurrentUser.at(0).toJSON().localId){
                                 //    $('.direct-chat-messages').append(new MessageLeftView({ model: a }).render().el);
                                 //}else{
                                 //    $('.direct-chat-messages').append(new MessageRightView({ model: a }).render().el);
@@ -561,7 +561,7 @@ var AppRouter = Backbone.Router.extend({
                     // TODO make different type of message if it is not my message
                     // TODO place the focus at the end of the chat box
                     //////////////////////////////////////////////////////////////
-                    if (message.senderId == app.UserList.at(0).toJSON().localId){
+                    if (message.senderId == app.CurrentUser.at(0).toJSON().localId){
                         $('.direct-chat-messages').append(new MessageLeftView({ model: message }).render().el);
                     }else{
                         $('.direct-chat-messages').append(new MessageRightView({ model: message }).render().el);
@@ -582,17 +582,18 @@ var AppRouter = Backbone.Router.extend({
 
         console.debug("[common]", "Checking user...");
 
-        if (this.UserList) {
-            if (callback)
-                callback();
+        if (this.CurrentUser) {
+            //if (callback)
+            //    callback();
+            console.log("hit on the local model");
         } else {
 
-            this.UserList = new UserCollection();
-            this.UserList.fetch({
+            this.CurrentUser = new CurrentUser();
+            this.CurrentUser.fetch({
                 beforeSend: setHeader,
                 success: function(response, xhr) {
 
-                    //console.log(xhr);
+                    console.log(xhr);
 
                     if(xhr.errorCode == 2){
                         window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email";
