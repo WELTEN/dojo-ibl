@@ -12,7 +12,8 @@ var AppRouter = Backbone.Router.extend({
     initialize: function() {
     },
     routes: {
-        ""			: "main",
+        ""			: "landing",
+        "inquiries"			: "inquiries",
         "logout"			: "logout",
         "inquiry/:id"	: "showInquiry",
         "inquiry/:id/phase/:phase" : "showPhase",
@@ -26,7 +27,10 @@ var AppRouter = Backbone.Router.extend({
         app.navigate('');
         window.location.replace("/");
     },
-    main: function() {
+    landing: function() {
+        this.common();
+    },
+    inquiries: function() {
         this.common();
         this.initialGame();
         //this.initialRun();
@@ -34,21 +38,21 @@ var AppRouter = Backbone.Router.extend({
     },
     initialGame: function(callback) {
 
-        //$('#inquiries').html( new MainView({ }).render().el );
+        $('#page-wrapper > .row').html( new MainView({ }).render().el );
 
-        this.GameList = new GameCollection();
-
-        this.GameAccessList = new GameAccessCollection();
-        this.GameAccessList.fetch({
-            beforeSend: setHeader,
-            success: successGameHandler
-        });
-
-        this.GameParticipateList = new GameParticipateCollection();
-        this.GameParticipateList.fetch({
-            beforeSend: setHeader,
-            success: successGameParticipateHandler
-        });
+        //this.GameList = new GameCollection();
+        //
+        //this.GameAccessList = new GameAccessCollection();
+        //this.GameAccessList.fetch({
+        //    beforeSend: setHeader,
+        //    success: successGameHandler
+        //});
+        //
+        //this.GameParticipateList = new GameParticipateCollection();
+        //this.GameParticipateList.fetch({
+        //    beforeSend: setHeader,
+        //    success: successGameParticipateHandler
+        //});
 
 
         console.log("GameAccessList",app.GameAccessList);
