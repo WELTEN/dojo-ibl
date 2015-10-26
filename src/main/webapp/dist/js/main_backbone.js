@@ -38,7 +38,7 @@ var AppRouter = Backbone.Router.extend({
     },
     initialGame: function(callback) {
 
-        $('#page-wrapper > .row').html( new MainView({ }).render().el );
+        $('#page-wrapper > .row:last').html( new MainView({ }).render().el );
 
         //this.GameList = new GameCollection();
         //
@@ -604,9 +604,9 @@ var AppRouter = Backbone.Router.extend({
                         //console.log(location.href.split("code=")[1]);
                         //v.ar accessToken = location.href.split("code=")[1];
                         //document.cookie="accessToken="+accessToken+"; expires=Thu, 18 Dec 2013 12:00:00 UTC";
-
-                        $('ul.navbar-nav > li:eq(0)').after( new UserView({ model: xhr }).render().el );
-                        $( new UserSidebarView({ model: xhr }).render().el).insertBefore("form.sidebar-form");
+                        $(".m-r-sm.text-muted.welcome-message").html("Welcome "+xhr.givenName+" "+xhr.familyName);
+                        $('ul.nav.metismenu > li:eq(0)').html( new UserView({ model: xhr }).render().el );
+                        //$( new UserSidebarView({ model: xhr }).render().el).insertBefore("form.sidebar-form");
                         if (callback)
                             callback();
                     }

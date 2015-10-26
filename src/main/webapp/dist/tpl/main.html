@@ -5,25 +5,33 @@
       <div class="ibox-title">
          <h5>All the inquiries you participate in</h5>
          <div class="ibox-tools">
-            <a href="" class="btn btn-primary btn-xs">Create new project</a>
+            <a href="" class="btn btn-primary btn-xs">Create new inquiry</a>
          </div>
       </div>
       <div class="ibox-content">
          <div class="row m-b-sm m-t-sm">
-            <div class="col-md-1">
-               <button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> Refresh</button>
+            <!--<div class="col-md-1">-->
+               <!--<button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> Refresh</button>-->
+            <!--</div>-->
+            <div class="col-md-12">
+               <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn"><button type="button" class="btn btn-sm btn-primary"> Go!</button> </span></div>
             </div>
-            <div class="col-md-11">
-               <div class="input-group"><input type="text" placeholder="Search" class="input-sm form-control"> <span class="input-group-btn">
-                                  <button type="button" class="btn btn-sm btn-primary"> Go!</button> </span></div>
-            </div>
-         </div>
 
+         </div>
+         <div class="m-t-md">
+
+            <div class="pull-right">
+               <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-comments"></i> </button>
+               <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-user"></i> </button>
+            </div>
+
+            <strong>Found 61 inquiries</strong>
+         </div>
          <div class="project-list">
 
             <table class="table table-hover">
                <tbody>
-               <tr>
+               <tr class="animated slideInLeft">
                   <td class="project-status">
                      <span class="label label-primary">Active</span>
                   </td>
@@ -50,7 +58,7 @@
                      <a href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </a>
                   </td>
                </tr>
-               <tr>
+               <tr class="animated slideInLeft">
                   <td class="project-status">
                      <span class="label label-primary">Active</span>
                   </td>
@@ -75,7 +83,7 @@
                      <a href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit </a>
                   </td>
                </tr>
-               <tr>
+               <tr class="animated slideInLeft">
                   <td class="project-status">
                      <span class="label label-default">Unactive</span>
                   </td>
