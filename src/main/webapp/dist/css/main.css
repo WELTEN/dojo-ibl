@@ -163,6 +163,20 @@ a:hover, a:active, a:focus {
 	text-align: center;
 }
 
+.panel-footer > .third{
+	width: 40%;
+	float: left;
+	padding: 10px;
+	text-align: center;
+}
+
+.panel-footer > .fourth{
+	width: 29%;
+	float: left;
+	padding: 10px;
+	text-align: center;
+}
+
 .panel-footer .bg-red{
 	background-color: #dd4b39;
 }
@@ -171,7 +185,7 @@ a:hover, a:active, a:focus {
 	color: white;
 
 }
-.panel-footer div.half:nth-child(2){
+.panel-footer div.half:nth-child(2), .panel-footer div.fourth{
 	border-left: 1px solid;
 	border-color: white;
 }

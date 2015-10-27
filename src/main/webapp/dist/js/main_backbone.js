@@ -580,8 +580,6 @@ var AppRouter = Backbone.Router.extend({
     },
     common: function(callback) {
 
-        console.debug("[common]", "Checking user...");
-
         if (this.CurrentUser) {
             //if (callback)
             //    callback();

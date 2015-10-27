@@ -96,18 +96,17 @@ window.GameListView = Backbone.View.extend({
     },
     events: {
         'click .show-runs-student' : 'showRunsStudents',
-        'click .show-runs-teacher' : 'showRunsTeacher'
+        'click .edit-inquiry' : 'editInquiry',
+        'click .monitoring-inquiry' : 'monitorInquiry'
     },
     render: function () {
-        //if(this.model){
-        //    $(this.el).html(this.template(this.model));
-        //    console.log(this.model);
-        //}
+        $(this.el).html(this.template(this.model));
 
-        //if(this.model2){
-            $(this.el).html(this.template(this.model));
-            //console.log(this.model2);
-        //}
+        if(this.model.lastModificationDate == 0){
+            $(this.el).find(".username > .text-muted.pull-right").prepend("Now");
+        }else{
+            $(this.el).find("ul > li:first-child").prepend("<b>Date: </b>"+jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()));
+        }
 
         return this;
     },
@@ -132,7 +131,12 @@ window.GameListView = Backbone.View.extend({
             }
         });
     },
-    showRunsTeacher: function(e){
+    editInquiry: function(e){
+        console.log("Edit inquiry")
+        e.preventDefault();
+    },
+    monitorInquiry: function(e){
+        console.log("Monitor inquiry");
         e.preventDefault();
     }
 });
