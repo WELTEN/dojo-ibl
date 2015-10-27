@@ -61,7 +61,6 @@
 // Main
 window.MainView = Backbone.View.extend({
     tagName: "div",
-    className: "box box-success box-solid",
     initialize:function () {
         this.template = _.template(tpl.get('main'));
     },

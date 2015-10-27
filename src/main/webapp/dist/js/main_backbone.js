@@ -34,7 +34,11 @@ var AppRouter = Backbone.Router.extend({
     },
     initialGame: function(callback) {
 
-        //$('#inquiries').html( new MainView({ }).render().el );
+        //$('#inquiries').html( .render().el );
+        //
+        //var empty_div = $("div");
+
+        this.showView(".content", new MainView({ }));
 
         this.GameList = new GameCollection();
 
@@ -49,7 +53,6 @@ var AppRouter = Backbone.Router.extend({
             beforeSend: setHeader,
             success: successGameParticipateHandler
         });
-
 
         console.log("GameAccessList",app.GameAccessList);
         console.log("GameParticipateList", app.GameParticipateList);
@@ -660,6 +663,13 @@ var AppRouter = Backbone.Router.extend({
                 success: successInquiryUsers
             });
         }
+    },
+    showView: function(selector, view) {
+        if (this.currentView)
+            this.currentView.close();
+        $(selector).html(view.render().el);
+        this.currentView = view;
+        return view;
     }
 });
 
@@ -679,7 +689,6 @@ var successGameHandler = function(response, xhr){
                 beforeSend: setHeader,
                 success: function (response, game) {
                     $('.content').append( new GameListView({ model: game, v: 1 }).render().el );
-
                 }
             });
             app.GameList.add(game);
