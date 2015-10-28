@@ -28,7 +28,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>INSPINIA | Main view</title>
+    <title>DojoIBL | Inquiries view</title>
 
     <link href="dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="dist/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -46,23 +46,15 @@
         <div class="sidebar-collapse">
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
-                    <div class="dropdown profile-element">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">David Williams</strong>
-                             </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
-                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="#">Logout</a></li>
-                        </ul>
-                    </div>
                     <div class="logo-element">
                         IN+
                     </div>
                 </li>
                 <li class="active">
-                    <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Main view</span></a>
+                    <a href="friends.html"><i class="fa fa-th-large"></i> <span class="nav-label">Users view</span></a>
                 </li>
                 <li>
-                    <a href="minor.html"><i class="fa fa-th-large"></i> <span class="nav-label">Minor view</span> </a>
+                    <a href="dashboard.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard view</span> </a>
                 </li>
             </ul>
 
@@ -90,19 +82,19 @@
 
             </nav>
         </div>
-        <div class="wrapper wrapper-content animated fadeInRight">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="text-center m-t-lg">
-                        <h1>
-                            Welcome in INSPINIA Static SeedProject
-                        </h1>
-                        <small>
-                            It is an application skeleton for a typical web app. You can use it to quickly bootstrap your webapp projects and dev environment for these projects.
-                        </small>
-                    </div>
+        <div class="row wrapper border-bottom white-bg page-heading">
+            <div class="col-sm-4">
+                <h2></h2>
+                <ol class="breadcrumb">
+                </ol>
+            </div>
+            <div class="col-sm-8">
+                <div class="title-action">
+                    <a href="" class="btn btn-primary">New inquiry</a>
                 </div>
             </div>
+        </div>
+        <div class="row wrapper wrapper-content">
         </div>
         <div class="footer">
             <div class="pull-right">
@@ -126,7 +118,29 @@
 <script src="dist/js/inspinia.js"></script>
 <script src="dist/js/plugins/pace/pace.min.js"></script>
 
+<!-- jQuery 2.1.4 -->
+<script src="dist/js/plugins/jquery.tmpl.min.js" type="text/javascript"></script>
+<script src="dist/js/plugins/knob/jquery.knob.js" type="text/javascript"></script>
+<script src="dist/js/plugins/jquery.cookie.js" type="text/javascript"></script>
+<script src="dist/js/plugins/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
+<!--<script src="dist/js/plugins/jQueryUI/jquery-ui.min.js"></script>-->
+<!--<script>-->
+  <!--$.widget.bridge('uibutton', $.ui.button);-->
+<!--</script>-->
+<script src="dist/js/plugins/underscore/underscore-min.js"></script>
+<script src="dist/js/plugins/backbone/backbone-min.js"></script>
+<script src="dist/js/plugins/timeago/jquery.timeago.js"></script>
+<script src="dist/js/plugins/nestable/jquery.nestable.js"></script>
+
+<script src="dist/js/models/model.js"></script>
+<script src="dist/js/views/view.js"></script>
+<script src="dist/js/utils.js"></script>
+
+<!-- Channel API -->
+<script type="text/javascript" src="/_ah/channel/jsapi"></script>
+
+<script src="dist/js/root.js"></script>
 
 </body>
 

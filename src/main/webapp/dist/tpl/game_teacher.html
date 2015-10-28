@@ -1,73 +1,23 @@
-<section class="panel">
-    <header class="panel-heading bg-red">
-        <div class="panel-heading-icon mt-sm">
-            <object class="img-circle" data="http://icons.iconarchive.com/icons/blackvariant/button-ui-system-apps/1024/LaunchPad-Rocket-icon.png" type="image/png">
-                <img class="img-circle" src="/game/<%= gameId %>/gameThumbnail" alt="Icon inquiry image" />
-            </object>
-        </div>
-    </header>
-    <div class="panel-body">
-        <h3 class="text-weight-semibold mt-none text-center"><%= title %></h3>
-        <ul>
-            <li><b>Date:</b> 01/10/2015</li>
-            <li><b>Participants:</b> 5</li>
-            <li><b>Inquiries:</b> 1</li>
-        </ul>
+<div class="widget-head-color-box red-bg p-lg text-center">
+    <div class="m-b-sm">
+        <h2 class="font-bold no-margins">
+            <%= title %>
+        </h2>
     </div>
 
-    <div class="panel-footer bg-red panel-footer-btn-group">
-        <div class="half"><a class="show-runs-student" href="#"><i class="fa fa-user mr-xs"></i> As student</a></div>
-        <div class="half"><a class="span6 show-runs-teacher" href="#"><i class="fa fa-lock mr-xs"></i> As teacher</a></div>
+    <object class="img-circle" data="http://icons.iconarchive.com/icons/blackvariant/button-ui-system-apps/1024/LaunchPad-Rocket-icon.png" type="image/png">
+        <img src="/game/<%= gameId %>/gameThumbnail" class="img-circle circle-border m-b-md" alt="inquiry icon">
+    </object>
+    <div>
+        <span>01/10/2015</span> |
+        <span>5 Participants</span>
     </div>
-    <div class="box-sub-footer no-padding">
-        <ul class="nav nav-stacked">
-
-        </ul>
+    <br/>
+    <div class="text">
+        <a class="btn btn-xs btn-success show-runs"><i class="fa fa-key"></i> Access </a>
     </div>
-</section>
-
-
-<!--<div class="box box-widget widget-user">-->
-    <!--&lt;!&ndash; Add the bg color to the header using any of the bg-* classes &ndash;&gt;-->
-    <!--<div class="widget-user-header bg-red-active">-->
-        <!--<h3 class="widget-user-username"><%= title %></h3>-->
-        <!--<h5 class="widget-user-desc"></h5>-->
-        <!--<h5><i class="fa fa-pencil"></i>  <a class="show-runs-student small-box-footer" href="">I am student</a></h5>-->
-        <!--<h5><i class="fa fa-mortar-board"></i> <a class="show-runs-teacher small-box-footer" href="">I am teacher</a></h5>-->
-        <!--&lt;!&ndash;<a href="#" >More info <i class="fa fa-pencil"></i></a>&ndash;&gt;-->
-    <!--</div>-->
-    <!--<div class="widget-user-image">-->
-        <!--&lt;!&ndash;<img class="img-circle" src="../dist/img/user1-128x128.jpg" alt="User Avatar">&ndash;&gt;-->
-        <!--<img class="img-circle" src="http://localhost:8888/game/<%= gameId %>/gameThumbnail" alt="User Avatar">-->
-    <!--</div>-->
-    <!--<div class="box-footer">-->
-        <!--<div class="row">-->
-            <!--<div class="col-sm-4 border-right">-->
-                <!--<div class="description-block">-->
-                    <!--<h5 class="description-header">-</h5>-->
-                    <!--<span class="description-text">Date</span>-->
-                <!--</div>&lt;!&ndash; /.description-block &ndash;&gt;-->
-            <!--</div>&lt;!&ndash; /.col &ndash;&gt;-->
-            <!--<div class="col-sm-4 border-right">-->
-                <!--<div class="description-block">-->
-                    <!--<h5 class="description-header">-</h5>-->
-                    <!--<span class="description-text">Participants</span>-->
-                <!--</div>&lt;!&ndash; /.description-block &ndash;&gt;-->
-            <!--</div>&lt;!&ndash; /.col &ndash;&gt;-->
-            <!--<div class="col-sm-4">-->
-                <!--<div class="description-block">-->
-                    <!--<h5 class="description-header">1</h5>-->
-                    <!--<span class="description-text">Inquiries</span>-->
-                <!--</div>&lt;!&ndash; /.description-block &ndash;&gt;-->
-            <!--</div>&lt;!&ndash; /.col &ndash;&gt;-->
-        <!--</div>&lt;!&ndash; /.row &ndash;&gt;-->
-    <!--</div>-->
-    <!--<div class="box-sub-footer no-padding">-->
-        <!--<ul class="nav nav-stacked">-->
-
-        <!--</ul>-->
-    <!--</div>-->
-    <!--&lt;!&ndash;<div class="box-sub-footer">&ndash;&gt;-->
-        <!--&lt;!&ndash;<p>Description of the Gamehjasl</p>&ndash;&gt;-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-<!--</div>-->
+</div>
+<div class="widget-text-box">
+    <h4 class="media-heading">Description</h4>
+    <p><%= description %></p>
+</div>

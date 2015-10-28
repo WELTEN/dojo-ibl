@@ -1,5 +1,5 @@
 Backbone.View.prototype.close = function () {
-    console.log('Closing view ' + this);
+    console.log('Closing view ', this);
     if (this.beforeClose) {
         this.beforeClose();
     }
@@ -10,10 +10,10 @@ Backbone.View.prototype.close = function () {
 var AppRouter = Backbone.Router.extend({
 
     initialize: function() {
+
     },
     routes: {
-        ""			: "landing",
-        "inquiries"			: "inquiries",
+        ""			: "inquiries",
         "logout"			: "logout",
         "inquiry/:id"	: "showInquiry",
         "inquiry/:id/phase/:phase" : "showPhase",
@@ -27,33 +27,31 @@ var AppRouter = Backbone.Router.extend({
         app.navigate('');
         window.location.replace("/");
     },
-    landing: function() {
-        this.common();
-    },
     inquiries: function() {
+        this.isAuthenticated();
         this.common();
         this.initialGame();
-        //this.initialRun();
         this.initializeChannelAPI();
     },
     initialGame: function(callback) {
 
-        $('#page-wrapper > .row:last').html( new MainView({ }).render().el );
+        this.changeTitle("Inquiries");
+        //this.changeBreadcrumb(new Array(""));
+        this.cleanMainView();
 
-        //this.GameList = new GameCollection();
-        //
-        //this.GameAccessList = new GameAccessCollection();
-        //this.GameAccessList.fetch({
-        //    beforeSend: setHeader,
-        //    success: successGameHandler
-        //});
-        //
-        //this.GameParticipateList = new GameParticipateCollection();
-        //this.GameParticipateList.fetch({
-        //    beforeSend: setHeader,
-        //    success: successGameParticipateHandler
-        //});
+        this.GameList = new GameCollection();
 
+        this.GameAccessList = new GameAccessCollection();
+        this.GameAccessList.fetch({
+            beforeSend: setHeader,
+            success: successGameHandler
+        });
+
+        this.GameParticipateList = new GameParticipateCollection();
+        this.GameParticipateList.fetch({
+            beforeSend: setHeader,
+            success: successGameParticipateHandler
+        });
 
         console.log("GameAccessList",app.GameAccessList);
         console.log("GameParticipateList", app.GameParticipateList);
@@ -98,11 +96,12 @@ var AppRouter = Backbone.Router.extend({
         $.cookie("dojoibl.run", id, {expires: date, path: "/"});
 
         this.common();
-        this.loadInquiryUsers(id);
-        this.initializeChannelAPI();
-        this.loadChat(id);
+        //this.loadInquiryUsers(id);
+        //this.initializeChannelAPI();
+        //this.loadChat(id);
 
-        $('#inquiries').html(new InquiryStructureView({ }).render().el);
+        //this.showView(".row.wrapper.wrapper-content", new InquiryStructureView({ }))
+        //$().html(.render().el);
         //$('aside#summary').hide();
 
         /////////////////////////////////////////////////////////////////////////////
@@ -120,28 +119,28 @@ var AppRouter = Backbone.Router.extend({
         //    b.scrollTop(s);
         //});
 
-        $('input#add-new-message').keypress(function (e) {
-            var key = e.which;
-            if(key == 13){
-                var newMessage = new Message({ runId: id, threadId: 0, subject: "", body: $('input#add-new-message').val() });
-
-                newMessage.save({}, {
-                    beforeSend:setHeader
-                });
-                $('input#add-new-message').val('');
-            }
-        });
-
-        $('button#send-message').click(function(){
-
-            var newMessage = new Message({ runId: id, threadId: 0, subject: "", body: $('input#add-new-message').val() });
-
-            newMessage.save({}, {
-                beforeSend:setHeader
-            });
-            $('input#add-new-message').val('');
-        });
-
+        //$('input#add-new-message').keypress(function (e) {
+        //    var key = e.which;
+        //    if(key == 13){
+        //        var newMessage = new Message({ runId: id, threadId: 0, subject: "", body: $('input#add-new-message').val() });
+        //
+        //        newMessage.save({}, {
+        //            beforeSend:setHeader
+        //        });
+        //        $('input#add-new-message').val('');
+        //    }
+        //});
+        //
+        //$('button#send-message').click(function(){
+        //
+        //    var newMessage = new Message({ runId: id, threadId: 0, subject: "", body: $('input#add-new-message').val() });
+        //
+        //    newMessage.save({}, {
+        //        beforeSend:setHeader
+        //    });
+        //    $('input#add-new-message').val('');
+        //});
+        //
         this.RunList = new RunCollection({ });
         this.RunList.id = id;
 
@@ -149,11 +148,9 @@ var AppRouter = Backbone.Router.extend({
             beforeSend: setHeader,
             success: function (response, results) {
 
-                this.inquiryView = new InquiryView({ model: results });
-
-                $('aside#summary').html(this.inquiryView.render().el);
+                app.showView('.row.wrapper.wrapper-content', new InquiryView({ model: results }));
                 $(".knob").knob();
-                $("#inquiry").hide();
+                //$("#inquiry").hide();
 
             }
         });
@@ -583,36 +580,16 @@ var AppRouter = Backbone.Router.extend({
         //}, 2000);
     },
     common: function(callback) {
+        // Load user information
+        this.UserList = new UserCollection();
+        this.UserList.fetch({
+            beforeSend: setHeader,
+            success: function(response, xhr) {
+                $(".m-r-sm.text-muted.welcome-message").html("Welcome "+xhr.givenName+" "+xhr.familyName);
+                app.showView('ul.nav.metismenu > li:eq(0)', new UserView({ model: xhr }));
+            }
+        });
 
-        console.debug("[common]", "Checking user...");
-
-        if (this.UserList) {
-            if (callback)
-                callback();
-        } else {
-
-            this.UserList = new UserCollection();
-            this.UserList.fetch({
-                beforeSend: setHeader,
-                success: function(response, xhr) {
-
-                    //console.log(xhr);
-
-                    if(xhr.errorCode == 2){
-                        window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email";
-                    }else{
-                        //console.log(location.href.split("code=")[1]);
-                        //v.ar accessToken = location.href.split("code=")[1];
-                        //document.cookie="accessToken="+accessToken+"; expires=Thu, 18 Dec 2013 12:00:00 UTC";
-                        $(".m-r-sm.text-muted.welcome-message").html("Welcome "+xhr.givenName+" "+xhr.familyName);
-                        $('ul.nav.metismenu > li:eq(0)').html( new UserView({ model: xhr }).render().el );
-                        //$( new UserSidebarView({ model: xhr }).render().el).insertBefore("form.sidebar-form");
-                        if (callback)
-                            callback();
-                    }
-                }
-            });
-        }
     },
     loadPhaseActivities: function(id, phase){
         var _phase = phase;
@@ -665,6 +642,31 @@ var AppRouter = Backbone.Router.extend({
                 success: successInquiryUsers
             });
         }
+    },
+    showView: function(selector, view) {
+        if (this.currentView)
+            this.currentView.close();
+        $(selector).html(view.render().el);
+        this.currentView = view;
+        return view;
+    },
+    isAuthenticated: function (){
+        if(!$.cookie("arlearn.AccessToken")){
+            if(window.location.hostname.toLowerCase().indexOf("localhost") >= 0){
+                window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://localhost:8888/oauth/wespot&response_type=code&scope=profile+email";
+            }else{
+                window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email";
+            }
+        }
+    },
+    changeTitle: function(title) {
+        $('.row.wrapper.border-bottom.white-bg.page-heading > .col-sm-4 > h2').html(title);
+    },
+    //changeBreadcrumb: function(breadcrumb){
+    //    $('.row.wrapper.border-bottom.white-bg.page-heading > .col-sm-4 > ol.breadcrumb').html(breadcrumb);
+    //},
+    cleanMainView: function(){
+        $(".wrapper.wrapper-content").html("");
     }
 });
 
@@ -683,7 +685,7 @@ var successGameHandler = function(response, xhr){
             game.fetch({
                 beforeSend: setHeader,
                 success: function (response, game) {
-                    $('.content').append( new GameListView({ model: game, v: 1 }).render().el );
+                    $('.wrapper.wrapper-content').append( new GameListView({ model: game, v: 1 }).render().el );
 
                 }
             });
@@ -696,7 +698,7 @@ var successGameParticipateHandler = function(response, xhr){
     _.each(xhr.games, function(game){
         if(app.GameList.where({ id: game.gameId}).length == 0){
             app.GameList.add(game);
-            $('.content').append( new GameListView({ model: game, v: 2 }).render().el );
+            $('.wrapper.wrapper-content').append( new GameListView({ model: game, v: 2 }).render().el );
         }
     });
 };

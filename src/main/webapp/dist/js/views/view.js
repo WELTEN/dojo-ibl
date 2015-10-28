@@ -58,30 +58,25 @@
 //    //}
 //});
 
-// Main
-window.MainView = Backbone.View.extend({
-    tagName: "div",
-    className: "col-lg-12",
-    initialize:function () {
-        this.template = _.template(tpl.get('main'));
-    },
-    render:function () {
-        $(this.el).html(this.template(this.model));
-
-        return this;
-    }
-});
+//// Main
+//window.MainView = Backbone.View.extend({
+//    tagName: "div",
+//    className: "row",
+//    initialize:function () {
+//        this.template = _.template(tpl.get('main'));
+//    },
+//    render:function () {
+//        $(this.el).html(this.template(this.model));
+//
+//        return this;
+//    }
+//});
 
 // Game
 window.GameListView = Backbone.View.extend({
     tagName:  "div",
-    className: "col-md-3 col-lg-3 col-xl-3",
+    className: "col-lg-3",
     initialize:function (options) {
-        console.log(options);
-
-        //var variables = { search_label: options.v };
-        var data = {"data": {"title": options.v}};
-
         if(options.v == 1){
             this.template = _.template(tpl.get('game_teacher'));
         }
@@ -89,61 +84,47 @@ window.GameListView = Backbone.View.extend({
         if(options.v == 2){
             this.template = _.template(tpl.get('game'));
         }
-
-        //if(options.model2){
-        //    this.template = _.template(tpl.get('game'));
-        //}
     },
     events: {
-        'click .show-runs-student' : 'showRunsStudents',
-        'click .show-runs-teacher' : 'showRunsTeacher'
+        'click .show-runs' : 'showRuns'
     },
     render: function () {
-        //if(this.model){
-        //    $(this.el).html(this.template(this.model));
-        //    console.log(this.model);
-        //}
-
-        //if(this.model2){
-            $(this.el).html(this.template(this.model));
-            //console.log(this.model2);
-        //}
-
+        $(this.el).html(this.template(this.model));
         return this;
     },
-    showRunsStudents: function(e){
+    showRuns: function(e){
         e.preventDefault();
-        var _aux = $(this.el);
-        $(".nav.nav-stacked").slideUp(200).html("");
+        var _aux = $(this.el).find(".widget-text-box");
+
+        console.log($(_aux).length);
+        $(_aux).slideUp(200).html("");
 
         this.RunAccessList = new RunByGameCollection({ id: this.model.gameId });
         this.RunAccessList.fetch({
             beforeSend: setHeader,
-
             success: function(response, xhr) {
-
                 if(xhr.runs.length == 0){
-                    $(_aux).find(".nav.nav-stacked").hide().html("<li><a href=''>No inquiries</a></li>").slideDown(200);
+                    console.error("The game does not have runs. There have been a problem during the creation of the inquiry.")
+                    //$(_aux).html("<li><a href=''>No inquiries</a></li>").slideDown(200);
+                }else if(xhr.runs.length == 1){
+                    _.each(xhr.runs, function(run){
+                        $(_aux).html(new this.RunListView({ model: run }).render().el).slideDown(200);
+                    });
                 }else{
                     _.each(xhr.runs, function(run){
-                        $(_aux).find(".nav.nav-stacked").hide().html(new this.RunListView({ model: run }).render().el).slideDown(200);
+                        $(_aux).html(new this.RunListView({ model: run }).render().el).slideDown(200);
                     });
                 }
             }
         });
-    },
-    showRunsTeacher: function(e){
-        e.preventDefault();
     }
 });
 
 // Run
 window.RunListView = Backbone.View.extend({
     tagName:  "li",
-    //className: "col-md-4",
     initialize:function () {
         this.template = _.template(tpl.get('run'));
-        //console.log(1,this.template);
     },
     render:function () {
         $(this.el).html(this.template(this.model));
@@ -194,6 +175,7 @@ window.InquirySidebarView = Backbone.View.extend({
 window.InquiryStructureView = Backbone.View.extend({
     initialize:function () {
         this.template = _.template(tpl.get('inquiry_structure'));
+        console.log("hola");
     },
     events: {
         'click ul#circlemenu > li > div > a': 'open_phase'
