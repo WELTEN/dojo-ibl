@@ -1600,7 +1600,6 @@ a.DTTT_button:hover:not(.DTTT_disabled) {
 /* CIRCLE */
 .img-circle {
   border-radius: 50%;
-  width: 100px;
 }
 .btn-circle {
   width: 30px;
@@ -3321,7 +3320,7 @@ video {
 /* Summernote text editor  */
 .note-editor {
   height: auto !important;
-
+  min-height: 300px;
 }
 /* MODAL */
 .modal-content {
@@ -4382,7 +4381,7 @@ body.mini-navbar.fixed-sidebar .logo-element {
   font-size: 170px;
 }
 .wrapper .middle-box {
-  margin-top: 0px;
+  margin-top: 140px;
 }
 .lock-word {
   z-index: 10;
