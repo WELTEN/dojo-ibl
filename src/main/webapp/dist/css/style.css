@@ -8092,3 +8092,82 @@ body.md-skin {
     display: none;
   }
 }
+
+/*
+* Circle menu
+*/
+#circlemenu {
+  width: 44%;
+  height: 417px;
+  position: relative;
+  opacity: .8;
+  float: left;
+}
+
+#circlemenu li, #circlemenu2 li {
+  display: block;
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  background-color: black;
+  border-radius: 64px;
+  color: white;
+  text-align: center;
+  padding: 11px;
+  cursor: pointer;
+}
+
+#circlemenu li hr{
+  width: 60%;
+}
+#circlemenu li a{
+  text-align: center;
+  color: white;
+
+}
+
+#circlemenu.summary {
+  height: 126px;
+}
+
+#circlemenu li.summary-phase {
+  top: 2px;
+  left: 91%;
+  margin-left: -55px;
+}
+
+#circlemenu li.question  {
+  top: 30px;
+  left: 50%;
+  margin-left: -55px;
+}
+
+#circlemenu li.communication  {
+  top: 34%;
+  left: 19%;
+  margin: -55px 0 0 -55px;
+}
+
+#circlemenu li.method {
+  top: 34%;
+  left: 81%;
+  margin: -55px 0 0 -55px;
+}
+
+#circlemenu li.interpretation  {
+  top: 64%;
+  left: 19%;
+  margin: -55px 0 0 -55px;
+}
+
+#circlemenu li.collection  {
+  top: 65%;
+  left: 81%;
+  margin: -55px 0 0 -55px;
+}
+
+#circlemenu li.analysis  {
+  bottom: 30px;
+  left: 50%;
+  margin-left: -55px;
+}
