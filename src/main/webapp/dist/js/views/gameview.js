@@ -95,7 +95,6 @@ window.GameListView = Backbone.View.extend({
     },
     events: {
         'click .show-runs-student' : 'showRunsStudents',
-        'click .edit-inquiry' : 'editInquiry',
         'click .monitoring-inquiry' : 'monitorInquiry'
     },
     render: function () {
@@ -130,10 +129,6 @@ window.GameListView = Backbone.View.extend({
             }
         });
     },
-    editInquiry: function(e){
-        console.log("Edit inquiry")
-        e.preventDefault();
-    },
     monitorInquiry: function(e){
         console.log("Monitor inquiry");
         e.preventDefault();
@@ -159,7 +154,22 @@ window.InquiryView = Backbone.View.extend({
     tagName:  "div",
     className: "col-md-9",
     initialize:function () {
+        console.log(this.model);
         this.template = _.template(tpl.get('inquiry'));
+    },
+    render:function () {
+        $(this.el).html(this.template(this.model));
+
+        return this;
+    }
+});
+
+window.InquiryEditView = Backbone.View.extend({
+    tagName:  "div",
+    className: "col-md-9",
+    initialize:function () {
+        console.log(this.model);
+        this.template = _.template(tpl.get('inquiry_edit'));
     },
     render:function () {
         $(this.el).html(this.template(this.model));
@@ -221,6 +231,37 @@ window.InquiryStructureView = Backbone.View.extend({
     },
     render:function () {
         $(this.el).html(this.template(this.model));
+        return this;
+    }
+});
+
+window.InquiryStructureEditView = Backbone.View.extend({
+    initialize:function () {
+        this.template = _.template(tpl.get('inquiry_edit_structure'));
+    },
+    events: {
+        'click ul#circlemenu > li > div > a': 'open_phase'
+    },
+    open_phase: function(e){
+        console.debug("Access phase");
+
+        //$(e.currentTarget).parent().parent().siblings().hide();
+
+        //$("ul#circlemenu").attr("id", "circlemenu2");
+
+        //$("#summary .title-summary").show();
+        //$("#summary ul.nav-tabs.box-header").hide();
+        //
+        //$("#inquiry-explanation").hide();
+        //
+        //$("ul.box-header.with-border.nav.nav-tabs > li").fadeOut(100);
+
+    },
+    add: function(ev){
+        console.debug("[Add event InquiryStructureView]","Click in activity. Hiding siblings...");
+    },
+    render:function () {
+        $(this.el).html(this.template());
         return this;
     }
 });

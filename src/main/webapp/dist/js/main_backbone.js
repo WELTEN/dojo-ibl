@@ -10,11 +10,13 @@ Backbone.View.prototype.close = function () {
 var AppRouter = Backbone.Router.extend({
 
     initialize: function() {
+        this.GameList = new GameCollection();
     },
     routes: {
         ""			: "main",
         "logout"			: "logout",
         "inquiry/:id"	: "showInquiry",
+        "inquiry/edit/:id"	: "editInquiry",
         "inquiry/:id/phase/:phase" : "showPhase",
         "inquiry/:id/phase/:phase/activity/:activity" : "showActivity"
     },
@@ -29,14 +31,9 @@ var AppRouter = Backbone.Router.extend({
     main: function() {
         this.common();
         this.initialGame();
-        //this.initialRun();
         this.initializeChannelAPI();
     },
     initialGame: function(callback) {
-
-        //$('#inquiries').html( .render().el );
-        //
-        //var empty_div = $("div");
 
         this.showView(".content", new MainView({ }));
 
@@ -57,34 +54,6 @@ var AppRouter = Backbone.Router.extend({
         console.log("GameAccessList",app.GameAccessList);
         console.log("GameParticipateList", app.GameParticipateList);
         console.log("GameList", app.GameList);
-    },
-    initialRun: function(callback) {
-        if (this.RunList) {
-            if (callback)
-                callback();
-        } else {
-            this.RunAccessList = new RunAccessCollection();
-            this.RunAccessList.fetch({
-                beforeSend: setHeader,
-                success: function(response, xhr) {
-
-                    _.each(xhr.runAccess, function(e){
-                        this.RunList = new RunCollection({ });
-                        this.RunList.id = e.runId;
-
-                        this.RunList.fetch({
-                            beforeSend: setHeader,
-                            success: function (response, results) {
-
-                                $('#inquiries > div > div.box-body').append( new RunListView({ model: results }).render().el );
-                                if (callback)
-                                    callback();
-                            }
-                        });
-                    });
-                }
-            });
-        }
     },
     showInquiry:function (id) {
 
@@ -156,6 +125,28 @@ var AppRouter = Backbone.Router.extend({
 
             }
         });
+    },
+    editInquiry:function (id) {
+
+        this.common();
+        this.loadInquiryUsers(id);
+
+        if(!app.GameList.get(id)){
+            var game = new Game({ id: id });
+            game.fetch({
+                beforeSend: setHeader,
+                success: function (response, game) {
+                    $('#inquiries').html(new InquiryStructureEditView({  }).render().el);
+                    $('aside#summary').html(new InquiryEditView({ model: game }).render().el);
+                    $(".knob").knob();
+                    app.GameList.add(game);
+                    console.log(game);
+                }
+            });
+        }else {
+            $('#inquiries').html(new InquiryStructureEditView({}).render().el);
+            $('aside#summary').html(new InquiryView({model: app.GameList.get(id)}).render().el);
+        }
     },
     showPhase: function(id, phase){
         var _self = this;
@@ -681,7 +672,6 @@ var successInquiryUsers = function(response, xhr){
 };
 
 var successGameHandler = function(response, xhr){
-
     _.each(xhr.gamesAccess, function(e){
         if(app.GameList.where({ id: e.gameId}).length == 0){
             var game = new Game({ id: e.gameId });
@@ -705,7 +695,7 @@ var successGameParticipateHandler = function(response, xhr){
     });
 };
 
-tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry', 'run', 'user', 'user_sidebar', 'phase', 'activity', 'activity_detail','activity_details', 'inquiry_structure',
+tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry','inquiry_edit', 'run', 'user', 'user_sidebar', 'phase', 'activity', 'activity_detail','activity_details', 'inquiry_structure', 'inquiry_edit_structure',
     'inquiry_sidebar', 'activityDependency', 'message', 'message_right', 'inquiry_left_sidebar','message_own', 'response', 'response_discussion', 'response_treeview','response_author', 'response_discussion_author',
     'message_notification','notification_floating', 'activity_video', 'activity_widget', 'activity_discussion', 'notification_sidebar', 'user_inquiry','activity_tree_view'], function() {
     app = new AppRouter();
