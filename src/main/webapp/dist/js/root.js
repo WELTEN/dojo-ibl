@@ -849,6 +849,8 @@ var successGameHandler = function(response, xhr){
                 }
             });
             app.GameList.add(game);
+
+
         }else{
             var game = _gl;
             $('.inquiry').append( new GameListView({ model: game.toJSON(), v: 1 }).render().el );
