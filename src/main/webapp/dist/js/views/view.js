@@ -75,8 +75,10 @@
 // Game
 window.GameListView = Backbone.View.extend({
     tagName:  "div",
-    className: "col-lg-3",
+    className: "col-lg-3 animated fadeInUp",
     initialize:function (options) {
+        //this.collection.bind('add', this.render);
+        this.listenTo(app.GameList, 'add', this.show);
         if(options.v == 1){
             this.template = _.template(tpl.get('game_teacher'));
         }
@@ -88,8 +90,19 @@ window.GameListView = Backbone.View.extend({
     events: {
         'click .show-runs' : 'showRuns'
     },
+    show: function(){
+        console.log("render");
+    },
     render: function () {
-        $(this.el).html(this.template(this.model));
+        //_.each(this.collection.models, function(response){
+        //
+        //}, this);
+        //
+        //this.collection.reset();
+
+        //console.log("render");
+
+        $(this.el).html(this.template({ model: this.model }));
         return this;
     },
     showRuns: function(e){
@@ -135,7 +148,8 @@ window.RunListView = Backbone.View.extend({
 // Inquiries
 window.InquiryView = Backbone.View.extend({
     tagName:  "div",
-    className: "col-md-9",
+    id: "inquiry-content",
+    className: "col-md-9 wrapper wrapper-content animated fadeInUp",
     initialize:function () {
         this.template = _.template(tpl.get('inquiry'));
     },
@@ -145,6 +159,191 @@ window.InquiryView = Backbone.View.extend({
         return this;
     }
 });
+
+window.SideBarView = Backbone.View.extend({
+    tagName:  "div",
+    className: "col-lg-3 wrapper wrapper-content",
+    initialize:function () {
+        this.template = _.template(tpl.get('inquiry_sidebar'));
+    },
+    render:function () {
+        $(this.el).html(this.template());
+
+        return this;
+    }
+});
+
+// Phases
+window.PhaseView = Backbone.View.extend({
+    className: "animated fadeInUp",
+    initialize:function () {
+        this.template = _.template(tpl.get('phase'));
+    },
+    render:function () {
+        $(this.el).html(this.template());
+
+        return this;
+    }
+});
+
+// Activities
+window.ActivityBulletView = Backbone.View.extend({
+    tagName: "li",
+    initialize:function (options) {
+        this.phase = options.phase;
+        this.template = _.template(tpl.get('activity'));
+        $(this.el).attr("data", this.model.id);
+    },
+    render:function () {
+        $(this.el).html(this.template({model: this.model, phase: this.phase}));
+        return this;
+    }
+});
+
+window.ItemBreadcrumbView = Backbone.View.extend({
+    tagName: "div",
+    className: "move-right-breadcrumb",
+    initialize:function () {
+        this.template = _.template(tpl.get('item_breadcrumb_activity'));
+    },
+    render:function () {
+        $(this.el).html(this.template({ }));
+        return this;
+    }
+});
+
+
+// Responses
+window.ResponseListView = Backbone.View.extend({
+    initialize: function(options){
+        _(this).bindAll('render');
+        this.collection.bind('add', this.render);
+        this.users = options.users;
+        this.game = options.game;
+        this.runId = options.run;
+    },
+    render: function(){
+        _.each(this.collection.models, function(response){
+            var aux = response.toJSON().userEmail.split(':');
+            var user = this.users.where({ 'localId': aux[1] });
+
+            $(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el).insertBefore($('#list_answers > .social-comment:last-child'));
+        }, this);
+
+        this.collection.reset();
+
+        $('.reply').click(function(e){
+            if($(this).parent().parent().find(".response").length == 0){
+                console.log("add");
+                $(this).parent().parent().append(new ResponseReplyView({}).render().el);
+            }else{
+                console.log("remove");
+                $(this).parent().siblings(".social-comment:last").remove();
+            }
+
+            e.preventDefault();
+        });
+
+        $(".form-control.input-sm.pull-right").keyup(function () {
+            //split the current value of searchInput
+            var data = this.value.split(" ");
+            //create a jquery object of the rows
+            var jo = $("#activity-responses > tbody").find("tr");
+            if (this.value == "") {
+                jo.show();
+                return;
+            }
+            //hide all the rows
+            jo.hide();
+
+            //Recusively filter the jquery object to get results.
+            jo.filter(function (i, v) {
+                var $t = $(this);
+                for (var d = 0; d < data.length; ++d) {
+                    if ($t.is(":contains('" + data[d] + "')")) {
+                        return true;
+                    }
+                }
+                return false;
+            })
+                //show the rows that match.
+                .show();
+        }).focus(function () {
+            this.value = "";
+            $(this).css({
+                "color": "black"
+            });
+            $(this).unbind('focus');
+        }).css({
+            "color": "#C0C0C0"
+        });
+    }
+});
+
+window.ResponseView = Backbone.View.extend({
+    tagName: "div",
+    className: "social-comment",
+    model: Response,
+    initialize: function(options) {
+        this.template = _.template(tpl.get('response'));
+        this.user = options.user;
+    },
+    render:function () {
+        if(this.model.lastModificationDate == 0){
+            $(this.el).find(".username > .text-muted.pull-right").prepend("Now");
+            $(this.el).append(this.template({ model: this.model, author: this.user.toJSON(), time: "Now" }));
+        }else{
+            $(this.el).append(this.template({ model: this.model, author: this.user.toJSON(), time: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()) }));
+        }
+        return this;
+    }
+});
+
+window.ResponseReplyView = Backbone.View.extend({
+    tagName: "div",
+    className: "social-comment",
+    model: Response,
+    initialize: function() {
+        this.template = _.template(tpl.get('response_reply'));
+    },
+    render:function () {
+        $(this.el).append(this.template());
+
+        return this;
+    }
+});
+
+
+window.ActivityView = Backbone.View.extend({
+    initialize:function (xhr) {
+        if(xhr.model.type.indexOf("VideoObject") > -1){
+            console.debug("VideoObject");
+            this.template = _.template(tpl.get('activity_video'));
+        }else if(xhr.model.type.indexOf("OpenBadge") > -1) {
+            console.debug("OpenBadge");
+            this.template = _.template(tpl.get('activity_widget'));
+        }else if(xhr.model.type.indexOf("AudioObject") > -1) {
+            this.template = _.template(tpl.get('activity_discussion'));
+        }else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
+            this.template = _.template(tpl.get('activity_tree_view'));
+        }else{
+            console.debug("Discussion");
+            this.template = _.template(tpl.get('activity_detail'));
+        }
+    },
+    render:function () {
+        $(this.el).html(this.template(this.model));
+        $(this.el).find('#nestable3').nestable();
+        return this;
+    }
+});
+
+// =====================================================
+
+
+
+
+
 
 window.InquiryLeftSidebarView = Backbone.View.extend({
     tagName: "div",
@@ -204,57 +403,13 @@ window.InquiryStructureView = Backbone.View.extend({
     }
 });
 
-// Phases
-window.PhaseView = Backbone.View.extend({
-    tagName: "div",
-    className: "col-md-7",
-    initialize:function () {
-        this.template = _.template(tpl.get('phase'));
-    },
-    events: {
-        'click .close-phase': 'close_phase'
-    },
-    close_phase: function (ev){
 
-        console.debug("[close_phase event PhaseView]","Closing phase.");
-
-        if($.cookie("dojoibl.run")){
-            app.navigate('inquiry/' + $.cookie("dojoibl.run"));
-        }
-
-        $("aside#summary > div").switchClass( "col-md-2", "col-md-9", 200, function(){
-
-            $("ul#circlemenu2").attr("id", "circlemenu");
-
-            //$(".circle-container li.deg0").css('-webkit-transform','translate(10em)');
-            //$(".circle-container li.deg0").css('-ms-transform','translate(10em)');
-            //$(".circle-container li.deg0").css('transform','translate(10em)');
-
-            $("#inquiry-explanation").fadeIn();
-            $("ul#circlemenu").children().show();
-            //$("ul > li").show();
-            $("ul.box-header.with-border.nav.nav-tabs > li").show();
-            $("#summary .title-summary").hide();
-            $("#summary ul.nav-tabs.box-header").show();
-        });
-
-        $("#inquiry").hide();
-
-        ev.preventDefault();
-    },
-    render:function () {
-        $(this.el).html(this.template(this.model));
-
-        return this;
-    }
-});
 
 // Messages
-window.MessageOwnView = Backbone.View.extend({
+window.MessageFromNotificationView = Backbone.View.extend({
     tagName:  "div",
-    className: "direct-chat-msg",
+    className: "right",
     initialize:function (a) {
-        //console.log(a);
         this.template = _.template(tpl.get('message_own'));
     },
     render:function () {
@@ -265,19 +420,7 @@ window.MessageOwnView = Backbone.View.extend({
 
 window.MessageLeftView = Backbone.View.extend({
     tagName:  "div",
-    className: "direct-chat-msg",
-    initialize:function () {
-        this.template = _.template(tpl.get('message'));
-    },
-    render:function () {
-        $(this.el).html(this.template(this.model));
-        return this;
-    }
-});
-
-window.MessageRightView = Backbone.View.extend({
-    tagName:  "div",
-    className: "direct-chat-msg right",
+    className: "left",
     initialize:function () {
         this.template = _.template(tpl.get('message_right'));
     },
@@ -287,43 +430,42 @@ window.MessageRightView = Backbone.View.extend({
     }
 });
 
-// Activities
-window.ActivityBulletView = Backbone.View.extend({
-    tagName:  "li",
-    className: "skill-tree-row row-1",
-    initialize:function (options) {
-        this.phase = options.phase
-        this.template = _.template(tpl.get('activity'));
+window.MessageRightView = Backbone.View.extend({
+    tagName:  "div",
+    className: "right",
+    initialize:function () {
+        this.template = _.template(tpl.get('message'));
     },
-    render:function () {
-        $(this.el).html(this.template({model: this.model, phase: this.phase}));
-        return this;
-    }
-});
-
-window.ActivityView = Backbone.View.extend({
-    tagName: 'section',
-    className: 'phase-detail box box-success box-solid',
-    initialize:function (xhr) {
-        if(xhr.model.type.indexOf("VideoObject") > -1){
-            this.template = _.template(tpl.get('activity_video'));
-        }else if(xhr.model.type.indexOf("OpenBadge") > -1) {
-            this.template = _.template(tpl.get('activity_widget'));
-        }else if(xhr.model.type.indexOf("AudioObject") > -1) {
-            this.template = _.template(tpl.get('activity_discussion'));
-        }else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
-            this.template = _.template(tpl.get('activity_tree_view'));
-        }else{
-            this.template = _.template(tpl.get('activity_detail'));
-        }
-    },
-
     render:function () {
         $(this.el).html(this.template(this.model));
-        $(this.el).find('#nestable3').nestable();
         return this;
     }
 });
+//
+//
+//window.ActivityView = Backbone.View.extend({
+//    tagName: 'section',
+//    className: 'phase-detail box box-success box-solid',
+//    initialize:function (xhr) {
+//        if(xhr.model.type.indexOf("VideoObject") > -1){
+//            this.template = _.template(tpl.get('activity_video'));
+//        }else if(xhr.model.type.indexOf("OpenBadge") > -1) {
+//            this.template = _.template(tpl.get('activity_widget'));
+//        }else if(xhr.model.type.indexOf("AudioObject") > -1) {
+//            this.template = _.template(tpl.get('activity_discussion'));
+//        }else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
+//            this.template = _.template(tpl.get('activity_tree_view'));
+//        }else{
+//            this.template = _.template(tpl.get('activity_detail'));
+//        }
+//    },
+//
+//    render:function () {
+//        $(this.el).html(this.template(this.model));
+//        $(this.el).find('#nestable3').nestable();
+//        return this;
+//    }
+//});
 
 window.ActivityDepencyView = window.ActivityView.extend({
     tagName:  "span",
@@ -334,79 +476,7 @@ window.ActivityDepencyView = window.ActivityView.extend({
     }
 });
 
-// Responses
-window.ResponseListView = Backbone.View.extend({
-    tagName: "tbody",
-    initialize: function(options){
-        this.template = _.template(tpl.get('activity_details'));
 
-        _(this).bindAll('render');
-
-        this.collection.bind('add', this.render);
-
-        this.users = options.users;
-    },
-    render: function(){
-        _.each(this.collection.models, function(response){
-            var aux = response.toJSON().userEmail.split(':');
-            var user = this.users.where({ 'localId': aux[1] });
-            $('#activity-responses').append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
-        }, this);
-
-        this.collection.reset();
-
-        $(".form-control.input-sm.pull-right").keyup(function () {
-            //split the current value of searchInput
-            var data = this.value.split(" ");
-            //create a jquery object of the rows
-            var jo = $("#activity-responses > tbody").find("tr");
-            if (this.value == "") {
-                jo.show();
-                return;
-            }
-            //hide all the rows
-            jo.hide();
-
-            //Recusively filter the jquery object to get results.
-            jo.filter(function (i, v) {
-                var $t = $(this);
-                for (var d = 0; d < data.length; ++d) {
-                    if ($t.is(":contains('" + data[d] + "')")) {
-                        return true;
-                    }
-                }
-                return false;
-            })
-                //show the rows that match.
-                .show();
-        }).focus(function () {
-            this.value = "";
-            $(this).css({
-                "color": "black"
-            });
-            $(this).unbind('focus');
-        }).css({
-            "color": "#C0C0C0"
-        });
-    }
-});
-
-window.ResponseView = Backbone.View.extend({
-    tagName: "tr",
-    model: Response,
-    initialize: function(options) {
-         this.template = _.template(tpl.get('response'));
-         this.template_author = _.template(tpl.get('response_author'));
-
-        this.user = options.user;
-    },
-    render:function () {
-        // TODO sometimes JSON error. I need to check this.
-        $(this.el).append(this.template_author(this.user.toJSON()));
-        $(this.el).append(this.template(this.model));
-        return this;
-    }
-});
 
 window.ResponseDiscussionListView = Backbone.View.extend({
     el: $(".box-footer.box-comments"),
@@ -423,7 +493,6 @@ window.ResponseDiscussionListView = Backbone.View.extend({
 
             var aux = response.toJSON().userEmail.split(':');
             var user = this.users.where({ 'localId': aux[1] });
-
             $(".box-footer.box-comments").append(new ResponseDiscussionView({ model: response.toJSON(), user: user[0] }).render().el);
         }, this);
 

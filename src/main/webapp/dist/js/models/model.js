@@ -6,10 +6,17 @@ window.GameAccess = Backbone.Model.extend({
 });
 
 window.Game = Backbone.Model.extend({
+    idAttribute: 'gameId',
     initialize: function(a){
     },
-    urlRoot: '/rest/myGames/gameId/'
-
+    url: function(){
+        return "/rest/myGames/gameId/"+this.id;
+    },
+    defaults:{
+        "title":"",
+        "description": "",
+        "accessRight": 0
+    }
 });
 
 window.RunAccess = Backbone.Model.extend({
@@ -47,6 +54,31 @@ window.Activity = Backbone.Model.extend({
         "gameId":0,
         "dependsOn":"",
         "roles":""
+    }
+});
+
+window.MyGame = Backbone.Model.extend({
+    initialize: function(a){
+        this.on('all', function(e){
+            //console.debug(this.get("responseValue") + " event: "+ e);
+        })
+    },
+    urlRoot: '/rest/myGames',
+    defaults:{
+        "title": 0
+    }
+});
+
+window.MyRun = Backbone.Model.extend({
+    initialize: function(a){
+        this.on('all', function(e){
+            //console.debug(this.get("responseValue") + " event: "+ e);
+        })
+    },
+    urlRoot: '/rest/myRuns',
+    defaults:{
+        "title": 0,
+        "gameId": 0
     }
 });
 
@@ -125,23 +157,23 @@ window.ActivitiesCollection = Backbone.Collection.extend({
     },
     parse: function(response){
 
-        var listSource = new Array();
-        //var self = this;
+        //var listSource = new Array();
+        ////var self = this;
+        //
+        //_.each(response.generalItems, function(generalItem){
+        //    listSource.push(new Activity( {
+        //        "id": generalItem.id,
+        //        "name": generalItem.name,
+        //        "sortKey": generalItem.sortKey,
+        //        "description": generalItem.description,
+        //        "lastModificationDate":generalItem.lastModificationDate,
+        //        "gameId": generalItem.gameId,
+        //        "dependsOn": generalItem.dependsOn,
+        //        "roles": generalItem.roles
+        //    }));
+        //});
 
-        _.each(response.generalItems, function(generalItem){
-            listSource.push(new Activity( {
-                "id": generalItem.id,
-                "name": generalItem.name,
-                "sortKey": generalItem.sortKey,
-                "description": generalItem.description,
-                "lastModificationDate":generalItem.lastModificationDate,
-                "gameId": generalItem.gameId,
-                "dependsOn": generalItem.dependsOn,
-                "roles": generalItem.roles
-            }));
-        });
-
-        return listSource;
+        //return listSource;
 
     }
 });

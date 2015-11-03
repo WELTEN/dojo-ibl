@@ -1,3 +1,19 @@
-<td><%= lastModificationDate %></td>
-<td><span class="label label-success">Approved</span></td>
-<td><%= responseValue %></td>
+<a class="pull-left">
+    <img alt="image" src="<%
+    if ( author.picture != '') {
+        %> <%= author.picture %> <%
+    }else{
+        %> http://www.blogtard.com/img/5f.png <%
+    }
+    %>">
+</a>
+<div class="media-body">
+    <a href="#">
+        <%= author.givenName %>
+    </a>
+    <%= model.responseValue %>
+    <br>
+    <!--<a href="#" class="small"><i class="fa fa-thumbs-up"></i> 11 Like this!</a> --->
+    <a data="<%= model.responseId %>" class="small reply"> Reply</a> -
+    <small class="text-muted"><%= time %></small>
+</div>

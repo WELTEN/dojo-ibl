@@ -1,46 +1,39 @@
-<div class="box-header with-border">
-   <h3 class="box-title">Data collection > <%= name %> </h3>
-   <div class="box-tools pull-right">
-      <button class="btn btn-box-tool close-detail" data-widget="remove"><i class="fa fa-times"></i></button>
+<div class="ibox">
+   <div class="ibox-content">
 
-   </div><!-- /.box-tools -->
-</div><!-- /.box-header -->
-<div class="box-body">
-   <h1><%= name %></h1>
+      <div class="row">
+         <div class="col-lg-12">
+            <div class="m-b-md">
+               <a href="" class="btn btn-primary btn-xs pull-right">Edit inquiry</a>
+               <h2><%= name %></h2>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-lg-12">
+            <dl class="dl-horizontal">
+               <dt>Completed:</dt>
+               <dd>
+                  <div class="progress progress-striped active m-b-sm">
+                     <div style="width: 60%;" class="progress-bar"></div>
+                  </div>
+                  <small>Project completed in <strong>60%</strong>. Remaining close the project, sign a contract and invoice.</small>
+               </dd>
+            </dl>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-lg-12">
+            <div class="m-b-md">
+               <p><%= description %></p>
 
-   <video src="<%= videoFeed %>" controls>
-      Your browser does not support the <code>video</code> element.
-   </video>
-   <!--<p>From the PIM find it here: <a href="https://play.google.com/store/apps/details?id=net.wespot.pim">PIM</a></p>-->
-   <!--<div class="form-group">-->
-      <!--<label>Provide an answer</label>-->
-      <!--<textarea class="form-control response" rows="3" placeholder="Enter ..."></textarea>-->
-
-   <!--</div>-->
-   <div class="btn-group pull-right">
-      <!--<button type="button" class="btn btn-danger cancel">Cancel</button>-->
-      <!--<button type="button" class="btn btn-warning save">Save & continue</button>-->
-      <button type="button" class="btn btn-success save-close">Save & close</button>
+               <video src="<%= videoFeed %>" controls>
+                  Your browser does not support the <code>video</code> element.
+               </video>
+            </div>
+         </div>
+      </div>
+      <div id="list_answers" class="row m-t-sm">
+      </div>
    </div>
-   <span class="message-user"></span>
 </div>
-<!--<div class="col-xs-12">-->
-      <!--<div class="box-header">-->
-         <!--<h3 class="box-title">Activity's reponses</h3>-->
-         <!--<div class="box-tools">-->
-            <!--<div class="input-group" style="width: 150px;">-->
-               <!--<input type="text" name="table_search" class="form-control input-sm pull-right" placeholder="Search">-->
-               <!--<div class="input-group-btn">-->
-                  <!--<button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>-->
-               <!--</div>-->
-            <!--</div>-->
-         <!--</div>-->
-      <!--</div>&lt;!&ndash; /.box-header &ndash;&gt;-->
-      <!--<div class="box-body table-responsive no-padding">-->
-         <!--<table id="activity-responses" class="table table-hover">-->
-            <!--&lt;!&ndash;<div class="overlay">&ndash;&gt;-->
-               <!--&lt;!&ndash;<i class="fa fa-refresh fa-spin"></i>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-         <!--</table>-->
-      <!--</div>&lt;!&ndash; /.box-body &ndash;&gt;-->
-<!--</div>-->

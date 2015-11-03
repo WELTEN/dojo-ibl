@@ -1,10 +1,9 @@
-<div class="wrapper wrapper-content animated fadeInUp">
     <div class="ibox">
         <div class="ibox-content">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="m-b-md">
-                        <a href="#" class="btn btn-white btn-xs pull-right">Edit project</a>
+                        <a href="" class="btn btn-primary btn-xs pull-right">Edit inquiry</a>
                         <h2><%= title %></h2>
                         <!--<dl class="dl-horizontal">-->
                             <!--<dt>Status:</dt> <dd><span class="label label-primary">Active</span></dd>-->
@@ -40,6 +39,19 @@
                 <!--</div>-->
             <!--</div>-->
             <div class="row">
+                <div class="col-lg-12">
+                    <dl class="dl-horizontal">
+                        <dt>Completed:</dt>
+                        <dd>
+                            <div class="progress progress-striped active m-b-sm">
+                                <div style="width: 60%;" class="progress-bar"></div>
+                            </div>
+                            <small>Project completed in <strong>60%</strong>. Remaining close the project, sign a contract and invoice.</small>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="row">
                 <ul id="circlemenu" class="list">
                     <li class="question">
                         <input type="text" class="knob" data-readonly="true" value="85" data-width="50" data-height="50" data-fgcolor="#39CCCC" />
@@ -66,42 +78,93 @@
                         <div class="knob-label"><a href="#inquiry/<%= gameId %>/phase/6">Communication</a></div>
                     </li>
                 </ul>
-                <div class="general" style="display: block;">
-                    <h1><%= title %></h1>
-                    <dl class="dl-horizontal inquiry-description">
-                        <dt>Description</dt>
-                        <dd>This inquiry is designed to be used to make virtual experiments online, based on data collected from thermal swimming pools in a real setting. For example, users of this inquiry could observe buoyancy in serveral thermal bath pools of different temperature with different minerals. Thus, experiment designers think out different means and methods with limited existing resources arround the swimming pools.</dd>
-                        <dt>Owner</dt>
-                        <dd>Pedro Martinez</dd>
-                        <dt>Inquiry members</dt>
-                        <dd>10 participants</dd>
-                        <dt>Type of inquiry</dt>
-                        <dd>Open inquiry</dd><dd>
-                    </dd></dl>
-                    <div class="alert alert-success alert-dismissable">
-                        <h4><i class="icon fa fa-info"></i> For data collection, use <a target="_blank" href="https://play.google.com/store/apps/details?id=net.wespot.pim">PIM</a></h4>
-                        Looking for the Mobile app? Yes, follow the link and install the Personal Inquiry Manager (PIM) in your mobile devices
-                        <ul>
-                            <li>
-                                <a target="_blank" href="https://play.google.com/store/apps/details?id=net.wespot.pim">Android</a></li>
-                            <a target="_blank" href="https://play.google.com/store/apps/details?id=net.wespot.pim">iOS</a>
-                        </ul>
+                <div id="inquiry-explanation">
+
+                    <div class="general" style="display: block;">
+
+                        <dl class="dl-horizontal inquiry-description">
+                            <dt>Description</dt>
+                            <dd><%= game.description %></dd>
+                            <dt>Owner</dt>
+                            <dd>Pedro Martinez</dd>
+                            <dt>Inquiry members</dt>
+                            <dd>10 participants</dd>
+                            <dt>Type of inquiry</dt>
+                            <dd>Open inquiry</dd><dd>
+                        </dd></dl>
+                        <div class="alert alert-success alert-dismissable">
+                            <h4><i class="icon fa fa-info"></i> For data collection, use <a target="_blank" href="https://play.google.com/store/apps/details?id=net.wespot.pim">PIM</a></h4>
+                            Looking for the Mobile app? Yes, follow the link and install the Personal Inquiry Manager (PIM) in your mobile devices
+                            <ul>
+                                <li>
+                                    <a target="_blank" href="https://play.google.com/store/apps/details?id=net.wespot.pim">Android</a></li>
+                                <a target="_blank" href="https://play.google.com/store/apps/details?id=net.wespot.pim">iOS</a>
+                            </ul>
+                        </div>
+                        <p></p>
+                        <p></p>
                     </div>
-                    <p></p>
-                    <p></p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <dl class="dl-horizontal">
-                        <dt>Completed:</dt>
-                        <dd>
-                            <div class="progress progress-striped active m-b-sm">
-                                <div style="width: 60%;" class="progress-bar"></div>
-                            </div>
-                            <small>Project completed in <strong>60%</strong>. Remaining close the project, sign a contract and invoice.</small>
-                        </dd>
-                    </dl>
+
+                    <!--<div class="question" style="display: none;">-->
+                    <!--<h1>Question phase?</h1>-->
+                    <!--<p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>-->
+                    <!--<div class="alert alert-info alert-dismissable">-->
+                    <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>-->
+                    <!--<h4><i class="icon fa fa-info"></i> Goal for this phase</h4>-->
+                    <!--<p>Come up with a question</p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="method" style="display: none;">-->
+                    <!--<h1>Method phase</h1>-->
+                    <!--<p>You need to find.....</p>-->
+                    <!--<div class="alert alert-info alert-dismissable">-->
+                    <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>-->
+                    <!--<h4><i class="icon fa fa-info"></i> Goal for this phase</h4>-->
+                    <!--<p>-</p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="collection" style="display: none;">-->
+                    <!--<h1>Collection phase?</h1>-->
+                    <!--<p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>-->
+                    <!--<div class="alert alert-info alert-dismissable">-->
+                    <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>-->
+                    <!--<h4><i class="icon fa fa-info"></i> Goal for this phase</h4>-->
+                    <!--<p>-</p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="analysis" style="display: none;">-->
+                    <!--<h1>Analysis phase?</h1>-->
+                    <!--<p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>-->
+                    <!--<div class="alert alert-info alert-dismissable">-->
+                    <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>-->
+                    <!--<h4><i class="icon fa fa-info"></i> Goal for this phase</h4>-->
+                    <!--<p>-</p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="interpretation" style="display: none;">-->
+                    <!--<h1>Interpretation phase?</h1>-->
+                    <!--<p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>-->
+                    <!--<div class="alert alert-info alert-dismissable">-->
+                    <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>-->
+                    <!--<h4><i class="icon fa fa-info"></i> Goal for this phase</h4>-->
+                    <!--<p>-</p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="communication" style="display: none;">-->
+                    <!--<h1>Communication phase?</h1>-->
+                    <!--<p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>-->
+                    <!--<div class="alert alert-info alert-dismissable">-->
+                    <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>-->
+                    <!--<h4><i class="icon fa fa-info"></i> Goal for this phase</h4>-->
+                    <!--<p>-</p>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
                 </div>
             </div>
             <div class="row m-t-sm">
@@ -403,420 +466,3 @@
             </div>
         </div>
     </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<div class="nav-tabs-custom box box-success box-solid">-->
-
-    <!--<div class="title-summary box-header with-border">-->
-        <!--<h3>Summary</h3>-->
-    <!--</div>-->
-    <!--<ul class="box-header with-border nav nav-tabs">-->
-        <!--<li><a href="#tab_1" data-toggle="tab">Overview</a></li>-->
-        <!--&lt;!&ndash;<li><a href="#tab_2" data-toggle="tab">Timeline</a></li>&ndash;&gt;-->
-        <!--&lt;!&ndash;<li><a href="#tab_3" data-toggle="tab">Statistics</a></li>&ndash;&gt;-->
-        <!--&lt;!&ndash;<li><a href="#tab_4" data-toggle="tab">Analytics</a></li>&ndash;&gt;-->
-        <!--&lt;!&ndash; <li class="dropdown">-->
-          <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#">-->
-            <!--Dropdown <span class="caret"></span>-->
-          <!--</a>-->
-          <!--<ul class="dropdown-menu">-->
-            <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>-->
-            <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>-->
-            <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>-->
-            <!--<li role="presentation" class="divider"></li>-->
-            <!--<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>-->
-          <!--</ul>-->
-        <!--</li> &ndash;&gt;-->
-        <!--&lt;!&ndash;<li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>&ndash;&gt;-->
-    <!--</ul>-->
-    <!--<div class="tab-content">-->
-        <!--<div class="tab-pane active inquiry-structure" id="tab_1">-->
-            <!--<div class="menu">-->
-                <!--<a class="deg0" href="#inquiry/<%= gameId %>/phase/1">Q</a>-->
-                <!--<a class="deg45" href="#inquiry/<%= gameId %>/phase/2">P</a>-->
-                <!--<a class="deg135" href="#inquiry/<%= gameId %>/phase/3">D</a>-->
-                <!--<a class="deg180" href="#inquiry/<%= gameId %>/phase/4">D</a>-->
-                <!--<a class="deg225" href="#inquiry/<%= gameId %>/phase/5">I</a>-->
-                <!--<a class="deg315" href="#inquiry/<%= gameId %>/phase/6">C</a>-->
-            <!--</div>-->
-            <!--<ul id="circlemenu" class="list">-->
-                <!--<li class="question">-->
-                    <!--<input type="text" class="knob" data-readonly="true" value="85" data-width="50" data-height="50" data-fgcolor="#39CCCC" />-->
-                    <!--<div class="knob-label"><a href="#inquiry/<%= gameId %>/phase/1">Question</a></div>-->
-                <!--</li>-->
-                <!--<li class="method">-->
-                    <!--<input type="text" class="knob" data-readonly="true" value="75" data-width="50" data-height="50" data-fgcolor="#39CCCC" />-->
-                    <!--<div class="knob-label"><a href="#inquiry/<%= gameId %>/phase/2">Plan the method</a></div>-->
-                <!--</li>-->
-                <!--<li class="collection">-->
-                    <!--<input type="text" class="knob" data-readonly="true" value="55" data-width="50" data-height="50" data-fgcolor="#39CCCC" />-->
-                    <!--<div class="knob-label"><a href="#inquiry/<%= gameId %>/phase/3">Data collection</a></div>-->
-                <!--</li>-->
-                <!--<li class="analysis">-->
-                    <!--<input type="text" class="knob" data-readonly="true" value="15" data-width="50" data-height="50" data-fgcolor="#39CCCC" />-->
-                    <!--<div class="knob-label"><a href="#inquiry/<%= gameId %>/phase/4">Data analysis</a></div>-->
-                <!--</li>-->
-                <!--<li class="interpretation">-->
-                    <!--<input type="text" class="knob" data-readonly="true" value="5" data-width="50" data-height="50" data-fgcolor="#39CCCC" />-->
-                    <!--<div class="knob-label"><a href="#inquiry/<%= gameId %>/phase/5">Interpretation</a></div>-->
-                <!--</li>-->
-                <!--<li class="communication">-->
-                    <!--<input type="text" class="knob" data-readonly="true" value="5" data-width="50" data-height="50" data-fgcolor="#39CCCC" />-->
-                    <!--<div class="knob-label"><a href="#inquiry/<%= gameId %>/phase/6">Communication</a></div>-->
-                <!--</li>-->
-            <!--</ul>-->
-
-            <!--<div id="inquiry-explanation">-->
-
-                <!--<div class="general" style="display: block;">-->
-                    <!--<h1><%= title %></h1>-->
-                    <!--<dl class="dl-horizontal inquiry-description">-->
-                        <!--<dt>Description</dt>-->
-                        <!--<dd>This inquiry is designed to be used to make virtual experiments online, based on data collected from thermal swimming pools in a real setting. For example, users of this inquiry could observe buoyancy in serveral thermal bath pools of different temperature with different minerals. Thus, experiment designers think out different means and methods with limited existing resources arround the swimming pools.</dd>-->
-                        <!--<dt>Owner</dt>-->
-                        <!--<dd>Pedro Martinez</dd>-->
-                        <!--<dt>Inquiry members</dt>-->
-                        <!--<dd>10 participants</dd>-->
-                        <!--<dt>Type of inquiry</dt>-->
-                        <!--<dd>Open inquiry</dd><dd>-->
-                    <!--</dd></dl>-->
-                    <!--<div class="alert alert-success alert-dismissable">-->
-                        <!--<h4><i class="icon fa fa-info"></i> For data collection, use <a target="_blank" href="https://play.google.com/store/apps/details?id=net.wespot.pim">PIM</a></h4>-->
-                        <!--Looking for the Mobile app? Yes, follow the link and install the Personal Inquiry Manager (PIM) in your mobile devices-->
-                        <!--<ul>-->
-                            <!--<li>-->
-                                <!--<a target="_blank" href="https://play.google.com/store/apps/details?id=net.wespot.pim">Android</a></li>-->
-                            <!--<a target="_blank" href="https://play.google.com/store/apps/details?id=net.wespot.pim">iOS</a>-->
-                        <!--</ul>-->
-                    <!--</div>-->
-                    <!--<p></p>-->
-                    <!--<p></p>-->
-                <!--</div>-->
-
-                <!--&lt;!&ndash;<div class="question" style="display: none;">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<h1>Question phase?</h1>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="alert alert-info alert-dismissable">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<h4><i class="icon fa fa-info"></i> Goal for this phase</h4>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<p>Come up with a question</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-                <!--&lt;!&ndash;<div class="method" style="display: none;">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<h1>Method phase</h1>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<p>You need to find.....</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="alert alert-info alert-dismissable">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<h4><i class="icon fa fa-info"></i> Goal for this phase</h4>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<p>-</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-                <!--&lt;!&ndash;<div class="collection" style="display: none;">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<h1>Collection phase?</h1>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="alert alert-info alert-dismissable">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<h4><i class="icon fa fa-info"></i> Goal for this phase</h4>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<p>-</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-                <!--&lt;!&ndash;<div class="analysis" style="display: none;">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<h1>Analysis phase?</h1>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="alert alert-info alert-dismissable">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<h4><i class="icon fa fa-info"></i> Goal for this phase</h4>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<p>-</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-                <!--&lt;!&ndash;<div class="interpretation" style="display: none;">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<h1>Interpretation phase?</h1>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="alert alert-info alert-dismissable">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<h4><i class="icon fa fa-info"></i> Goal for this phase</h4>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<p>-</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-                <!--&lt;!&ndash;<div class="communication" style="display: none;">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<h1>Communication phase?</h1>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<p>You need to find a question to research about in your inquiry. Work together with your team and find a question.</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="alert alert-info alert-dismissable">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<h4><i class="icon fa fa-info"></i> Goal for this phase</h4>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<p>-</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-            <!--</div>-->
-        <!--</div>-->
-        <!--&lt;!&ndash;<div class="tab-pane" id="tab_2">&ndash;&gt;-->
-            <!--&lt;!&ndash;&lt;!&ndash; The time line &ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;<ul class="timeline">&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash; timeline time label &ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;<li class="time-label">&ndash;&gt;-->
-        <!--&lt;!&ndash;<span class="bg-red">&ndash;&gt;-->
-          <!--&lt;!&ndash;10 Feb. 2014&ndash;&gt;-->
-        <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash; /.timeline-label &ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash; timeline item &ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;<li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<i class="fa fa-envelope bg-blue"></i>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="timeline-item">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<span class="time"><i class="fa fa-clock-o"></i> 12:05</span>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<div class="timeline-body">&ndash;&gt;-->
-                            <!--&lt;!&ndash;Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,&ndash;&gt;-->
-                            <!--&lt;!&ndash;weebly ning heekya handango imeem plugg dopplr jibjab, movity&ndash;&gt;-->
-                            <!--&lt;!&ndash;jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle&ndash;&gt;-->
-                            <!--&lt;!&ndash;quora plaxo ideeli hulu weebly balihoo...&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<div class="timeline-footer">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<a class="btn btn-primary btn-xs">Read more</a>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<a class="btn btn-danger btn-xs">Delete</a>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash; END timeline item &ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash; timeline item &ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;<li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<i class="fa fa-user bg-aqua"></i>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="timeline-item">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<span class="time"><i class="fa fa-clock-o"></i> 5 mins ago</span>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request</h3>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash; END timeline item &ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash; timeline item &ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;<li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<i class="fa fa-comments bg-yellow"></i>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="timeline-item">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<span class="time"><i class="fa fa-clock-o"></i> 27 mins ago</span>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<div class="timeline-body">&ndash;&gt;-->
-                            <!--&lt;!&ndash;Take me to your leader!&ndash;&gt;-->
-                            <!--&lt;!&ndash;Switzerland is small and neutral!&ndash;&gt;-->
-                            <!--&lt;!&ndash;We are more like Germany, ambitious and misunderstood!&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<div class="timeline-footer">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<a class="btn btn-warning btn-flat btn-xs">View comment</a>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash; END timeline item &ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash; timeline time label &ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;<li class="time-label">&ndash;&gt;-->
-        <!--&lt;!&ndash;<span class="bg-green">&ndash;&gt;-->
-          <!--&lt;!&ndash;3 Jan. 2014&ndash;&gt;-->
-        <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash; /.timeline-label &ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash; timeline item &ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;<li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<i class="fa fa-camera bg-purple"></i>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="timeline-item">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<span class="time"><i class="fa fa-clock-o"></i> 2 days ago</span>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<div class="timeline-body">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<img src="http://placehold.it/150x100" alt="..." class="margin">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<img src="http://placehold.it/150x100" alt="..." class="margin">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<img src="http://placehold.it/150x100" alt="..." class="margin">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<img src="http://placehold.it/150x100" alt="..." class="margin">&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash; END timeline item &ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash; timeline item &ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;<li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<i class="fa fa-video-camera bg-maroon"></i>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="timeline-item">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<span class="time"><i class="fa fa-clock-o"></i> 5 days ago</span>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<h3 class="timeline-header"><a href="#">Mr. Doe</a> shared a video</h3>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<div class="timeline-body">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<div class="embed-responsive embed-responsive-16by9">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/tMWkeBIohBs" frameborder="0" allowfullscreen=""></iframe>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<div class="timeline-footer">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<a href="#" class="btn btn-xs bg-maroon">See comments</a>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                <!--&lt;!&ndash;&lt;!&ndash; END timeline item &ndash;&gt;&ndash;&gt;-->
-                <!--&lt;!&ndash;<li>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<i class="fa fa-clock-o bg-gray"></i>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-            <!--&lt;!&ndash;</ul>&ndash;&gt;-->
-        <!--&lt;!&ndash;</div>&lt;!&ndash; /.tab-pane &ndash;&gt;&ndash;&gt;-->
-        <!--&lt;!&ndash;<div class="tab-pane" id="tab_3">&ndash;&gt;-->
-            <!--&lt;!&ndash;<h2>Inquiry goal completion</h2>&ndash;&gt;-->
-            <!--&lt;!&ndash;<p>Below is shown the amount of tasks completed per Inquiry phase but also the remain ones you guys need to complete to achieve you final GOAL. <b>Don't let it go down and push harder!!</b></p>&ndash;&gt;-->
-            <!--&lt;!&ndash;<div class="row">&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="box-body">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<table class="table table-bordered">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<tbody><tr>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<th style="width: 1px">#</th>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<th style="width: 120px">Phase</th>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<th>Progress</th>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<th style="width: 96px">Traffic ligth</th>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<tr>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>1.</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>Questions</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div class="progress-group">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<b>19</b>/20 tasks completed&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div class="progress sm">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<div class="progress-bar progress-bar-success" style="width: 95%"></div>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div></td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td><span class="badge bg-green">95%</span></td>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<tr>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>2.</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>Operationalization</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div class="progress-group">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<b>16</b>/20 tasks completed&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div class="progress sm">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<div class="progress-bar progress-bar-primary" style="width: 80%"></div>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div></td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td><span class="badge bg-light-blue">80%</span></td>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<tr>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>3.</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>Data collection</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div class="progress-group">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<b>11</b>/20 tasks completed&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div class="progress sm">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<div class="progress-bar progress-bar-yellow" style="width: 55%"></div>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div></td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td><span class="badge bg-yellow">55%</span></td>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<tr>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>4.</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>Data analysis</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div class="progress-group">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<b>1</b>/20 tasks completed&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div class="progress sm">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<div class="progress-bar progress-bar-danger" style="width: 5%"></div>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div></td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td><span class="badge bg-red">5%</span></td>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</tr>                          <tr>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>5.</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>Interpretation</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div class="progress-group">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<b>1</b>/20 tasks completed&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div class="progress sm">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<div class="progress-bar progress-bar-danger" style="width: 5%"></div>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div></td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td><span class="badge bg-red">5%</span></td>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<tr>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>6.</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>Communication</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div class="progress-group">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<b>1</b>/20 tasks completed&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div class="progress sm">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<div class="progress-bar progress-bar-danger" style="width: 5%"></div>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div></td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td><span class="badge bg-red">5%</span></td>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</tbody></table>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&lt;!&ndash; /.box-body &ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-
-            <!--&lt;!&ndash;<h2>Role goal completion</h2>&ndash;&gt;-->
-            <!--&lt;!&ndash;<div class="row">&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="box-body">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<table class="table table-bordered">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<tbody><tr>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<th style="width: 10px">#</th>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<th>Task</th>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<th>Progress</th>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<th style="width: 40px">Label</th>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<tr>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>1.</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>Explainer</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div class="progress-group">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<b>160</b>/200 tasks completed&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div class="progress sm">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<div class="progress-bar progress-bar-aqua" style="width: 80%"></div>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-                            <!--&lt;!&ndash;</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td><span class="badge bg-red">55%</span></td>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<tr>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>2.</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>Clean database</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div class="progress progress-xs">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div class="progress-bar progress-bar-yellow" style="width: 70%"></div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td><span class="badge bg-yellow">70%</span></td>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<tr>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>3.</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>Cron job running</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div class="progress progress-xs progress-striped active">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div class="progress-bar progress-bar-primary" style="width: 30%"></div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td><span class="badge bg-light-blue">30%</span></td>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<tr>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>4.</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>Fix and squish bugs</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div class="progress progress-xs progress-striped active">&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<div class="progress-bar progress-bar-success" style="width: 90%"></div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</td>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<td><span class="badge bg-green">90%</span></td>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</tr>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</tbody></table>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&lt;!&ndash; /.box-body &ndash;&gt;&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-        <!--&lt;!&ndash;</div>&lt;!&ndash; /.tab-pane &ndash;&gt;&ndash;&gt;-->
-        <!--&lt;!&ndash;<div class="tab-pane" id="tab_4">&ndash;&gt;-->
-            <!--&lt;!&ndash;Here we can show analytics in a table format. Show engagement in graphs.&ndash;&gt;-->
-        <!--&lt;!&ndash;</div>&lt;!&ndash; /.tab-pane &ndash;&gt;&ndash;&gt;-->
-    <!--</div>-->
-<!--</div>-->
