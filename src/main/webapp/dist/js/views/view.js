@@ -535,8 +535,6 @@ window.ConceptMapView = Backbone.View.extend({
 
         function nudge(dx, dy) {
             node.filter(function(d) { return d.selected; })
-                //.attr("cx", function(d) { return d.x += dx; })
-                //.attr("cy", function(d) { return d.y += dy; });
                 .attr("x", function(d) { return d.x += dx; })
                 .attr("y", function(d) { return d.y += dy; });
 
