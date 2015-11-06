@@ -500,20 +500,20 @@ window.ConceptMapView = Backbone.View.extend({
             .on("dblclick", function(d){
                 console.log("dblclick");
             })
-            .on("contextmenu", function(data, index){
-
-                d3.event.preventDefault();
-                console.log("Ne")
-                var newResponse = new Response({ generalItemId: data.gItem, responseValue: "Nuevo", runId: data.runId, userEmail: 0 });
-                newResponse.save({}, {
-                    beforeSend:setHeader,
-                    success: function(r, new_response){
-                        app.Responses.add(new_response);
-                        console.log("new response");
-                        //this.render();
-                    }
-                });
-            })
+            //.on("contextmenu", function(data, index){
+            //
+            //    d3.event.preventDefault();
+            //    console.log("Ne")
+            //    //var newResponse = new Response({ generalItemId: data.gItem, responseValue: "Nuevo2", runId: data.runId, userEmail: 0 });
+            //    //newResponse.save({}, {
+            //    //    beforeSend:setHeader,
+            //    //    success: function(r, new_response){
+            //    //        app.Response.add(new_response);
+            //    //        console.log("new response");
+            //    //        //this.render();
+            //    //    }
+            //    //});
+            //})
             .call(d3.behavior.drag()
                 .on("drag", function(d) { nudge(d3.event.dx, d3.event.dy); }));
 
@@ -563,6 +563,31 @@ window.ConceptMapView = Backbone.View.extend({
                 .attr("x", function(d) { return d.x+10; })
                 .attr("y", function(d) { return d.y+20; });
         }
+
+        $(".add-concept").click(function(e){
+            //node.classed("selected", function(p) { return p.selected = d === p; });
+
+            console.log(node.filter(function(d) { return d.selected; }));
+            e.preventDefault();
+
+            node.filter(function(d) {
+
+                console.log(d.selected);
+
+                if(d.selected){
+                    var newResponse = new Response({ generalItemId: d.gItem, responseValue: "Nuevo2", runId: d.runId, userEmail: 0 });
+                    newResponse.save({}, {
+                        beforeSend:setHeader,
+                        success: function(r, new_response){
+                            app.Response.add(new_response);
+                            console.log("new response");
+                        }
+                    });
+                }
+
+                return d.selected;
+            })
+        });
     }
 });
 

@@ -10,6 +10,7 @@ Backbone.View.prototype.close = function () {
 var AppRouter = Backbone.Router.extend({
     initialize: function() {
         this.RunList = new RunCollection({ });
+        this.Response = new ResponseCollection();
     },
     routes: {
         ""			: "inquiries",
@@ -323,10 +324,10 @@ var AppRouter = Backbone.Router.extend({
                     $(".knob").knob();
 
                     if(xhr.type.indexOf("NarratorItem") > -1) {
-                        var responses = new ResponseCollection();
-                        responses.id = _runId;
-                        responses.itemId = xhr.id;
-                        responses.fetch({
+                        //var responses = new ResponseCollection();
+                        app.Response.id = _runId;
+                        app.Response.itemId = xhr.id;
+                        app.Response.fetch({
                             beforeSend: setHeader,
                             success: function(response, xhr){
                                 console.log(xhr, response)
@@ -334,7 +335,7 @@ var AppRouter = Backbone.Router.extend({
                             }
                         });
                     }else{
-                        app.Responses = new ResponseCollection();
+                        //app.Responses = new ResponseCollection();
 
                         if(xhr.type.indexOf("VideoObject") > -1){
                             //
@@ -343,13 +344,13 @@ var AppRouter = Backbone.Router.extend({
                             //}else if(xhr.type.indexOf("MultipleChoiceImageTest") > -1) {
                             //    new window.ResponseTreeView({ collection: app.Responses });
                         }else{
-                            new window.ResponseListView({ collection: app.Responses, users: app.InquiryUsers, game: _gameId, run: _runId });
+                            new window.ResponseListView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId });
                             //new window.ResponseListView({ collection: app.Responses });
                         }
 
-                        app.Responses.id = _runId;
-                        app.Responses.itemId = xhr.id;
-                        app.Responses.fetch({
+                        app.Response.id = _runId;
+                        app.Response.itemId = xhr.id;
+                        app.Response.fetch({
                             beforeSend: setHeader
                         });
 
