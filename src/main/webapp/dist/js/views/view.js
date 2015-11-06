@@ -160,6 +160,20 @@ window.InquiryView = Backbone.View.extend({
     }
 });
 
+window.InquiryNewView = Backbone.View.extend({
+    tagName:  "div",
+    className: "col-md-12 wrapper wrapper-content animated fadeInUp",
+    initialize:function () {
+        this.template = _.template(tpl.get('inquiry_new'));
+
+    },
+    render:function () {
+        $(this.el).html(this.template(this.model));
+
+        return this;
+    }
+});
+
 window.SideBarView = Backbone.View.extend({
     tagName:  "div",
     className: "col-lg-3 wrapper wrapper-content",
@@ -326,6 +340,8 @@ window.ActivityView = Backbone.View.extend({
             this.template = _.template(tpl.get('activity_discussion'));
         }else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
             this.template = _.template(tpl.get('activity_tree_view'));
+        }else if(xhr.model.type.indexOf("NarratorItem") > -1) {
+            this.template = _.template(tpl.get('activity_concept_map'));
         }else{
             console.debug("Discussion");
             this.template = _.template(tpl.get('activity_detail'));
@@ -335,6 +351,207 @@ window.ActivityView = Backbone.View.extend({
         $(this.el).html(this.template(this.model));
         $(this.el).find('#nestable3').nestable();
         return this;
+    }
+});
+
+
+window.ConceptMapView = Backbone.View.extend({
+    initialize: function(){
+    },
+    render: function(){
+
+        var jsonObj = [];
+        var nodes = [];
+        var links = [];
+
+        _.each(this.model.responses, function(response){
+            var item_nodes = {}
+            item_nodes ["id"] = response.responseId;
+            item_nodes ["name"] = response.responseValue;
+            var min = 50;
+            var max = 550;
+            var random = Math.floor(Math.random() * (max - min + 1)) + min;
+            item_nodes ["x"] = random;
+            var min = 50;
+            var max = 150;
+            var random = Math.floor(Math.random() * (max - min + 1)) + min;
+            item_nodes ["y"] = random;
+
+            nodes.push(item_nodes);
+        }, this);
+
+        var item2 = {};
+        item2 ["nodes"] = nodes;
+
+        var item_links = {};
+
+        item_links["source"] = 0;
+        item_links["target"] = 1;
+
+        links.push(item_links);
+
+        item2 ["links"] = links;
+        jsonObj.push(item2);
+
+        this.renderMindMap(JSON.stringify(jsonObj));
+        console.log(JSON.stringify(jsonObj));
+
+        return this;
+    },
+    renderMindMap: function(jsonObj){
+
+        console.log()
+
+        var width = $("#concept-map").width(),
+            height = 500,
+            shiftKey;
+
+        var svg = d3.select("#concept-map")
+            .each(function() { this.focus(); })
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        var link = svg.append("g")
+            .attr("class", "cp-link")
+            .selectAll("line");
+
+        var brush = svg.append("g")
+            .datum(function() { return {selected: false, previouslySelected: false}; })
+            .attr("class", "cp-brush");
+
+        var node = svg.append("g")
+            .attr("class", "node")
+            .selectAll("rect");
+
+        var labels = svg.append("g")
+            .attr("class", "labels")
+            .selectAll("text");
+
+        var graph = JSON.parse(jsonObj)[0];
+
+        graph.links.forEach(function(d) {
+            d.source = graph.nodes[d.source];
+            d.target = graph.nodes[d.target];
+        });
+
+        link = link.data(graph.links).enter().append("line")
+            .attr("x1", function(d) {
+                return d.source.x+(d.source.name.length * 7)/2;
+            })
+            .attr("y1", function(d) {
+                return d.source.y+20;
+            })
+            .attr("x2", function(d) {
+                return d.target.x+(d.target.name.length * 7)/2;
+            })
+            .attr("y2", function(d) {
+                return d.target.y+20;
+            });
+
+        brush.call(d3.svg.brush()
+            .x(d3.scale.identity().domain([0, width]))
+            .y(d3.scale.identity().domain([0, height]))
+            .on("brushstart", function(d) {
+                console.log("brushstart");
+                node.each(function(d) { d.previouslySelected = shiftKey && d.selected; });
+            })
+            .on("brush", function() {
+                var extent = d3.event.target.extent();
+                node.classed("selected", function(d) {
+                    return d.selected = d.previouslySelected ^
+                    (extent[0][0] <= d.x && d.x < extent[1][0]
+                    && extent[0][1] <= d.y && d.y < extent[1][1]);
+                });
+            })
+            .on("brushend", function() {
+                d3.event.target.clear();
+                d3.select(this).call(d3.event.target);
+            }));
+
+        node = node.data(graph.nodes).enter().append("rect")
+            .attr("x", function(d) { return d.x; })
+            .attr("y", function(d) { return d.y; })
+            .attr("width", function(d) {
+                console.log(d.name.length);
+                return d.name.length*7;
+            })
+            .attr("height", function(d) {
+                return 30;
+            })
+            .on("mousedown", function(d) {
+                if (!d.selected) { // Don't deselect on shift-drag.
+                    if (!shiftKey){
+                        node.classed("selected", function(p) { return p.selected = d === p; });
+                        labels.classed("selected", function(p) { return p.selected = d === p; });
+                    }
+                    else{
+                        d3.select(this).classed("selected", d.selected = true);
+                    }
+                }
+            })
+            .on("mouseup", function(d) {
+                if (d.selected && shiftKey){
+                    d3.select(this).classed("selected", d.selected = false);
+                }
+            })
+            .on("dblclick", function(d){
+                console.log("dblclick");
+            })
+            .on("contextmenu", function(data, index){
+                d3.event.preventDefault();
+            })
+            .call(d3.behavior.drag()
+                .on("drag", function(d) { nudge(d3.event.dx, d3.event.dy); }));
+
+        labels = labels.data(graph.nodes).enter().append("text")
+            .attr("y", function(d) {
+                return d.y+20;
+            })
+            .attr("x", function(d) {
+                return d.x+10;
+            })
+            .text(function(d){
+                return d.name
+            })
+            .on("mousedown", function(d) {
+                if (!d.selected) { // Don't deselect on shift-drag.
+                    if (!shiftKey){
+                        node.classed("selected", function(p) { return p.selected = d === p; });
+                        labels.classed("selected", function(p) { return p.selected = d === p; });
+                    }
+                    else{
+                        d3.select(this).classed("selected", d.selected = true);
+                    }
+                }
+            })
+            .on("mouseup", function(d) {
+                if (d.selected && shiftKey){
+                    d3.select(this).classed("selected", d.selected = false);
+                }
+            })
+            .call(d3.behavior.drag()
+                .on("drag", function(d) { nudge(d3.event.dx, d3.event.dy); }));
+
+        function nudge(dx, dy) {
+            node.filter(function(d) { return d.selected; })
+                //.attr("cx", function(d) { return d.x += dx; })
+                //.attr("cy", function(d) { return d.y += dy; });
+                .attr("x", function(d) { return d.x += dx; })
+                .attr("y", function(d) { return d.y += dy; });
+
+            link.filter(function(d) { return d.source.selected; })
+                .attr("x1", function(d) { return d.source.x+(d.source.name.length * 7)/2; })
+                .attr("y1", function(d) { return d.source.y+20; });
+
+            link.filter(function(d) { return d.target.selected; })
+                .attr("x2", function(d) { return d.target.x+(d.target.name.length * 7)/2; })
+                .attr("y2", function(d) { return d.target.y+20; });
+
+            labels.filter(function(d) { return d.selected; })
+                .attr("x", function(d) { return d.x+10; })
+                .attr("y", function(d) { return d.y+20; });
+        }
     }
 });
 

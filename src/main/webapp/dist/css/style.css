@@ -8280,3 +8280,36 @@ div.phases-breadcrumb  {
 .chat-activity-list{
 
 }
+
+
+/*
+  Concept map
+*/
+
+.cp-link{
+  stroke: #111  ;
+}
+.cp-brush .extent {
+  fill-opacity: .1;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+.node{
+  fill: white;
+  stroke: black;
+}
+
+.node .selected {
+  stroke: red;
+
+}
+
+.labels{
+
+  /*text-anchor: "middle";*/
+}
+
+.labels .selected {
+  stroke: blue;
+}

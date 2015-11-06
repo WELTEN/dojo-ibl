@@ -28,6 +28,15 @@ window.RunAccess = Backbone.Model.extend({
     }
 });
 
+window.GiveAccessToRun = Backbone.Model.extend({
+    initialize: function(){
+        console.log("Give access to a Run");
+    },
+    url: function(){
+        return "/rest/myRuns/access/runId/"+this.runId+"/account/"+this.accoundId+"/accessRight/"+this.accessRight;
+    }
+});
+
 window.Run = Backbone.Model.extend({
     global_identifier: 0,
     initialize: function(a){

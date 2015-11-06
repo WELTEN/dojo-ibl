@@ -15,6 +15,7 @@ var AppRouter = Backbone.Router.extend({
         ""			: "inquiries",
         "logout"			: "logout",
         "inquiry/:id"	: "showInquiry",
+        "inquiry/new/"	: "newInquiry",
         "inquiry/:id/phase/:phase" : "showPhase",
         "inquiry/:id/phase/:phase/activity/:activity" : "showActivity"
     },
@@ -50,16 +51,30 @@ var AppRouter = Backbone.Router.extend({
                 beforeSend:setHeader,
                 success: function(r, game){
                     app.GameList.add(game);
-                    var new_run = new MyRun({ title: $("#new_inquiry input").val(), gameId: game.gameId, description: $("#new_inquiry textarea").val() });
-                    new_run.save({}, {
-                        beforeSend:setHeader,
-                        success: function(r, run){
-                            app.RunList.add(run);
-                        }
-                    });
+                    app.navigate('inquiry/new/');
+                    //var new_run = new MyRun({ title: $("#new_inquiry input").val(), gameId: game.gameId, description: $("#new_inquiry textarea").val() });
+                    //new_run.save({}, {
+                    //    beforeSend:setHeader,
+                    //    success: function(r, run){
+                    //        app.RunList.add(run);
+                    //
+                    //        console.log($.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId"));
+                    //
+                    //        var give_access_run = new GiveAccessToRun();
+                    //        give_access_run.runId = run.runId;
+                    //        give_access_run.accoundId = $.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId");
+                    //        give_access_run.accessRight = 1;
+                    //        give_access_run.fetch({
+                    //            beforeSend: setHeader,
+                    //            success: function(response, xhr){
+                    //                console.log(response, xhr);
+                    //            }
+                    //        });
+                    //    }
+                    //});
                 }
             });
-            $(this).hide();
+            $('#new_inquiry').modal('toggle');
             e.preventDefault();
         });
 
@@ -306,43 +321,54 @@ var AppRouter = Backbone.Router.extend({
                     $("#inquiry-content").html(new ActivityView({ model: xhr }).render().el);
                     $(".knob").knob();
 
-                    app.Responses = new ResponseCollection();
-
-                    if(xhr.type.indexOf("VideoObject") > -1){
-                    //
-                    //}else if(xhr.type.indexOf("OpenBadge") > -1) {
-                    //
-                    //}else if(xhr.type.indexOf("MultipleChoiceImageTest") > -1) {
-                    //    new window.ResponseTreeView({ collection: app.Responses });
-                    //}else if(xhr.type.indexOf("AudioObject") > -1) {
-                    //    new window.ResponseDiscussionListView({ collection: app.Responses, users: app.InquiryUsers });
+                    if(xhr.type.indexOf("NarratorItem") > -1) {
+                        var responses = new ResponseCollection();
+                        responses.id = _runId;
+                        responses.itemId = xhr.id;
+                        responses.fetch({
+                            beforeSend: setHeader,
+                            success: function(response, xhr){
+                                console.log(xhr, response)
+                                new ConceptMapView({ model: xhr }).render().el;
+                            }
+                        });
                     }else{
-                        new window.ResponseListView({ collection: app.Responses, users: app.InquiryUsers, game: _gameId, run: _runId });
-                        //new window.ResponseListView({ collection: app.Responses });
-                    }
+                        app.Responses = new ResponseCollection();
 
-                    app.Responses.id = _runId;
-                    app.Responses.itemId = xhr.id;
-                    app.Responses.fetch({
-                        beforeSend: setHeader
-                    });
-
-                    $('#list_answers').addClass("social-footer");
-                    $('#list_answers').append(new ResponseReplyView({}).render().el);
-
-                    $('.save').click(function(){
-                        if  ($('#list_answers textarea').val() != ""){
-                            console.log($('#list_answers textarea').val());
-                            var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('#list_answers textarea').val(), runId: $.cookie("dojoibl.run"), userEmail: 0 });
-                            newResponse.save({}, {
-                                beforeSend:setHeader,
-                                success: function(r, new_response){
-                                    app.Responses.add(new_response);
-                                }
-                            });
+                        if(xhr.type.indexOf("VideoObject") > -1){
+                            //
+                            //}else if(xhr.type.indexOf("OpenBadge") > -1) {
+                            //
+                            //}else if(xhr.type.indexOf("MultipleChoiceImageTest") > -1) {
+                            //    new window.ResponseTreeView({ collection: app.Responses });
+                        }else{
+                            new window.ResponseListView({ collection: app.Responses, users: app.InquiryUsers, game: _gameId, run: _runId });
+                            //new window.ResponseListView({ collection: app.Responses });
                         }
-                        $('#list_answers textarea').val("");
-                    });
+
+                        app.Responses.id = _runId;
+                        app.Responses.itemId = xhr.id;
+                        app.Responses.fetch({
+                            beforeSend: setHeader
+                        });
+
+                        $('#list_answers').addClass("social-footer");
+                        $('#list_answers').append(new ResponseReplyView({}).render().el);
+
+                        $('.save').click(function(){
+                            if  ($('#list_answers textarea').val() != ""){
+                                console.log($('#list_answers textarea').val());
+                                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('#list_answers textarea').val(), runId: $.cookie("dojoibl.run"), userEmail: 0 });
+                                newResponse.save({}, {
+                                    beforeSend:setHeader,
+                                    success: function(r, new_response){
+                                        app.Responses.add(new_response);
+                                    }
+                                });
+                            }
+                            $('#list_answers textarea').val("");
+                        });
+                    }
                 }
             });
         }, 500);
@@ -354,7 +380,7 @@ var AppRouter = Backbone.Router.extend({
         //if ($(".phase-master").length == 0){
         //    this.showPhase(id, phase);
         //    console.log("show phase", $(".phase-master").html());
-        //    app.navigate('inquiry/'+id+'/phase/'+phase);
+        //
         //}else{
         //    if ($(".phase-detail").length != 0){
         //        console.info("Activity is already open");
@@ -566,20 +592,11 @@ var AppRouter = Backbone.Router.extend({
         //        window.Run.global_identifier = $.cookie("dojoibl.run");
         //    }
         //}
-
-
     },
     newInquiry: function(){
-
-
-
-        //var new_game = new MyGame({ title:  });
-        //new_game.save({}, {
-        //    beforeSend:setHeader,
-        //    success: function(r, game){
-        //        app.GameList.add(game);
-        //    }
-        //});
+        this.isAuthenticated();
+        app.showView(".row.inquiry", new InquiryNewView());
+        $("#wizard").steps();
     },
     // util functions
     initializeChannelAPI: function(){
@@ -744,6 +761,13 @@ var AppRouter = Backbone.Router.extend({
             success: function(response, xhr) {
                 $(".m-r-sm.text-muted.welcome-message").html("Welcome "+xhr.givenName+" "+xhr.familyName);
                 app.showView('ul.nav.metismenu > li:eq(0)', new UserView({ model: xhr }));
+
+                var date = new Date();
+                date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+
+                $.cookie("dojoibl.accountType", xhr.accountType , {expires: date, path: "/"});
+                $.cookie("dojoibl.localId", xhr.localId , {expires: date, path: "/"});
             }
         });
 
@@ -849,8 +873,6 @@ var successGameHandler = function(response, xhr){
                 }
             });
             app.GameList.add(game);
-
-
         }else{
             var game = _gl;
             $('.inquiry').append( new GameListView({ model: game.toJSON(), v: 1 }).render().el );
@@ -862,7 +884,7 @@ tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry', 'run', 'user', 'use
     'inquiry_sidebar', 'activityDependency', 'message', 'message_right', 'inquiry_left_sidebar','message_own', 'response', 'response_discussion', 'response_treeview','response_author', 'response_discussion_author',
     'message_notification','notification_floating', 'activity_video', 'activity_widget', 'activity_discussion', 'notification_sidebar', 'user_inquiry','activity_tree_view',
     'item_breadcrumb_phase'
-    , 'item_breadcrumb_activity', 'response_reply'], function() {
+    , 'item_breadcrumb_activity', 'response_reply', 'inquiry_new', 'activity_concept_map'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });
