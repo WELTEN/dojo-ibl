@@ -365,6 +365,7 @@ window.ConceptMapView = Backbone.View.extend({
         var links = [];
 
         _.each(this.model.responses, function(response){
+            console.log(response);
             var item_nodes = {}
             item_nodes ["id"] = response.responseId;
             item_nodes ["name"] = response.responseValue;
@@ -376,6 +377,9 @@ window.ConceptMapView = Backbone.View.extend({
             var max = 150;
             var random = Math.floor(Math.random() * (max - min + 1)) + min;
             item_nodes ["y"] = random;
+            item_nodes ["gItem"] = response.generalItemId;
+            item_nodes ["runId"] = response.runId;
+
 
             nodes.push(item_nodes);
         }, this);
@@ -394,13 +398,10 @@ window.ConceptMapView = Backbone.View.extend({
         jsonObj.push(item2);
 
         this.renderMindMap(JSON.stringify(jsonObj));
-        console.log(JSON.stringify(jsonObj));
 
         return this;
     },
     renderMindMap: function(jsonObj){
-
-        console.log()
 
         var width = $("#concept-map").width(),
             height = 500,
@@ -473,7 +474,8 @@ window.ConceptMapView = Backbone.View.extend({
             .attr("x", function(d) { return d.x; })
             .attr("y", function(d) { return d.y; })
             .attr("width", function(d) {
-                console.log(d.name.length);
+                if(d.name.length < 10)
+                    return d.name.length * 12;
                 return d.name.length*7;
             })
             .attr("height", function(d) {
@@ -499,7 +501,18 @@ window.ConceptMapView = Backbone.View.extend({
                 console.log("dblclick");
             })
             .on("contextmenu", function(data, index){
+
                 d3.event.preventDefault();
+                console.log("Ne")
+                var newResponse = new Response({ generalItemId: data.gItem, responseValue: "Nuevo", runId: data.runId, userEmail: 0 });
+                newResponse.save({}, {
+                    beforeSend:setHeader,
+                    success: function(r, new_response){
+                        app.Responses.add(new_response);
+                        console.log("new response");
+                        //this.render();
+                    }
+                });
             })
             .call(d3.behavior.drag()
                 .on("drag", function(d) { nudge(d3.event.dx, d3.event.dy); }));

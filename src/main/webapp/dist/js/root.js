@@ -287,6 +287,7 @@ var AppRouter = Backbone.Router.extend({
     },
     showActivity: function(id, phase, activity){
         this.isAuthenticated();
+        this.common();
 
         var _phase = phase;
         var _gameId = id;
