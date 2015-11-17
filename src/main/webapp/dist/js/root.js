@@ -330,7 +330,7 @@ var AppRouter = Backbone.Router.extend({
                         app.Response.fetch({
                             beforeSend: setHeader,
                             success: function(response, xhr){
-                                console.log(xhr, response)
+                                //console.log(xhr, response)
                                 new ConceptMapView({ model: xhr }).render().el;
                             }
                         });

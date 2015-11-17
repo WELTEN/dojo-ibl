@@ -8300,10 +8300,6 @@ div.phases-breadcrumb  {
   stroke: black;
 }
 
-.node .selected {
-  stroke: red;
-
-}
 
 .labels{
 
@@ -8313,3 +8309,63 @@ div.phases-breadcrumb  {
 .labels .selected {
   stroke: blue;
 }
+.modal-backdrop {
+  z-index: 2040 !important;
+}
+.modal {
+  z-index: 2050 !important;
+}
+
+#concept-map > svg{
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
+.link {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+.link {
+  stroke: #999;
+}
+.node {
+  fill: #ccc;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+text{
+  z-index: -1;
+  max-width: 200px;
+}
+
+text.selected {
+   stroke: blue;
+ }
+
+.node.fixed {
+  z-index: 1;
+  fill: #f00;
+}
+
+rect {
+  fill: none;
+  pointer-events: all;
+}
+
+.node {
+  fill: #ccc;
+}
+
+.cursor {
+  fill: none;
+  stroke: brown;
+  pointer-events: none;
+}
+
+
+
+
+/*circle.selected {*/
+  /*stroke: red;*/
+/*}*/

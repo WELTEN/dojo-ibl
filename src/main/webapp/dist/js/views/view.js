@@ -331,10 +331,10 @@ window.ResponseReplyView = Backbone.View.extend({
 window.ActivityView = Backbone.View.extend({
     initialize:function (xhr) {
         if(xhr.model.type.indexOf("VideoObject") > -1){
-            console.debug("VideoObject");
+            //console.debug("VideoObject");
             this.template = _.template(tpl.get('activity_video'));
         }else if(xhr.model.type.indexOf("OpenBadge") > -1) {
-            console.debug("OpenBadge");
+            //console.debug("OpenBadge");
             this.template = _.template(tpl.get('activity_widget'));
         }else if(xhr.model.type.indexOf("AudioObject") > -1) {
             this.template = _.template(tpl.get('activity_discussion'));
@@ -365,7 +365,7 @@ window.ConceptMapView = Backbone.View.extend({
         var links = [];
 
         _.each(this.model.responses, function(response){
-            console.log(response);
+            //console.log(response);
             var item_nodes = {}
             item_nodes ["id"] = response.responseId;
             item_nodes ["name"] = response.responseValue;
@@ -379,7 +379,6 @@ window.ConceptMapView = Backbone.View.extend({
             item_nodes ["y"] = random;
             item_nodes ["gItem"] = response.generalItemId;
             item_nodes ["runId"] = response.runId;
-
 
             nodes.push(item_nodes);
         }, this);
@@ -397,33 +396,34 @@ window.ConceptMapView = Backbone.View.extend({
         item2 ["links"] = links;
         jsonObj.push(item2);
 
-        this.renderMindMap(JSON.stringify(jsonObj));
+        this.render3(JSON.stringify(jsonObj));
 
         return this;
     },
-    renderMindMap: function(jsonObj){
+    render2: function(jsonObj){
 
         var width = $("#concept-map").width(),
-            height = 500,
-            shiftKey;
+            height = 400, shiftKey;
 
         var svg = d3.select("#concept-map")
             .each(function() { this.focus(); })
             .append("svg")
             .attr("width", width)
-            .attr("height", height);
+            .attr("height", height)
+            .on("contextmenu", createNew);
 
-        var link = svg.append("g")
-            .attr("class", "cp-link")
-            .selectAll("line");
+        var force = d3.layout.force()
+            .size([width, height])
+            .charge(-400)
+            .linkDistance(40)
+            .on("tick", tick);
+
+        var drag = force.drag()
+            .on("dragstart", dragstart);
 
         var brush = svg.append("g")
             .datum(function() { return {selected: false, previouslySelected: false}; })
             .attr("class", "cp-brush");
-
-        var node = svg.append("g")
-            .attr("class", "node")
-            .selectAll("rect");
 
         var labels = svg.append("g")
             .attr("class", "labels")
@@ -431,56 +431,54 @@ window.ConceptMapView = Backbone.View.extend({
 
         var graph = JSON.parse(jsonObj)[0];
 
+        var nodes = force.nodes();
+        var links = force.links();
+
         graph.links.forEach(function(d) {
             d.source = graph.nodes[d.source];
             d.target = graph.nodes[d.target];
         });
 
-        link = link.data(graph.links).enter().append("line")
-            .attr("x1", function(d) {
-                return d.source.x+(d.source.name.length * 7)/2;
-            })
-            .attr("y1", function(d) {
-                return d.source.y+20;
-            })
-            .attr("x2", function(d) {
-                return d.target.x+(d.target.name.length * 7)/2;
-            })
-            .attr("y2", function(d) {
-                return d.target.y+20;
-            });
+        graph.nodes.forEach(function(d){
+            nodes.push(d);
+        });
 
-        brush.call(d3.svg.brush()
-            .x(d3.scale.identity().domain([0, width]))
-            .y(d3.scale.identity().domain([0, height]))
-            .on("brushstart", function(d) {
-                console.log("brushstart");
-                node.each(function(d) { d.previouslySelected = shiftKey && d.selected; });
-            })
-            .on("brush", function() {
-                var extent = d3.event.target.extent();
-                node.classed("selected", function(d) {
-                    return d.selected = d.previouslySelected ^
-                    (extent[0][0] <= d.x && d.x < extent[1][0]
-                    && extent[0][1] <= d.y && d.y < extent[1][1]);
-                });
-            })
-            .on("brushend", function() {
-                d3.event.target.clear();
-                d3.select(this).call(d3.event.target);
-            }));
+        var node = svg.append("g")
+            .attr("class", "node")
+            .selectAll("rect");
 
-        node = node.data(graph.nodes).enter().append("rect")
-            .attr("x", function(d) { return d.x; })
-            .attr("y", function(d) { return d.y; })
-            .attr("width", function(d) {
-                if(d.name.length < 10)
-                    return d.name.length * 12;
-                return d.name.length*7;
-            })
-            .attr("height", function(d) {
-                return 30;
-            })
+        var link = svg.append("g")
+            .attr("class", "cp-link")
+            .selectAll("line");
+
+        force.start();
+
+        //function restart() {
+        //    link = link.data(links);
+        //
+        //    link.enter().insert("line", ".node")
+        //        .attr("class", "link");
+        //
+        //    node = node.data(nodes);
+        //
+        //    node.enter().insert("circle", ".cursor")
+        //        .attr("class", "node")
+        //        .attr("r", 5)
+        //        .call(force.drag);
+        //
+        //    force.start();
+        //}
+
+        link = link.data(graph.links)
+            .enter().append("line")
+            .attr("class", "link");
+
+        node = node.data(graph.nodes)
+            .enter().append("circle")
+            .attr("class", "node")
+            .attr("r", 10)
+            .on("dblclick", dblclick)
+            .call(drag)
             .on("mousedown", function(d) {
                 if (!d.selected) { // Don't deselect on shift-drag.
                     if (!shiftKey){
@@ -491,31 +489,9 @@ window.ConceptMapView = Backbone.View.extend({
                         d3.select(this).classed("selected", d.selected = true);
                     }
                 }
-            })
-            .on("mouseup", function(d) {
-                if (d.selected && shiftKey){
-                    d3.select(this).classed("selected", d.selected = false);
-                }
-            })
-            .on("dblclick", function(d){
-                console.log("dblclick");
-            })
-            //.on("contextmenu", function(data, index){
-            //
-            //    d3.event.preventDefault();
-            //    console.log("Ne")
-            //    //var newResponse = new Response({ generalItemId: data.gItem, responseValue: "Nuevo2", runId: data.runId, userEmail: 0 });
-            //    //newResponse.save({}, {
-            //    //    beforeSend:setHeader,
-            //    //    success: function(r, new_response){
-            //    //        app.Response.add(new_response);
-            //    //        console.log("new response");
-            //    //        //this.render();
-            //    //    }
-            //    //});
-            //})
-            .call(d3.behavior.drag()
-                .on("drag", function(d) { nudge(d3.event.dx, d3.event.dy); }));
+            });
+
+        console.log(node);
 
         labels = labels.data(graph.nodes).enter().append("text")
             .attr("y", function(d) {
@@ -526,77 +502,420 @@ window.ConceptMapView = Backbone.View.extend({
             })
             .text(function(d){
                 return d.name
-            })
-            .on("mousedown", function(d) {
-                if (!d.selected) { // Don't deselect on shift-drag.
-                    if (!shiftKey){
-                        node.classed("selected", function(p) { return p.selected = d === p; });
-                        labels.classed("selected", function(p) { return p.selected = d === p; });
-                    }
-                    else{
-                        d3.select(this).classed("selected", d.selected = true);
-                    }
-                }
-            })
-            .on("mouseup", function(d) {
-                if (d.selected && shiftKey){
-                    d3.select(this).classed("selected", d.selected = false);
-                }
-            })
-            .call(d3.behavior.drag()
-                .on("drag", function(d) { nudge(d3.event.dx, d3.event.dy); }));
+            });
 
-        function nudge(dx, dy) {
-            node.filter(function(d) { return d.selected; })
-                .attr("x", function(d) { return d.x += dx; })
-                .attr("y", function(d) { return d.y += dy; });
+        function tick() {
+            link.attr("x1", function(d) { return d.source.x; })
+                .attr("y1", function(d) { return d.source.y; })
+                .attr("x2", function(d) { return d.target.x; })
+                .attr("y2", function(d) { return d.target.y; });
 
-            link.filter(function(d) { return d.source.selected; })
-                .attr("x1", function(d) { return d.source.x+(d.source.name.length * 7)/2; })
-                .attr("y1", function(d) { return d.source.y+20; });
+            node.attr("cx", function(d) { return d.x; })
+                .attr("cy", function(d) { return d.y; });
 
-            link.filter(function(d) { return d.target.selected; })
-                .attr("x2", function(d) { return d.target.x+(d.target.name.length * 7)/2; })
-                .attr("y2", function(d) { return d.target.y+20; });
-
-            labels.filter(function(d) { return d.selected; })
-                .attr("x", function(d) { return d.x+10; })
+            labels.attr("x", function(d) { return d.x+10; })
                 .attr("y", function(d) { return d.y+20; });
         }
 
+        function dblclick(d) {
+            d3.select(this).classed("fixed", d.fixed = false);
+        }
+
+        function dragstart(d) {
+            d3.select(this).classed("fixed", d.fixed = true);
+        }
+
+        function update(jsonObj) {
+
+            // DATA JOIN
+            // Join new data with old elements, if any.
+            //console.log(jsonObj);
+            //var graph = JSON.parse(jsonObj)[0];
+            //
+            //graph.links.forEach(function(d) {
+            //    d.source = graph.nodes[d.source];
+            //    d.target = graph.nodes[d.target];
+            //});
+
+            console.log(jsonObj);
+
+            var node = svg.selectAll("rect").data(jsonObj);
+
+            console.log(node);
+            console.log(svg);
+
+            //node.attr("class", "node")
+            //    .attr("r", 10)
+            //    .on("dblclick", dblclick)
+            //    .call(drag)
+
+            // UPDATE
+            // Update old elements as needed.
+            //text.attr("class", "update");
+
+            // ENTER
+            // Create new elements as needed.
+            node.enter().append("circle")
+                .attr("class", "node")
+                .attr("r", 10)
+                .on("dblclick", dblclick)
+                .call(drag);
+
+            // ENTER + UPDATE
+            // Appending to the enter selection expands the update selection to include
+            // entering elements; so, operations on the update selection after appending to
+            // the enter selection will apply to both entering and updating nodes.
+            //labels = labels.data(jsonObj).enter().append("text")
+            //    .attr("y", function(d) {
+            //        return d.y+20;
+            //    })
+            //    .attr("x", function(d) {
+            //        return d.x+10;
+            //    })
+            //    .text(function(d){
+            //        return d.name
+            //    });
+
+            // EXIT
+            // Remove old elements as needed.
+            node.exit().remove();
+            //labels.exit().remove();
+        }
+
+        function createNew() {
+            d3.event.preventDefault();
+
+            console.log(nodes, node);
+
+            var point = d3.mouse(this),
+                node = {x: point[0], y: point[1]},
+                n = nodes.push(node);
+            node.filter(function(d) {
+                var newResponse = new Response({
+                    generalItemId: d.gItem,
+                    responseValue: "nuevoooo",
+                    runId: d.runId,
+                    userEmail: 0
+                });
+                newResponse.save({}, {
+                    beforeSend: setHeader,
+                    success: function (r, response) {
+                        // Add and remove elements on the graph object
+                        node.push({"id": response.responseId});
+
+                        var item_nodes = {}
+                        item_nodes ["id"] = response.responseId;
+                        item_nodes ["name"] = response.responseValue;
+                        var min = 50;
+                        var max = 550;
+                        var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                        item_nodes ["x"] = random;
+                        var min = 50;
+                        var max = 150;
+                        var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                        item_nodes ["y"] = random;
+                        item_nodes ["gItem"] = response.generalItemId;
+                        item_nodes ["runId"] = response.runId;
+
+                        nodes.push(item_nodes);
+                    }
+                });
+            });
+
+            //link = link.data(links);
+            //
+            //link.enter().insert("line", ".node")
+            //    .attr("class", "link");
+
+            node = node.data(nodes);
+
+            node.enter().insert("circle", ".cursor")
+                .attr("class", "node")
+                .attr("r", 5)
+                .call(force.drag);
+
+            force.start();
+
+            //// add links to any nearby nodes
+            //nodes.forEach(function(target) {
+            //    var x = target.x - node.x,
+            //        y = target.y - node.y;
+            //    if (Math.sqrt(x * x + y * y) < 30) {
+            //        links.push({source: node, target: target});
+            //    }
+            //});
+
+        }
+
         $(".add-concept").click(function(e){
-            //node.classed("selected", function(p) { return p.selected = d === p; });
-
-            console.log(node.filter(function(d) { return d.selected; }));
             e.preventDefault();
-
             node.filter(function(d) {
 
-                console.log(d.selected);
 
-                if(d.selected){
-                    var newResponse = new Response({ generalItemId: d.gItem, responseValue: "Nuevo2", runId: d.runId, userEmail: 0 });
+
+                //// add links to any nearby nodes
+                //nodes.forEach(function(target) {
+                //    var x = target.x - node.x,
+                //        y = target.y - node.y;
+                //    if (Math.sqrt(x * x + y * y) < 30) {
+                //        links.push({source: node, target: target});
+                //    }
+                //});
+
+                //if(d.selected){ $("input.new-concept").val()
+                    var newResponse = new Response({ generalItemId: d.gItem, responseValue: "nuevoooo" , runId: d.runId, userEmail: 0 });
                     newResponse.save({}, {
                         beforeSend:setHeader,
-                        success: function(r, new_response){
-                            app.Response.add(new_response);
-                            console.log("new response");
+                        success: function(r, response){
+                            // Add and remove elements on the graph object
+                            node.push({"id":response.responseId});
+
+                            var item_nodes = {}
+                            item_nodes ["id"] = response.responseId;
+                            item_nodes ["name"] = response.responseValue;
+                            var min = 50;
+                            var max = 550;
+                            var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                            item_nodes ["x"] = random;
+                            var min = 50;
+                            var max = 150;
+                            var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                            item_nodes ["y"] = random;
+                            item_nodes ["gItem"] = response.generalItemId;
+                            item_nodes ["runId"] = response.runId;
+                            console.log(nodes);
+                            nodes.push(item_nodes);
+                        }
+                    });
+                //}
+
+                return d.selected;
+            })
+        });
+    },
+    render3: function(jsonObj){
+
+        var width = $("#concept-map").width(),
+            height = 400, shiftKey;
+
+        var fill = d3.scale.category20();
+
+        var force = d3.layout.force()
+            .size([width, height])
+            //.nodes([{}]) // initialize with a single node
+            .linkDistance(100)
+            .charge(-200)
+            .on("tick", tick);
+
+        var drag = force.drag()
+            .on("dragstart", dragstart);
+
+        var svg = d3.select("#concept-map").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            //.on("mousemove", mousemove)
+            //.on("mousedown", mousedown);
+
+        //svg.append("rect")
+        //    .attr("width", width)
+        //    .attr("height", height);
+
+        var nodes = force.nodes(),
+            links = force.links(),
+            node = svg.selectAll(".node"),
+            link = svg.selectAll(".link"),
+            label = svg.selectAll(".labels");
+
+        //var cursor = svg.append("circle")
+        //    .attr("r", 30)
+        //    .attr("transform", "translate(-100,-100)")
+        //    .attr("class", "cursor");
+
+        start(jsonObj);
+        restart();
+
+        //function mousemove() {
+        //    cursor.attr("transform", "translate(" + d3.mouse(this) + ")");
+        //}
+
+        function mousedown() {
+            var point = d3.mouse(this),
+                node = {x: point[0], y: point[1]},
+                n = nodes.push(node);
+
+            // add links to any nearby nodes
+            nodes.forEach(function(target) {
+                var x = target.x - node.x,
+                    y = target.y - node.y;
+                if (Math.sqrt(x * x + y * y) < 30) {
+                    links.push({source: node, target: target});
+                }
+            });
+
+            restart();
+        }
+
+        function dblclick(d) {
+            d3.select(this).classed("fixed", d.fixed = false);
+        }
+
+        function dragstart(d) {
+            d3.select(this).classed("fixed", d.fixed = true);
+        }
+
+        function tick() {
+            link.attr("x1", function(d) { return d.source.x; })
+                .attr("y1", function(d) { return d.source.y; })
+                .attr("x2", function(d) { return d.target.x; })
+                .attr("y2", function(d) { return d.target.y; });
+
+            node.attr("cx", function(d) { return d.x; })
+                .attr("cy", function(d) { return d.y; });
+
+            label.attr("x", function(d) { return d.x+15; })
+                .attr("y", function(d) { return d.y+5; });
+        }
+
+        function restart() {
+            link = link.data(links);
+
+            link.enter().insert("line", ".node")
+                .attr("class", "link");
+
+            node = node.data(nodes);
+
+            node.enter().insert("circle", ".cursor")
+                .attr("class", "node")
+                .attr("r", 10)
+                .call(force.drag)
+                .on("dblclick", dblclick)
+                .on("mousedown", function(d) {
+                    if (!d.selected) { // Don't deselect on shift-drag.
+                        if (!shiftKey){
+                            node.classed("selected", function(p) { return p.selected = d === p; });
+                            label.classed("selected", function(p) { return p.selected = d === p; });
+                        }
+                        else{
+                            d3.select(this).classed("selected", d.selected = true);
+                        }
+                    }
+                });
+
+            node.exit().remove();
+
+            //label = label.data(nodes);
+            //label.exit().remove();
+
+            //label = label.data(nodes)
+            //    .enter().append("text")
+            //    .call(force.drag)
+            //    .attr("y", function(d) {
+            //        return d.y+20;
+            //    })
+            //    .attr("x", function(d) {
+            //        return d.x+10;
+            //    })
+            //    .text(function(d){
+            //        return d.name
+            //    });
+
+            force.start();
+        }
+
+        function start(jsonObj){
+            var graph = JSON.parse(jsonObj)[0];
+
+            graph.nodes.forEach(function(d){
+                nodes.push(d);
+            });
+
+            if(graph.nodes.length > 1){
+                graph.links.forEach(function(d) {
+                    d.source = graph.nodes[d.source];
+                    d.target = graph.nodes[d.target];
+                    links.push({source: d.source, target: d.target})
+                });
+
+                link = link.data(links);
+            }
+
+            node = node.data(nodes);
+            label = label.data(nodes)
+                .enter().append("text")
+                .call(force.drag)
+                .attr("y", function(d) {
+                    return d.y+20;
+                })
+                .attr("x", function(d) {
+                    return d.x+10;
+                })
+                .text(function(d){
+                    return d.name
+                });
+
+        }
+
+        $(".add-concept").click(function(e){
+            e.preventDefault();
+
+            $(this).parent().append('<input type="email" placeholder="New concept text here..." class="btn m-xs has-error pull-right .form-control add-concept add-concept-value">');
+            $('input.add-concept-value').keypress(function (e) {
+                var key = e.which;
+                if(key == 13){
+                    createNode();
+                    $('input.add-concept-value').val("");
+                }
+            });
+
+        });
+
+        function removeNode(){
+
+        }
+
+        function editNode(){
+
+        }
+
+        function createNode(){
+            node.filter(function(d) {
+                if(d.selected){
+                    var newResponse = new Response({ generalItemId: d.gItem, responseValue: $('input.add-concept-value').val() , runId: d.runId, userEmail: 0 });
+                    newResponse.save({}, {
+                        beforeSend:setHeader,
+                        success: function(r, response){
+
+                            var item_nodes = {}
+                            item_nodes ["id"] = response.responseId;
+                            item_nodes ["name"] = response.responseValue;
+                            var min = 50;
+                            var max = 550;
+                            var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                            item_nodes ["x"] = random;
+                            var min = 50;
+                            var max = 150;
+                            var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                            item_nodes ["y"] = random;
+                            item_nodes ["gItem"] = response.generalItemId;
+                            item_nodes ["runId"] = response.runId;
+
+                            nodes.push(item_nodes);
+                            console.log(nodes);
+
+                            restart();
+
                         }
                     });
                 }
 
                 return d.selected;
-            })
-        });
+            });
+        }
+
     }
 });
 
 // =====================================================
-
-
-
-
-
 
 window.InquiryLeftSidebarView = Backbone.View.extend({
     tagName: "div",
