@@ -863,7 +863,7 @@ window.ConceptMapView = Backbone.View.extend({
                 var key = e.which;
                 if(key == 13){
                     createNode();
-                    $('input.add-concept-value').val("");
+                    $('input.add-concept-value').remove();
                 }
             });
 
