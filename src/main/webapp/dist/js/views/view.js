@@ -704,7 +704,7 @@ window.ConceptMapView = Backbone.View.extend({
         var force = d3.layout.force()
             .size([width, height])
             //.nodes([{}]) // initialize with a single node
-            .linkDistance(100)
+            .linkDistance(200)
             .charge(-200)
             .on("tick", tick);
 
@@ -713,19 +713,10 @@ window.ConceptMapView = Backbone.View.extend({
 
         var svg = d3.select("#concept-map").append("svg")
             .attr("width", width)
-            .attr("height", height);
+            .attr("height", height)
+            .on('mousemove', mousemove)
             //.on("mousemove", mousemove)
             //.on("mousedown", mousedown);
-
-        //svg.append("rect")
-        //    .attr("width", width)
-        //    .attr("height", height);
-
-
-        //var brush = svg.append("g")
-        //    .datum(function() { return {selected: false, previouslySelected: false}; })
-        //    .attr("class", "cp-brush");
-
 
         var nodes = force.nodes(),
             links = force.links(),
@@ -734,34 +725,53 @@ window.ConceptMapView = Backbone.View.extend({
             link = svg.selectAll(".link"),
             label = svg.selectAll(".labels");
 
-        //var cursor = svg.append("circle")
-        //    .attr("r", 30)
-        //    .attr("transform", "translate(-100,-100)")
-        //    .attr("class", "cursor");
+        // options
+        var movement_allowed = null;
+
+        // mouse event vars
+        var selected_node = null,
+            selected_link = null,
+            mousedown_link = null,
+            mousedown_node = null,
+            mouseup_node = null;
+
+
+        // define arrow markers for graph links
+        svg.append('svg:defs').append('svg:marker')
+            .attr('id', 'end-arrow')
+            .attr('viewBox', '0 -5 10 10')
+            .attr('refX', 6)
+            .attr('markerWidth', 3)
+            .attr('markerHeight', 3)
+            .attr('orient', 'auto')
+            .append('svg:path')
+            .attr('d', 'M0,-5L10,0L0,5')
+            .attr('fill', '#000');
+
+        svg.append('svg:defs').append('svg:marker')
+            .attr('id', 'start-arrow')
+            .attr('viewBox', '0 -5 10 10')
+            .attr('refX', 4)
+            .attr('markerWidth', 3)
+            .attr('markerHeight', 3)
+            .attr('orient', 'auto')
+            .append('svg:path')
+            .attr('d', 'M10,-5L0,0L10,5')
+            .attr('fill', '#000');
+
+        // line displayed when dragging new nodes
+        var drag_line = svg.append('svg:path')
+            .attr('class', 'link dragline hidden')
+            .attr('d', 'M0,0L0,0');
+
+        function resetMouseVars() {
+            mousedown_node = null;
+            mouseup_node = null;
+            mousedown_link = null;
+        }
 
         start(jsonObj);
         restart();
-
-        //function mousemove() {
-        //    cursor.attr("transform", "translate(" + d3.mouse(this) + ")");
-        //}
-
-        //function mousedown() {
-        //    var point = d3.mouse(this),
-        //        node = {x: point[0], y: point[1]},
-        //        n = nodes.push(node);
-        //
-        //    // add links to any nearby nodes
-        //    nodes.forEach(function(target) {
-        //        var x = target.x - node.x,
-        //            y = target.y - node.y;
-        //        if (Math.sqrt(x * x + y * y) < 30) {
-        //            links.push({source: node, target: target});
-        //        }
-        //    });
-        //
-        //    restart();
-        //}
 
         //brush.call(d3.svg.brush()
         //    .x(d3.scale.identity().domain([0, width]))
@@ -785,6 +795,40 @@ window.ConceptMapView = Backbone.View.extend({
 
         function dblclick(d) {
             d3.select(this).classed("fixed", d.fixed = false);
+        }
+
+        function dblclickLabel() {
+            var _old_value = d3.select(this).html();
+            var _old_label = d3.select(this),
+                _x_pos = d3.select(this).attr("x"),
+                _y_pos = d3.select(this).attr("y")-15;
+
+            d3.select(this).html("");
+
+            var new_input = svg.append("foreignObject");
+            new_input.attr("x",_x_pos)
+                .attr("y",_y_pos)
+                .append("xhtml:form")
+                .append("input")
+                .attr("value", function() {
+                    this.focus();
+                    $(this).css("width","200px");
+                    $(this).css("outline","none");
+                    $(this).css("border","0px");
+                    $(this).css("background","transparent");
+                    $(this).addClass("edit-value-concept","transparent");
+                    return _old_value;
+                })
+                .on("keydown", function(d){
+                    d3.event.stopPropagation();
+                    if (d3.event.keyCode == 13 && !d3.event.shiftKey){
+                        this.blur();
+                    }
+                })
+                .on("blur", function() {
+                    _old_label.text(function(d) { return $(".edit-value-concept").val(); });
+                    svg.select("foreignObject").remove();
+                });
         }
 
         function dragstart(d) {
@@ -815,9 +859,21 @@ window.ConceptMapView = Backbone.View.extend({
             node.enter().insert("circle", ".cursor")
                 .attr("class", "node")
                 .attr("r", 10)
-                .call(force.drag)
+                //.call(force.drag)
                 .on("dblclick", dblclick)
                 .on("mousedown", function(d) {
+
+                    mousedown_node = d;
+                    if(mousedown_node === selected_node) selected_node = null;
+                    else selected_node = mousedown_node;
+                    selected_link = null;
+
+                    drag_line
+                        .style('marker-end', 'url(#end-arrow)')
+                        .classed('hidden', false)
+                        .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y);
+
+                    restart();
                     if (!d.selected) { // Don't deselect on shift-drag.
                         if (!shiftKey){
                             node.classed("selected", function(p) { return p.selected = d === p; });
@@ -827,13 +883,83 @@ window.ConceptMapView = Backbone.View.extend({
                             d3.select(this).classed("selected", d.selected = true);
                         }
                     }
+                })
+                .on('mousedown', function(d) {
+                    if(movement_allowed) return;
+
+                    // select node
+                    mousedown_node = d;
+                    if(mousedown_node === selected_node) selected_node = null;
+                    else selected_node = mousedown_node;
+                    selected_link = null;
+
+                    // reposition drag line
+                    drag_line
+                        .style('marker-end', 'url(#end-arrow)')
+                        .classed('hidden', false)
+                        .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y);
+
+                    restart();
+                })
+                .on('mouseup', function(d) {
+                    if(!mousedown_node) return;
+
+                    // needed by FF
+                    drag_line
+                        .classed('hidden', true)
+                        .style('marker-end', '');
+
+                    // check for drag-to-self
+                    mouseup_node = d;
+                    if(mouseup_node === mousedown_node) { resetMouseVars(); return; }
+
+                    // unenlarge target node
+                    d3.select(this).attr('transform', '');
+
+                    // add link to graph (update if exists)
+                    // NB: links are strictly source < target; arrows separately specified by booleans
+                    var source, target, direction;
+                    if(mousedown_node.id < mouseup_node.id) {
+                        source = mousedown_node;
+                        target = mouseup_node;
+                        direction = 'right';
+                    } else {
+                        source = mouseup_node;
+                        target = mousedown_node;
+                        direction = 'left';
+                    }
+
+                    var link;
+                    link = links.filter(function(l) {
+                        return (l.source === source && l.target === target);
+                    })[0];
+
+                    if(link) {
+                        link[direction] = true;
+                    } else {
+                        link = {source: source, target: target, left: false, right: false};
+                        link[direction] = true;
+                        links.push(link);
+                    }
+
+                    // select new link
+                    selected_link = link;
+                    selected_node = null;
+                    restart();
+                })
+                .on("mouseover", function(d){
+                    d3.select(this).attr("r", "11");
+                })
+                .on("mouseout", function(d){
+                    d3.select(this).attr("r", "10")
                 });
 
             node.exit().remove();
 
             label = label.data(nodes);
             label.enter().append("text")
-                .call(force.drag)
+                //.call(force.drag)
+                .on("dblclick", dblclickLabel)
                 .attr("y", function(d) {
                     return d.y+20;
                 })
@@ -844,7 +970,18 @@ window.ConceptMapView = Backbone.View.extend({
                     return d.name
                 });
 
+            label.exit().remove();
+
             force.start();
+        }
+
+        function mousemove() {
+            if(!mousedown_node) return;
+
+            // update drag line
+            drag_line.attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + d3.mouse(this)[0] + ',' + d3.mouse(this)[1]);
+
+            restart();
         }
 
         function start(jsonObj){
@@ -867,7 +1004,8 @@ window.ConceptMapView = Backbone.View.extend({
             node = node.data(nodes);
             label = label.data(nodes)
                 .enter().append("text")
-                .call(force.drag)
+                //.call(force.drag)
+                .on("dblclick", dblclickLabel)
                 .attr("y", function(d) {
                     return d.y+20;
                 })
@@ -879,6 +1017,28 @@ window.ConceptMapView = Backbone.View.extend({
                 });
 
         }
+
+        $(".move-concept").click(function(e){
+            e.preventDefault();
+            if(!movement_allowed){
+                $(this).addClass( "btn-warning");
+                $(this).removeClass("btn-primary");
+                movement_allowed = true;
+
+                label.call(force.drag);
+                node.call(force.drag);
+
+            }else{
+                $(this).addClass("btn-primary");
+                $(this).removeClass( "btn-warning");
+
+                label.on("mousedown.drag", null);
+                node.on("mousedown.drag", null);
+
+                movement_allowed = false;
+            }
+            console.log(movement_allowed);
+        });
 
         $(".add-concept").click(function(e){
             e.preventDefault();
@@ -903,8 +1063,10 @@ window.ConceptMapView = Backbone.View.extend({
         }
 
         function createNode(){
-            node.filter(function(d) {
-                if(d.selected){
+            node.filter(function(d,i) {
+                // We only need to information of one of them
+                // todo What happen when there is no nodes
+                if(i==0){
                     var newResponse = new Response({ generalItemId: d.gItem, responseValue: $('input.add-concept-value').val() , runId: d.runId, userEmail: 0 });
                     newResponse.save({}, {
                         beforeSend:setHeader,
@@ -928,7 +1090,6 @@ window.ConceptMapView = Backbone.View.extend({
                             console.log(nodes);
 
                             restart();
-
                         }
                     });
                 }

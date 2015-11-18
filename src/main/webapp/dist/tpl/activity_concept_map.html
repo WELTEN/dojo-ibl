@@ -7,13 +7,19 @@
                <h2><%= name %></h2>
                <p><%= description %></p>
                <div id="concept-map"></div>
+               <p>Instructions to user the concept map:</p>
+               <ul>
+                  <li><b>Add concept:</b> Use the button 'New concept', provide description and press enter.</li>
+                  <li><b>Remove concept:</b> Select a node and use backspace or delete key.</li>
+               </ul>
 
             </div>
             <div class="m-b-md">
-               <a href="" class="btn btn-primary m-xs pull-right remove-concept">Print concept map</a>
-               <a href="" class="btn btn-primary m-xs pull-right remove-concept">Remove concept</a>
-               <a href="" class="btn btn-primary m-xs pull-right edit-concept">Edit concept</a>
-               <a href="" class="btn btn-primary m-xs pull-right add-concept" >New concept</a>
+               <a href="" class="btn btn-primary m-xs pull-right print-concept"><i class="fa fa-print"></i> Print</a>
+               <a href="" class="btn btn-primary m-xs pull-right move-concept"><i class="fa fa-arrows-alt"></i> Move concepts</a>
+               <a href="" class="btn btn-primary m-xs pull-right link-concept"><i class="fa fa-link"></i> Create links</a>
+               <a href="" class="btn btn-primary m-xs pull-right edit-concept"><i class="fa fa-pencil"></i> Edit selected concept</a>
+               <a href="" class="btn btn-primary m-xs pull-right add-concept"><i class="fa fa-plus"></i> New concept</a>
                <!--data-toggle="modal" data-target="#model-new-concept"-->
             </div>
          </div>
