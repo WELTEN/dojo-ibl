@@ -701,6 +701,7 @@ window.ConceptMapView = Backbone.View.extend({
         var fill = d3.scale.category20();
 
 
+
         var force = d3.layout.force()
             .size([width, height])
             //.nodes([{}]) // initialize with a single node
@@ -715,8 +716,9 @@ window.ConceptMapView = Backbone.View.extend({
             .attr("width", width)
             .attr("height", height)
             .on('mousemove', mousemove)
-            //.on("mousemove", mousemove)
+            //.on("keydown", keydown)
             //.on("mousedown", mousedown);
+
 
         var nodes = force.nodes(),
             links = force.links(),
@@ -861,19 +863,33 @@ window.ConceptMapView = Backbone.View.extend({
                 .attr("r", 10)
                 //.call(force.drag)
                 .on("dblclick", dblclick)
-                .on("mousedown", function(d) {
+                //.on("mousedown", function(d) {
+                //
+                //    if (!d.selected) { // Don't deselect on shift-drag.
+                //        if (!shiftKey){
+                //            node.classed("selected", function(p) { return p.selected = d === p; });
+                //            label.classed("selected", function(p) { return p.selected = d === p; });
+                //        }
+                //        else{
+                //            d3.select(this).classed("selected", d.selected = true);
+                //        }
+                //    }
+                //
+                //    mousedown_node = d;
+                //    if(mousedown_node === selected_node) selected_node = null;
+                //    else selected_node = mousedown_node;
+                //    selected_link = null;
+                //
+                //    drag_line
+                //        .style('marker-end', 'url(#end-arrow)')
+                //        .classed('hidden', false)
+                //        .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y);
+                //
+                //    restart();
+                //
+                //})
+                .on('mousedown', function(d) {
 
-                    mousedown_node = d;
-                    if(mousedown_node === selected_node) selected_node = null;
-                    else selected_node = mousedown_node;
-                    selected_link = null;
-
-                    drag_line
-                        .style('marker-end', 'url(#end-arrow)')
-                        .classed('hidden', false)
-                        .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y);
-
-                    restart();
                     if (!d.selected) { // Don't deselect on shift-drag.
                         if (!shiftKey){
                             node.classed("selected", function(p) { return p.selected = d === p; });
@@ -883,8 +899,9 @@ window.ConceptMapView = Backbone.View.extend({
                             d3.select(this).classed("selected", d.selected = true);
                         }
                     }
-                })
-                .on('mousedown', function(d) {
+
+                    console.log(d3.select(this).classed("selected"));
+
                     if(movement_allowed) return;
 
                     // select node
@@ -1018,24 +1035,30 @@ window.ConceptMapView = Backbone.View.extend({
 
         }
 
-        $(".move-concept").click(function(e){
+        $(".move-concept, .link-concept").click(function(e){
             e.preventDefault();
             if(!movement_allowed){
-                $(this).addClass( "btn-warning");
-                $(this).removeClass("btn-primary");
+                $(".move-concept").addClass("btn-warning");
+                $(".move-concept").removeClass("btn-primary");
+                $(".link-concept").addClass("btn-primary");
+                $(".link-concept").removeClass("btn-warning");
+
                 movement_allowed = true;
 
                 label.call(force.drag);
                 node.call(force.drag);
 
             }else{
-                $(this).addClass("btn-primary");
-                $(this).removeClass( "btn-warning");
+                $(".move-concept").addClass("btn-primary");
+                $(".move-concept").removeClass("btn-warning");
+                $(".link-concept").addClass("btn-warning");
+                $(".link-concept").removeClass("btn-primary");
+
+                movement_allowed = false;
 
                 label.on("mousedown.drag", null);
                 node.on("mousedown.drag", null);
 
-                movement_allowed = false;
             }
             console.log(movement_allowed);
         });
@@ -1054,11 +1077,42 @@ window.ConceptMapView = Backbone.View.extend({
 
         });
 
-        function removeNode(){
+        $(".remove-concept").click(function(e){
+            e.preventDefault();
+            //console.log(node.filter(function(d) { return d.selected; }));
 
-        }
+            //var a = node.filter(function(d) { return console.log(d); d.selected; });
 
-        function editNode(){
+            console.log(node.filter(function(d) { return d.selected; }).length);
+
+            //a.forEach(function(node){
+            //
+            //    console.log(node);
+            //    console.log(nodes.indexOf(node), nodes, node);
+            //    nodes.splice(nodes.indexOf(node), 1);
+            //    var toSplice = links.filter(function(l) {
+            //        return (l.source === node || l.target === node);
+            //    });
+            //    toSplice.map(function(l) {
+            //        links.splice(links.indexOf(l), 1);
+            //    });
+            //});
+
+            //if(!selected_node && !selected_link) return;
+            //
+            //if (selected_node) {
+            //    nodes.splice(nodes.indexOf(selected_node), 1);
+            //    spliceLinksForNode(selected_node);
+            //} else if (selected_link) {
+            //    links.splice(links.indexOf(selected_link), 1);
+            //}
+            //selected_link = null;
+            //selected_node = null;
+            restart();
+
+        });
+
+        function spliceLinksForNode(node) {
 
         }
 

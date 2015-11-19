@@ -315,7 +315,10 @@ var AppRouter = Backbone.Router.extend({
                             id: "inquiry-content"
                             }
                         ));
-                        $('.row.inquiry').append(new SideBarView({ }).render().el);
+
+                        if($(".col-lg-3.wrapper.wrapper-content").length == 0){
+                            $('.row.inquiry').append(new SideBarView({ }).render().el);
+                        }
                     }
                     app.breadcrumbManager(2, "Data Collection", xhr.name );
                     app.changeTitle("Phase name");
