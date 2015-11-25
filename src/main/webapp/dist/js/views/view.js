@@ -174,6 +174,33 @@ window.InquiryNewView = Backbone.View.extend({
     }
 });
 
+window.NewActivityNewInquiryView = Backbone.View.extend({
+    tagName:  "tr",
+    initialize:function () {
+        this.template = _.template(tpl.get('new_activity_new_inquiry'));
+
+    },
+    render:function () {
+        $(this.el).html(this.template());
+
+        return this;
+    }
+});
+
+window.NewPhaseNewInquiryView = Backbone.View.extend({
+    tagName: "div",
+    className: "tab-pane",
+    initialize:function () {
+        this.template = _.template(tpl.get('new_phase_new_inquiry'));
+
+    },
+    render:function () {
+        $(this.el).html(this.template());
+
+        return this;
+    }
+});
+
 window.SideBarView = Backbone.View.extend({
     tagName:  "div",
     className: "col-lg-3 wrapper wrapper-content",
@@ -237,19 +264,62 @@ window.ResponseListView = Backbone.View.extend({
         this.runId = options.run;
     },
     render: function(){
+
         _.each(this.collection.models, function(response){
+            var res = response.toJSON();
             var aux = response.toJSON().userEmail.split(':');
             var user = this.users.where({ 'localId': aux[1] });
 
-            $(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el).insertBefore($('#list_answers > .social-comment:last-child'));
+            if(res.parentId != 0){
+                $(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el).insertBefore($("textarea[responseid='"+res.parentId+"']").parent().parent());
+            }else{
+                $(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el).insertBefore($('#list_answers > .social-comment:last-child'));
+            }
+
+
         }, this);
 
         this.collection.reset();
 
         $('.reply').click(function(e){
+            //////////////////////////////////////////////////////////////////
+            // Problem here is that we have more .responses now under one div
+            // todo make it better
+            /////////////////////////////////////////////////////////////////
             if($(this).parent().parent().find(".response").length == 0){
-                console.log("add");
-                $(this).parent().parent().append(new ResponseReplyView({}).render().el);
+                if($(this).attr("data")){
+
+                    var form = new ResponseReplyView({}).render().el;
+
+                    var gItem = $(this).attr("gitem");
+
+                    $(form).find("button.save").attr("responseid", $(this).attr("data"));
+                    $(form).find("textarea.response").attr("responseid", $(this).attr("data"));
+
+                    $(this).parent().parent().append(form);
+
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    // This event should be captured here in order to capture input for future responses
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    $(".save[responseid='"+$(this).attr("data")+"']").click(function(){
+
+                        console.log($(this).attr("responseid"), $("textarea[responseid='"+$(this).attr("responseid")+"']").val());
+
+                        if  ($("textarea[responseid='"+$(this).attr("responseid")+"']").val() != ""){
+
+                            var newResponse = new Response({ generalItemId: gItem, responseValue: $("textarea[responseid='"+$(this).attr("responseid")+"']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: $(this).attr("responseid") });
+                            newResponse.save({}, {
+                                beforeSend:setHeader,
+                                success: function(r, new_response){
+                                    app.Response.add(new_response);
+                                }
+                            });
+                        }
+                        $("textarea[responseid='"+$(this).attr("responseid")+"']").val("");
+                    });
+                }else{
+                    console.error("Id of the response is missing")
+                }
             }else{
                 console.log("remove");
                 $(this).parent().siblings(".social-comment:last").remove();
@@ -340,7 +410,7 @@ window.ActivityView = Backbone.View.extend({
             this.template = _.template(tpl.get('activity_discussion'));
         }else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
             this.template = _.template(tpl.get('activity_tree_view'));
-        }else if(xhr.model.type.indexOf("NarratorItem") > -1) {
+        }else if(xhr.model.type.indexOf("SingleChoiceImageTest") > -1) {
             this.template = _.template(tpl.get('activity_concept_map'));
         }else{
             console.debug("Discussion");

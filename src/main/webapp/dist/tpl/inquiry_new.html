@@ -2,59 +2,259 @@
     <div class="ibox float-e-margins">
         <div class="ibox-title">
             <h5>New inquiry</h5>
-            <!--<div class="ibox-tools">-->
-                <!--<a class="collapse-link">-->
-                    <!--<i class="fa fa-chevron-up"></i>-->
-                <!--</a>-->
-                <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#">-->
-                    <!--<i class="fa fa-wrench"></i>-->
-                <!--</a>-->
-                <!--<ul class="dropdown-menu dropdown-user">-->
-                    <!--<li><a href="#">Config option 1</a>-->
-                    <!--</li>-->
-                    <!--<li><a href="#">Config option 2</a>-->
-                    <!--</li>-->
-                <!--</ul>-->
-                <!--<a class="close-link">-->
-                    <!--<i class="fa fa-times"></i>-->
-                <!--</a>-->
-            <!--</div>-->
+
         </div>
         <div class="ibox-content">
-            <p>
-                This is basic example of Step
-            </p>
             <div id="wizard">
                 <h1>Title & description</h1>
                 <div class="step-content">
                     <div class="text-center m-t-md">
-                        <h2>Hello in Step 1</h2>
                         <div class="modal-body">
                             <p><strong>Lets create a new inquiry!</strong> You have started the process to create an inquiry. Now we will guide you through
                                 the steps to create a new inquiry. <strong>First</strong> provide a new for the new inquiry.</p>
-                            <div class="form-group"><label>Title</label> <input type="name" placeholder="Enter the title" class="form-control"></div>
-                            <div class="form-group"><label>Description</label> <textarea type="name" placeholder="Enter the description" class="form-control"></textarea></textare></div>
+                            <form>
+                                <label>Title</label>
+                                <input id="inquiry-title-value" name="inquiry_title" type="text" placeholder="Enter the title" class="form-control required"/>
+                                <label>Description</label>
+                                <input id="inquiry-description-value" name="inquiry_description" type="text" placeholder="Enter the description" class="form-control required"/>
+                            </form>
                         </div>
                     </div>
                 </div>
 
-                <h1>Choose the phases</h1>
+                <h1>Roles</h1>
                 <div class="step-content">
                     <div class="text-center m-t-md">
-                        <h2>Hello in Step 1</h2>
-                        <p>
-                            This is the first content.
-                        </p>
+                        <div class="modal-body">
+                            <p><strong>Create the roles!</strong></p>
+                        </div>
                     </div>
                 </div>
 
                 <h1>Choose the activities</h1>
                 <div class="step-content">
                     <div class="text-center m-t-md">
-                        <h2>This is step 2</h2>
-                        <p>
-                            This content is diferent than the first one.
-                        </p>
+                        <div class="tabs-container">
+                            <ul class="nav nav-tabs select-activities">
+                                <li class="active"><a data-toggle="tab" href="#tab-1"> Phase 1</a></li>
+                                <li class="new-phase"><a data-toggle="tab" href="#tab-2"> <i class="fa fa-plus"></i> </a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane active">
+                                    <div class="panel-body">
+
+                                        <div class="table-responsive">
+                                            <div class="pull-right">
+                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-comments"></i> </button>-->
+                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-user"></i> </button>-->
+                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-list"></i> </button>-->
+                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-pencil"></i> </button>-->
+                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-print"></i> </button>-->
+                                                <button type="button" class="new-activity btn btn-sm btn-white"> <i class="fa fa-plus"></i> </button>
+                                            </div>
+                                            <table class="table table-stripped table-bordered">
+
+                                                <thead>
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>Title</th>
+                                                    <th>Description</th>
+                                                    <th>Roles</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <!--<tr>-->
+                                                    <!--<td>-->
+                                                        <!--<select class="activity-type" class="form-control" >-->
+                                                            <!--<option>Video</option>-->
+                                                            <!--<option>Plugin</option>-->
+                                                            <!--<option selected>Concept map</option>-->
+                                                            <!--<option>Discussion</option>-->
+                                                        <!--</select>-->
+                                                    <!--</td>-->
+                                                    <!--<td>-->
+                                                        <!--<input class="activity-title" type="text" class="form-control" placeholder="Activity title">-->
+                                                    <!--</td>-->
+                                                    <!--<td>-->
+                                                        <!--<input class="activity-description" type="text" class="form-control" placeholder="Description">-->
+                                                    <!--</td>-->
+                                                    <!--<td>-->
+                                                        <!--<input class="activity-description" type="text" class="form-control" placeholder="Description">-->
+                                                    <!--</td>-->
+                                                    <!--<td>-->
+                                                        <!--<button class="remove-activity btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                                    <!--</td>-->
+                                                <!--</tr>-->
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--<div id="nestable-menu">-->
+                            <!--<button type="button" data-action="expand-all" class="btn btn-white btn-sm">Expand All</button>-->
+                            <!--<button type="button" data-action="collapse-all" class="btn btn-white btn-sm">Collapse All</button>-->
+                        <!--</div>-->
+                        <!--<div class="dd" id="nestable2">-->
+                            <!--<ol class="dd-list">-->
+                                <!--<li class="dd-item" data-id="1">-->
+                                    <!--<div class="dd-handle">-->
+                                        <!--<span class="label label-info"><i class="fa fa-users"></i></span> Questions.-->
+                                    <!--</div>-->
+                                    <!--<ol class="dd-list">-->
+                                        <!--<li class="dd-item" data-id="2">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 12:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-cog"></i></span> Vivamus vestibulum nulla nec ante.-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                        <!--<li class="dd-item" data-id="3">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 11:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-bolt"></i></span> Nunc dignissim risus id metus.-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                        <!--<li class="dd-item" data-id="4">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 11:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-laptop"></i></span> Vestibulum commodo-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                    <!--</ol>-->
+                                <!--</li>-->
+
+                                <!--<li class="dd-item" data-id="2">-->
+                                    <!--<div class="dd-handle">-->
+                                        <!--<span class="label label-info"><i class="fa fa-users"></i></span> Plan the method.-->
+                                    <!--</div>-->
+                                    <!--<ol class="dd-list">-->
+                                        <!--<li class="dd-item" data-id="6">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 15:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-users"></i></span> Nam convallis pellentesque nisl.-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                        <!--<li class="dd-item" data-id="7">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 16:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-bomb"></i></span> Vivamus molestie gravida turpis-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                        <!--<li class="dd-item" data-id="8">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 21:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-child"></i></span> Ut aliquam sollicitudin leo.-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                    <!--</ol>-->
+                                <!--</li>-->
+                                <!--<li class="dd-item" data-id="3">-->
+                                    <!--<div class="dd-handle">-->
+                                        <!--<span class="label label-info"><i class="fa fa-users"></i></span> Data collection-->
+                                    <!--</div>-->
+                                    <!--<ol class="dd-list">-->
+                                        <!--<li class="dd-item" data-id="6">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 15:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-users"></i></span> Nam convallis pellentesque nisl.-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                        <!--<li class="dd-item" data-id="7">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 16:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-bomb"></i></span> Vivamus molestie gravida turpis-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                        <!--<li class="dd-item" data-id="8">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 21:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-child"></i></span> Ut aliquam sollicitudin leo.-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                    <!--</ol>-->
+                                <!--</li>-->
+                                <!--<li class="dd-item" data-id="4">-->
+                                    <!--<div class="dd-handle">-->
+                                        <!--<span class="label label-info"><i class="fa fa-users"></i></span> Data analysis-->
+                                    <!--</div>-->
+                                    <!--<ol class="dd-list">-->
+                                        <!--<li class="dd-item" data-id="6">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 15:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-users"></i></span> Nam convallis pellentesque nisl.-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                        <!--<li class="dd-item" data-id="7">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 16:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-bomb"></i></span> Vivamus molestie gravida turpis-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                        <!--<li class="dd-item" data-id="8">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 21:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-child"></i></span> Ut aliquam sollicitudin leo.-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                    <!--</ol>-->
+                                <!--</li>-->
+                                <!--<li class="dd-item" data-id="5">-->
+                                    <!--<div class="dd-handle">-->
+                                        <!--<span class="label label-info"><i class="fa fa-users"></i></span> Interpretation-->
+                                    <!--</div>-->
+                                    <!--<ol class="dd-list">-->
+                                        <!--<li class="dd-item" data-id="6">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 15:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-users"></i></span> Nam convallis pellentesque nisl.-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                        <!--<li class="dd-item" data-id="7">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 16:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-bomb"></i></span> Vivamus molestie gravida turpis-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                        <!--<li class="dd-item" data-id="8">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 21:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-child"></i></span> Ut aliquam sollicitudin leo.-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                    <!--</ol>-->
+                                <!--</li>-->
+                                <!--<li class="dd-item" data-id="6">-->
+                                    <!--<div class="dd-handle">-->
+                                        <!--<span class="label label-info"><i class="fa fa-users"></i></span> Communication-->
+                                    <!--</div>-->
+                                    <!--<ol class="dd-list">-->
+                                        <!--<li class="dd-item" data-id="6">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 15:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-users"></i></span> Nam convallis pellentesque nisl.-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                        <!--<li class="dd-item" data-id="7">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 16:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-bomb"></i></span> Vivamus molestie gravida turpis-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                        <!--<li class="dd-item" data-id="8">-->
+                                            <!--<div class="dd-handle">-->
+                                                <!--<span class="pull-right"> 21:00 pm </span>-->
+                                                <!--<span class="label label-warning"><i class="fa fa-child"></i></span> Ut aliquam sollicitudin leo.-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                    <!--</ol>-->
+                                <!--</li>-->
+                            <!--</ol>-->
+                        <!--</div>-->
                     </div>
                 </div>
 
@@ -71,3 +271,496 @@
 
         </div>
     </div>
+
+
+    <!--<div class="col-lg-12">-->
+        <!--<div class="tabs-container">-->
+            <!--<ul class="nav nav-tabs">-->
+                <!--<li class=""><a data-toggle="tab" href="#tab-1" aria-expanded="false"> Phase 1</a></li>-->
+                <!--<li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false"> Phase 2</a></li>-->
+            <!--</ul>-->
+            <!--<div class="tab-content">-->
+
+                <!--<div id="tab-1" class="tab-pane active">-->
+                    <!--<div class="panel-body">-->
+
+                        <!--<div class="table-responsive">-->
+                            <!--<table class="table table-stripped table-bordered">-->
+
+                                <!--<thead>-->
+                                <!--<tr>-->
+                                    <!--<th>-->
+                                        <!--Group-->
+                                    <!--</th>-->
+                                    <!--<th>-->
+                                        <!--Quantity-->
+                                    <!--</th>-->
+                                    <!--<th>-->
+                                        <!--Discount-->
+                                    <!--</th>-->
+                                    <!--<th style="width: 20%">-->
+                                        <!--Date start-->
+                                    <!--</th>-->
+                                    <!--<th style="width: 20%">-->
+                                        <!--Date end-->
+                                    <!--</th>-->
+                                    <!--<th>-->
+                                        <!--Actions-->
+                                    <!--</th>-->
+                                <!--</tr>-->
+                                <!--</thead>-->
+                                <!--<tbody>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<select class="form-control">-->
+                                            <!--<option selected="">Group 1</option>-->
+                                            <!--<option>Group 2</option>-->
+                                            <!--<option>Group 3</option>-->
+                                            <!--<option>Group 4</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="10">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="$10.00">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<select class="form-control">-->
+                                            <!--<option selected="">Group 1</option>-->
+                                            <!--<option>Group 2</option>-->
+                                            <!--<option>Group 3</option>-->
+                                            <!--<option>Group 4</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="10">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="$10.00">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<select class="form-control">-->
+                                            <!--<option selected="">Group 1</option>-->
+                                            <!--<option>Group 2</option>-->
+                                            <!--<option>Group 3</option>-->
+                                            <!--<option>Group 4</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="10">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="$10.00">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<select class="form-control">-->
+                                            <!--<option selected="">Group 1</option>-->
+                                            <!--<option>Group 2</option>-->
+                                            <!--<option>Group 3</option>-->
+                                            <!--<option>Group 4</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="10">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="$10.00">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<select class="form-control">-->
+                                            <!--<option selected="">Group 1</option>-->
+                                            <!--<option>Group 2</option>-->
+                                            <!--<option>Group 3</option>-->
+                                            <!--<option>Group 4</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="10">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="$10.00">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<select class="form-control">-->
+                                            <!--<option selected="">Group 1</option>-->
+                                            <!--<option>Group 2</option>-->
+                                            <!--<option>Group 3</option>-->
+                                            <!--<option>Group 4</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="10">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="$10.00">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<select class="form-control">-->
+                                            <!--<option selected="">Group 1</option>-->
+                                            <!--<option>Group 2</option>-->
+                                            <!--<option>Group 3</option>-->
+                                            <!--<option>Group 4</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="10">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="$10.00">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+
+                                <!--</tbody>-->
+
+                            <!--</table>-->
+                        <!--</div>-->
+
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div id="tab-2" class="tab-pane active">-->
+                    <!--<div class="panel-body">-->
+
+                        <!--<div class="table-responsive">-->
+                            <!--<table class="table table-stripped table-bordered">-->
+
+                                <!--<thead>-->
+                                <!--<tr>-->
+                                    <!--<th>-->
+                                        <!--Group-->
+                                    <!--</th>-->
+                                    <!--<th>-->
+                                        <!--Quantity-->
+                                    <!--</th>-->
+                                    <!--<th>-->
+                                        <!--Discount-->
+                                    <!--</th>-->
+                                    <!--<th style="width: 20%">-->
+                                        <!--Date start-->
+                                    <!--</th>-->
+                                    <!--<th style="width: 20%">-->
+                                        <!--Date end-->
+                                    <!--</th>-->
+                                    <!--<th>-->
+                                        <!--Actions-->
+                                    <!--</th>-->
+                                <!--</tr>-->
+                                <!--</thead>-->
+                                <!--<tbody>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<select class="form-control">-->
+                                            <!--<option selected="">Group 1</option>-->
+                                            <!--<option>Group 2</option>-->
+                                            <!--<option>Group 3</option>-->
+                                            <!--<option>Group 4</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="10">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="$10.00">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<select class="form-control">-->
+                                            <!--<option selected="">Group 1</option>-->
+                                            <!--<option>Group 2</option>-->
+                                            <!--<option>Group 3</option>-->
+                                            <!--<option>Group 4</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="10">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="$10.00">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<select class="form-control">-->
+                                            <!--<option selected="">Group 1</option>-->
+                                            <!--<option>Group 2</option>-->
+                                            <!--<option>Group 3</option>-->
+                                            <!--<option>Group 4</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="10">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="$10.00">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<select class="form-control">-->
+                                            <!--<option selected="">Group 1</option>-->
+                                            <!--<option>Group 2</option>-->
+                                            <!--<option>Group 3</option>-->
+                                            <!--<option>Group 4</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="10">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="$10.00">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<select class="form-control">-->
+                                            <!--<option selected="">Group 1</option>-->
+                                            <!--<option>Group 2</option>-->
+                                            <!--<option>Group 3</option>-->
+                                            <!--<option>Group 4</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="10">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="$10.00">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<select class="form-control">-->
+                                            <!--<option selected="">Group 1</option>-->
+                                            <!--<option>Group 2</option>-->
+                                            <!--<option>Group 3</option>-->
+                                            <!--<option>Group 4</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="10">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="$10.00">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                                <!--<tr>-->
+                                    <!--<td>-->
+                                        <!--<select class="form-control">-->
+                                            <!--<option selected="">Group 1</option>-->
+                                            <!--<option>Group 2</option>-->
+                                            <!--<option>Group 3</option>-->
+                                            <!--<option>Group 4</option>-->
+                                        <!--</select>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="10">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<input type="text" class="form-control" placeholder="$10.00">-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<div class="input-group date">-->
+                                            <!--<span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="07/01/2014">-->
+                                        <!--</div>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                        <!--<button class="btn btn-white"><i class="fa fa-trash"></i> </button>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+
+                                <!--</tbody>-->
+
+                            <!--</table>-->
+                        <!--</div>-->
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->

@@ -895,6 +895,7 @@ fieldset[disabled] .btn-link.active {
 .btn-white.active:focus {
   color: inherit;
   border: 1px solid #d2d2d2;
+  outline: none;
 }
 .btn-white:active,
 .btn-white.active {
@@ -8143,17 +8144,21 @@ div.phases-breadcrumb  {
   background-color: #286090;
 }
 
+.wizard > .content{
+  background: #ffffff !important;
+}
 
 /*
 * Circle menu
 */
 #circlemenu {
-  width: 48%;
+  width: 80%;
   height: 435px;
   position: relative;
   opacity: .8;
   float: left;
   top: -28px;
+  margin: 0 12%;
 }
 
 #circlemenu li, .list_activities li {
@@ -8374,3 +8379,16 @@ path.link {
 /*circle.selected {*/
   /*stroke: red;*/
 /*}*/
+
+.select-activities li{
+  list-style: none;
+}
+
+/*
+ Steps create new inquiry
+*/
+
+.step-content {
+  padding: 0px !important;
+  width: 100% !important;
+}

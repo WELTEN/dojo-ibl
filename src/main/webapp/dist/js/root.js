@@ -286,6 +286,9 @@ var AppRouter = Backbone.Router.extend({
         //this.loadPhaseActivities(id, phase);
 
     },
+    ////////////////////
+    // Manage activities
+    ////////////////////
     showActivity: function(id, phase, activity){
         this.isAuthenticated();
         this.common();
@@ -309,6 +312,9 @@ var AppRouter = Backbone.Router.extend({
             this.Activity.fetch({
                 beforeSend: setHeader,
                 success: function (response, xhr) {
+                    app.breadcrumbManager(2, "Data Collection", xhr.name );
+                    app.changeTitle("Phase name");
+
                     if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
                         $(".row.inquiry").append($('<div />', {
                             "class": 'col-md-9 wrapper wrapper-content animated fadeInUp',
@@ -320,13 +326,12 @@ var AppRouter = Backbone.Router.extend({
                             $('.row.inquiry').append(new SideBarView({ }).render().el);
                         }
                     }
-                    app.breadcrumbManager(2, "Data Collection", xhr.name );
-                    app.changeTitle("Phase name");
+
 
                     $("#inquiry-content").html(new ActivityView({ model: xhr }).render().el);
                     $(".knob").knob();
 
-                    if(xhr.type.indexOf("NarratorItem") > -1) {
+                    if(xhr.type.indexOf("SingleChoiceImageTest") > -1) {
                         //var responses = new ResponseCollection();
                         app.Response.id = _runId;
                         app.Response.itemId = xhr.id;
@@ -360,250 +365,175 @@ var AppRouter = Backbone.Router.extend({
                         $('#list_answers').addClass("social-footer");
                         $('#list_answers').append(new ResponseReplyView({}).render().el);
 
-                        $('.save').click(function(){
-                            if  ($('#list_answers textarea').val() != ""){
-                                console.log($('#list_answers textarea').val());
-                                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('#list_answers textarea').val(), runId: $.cookie("dojoibl.run"), userEmail: 0 });
+
+                        ///////////////////////////////////////////////////////////////////////////
+                        // This event should be captured outside to manage the comments in the main
+                        // discussion thread
+                        ///////////////////////////////////////////////////////////////////////////
+                        $(".save[responseid='0']").click(function(){
+
+                            if  ($("textarea[responseid='0']").val() != ""){
+
+                                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $("textarea[responseid='0']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0 });
                                 newResponse.save({}, {
                                     beforeSend:setHeader,
                                     success: function(r, new_response){
-                                        app.Responses.add(new_response);
+                                        app.Response.add(new_response);
                                     }
                                 });
                             }
-                            $('#list_answers textarea').val("");
+                            $("textarea[responseid='0']").val("");
                         });
+
                     }
                 }
             });
         }, 500);
-
-        // ============================================
-
-        //this.loadInquiryUsers($.cookie("dojoibl.run"));
-
-        //if ($(".phase-master").length == 0){
-        //    this.showPhase(id, phase);
-        //    console.log("show phase", $(".phase-master").html());
-        //
-        //}else{
-        //    if ($(".phase-detail").length != 0){
-        //        console.info("Activity is already open");
-        //        $(".phase-detail").remove();
-        //    }
-        //
-        //    $(".phase-master").animate({
-        //        'marginLeft' : '-14em',
-        //        'width': '167px',
-        //        'top': '222px'
-        //    }, 200, function() {
-        //        $(this).find(".box-tools.pull-right").hide();
-        //    });
-        //
-        //    this.Activity = new ActivityCollection({ });
-        //    this.Activity.id = activity;
-        //    this.Activity.gameId = id;
-        //    this.Activity.fetch({
-        //        beforeSend: setHeader,
-        //        success: function(response, xhr){
-        //
-        //            $('section.phase-master').after(new ActivityView({ model: xhr }).render().el);
-        //
-        //            app.Responses = new window.ResponseCollection();
-        //
-        //            if(xhr.type.indexOf("VideoObject") > -1){
-        //
-        //            }else if(xhr.type.indexOf("OpenBadge") > -1) {
-        //
-        //            }else if(xhr.type.indexOf("MultipleChoiceImageTest") > -1) {
-        //                new window.ResponseTreeView({ collection: app.Responses });
-        //            }else if(xhr.type.indexOf("AudioObject") > -1) {
-        //                new window.ResponseDiscussionListView({ collection: app.Responses, users: app.InquiryUsers });
-        //            }else{
-        //                new window.ResponseListView({ collection: app.Responses, users: app.InquiryUsers });
-        //            }
-        //
-        //            app.Responses.id = window.Run.global_identifier;
-        //            app.Responses.itemId = xhr.id;
-        //            app.Responses.fetch({
-        //                beforeSend: setHeader
-        //            });
-        //
-        //            ///////////////////////////////
-        //            // Listener to submit responses
-        //            ///////////////////////////////
-        //            $(".close-detail, .cancel").click(function(e){
-        //                //$(".phase-master").animate({
-        //                //    'marginLeft' : '+0%'
-        //                //});
-        //
-        //                $(".phase-master").animate({
-        //                    'marginLeft' : '+0%',
-        //                    'width': '100%',
-        //                    'top': '0px'
-        //                });
-        //                $(".phase-master").find(".box-tools.pull-right").show();
-        //                $(".phase-master").find(".skill-tree-row.row-1").show();
-        //
-        //
-        //                //console.debug(xhr,"saving or closing...");
-        //
-        //                app.navigate('inquiry/'+xhr.gameId+'/phase/'+_phase);
-        //
-        //                $(".phase-detail").hide();
-        //                $(".phase-detail").remove();
-        //
-        //                e.preventDefault();
-        //            });
-        //
-        //            $('textarea').keyup(function(e){
-        //                //console.log(e);
-        //                if(e.keyCode == 51){
-        //                    console.debug("[successActivityHandl]","Display other responses to link them.");
-        //                    $(this).trigger('enter');
-        //                }
-        //            });
-        //
-        //            $(".save").click(function(){
-        //                $(".message-user").html("Saving..").show().delay(500).fadeOut();
-        //
-        //                if  ($('textarea.response').val() == ""){
-        //
-        //                }else{
-        //                    var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('textarea.response').val(), runId: window.Run.global_identifier, userEmail: 0 });
-        //                    newResponse.save({}, {
-        //                        beforeSend:setHeader,
-        //                        success: function(r, new_response){
-        //                            app.Responses.add(new_response);
-        //                        }
-        //                    });
-        //                }
-        //            });
-        //
-        //            $(".save-close").click(function(){
-        //                $(".message-user").html("Saving..").show().delay(500).fadeOut();
-        //
-        //                if  ($('textarea.response').val() == ""){
-        //                    //$(".phase-master").animate({
-        //                    //    'marginLeft' : '+0%'
-        //                    //});
-        //
-        //                    $(".phase-master").animate({
-        //                        'marginLeft' : '+0%',
-        //                        'width': '100%',
-        //                        'top': '0px'
-        //                    });
-        //                    $(".phase-master").find(".box-tools.pull-right").show();
-        //                    $(".phase-master").find(".skill-tree-row.row-1").show();
-        //
-        //
-        //                    //console.debug(xhr,"saving or closing...");
-        //
-        //                    app.navigate('inquiry/'+xhr.gameId+'/phase/1');
-        //
-        //                    $(".phase-detail").hide();
-        //                    $(".phase-detail").remove();
-        //                }else{
-        //                    var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('textarea.response').val(), runId: window.Run.global_identifier, userEmail: 0 });
-        //                    newResponse.save({}, {
-        //                        beforeSend:setHeader,
-        //                        success: function(r, s){
-        //
-        //                            //
-        //                            //$(".phase-master").animate({
-        //                            //    'marginLeft' : '+0%',
-        //                            //    'width': '100%',
-        //                            //    'top': '0px'
-        //                            //});
-        //                            //$(".phase-master").find(".box-tools.pull-right").show();
-        //                            //
-        //                            //console.debug(s, xhr,"saving or closing...");
-        //                            //
-        //                            //app.navigate('inquiry/'+xhr.gameId+'/phase/1');
-        //                            //
-        //                            //$(".phase-detail").hide();
-        //                            //$(".phase-detail").remove();
-        //
-        //
-        //                            e.preventDefault();
-        //                        }
-        //                    });
-        //
-        //                    $(".phase-master").animate({
-        //                        'marginLeft' : '+0%',
-        //                        'width': '100%',
-        //                        'top': '0px'
-        //                    });
-        //                    $(".phase-master").find(".box-tools.pull-right").show();
-        //                    $(".phase-master").find(".skill-tree-row.row-1").show();
-        //
-        //
-        //                    //console.debug(xhr,"saving or closing...");
-        //
-        //                    app.navigate('inquiry/'+xhr.gameId+'/phase/1');
-        //
-        //                    $(".phase-detail").hide();
-        //                    $(".phase-detail").remove();
-        //                }
-        //            });
-        //
-        //            $('input.response').keypress(function (e) {
-        //                var key = e.which;
-        //                if(key == 13){
-        //                    if  ($('input.response').val() == ""){
-        //
-        //                    }else{
-        //                        var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('input.response').val(), runId: window.Run.global_identifier, userEmail: 0 });
-        //                        newResponse.save({}, {
-        //                            beforeSend:setHeader,
-        //                            success: function(r, new_response){
-        //                                app.Responses.add(new_response);
-        //                            }
-        //                        });
-        //                    }
-        //                    $('input.response').val("");
-        //                }
-        //            });
-        //
-        //            $("button.new-todo-task").click(function(e){
-        //                $("div.new-todo-task").removeClass("hide");
-        //            });
-        //
-        //            $('input.new-todo-tasks-value').keypress(function (e) {
-        //                var key = e.which;
-        //                if(key == 13){
-        //                    if  ($('input.new-todo-tasks-value').val() == ""){
-        //
-        //                    }else{
-        //                        var newResponse = new Response({ generalItemId: xhr.id, responseValue: $('input.new-todo-tasks-value').val(), runId: window.Run.global_identifier, userEmail: 0 });
-        //                        newResponse.save({}, {
-        //                            beforeSend:setHeader,
-        //                            success: function(r, new_response){
-        //                                app.Responses.add(new_response);
-        //                            }
-        //                        });
-        //                    }
-        //
-        //                    $('input.new-todo-tasks-value').val("");
-        //                    $("div.new-todo-task").addClass("hide");
-        //                }
-        //            });
-        //
-        //            $(".phase-detail").show();
-        //        }
-        //    });
-        //
-        //    if($.cookie("dojoibl.run")){
-        //        window.Run.global_identifier = $.cookie("dojoibl.run");
-        //    }
-        //}
     },
     newInquiry: function(){
         this.isAuthenticated();
         app.showView(".row.inquiry", new InquiryNewView());
-        $("#wizard").steps();
+
+        $("#wizard").steps({
+            bodyTag: "div.step-content",
+            onStepChanging: function (event, currentIndex, newIndex){
+                // Always allow going backward even if the current step contains invalid fields!
+                if (currentIndex > newIndex)
+                {
+                    return true;
+                }
+
+                //Forbid suppressing "Warning" step if the user is to young
+                //if (newIndex === 1 && ( $("input#inquiry-title-value").val() == "" ||
+                //    $("input#inquiry-description-value").val() == "" ) )
+                //{
+                //    return false;
+                //}
+
+                var form = $(this).find("form");
+
+                console.log(event, currentIndex, newIndex, form);
+
+
+                // Clean up if user went backward before
+                if (currentIndex < newIndex)
+                {
+                    // To remove error styles
+                    $(".body:eq(" + newIndex + ") label.error", form).remove();
+                    $(".body:eq(" + newIndex + ") .error", form).removeClass("error");
+                }
+
+                // Disable validation on fields that are disabled or hidden.
+                form.validate().settings.ignore = ":disabled,:hidden";
+
+                // Start validation; Prevent going forward if false
+                return form.valid();
+            },
+            onStepChanged: function (event, currentIndex, priorIndex)
+            {
+                // Suppress (skip) "Warning" step if the user is old enough.
+                if (currentIndex === 2){
+                    console.log("hola");
+                    //$(this).steps("next");
+                }
+
+
+            },
+            onFinishing: function (event, currentIndex)
+            {
+                var form = $(this);
+
+                // Disable validation on fields that are disabled.
+                // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
+                form.validate().settings.ignore = ":disabled";
+
+                // Start validation; Prevent form submission if false
+                return form.valid();
+            },
+            onFinished: function (event, currentIndex)
+            {
+                var form = $(this);
+
+                // Submit form input
+                form.submit();
+            }
+        }).validate({
+            errorPlacement: function (error, element)
+            {
+                element.before(error);
+            },
+            rules: {
+                inquiry_title: "required",
+                inquiry_description: "required"
+            }
+        });
+
+        ////////////////////
+        // Manage activities
+        ////////////////////
+        this.newActivityNewInquiry(1);
+        this.removeActivity();
+
+        ////////////////
+        // Manage phases
+        ////////////////
+        this.newPhaseNewInquiry();
+
+
     },
     // util functions
+    newPhaseNewInquiry: function(){
+        $("li.new-phase").click(function(e){
+            e.preventDefault();
+            var _phase = new NewPhaseNewInquiryView({}).render().el;
+
+            var _number_phase = $("div[id*='tab']").length;
+            _number_phase += 1;
+
+            _phase.id = "tab-"+_number_phase;
+            $(".tab-content").append(_phase);
+
+
+
+            $('<li><a data-toggle="tab" href="#tab-'+_number_phase+'""> Phase '+_number_phase+'</a></li>').insertBefore($("ul.select-activities > li.new-phase"));
+
+
+
+            app.newActivityNewInquiry(_number_phase);
+
+            //$(".select2_demo_2").select2();
+            //
+            //var config = {
+            //    '.select2_demo_2'           : {},
+            //    '.select2_demo_2-deselect'  : {allow_single_deselect:true},
+            //    '.select2_demo_2-no-single' : {disable_search_threshold:10},
+            //    '.select2_demo_2-no-results': {no_results_text:'Oops, nothing found!'},
+            //    '.select2_demo_2-width'     : {width:"95%"}
+            //}
+            //for (var selector in config) {
+            //    $(selector).chosen(config[selector]);
+            //}
+
+        });
+    },
+    newActivityNewInquiry: function(tab){
+        $("#tab-"+tab+" button.new-activity").click(function(e){
+            e.preventDefault();
+            console.log($("div[id*='tab'].active"));
+            $("div[id*='tab'].active tbody").append(new NewActivityNewInquiryView({}).render().el);
+
+            ///////////////////////////////////////////////////////////////////
+            // We need to put it also here for those divs generated with jQuery
+            ///////////////////////////////////////////////////////////////////
+            app.removeActivity();
+        });
+    },
+    removeActivity: function(){
+        $("button.remove-activity").click(function(){
+            console.log($(this));
+            $(this).parent().parent().remove();
+        });
+    },
     initializeChannelAPI: function(){
         console.debug("[initializeChannelAPI]", "Initializing the chat");
         this.loadChat();
@@ -889,7 +819,7 @@ tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry', 'run', 'user', 'use
     'inquiry_sidebar', 'activityDependency', 'message', 'message_right', 'inquiry_left_sidebar','message_own', 'response', 'response_discussion', 'response_treeview','response_author', 'response_discussion_author',
     'message_notification','notification_floating', 'activity_video', 'activity_widget', 'activity_discussion', 'notification_sidebar', 'user_inquiry','activity_tree_view',
     'item_breadcrumb_phase'
-    , 'item_breadcrumb_activity', 'response_reply', 'inquiry_new', 'activity_concept_map'], function() {
+    , 'item_breadcrumb_activity', 'response_reply', 'inquiry_new', 'activity_concept_map', 'new_activity_new_inquiry', 'new_phase_new_inquiry'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });

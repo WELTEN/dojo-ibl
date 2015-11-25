@@ -9,13 +9,22 @@ window.Game = Backbone.Model.extend({
     idAttribute: 'gameId',
     initialize: function(a){
     },
-    url: function(){
-        return "/rest/myGames/gameId/"+this.id;
-    },
     defaults:{
         "title":"",
         "description": "",
         "accessRight": 0
+    },
+    methodToURL: {
+        'read': "/rest/myGames/gameId/"+this.id,
+        'create': '/rest/myGames',
+        'update': '/user/update',
+        'delete': '/user/remove'
+    },
+    sync: function(method, model, options) {
+        options = options || {};
+        options.url = model.methodToURL[method.toLowerCase()];
+
+        return Backbone.sync.apply(this, arguments);
     }
 });
 
@@ -103,7 +112,8 @@ window.Response = Backbone.Model.extend({
         "responseValue": "",
         "runId": 0,
         "userEmail": "",
-        "lastModificationDate": 0
+        "lastModificationDate": 0,
+        "parentId":0
     }
 });
 
