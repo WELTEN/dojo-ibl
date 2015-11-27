@@ -10,110 +10,27 @@ Backbone.View.prototype.close = function () {
 var AppRouter = Backbone.Router.extend({
     initialize: function() {
         this.RunList = new RunCollection({ });
+        this.UsersList = new UserCollection({ });
         this.Response = new ResponseCollection();
     },
     routes: {
-        ""			: "inquiries",
+        ""			: "showInquiries",
         "logout"			: "logout",
         "inquiry/:id"	: "showInquiry",
-        "inquiry/new/"	: "newInquiry",
+        "inquiry/new/"	: "createInquiry",
         "inquiry/:id/phase/:phase" : "showPhase",
         "inquiry/:id/phase/:phase/activity/:activity" : "showActivity"
     },
-    logout: function() {
-        $.cookie("dojoibl.run", null, { path: '/' });
-        $.cookie("dojoibl.game", null, { path: '/' });
-        $.cookie("arlearn.AccessToken", null, { path: '/' });
-        $.cookie("arlearn.OauthType", null, { path: '/' });
-        app.navigate('');
-        window.location.replace("/");
-    },
-    inquiries: function() {
+
+    // main views
+    showInquiries: function() {
+
         this.isAuthenticated();
         this.common();
         this.initialGame();
     },
-    initialGame: function(callback) {
-        this.changeTitle("Inquiries");
-
-        this.cleanMainView();
-
-        this.GameList = new GameCollection();
-
-        this.GameParticipateList = new GameParticipateCollection();
-        this.GameParticipateList.fetch({
-            beforeSend: setHeader,
-            success: successGameParticipateHandler
-        });
-
-        $(".confirm-new-inquiry").click(function(e){
-            var new_game = new MyGame({ title: $("#new_inquiry input").val(), description: $("#new_inquiry textarea").val() });
-            new_game.save({}, {
-                beforeSend:setHeader,
-                success: function(r, game){
-                    app.GameList.add(game);
-                    app.navigate('inquiry/new/');
-                    //var new_run = new MyRun({ title: $("#new_inquiry input").val(), gameId: game.gameId, description: $("#new_inquiry textarea").val() });
-                    //new_run.save({}, {
-                    //    beforeSend:setHeader,
-                    //    success: function(r, run){
-                    //        app.RunList.add(run);
-                    //
-                    //        console.log($.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId"));
-                    //
-                    //        var give_access_run = new GiveAccessToRun();
-                    //        give_access_run.runId = run.runId;
-                    //        give_access_run.accoundId = $.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId");
-                    //        give_access_run.accessRight = 1;
-                    //        give_access_run.fetch({
-                    //            beforeSend: setHeader,
-                    //            success: function(response, xhr){
-                    //                console.log(response, xhr);
-                    //            }
-                    //        });
-                    //    }
-                    //});
-                }
-            });
-            $('#new_inquiry').modal('toggle');
-            e.preventDefault();
-        });
-
-        //console.log("GameAccessList",app.GameAccessList);
-        //console.log("GameParticipateList", app.GameParticipateList);
-        //console.log("GameList", app.GameList);
-    },
-    initialRun: function(callback) {
-        if (this.RunList) {
-            if (callback)
-                callback();
-        } else {
-            this.RunAccessList = new RunAccessCollection();
-            this.RunAccessList.fetch({
-                beforeSend: setHeader,
-                success: function(response, xhr) {
-
-                    _.each(xhr.runAccess, function(e){
-
-                        this.RunList.id = e.runId;
-
-                        this.RunList.fetch({
-                            beforeSend: setHeader,
-                            success: function (response, results) {
-
-                                $('#inquiries > div > div.box-body').append( new RunListView({ model: results }).render().el );
-                                if (callback)
-                                    callback();
-                            }
-                        });
-                    });
-                }
-            });
-        }
-    },
     showInquiry:function (id) {
         this.isAuthenticated();
-
         $(".phases-breadcrumb").hide();
         window.Run.global_identifier = id;
 
@@ -134,9 +51,9 @@ var AppRouter = Backbone.Router.extend({
         this.RunList.fetch({
             beforeSend: setHeader,
             success: function (response, results) {
-                console.log(results);
                 app.showView('.row.inquiry', new InquiryView({ model: results }));
                 $('.row.inquiry').append(new SideBarView({ }).render().el);
+
                 $(".knob").knob();
 
                 $('.chat-discussion').slimScroll({
@@ -175,14 +92,6 @@ var AppRouter = Backbone.Router.extend({
             container: "body"
         });
 
-
-        //$("#circlemenu li").click(function(){
-        //
-        //});
-        ////this.loadInquiryUsers(id);
-        //this.initializeChannelAPI();
-        //this.loadChat(id);
-
         /////////////////////////////////////////////////////////////////////////////
         // Hide scroll bar while hovering the chat to make the chat experience easier
         // Avoid undesirable scrolling movements
@@ -202,6 +111,7 @@ var AppRouter = Backbone.Router.extend({
     },
     showPhase: function(id, phase){
         this.isAuthenticated();
+        this.loadChat();
 
         var _self = this;
         var _gameId = id;
@@ -249,46 +159,7 @@ var AppRouter = Backbone.Router.extend({
             });
         }, 500);
 
-        //var date = new Date();
-        //date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
-        //var expires = "; expires=" + date.toGMTString();
-        //$.cookie("dojoibl.game", id, {expires: date, path: "/"});
-        //
-        /////////////////////////////////////////////////////////////////////
-        //// If we refresh the in phase view we need to load everything again
-        /////////////////////////////////////////////////////////////////////
-        //if ( $("#inquiry").length == 0 || $("aside#summary").length == 0 ){
-        //    if($.cookie("dojoibl.run")){
-        //        $('#inquiries').html(new InquiryStructureView({ }).render().el);
-        //
-        //        this.RunList = new RunCollection({ });
-        //        this.RunList.id = $.cookie("dojoibl.run");
-        //
-        //        this.RunList.fetch({
-        //            beforeSend: setHeader,
-        //            success: function (response, results) {
-        //
-        //                this.inquiryView = new InquiryView({ model: results });
-        //
-        //                $('aside#summary').html(this.inquiryView.render().el);
-        //                $(".knob").knob();
-        //                $("#inquiry").hide();
-        //
-        //                _self.loadPhaseActivities(_id, _phase);
-        //                _self.common();
-        //                _self.loadChat($.cookie("dojoibl.run"));
-        //                _self.loadInquiryUsers($.cookie("dojoibl.run"));
-        //            }
-        //        });
-        //    }
-        //}
-        //
-        //this.loadPhaseActivities(id, phase);
-
     },
-    ////////////////////
-    // Manage activities
-    ////////////////////
     showActivity: function(id, phase, activity){
         this.isAuthenticated();
         this.common();
@@ -390,7 +261,7 @@ var AppRouter = Backbone.Router.extend({
             });
         }, 500);
     },
-    newInquiry: function(){
+    createInquiry: function(){
         this.isAuthenticated();
         app.showView(".row.inquiry", new InquiryNewView());
 
@@ -481,7 +352,86 @@ var AppRouter = Backbone.Router.extend({
 
 
     },
+
     // util functions
+    initialGame: function(callback) {
+        this.changeTitle("Inquiries");
+
+        this.cleanMainView();
+
+        this.GameList = new GameCollection();
+
+        this.GameParticipateList = new GameParticipateCollection();
+        this.GameParticipateList.fetch({
+            beforeSend: setHeader,
+            success: successGameParticipateHandler
+        });
+
+        $(".confirm-new-inquiry").click(function(e){
+            var new_game = new MyGame({ title: $("#new_inquiry input").val(), description: $("#new_inquiry textarea").val() });
+            new_game.save({}, {
+                beforeSend:setHeader,
+                success: function(r, game){
+                    app.GameList.add(game);
+                    app.navigate('inquiry/new/');
+                    //var new_run = new MyRun({ title: $("#new_inquiry input").val(), gameId: game.gameId, description: $("#new_inquiry textarea").val() });
+                    //new_run.save({}, {
+                    //    beforeSend:setHeader,
+                    //    success: function(r, run){
+                    //        app.RunList.add(run);
+                    //
+                    //        console.log($.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId"));
+                    //
+                    //        var give_access_run = new GiveAccessToRun();
+                    //        give_access_run.runId = run.runId;
+                    //        give_access_run.accoundId = $.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId");
+                    //        give_access_run.accessRight = 1;
+                    //        give_access_run.fetch({
+                    //            beforeSend: setHeader,
+                    //            success: function(response, xhr){
+                    //                console.log(response, xhr);
+                    //            }
+                    //        });
+                    //    }
+                    //});
+                }
+            });
+            $('#new_inquiry').modal('toggle');
+            e.preventDefault();
+        });
+
+        //console.log("GameAccessList",app.GameAccessList);
+        //console.log("GameParticipateList", app.GameParticipateList);
+        //console.log("GameList", app.GameList);
+    },
+    initialRun: function(callback) {
+        if (this.RunList) {
+            if (callback)
+                callback();
+        } else {
+            this.RunAccessList = new RunAccessCollection();
+            this.RunAccessList.fetch({
+                beforeSend: setHeader,
+                success: function(response, xhr) {
+
+                    _.each(xhr.runAccess, function(e){
+
+                        this.RunList.id = e.runId;
+
+                        this.RunList.fetch({
+                            beforeSend: setHeader,
+                            success: function (response, results) {
+
+                                $('#inquiries > div > div.box-body').append( new RunListView({ model: results }).render().el );
+                                if (callback)
+                                    callback();
+                            }
+                        });
+                    });
+                }
+            });
+        }
+    },
     newPhaseNewInquiry: function(){
         $("li.new-phase").click(function(e){
             e.preventDefault();
@@ -493,11 +443,7 @@ var AppRouter = Backbone.Router.extend({
             _phase.id = "tab-"+_number_phase;
             $(".tab-content").append(_phase);
 
-
-
             $('<li><a data-toggle="tab" href="#tab-'+_number_phase+'""> Phase '+_number_phase+'</a></li>').insertBefore($("ul.select-activities > li.new-phase"));
-
-
 
             app.newActivityNewInquiry(_number_phase);
 
@@ -534,9 +480,19 @@ var AppRouter = Backbone.Router.extend({
             $(this).parent().parent().remove();
         });
     },
+    showView: function(selector, view) {
+        if (this.currentView) {
+            this.currentView.close();
+        }
+        $(selector).html(view.render().el);
+        this.currentView = view;
+        return view;
+    },
+
+    // chat
     initializeChannelAPI: function(){
         console.debug("[initializeChannelAPI]", "Initializing the chat");
-        this.loadChat();
+
 
         this.ChannelAPI = new ChannelAPICollection();
         this.ChannelAPI.fetch({
@@ -654,9 +610,10 @@ var AppRouter = Backbone.Router.extend({
                 socket.onclose = function() { $('#messages').append('<p>Connection Closed!</p>'); };
             }
         });
+        this.loadChat();
 
     },
-    loadChat: function(id){
+    loadChat: function(){
         console.debug("[loadChat]", "Loading the chat content");
         this.MessagesList = new MessageCollection();
         this.MessagesList.id = $.cookie("dojoibl.run");
@@ -667,19 +624,26 @@ var AppRouter = Backbone.Router.extend({
                 console.info("TODO: retrieve messages per blocks");
 
                 _.each(xhr.messages, function(message){
+                    console.log(message);
                     //////////////////////////////////////////////////////////////
                     // TODO make different type of message if it is not my message
                     // TODO place the focus at the end of the chat box
                     //////////////////////////////////////////////////////////////
-                    if (message.senderId == app.UserList.at(0).toJSON().localId){
+                    if (message.senderId == app.UsersList.at(0).toJSON().localId){
                         $('.chat-discussion').append(new MessageRightView({ model: message }).render().el);
                     }else{
                         $('.chat-discussion').append(new MessageLeftView({ model: message }).render().el);
                     }
 
-                    $('.chat-discussion').animate({
-                        scrollTop: $('.chat-discussion')[0].scrollHeight
-                    }, 0);
+                    //if($('.chat-discussion').length != 0){
+                    //    console.log($('.chat-discussion')[0])
+                    //    $('.chat-discussion').animate({
+                    //        scrollTop: $('.chat-discussion')[0].scrollHeight
+                    //    }, 0);
+                    //}else{
+                    //    console.log($('.chat-discussion'));
+                    //}
+
                 });
             }
         });
@@ -688,60 +652,8 @@ var AppRouter = Backbone.Router.extend({
         //    scrollTop: $('.direct-chat-messages')[0].scrollHeight
         //}, 2000);
     },
-    common: function(callback) {
-        // Load user information
-        this.UserList = new UserCollection();
-        this.UserList.fetch({
-            beforeSend: setHeader,
-            success: function(response, xhr) {
-                $(".m-r-sm.text-muted.welcome-message").html("Welcome "+xhr.givenName+" "+xhr.familyName);
-                app.showView('ul.nav.metismenu > li:eq(0)', new UserView({ model: xhr }));
 
-                var date = new Date();
-                date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
-                var expires = "; expires=" + date.toGMTString();
-
-                $.cookie("dojoibl.accountType", xhr.accountType , {expires: date, path: "/"});
-                $.cookie("dojoibl.localId", xhr.localId , {expires: date, path: "/"});
-            }
-        });
-
-    },
-    loadInquiryUsers: function(id){
-        if(!this.InquiryUsers){
-            // Load users of the Inquiry
-            this.InquiryUsers = new UserRunCollection({});
-            this.InquiryUsers.runId = id;
-            this.InquiryUsers.fetch({
-                beforeSend: setHeader,
-                success: successInquiryUsers
-            });
-        }
-    },
-    showView: function(selector, view) {
-        if (this.currentView) {
-            this.currentView.close();
-            console.log(this.currentView);
-        }
-        $(selector).html(view.render().el);
-        this.currentView = view;
-        return view;
-    },
-    isAuthenticated: function (){
-        if($.cookie("arlearn.AccessToken") === "null"){
-            if(window.location.hostname.toLowerCase().indexOf("localhost") >= 0){
-                window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://localhost:8888/oauth/wespot&response_type=code&scope=profile+email";
-            }else{
-                window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email";
-            }
-        }
-    },
-    changeTitle: function(title) {
-        $('.row.wrapper.border-bottom.white-bg.page-heading > .col-sm-3 > h2').html(title);
-    },
-    cleanMainView: function(){
-        $(".inquiry").html("");
-    },
+    // common
     breadcrumbManager: function(level, title_1, title_2){
         $(".col-sm-7.breadcrumb-flow.tooltip-demo").html("");
         for (var i = 0; i < level; i++) {
@@ -760,6 +672,58 @@ var AppRouter = Backbone.Router.extend({
             $(".col-sm-7.breadcrumb-flow.tooltip-demo > div").removeClass("animated tada");
             $(".col-sm-7.breadcrumb-flow.tooltip-demo > div:last-child").addClass("animated tada");
         }
+    },
+    changeTitle: function(title) {
+        $('.row.wrapper.border-bottom.white-bg.page-heading > .col-sm-3 > h2').html(title);
+    },
+    cleanMainView: function(){
+        $(".inquiry").html("");
+    },
+    common: function(callback) {
+        app.UsersList.fetch({
+            beforeSend: setHeader,
+            success: function(response, xhr) {
+                $(".m-r-sm.text-muted.welcome-message").html("Welcome "+xhr.givenName+" "+xhr.familyName);
+                app.showView('ul.nav.metismenu > li:eq(0)', new UserView({ model: xhr }));
+
+                var date = new Date();
+                date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+
+                $.cookie("dojoibl.accountType", xhr.accountType , {expires: date, path: "/"});
+                $.cookie("dojoibl.localId", xhr.localId , {expires: date, path: "/"});
+            }
+        });
+    },
+    loadInquiryUsers: function(id){
+        if(!this.InquiryUsers){
+            // Load users of the Inquiry
+            this.InquiryUsers = new UserRunCollection({});
+            this.InquiryUsers.runId = id;
+            this.InquiryUsers.fetch({
+                beforeSend: setHeader,
+                success: successInquiryUsers
+            });
+        }
+    },
+
+    // authentication
+    isAuthenticated: function (){
+        if($.cookie("arlearn.AccessToken") === "null"){
+            if(window.location.hostname.toLowerCase().indexOf("localhost") >= 0){
+                window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://localhost:8888/oauth/wespot&response_type=code&scope=profile+email";
+            }else{
+                window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email";
+            }
+        }
+    },
+    logout: function() {
+        $.cookie("dojoibl.run", null, { path: '/' });
+        $.cookie("dojoibl.game", null, { path: '/' });
+        $.cookie("arlearn.AccessToken", null, { path: '/' });
+        $.cookie("arlearn.OauthType", null, { path: '/' });
+        app.navigate('');
+        window.location.replace("/");
     }
 });
 
