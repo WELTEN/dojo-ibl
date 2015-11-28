@@ -29,20 +29,16 @@ var AppRouter = Backbone.Router.extend({
         this.common();
         this.initialGame();
     },
+
     showInquiry:function (id) {
         this.isAuthenticated();
         $(".phases-breadcrumb").hide();
-        window.Run.global_identifier = id;
 
-        var date = new Date();
-        date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
-        var expires = "; expires=" + date.toGMTString();
-
-        $.cookie("dojoibl.run", id, {expires: date, path: "/"});
+        this.createCookie("dojoibl.run", id);
 
         this.common();
-        this.changeTitle("Inquiry view");
         this.breadcrumbManager(0, "");
+
         this.initializeChannelAPI();
 
         this.RunList = new RunCollection({ });
@@ -51,6 +47,10 @@ var AppRouter = Backbone.Router.extend({
         this.RunList.fetch({
             beforeSend: setHeader,
             success: function (response, results) {
+
+                app.breadcrumbManagerSmall(1,results.title);
+                app.changeTitle(results.title);
+
                 app.showView('.row.inquiry', new InquiryView({ model: results }));
                 $('.row.inquiry').append(new SideBarView({ }).render().el);
 
@@ -122,16 +122,14 @@ var AppRouter = Backbone.Router.extend({
             _runId = $.cookie("dojoibl.run");
         }
 
-        var date = new Date();
-        date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
-        var expires = "; expires=" + date.toGMTString();
-
-        $.cookie("dojoibl.game", _gameId, {expires: date, path: "/"});
+        this.createCookie("dojoibl.game", _gameId);
 
         $("#circlemenu li:nth-child("+phase+")").addClass("animated bounceOutUp");
         window.setTimeout(function () {
             app.breadcrumbManager(1, "Data collection");
-            app.changeTitle("Data collection");
+
+            //app.breadcrumbManagerSmall(1, phase);
+            app.changeTitle("Name of the phase to be changed");
 
             $(this).addClass("animated fadeOutUpBig");
             this.ActivityList = new ActivitiesCollection({ });
@@ -184,7 +182,8 @@ var AppRouter = Backbone.Router.extend({
                 beforeSend: setHeader,
                 success: function (response, xhr) {
                     app.breadcrumbManager(2, "Data Collection", xhr.name );
-                    app.changeTitle("Phase name");
+                    app.changeTitle(xhr.name);
+                    //app.breadcrumbManagerSmall(2, app.GameList.get(_gameId).get("title"), "Data Collection");
 
                     if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
                         $(".row.inquiry").append($('<div />', {
@@ -193,7 +192,7 @@ var AppRouter = Backbone.Router.extend({
                             }
                         ));
 
-                        if($(".col-lg-3.wrapper.wrapper-content").length == 0){
+                        if($(".col-lg-3.wrapper.wrapper-content.small-chat-float").length == 0){
                             $('.row.inquiry').append(new SideBarView({ }).render().el);
                         }
                     }
@@ -235,7 +234,6 @@ var AppRouter = Backbone.Router.extend({
 
                         $('#list_answers').addClass("social-footer");
                         $('#list_answers').append(new ResponseReplyView({}).render().el);
-
 
                         ///////////////////////////////////////////////////////////////////////////
                         // This event should be captured outside to manage the comments in the main
@@ -355,7 +353,7 @@ var AppRouter = Backbone.Router.extend({
 
     // util functions
     initialGame: function(callback) {
-        this.changeTitle("Inquiries");
+        //this.changeTitle("Inquiries");
 
         this.cleanMainView();
 
@@ -487,6 +485,13 @@ var AppRouter = Backbone.Router.extend({
         $(selector).html(view.render().el);
         this.currentView = view;
         return view;
+    },
+    createCookie: function (name, value) {
+        var date = new Date();
+        date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
+        var expires = "; expires=" + date.toGMTString();
+
+        $.cookie(name, value, {expires: date, path: "/"});
     },
 
     // chat
@@ -656,14 +661,18 @@ var AppRouter = Backbone.Router.extend({
     // common
     breadcrumbManager: function(level, title_1, title_2){
         $(".col-sm-7.breadcrumb-flow.tooltip-demo").html("");
+
         for (var i = 0; i < level; i++) {
             $(".col-sm-7.breadcrumb-flow.tooltip-demo").append(new ItemBreadcrumbView({ }).render().el);
             switch(i){
                 case 0:
+                    // Inquiry
                     $(".col-sm-7.breadcrumb-flow.tooltip-demo > div:nth-child("+1+")").addClass("phase ");
                     $(".col-sm-7.breadcrumb-flow.tooltip-demo > div:nth-child("+1+") > .phases-breadcrumb").attr({ "title": title_1 });
+
                     break;
                 case 1:
+                    // Phase
                     $(".col-sm-7.breadcrumb-flow.tooltip-demo > div:nth-child("+2+")").addClass("activity animated tada");
                     $(".col-sm-7.breadcrumb-flow.tooltip-demo > div:nth-child("+2+") > .phases-breadcrumb").attr({ "title": title_2 });
                     $(".col-sm-7.breadcrumb-flow.tooltip-demo > div:nth-child("+2+") > .phases-breadcrumb > input").attr({ "value": 23 });
@@ -671,6 +680,23 @@ var AppRouter = Backbone.Router.extend({
             }
             $(".col-sm-7.breadcrumb-flow.tooltip-demo > div").removeClass("animated tada");
             $(".col-sm-7.breadcrumb-flow.tooltip-demo > div:last-child").addClass("animated tada");
+        }
+    },
+    breadcrumbManagerSmall: function(level, label_inquiry, label_phase){
+        $("ol.breadcrumb").html("");
+        $("ol.breadcrumb");
+        for (var i = 0; i <= level; i++) {
+            switch(i){
+                case 0:
+                    $("ol.breadcrumb").append('<li><a href="main.html"><strong>Home</strong></a></li>');
+                    break;
+                case 1:
+                    $("ol.breadcrumb").append('<li><a href=""><strong>'+label_inquiry+'</strong></a></li>');
+                    break;
+                case 2:
+                    $("ol.breadcrumb").append('<li><a href=""><strong>'+label_phase+'</strong></a></li>');
+                    break;
+            }
         }
     },
     changeTitle: function(title) {
@@ -709,13 +735,18 @@ var AppRouter = Backbone.Router.extend({
 
     // authentication
     isAuthenticated: function (){
-        if($.cookie("arlearn.AccessToken") === "null"){
-            if(window.location.hostname.toLowerCase().indexOf("localhost") >= 0){
-                window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://localhost:8888/oauth/wespot&response_type=code&scope=profile+email";
-            }else{
-                window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email";
+        app.UsersList.fetch({
+            beforeSend: setHeader,
+            success: function(response, xhr) {
+                if(typeof xhr == 'undefined' || xhr.errorCode == 2){
+                    if(window.location.hostname.toLowerCase().indexOf("localhost") >= 0){
+                        window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://localhost:8888/oauth/wespot&response_type=code&scope=profile+email";
+                    }else{
+                        window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email";
+                    }
+                }
             }
-        }
+        });
     },
     logout: function() {
         $.cookie("dojoibl.run", null, { path: '/' });

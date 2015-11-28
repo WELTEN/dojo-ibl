@@ -203,7 +203,7 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
 
 window.SideBarView = Backbone.View.extend({
     tagName:  "div",
-    className: "col-lg-3 wrapper wrapper-content",
+    className: "col-lg-3 wrapper wrapper-content small-chat-float",
     initialize:function () {
         this.template = _.template(tpl.get('inquiry_sidebar'));
     },
@@ -407,6 +407,7 @@ window.ActivityView = Backbone.View.extend({
             //console.debug("OpenBadge");
             this.template = _.template(tpl.get('activity_widget'));
         }else if(xhr.model.type.indexOf("AudioObject") > -1) {
+            console.log("Insert html");
             this.template = _.template(tpl.get('activity_discussion'));
         }else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
             this.template = _.template(tpl.get('activity_tree_view'));
