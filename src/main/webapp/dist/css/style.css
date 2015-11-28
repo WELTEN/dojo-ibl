@@ -3687,6 +3687,7 @@ code {
   border-image: none;
   border-style: solid solid none;
   border-width: 1px 0px;
+  border-radius: 5px;
 }
 .ibox-chat-content textarea{
 
@@ -4949,7 +4950,7 @@ dd.project-people {
   float: left;
   /*margin-right: 10px;*/
 }
-.chat-discussion .chat-message.right .message-avatar {
+.chat-discussion .chat-message.right .message-avatar, .small-chat-float {
   float: right;
   /*margin-left: 10px;*/
 }
