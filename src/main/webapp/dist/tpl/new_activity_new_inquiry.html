@@ -1,19 +1,20 @@
 <td>
-    <select class="form-control" >
-        <option>Video</option>
-        <option>Plugin</option>
-        <option>Concept map</option>
-        <option selected>Discussion</option>
+    <select class="form-control type-activity" >
+        <option value="org.celstec.arlearn2.beans..generalItem.VideoObject">Video</option>
+        <option value="org.celstec.arlearn2.beans..generalItem.OpenBadge">Widget</option>
+        <option value="org.celstec.arlearn2.beans..generalItem.AudioObject">HTML</option>
+        <option value="org.celstec.arlearn2.beans..generalItem.SingleChoiceImageTest">Concept map</option>
+        <option  value="org.celstec.arlearn2.beans..generalItem.NarratorItem" selected>Discussion</option>
     </select>
 </td>
 <td>
-    <input type="text" class="form-control" placeholder="Activity title">
+    <input type="text" class="form-control title-activity" placeholder="Activity title">
 </td>
 <td>
-    <input type="text" class="form-control" placeholder="Description">
+    <input type="text" class="form-control description-activity" placeholder="Description">
 </td>
 <td>
-    <select class="form-control" >
+    <select class="form-control roles-activity" >
         <option>Explainer</option>
         <option>Data collector</option>
         <option>Wonderer</option>

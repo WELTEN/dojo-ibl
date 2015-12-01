@@ -9,9 +9,11 @@ Backbone.View.prototype.close = function () {
 
 var AppRouter = Backbone.Router.extend({
     initialize: function() {
+        this.GameList = new GameCollection();
         this.RunList = new RunCollection({ });
         this.UsersList = new UserCollection({ });
         this.Response = new ResponseCollection();
+        this.ActivityList = new ActivityCollection({ });
     },
     routes: {
         ""			: "showInquiries",
@@ -281,7 +283,7 @@ var AppRouter = Backbone.Router.extend({
 
                 var form = $(this).find("form");
 
-                console.log(event, currentIndex, newIndex, form);
+                //console.log(event, currentIndex, newIndex, form);
 
 
                 // Clean up if user went backward before
@@ -301,12 +303,98 @@ var AppRouter = Backbone.Router.extend({
             onStepChanged: function (event, currentIndex, priorIndex)
             {
                 // Suppress (skip) "Warning" step if the user is old enough.
-                if (currentIndex === 2){
-                    console.log("hola");
-                    //$(this).steps("next");
+                if (currentIndex === 3){
+
+                    ///////////////////
+                    // Create the game
+                    ///////////////////
+                    var newGame = new Game({ title: $("#inquiry-title-value").val(), description: $("#inquiry-description-value").val() });
+                    newGame.save({}, {
+                        beforeSend:setHeader,
+                        success: function(r, new_response){
+                            var _gameId = new_response.gameId;
+                            var _name = new_response.title;
+                            var _description = new_response.description;
+
+                            app.GameList.add(new_response);
+
+                            $("div[id*='tab'] table > tbody > tr").each(function(i) {
+                                var selects = $(this).find("option:selected");
+                                var fields = $(this).find(":text");
+
+                                var type = selects.eq(0).val();
+                                var roles = selects.eq(1).val();
+
+                                var name = fields.eq(0).val();
+                                var description = fields.eq(1).val();
+
+                                ///////////////////
+                                // To get the phase
+                                ///////////////////
+                                var phase = $(this).closest("div[id*='tab']").attr("id").substring(4,5);
+                                console.log(phase);
+                                console.log(name, description);
+                                console.log(type, roles);
+
+                                /////////////////////////////////
+                                // Create the run for the inquiry
+                                /////////////////////////////////
+                                var newRun = new Activity({
+                                    title: _name,
+                                    description: _description,
+                                    gameId: _gameId
+                                });
+                                newRun.save({}, {
+                                    beforeSend:setHeader,
+                                    success: function(r, new_response){
+                                        app.RunList.add(new_response);
+                                    }
+                                });
+
+                                /////////////////////////////////////
+                                // Create the activity = General Item
+                                /////////////////////////////////////
+                                var newActivity = new Activity({
+                                    name: name,
+                                    description: description,
+                                    type: type,
+                                    section: phase,
+                                    gameId: _gameId
+                                });
+                                newActivity.save({}, {
+                                    beforeSend:setHeader,
+                                    success: function(r, new_response){
+                                        app.ActivityList.add(new_response);
+                                    }
+                                });
+
+
+                                //var new_run = new MyRun({ title: $("#new_inquiry input").val(), gameId: game.gameId, description: $("#new_inquiry textarea").val() });
+                                //new_run.save({}, {
+                                //    beforeSend:setHeader,
+                                //    success: function(r, run){
+                                //        app.RunList.add(run);
+                                //
+                                //        console.log($.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId"));
+                                //
+                                //        var give_access_run = new GiveAccessToRun();
+                                //        give_access_run.runId = run.runId;
+                                //        give_access_run.accoundId = $.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId");
+                                //        give_access_run.accessRight = 1;
+                                //        give_access_run.fetch({
+                                //            beforeSend: setHeader,
+                                //            success: function(response, xhr){
+                                //                console.log(response, xhr);
+                                //            }
+                                //        });
+                                //    }
+                                //});
+
+
+                            });
+                        }
+                    });
                 }
-
-
             },
             onFinishing: function (event, currentIndex)
             {
@@ -357,46 +445,24 @@ var AppRouter = Backbone.Router.extend({
 
         this.cleanMainView();
 
-        this.GameList = new GameCollection();
-
         this.GameParticipateList = new GameParticipateCollection();
         this.GameParticipateList.fetch({
             beforeSend: setHeader,
             success: successGameParticipateHandler
         });
 
-        $(".confirm-new-inquiry").click(function(e){
-            var new_game = new MyGame({ title: $("#new_inquiry input").val(), description: $("#new_inquiry textarea").val() });
-            new_game.save({}, {
-                beforeSend:setHeader,
-                success: function(r, game){
-                    app.GameList.add(game);
-                    app.navigate('inquiry/new/');
-                    //var new_run = new MyRun({ title: $("#new_inquiry input").val(), gameId: game.gameId, description: $("#new_inquiry textarea").val() });
-                    //new_run.save({}, {
-                    //    beforeSend:setHeader,
-                    //    success: function(r, run){
-                    //        app.RunList.add(run);
-                    //
-                    //        console.log($.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId"));
-                    //
-                    //        var give_access_run = new GiveAccessToRun();
-                    //        give_access_run.runId = run.runId;
-                    //        give_access_run.accoundId = $.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId");
-                    //        give_access_run.accessRight = 1;
-                    //        give_access_run.fetch({
-                    //            beforeSend: setHeader,
-                    //            success: function(response, xhr){
-                    //                console.log(response, xhr);
-                    //            }
-                    //        });
-                    //    }
-                    //});
-                }
-            });
-            $('#new_inquiry').modal('toggle');
-            e.preventDefault();
-        });
+        //$(".confirm-new-inquiry").click(function(e){
+        //    var new_game = new MyGame({ title: $("#new_inquiry input").val(), description: $("#new_inquiry textarea").val() });
+        //    new_game.save({}, {
+        //        beforeSend:setHeader,
+        //        success: function(r, game){
+        //            app.GameList.add(game);
+        //            app.navigate('inquiry/new/');
+        //         }
+        //    });
+        //    $('#new_inquiry').modal('toggle');
+        //    e.preventDefault();
+        //});
 
         //console.log("GameAccessList",app.GameAccessList);
         //console.log("GameParticipateList", app.GameParticipateList);
@@ -796,6 +862,7 @@ var successGameHandler = function(response, xhr){
         var _gl = app.GameList.get(e.gameId);
         if(!_gl) {
             var game = new Game({ gameId: e.gameId });
+            game.gameId = e.gameId;
             game.fetch({
                 beforeSend: setHeader,
                 success: function (response, game) {

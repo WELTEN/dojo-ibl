@@ -15,7 +15,7 @@ window.Game = Backbone.Model.extend({
         "accessRight": 0
     },
     methodToURL: {
-        'read': "/rest/myGames/gameId/"+this.id,
+        'read': "/rest/myGames/gameId/"+this.gameId,
         'create': '/rest/myGames',
         'update': '/user/update',
         'delete': '/user/remove'
@@ -50,6 +50,16 @@ window.Run = Backbone.Model.extend({
     global_identifier: 0,
     initialize: function(a){
         //console.log("Run initialize");
+    },
+    methodToURL: {
+        'read': "/rest/myRuns/runId/"+this.id,
+        'create': '/rest/myRuns'
+    },
+    sync: function(method, model, options) {
+        options = options || {};
+        options.url = model.methodToURL[method.toLowerCase()];
+
+        return Backbone.sync.apply(this, arguments);
     }
 });
 
@@ -60,18 +70,15 @@ window.User = Backbone.Model.extend({
 });
 
 window.Activity = Backbone.Model.extend({
-    initialize: function(a){
-        //console.log("Activity/generalItem initialize");
+    methodToURL: {
+        'read': "/rest/generalItems/gameId/"+this.gameId+"/generalItem/"+this.id,
+        'create': '/rest/generalItems'
     },
-    defaults:{
-        "id":null,
-        "name":"",
-        "sortKey":0,
-        "description":"",
-        "lastModificationDate":0,
-        "gameId":0,
-        "dependsOn":"",
-        "roles":""
+    sync: function(method, model, options) {
+        options = options || {};
+        options.url = model.methodToURL[method.toLowerCase()];
+
+        return Backbone.sync.apply(this, arguments);
     }
 });
 
@@ -300,9 +307,7 @@ var setHeader = function (xhr) {
         $.cookie("arlearn.AccessToken", accessToken, {expires: date, path: "/"});
         $.cookie("arlearn.OauthType", 2, {expires: date, path: "/"});
 
-        document.location = "/";
-
-
+        document.location = "/main.html";
     }
 
     if($.cookie("arlearn.AccessToken")){

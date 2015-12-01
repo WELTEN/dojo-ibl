@@ -52,7 +52,7 @@ public abstract class OauthWorker {
 	protected void sendRedirect(String accessToken, String expires, int type) {
 		long expiresLong = 3600*24*7l; 
 		try {
-			resp.sendRedirect(baseUrl+"/index.html?accessToken=" + accessToken + "&type=" + type + "&exp=" + expiresLong);
+			resp.sendRedirect(baseUrl+"/main.html?accessToken=" + accessToken + "&type=" + type + "&exp=" + expiresLong);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
