@@ -21,17 +21,14 @@ $(document).ready(function () {
 
         event.preventDefault();
 
-        console.log("click login");
-
-        if($.cookie("arlearn.AccessToken")){
-            var accessToken = $.cookie("arlearn.AccessToken");
-            if(accessToken == "" || accessToken == "null"){
-                if(window.location.hostname.toLowerCase().indexOf("localhost") >= 0){
-                    window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://localhost:8888/oauth/wespot&response_type=code&scope=profile+email";
-                }else{
-                    window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email";
-                }
+        if(typeof $.cookie("arlearn.AccessToken") == 'undefined' || $.cookie("arlearn.AccessToken") == "" || $.cookie("arlearn.AccessToken") == "null"){
+            if(window.location.hostname.toLowerCase().indexOf("localhost") >= 0){
+                window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://localhost:8888/oauth/wespot&response_type=code&scope=profile+email";
+            }else{
+                window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email";
             }
+        }else {
+
         }
     });
 });
