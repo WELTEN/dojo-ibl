@@ -28,7 +28,7 @@ $(document).ready(function () {
                 window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email";
             }
         }else {
-
+            window.location = "main.html";
         }
     });
 });
