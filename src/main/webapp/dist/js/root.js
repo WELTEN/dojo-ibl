@@ -53,6 +53,8 @@ var AppRouter = Backbone.Router.extend({
             beforeSend: setHeader,
             success: function (response, results) {
 
+                console.log("load run info and add sidebarview");
+
                 app.breadcrumbManagerSmall(1,results.title);
                 app.changeTitle(results.title);
 

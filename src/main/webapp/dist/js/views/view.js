@@ -206,6 +206,7 @@ window.SideBarView = Backbone.View.extend({
     className: "col-lg-3 wrapper wrapper-content small-chat-float",
     initialize:function () {
         _.bindAll(this, 'cleanup');
+        this.$el.on('destroyed', this.cleanup);
         this.template = _.template(tpl.get('inquiry_sidebar'));
     },
     render:function () {
@@ -238,8 +239,13 @@ window.SideBarView = Backbone.View.extend({
             $('input#add-new-message').val('');
         }
     },
+    removeHandler: function(){
+        // Your processing code here
+        this.cleanup();
+    },
     cleanup: function() {
         this.undelegateEvents();
+        console.log(this);
         $(this.el).empty();
     }
 });
