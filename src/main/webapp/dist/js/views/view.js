@@ -205,12 +205,42 @@ window.SideBarView = Backbone.View.extend({
     tagName:  "div",
     className: "col-lg-3 wrapper wrapper-content small-chat-float",
     initialize:function () {
+        _.bindAll(this, 'cleanup');
         this.template = _.template(tpl.get('inquiry_sidebar'));
     },
     render:function () {
         $(this.el).html(this.template());
 
         return this;
+    },
+    events: {
+        "click #send-message": "clickMessage",
+        "keypress #add-new-message": "pressKeyMessage"
+    },
+    clickMessage: function() {
+        var newMessage = new Message({ runId: $.cookie("dojoibl.run"), threadId: 0, subject: "", body: $('input#add-new-message').val() });
+
+        newMessage.save({}, {
+            beforeSend:setHeader
+        });
+        $('input#add-new-message').val('');
+    },
+    pressKeyMessage: function(e){
+        var key = e.which;
+        if(key == 13){
+            console.log($(this));
+            console.log("message send");
+            var newMessage = new Message({ runId: $.cookie("dojoibl.run"), threadId: 0, subject: "", body: $('input#add-new-message').val() });
+
+            newMessage.save({}, {
+                beforeSend:setHeader
+            });
+            $('input#add-new-message').val('');
+        }
+    },
+    cleanup: function() {
+        this.undelegateEvents();
+        $(this.el).empty();
     }
 });
 
@@ -1245,12 +1275,16 @@ window.InquiryLeftSidebarView = Backbone.View.extend({
 window.InquirySidebarView = Backbone.View.extend({
     initialize:function () {
         this.template = _.template(tpl.get('inquiry_sidebar'));
-        console.log("load inquiry sidebar");
+
     },
     render:function () {
         $(this.el).html(this.template(this.model));
 
         return this;
+    },
+    cleanup: function() {
+        this.undelegateEvents();
+        $(this.el).empty();
     }
 });
 

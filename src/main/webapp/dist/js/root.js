@@ -3,6 +3,7 @@ Backbone.View.prototype.close = function () {
     if (this.beforeClose) {
         this.beforeClose();
     }
+    this.undelegateEvents();
     this.remove();
     this.unbind();
 };
@@ -30,6 +31,7 @@ var AppRouter = Backbone.Router.extend({
         this.isAuthenticated();
         this.common();
         this.initialGame();
+        this.initializeChannelAPI();
     },
 
     showInquiry:function (id) {
@@ -42,6 +44,7 @@ var AppRouter = Backbone.Router.extend({
         this.breadcrumbManager(0, "");
 
         this.initializeChannelAPI();
+        this.loadChat();
 
         this.RunList = new RunCollection({ });
         this.RunList.id = id;
@@ -62,29 +65,6 @@ var AppRouter = Backbone.Router.extend({
                     height: '400px',
                     start: 'bottom',
                     railOpacity: 0.4
-                });
-
-                $('input#add-new-message').keypress(function (e) {
-                    var key = e.which;
-                    if(key == 13){
-                        console.log("message send");
-                        var newMessage = new Message({ runId: id, threadId: 0, subject: "", body: $('input#add-new-message').val() });
-
-                        newMessage.save({}, {
-                            beforeSend:setHeader
-                        });
-                        $('input#add-new-message').val('');
-                    }
-                });
-
-                $('button#send-message').click(function(){
-
-                    var newMessage = new Message({ runId: id, threadId: 0, subject: "", body: $('input#add-new-message').val() });
-
-                    newMessage.save({}, {
-                        beforeSend:setHeader
-                    });
-                    $('input#add-new-message').val('');
                 });
             }
         });
@@ -113,7 +93,6 @@ var AppRouter = Backbone.Router.extend({
     },
     showPhase: function(id, phase){
         this.isAuthenticated();
-        this.loadChat();
 
         var _self = this;
         var _gameId = id;
@@ -144,6 +123,8 @@ var AppRouter = Backbone.Router.extend({
                     id: "inquiry-content"
                 }));
                 $('.row.inquiry').append(new SideBarView({ }).render().el);
+                app.initializeChannelAPI();
+                app.loadChat();
             }
 
             $("#inquiry-content").html(new PhaseView().render().el);
@@ -196,11 +177,14 @@ var AppRouter = Backbone.Router.extend({
 
                         if($(".col-lg-3.wrapper.wrapper-content.small-chat-float").length == 0){
                             $('.row.inquiry').append(new SideBarView({ }).render().el);
+                            app.initializeChannelAPI();
+                            app.loadChat();
                         }
                     }
 
 
                     $("#inquiry-content").html(new ActivityView({ model: xhr }).render().el);
+
                     $(".knob").knob();
 
                     if(xhr.type.indexOf("SingleChoiceImageTest") > -1) {
@@ -681,10 +665,15 @@ var AppRouter = Backbone.Router.extend({
                 socket.onclose = function() { $('#messages').append('<p>Connection Closed!</p>'); };
             }
         });
-        this.loadChat();
+        //this.loadChat();
 
     },
     loadChat: function(){
+
+        if($(".chat-discussion").length != 0){
+            console.log("hay chat");
+        }
+
         console.debug("[loadChat]", "Loading the chat content");
         this.MessagesList = new MessageCollection();
         this.MessagesList.id = $.cookie("dojoibl.run");
@@ -695,7 +684,7 @@ var AppRouter = Backbone.Router.extend({
                 console.info("TODO: retrieve messages per blocks");
 
                 _.each(xhr.messages, function(message){
-                    console.log(message);
+                    //console.log(message);
                     //////////////////////////////////////////////////////////////
                     // TODO make different type of message if it is not my message
                     // TODO place the focus at the end of the chat box
@@ -825,10 +814,7 @@ var AppRouter = Backbone.Router.extend({
 });
 
 var messageNotifications = function (r, a, message){
-
     console.log(message);
-
-
 };
 
 var successInquiryUsers = function(response, xhr){
