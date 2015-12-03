@@ -181,7 +181,30 @@ public class GeneralItems extends Service {
 		giError.setError("id " + itemId + " does not exist");
 		return serialise(giError, accept);
 	}
-	
+
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Path("/gameId/{gameIdentifier}/section/{sectionId}")
+	public String getArtifactBySection(@HeaderParam("Authorization") String token,
+							  @PathParam("gameIdentifier") Long gameIdentifier,
+							  @PathParam("sectionId") String sectionId,
+							  @DefaultValue("application/json") @HeaderParam("Accept") String accept)
+	{
+		GameDelegator qg = new GameDelegator(account, token);
+		Game g = qg.getGame(gameIdentifier);
+		if (g.getSharing() == null || g.getSharing() == Game.PRIVATE) {
+			if (!validCredentials(token))
+				return serialise(getInvalidCredentialsBean(), accept);
+		}
+
+		GeneralItemDelegator gid = new GeneralItemDelegator(token);
+		return serialise(gid.getGeneralItems(gameIdentifier, sectionId), accept);
+
+	}
+
+
+
+
 	@DELETE
 	@Path("/gameId/{gameIdentifier}/generalItem/{itemId}")
 	public String deleteItem(@HeaderParam("Authorization") String token, 

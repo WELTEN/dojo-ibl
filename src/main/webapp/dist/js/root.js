@@ -61,6 +61,7 @@ var AppRouter = Backbone.Router.extend({
                 app.showView('.row.inquiry', new InquiryView({ model: results }));
                 $('.row.inquiry').append(new SideBarView({ }).render().el);
 
+
                 $(".knob").knob();
 
                 $('.chat-discussion').slimScroll({
@@ -118,6 +119,7 @@ var AppRouter = Backbone.Router.extend({
             this.ActivityList = new ActivitiesCollection({ });
             this.ActivityList
             this.ActivityList.id = _gameId;
+            this.ActivityList.section = phase;
 
             if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
                 $(".row.inquiry").append($('<div />', {
@@ -135,13 +137,15 @@ var AppRouter = Backbone.Router.extend({
                 beforeSend: setHeader,
                 success: function (response, results) {
                     _.each(results.generalItems, function(generalItem){
-                        $('.ibox-content > .row.m-t-sm > .list_activities').append(new ActivityBulletView({ model: generalItem, phase: _phase }).render().el);
+                        $('.ibox-content > .row.m-t-sm > .list_activities').append(new ActivityBulletView({
+                            model: generalItem,
+                            phase: _phase
+                        }).render().el);
                     });
                     $(".knob").knob();
                 }
             });
         }, 500);
-
     },
     showActivity: function(id, phase, activity){
         this.isAuthenticated();
@@ -163,6 +167,7 @@ var AppRouter = Backbone.Router.extend({
             this.Activity = new ActivityCollection({ });
             this.Activity.id = activity;
             this.Activity.gameId = id;
+            this.Activity.section = phase;
             this.Activity.fetch({
                 beforeSend: setHeader,
                 success: function (response, xhr) {

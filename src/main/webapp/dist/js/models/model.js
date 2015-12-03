@@ -71,7 +71,7 @@ window.User = Backbone.Model.extend({
 
 window.Activity = Backbone.Model.extend({
     methodToURL: {
-        'read': "/rest/generalItems/gameId/"+this.gameId+"/generalItem/"+this.id,
+        'read': "/rest/generalItems/gameId/"+this.gameId+"/generalItem/"+this.id+"/section/"+this.section,
         'create': '/rest/generalItems'
     },
     sync: function(method, model, options) {
@@ -176,7 +176,7 @@ window.RunAccessCollection = Backbone.Collection.extend({
 window.ActivitiesCollection = Backbone.Collection.extend({
     model: Activity,
     url: function(){
-        return "/rest/generalItems/gameId/"+this.id;
+        return "/rest/generalItems/gameId/"+this.id+"/section/"+this.section;
     },
     comparator: function(item) {
         return item.get('sortKey');

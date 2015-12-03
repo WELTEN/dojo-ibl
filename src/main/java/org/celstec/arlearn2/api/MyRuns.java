@@ -18,42 +18,24 @@
  ******************************************************************************/
 package org.celstec.arlearn2.api;
 
-import java.util.List;
-import java.util.logging.Logger;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
 import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.beans.game.Config;
-import org.celstec.arlearn2.beans.game.Game;
 import org.celstec.arlearn2.beans.generalItem.GeneralItem;
 import org.celstec.arlearn2.beans.generalItem.GeneralItemList;
 import org.celstec.arlearn2.beans.generalItem.OpenBadge;
 import org.celstec.arlearn2.beans.generalItem.OpenBadgeAssertion;
 import org.celstec.arlearn2.beans.run.Run;
-import org.celstec.arlearn2.beans.run.RunList;
-import org.celstec.arlearn2.beans.run.User;
 import org.celstec.arlearn2.cache.GeneralitemsCache;
 import org.celstec.arlearn2.delegators.AccountDelegator;
 import org.celstec.arlearn2.delegators.RunAccessDelegator;
 import org.celstec.arlearn2.delegators.RunDelegator;
 import org.celstec.arlearn2.jdo.manager.GeneralItemManager;
 import org.celstec.arlearn2.jdo.manager.RunManager;
-import org.celstec.arlearn2.jdo.manager.UserManager;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
+import java.util.logging.Logger;
 
 
 @Path("/myRuns")
@@ -286,7 +268,7 @@ public class MyRuns extends Service {
 //		if (users.isEmpty())
 //			return null;
 		GeneralItemList gil = new GeneralItemList();
-			gil.setGeneralItems(GeneralItemManager.getGeneralitems(r.getGameId(), itemId, null));
+			gil.setGeneralItems(GeneralItemManager.getGeneralitems(r.getGameId(), itemId, null, null));
 			GeneralitemsCache.getInstance().putGeneralItemList(gil, r.getGameId(), itemId, null);
 		if (gil == null || gil.getGeneralItems() == null || gil.getGeneralItems().isEmpty()) {
 			return null;

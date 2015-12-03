@@ -18,12 +18,12 @@
  ******************************************************************************/
 package org.celstec.arlearn2.jdo.classes;
 
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
+
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
 
 @PersistenceCapable
 public class GeneralItemJDO extends GameClass {
@@ -64,6 +64,18 @@ public class GeneralItemJDO extends GameClass {
 
 	@Persistent
 	private String iconUrl;
+
+	@Persistent
+	private String section;
+
+	public String getSection() {
+		return section;
+	}
+
+	public void setSection(String section) {
+		this.section = section;
+	}
+
 
 	public String getName() {
 		return name;

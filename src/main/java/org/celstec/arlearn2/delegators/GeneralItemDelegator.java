@@ -18,16 +18,14 @@
  ******************************************************************************/
 package org.celstec.arlearn2.delegators;
 
-import com.google.appengine.api.search.*;
+import com.google.appengine.api.search.Index;
+import com.google.appengine.api.search.IndexSpec;
+import com.google.appengine.api.search.SearchServiceFactory;
 import org.celstec.arlearn2.beans.Bean;
 import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.beans.dependencies.Dependency;
 import org.celstec.arlearn2.beans.game.Game;
 import org.celstec.arlearn2.beans.generalItem.*;
-import org.celstec.arlearn2.beans.generalItem.AudioObject;
-import org.celstec.arlearn2.beans.generalItem.GeneralItem;
-import org.celstec.arlearn2.beans.generalItem.NarratorItem;
-import org.celstec.arlearn2.beans.generalItem.VideoObject;
 import org.celstec.arlearn2.beans.notification.GeneralItemModification;
 import org.celstec.arlearn2.beans.run.Action;
 import org.celstec.arlearn2.beans.run.ActionList;
@@ -35,7 +33,6 @@ import org.celstec.arlearn2.beans.run.Run;
 import org.celstec.arlearn2.beans.run.User;
 import org.celstec.arlearn2.cache.GeneralitemsCache;
 import org.celstec.arlearn2.cache.VisibleGeneralItemsCache;
-import org.celstec.arlearn2.gwtcommonlib.client.objects.*;
 import org.celstec.arlearn2.jdo.manager.FilePathManager;
 import org.celstec.arlearn2.jdo.manager.GeneralItemManager;
 import org.celstec.arlearn2.jdo.manager.GeneralItemVisibilityManager;
@@ -181,9 +178,20 @@ public class GeneralItemDelegator extends DependencyDelegator {
         GeneralItemList gil = GeneralitemsCache.getInstance().getGeneralitems(gameId, null, null);
         if (gil == null) {
             gil = new GeneralItemList();
-            gil.setGeneralItems(GeneralItemManager.getGeneralitems(gameId, null, null));
+            gil.setGeneralItems(GeneralItemManager.getGeneralitems(gameId, null, null, null));
             GeneralitemsCache.getInstance().putGeneralItemList(gil, gameId, null, null);
         }
+        gil.setServerTime(System.currentTimeMillis());
+        return gil;
+    }
+
+    public GeneralItemList getGeneralItems(Long gameId, String section) {
+//        GeneralItemList gil = GeneralitemsCache.getInstance().getGeneralitems(gameId, null, null);
+//        if (gil == null) {
+            GeneralItemList gil = new GeneralItemList();
+            gil.setGeneralItems(GeneralItemManager.getGeneralitems(gameId, null, null, section));
+//            GeneralitemsCache.getInstance().putGeneralItemList(gil, gameId, null, null);
+//        }
         gil.setServerTime(System.currentTimeMillis());
         return gil;
     }
@@ -234,7 +242,7 @@ public class GeneralItemDelegator extends DependencyDelegator {
     public GeneralItem getGeneralItem(Long generalItemId) {
         // TODO:better do a DB query by id
         RunDelegator rd = new RunDelegator(this);
-        List<GeneralItem> list = GeneralItemManager.getGeneralitems(null, "" + generalItemId, null);
+        List<GeneralItem> list = GeneralItemManager.getGeneralitems(null, "" + generalItemId, null, null);
         if (list == null || list.isEmpty()) return null;
         return list.get(0);
     }

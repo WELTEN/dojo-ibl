@@ -18,33 +18,27 @@
  ******************************************************************************/
 package org.celstec.arlearn2.jdo.manager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
 import org.celstec.arlearn2.beans.dependencies.Dependency;
 import org.celstec.arlearn2.beans.deserializer.json.JsonBeanDeserializer;
 import org.celstec.arlearn2.beans.generalItem.GeneralItem;
 import org.celstec.arlearn2.beans.serializer.json.JsonBeanSerialiser;
 import org.celstec.arlearn2.jdo.PMF;
 import org.celstec.arlearn2.jdo.classes.GeneralItemJDO;
-import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
-import com.google.appengine.api.datastore.Cursor;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Text;
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class GeneralItemManager {
 
 	
-	private static final String params[] = new String[]{"gameId", "id", "type"};
-	private static final String paramsNames[] = new String[]{"gameParam", "generalItemIdParam", "typeParam"};
-	private static final String types[] = new String[]{"Long", "com.google.appengine.api.datastore.Key", "String"};
+	private static final String params[] = new String[]{"gameId", "id", "type", "section"};
+	private static final String paramsNames[] = new String[]{"gameParam", "generalItemIdParam", "typeParam", "sectionParam"};
+	private static final String types[] = new String[]{"Long", "com.google.appengine.api.datastore.Key", "String", "String"};
 
 
 	public static void addGeneralItem(GeneralItem bean) {
@@ -61,6 +55,7 @@ public class GeneralItemManager {
 		gi.setLng(bean.getLng());
 		gi.setName(bean.getName());
 		gi.setRadius(bean.getRadius());
+		if (bean.getSection() != null) gi.setSection(bean.getSection());
 //		gi.setShowAtTimeStamp(bean.getShowAtTimeStamp());
 		gi.setType(bean.getType());
 		gi.setIconUrl(bean.getIconUrl());
@@ -89,17 +84,16 @@ public class GeneralItemManager {
         }
     }
 
-	public static List<GeneralItem> getGeneralitems(Long gameId, String generalItemId, String type) {
+	public static List<GeneralItem> getGeneralitems(Long gameId, String generalItemId, String type, String section) {
 		ArrayList<GeneralItem> returnProgressDefinitions = new ArrayList<GeneralItem>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Iterator<GeneralItemJDO> it = getGeneralitems(pm, gameId, generalItemId, type).iterator();
+		Iterator<GeneralItemJDO> it = getGeneralitems(pm, gameId, generalItemId, type, section).iterator();
 		while (it.hasNext()) {
 			returnProgressDefinitions.add(toBean((GeneralItemJDO) it.next()));
 		}
 		return returnProgressDefinitions;
-		
 	}
-	
+
 	public static List<GeneralItem> getGeneralitemsFromUntil(Long gameId, Long from, Long until) {
 		ArrayList<GeneralItem> returnProgressDefinitions = new ArrayList<GeneralItem>();
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -128,16 +122,18 @@ public class GeneralItemManager {
 			returnProgressDefinitions.add(toBean((GeneralItemJDO) it.next()));
 		}
 		return returnProgressDefinitions;
-	}	
-	
-	private static List<GeneralItemJDO> getGeneralitems(PersistenceManager pm, Long gameId, String generalItemId, String type) {
+	}
+
+	private static List<GeneralItemJDO> getGeneralitems(PersistenceManager pm, Long gameId, String generalItemId, String type, String section) {
 		Query query = pm.newQuery(GeneralItemJDO.class);
-		Object args [] ={gameId, generalItemId!=null?KeyFactory.createKey(GeneralItemJDO.class.getSimpleName(), Long.parseLong(generalItemId)):null, type};
+		Object args [] ={gameId, generalItemId!=null?KeyFactory.createKey(GeneralItemJDO.class.getSimpleName(), Long.parseLong(generalItemId)):null, type, section};
 		query.setFilter(ManagerUtil.generateFilter(args, params, paramsNames));
 		query.declareParameters(ManagerUtil.generateDeclareParameters(args, types, params, paramsNames));
 		return (List<GeneralItemJDO>) query.executeWithArray(ManagerUtil.filterOutNulls(args));
 	}
-	
+
+
+
 	private static GeneralItem toBean(GeneralItemJDO jdo) {
 		if (jdo == null) return null;
 		if (jdo.getType() == null) return null;
@@ -171,6 +167,7 @@ public class GeneralItemManager {
 		gi.setName(jdo.getName());
 		gi.setRadius(jdo.getRadius());
 		gi.setScope(jdo.getScope());
+		gi.setSection(jdo.getSection());
 //		gi.setShowAtTimeStamp(jdo.getShowAtTimeStamp());
 		gi.setType(jdo.getType());
 		gi.setIconUrl(jdo.getIconUrl());
@@ -180,13 +177,13 @@ public class GeneralItemManager {
 	}
 
 	public static void deleteGeneralItem(long gameId) {
-		delete(gameId, null, null);
+		delete(gameId, null, null, null);
 	}
 	
 	public static GeneralItem setStatusDeleted(long gameId, String itemId) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
-			List<GeneralItemJDO> deleteList = getGeneralitems(pm, gameId, itemId, null);
+			List<GeneralItemJDO> deleteList = getGeneralitems(pm, gameId, itemId, null, null);
 			for (GeneralItemJDO jdo: deleteList) {
 				jdo.setDeleted(true);
 				jdo.setLastModificationDate(System.currentTimeMillis());
@@ -199,13 +196,13 @@ public class GeneralItemManager {
 	}
 	
 	public static void deleteGeneralItem(long gameId, String itemId) {
-		delete(gameId, itemId, null);
+		delete(gameId, itemId, null, null);
 	}
 	
-	private static void delete(long gameId, String generalItemId, String type){
+	private static void delete(long gameId, String generalItemId, String type, String section){
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try {
-			List<GeneralItemJDO> deleteList = getGeneralitems(pm, gameId, generalItemId, type);
+			List<GeneralItemJDO> deleteList = getGeneralitems(pm, gameId, generalItemId, type, null);
 			pm.deletePersistentAll(deleteList);
 		} finally {
 			pm.close();

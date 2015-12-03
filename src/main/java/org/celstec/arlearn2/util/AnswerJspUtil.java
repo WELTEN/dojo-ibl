@@ -18,22 +18,22 @@
  ******************************************************************************/
 package org.celstec.arlearn2.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
-import org.celstec.arlearn2.beans.run.Action;
 import org.celstec.arlearn2.beans.generalItem.GeneralItem;
-import org.celstec.arlearn2.beans.serializer.json.JsonBeanSerialiser;
+import org.celstec.arlearn2.beans.run.Action;
 import org.celstec.arlearn2.beans.run.Response;
 import org.celstec.arlearn2.beans.run.Run;
+import org.celstec.arlearn2.beans.serializer.json.JsonBeanSerialiser;
 import org.celstec.arlearn2.jdo.manager.ActionManager;
 import org.celstec.arlearn2.jdo.manager.GeneralItemManager;
 import org.celstec.arlearn2.jdo.manager.ResponseManager;
 import org.celstec.arlearn2.jdo.manager.RunManager;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 
 
@@ -121,7 +121,7 @@ public class AnswerJspUtil {
 		List<Run> runs = RunManager.getRuns(runId, null, null, null, null);
 		if (runs.isEmpty()) return null;
 		Long gameId = runs.get(0).getGameId();
-		List<GeneralItem> l = GeneralItemManager.getGeneralitems(gameId, null, null);
+		List<GeneralItem> l = GeneralItemManager.getGeneralitems(gameId, null, null, null);
 		String[][] result = new String[l.size()][5];
 		int i = 0;
 		for (Iterator iterator = l.iterator(); iterator.hasNext();) {
