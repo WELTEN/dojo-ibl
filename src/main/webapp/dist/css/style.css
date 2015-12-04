@@ -8393,3 +8393,11 @@ path.link {
   padding: 0px !important;
   width: 100% !important;
 }
+
+
+i.remove-phase{
+  position: relative;
+  bottom: 9px;
+  left: 20px;
+  cursor: pointer;
+}

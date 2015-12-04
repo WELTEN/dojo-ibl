@@ -58,7 +58,8 @@ var AppRouter = Backbone.Router.extend({
                 app.breadcrumbManagerSmall(1,results.title);
                 app.changeTitle(results.title);
 
-                app.showView('.row.inquiry', new InquiryView({ model: results }));
+                //app.showView('.row.inquiry', new InquiryView({ model: results }));
+                $('.row.inquiry').html(new InquiryView({ model: results }).render().el);
                 $('.row.inquiry').append(new SideBarView({ }).render().el);
 
 
@@ -498,7 +499,12 @@ var AppRouter = Backbone.Router.extend({
             _phase.id = "tab-"+_number_phase;
             $(".tab-content").append(_phase);
 
-            $('<li><a data-toggle="tab" href="#tab-'+_number_phase+'""> Phase '+_number_phase+'</a></li>').insertBefore($("ul.select-activities > li.new-phase"));
+            $('<li><a data-toggle="tab" href="#tab-'+_number_phase+'" > Phase '+_number_phase+'<i class="fa fa-remove remove-phase"></i></a></li>')
+                .click(function(e){
+                    e.preventDefault();
+                    console.log("hola");
+                })
+                .insertBefore($("ul.select-activities > li.new-phase"));
 
             app.newActivityNewInquiry(_number_phase);
 
