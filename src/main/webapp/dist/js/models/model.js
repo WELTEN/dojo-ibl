@@ -1,4 +1,6 @@
-// Models
+////////
+// Games
+////////
 window.GameAccess = Backbone.Model.extend({
     initialize: function(){
         //console.log("Game Access initialized");
@@ -6,16 +8,8 @@ window.GameAccess = Backbone.Model.extend({
 });
 
 window.Game = Backbone.Model.extend({
-    idAttribute: 'gameId',
-    initialize: function(a){
-    },
-    defaults:{
-        "title":"",
-        "description": "",
-        "accessRight": 0
-    },
     methodToURL: {
-        'read': "/rest/myGames/gameId/"+this.gameId,
+        'read': '/rest/myGames/gameId/'+this.gameId,
         'create': '/rest/myGames',
         'update': '/user/update',
         'delete': '/user/remove'
@@ -24,10 +18,38 @@ window.Game = Backbone.Model.extend({
         options = options || {};
         options.url = model.methodToURL[method.toLowerCase()];
 
+        console.log(this.gameId);
+
         return Backbone.sync.apply(this, arguments);
     }
 });
 
+
+window.GiveAccessToGame = Backbone.Model.extend({
+    initialize: function(){
+        console.log("Give access to a Run");
+    },
+    url: function(){
+        return "/rest/myGames/access/gameId/"+this.gameId+"/account/"+this.accoundId+"/accessRight/"+this.accessRight;
+    }
+});
+
+//window.Game = Backbone.Model.extend({
+//    methodToURL: {
+//        'read': '/rest/myGames/gameId/'+this.gameId,
+//        'create': '/rest/myGames'
+//    },
+//    sync: function(method, model, options) {
+//        options = options || {};
+//        options.url = model.methodToURL[method.toLowerCase()];
+//
+//        return Backbone.sync.apply(this, arguments);
+//    }
+//});
+
+//////
+// Run
+//////
 window.RunAccess = Backbone.Model.extend({
     initialize: function(){
         console.log("Run Access initialized");
@@ -154,8 +176,15 @@ window.GameAccessCollection = Backbone.Collection.extend({
     }
 });
 
+//window.GameCollection = Backbone.Collection.extend({
+//    model: Game
+//});
+
 window.GameCollection = Backbone.Collection.extend({
-    model: Game
+    model: Game,
+    url: function(){
+        return '/rest/myGames/gameId/'+this.gameId;
+    }
 });
 
 window.GameParticipateCollection = Backbone.Collection.extend({

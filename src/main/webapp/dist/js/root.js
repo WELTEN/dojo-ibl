@@ -308,7 +308,42 @@ var AppRouter = Backbone.Router.extend({
                             var _name = new_response.title;
                             var _description = new_response.description;
 
+                            //////////////////////
+                            // Give access to Game
+                            //////////////////////
+                            var newAccessGame = new GiveAccessToGame();
+                            newAccessGame.gameId = new_response.gameId;
+                            newAccessGame.accoundId = $.cookie("arlearn.OauthType")+":"+$.cookie("dojoibl.localId");
+                            newAccessGame.accessRight = 1;
+                            newAccessGame.fetch({}, { beforeSend:setHeader });
+
                             app.GameList.add(new_response);
+
+                            /////////////////////////////////
+                            // Create the run for the inquiry
+                            /////////////////////////////////
+                            var newRun = new Run({
+                                title: _name,
+                                description: _description,
+                                gameId: _gameId
+                            });
+                            newRun.save({}, {
+                                beforeSend:setHeader,
+                                success: function(r, new_response){
+                                    console.log(new_response);
+                                    app.RunList.add(new_response);
+
+                                    /////////////////////
+                                    // Give access to Run
+                                    /////////////////////
+                                    var newAccessRun = new GiveAccessToRun();
+                                    newAccessRun.runId = new_response.runId;
+                                    newAccessRun.accoundId = $.cookie("arlearn.OauthType")+":"+$.cookie("dojoibl.localId");
+                                    newAccessRun.accessRight = 1;
+                                    newAccessRun.fetch({}, { beforeSend:setHeader });
+
+                                }
+                            });
 
                             $("div[id*='tab'] table > tbody > tr").each(function(i) {
                                 var selects = $(this).find("option:selected");
@@ -327,21 +362,6 @@ var AppRouter = Backbone.Router.extend({
                                 console.log(phase);
                                 console.log(name, description);
                                 console.log(type, roles);
-
-                                /////////////////////////////////
-                                // Create the run for the inquiry
-                                /////////////////////////////////
-                                var newRun = new Activity({
-                                    title: _name,
-                                    description: _description,
-                                    gameId: _gameId
-                                });
-                                newRun.save({}, {
-                                    beforeSend:setHeader,
-                                    success: function(r, new_response){
-                                        app.RunList.add(new_response);
-                                    }
-                                });
 
                                 /////////////////////////////////////
                                 // Create the activity = General Item
@@ -857,10 +877,13 @@ var successGameParticipateHandler = function(response, xhr){
 var successGameHandler = function(response, xhr){
     console.log("Games I have access / I have created:");
     _.each(xhr.gamesAccess, function(e){
-        console.log(e.gameId);
+        console.log(e);
         var _gl = app.GameList.get(e.gameId);
         if(!_gl) {
-            var game = new Game({ gameId: e.gameId });
+
+
+
+            var game = new GameCollection({  });
             game.gameId = e.gameId;
             game.fetch({
                 beforeSend: setHeader,
@@ -868,6 +891,7 @@ var successGameHandler = function(response, xhr){
                     $('.inquiry').append( new GameListView({ model: game, v: 2 }).render().el );
                 }
             });
+            console.log(game);
             app.GameList.add(game);
         }else{
             var game = _gl;
