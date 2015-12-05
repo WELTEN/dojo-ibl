@@ -94,22 +94,18 @@ window.GameListView = Backbone.View.extend({
         console.log("render");
     },
     render: function () {
-        //_.each(this.collection.models, function(response){
-        //
-        //}, this);
-        //
-        //this.collection.reset();
-
-        //console.log("render");
-
-        $(this.el).html(this.template({ model: this.model }));
+        $(this.el).html(this.template({
+            model: this.model,
+            time: new Date(this.model.lastModificationDate).toLocaleDateString(),
+            timeago: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString())
+        }));
         return this;
     },
     showRuns: function(e){
         e.preventDefault();
         var _aux = $(this.el).find(".widget-text-box");
 
-        console.log($(_aux).length);
+        console.log($(_aux).length, "Game Id: "+this.model.gameId);
         $(_aux).slideUp(200).html("");
 
         this.RunAccessList = new RunByGameCollection({ id: this.model.gameId });
