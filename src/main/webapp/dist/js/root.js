@@ -39,6 +39,7 @@ var AppRouter = Backbone.Router.extend({
         $(".phases-breadcrumb").hide();
 
         this.createCookie("dojoibl.run", id);
+        this.changeTitle("List of inquiries");
 
         this.common();
         this.breadcrumbManager(0, "");
@@ -55,7 +56,7 @@ var AppRouter = Backbone.Router.extend({
 
                 console.log("load run info and add sidebarview");
 
-                app.breadcrumbManagerSmall(1,results.title);
+                app.breadcrumbManagerSmall(0,results.title);
                 app.changeTitle(results.title);
 
                 //app.showView('.row.inquiry', new InquiryView({ model: results }));
@@ -113,8 +114,8 @@ var AppRouter = Backbone.Router.extend({
         window.setTimeout(function () {
             app.breadcrumbManager(1, "Data collection");
 
-            //app.breadcrumbManagerSmall(1, phase);
-            app.changeTitle("Name of the phase to be changed");
+            app.breadcrumbManagerSmall(2, phase);
+            app.changeTitle(_phase);
 
             $(this).addClass("animated fadeOutUpBig");
             this.ActivityList = new ActivitiesCollection({ });
@@ -776,7 +777,7 @@ var AppRouter = Backbone.Router.extend({
         for (var i = 0; i <= level; i++) {
             switch(i){
                 case 0:
-                    $("ol.breadcrumb").append('<li><a href="main.html"><strong>Home</strong></a></li>');
+                    $("ol.breadcrumb").append('<li><a href=""><strong>Home</strong></a></li>');
                     break;
                 case 1:
                     $("ol.breadcrumb").append('<li><a href=""><strong>'+label_inquiry+'</strong></a></li>');
