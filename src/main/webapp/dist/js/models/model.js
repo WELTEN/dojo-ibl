@@ -34,6 +34,19 @@ window.GiveAccessToGame = Backbone.Model.extend({
     }
 });
 
+
+window.PictureUrlGame = Backbone.Model.extend({
+    initialize: function(){
+        console.log("Give me upload url for avatar inquiry");
+    },
+    url: function(){
+        console.log(this.gameId);
+        return "/rest/myGames/pictureUrl/gameId/"+this.gameId;
+    }
+});
+
+
+
 //window.Game = Backbone.Model.extend({
 //    methodToURL: {
 //        'read': '/rest/myGames/gameId/'+this.gameId,
@@ -84,6 +97,16 @@ window.Run = Backbone.Model.extend({
         return Backbone.sync.apply(this, arguments);
     }
 });
+
+window.AddUserToRun = Backbone.Model.extend({
+    initialize: function(){
+        console.log("Add user to a Run");
+    },
+    url: function(){
+        return "/rest/users";
+    }
+});
+
 
 window.User = Backbone.Model.extend({
     initialize: function(a){

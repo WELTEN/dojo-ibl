@@ -8401,3 +8401,11 @@ i.remove-phase{
   left: 20px;
   cursor: pointer;
 }
+
+ul.sortable-list{
+  min-height: 100px !important;
+}
+
+.wizard > .content > .body ul.sortable-list {
+  list-style:none !important;
+}

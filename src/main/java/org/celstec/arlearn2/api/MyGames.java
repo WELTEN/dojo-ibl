@@ -18,20 +18,6 @@
  ******************************************************************************/
 package org.celstec.arlearn2.api;
 
-import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.utils.SystemProperty;
@@ -43,9 +29,12 @@ import org.celstec.arlearn2.beans.notification.GameModification;
 import org.celstec.arlearn2.delegators.GameAccessDelegator;
 import org.celstec.arlearn2.delegators.GameDelegator;
 import org.celstec.arlearn2.delegators.MigrationDelegator;
-import org.celstec.arlearn2.gwtcommonlib.client.objects.Account;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 @Path("/myGames")
 public class MyGames extends Service {
@@ -481,7 +470,7 @@ public class MyGames extends Service {
             return serialise(getInvalidCredentialsBean(), accept);
         BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
         String url = blobstoreService.createUploadUrl("/uploadGameContent/gameThumbnail" + "?gameId=" + gameId);
-        return "{ 'uploadUrl': '"+url+"'}";
+        return "{ \"uploadUrl\": \""+url+"\"}";
     }
 
     @GET
@@ -495,7 +484,7 @@ public class MyGames extends Service {
             return serialise(getInvalidCredentialsBean(), accept);
         BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
         String url = blobstoreService.createUploadUrl("/uploadGameContent/gameMessagesHeader" + "?gameId=" + gameId);
-        return "{ 'uploadUrl': '"+url+"'}";
+        return "{ \"uploadUrl\": \""+url+"\"}";
     }
 
     @GET
@@ -509,7 +498,7 @@ public class MyGames extends Service {
             return serialise(getInvalidCredentialsBean(), accept);
         BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
         String url = blobstoreService.createUploadUrl("/uploadGameContent/gameSplashScreen" + "?gameId=" + gameId);
-        return "{ 'uploadUrl': '"+url+"'}";
+        return "{ \"uploadUrl\": \""+url+"\"}";
     }
 
     @GET

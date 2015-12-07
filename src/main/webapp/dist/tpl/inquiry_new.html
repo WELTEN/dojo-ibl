@@ -8,15 +8,31 @@
             <div id="wizard">
                 <h1>Title & description</h1>
                 <div class="step-content">
-                    <div class="text-center m-t-md">
-                        <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6 b-r">
                             <p><strong>Lets create a new inquiry!</strong> You have started the process to create an inquiry. Now we will guide you through
                                 the steps to create a new inquiry. <strong>First</strong> provide a new for the new inquiry.</p>
-                            <form>
-                                <label>Title</label>
-                                <input id="inquiry-title-value" name="inquiry_title" type="text" placeholder="Enter the title" class="form-control required"/>
-                                <label>Description</label>
-                                <input id="inquiry-description-value" name="inquiry_description" type="text" placeholder="Enter the description" class="form-control required"/>
+                            <form role="form">
+                                <div class="form-group">
+                                    <label>Title</label>
+                                    <input id="inquiry-title-value" name="inquiry_title" type="text" placeholder="Enter the title" class="form-control required"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <input id="inquiry-description-value" name="inquiry_description" type="text" placeholder="Enter the description" class="form-control required"/>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-6"><h4>Upload an avatar (optional)</h4>
+                            <!--<form id="my-awesome-dropzone" class="dropzone dz-clickable" action="#" method="post" enctype="multipart/form-data">-->
+                                <!--<div class="dropzone-previews"></div>-->
+                                <!--<div class="dz-default dz-message">-->
+                                    <!--<span>Drop files here to upload</span>-->
+                                <!--</div>-->
+                            <!--</form>-->
+                            <form id="my-awesome-dropzone" action="#" method="post" enctype="multipart/form-data">
+                                <input type="file" name="myFile">
+                                <input type="submit" value="Submit">
                             </form>
                         </div>
                     </div>
@@ -261,10 +277,44 @@
                 <h1>Invite users to inquiry</h1>
                 <div class="step-content">
                     <div class="text-center m-t-md">
-                        <h2>This is step 3</h2>
-                        <p>
-                            This is last content.
-                        </p>
+                        <div class="col-lg-6">
+                            <div class="ibox">
+                                    <h3>List of users</h3>
+                                    <div class="input-group">
+                                        <input type="text" placeholder="Search for a user..." class="input input-sm form-control">
+                                        <span class="input-group-btn">
+                                                <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-search"></i> Search</button>
+                                        </span>
+                                        </div>
+                                <p class="small"><i class="fa fa-hand-o-up"></i> Drag task between list</p>
+
+                                <ul class="sortable-list connectList agile-list">
+                                        <li class="info-element">
+                                            Angel Suarez
+                                            <span id="5:weTitogelo"></span>
+                                            <div class="agile-detail">
+                                                <i class="fa fa-clock-o"></i> Open Universiteit
+                                            </div>
+                                        </li>
+                                        <li class="info-element">
+                                            Voedings expert
+                                            <span id="5:voedingsexpert"></span>
+                                            <div class="agile-detail">
+                                                <i class="fa fa-clock-o"></i> Connect college
+                                            </div>
+                                        </li>
+                                    </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="ibox">
+                                    <h3> </h3>
+                                    <p class="small"><i class="fa fa-hand-o-up"></i> Drag task between list</p>
+                                    <ul class="sortable-list connectList agile-list">
+
+                                    </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
