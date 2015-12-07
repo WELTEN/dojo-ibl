@@ -309,19 +309,19 @@ var AppRouter = Backbone.Router.extend({
                 // Disable validation on fields that are disabled.
                 // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
                 //form.validate().settings.ignore = ":disabled";
-
-                var avatar = new PictureUrlGame({ });
-                avatar.gameId = $.cookie("dojoibl.game");
-                avatar.fetch({
-                    beforeSend:setHeader,
-                    success: function(e , r) {
-                        console.log(r.uploadUrl);
-                        $("#my-awesome-dropzone").attr('action', r.uploadUrl);
-                        $("input#submit").click(function(e) {
-                            e.preventDefault();
-                           console.log(e);
-                        });
-                    }
+                //
+                //var avatar = new PictureUrlGame({ });
+                //avatar.gameId = $.cookie("dojoibl.game");
+                //avatar.fetch({
+                //    beforeSend:setHeader,
+                //    success: function(e , r) {
+                //        console.log(r.uploadUrl);
+                //        $("#my-awesome-dropzone").attr('action', r.uploadUrl);
+                //        $("input#submit").click(function(e) {
+                //            e.preventDefault();
+                //           console.log(e);
+                //        });
+                //    }
 
                 //
                 //        var _url = r.uploadUrl;
@@ -363,7 +363,7 @@ var AppRouter = Backbone.Router.extend({
                 //        //});
                 //
                 //    }
-                });
+                //});
 
                 //$.ajax({
                 //    url: "uploadGameContent/gameThumbnail?gameId=1234",
@@ -380,99 +380,99 @@ var AppRouter = Backbone.Router.extend({
                 // Create the game
                 ///////////////////
                 var newGame = new Game({ title: $("#inquiry-title-value").val(), description: $("#inquiry-description-value").val() });
-                //newGame.save({}, {
-                //    beforeSend:setHeader,
-                //    success: function(r, new_response){
-                //        var _gameId = new_response.gameId;
-                //        var _name = new_response.title;
-                //        var _description = new_response.description;
-                //
-                //        //////////////////////
-                //        // Give access to Game
-                //        //////////////////////
-                //        var newAccessGame = new GiveAccessToGame();
-                //        newAccessGame.gameId = new_response.gameId;
-                //        newAccessGame.accoundId = $.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId");
-                //        newAccessGame.accessRight = 1;
-                //        newAccessGame.fetch({}, { beforeSend:setHeader });
-                //
-                //        app.GameList.add(new_response);
-                //
-                //        /////////////////////////////////
-                //        // Create the run for the inquiry
-                //        /////////////////////////////////
-                //        var newRun = new Run({
-                //            title: _name,
-                //            description: _description,
-                //            gameId: _gameId
-                //        });
-                //        newRun.save({}, {
-                //            beforeSend:setHeader,
-                //            success: function(r, new_response){
-                //                console.log(new_response);
-                //                app.RunList.add(new_response);
-                //
-                //                /////////////////////
-                //                // Give access to Run
-                //                /////////////////////
-                //                var newAccessRun = new GiveAccessToRun();
-                //                newAccessRun.runId = new_response.runId;
-                //                newAccessRun.accoundId = $.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId");
-                //                newAccessRun.accessRight = 1;
-                //                newAccessRun.fetch({}, { beforeSend:setHeader });
-                //
-                //                ////////////////////
-                //                // Add user to a run
-                //                ////////////////////
-                //                var newUserForRun = new AddUserToRun({
-                //                    runId: new_response.runId,
-                //                    email: $.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId"),
-                //                    accountType: $.cookie("dojoibl.accountType"),
-                //                    localId: $.cookie("dojoibl.localId"),
-                //                    gameId: $.cookie("dojoibl.game") });
-                //                newUserForRun.save({}, { beforeSend:setHeader });
-                //
-                //
-                //            }
-                //        });
-                //
-                //        $("div[id*='tab'] table > tbody > tr").each(function(i) {
-                //            var selects = $(this).find("option:selected");
-                //            var fields = $(this).find(":text");
-                //
-                //            var type = selects.eq(0).val();
-                //            var roles = selects.eq(1).val();
-                //
-                //            var name = fields.eq(0).val();
-                //            var description = fields.eq(1).val();
-                //
-                //            ///////////////////
-                //            // To get the phase
-                //            ///////////////////
-                //            var phase = $(this).closest("div[id*='tab']").attr("id").substring(4,5);
-                //            console.log(phase);
-                //            console.log(name, description);
-                //            console.log(type, roles);
-                //
-                //            /////////////////////////////////////
-                //            // Create the activity = General Item
-                //            /////////////////////////////////////
-                //            var newActivity = new Activity({
-                //                name: name,
-                //                description: description,
-                //                type: type,
-                //                section: phase,
-                //                gameId: _gameId
-                //            });
-                //            newActivity.save({}, {
-                //                beforeSend:setHeader,
-                //                success: function(r, new_response){
-                //                    app.ActivityList.add(new_response);
-                //                }
-                //            });
-                //        });
-                //    }
-                //});
+                newGame.save({}, {
+                    beforeSend:setHeader,
+                    success: function(r, new_response){
+                        var _gameId = new_response.gameId;
+                        var _name = new_response.title;
+                        var _description = new_response.description;
+
+                        //////////////////////
+                        // Give access to Game
+                        //////////////////////
+                        var newAccessGame = new GiveAccessToGame();
+                        newAccessGame.gameId = new_response.gameId;
+                        newAccessGame.accoundId = $.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId");
+                        newAccessGame.accessRight = 1;
+                        newAccessGame.fetch({}, { beforeSend:setHeader });
+
+                        app.GameList.add(new_response);
+
+                        /////////////////////////////////
+                        // Create the run for the inquiry
+                        /////////////////////////////////
+                        var newRun = new Run({
+                            title: _name,
+                            description: _description,
+                            gameId: _gameId
+                        });
+                        newRun.save({}, {
+                            beforeSend:setHeader,
+                            success: function(r, new_response){
+                                console.log(new_response);
+                                app.RunList.add(new_response);
+
+                                /////////////////////
+                                // Give access to Run
+                                /////////////////////
+                                var newAccessRun = new GiveAccessToRun();
+                                newAccessRun.runId = new_response.runId;
+                                newAccessRun.accoundId = $.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId");
+                                newAccessRun.accessRight = 1;
+                                newAccessRun.fetch({}, { beforeSend:setHeader });
+
+                                ////////////////////
+                                // Add user to a run
+                                ////////////////////
+                                var newUserForRun = new AddUserToRun({
+                                    runId: new_response.runId,
+                                    email: $.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId"),
+                                    accountType: $.cookie("dojoibl.accountType"),
+                                    localId: $.cookie("dojoibl.localId"),
+                                    gameId: $.cookie("dojoibl.game") });
+                                newUserForRun.save({}, { beforeSend:setHeader });
+
+
+                            }
+                        });
+
+                        $("div[id*='tab'] table > tbody > tr").each(function(i) {
+                            var selects = $(this).find("option:selected");
+                            var fields = $(this).find(":text");
+
+                            var type = selects.eq(0).val();
+                            var roles = selects.eq(1).val();
+
+                            var name = fields.eq(0).val();
+                            var description = fields.eq(1).val();
+
+                            ///////////////////
+                            // To get the phase
+                            ///////////////////
+                            var phase = $(this).closest("div[id*='tab']").attr("id").substring(4,5);
+                            console.log(phase);
+                            console.log(name, description);
+                            console.log(type, roles);
+
+                            /////////////////////////////////////
+                            // Create the activity = General Item
+                            /////////////////////////////////////
+                            var newActivity = new Activity({
+                                name: name,
+                                description: description,
+                                type: type,
+                                section: phase,
+                                gameId: _gameId
+                            });
+                            newActivity.save({}, {
+                                beforeSend:setHeader,
+                                success: function(r, new_response){
+                                    app.ActivityList.add(new_response);
+                                }
+                            });
+                        });
+                    }
+                });
 
                 //$("#my-awesome-dropzone").submit();
 
