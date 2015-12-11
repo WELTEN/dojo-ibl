@@ -118,6 +118,9 @@ $(document).ready(function () {
         carousel: true
     });
 
+    $(".convert-date-timeago").each(function(){
+        $(this).html(jQuery.timeago(new Date($(this).html()).toISOString()));
+    });
 });
 
 // Activate WOW.js plugin for animation on scrol
