@@ -18,16 +18,19 @@
  ******************************************************************************/
 package org.celstec.arlearn2.jdo.classes;
 
+import com.google.appengine.api.datastore.Text;
+
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-
-import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable
 public class ResponseJDO extends RunClass{
 
 	@Persistent
-    private Long generalItemId;
+	private Long generalItemId;
+
+	@Persistent
+	private Long parentId;
 	
 	@Persistent
     private String userEmail;
@@ -119,4 +122,13 @@ public class ResponseJDO extends RunClass{
     public void setLng(Double lng) {
         this.lng = lng;
     }
+
+
+	public Long getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
 }

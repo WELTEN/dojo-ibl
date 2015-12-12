@@ -32,6 +32,8 @@ var AppRouter = Backbone.Router.extend({
         this.common();
         this.initialGame();
         this.initializeChannelAPI();
+        this.breadcrumbManagerSmall(0,"List of inquiries");
+        this.changeTitle("List of inquiries");
     },
 
     showInquiry:function (id) {
@@ -58,6 +60,8 @@ var AppRouter = Backbone.Router.extend({
 
                 app.breadcrumbManagerSmall(0,results.title);
                 app.changeTitle(results.title);
+
+                console.log(results);
 
                 //app.showView('.row.inquiry', new InquiryView({ model: results }));
                 $('.row.inquiry').html(new InquiryView({ model: results }).render().el);
@@ -238,7 +242,7 @@ var AppRouter = Backbone.Router.extend({
 
                             if  ($("textarea[responseid='0']").val() != ""){
 
-                                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $("textarea[responseid='0']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0 });
+                                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $("textarea[responseid='0']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: 0 });
                                 newResponse.save({}, {
                                     beforeSend:setHeader,
                                     success: function(r, new_response){

@@ -18,25 +18,18 @@
  ******************************************************************************/
 package org.celstec.arlearn2.jdo.manager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-
+import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.datanucleus.query.JDOCursorHelper;
 import org.celstec.arlearn2.beans.run.Response;
 import org.celstec.arlearn2.beans.run.ResponseList;
 import org.celstec.arlearn2.jdo.PMF;
 import org.celstec.arlearn2.jdo.classes.ResponseJDO;
-import com.google.appengine.datanucleus.query.JDOCursorHelper;
-
-import com.google.appengine.api.datastore.Cursor;
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+import java.util.*;
 //import org.celstec.arlearn2.jdo.classes.UserJDO;
 
 public class ResponseManager {
@@ -47,13 +40,14 @@ public class ResponseManager {
 
 	private static final int RESPONSES_IN_LIST = 20;
 	
-	public static long addResponse(Long generalItemId, String responseValue, Long runId, String userEmail, Long timeStamp, Double lat, Double lng) {
+	public static long addResponse(Long generalItemId, String responseValue, Long runId, String userEmail, Long timeStamp, Double lat, Double lng, Long parentId) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		ResponseJDO responseRecord = new ResponseJDO();
 		responseRecord.setGeneralItemId(generalItemId);
 		responseRecord.setResponseValue(normalizeValue(responseValue));
 		responseRecord.setRunId(runId);
 		responseRecord.setUserEmail(userEmail);
+		if (parentId != null) responseRecord.setParentId(parentId);
 		responseRecord.setTimeStamp(timeStamp);
 		responseRecord.setLastModificationDate(System.currentTimeMillis());
 		responseRecord.setRevoked(false);
@@ -305,8 +299,9 @@ public class ResponseManager {
 		pd.setGeneralItemId(jdo.getGeneralItemId());
 		pd.setTimestamp(jdo.getTimeStamp());
 		pd.setUserEmail(jdo.getUserEmail());
-        pd.setLat(jdo.getLat());
-        pd.setLng(jdo.getLng());
+		pd.setLat(jdo.getLat());
+		pd.setLng(jdo.getLng());
+		pd.setParentId(jdo.getParentId());
         pd.setRevoked(jdo.isRevoked());
         pd.setLastModificationDate(jdo.getLastModificationDate());
 

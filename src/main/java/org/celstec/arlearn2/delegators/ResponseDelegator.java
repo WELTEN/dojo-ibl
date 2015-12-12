@@ -50,7 +50,7 @@ public class ResponseDelegator extends GoogleDelegator {
         UsersDelegator qu = new UsersDelegator(this);
         r.setUserEmail(qu.getCurrentUserAccount());
 
-        long id = ResponseManager.addResponse(r.getGeneralItemId(), r.getResponseValue(), run.getRunId(), r.getUserEmail(), r.getTimestamp(), r.getLat(), r.getLng());
+        long id = ResponseManager.addResponse(r.getGeneralItemId(), r.getResponseValue(), run.getRunId(), r.getUserEmail(), r.getTimestamp(), r.getLat(), r.getLng(), r.getParentId());
         r.setResponseId(id);
         r.setResponseValue(ResponseManager.normalizeValue(r.getResponseValue()));
         RunAccessDelegator rad = new RunAccessDelegator(this);
