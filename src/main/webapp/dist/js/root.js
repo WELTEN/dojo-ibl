@@ -444,7 +444,7 @@ var AppRouter = Backbone.Router.extend({
                             var selects = $(this).find("option:selected");
                             var fields = $(this).find(":text");
 
-                            var file = $(this).find(":file");
+                            //var file = $(this).find(".feed-activity > input");
 
                             var type = selects.eq(0).val();
                             var roles = selects.eq(1).val();
@@ -452,7 +452,7 @@ var AppRouter = Backbone.Router.extend({
                             var name = fields.eq(0).val();
                             var description = fields.eq(1).val();
 
-                            var feed = file.eq(0).val();
+
 
                             ///////////////////
                             // To get the phase
@@ -473,6 +473,7 @@ var AppRouter = Backbone.Router.extend({
                                     videoFeed: feed
                                 };
                             }else if(type == "org.celstec.arlearn2.beans.generalItem.AudioObject") {
+                                var feed = fields.eq(2).val();
                                 var data = {
                                     name: name,
                                     description: description,
@@ -1066,7 +1067,7 @@ tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry', 'run', 'user', 'use
     'inquiry_sidebar', 'activityDependency', 'message', 'message_right', 'inquiry_left_sidebar','message_own', 'response', 'response_discussion', 'response_treeview','response_author', 'response_discussion_author',
     'message_notification','notification_floating', 'activity_video', 'activity_widget', 'activity_discussion', 'notification_sidebar', 'user_inquiry','activity_tree_view',
     'item_breadcrumb_phase'
-    , 'item_breadcrumb_activity', 'response_reply', 'inquiry_new', 'activity_concept_map', 'new_activity_new_inquiry', 'new_phase_new_inquiry'], function() {
+    , 'item_breadcrumb_activity','activity_html', 'response_reply', 'inquiry_new', 'activity_concept_map', 'new_activity_new_inquiry', 'new_phase_new_inquiry'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });

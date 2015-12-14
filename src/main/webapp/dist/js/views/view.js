@@ -195,7 +195,6 @@ window.NewActivityNewInquiryView = Backbone.View.extend({
                 $(this).closest("tr").find(".feed-activity").attr('type', 'file');
                 $(this).closest("tr").find(".feed-activity").prop('disabled', true);
             }
-
         });
     },
     render:function () {
@@ -462,7 +461,7 @@ window.ActivityView = Backbone.View.extend({
             this.template = _.template(tpl.get('activity_widget'));
         }else if(xhr.model.type.indexOf("AudioObject") > -1) {
             console.log("Insert html");
-            this.template = _.template(tpl.get('activity_discussion'));
+            this.template = _.template(tpl.get('activity_html'));
         }else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
             this.template = _.template(tpl.get('activity_tree_view'));
         }else if(xhr.model.type.indexOf("SingleChoiceImageTest") > -1) {
