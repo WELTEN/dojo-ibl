@@ -181,11 +181,18 @@ window.NewActivityNewInquiryView = Backbone.View.extend({
     },
     changeSelect: function() {
         this.$(".type-activity option:selected").each(function() {
-            if($( this ).val() == "org.celstec.arlearn2.beans.generalItem.VideoObject" ||
-                $( this ).val() == "org.celstec.arlearn2.beans.generalItem.OpenBadge"){
-                    $(this).closest("tr").find(".feed-activity").prop('disabled', true);
-                console.log($(this).closest("tr").find(".feed-activity").prop('disabled', false));
-            }else{
+            if($( this ).val() == "org.celstec.arlearn2.beans.generalItem.VideoObject"){
+                console.log("a");
+                $(this).closest("tr").find(".feed-activity").attr('type', 'file');
+                $(this).closest("tr").find(".feed-activity").prop('disabled', false);
+            }else if( $( this ).val() == "org.celstec.arlearn2.beans.generalItem.OpenBadge" ||
+                $( this ).val() == "org.celstec.arlearn2.beans.generalItem.AudioObject" ){
+                console.log("b");
+                $(this).closest("tr").find(".feed-activity").attr('type', 'text');
+                $(this).closest("tr").find(".feed-activity").prop('disabled', false);
+            }else {
+                console.log("c");
+                $(this).closest("tr").find(".feed-activity").attr('type', 'file');
                 $(this).closest("tr").find(".feed-activity").prop('disabled', true);
             }
 
