@@ -324,8 +324,24 @@ window.ResponseListView = Backbone.View.extend({
             var user = this.users.where({ 'localId': aux[1] });
 
             if(res.parentId != 0){
-                $(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el).insertBefore($("textarea[responseid='"+res.parentId+"']").parent().parent());
+
+                if($("textarea[responseid='"+res.parentId+"']").parent().parent().length == 0){
+                    $("div[data-item='"+res.parentId+"']").parent()
+                        .append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
+                }else{
+                    $(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el).insertBefore(
+                        $("textarea[responseid='"+res.parentId+"']").parent().parent()
+                    );
+                }
+
+
+
+                //console.log(res.parentId);
+
+                //console.log($("textarea[responseid='"+res.parentId+"']").parent().parent().length);
+
             }else{
+                console.log("hola");
                 $(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el).insertBefore($('#list_answers > .social-comment:last-child'));
             }
 
@@ -480,13 +496,17 @@ window.ActivityView = Backbone.View.extend({
 
 
 window.ConceptMapView = Backbone.View.extend({
-    initialize: function(){
+    initialize: function(options){
+        console.log(options)
+        this.gItem = options.gItem;
     },
     render: function(){
 
         var jsonObj = [];
         var nodes = [];
         var links = [];
+
+        console.log(this.gItem);
 
         _.each(this.model.responses, function(response){
             //console.log(response);
@@ -823,8 +843,6 @@ window.ConceptMapView = Backbone.View.extend({
             height = 400, shiftKey;
 
         var fill = d3.scale.category20();
-
-
 
         var force = d3.layout.force()
             .size([width, height])
@@ -1241,39 +1259,72 @@ window.ConceptMapView = Backbone.View.extend({
         }
 
         function createNode(){
-            node.filter(function(d,i) {
-                // We only need to information of one of them
-                // todo What happen when there is no nodes
-                if(i==0){
-                    var newResponse = new Response({ generalItemId: d.gItem, responseValue: $('input.add-concept-value').val() , runId: d.runId, userEmail: 0 });
-                    newResponse.save({}, {
-                        beforeSend:setHeader,
-                        success: function(r, response){
-
-                            var item_nodes = {}
-                            item_nodes ["id"] = response.responseId;
-                            item_nodes ["name"] = response.responseValue;
-                            var min = 50;
-                            var max = 550;
-                            var random = Math.floor(Math.random() * (max - min + 1)) + min;
-                            item_nodes ["x"] = random;
-                            var min = 50;
-                            var max = 150;
-                            var random = Math.floor(Math.random() * (max - min + 1)) + min;
-                            item_nodes ["y"] = random;
-                            item_nodes ["gItem"] = response.generalItemId;
-                            item_nodes ["runId"] = response.runId;
-
-                            nodes.push(item_nodes);
-                            console.log(nodes);
-
-                            restart();
-                        }
-                    });
-                }
-
-                return d.selected;
+            var newResponse = new Response({
+                generalItemId: $.cookie("dojoibl.activity"),
+                responseValue: $('input.add-concept-value').val() ,
+                runId: $.cookie("dojoibl.run"),
+                userEmail: 0
             });
+            newResponse.save({}, {
+                beforeSend:setHeader,
+                success: function(r, response){
+
+                    var item_nodes = {}
+                    item_nodes ["id"] = response.responseId;
+                    item_nodes ["name"] = response.responseValue;
+                    var min = 50;
+                    var max = 550;
+                    var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                    item_nodes ["x"] = random;
+                    var min = 50;
+                    var max = 150;
+                    var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                    item_nodes ["y"] = random;
+                    item_nodes ["gItem"] = response.generalItemId;
+                    item_nodes ["runId"] = response.runId;
+
+                    nodes.push(item_nodes);
+
+                    restart();
+                }
+            });
+
+            //node.filter(function(d,i) {
+            //    if(i==0){
+            //        var newResponse = new Response({
+            //            generalItemId: $.cookie("dojoibl.activity"),
+            //            responseValue: $('input.add-concept-value').val() ,
+            //            runId: $.cookie("dojoibl.run"),
+            //            userEmail: 0
+            //        });
+            //        newResponse.save({}, {
+            //            beforeSend:setHeader,
+            //            success: function(r, response){
+            //
+            //                var item_nodes = {}
+            //                item_nodes ["id"] = response.responseId;
+            //                item_nodes ["name"] = response.responseValue;
+            //                var min = 50;
+            //                var max = 550;
+            //                var random = Math.floor(Math.random() * (max - min + 1)) + min;
+            //                item_nodes ["x"] = random;
+            //                var min = 50;
+            //                var max = 150;
+            //                var random = Math.floor(Math.random() * (max - min + 1)) + min;
+            //                item_nodes ["y"] = random;
+            //                item_nodes ["gItem"] = response.generalItemId;
+            //                item_nodes ["runId"] = response.runId;
+            //
+            //                nodes.push(item_nodes);
+            //                console.log(nodes);
+            //
+            //                restart();
+            //            }
+            //        });
+            //    }
+            //
+            //    return d.selected;
+            //});
         }
 
     }

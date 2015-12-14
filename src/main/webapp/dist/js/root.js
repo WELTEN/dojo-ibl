@@ -17,12 +17,12 @@ var AppRouter = Backbone.Router.extend({
         this.ActivityList = new ActivityCollection({ });
     },
     routes: {
-        ""			: "showInquiries",
-        "logout"			: "logout",
-        "inquiry/:id"	: "showInquiry",
-        "inquiry/new/"	: "createInquiry",
-        "inquiry/:id/phase/:phase" : "showPhase",
-        "inquiry/:id/phase/:phase/activity/:activity" : "showActivity"
+        ""			                                        : "showInquiries",
+        "logout"			                                : "logout",
+        "inquiry/:id"	                                    : "showInquiry",
+        "inquiry/new/"	                                    : "createInquiry",
+        "inquiry/:id/phase/:phase"                          : "showPhase",
+        "inquiry/:id/phase/:phase/activity/:activity"       : "showActivity"
     },
 
     // main views
@@ -165,6 +165,8 @@ var AppRouter = Backbone.Router.extend({
             _runId = $.cookie("dojoibl.run");
         }
 
+        this.createCookie("dojoibl.activity", activity);
+
         this.loadInquiryUsers(_runId);
 
         $( ".list_activities li[data='"+activity+"']").addClass("animated bounceOutUp");
@@ -194,7 +196,6 @@ var AppRouter = Backbone.Router.extend({
                             app.loadChat();
                         }
                     }
-
 
                     $("#inquiry-content").html(new ActivityView({ model: xhr }).render().el);
 
@@ -234,6 +235,14 @@ var AppRouter = Backbone.Router.extend({
                         $('#list_answers').addClass("social-footer");
                         $('#list_answers').append(new ResponseReplyView({}).render().el);
 
+                        $(".previous-activity").click(function(){
+                            console.log("previous activity");
+                        });
+
+                        $(".next-activity").click(function(){
+                            console.log("next activity");
+                        });
+
                         ///////////////////////////////////////////////////////////////////////////
                         // This event should be captured outside to manage the comments in the main
                         // discussion thread
@@ -252,7 +261,6 @@ var AppRouter = Backbone.Router.extend({
                             }
                             $("textarea[responseid='0']").val("");
                         });
-
                     }
                 }
             });
@@ -261,6 +269,9 @@ var AppRouter = Backbone.Router.extend({
     createInquiry: function(){
         this.isAuthenticated();
         app.showView(".row.inquiry", new InquiryNewView());
+
+        app.changeTitle("New inquiry");
+        app.breadcrumbManager(0, "");
 
 
         $("#wizard").steps({
@@ -435,8 +446,6 @@ var AppRouter = Backbone.Router.extend({
                                     localId: $.cookie("dojoibl.localId"),
                                     gameId: $.cookie("dojoibl.game") });
                                 newUserForRun.save({}, { beforeSend:setHeader });
-
-
                             }
                         });
 
@@ -451,8 +460,6 @@ var AppRouter = Backbone.Router.extend({
 
                             var name = fields.eq(0).val();
                             var description = fields.eq(1).val();
-
-
 
                             ///////////////////
                             // To get the phase
@@ -505,8 +512,12 @@ var AppRouter = Backbone.Router.extend({
                                 }
                             });
                         });
+
+                        //app.navigate('');
+                        //window.location.replace("/");
                     }
                 });
+
 
                 //$("#my-awesome-dropzone").submit();
 
