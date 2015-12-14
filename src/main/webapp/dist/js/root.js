@@ -444,11 +444,15 @@ var AppRouter = Backbone.Router.extend({
                             var selects = $(this).find("option:selected");
                             var fields = $(this).find(":text");
 
+                            var file = $(this).find(":file");
+
                             var type = selects.eq(0).val();
                             var roles = selects.eq(1).val();
 
                             var name = fields.eq(0).val();
                             var description = fields.eq(1).val();
+
+                            var feed = file.eq(0).val();
 
                             ///////////////////
                             // To get the phase
@@ -458,16 +462,41 @@ var AppRouter = Backbone.Router.extend({
                             console.log(name, description);
                             console.log(type, roles);
 
+                            if(type == "org.celstec.arlearn2.beans.generalItem.VideoObject"){
+                                var data = {
+                                    name: name,
+                                    description: description,
+                                    type: type,
+                                    section: phase,
+                                    gameId: _gameId,
+                                    sortKey: 1,
+                                    videoFeed: feed
+                                };
+                            }else if(type == "org.celstec.arlearn2.beans.generalItem.AudioObject") {
+                                var data = {
+                                    name: name,
+                                    description: description,
+                                    type: type,
+                                    section: phase,
+                                    gameId: _gameId,
+                                    sortKey: 1,
+                                    audioFeed: feed
+                                };
+                            }else{
+                                var data = {
+                                    name: name,
+                                    description: description,
+                                    type: type,
+                                    section: phase,
+                                    gameId: _gameId,
+                                    sortKey: 1
+                                };
+                            }
+
                             /////////////////////////////////////
                             // Create the activity = General Item
                             /////////////////////////////////////
-                            var newActivity = new Activity({
-                                name: name,
-                                description: description,
-                                type: type,
-                                section: phase,
-                                gameId: _gameId
-                            });
+                            var newActivity = new Activity(data);
                             newActivity.save({}, {
                                 beforeSend:setHeader,
                                 success: function(r, new_response){
@@ -692,6 +721,7 @@ var AppRouter = Backbone.Router.extend({
             console.log($(this));
             $(this).parent().parent().remove();
         });
+
     },
     showView: function(selector, view) {
         if (this.currentView) {

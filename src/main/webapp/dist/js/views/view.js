@@ -176,6 +176,21 @@ window.NewActivityNewInquiryView = Backbone.View.extend({
         this.template = _.template(tpl.get('new_activity_new_inquiry'));
 
     },
+    events: {
+        "change .type-activity": "changeSelect"
+    },
+    changeSelect: function() {
+        this.$(".type-activity option:selected").each(function() {
+            if($( this ).val() == "org.celstec.arlearn2.beans.generalItem.VideoObject" ||
+                $( this ).val() == "org.celstec.arlearn2.beans.generalItem.OpenBadge"){
+                    $(this).closest("tr").find(".feed-activity").prop('disabled', true);
+                console.log($(this).closest("tr").find(".feed-activity").prop('disabled', false));
+            }else{
+                $(this).closest("tr").find(".feed-activity").prop('disabled', true);
+            }
+
+        });
+    },
     render:function () {
         $(this.el).html(this.template());
 
