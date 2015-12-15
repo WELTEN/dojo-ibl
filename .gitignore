@@ -27,7 +27,6 @@ src/main/webapp/index.jsp
 src/main/webapp/issuebadge.jsp
 src/main/webapp/portal.html
 src/main/webapp/qrsFor.jsp
-src/main/webapp/register.html
 src/main/webapp/resultDisplayRuns.html
 src/main/webapp/runsParticipateDisplay.html
 src/main/webapp/search.html
