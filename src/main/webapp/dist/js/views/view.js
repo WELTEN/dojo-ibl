@@ -244,6 +244,7 @@ window.SideBarView = Backbone.View.extend({
         $('input#add-new-message').val('');
     },
     pressKeyMessage: function(e){
+        //console.log("pressKeyMessage called");
         var key = e.which;
         if(key == 13){
             console.log($(this));

@@ -753,127 +753,126 @@ var AppRouter = Backbone.Router.extend({
 
     // chat
     initializeChannelAPI: function(){
-        console.debug("[initializeChannelAPI]", "Initializing the chat");
+        if(!this.ChannelAPI){
+            console.debug("[initializeChannelAPI]", "Initializing the chat");
 
+            this.ChannelAPI = new ChannelAPICollection();
+            this.ChannelAPI.fetch({
+                beforeSend: setHeader,
+                success: function(response, xhr){
 
-        this.ChannelAPI = new ChannelAPICollection();
-        this.ChannelAPI.fetch({
-            beforeSend: setHeader,
-            success: function(response, xhr){
+                    channel = new goog.appengine.Channel(xhr.token);
+                    socket = channel.open();
 
-                channel = new goog.appengine.Channel(xhr.token);
-                socket = channel.open();
+                    socket.onopen = function() {
+                        ///////////////////////////////////////////////////////////////////////////////////////
+                        // TODO Block the chat until is connected
+                        ///////////////////////////////////////////////////////////////////////////////////////
+                        $('#messages').append('<p>Connected!</p>');
+                    };
 
-                socket.onopen = function() {
-                    ///////////////////////////////////////////////////////////////////////////////////////
-                    // TODO Block the chat until is connected
-                    ///////////////////////////////////////////////////////////////////////////////////////
-                    $('#messages').append('<p>Connected!</p>');
-                };
+                    socket.onmessage = function(message) {
+                        var a = $.parseJSON(message.data);
 
-                socket.onmessage = function(message) {
-                    var a = $.parseJSON(message.data);
-
-                    // TODO create a getMessage service on the API
-                    //if(app.MessagesList.where({ id: a.messageId }).length == 0){
-                    //    console.log("dentro");
-                    //    var message = new Message({ id: a.messageId });
-                    //    message.fetch({
-                    //        beforeSend: setHeader
-                    //    });
-                    //    app.MessagesList.add(message);
-                    //}
-
-                    //console.log(app.MessagesList);
-
-                    if (a.type == "org.celstec.arlearn2.beans.notification.MessageNotification") {
-                        if ($('.chat-discussion').length) {
-                            console.log(a);
-                            var aux = a.messageId;
-                            $('.chat-discussion').append(new MessageFromNotificationView({model: a}).render().el);
-                            //if (a.senderId == app.UserList.at(0).toJSON().localId){
-                            //    $('.direct-chat-messages').append(new MessageLeftView({ model: a }).render().el);
-                            //}else{
-                            //    $('.direct-chat-messages').append(new MessageRightView({ model: a }).render().el);
-                            //}
-
-                            $('.chat-discussion').animate({
-                                scrollTop: $('.chat-discussion')[0].scrollHeight
-                            }, 200);
-                        }
-                        //else {
-                        //    ///////////////////////////////////////////////////////////////////////////////////////
-                        //    // TODO We would need to check here if I have other windows open not nofifying myself again.
-                        //    // TODO Changes in one collection modifies a view: http://stackoverflow.com/questions/10341141/backbone-multiple-views-subscribing-to-a-single-collections-event-is-this-a-b
-                        //    ///////////////////////////////////////////////////////////////////////////////////////
-                        //    $('.messages-menu > ul').append(new MessageNotificationView({model: a}).render().el);
-                        //
-                        //    var new_floating_notification = new GeneralFloatingNotificationView({model: a}).render().el;
-                        //
-                        //    var message_notifications = $('.messages-menu span.label-success').html();
-                        //
-                        //    if (message_notifications != "" && message_notifications > 0) {
-                        //        message_notifications = parseInt(message_notifications) + 1;
-                        //        $('.messages-menu span.label-success').html(message_notifications);
-                        //    } else {
-                        //        $('.messages-menu span.label-success').html(1);
-                        //    }
-                        //
-                        //    /////////////////////////
-                        //    // Floating notifications
-                        //    /////////////////////////
-                        //    var top = $(new_floating_notification).position().top;
-                        //
-                        //    var max_top = 64;
-                        //
-                        //    var pile_notifications = $('body').find($(".ui-pnotify.stack-topleft")).length;
-                        //
-                        //    max_top = max_top + 100 * pile_notifications;
-                        //
-                        //    console.log("Adding notification: Pixels:", max_top, "Bubbles:" + pile_notifications);
-                        //
-                        //    $(new_floating_notification).css({top: max_top + 'px'});
-                        //
-                        //    $('body').append(new_floating_notification);
-                        //
-                        //    setTimeout(showNotifications, 5000);
-                        //    function showNotifications() {
-                        //        $(new_floating_notification).remove();
-                        //
-                        //        $.each($(".ui-pnotify.stack-topleft"), function (key, value) {
-                        //            var top = $(this).position().top;
-                        //
-                        //            if (top == "64") {
-                        //                $(this).remove();
-                        //            }
-                        //
-                        //            var descrease_top = top - 100 * pile_notifications;
-                        //            //max_top = max_top - 100;
-                        //
-                        //            console.log("Removing notification: Pixels:", max_top, "Bubbles:" + pile_notifications, "Decrementar pixels:" + descrease_top);
-                        //
-                        //
-                        //            $(this).css({top: descrease_top + 'px'});
-                        //        });
-                        //    }
-                        //
+                        // TODO create a getMessage service on the API
+                        //if(app.MessagesList.where({ id: a.messageId }).length == 0){
+                        //    console.log("dentro");
+                        //    var message = new Message({ id: a.messageId });
+                        //    message.fetch({
+                        //        beforeSend: setHeader
+                        //    });
+                        //    app.MessagesList.add(message);
                         //}
-                    }
 
-                    //if (a.type == "org.celstec.arlearn2.beans.run.Response") {
-                    //    /////////////////////////
-                    //    // Sidebar notifications
-                    //    /////////////////////////
-                    //    $("ul.notifications-side-bar").prepend(new NotificationSideBarView({model: a}).render().el)
-                    //}
-                };
+                        //console.log(app.MessagesList);
 
-                socket.onerror = function() { $('#messages').append('<p>Connection Error!</p>'); };
-                socket.onclose = function() { $('#messages').append('<p>Connection Closed!</p>'); };
-            }
-        });
-        //this.loadChat();
+                        if (a.type == "org.celstec.arlearn2.beans.notification.MessageNotification") {
+                            if ($('.chat-discussion').length) {
+                                console.log(a);
+                                var aux = a.messageId;
+                                $('.chat-discussion').append(new MessageFromNotificationView({model: a}).render().el);
+                                //if (a.senderId == app.UserList.at(0).toJSON().localId){
+                                //    $('.direct-chat-messages').append(new MessageLeftView({ model: a }).render().el);
+                                //}else{
+                                //    $('.direct-chat-messages').append(new MessageRightView({ model: a }).render().el);
+                                //}
 
+                                $('.chat-discussion').animate({
+                                    scrollTop: $('.chat-discussion')[0].scrollHeight
+                                }, 200);
+                            }
+                            //else {
+                            //    ///////////////////////////////////////////////////////////////////////////////////////
+                            //    // TODO We would need to check here if I have other windows open not nofifying myself again.
+                            //    // TODO Changes in one collection modifies a view: http://stackoverflow.com/questions/10341141/backbone-multiple-views-subscribing-to-a-single-collections-event-is-this-a-b
+                            //    ///////////////////////////////////////////////////////////////////////////////////////
+                            //    $('.messages-menu > ul').append(new MessageNotificationView({model: a}).render().el);
+                            //
+                            //    var new_floating_notification = new GeneralFloatingNotificationView({model: a}).render().el;
+                            //
+                            //    var message_notifications = $('.messages-menu span.label-success').html();
+                            //
+                            //    if (message_notifications != "" && message_notifications > 0) {
+                            //        message_notifications = parseInt(message_notifications) + 1;
+                            //        $('.messages-menu span.label-success').html(message_notifications);
+                            //    } else {
+                            //        $('.messages-menu span.label-success').html(1);
+                            //    }
+                            //
+                            //    /////////////////////////
+                            //    // Floating notifications
+                            //    /////////////////////////
+                            //    var top = $(new_floating_notification).position().top;
+                            //
+                            //    var max_top = 64;
+                            //
+                            //    var pile_notifications = $('body').find($(".ui-pnotify.stack-topleft")).length;
+                            //
+                            //    max_top = max_top + 100 * pile_notifications;
+                            //
+                            //    console.log("Adding notification: Pixels:", max_top, "Bubbles:" + pile_notifications);
+                            //
+                            //    $(new_floating_notification).css({top: max_top + 'px'});
+                            //
+                            //    $('body').append(new_floating_notification);
+                            //
+                            //    setTimeout(showNotifications, 5000);
+                            //    function showNotifications() {
+                            //        $(new_floating_notification).remove();
+                            //
+                            //        $.each($(".ui-pnotify.stack-topleft"), function (key, value) {
+                            //            var top = $(this).position().top;
+                            //
+                            //            if (top == "64") {
+                            //                $(this).remove();
+                            //            }
+                            //
+                            //            var descrease_top = top - 100 * pile_notifications;
+                            //            //max_top = max_top - 100;
+                            //
+                            //            console.log("Removing notification: Pixels:", max_top, "Bubbles:" + pile_notifications, "Decrementar pixels:" + descrease_top);
+                            //
+                            //
+                            //            $(this).css({top: descrease_top + 'px'});
+                            //        });
+                            //    }
+                            //
+                            //}
+                        }
+
+                        //if (a.type == "org.celstec.arlearn2.beans.run.Response") {
+                        //    /////////////////////////
+                        //    // Sidebar notifications
+                        //    /////////////////////////
+                        //    $("ul.notifications-side-bar").prepend(new NotificationSideBarView({model: a}).render().el)
+                        //}
+                    };
+
+                    socket.onerror = function() { $('#messages').append('<p>Connection Error!</p>'); };
+                    socket.onclose = function() { $('#messages').append('<p>Connection Closed!</p>'); };
+                }
+            });
+        }
     },
     loadChat: function(){
 
