@@ -47,31 +47,29 @@ $(document).ready(function () {
             title: 'Master Class about IBL',
             type: 'text/html',
             youtube: '4PeQm6vaD0k',
-            poster: 'https://www.ou.nl/images/Opener/CW/stamboomonderzoek/OU_Logo.JPG'
+            poster: '/dist/img/stefaan_angel_masterclass.png'
         },
         {
             title: 'Master Class about IBL',
             type: 'text/html',
             youtube: 'eQiajgwJrKU',
-            poster: 'https://www.ou.nl/images/Opener/CW/stamboomonderzoek/OU_Logo.JPG'
+            poster: '/dist/img/fleur_masterclass.png'
         },
         {
             title: 'Google Glass for IBL',
             type: 'text/html',
             youtube: '4v7uf5khkC0',
-            poster: 'https://www.ou.nl/images/Opener/CW/stamboomonderzoek/OU_Logo.JPG'
+            poster: '/dist/img/glass_angel.png'
         },
         {
             title: 'IBL',
             type: 'text/html',
-            youtube: 'u84ZsS6niPc',
-            poster: 'https://www.ou.nl/images/Opener/CW/stamboomonderzoek/OU_Logo.JPG'
+            youtube: 'u84ZsS6niPc'
         },
         {
             title: 'Benefits of IBL',
             type: 'text/html',
-            youtube: '2ylmVT5lkck',
-            poster: 'https://www.ou.nl/images/Opener/CW/stamboomonderzoek/OU_Logo.JPG'
+            youtube: '2ylmVT5lkck'
         },
 
         //{
