@@ -258,7 +258,7 @@ public class MyRuns extends Service {
 	@Path("/badge/{runIdentifier}/{itemId}/{userId}")
 	 @Produces("application/json")
 	public String getBadge(@PathParam("runIdentifier") Long runId, @PathParam("itemId") String itemId, @PathParam("userId") String email) {
-		List<Run> runList = RunManager.getRuns(runId, null, null, null, null);
+		List<Run> runList = RunManager.getRuns(runId, null, null, null, null, null);
 		if (runList.isEmpty())
 			return null;
 		Run r = runList.get(0);

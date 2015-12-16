@@ -32,6 +32,7 @@ import org.celstec.arlearn2.util.RunsCache;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 //import org.celstec.arlearn2.tasks.beans.DeleteInventoryRecords;
@@ -64,7 +65,7 @@ public class RunDelegator extends GoogleDelegator {
     public Run getRun(Long runId) {
         Run r = RunsCache.getInstance().getRun(runId);
         if (r == null) {
-            List<Run> runList = RunManager.getRuns(runId, null, null, null, null);
+            List<Run> runList = RunManager.getRuns(runId, null, null, null, null, null);
             if (runList.isEmpty())
                 return null;
             r = runList.get(0);
@@ -83,7 +84,7 @@ public class RunDelegator extends GoogleDelegator {
         if (myAccount == null) {
             rl.setError("login to retrieve your list of games");
         } else {
-            rl.setRuns(RunManager.getRuns(null, null, myAccount, null, null));
+            rl.setRuns(RunManager.getRuns(null, null, myAccount, null, null, null));
         }
         return rl;
     }
@@ -224,6 +225,21 @@ public class RunDelegator extends GoogleDelegator {
     }
 
     private Run createRunWithAccount(Run run) {
+
+        /************************************************************************
+         Generation of a random code. As it must be unique we perform a select
+         query by its code. If the code exists in the database we perform the
+         query again until we find another unique code.
+         ***********************************************************************/
+        String code = generateRandomCode();
+        Iterator<Run> it  = RunManager.getRuns(null, null, null, null, null, code).iterator();
+
+        while (it.hasNext()){
+            code = generateRandomCode();
+            it = RunManager.getRuns(null, null, null, null, null, code).iterator();
+        }
+        run.setCode(code);
+
         run.setRunId(RunManager.addRun(run));
 
         RunAccessDelegator rd = new RunAccessDelegator(this);
@@ -236,6 +252,16 @@ public class RunDelegator extends GoogleDelegator {
         (new UpdateVariableEffectInstancesForAll(authToken, this.account, run.getRunId(), run.getGameId(), 1)).scheduleTask();
 
         return run;
+    }
+
+    private static String generateRandomCode(){
+        char[] chars = "abcdefghijklmnopqrstuvwxyzABSDEFGHIJKLMNOPQRSTUVWXYZ1234567890".toCharArray();
+        Random r = new Random(System.currentTimeMillis());
+        char[] id = new char[5];
+        for (int i = 0;  i < 5;  i++) {
+            id[i] = chars[r.nextInt(chars.length)];
+        }
+        return String.valueOf(id).toUpperCase();
     }
 
     public Run updateRun(Run run, long runId) {
@@ -309,7 +335,7 @@ public class RunDelegator extends GoogleDelegator {
     }
 
     public void deleteRuns(long gameId, String email) {
-        List<Run> runList = RunManager.getRuns(null, gameId, null, null, null);
+        List<Run> runList = RunManager.getRuns(null, gameId, null, null, null, null);
         for (Run r : runList) {
             deleteRun(r, email);
         }
@@ -324,7 +350,7 @@ public class RunDelegator extends GoogleDelegator {
     }
 
     public List<Run> getRunsForGame(long gameId) {
-        return RunManager.getRuns(null, gameId, null, null, null);
+        return RunManager.getRuns(null, gameId, null, null, null, null);
 
     }
 
@@ -349,7 +375,7 @@ public class RunDelegator extends GoogleDelegator {
 
     public RunList getTaggedRuns(String tagId) {
         RunList rl = new RunList();
-        rl.setRuns(RunManager.getRuns(null, null, null, null, tagId));
+        rl.setRuns(RunManager.getRuns(null, null, null, null, tagId, null));
         return rl;
     }
 
@@ -388,7 +414,7 @@ public class RunDelegator extends GoogleDelegator {
         String myAccount = qu.getCurrentUserAccount();
 
 
-        List<Run> runList = RunManager.getRuns(runId, null, null, null, null);
+        List<Run> runList = RunManager.getRuns(runId, null, null, null, null, null);
         if (!runList.isEmpty() ) { //&& runList.get(0).getTagId() != null
             return selfRegister(runList.get(0));
         } else {

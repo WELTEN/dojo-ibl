@@ -18,12 +18,12 @@
  ******************************************************************************/
 package org.celstec.arlearn2.jdo.classes;
 
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
+
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
 
 @PersistenceCapable
 public class RunJDO extends RunClass{
@@ -51,6 +51,9 @@ public class RunJDO extends RunClass{
 	
 	@Persistent
 	private Text payload;
+
+	@Persistent
+	private String code;
 
 	public Long getRunId() {
 		return id.getId();
@@ -129,7 +132,14 @@ public class RunJDO extends RunClass{
 		this.payload = payload;
 	}
 
-	
+	public String getCode() {
+		return code;
+	}
 
-	
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+
+
 }

@@ -118,7 +118,7 @@ public class AnswerJspUtil {
 	}
 	
 	public static String[][] getRunTitles(Long runId, String account) {
-		List<Run> runs = RunManager.getRuns(runId, null, null, null, null);
+		List<Run> runs = RunManager.getRuns(runId, null, null, null, null, null);
 		if (runs.isEmpty()) return null;
 		Long gameId = runs.get(0).getGameId();
 		List<GeneralItem> l = GeneralItemManager.getGeneralitems(gameId, null, null, null);

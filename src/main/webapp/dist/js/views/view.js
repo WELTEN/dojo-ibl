@@ -131,7 +131,6 @@ window.GameListView = Backbone.View.extend({
 
 // Run
 window.RunListView = Backbone.View.extend({
-    tagName:  "li",
     initialize:function () {
         this.template = _.template(tpl.get('run'));
     },
@@ -160,7 +159,7 @@ window.InquiryNewView = Backbone.View.extend({
     tagName:  "div",
     className: "col-md-12 wrapper wrapper-content animated fadeInUp",
     initialize:function () {
-        this.template = _.template(tpl.get('inquiry_new'));
+        this.template = _.template(tpl.get('new_inquiry'));
 
     },
     render:function () {
@@ -169,6 +168,22 @@ window.InquiryNewView = Backbone.View.extend({
         return this;
     }
 });
+
+window.NewInquiryCode = Backbone.View.extend({
+    tagName:  "div",
+    className: "article col-md-6 col-md-offset-3 animated fadeInUp",
+    initialize:function (options) {
+        this.code = options.code;
+        this.template = _.template(tpl.get('new_inquiry_code'));
+
+    },
+    render:function () {
+        $(this.el).html(this.template({ code: this.code }));
+
+        return this;
+    }
+});
+
 
 window.NewActivityNewInquiryView = Backbone.View.extend({
     tagName:  "tr",

@@ -82,6 +82,12 @@ window.GiveAccessToRun = Backbone.Model.extend({
 });
 
 window.Run = Backbone.Model.extend({
+    defaults:{
+        "code": "",
+        "title": "",
+        "description": "",
+        "gameId": 0
+    },
     global_identifier: 0,
     initialize: function(a){
         //console.log("Run initialize");

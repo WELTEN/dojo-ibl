@@ -95,11 +95,12 @@
 
                 </ol>
             </div>
-            <div class="col-sm-7 breadcrumb-flow tooltip-demo">
+            <div class="col-sm-6 breadcrumb-flow tooltip-demo">
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <div class="title-action">
-                    <a href="#inquiry/new/" class="btn btn-primary new-inquiry" >New inquiry</a>
+                    <a href="#inquiry/new/" class="btn btn-success new-inquiry" >New inquiry</a>
+                    <a href="#inquiry/new/" class="btn btn-warning new-inquiry" data-toggle="modal" data-target="#myModal">Join inquiry</a>
                 </div>
             </div>
         </div>
@@ -117,22 +118,23 @@
     </div>
 </div>
 
-<div class="modal inmodal" id="model-new-concept" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content animated bounceInRight">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <i class="fa fa-laptop modal-icon"></i>
-                <h4 class="modal-title">New concept</h4>
-                <small class="font-bold">Provide a meaningful description for the new concept.</small>
+                <i class="fa fa-sign-in modal-icon"></i>
+                <h4 class="modal-title">Join inquiry</h4>
             </div>
             <div class="modal-body">
-
-                <div class="form-group"><label>Concept</label> <input type="email" placeholder="Description..." class="form-control new-concept"></div>
+                <p><strong>Tip</strong>: ask your teacher for the code. Type the code below and we will do the magic for you.
+                    After you insert the code you will be redirect to the inquiry.
+                The code </p>
+                <div class="form-group"><label>Insert inquiry code</label> <input type="email" placeholder="Inquiry code" required class="form-control"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary add-concept" >Add concept</button>
+                <button type="button" class="btn btn-primary join-inquiry" data-dismiss="modal">Join</button>
             </div>
         </div>
     </div>

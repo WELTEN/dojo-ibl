@@ -18,19 +18,17 @@
  ******************************************************************************/
 package org.celstec.arlearn2.tasks.beans.cleanUp;
 
-import java.util.List;
-
-import javax.jdo.PersistenceManager;
-
+import com.google.appengine.api.datastore.Cursor;
+import com.google.appengine.datanucleus.query.JDOCursorHelper;
 import org.celstec.arlearn2.jdo.PMF;
 import org.celstec.arlearn2.jdo.classes.RunJDO;
 import org.celstec.arlearn2.jdo.classes.UserJDO;
 import org.celstec.arlearn2.jdo.manager.RunManager;
 import org.celstec.arlearn2.jdo.manager.UserManager;
 import org.celstec.arlearn2.tasks.beans.GenericBean;
-import com.google.appengine.datanucleus.query.JDOCursorHelper;
 
-import com.google.appengine.api.datastore.Cursor;
+import javax.jdo.PersistenceManager;
+import java.util.List;
 
 public class UserIterator extends GenericBean {
 
@@ -94,7 +92,7 @@ public class UserIterator extends GenericBean {
 			UserManager.deleteUser(pm, userJDO);
 			
 		} else {
-			List<RunJDO> list = RunManager.getRuns(pm, userJDO.getRunId(), null, null, null, null);
+			List<RunJDO> list = RunManager.getRuns(pm, userJDO.getRunId(), null, null, null, null, null);
 			if (list.isEmpty()) {
 				UserManager.deleteUser(pm, userJDO);
 			}

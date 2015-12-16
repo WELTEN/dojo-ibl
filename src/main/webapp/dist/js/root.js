@@ -34,6 +34,10 @@ var AppRouter = Backbone.Router.extend({
         this.initializeChannelAPI();
         this.breadcrumbManagerSmall(0,"List of inquiries");
         this.changeTitle("List of inquiries");
+
+        $(".join-inquiry").click(function(){
+
+        });
     },
 
     showInquiry:function (id) {
@@ -312,15 +316,12 @@ var AppRouter = Backbone.Router.extend({
             onStepChanged: function (event, currentIndex, priorIndex)
             {
                 // Suppress (skip) "Warning" step if the user is old enough.
-                if (currentIndex === 4){
-
-
-                }
+                //if (currentIndex === 4){
+                //
+                //}
             },
             onFinishing: function (event, currentIndex)
             {
-                //var form = $(this);
-
                 // Disable validation on fields that are disabled.
                 // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
                 //form.validate().settings.ignore = ":disabled";
@@ -427,6 +428,8 @@ var AppRouter = Backbone.Router.extend({
                                 console.log(new_response);
                                 app.RunList.add(new_response);
 
+                                $('.row.inquiry').html(new NewInquiryCode({ code: new_response.code }).render().el);
+
                                 /////////////////////
                                 // Give access to Run
                                 /////////////////////
@@ -453,8 +456,6 @@ var AppRouter = Backbone.Router.extend({
                             var selects = $(this).find("option:selected");
                             var fields = $(this).find(":text");
 
-                            //var file = $(this).find(".feed-activity > input");
-
                             var type = selects.eq(0).val();
                             var roles = selects.eq(1).val();
 
@@ -465,9 +466,6 @@ var AppRouter = Backbone.Router.extend({
                             // To get the phase
                             ///////////////////
                             var phase = $(this).closest("div[id*='tab']").attr("id").substring(4,5);
-                            console.log(phase);
-                            console.log(name, description);
-                            console.log(type, roles);
 
                             if(type == "org.celstec.arlearn2.beans.generalItem.VideoObject"){
                                 var data = {
@@ -512,29 +510,15 @@ var AppRouter = Backbone.Router.extend({
                                 }
                             });
                         });
-
-                        //app.navigate('');
-                        //window.location.replace("/");
                     }
                 });
 
-
-                //$("#my-awesome-dropzone").submit();
-
-                // Start validation; Prevent form submission if false
                 return true;
-                //return form.valid();
             },
-            onFinished: function (event, currentIndex)
-            {
-                var form = $(this);
+            onFinished: function (event, currentIndex) {
+            },
+            afterSync: function(event){
 
-                //console.log("hola");
-
-                //$("#my-awesome-dropzone").submit();
-
-                // Submit form input
-                form.submit();
             }
         }).validate({
             errorPlacement: function (error, element)
@@ -551,6 +535,7 @@ var AppRouter = Backbone.Router.extend({
         $(".sortable-list").sortable({
             connectWith: ".connectList"
         }).disableSelection();
+
         //Dropzone.autoDiscover = false;
         //Dropzone.options.attachment = {
         //    init: function(){
@@ -608,8 +593,6 @@ var AppRouter = Backbone.Router.extend({
         //        //});
         //    } });
 
-
-
         ////////////////////
         // Manage activities
         ////////////////////
@@ -620,8 +603,6 @@ var AppRouter = Backbone.Router.extend({
         // Manage phases
         ////////////////
         this.newPhaseNewInquiry();
-
-
     },
 
     // util functions
@@ -1077,7 +1058,7 @@ tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry', 'run', 'user', 'use
     'inquiry_sidebar', 'activityDependency', 'message', 'message_right', 'inquiry_left_sidebar','message_own', 'response', 'response_discussion', 'response_treeview','response_author', 'response_discussion_author',
     'message_notification','notification_floating', 'activity_video', 'activity_widget', 'activity_discussion', 'notification_sidebar', 'user_inquiry','activity_tree_view',
     'item_breadcrumb_phase'
-    , 'item_breadcrumb_activity','activity_html', 'response_reply', 'inquiry_new', 'activity_concept_map', 'new_activity_new_inquiry', 'new_phase_new_inquiry'], function() {
+    , 'item_breadcrumb_activity','new_inquiry_code','activity_html', 'response_reply', 'new_inquiry', 'activity_concept_map', 'new_activity_new_inquiry', 'new_phase_new_inquiry'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });
