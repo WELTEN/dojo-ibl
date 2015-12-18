@@ -260,6 +260,8 @@ var AppRouter = Backbone.Router.extend({
                                     beforeSend:setHeader,
                                     success: function(r, new_response){
                                         app.Response.add(new_response);
+                                        //$(".m-r-sm.text-muted.notification-text").addClass("animated fadeInUp").html("Comment sent").fadeOut(5000);
+                                        app.showNotification("success", "Discussion thread", "Your comment has been sent");
                                     }
                                 });
                             }
@@ -449,6 +451,9 @@ var AppRouter = Backbone.Router.extend({
                                     localId: $.cookie("dojoibl.localId"),
                                     gameId: $.cookie("dojoibl.game") });
                                 newUserForRun.save({}, { beforeSend:setHeader });
+
+                                app.showNotification("success", "Inquiry created successfully", "You can find "+_name+" in your inquiry list.");
+
                             }
                         });
 
@@ -731,6 +736,38 @@ var AppRouter = Backbone.Router.extend({
 
         $.cookie(name, value, {expires: date, path: "/"});
     },
+    showNotification: function(type, title, message){
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "progressBar": true,
+            "preventDuplicates": false,
+            "positionClass": "toast-top-right",
+            "onclick": null,
+            "showDuration": "10000",
+            "hideDuration": "10000",
+            "timeOut": "10000",
+            "extendedTimeOut": "10000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        //if ($('#addBehaviorOnToastClick').prop('checked')) {
+        //    toastr.options.onclick = function () {
+        //        alert('You can perform some custom action after a toast goes away');
+        //    };
+        //}
+        //$("#toastrOptions").text("Command: toastr["
+        //    + shortCutFunction
+        //    + "](\""
+        //    + msg
+        //    + (title ? "\", \"" + title : '')
+        //    + "\")\n\ntoastr.options = "
+        //    + JSON.stringify(toastr.options, null, 2)
+        //);
+        var $toast = toastr[type](message, title); // Wire up an event handler to a button in the toast, if it exists
+    },
 
     // chat
     initializeChannelAPI: function(){
@@ -951,7 +988,7 @@ var AppRouter = Backbone.Router.extend({
         app.UsersList.fetch({
             beforeSend: setHeader,
             success: function(response, xhr) {
-                $(".m-r-sm.text-muted.welcome-message").html("Welcome "+xhr.givenName+" "+xhr.familyName);
+                $(".m-r-sm.text-muted.notification-text").html(xhr.givenName+" "+xhr.familyName);
                 app.showView('ul.nav.metismenu > li:eq(0)', new UserView({ model: xhr }));
 
                 var date = new Date();
