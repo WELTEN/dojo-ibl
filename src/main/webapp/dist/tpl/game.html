@@ -1,7 +1,7 @@
 <div class="widget-head-color-box navy-bg p-lg text-center">
     <div class="m-b-sm">
         <h2 class="font-bold no-margins">
-            <%= model.title %>
+            <a class="show-runs"><%= model.title %></a>
         </h2>
     </div>
 
@@ -14,14 +14,14 @@
     </div>
     <br/>
     <div class="text">
-        <a class="btn btn-xs btn-primary show-runs"><i class="fa fa-key"></i> Access </a>
+        <h4 class="media-heading">Description</h4>
+        <%
+        if ( model.description != '') {
+        %>  <p><%= model.description %></p> <%
+        }%>
     </div>
 </div>
 <div class="widget-text-box">
-    <h4 class="media-heading">Description</h4>
-    <%
-    if ( model.description != '') {
-    %>  <p><%= model.description %></p> <%
-    }%>
+
 
 </div>

@@ -150,8 +150,38 @@ window.InquiryView = Backbone.View.extend({
     },
     render:function () {
         $(this.el).html(this.template(this.model));
+        var radius = 170;
+        var fields = $(this.el).find('#circlemenu li'),
+            container = $(this.el).find('#circlemenu'),
+            width = container.width(),
+            height = container.height(),
+            angle = 300,
+            step = (2*Math.PI) / fields.length;
+
+        console.log(fields, container);
+
+        fields.each(function() {
+
+            var x = Math.round(width/2 + radius * Math.cos(angle) - $(this).width()/2);
+            var y = Math.round(height/2 + radius * Math.sin(angle) - $(this).height()/2);
+            console.log(x,y);
+            if(window.console) {
+                console.log($(this).text(), x, y);
+            }
+            $(this).css({
+                left: x + 'px',
+                top: y + 'px'
+            });
+            angle += step;
+        });
 
         return this;
+    },
+    distributeFields: function(){
+
+
+
+
     }
 });
 
@@ -160,12 +190,96 @@ window.InquiryNewView = Backbone.View.extend({
     className: "col-md-12 wrapper wrapper-content animated fadeInUp",
     initialize:function () {
         this.template = _.template(tpl.get('new_inquiry'));
+    },
+    events: {
+        "click .drag.external-event.navy-bg.remove": "loadActivity",
+        "focusout input.form-control": "saveActivity"
+    },
+    saveActivity: function(e){
+        console.log("saving activity");
+    },
+    loadActivity: function(e) {
+        $('.selected').removeClass('selected');
+        $(e.toElement).addClass('selected');
+
+        var _gameId = 0;
+
+        if($.cookie("dojoibl.game")){
+            _gameId = $.cookie("dojoibl.game");
+        }
+
+        $(".activities").switchClass("col-lg-12","col-lg-4");
+        $(".activities-form").show();
+
+
+        var act = new ActivityCollection({ });
+        act.id = $(e.toElement).attr('id');
+        act.gameId = _gameId;
+        act.fetch({
+            beforeSend: setHeader,
+            success: function (response, xhr) {
+                $.each(xhr, function(name, value){
+                    if( name != 'videoFeed' && name != 'audioFeed' ){
+                        $('[name="audioFeed"]').prev(".hr-line-dashed").hide();
+                        $('[name="audioFeed"]').closest('.form-group').hide();
+                        $('[name="resource"]').prev(".hr-line-dashed").hide();
+                        $('[name="resource"]').closest('.form-group').hide();
+                        $('[name="videoFeed"]').prev(".hr-line-dashed").hide();
+                        $('[name="videoFeed"]').closest('.form-group').hide();
+                    }else{
+                        $('[name="audioFeed"]').prev(".hr-line-dashed").show();
+                        $('[name="audioFeed"]').closest('.form-group').show();
+                        $('[name="resource"]').prev(".hr-line-dashed").show();
+                        $('[name="resource"]').closest('.form-group').show();
+                        $('[name="videoFeed"]').prev(".hr-line-dashed").show();
+                        $('[name="videoFeed"]').closest('.form-group').show();
+                    }
+
+                    if(name == 'videoFeed'){
+                        $('[name="audioFeed"]').attr('name','videoFeed');
+                        $('[name="resource"]').attr('name','videoFeed');
+                    }
+
+                    if(name == 'audioFeed'){
+                        $('[name="videoFeed"]').attr('name','audioFeed');
+                        $('[name="resource"]').attr('name','audioFeed');
+                    }
+
+                    var $el = $('[name="'+name+'"]'),
+                        type = $el.attr('type');
+
+                    switch(type){
+                        case 'checkbox':
+                            $el.attr('checked', 'checked');
+                            break;
+                        case 'radio':
+                            $el.filter('[value="'+value+'"]').attr('checked', 'checked');
+                            break;
+                        default:
+                            $el.val(value);
+                    }
+
+                });
+            }
+        });
 
     },
     render:function () {
         $(this.el).html(this.template(this.model));
 
         return this;
+    },
+    addPluginChosen: function(){
+        var config = {
+            '.chosen-select'           : {},
+            '.chosen-select-deselect'  : {allow_single_deselect:true},
+            '.chosen-select-no-single' : {disable_search_threshold:10},
+            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+            '.chosen-select-width'     : {width:"95%"}
+        }
+        for (var selector in config) {
+            $(selector).chosen(config[selector]);
+        }
     }
 });
 
@@ -184,15 +298,18 @@ window.NewInquiryCode = Backbone.View.extend({
     }
 });
 
-
 window.NewActivityNewInquiryView = Backbone.View.extend({
     tagName:  "tr",
     initialize:function () {
         this.template = _.template(tpl.get('new_activity_new_inquiry'));
-
     },
     events: {
+        "click .drag.external-event.navy-bg.remove": "loadActivity",
         "change .type-activity": "changeSelect"
+    },
+    loadActivity: function() {
+        console.log("hola", this);
+        $('.selected.remove').removeClass('select');
     },
     changeSelect: function() {
         this.$(".type-activity option:selected").each(function() {
@@ -1639,3 +1756,4 @@ window.NotificationSideBarView = Backbone.View.extend({
         return this;
     }
 });
+

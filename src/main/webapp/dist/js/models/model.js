@@ -123,13 +123,26 @@ window.User = Backbone.Model.extend({
 window.Activity = Backbone.Model.extend({
     methodToURL: {
         'read': "/rest/generalItems/gameId/"+this.gameId+"/generalItem/"+this.id+"/section/"+this.section,
-        'create': '/rest/generalItems'
+        'create': '/rest/generalItems',
+        'update': "/rest/generalItems/gameId/"+this.gameId+"/generalItem/"+this.id
     },
     sync: function(method, model, options) {
         options = options || {};
         options.url = model.methodToURL[method.toLowerCase()];
 
         return Backbone.sync.apply(this, arguments);
+    }
+});
+
+window.ActivityUpdate = Backbone.Model.extend({
+    url: function(){
+        return "/rest/generalItems/gameId/"+this.gameId+"/generalItem/"+this.id;
+    }
+});
+
+window.ActivityDelete = Backbone.Model.extend({
+    url: function(){
+        return "/rest/generalItems/gameId/"+this.gameId+"/generalItem/"+this.id;
     }
 });
 
