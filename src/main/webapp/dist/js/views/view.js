@@ -97,7 +97,8 @@ window.GameListView = Backbone.View.extend({
         $(this.el).html(this.template({
             model: this.model,
             time: new Date(this.model.lastModificationDate).toLocaleDateString(),
-            timeago: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString())
+            timeago: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()),
+            description: jQuery.trim(this.model.description).substring(0, 50).split(" ").slice(0, -1).join(" ") + "..."
         }));
         return this;
     },
@@ -178,9 +179,6 @@ window.InquiryView = Backbone.View.extend({
         return this;
     },
     distributeFields: function(){
-
-
-
 
     }
 });
@@ -439,7 +437,6 @@ window.ItemBreadcrumbView = Backbone.View.extend({
     }
 });
 
-
 // Responses
 window.ResponseListView = Backbone.View.extend({
     initialize: function(options){
@@ -599,7 +596,6 @@ window.ResponseReplyView = Backbone.View.extend({
     }
 });
 
-
 window.ActivityView = Backbone.View.extend({
     initialize:function (xhr) {
         if(xhr.model.type.indexOf("VideoObject") > -1){
@@ -626,7 +622,6 @@ window.ActivityView = Backbone.View.extend({
         return this;
     }
 });
-
 
 window.ConceptMapView = Backbone.View.extend({
     initialize: function(options){
@@ -1527,8 +1522,6 @@ window.InquiryStructureView = Backbone.View.extend({
     }
 });
 
-
-
 // Messages
 window.MessageFromNotificationView = Backbone.View.extend({
     tagName:  "div",
@@ -1600,8 +1593,6 @@ window.ActivityDepencyView = window.ActivityView.extend({
     }
 });
 
-
-
 window.ResponseDiscussionListView = Backbone.View.extend({
     el: $(".box-footer.box-comments"),
     initialize: function(options){
@@ -1668,6 +1659,7 @@ window.ResponseTreeView = Backbone.View.extend({
         this.collection.reset();
     }
 });
+
 window.ResponseTreeviewItemView = Backbone.View.extend({
     tagName: "li",
     className: "dd-item dd3-item",

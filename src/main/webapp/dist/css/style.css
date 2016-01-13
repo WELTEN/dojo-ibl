@@ -8185,16 +8185,18 @@ div.phases-breadcrumb  {
 
 .list_activities{
   margin: 0 auto;
-  width: 147px;
+  width: 36em;
   background: bisque;
-  padding: 13px;
+  padding: 20px;
   border-radius: 14px;
+  overflow: hidden;
 }
 
 .list_activities li{
   position: relative;
   background-color: #286090;
-  margin: 10px 0px;
+  margin: 10px;
+  float: left;
 }
 
 .list_activities li a{
@@ -8468,6 +8470,17 @@ ul li{list-style:none;}
   color: #ffffff;
   text-decoration: underline;
 }
+
+.access-to-inquiry{
+  color: #000;
+  text-decoration: underline;
+}
+
+.access-to-inquiry{
+  color: #000;
+  text-decoration: underline;
+}
+
 
 .show-runs:hover{
   color: #e1fcff;

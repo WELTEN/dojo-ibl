@@ -32,7 +32,7 @@ var AppRouter = Backbone.Router.extend({
         this.common();
         this.initialGame();
         this.initializeChannelAPI();
-        this.breadcrumbManagerSmall(0,"List of inquiries");
+        //this.breadcrumbManagerSmall("","List of inquiries");
         this.changeTitle("List of inquiries");
 
         $(".join-inquiry").click(function(){
@@ -62,15 +62,13 @@ var AppRouter = Backbone.Router.extend({
 
                 console.log("load run info and add sidebarview");
 
-                app.breadcrumbManagerSmall(0,results.title);
+                app.breadcrumbManagerSmall("","list of inquiries");
                 app.changeTitle(results.title);
 
                 console.log(results);
 
-                //app.showView('.row.inquiry', new InquiryView({ model: results }));
                 $('.row.inquiry').html(new InquiryView({ model: results }).render().el);
                 $('.row.inquiry').append(new SideBarView({ }).render().el);
-
 
                 $(".knob").knob();
 
@@ -122,7 +120,8 @@ var AppRouter = Backbone.Router.extend({
         window.setTimeout(function () {
             app.breadcrumbManager(1, "Data collection");
 
-            app.breadcrumbManagerSmall(2, phase);
+            app.breadcrumbManagerSmall("#inquiry/"+_runId,"the list of phases");
+
             app.changeTitle(_phase);
 
             $(this).addClass("animated fadeOutUpBig");
@@ -173,6 +172,9 @@ var AppRouter = Backbone.Router.extend({
 
         this.loadInquiryUsers(_runId);
 
+        this.breadcrumbManagerSmall("#inquiry/"+_gameId+"/phase/"+_phase,"the list of activities");
+
+
         $( ".list_activities li[data='"+activity+"']").addClass("animated bounceOutUp");
         window.setTimeout(function () {
 
@@ -185,7 +187,6 @@ var AppRouter = Backbone.Router.extend({
                 success: function (response, xhr) {
                     app.breadcrumbManager(2, "Data Collection", xhr.name );
                     app.changeTitle(xhr.name);
-                    //app.breadcrumbManagerSmall(2, app.GameList.get(_gameId).get("title"), "Data Collection");
 
                     if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
                         $(".row.inquiry").append($('<div />', {
@@ -967,22 +968,8 @@ var AppRouter = Backbone.Router.extend({
             $(".col-sm-7.breadcrumb-flow.tooltip-demo > div:last-child").addClass("animated tada");
         }
     },
-    breadcrumbManagerSmall: function(level, label_inquiry, label_phase){
-        $("ol.breadcrumb").html("");
-        $("ol.breadcrumb");
-        for (var i = 0; i <= level; i++) {
-            switch(i){
-                case 0:
-                    $("ol.breadcrumb").append('<li><a href=""><strong>Home</strong></a></li>');
-                    break;
-                case 1:
-                    $("ol.breadcrumb").append('<li><a href=""><strong>'+label_inquiry+'</strong></a></li>');
-                    break;
-                case 2:
-                    $("ol.breadcrumb").append('<li><a href=""><strong>'+label_phase+'</strong></a></li>');
-                    break;
-            }
-        }
+    breadcrumbManagerSmall: function(routing, label){
+        $("ol.breadcrumb").html('<li><a href="'+routing+'"><i class="fa fa-angle-left"></i> <strong>Back to '+label+'</strong></a></li>');
     },
     changeTitle: function(title) {
         $('.row.wrapper.border-bottom.white-bg.page-heading > .col-sm-3 > h2').html(title);
