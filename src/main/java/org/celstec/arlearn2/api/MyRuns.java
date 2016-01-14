@@ -136,25 +136,46 @@ public class MyRuns extends Service {
 		rd.provideAccessWithCheck(runIdentifier, account, accessRight);
 		return "{}";
 	}
-	
+
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Path("/runId/{runIdentifier}")
-	public String getRun(@HeaderParam("Authorization") String token, 
-			@PathParam("runIdentifier") Long runIdentifier,
-			@DefaultValue("application/json") @HeaderParam("Accept") String accept)  {
+	public String getRun(@HeaderParam("Authorization") String token,
+						 @PathParam("runIdentifier") Long runIdentifier,
+						 @DefaultValue("application/json") @HeaderParam("Accept") String accept)  {
 
 		RunDelegator rd = new RunDelegator(this);
-        Run r = rd.getRun(runIdentifier);
-        if (r.getRunConfig()!= null &&r.getRunConfig().getSelfRegistration()!=null) {
-            if (r.getRunConfig().getSelfRegistration()) {
-                return serialise(r, accept);
-            }
-        }
-        if (!validCredentials(token))
-            return serialise(getInvalidCredentialsBean(), accept);
+		Run r = rd.getRun(runIdentifier);
+		if (r.getRunConfig()!= null &&r.getRunConfig().getSelfRegistration()!=null) {
+			if (r.getRunConfig().getSelfRegistration()) {
+				return serialise(r, accept);
+			}
+		}
+		if (!validCredentials(token))
+			return serialise(getInvalidCredentialsBean(), accept);
 
-        return serialise(r, accept);
+		return serialise(r, accept);
+	}
+
+
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Path("/code/{code}")
+	public String getRunByCode(@HeaderParam("Authorization") String token,
+						 @PathParam("code") String code,
+						 @DefaultValue("application/json") @HeaderParam("Accept") String accept)  {
+
+		RunDelegator rd = new RunDelegator(this);
+		Run r = rd.getRun(code);
+		if (r.getRunConfig()!= null &&r.getRunConfig().getSelfRegistration()!=null) {
+			if (r.getRunConfig().getSelfRegistration()) {
+				return serialise(r, accept);
+			}
+		}
+		if (!validCredentials(token))
+			return serialise(getInvalidCredentialsBean(), accept);
+
+		return serialise(r, accept);
 	}
 	
 	

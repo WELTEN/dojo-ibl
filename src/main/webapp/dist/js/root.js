@@ -18,6 +18,7 @@ var AppRouter = Backbone.Router.extend({
     },
     routes: {
         ""			                                        : "showInquiries",
+        "cancel"                                            : "showInquiries",
         "logout"			                                : "logout",
         "inquiry/:id"	                                    : "showInquiry",
         "inquiry/new/"	                                    : "createInquiry",
@@ -36,8 +37,74 @@ var AppRouter = Backbone.Router.extend({
         this.changeTitle("List of inquiries");
 
         $(".join-inquiry").click(function(){
+            //////////////////////////
+            // Obtain the inquiry code
+            //////////////////////////
+            var _inquiry_code = $("input#inquiry-code").val();
 
+            console.log(_inquiry_code);
+
+            ///////////////////////
+            // Retrieve run by code
+            ///////////////////////
+            var runObject = new RunByCode();
+            runObject.code = _inquiry_code;
+            runObject.fetch({
+                beforeSend:setHeader,
+                success: function (response, results) {
+
+                    console.log(response, results);
+
+                    var _game_retrieved = results.gameId;
+                    var _run_retrieved = results.runId;
+
+                    //////////////////////
+                    // Give access to Game
+                    //////////////////////
+                    var newAccessGame = new GiveAccessToGame();
+                    newAccessGame.gameId = _game_retrieved;
+                    newAccessGame.accoundId = $.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId");
+                    newAccessGame.accessRight = 1;
+                    newAccessGame.fetch({ beforeSend:setHeader });
+
+                    /////////////////////
+                    // Give access to Run
+                    /////////////////////
+                    var newAccessRun = new GiveAccessToRun();
+                    newAccessRun.runId = _run_retrieved;
+                    newAccessRun.accoundId = $.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId");
+                    newAccessRun.accessRight = 1;
+                    newAccessRun.fetch({ beforeSend:setHeader });
+
+                    ////////////////////
+                    // Add user to a run
+                    ////////////////////
+                    var newUserForRun = new AddUserToRun({
+                        runId: _run_retrieved,
+                        email: $.cookie("dojoibl.accountType")+":"+$.cookie("dojoibl.localId"),
+                        accountType: $.cookie("dojoibl.accountType"),
+                        localId: $.cookie("dojoibl.localId"),
+                        gameId: _game_retrieved
+                    });
+                    newUserForRun.save({}, { beforeSend:setHeader });
+
+
+                    app.navigate('#inquiry/'+_run_retrieved, true);
+                }
+            });
         });
+
+        //$('#startButton').click(function(e) {
+        //    console.log("hola");
+        //
+        //    e.preventDefault();
+        //
+        //    introJs().start();
+        //
+        //    //introJs().setOption('doneLabel', 'Next page').start().oncomplete(function() {
+        //    //    window.location.href = 'second.html?multipage=true';
+        //    //});
+        //});
     },
 
     showInquiry:function (id) {
@@ -286,7 +353,6 @@ var AppRouter = Backbone.Router.extend({
         $("#wizard").steps({
             bodyTag: "div.step-content",
             onStepChanging: function (event, currentIndex, newIndex){
-                console.log(_gameId);
 
                 // Suppress (skip) "Warning" step if the user is old enough.
                 if (currentIndex === 1){
@@ -443,10 +509,16 @@ var AppRouter = Backbone.Router.extend({
                 //    }
                 //});
 
-                $('.row.inquiry').html(new NewInquiryCode({ code: $.cookie("dojoibl.code") }).render().el);
+                var form = $(this).find("form");
 
+                // Disable validation on fields that are disabled or hidden.
+                form.validate().settings.ignore = ":disabled,:hidden";
 
-                return true;
+                if(form.valid()){
+                    $('.row.inquiry').html(new NewInquiryCode({ code: $.cookie("dojoibl.code") }).render().el);
+                }
+
+                return form.valid();
             },
             onFinished: function (event, currentIndex) {
             },
@@ -741,10 +813,10 @@ var AppRouter = Backbone.Router.extend({
             "preventDuplicates": false,
             "positionClass": "toast-top-right",
             "onclick": null,
-            "showDuration": "10000",
-            "hideDuration": "10000",
-            "timeOut": "10000",
-            "extendedTimeOut": "10000",
+            "showDuration": "70000",
+            "hideDuration": "70000",
+            "timeOut": "70000",
+            "extendedTimeOut": "70000",
             "showEasing": "swing",
             "hideEasing": "linear",
             "showMethod": "fadeIn",
@@ -1064,8 +1136,6 @@ var successGameHandler = function(response, xhr){
         console.log(e);
         var _gl = app.GameList.get(e.gameId);
         if(!_gl) {
-
-
 
             var game = new GameCollection({  });
             game.gameId = e.gameId;

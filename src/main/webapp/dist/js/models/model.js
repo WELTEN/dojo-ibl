@@ -104,6 +104,15 @@ window.Run = Backbone.Model.extend({
     }
 });
 
+window.RunByCode = Backbone.Model.extend({
+    defaults: {
+        "code": ""
+    },
+    url: function(){
+        return "/rest/myRuns/code/"+this.code;
+    }
+});
+
 window.AddUserToRun = Backbone.Model.extend({
     initialize: function(){
         console.log("Add user to a Run");

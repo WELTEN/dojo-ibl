@@ -8159,15 +8159,23 @@ div.phases-breadcrumb  {
 /*
 * Circle menu
 */
-#circlemenu {
-  width: 80%;
-  height: 435px;
+
+.circle-menu-position{
   position: relative;
-  opacity: .8;
-  float: left;
-  left: 12em;
-  top: 12em;
-  margin: 0 24%;
+}
+
+.special-height{
+  height: 45em;
+  /*overflow: hidden;*/
+}
+
+#circlemenu {
+  position: absolute;
+  /* opacity: .8; */
+  /* float: left; */
+  top: 212px;
+  margin: 0em;
+  left: 50%;
 }
 
 #circlemenu li, .list_activities li {
