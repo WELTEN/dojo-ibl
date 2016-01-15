@@ -206,60 +206,62 @@ window.InquiryNewView = Backbone.View.extend({
             _gameId = $.cookie("dojoibl.game");
         }
 
-        $(".activities").switchClass("col-lg-12","col-lg-4");
-        $(".activities-form").show();
+        $(".activities").switchClass("col-lg-12","col-lg-4", 500, "easeInOutQuad", function(){
+            $(".activities-form").show();
 
 
-        var act = new ActivityCollection({ });
-        act.id = $(e.toElement).attr('id');
-        act.gameId = _gameId;
-        act.fetch({
-            beforeSend: setHeader,
-            success: function (response, xhr) {
-                $.each(xhr, function(name, value){
-                    if( name != 'videoFeed' && name != 'audioFeed' ){
-                        $('[name="audioFeed"]').prev(".hr-line-dashed").hide();
-                        $('[name="audioFeed"]').closest('.form-group').hide();
-                        $('[name="resource"]').prev(".hr-line-dashed").hide();
-                        $('[name="resource"]').closest('.form-group').hide();
-                        $('[name="videoFeed"]').prev(".hr-line-dashed").hide();
-                        $('[name="videoFeed"]').closest('.form-group').hide();
-                    }else{
-                        $('[name="audioFeed"]').prev(".hr-line-dashed").show();
-                        $('[name="audioFeed"]').closest('.form-group').show();
-                        $('[name="resource"]').prev(".hr-line-dashed").show();
-                        $('[name="resource"]').closest('.form-group').show();
-                        $('[name="videoFeed"]').prev(".hr-line-dashed").show();
-                        $('[name="videoFeed"]').closest('.form-group').show();
-                    }
+            var act = new ActivityCollection({ });
+            act.id = $(e.toElement).attr('id');
+            act.gameId = _gameId;
+            act.fetch({
+                beforeSend: setHeader,
+                success: function (response, xhr) {
+                    $.each(xhr, function(name, value){
+                        if( name != 'videoFeed' && name != 'audioFeed' ){
+                            $('[name="audioFeed"]').prev(".hr-line-dashed").hide();
+                            $('[name="audioFeed"]').closest('.form-group').hide();
+                            $('[name="resource"]').prev(".hr-line-dashed").hide();
+                            $('[name="resource"]').closest('.form-group').hide();
+                            $('[name="videoFeed"]').prev(".hr-line-dashed").hide();
+                            $('[name="videoFeed"]').closest('.form-group').hide();
+                        }else{
+                            $('[name="audioFeed"]').prev(".hr-line-dashed").show();
+                            $('[name="audioFeed"]').closest('.form-group').show();
+                            $('[name="resource"]').prev(".hr-line-dashed").show();
+                            $('[name="resource"]').closest('.form-group').show();
+                            $('[name="videoFeed"]').prev(".hr-line-dashed").show();
+                            $('[name="videoFeed"]').closest('.form-group').show();
+                        }
 
-                    if(name == 'videoFeed'){
-                        $('[name="audioFeed"]').attr('name','videoFeed');
-                        $('[name="resource"]').attr('name','videoFeed');
-                    }
+                        if(name == 'videoFeed'){
+                            $('[name="audioFeed"]').attr('name','videoFeed');
+                            $('[name="resource"]').attr('name','videoFeed');
+                        }
 
-                    if(name == 'audioFeed'){
-                        $('[name="videoFeed"]').attr('name','audioFeed');
-                        $('[name="resource"]').attr('name','audioFeed');
-                    }
+                        if(name == 'audioFeed'){
+                            $('[name="videoFeed"]').attr('name','audioFeed');
+                            $('[name="resource"]').attr('name','audioFeed');
+                        }
 
-                    var $el = $('[name="'+name+'"]'),
-                        type = $el.attr('type');
+                        var $el = $('[name="'+name+'"]'),
+                            type = $el.attr('type');
 
-                    switch(type){
-                        case 'checkbox':
-                            $el.attr('checked', 'checked');
-                            break;
-                        case 'radio':
-                            $el.filter('[value="'+value+'"]').attr('checked', 'checked');
-                            break;
-                        default:
-                            $el.val(value);
-                    }
+                        switch(type){
+                            case 'checkbox':
+                                $el.attr('checked', 'checked');
+                                break;
+                            case 'radio':
+                                $el.filter('[value="'+value+'"]').attr('checked', 'checked');
+                                break;
+                            default:
+                                $el.val(value);
+                        }
 
-                });
-            }
+                    });
+                }
+            });
         });
+
 
     },
     render:function () {
@@ -393,7 +395,7 @@ window.SideBarView = Backbone.View.extend({
     },
     cleanup: function() {
         this.undelegateEvents();
-        console.log(this);
+        console.info("Extra info",this);
         $(this.el).empty();
     }
 });

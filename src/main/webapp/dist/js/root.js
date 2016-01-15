@@ -18,9 +18,9 @@ var AppRouter = Backbone.Router.extend({
     },
     routes: {
         ""			                                        : "showInquiries",
-        "cancel"                                            : "showInquiries",
         "logout"			                                : "logout",
         "inquiry/:id"	                                    : "showInquiry",
+        "inquiry/edit/:id"	                                : "editInquiry",
         "inquiry/new/"	                                    : "createInquiry",
         "inquiry/:id/phase/:phase"                          : "showPhase",
         "inquiry/:id/phase/:phase/activity/:activity"       : "showActivity"
@@ -35,6 +35,7 @@ var AppRouter = Backbone.Router.extend({
         this.initializeChannelAPI();
         //this.breadcrumbManagerSmall("","List of inquiries");
         this.changeTitle("List of inquiries");
+        this.removeEditButton();
 
         $(".join-inquiry").click(function(){
             //////////////////////////
@@ -42,7 +43,7 @@ var AppRouter = Backbone.Router.extend({
             //////////////////////////
             var _inquiry_code = $("input#inquiry-code").val();
 
-            console.log(_inquiry_code);
+            //console.log(_inquiry_code);
 
             ///////////////////////
             // Retrieve run by code
@@ -53,7 +54,7 @@ var AppRouter = Backbone.Router.extend({
                 beforeSend:setHeader,
                 success: function (response, results) {
 
-                    console.log(response, results);
+                    //console.log(response, results);
 
                     var _game_retrieved = results.gameId;
                     var _run_retrieved = results.runId;
@@ -94,6 +95,40 @@ var AppRouter = Backbone.Router.extend({
             });
         });
 
+        $("input#top-search").keyup(function () {
+            //split the current value of searchInput
+            var data = this.value.split(" ");
+            //create a jquery object of the rows
+            var jo = $(".row.inquiry").find(".col-lg-3.animated.fadeInUp");
+            if (this.value == "") {
+                jo.show();
+                return;
+            }
+            //hide all the rows
+            jo.hide();
+
+            //Recusively filter the jquery object to get results.
+            jo.filter(function (i, v) {
+                var $t = $(this);
+                for (var d = 0; d < data.length; ++d) {
+                    if ($t.is(":contains('" + data[d] + "')")) {
+                        return true;
+                    }
+                }
+                return false;
+            })
+                //show the rows that match.
+                .show();
+        }).focus(function () {
+            this.value = "";
+            $(this).css({
+                "color": "black"
+            });
+            $(this).unbind('focus');
+        }).css({
+            "color": "#C0C0C0"
+        });
+
         //$('#startButton').click(function(e) {
         //    console.log("hola");
         //
@@ -106,13 +141,16 @@ var AppRouter = Backbone.Router.extend({
         //    //});
         //});
     },
-
     showInquiry:function (id) {
         this.isAuthenticated();
+
+        this.secureAccess(id); // TODO still need to do it
+
         $(".phases-breadcrumb").hide();
 
         this.createCookie("dojoibl.run", id);
         this.changeTitle("List of inquiries");
+
 
         this.common();
         this.breadcrumbManager(0, "");
@@ -127,7 +165,7 @@ var AppRouter = Backbone.Router.extend({
             beforeSend: setHeader,
             success: function (response, results) {
 
-                console.log("load run info and add sidebarview");
+                app.createEditButton(results.gameId);
 
                 app.breadcrumbManagerSmall("","list of inquiries");
                 app.changeTitle(results.title);
@@ -212,11 +250,13 @@ var AppRouter = Backbone.Router.extend({
             this.ActivityList.fetch({
                 beforeSend: setHeader,
                 success: function (response, results) {
-                    _.each(results.generalItems, function(generalItem){
-                        $('.ibox-content > .row.m-t-sm > .list_activities').append(new ActivityBulletView({
-                            model: generalItem,
-                            phase: _phase
-                        }).render().el);
+                    _.each(results.generalItems, function(gi){
+                        if(gi.deleted == false){
+                            $('.ibox-content > .row.m-t-sm > .list_activities').append(new ActivityBulletView({
+                                model: gi,
+                                phase: _phase
+                            }).render().el);
+                        }
                     });
                     $(".knob").knob();
                 }
@@ -342,11 +382,12 @@ var AppRouter = Backbone.Router.extend({
     },
     createInquiry: function(){
         this.isAuthenticated();
+        this.removeEditButton();
         app.showView(".row.inquiry", new InquiryNewView());
 
         app.changeTitle("New inquiry");
         app.breadcrumbManager(0, "");
-
+        app.breadcrumbManagerSmall("","list of inquiries");
 
         var _gameId = 0;
 
@@ -448,6 +489,203 @@ var AppRouter = Backbone.Router.extend({
                 return form.valid();
             },
             onStepChanged: function (event, currentIndex, priorIndex){
+            },
+            onCanceled: function (events){
+                app.navigate('#', true);
+            },
+            onFinishing: function (event, currentIndex){
+                // Disable validation on fields that are disabled.
+                // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
+                //form.validate().settings.ignore = ":disabled";
+                //
+                //var avatar = new PictureUrlGame({ });
+                //avatar.gameId = $.cookie("dojoibl.game");
+                //avatar.fetch({
+                //    beforeSend:setHeader,
+                //    success: function(e , r) {
+                //        console.log(r.uploadUrl);
+                //        $("#my-awesome-dropzone").attr('action', r.uploadUrl);
+                //        $("input#submit").click(function(e) {
+                //            e.preventDefault();
+                //           console.log(e);
+                //        });
+                //    }
+
+                //
+                //        var _url = r.uploadUrl;
+                //
+                //        //new Dropzone("#my-awesome-dropzone", {
+                //        //    url: _url,
+                //        //    paramName: "file"
+                //        //
+                //        //});
+                //
+                //        //$("#my-awesome-dropzone").attr('action', );
+                //        //$("").submit();
+                //
+                //        //$.ajax({
+                //        //    type: "post",
+                //        //    url: r.uploadUrl,
+                //        //    contentType:"multipart/form-data" ,
+                //        //    data: $("#my-awesome-dropzone :file"), // serializes the form's elements.
+                //        //    success: function(data){
+                //        //        alert(data); // show response from the php script.
+                //        //    },
+                //        //    error: function(e){
+                //        //        console.log(e);
+                //        //    }
+                //        //});
+                //
+                //        //var $form = $( "#my-awesome-dropzone" ),
+                //        //    term = this.$("form :file"),
+                //        //    url = r.uploadUrl;
+                //        //
+                //        //console.log(term);
+                //        //
+                //        //// Send the data using post
+                //        //var posting = $.post( url, term );
+                //        //
+                //        //// Put the results in a div
+                //        //posting.done(function( data ) {
+                //        //    console.log(data);
+                //        //});
+                //
+                //    }
+                //});
+
+                var form = $(this).find("form");
+
+                // Disable validation on fields that are disabled or hidden.
+                form.validate().settings.ignore = ":disabled,:hidden";
+
+                if(form.valid()){
+                    $('.row.inquiry').html(new NewInquiryCode({ code: $.cookie("dojoibl.code") }).render().el);
+                }
+
+                return form.valid();
+            },
+            onFinished: function (event, currentIndex) {
+            },
+            afterSync: function(event){
+
+            }
+        }).validate({
+            errorPlacement: function (error, element)
+            {
+                element.before(error);
+            },
+            rules: {
+                inquiry_title: "required",
+                inquiry_description: "required"
+            }
+        });
+
+        this.addDragDrop();
+
+        var pageNum = 1;
+
+        ////////////////////
+        // Manage activities
+        ////////////////////
+        this.newActivityNewInquiry(pageNum);
+        this.removeActivity();
+
+        ////////////////
+        // Manage phases
+        ////////////////
+        this.newPhaseNewInquiry();
+        this.removePhase();
+    },
+    editInquiry: function(id){
+        this.isAuthenticated();
+        app.showView(".row.inquiry", new InquiryNewView());
+
+        app.changeTitle("Edit inquiry");
+        app.breadcrumbManager(0, "");
+        app.breadcrumbManagerSmall("","list of inquiries");
+
+        var _gameId = id;
+
+
+        $.cookie("dojoibl.game", _gameId);
+
+
+        if($("#inquiry-title-value").val() == "" && $("#inquiry-description-value").val() == ""){
+            var game = new GameCollection({  });
+            game.gameId = _gameId;
+            game.fetch({
+                beforeSend: setHeader,
+                success: function (response, game) {
+                    $("#inquiry-title-value").val(game.title);
+                    $("#inquiry-description-value").val(game.description);
+                }
+            });
+        }
+
+        this.ActivityList = new ActivityEdit({ });
+        this.ActivityList
+        this.ActivityList.gameId = _gameId;
+
+        this.ActivityList.fetch({
+            beforeSend: setHeader,
+            success: function (response, results) {
+                console.log(results);
+
+                var section = "";
+                _.each(results.generalItems, function(gi){
+                    console.log(gi);
+
+                    if(gi.deleted == false){
+                        if(gi.section == "" || gi.section == 1){
+                            $("#tab-1 .activities").append('<div class="drag external-event navy-bg remove" data="'+gi.type+'" id="'+gi.id+'">'+gi.name+'</div>')
+                        }
+                    }
+
+
+                    //else{
+                    //section = gi.section;
+                    //$('<li><a data-toggle="tab" href="#tab-'+section+'" > Phase '+section+'<i class="fa fa-remove remove-phase"></i></a></li>')
+                    //    .insertBefore($("ul.select-activities > li.new-phase"));
+                    //
+                    //app.newActivityNewInquiry(section);
+                    //}
+                });
+            }
+        });
+
+        $("#wizard").steps({
+            bodyTag: "div.step-content",
+            onStepChanging: function (event, currentIndex, newIndex){
+
+                // Suppress (skip) "Warning" step if the user is old enough.
+                if (currentIndex === 1){
+                    var newGame = new Game({ gameId: _gameId, title: $("#inquiry-title-value").val(), description: $("#inquiry-description-value").val() });
+                    newGame.save({},{ beforeSend:setHeader });
+                }
+
+                if (currentIndex === 5){
+                    console.log("Create roles and assign them to the game");
+                }
+
+                var form = $(this).find("form");
+
+                // Clean up if user went backward before
+                if (currentIndex < newIndex){
+                    // To remove error styles
+                    $(".body:eq(" + newIndex + ") label.error", form).remove();
+                    $(".body:eq(" + newIndex + ") .error", form).removeClass("error");
+                }
+
+                // Disable validation on fields that are disabled or hidden.
+                form.validate().settings.ignore = ":disabled,:hidden";
+
+                // Start validation; Prevent going forward if false
+                return form.valid();
+            },
+            onStepChanged: function (event, currentIndex, priorIndex){
+            },
+            onCanceled: function (events){
+                app.navigate('#', true);
             },
             onFinishing: function (event, currentIndex){
                 // Disable validation on fields that are disabled.
@@ -847,6 +1085,18 @@ var AppRouter = Backbone.Router.extend({
 
         return indexed_array;
     },
+    secureAccess: function(run){
+        // TODO check runAccess
+    },
+    createEditButton: function(gameId){
+        $(".edit-inquiry").attr("href","#inquiry/edit/"+gameId);
+        $(".edit-inquiry").show();
+    },
+    removeEditButton: function(){
+
+        $(".edit-inquiry").hide();
+        $(".edit-inquiry").attr("href","");
+    },
 
     // chat
     initializeChannelAPI: function(){
@@ -1145,7 +1395,7 @@ var successGameHandler = function(response, xhr){
                     $('.inquiry').append( new GameListView({ model: game, v: 2 }).render().el );
                 }
             });
-            console.log(game);
+            //console.log(game);
             app.GameList.add(game);
         }else{
             var game = _gl;
