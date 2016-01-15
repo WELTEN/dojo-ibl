@@ -752,9 +752,9 @@ var AppRouter = Backbone.Router.extend({
                 // Disable validation on fields that are disabled or hidden.
                 form.validate().settings.ignore = ":disabled,:hidden";
 
-                if(form.valid()){
-                    $('.row.inquiry').html(new NewInquiryCode({ code: $.cookie("dojoibl.code") }).render().el);
-                }
+                //if(form.valid()){
+                //    //$('.row.inquiry').html(new NewInquiryCode({ code: $.cookie("dojoibl.code") }).render().el);
+                //}
 
                 return form.valid();
             },
