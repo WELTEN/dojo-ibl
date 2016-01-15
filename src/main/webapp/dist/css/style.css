@@ -8498,3 +8498,11 @@ ul li{list-style:none;}
 .go-back-list-inquiries{
   margin: 10px;
 }
+
+#inquiry-description-value{
+  height: 9em;
+}
+
+.edit-inquiry{
+  display: none;
+}
