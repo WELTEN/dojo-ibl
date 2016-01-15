@@ -18,8 +18,6 @@ window.Game = Backbone.Model.extend({
         options = options || {};
         options.url = model.methodToURL[method.toLowerCase()];
 
-        console.log(this.gameId);
-
         return Backbone.sync.apply(this, arguments);
     }
 });
@@ -126,6 +124,15 @@ window.AddUserToRun = Backbone.Model.extend({
 window.User = Backbone.Model.extend({
     initialize: function(a){
         //console.log("User initialize");
+    }
+});
+
+window.ActivityEdit = Backbone.Model.extend({
+    defaults:{
+        "gameId": 0
+    },
+    url: function(){
+        return "/rest/generalItems/gameId/"+this.gameId;
     }
 });
 
