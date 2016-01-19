@@ -3688,7 +3688,7 @@ code {
 .ibox-content {
   background-color: #ffffff;
   color: inherit;
-  padding: 15px 20px 20px 20px;
+  /*padding: 15px 20px 20px 20px;*/
   border-color: #e7eaec;
   border-image: none;
   border-style: solid solid none;
@@ -5300,6 +5300,8 @@ del {
   border-top: 1px solid #e7eaec;
   padding: 10px 15px;
   background: #f9f9f9;
+  position: relative;
+  margin: 0;
 }
 .social-footer .social-comment img {
   width: 32px;
@@ -8173,9 +8175,9 @@ div.phases-breadcrumb  {
   position: absolute;
   /* opacity: .8; */
   /* float: left; */
-  top: 212px;
+  top: 15em;
   margin: 0em;
-  left: 50%;
+  left: 45%;
 }
 
 #circlemenu li, .list_activities li {
@@ -8192,7 +8194,7 @@ div.phases-breadcrumb  {
 }
 
 .list_activities{
-  margin: 0 auto;
+  margin: 0px auto 2em;
   width: 36em;
   background: bisque;
   padding: 20px;
@@ -8205,10 +8207,20 @@ div.phases-breadcrumb  {
   background-color: #286090;
   margin: 10px;
   float: left;
+  cursor: auto;
 }
 
 .list_activities li a{
   color: #ffffff;
+  text-decoration: underline;
+  /* Remove when we include the percentages again*/
+  margin: 2em auto;
+  display: block;
+}
+
+.list_activities li a:hover{
+  color: #23C6C8;
+  text-decoration: underline;
 }
 
 
@@ -8479,17 +8491,6 @@ ul li{list-style:none;}
   text-decoration: underline;
 }
 
-.access-to-inquiry{
-  color: #000;
-  text-decoration: underline;
-}
-
-.access-to-inquiry{
-  color: #000;
-  text-decoration: underline;
-}
-
-
 .show-runs:hover{
   color: #e1fcff;
   text-decoration: underline;
@@ -8505,4 +8506,12 @@ ul li{list-style:none;}
 
 .edit-inquiry{
   display: none;
+}
+
+.ibox-content .heading{
+  background: #2f4050;
+  padding: 8px 15px;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 5px 5px 0px 0px;
 }

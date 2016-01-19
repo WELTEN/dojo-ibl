@@ -91,7 +91,6 @@ window.GameListView = Backbone.View.extend({
         'click .show-runs' : 'showRuns'
     },
     show: function(){
-        console.log("render");
     },
     render: function () {
         $(this.el).html(this.template({
@@ -104,7 +103,7 @@ window.GameListView = Backbone.View.extend({
     },
     showRuns: function(e){
         e.preventDefault();
-        var _aux = $(this.el).find(".widget-text-box");
+        var _aux = $(this.el).find(".widget-text-box > tbody");
 
         console.log($(_aux).length, "Game Id: "+this.model.gameId);
         $(_aux).slideUp(200).html("");
@@ -132,6 +131,7 @@ window.GameListView = Backbone.View.extend({
 
 // Run
 window.RunListView = Backbone.View.extend({
+    tagName:  "tr",
     initialize:function () {
         this.template = _.template(tpl.get('run'));
     },

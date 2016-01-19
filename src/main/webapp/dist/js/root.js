@@ -1336,7 +1336,7 @@ var AppRouter = Backbone.Router.extend({
                     if(window.location.hostname.toLowerCase().indexOf("localhost") >= 0){
                         window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://localhost:8888/oauth/wespot&response_type=code&scope=profile+email";
                     }else{
-                        window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=http://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email";
+                        window.location = "https://wespot-arlearn.appspot.com/Login.html?client_id=wespotClientId&redirect_uri=https://dojo-ibl.appspot.com/oauth/wespot&response_type=code&scope=profile+email";
                     }
                 }
             }
@@ -1383,10 +1383,9 @@ var successGameParticipateHandler = function(response, xhr){
 var successGameHandler = function(response, xhr){
     console.log("Games I have access / I have created:");
     _.each(xhr.gamesAccess, function(e){
-        console.log(e);
+        //console.log(e);
         var _gl = app.GameList.get(e.gameId);
         if(!_gl) {
-
             var game = new GameCollection({  });
             game.gameId = e.gameId;
             game.fetch({
@@ -1395,7 +1394,6 @@ var successGameHandler = function(response, xhr){
                     $('.inquiry').append( new GameListView({ model: game, v: 2 }).render().el );
                 }
             });
-            //console.log(game);
             app.GameList.add(game);
         }else{
             var game = _gl;

@@ -1,14 +1,8 @@
-<div>
-    <div>
-        <span><a class="access-to-inquiry" href="#inquiry/<%= runId %>"><%= title %></a></span>
-        <small class="pull-right">10 students</small>
-    </div>
-    <div>
-        <span>Code: <%= code %></span>
-    </div>
 
-</div>
-<div class="progress progress-small">
-    <div style="width: 60%;" class="progress-bar progress-bar-danger"></div>
-</div>
-
+    <td><span class="client-link"><%= title %></span></td>
+    <td><%= code %></td>
+    <td class="client-status">
+        <span class="label label-warning">
+            <a href="#inquiry/<%= runId %>" class="client-link" >Access</a>
+        </span>
+    </td>
