@@ -18,14 +18,13 @@
  ******************************************************************************/
 package org.celstec.arlearn2.jdo.classes;
 
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-
-import org.celstec.arlearn2.beans.game.Game;
-
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
+import org.celstec.arlearn2.beans.game.Game;
+
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
 
 @PersistenceCapable
 public class GameJDO extends GameClass {
@@ -68,6 +67,9 @@ public class GameJDO extends GameClass {
 
     @Persistent
     private Integer theme;
+
+	@Persistent
+	private Text phases;
 
 	public Long getGameId() {
 		return id.getId();
@@ -188,4 +190,12 @@ public class GameJDO extends GameClass {
     public void setTheme(Integer theme) {
         this.theme = theme;
     }
+
+	public Text getPhases() {
+		return phases;
+	}
+
+	public void setPhases(String phases) {
+		this.phases = new Text(phases);
+	}
 }

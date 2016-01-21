@@ -28,9 +28,7 @@ import org.celstec.arlearn2.beans.run.Run;
 import org.celstec.arlearn2.beans.run.User;
 import org.celstec.arlearn2.cache.MyGamesCache;
 import org.celstec.arlearn2.delegators.notification.ChannelNotificator;
-import org.celstec.arlearn2.jdo.PMF;
 import org.celstec.arlearn2.jdo.UserLoggedInManager;
-import org.celstec.arlearn2.jdo.classes.FilePathJDO;
 import org.celstec.arlearn2.jdo.classes.GameAccessJDO;
 import org.celstec.arlearn2.jdo.manager.*;
 import org.celstec.arlearn2.tasks.beans.DeleteGeneralItems;
@@ -38,7 +36,6 @@ import org.celstec.arlearn2.tasks.beans.DeleteRuns;
 import org.celstec.arlearn2.tasks.beans.GameSearchIndex;
 import org.celstec.arlearn2.tasks.beans.NotifyRunsFromGame;
 
-import javax.jdo.PersistenceManager;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -574,6 +571,11 @@ public class GameDelegator extends GoogleDelegator {
     public Rating getRating(long gameId) {
         return GameAverageRatingManager.getAverageRatingBean(gameId);
     }
+
+
+    /*
+     Here it comes the methods to retrieve and add phases to a game
+     */
 
     public GameFileList getGameContentDescription(Long gameId) {
         return FilePathManager.getFilePathJDOs(null, null, gameId, null);

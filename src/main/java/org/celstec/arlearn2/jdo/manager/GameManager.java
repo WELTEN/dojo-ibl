@@ -18,20 +18,18 @@
  ******************************************************************************/
 package org.celstec.arlearn2.jdo.manager;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-
 import com.google.appengine.api.datastore.KeyFactory;
 import org.celstec.arlearn2.beans.deserializer.json.JsonBeanDeserializer;
 import org.celstec.arlearn2.beans.game.Config;
 import org.celstec.arlearn2.beans.game.Game;
 import org.celstec.arlearn2.jdo.PMF;
-import org.celstec.arlearn2.jdo.classes.AccountJDO;
 import org.celstec.arlearn2.jdo.classes.GameJDO;
+
+import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class GameManager {
 
@@ -82,6 +80,7 @@ public class GameManager {
 		if (game.getConfig() != null)  {
 			gameJdo.setConfig(game.getConfig().toString());
 		}
+
 		try {
 			GameJDO persistentGame = pm.makePersistent(gameJdo);
 			return persistentGame.getGameId();
@@ -90,7 +89,6 @@ public class GameManager {
 			pm.close();
 		}
 	}
-
 	
 	public static Long addGame(Game game) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -110,6 +108,11 @@ public class GameManager {
 		if (game.getConfig() != null)  {
 			gameJdo.setConfig(game.getConfig().toString());
 		}
+
+		if(game.getPhases() != null){
+			gameJdo.setPhases(game.getPhases().toString());
+		}
+
 		try {
 			GameJDO persistentGame = pm.makePersistent(gameJdo);
 			return persistentGame.getGameId();
@@ -228,6 +231,19 @@ public class GameManager {
 				e.printStackTrace();
 			}
 		}
+
+//		if (jdo.getPhases() != null && !"".equals(jdo.getPhases())){
+//			JsonBeanDeserializer jbd;
+//			try {
+//				jbd = new JsonBeanDeserializer(jdo.getPhases().toString());
+//				List<Phase> phases = (List<Phase>) jbd.deserialize(Phase.class);
+////				config.setBoundingBoxSouth(5.5d);
+//				game.setPhases(phases);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+
 		if (jdo.getDeleted() == null) {
 			game.setDeleted(false);
 		} else {
