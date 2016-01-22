@@ -99,6 +99,8 @@ window.GameListView = Backbone.View.extend({
             timeago: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()),
             description: jQuery.trim(this.model.description).substring(0, 50).split(" ").slice(0, -1).join(" ") + "..."
         }));
+
+        //$(".col-lg-3.animated.fadeInUp").flip();
         return this;
     },
     showRuns: function(e){
@@ -146,8 +148,10 @@ window.InquiryView = Backbone.View.extend({
     tagName:  "div",
     id: "inquiry-content",
     className: "col-md-9 wrapper wrapper-content animated fadeInUp",
-    initialize:function () {
+    initialize:function (options) {
         this.template = _.template(tpl.get('inquiry'));
+        //console.log(options.model);
+        this.distributeFields(options.model);
     },
     render:function () {
         $(this.el).html(this.template(this.model));
@@ -159,15 +163,15 @@ window.InquiryView = Backbone.View.extend({
             angle = 300,
             step = (2*Math.PI) / fields.length;
 
-        console.log(fields, container);
+        //console.log(fields, container);
 
         fields.each(function() {
 
             var x = Math.round(width/2 + radius * Math.cos(angle) - $(this).width()/2);
             var y = Math.round(height/2 + radius * Math.sin(angle) - $(this).height()/2);
-            console.log(x,y);
+            //console.log(x,y);
             if(window.console) {
-                console.log($(this).text(), x, y);
+                //console.log($(this).text(), x, y);
             }
             $(this).css({
                 left: x + 'px',
@@ -178,7 +182,8 @@ window.InquiryView = Backbone.View.extend({
 
         return this;
     },
-    distributeFields: function(){
+    distributeFields: function(model){
+        console.log(model);
 
     }
 });
@@ -197,8 +202,16 @@ window.InquiryNewView = Backbone.View.extend({
         console.log("saving activity");
     },
     loadActivity: function(e) {
+
         $('.selected').removeClass('selected');
         $(e.toElement).addClass('selected');
+
+        //console.log($(".activities-form form").length);
+        //
+        //if($(".activities-form form").length != 0){
+        //    $(".activities-form form").hide();
+        //}
+        $(".activities-form .spiner-example").show(1000);
 
         var _gameId = 0;
 
@@ -209,13 +222,26 @@ window.InquiryNewView = Backbone.View.extend({
         $(".activities").switchClass("col-lg-12","col-lg-4", 500, "easeInOutQuad", function(){
             $(".activities-form").show();
 
-
             var act = new ActivityCollection({ });
             act.id = $(e.toElement).attr('id');
             act.gameId = _gameId;
             act.fetch({
                 beforeSend: setHeader,
                 success: function (response, xhr) {
+
+                    setTimeout(function(){
+                        $(".activities-form .spiner-example").hide(1000);
+                    }, 2000);
+
+                    console.log("JOJ");
+
+                    //
+                    //if($(".activities-form form").length != 0){
+                    //    $(".activities-form form").show();
+                    //}else{
+                    //    $(".activities-form").append(tpl.get('new_form'));
+                    //}
+
                     $.each(xhr, function(name, value){
                         if( name != 'videoFeed' && name != 'audioFeed' ){
                             $('[name="audioFeed"]').prev(".hr-line-dashed").hide();

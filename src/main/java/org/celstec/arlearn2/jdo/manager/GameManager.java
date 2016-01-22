@@ -20,10 +20,13 @@ package org.celstec.arlearn2.jdo.manager;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import org.celstec.arlearn2.beans.deserializer.json.JsonBeanDeserializer;
+import org.celstec.arlearn2.beans.deserializer.json.ListDeserializer;
 import org.celstec.arlearn2.beans.game.Config;
 import org.celstec.arlearn2.beans.game.Game;
+import org.celstec.arlearn2.beans.game.Phase;
 import org.celstec.arlearn2.jdo.PMF;
 import org.celstec.arlearn2.jdo.classes.GameJDO;
+import org.codehaus.jettison.json.JSONArray;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -232,17 +235,16 @@ public class GameManager {
 			}
 		}
 
-//		if (jdo.getPhases() != null && !"".equals(jdo.getPhases())){
-//			JsonBeanDeserializer jbd;
-//			try {
-//				jbd = new JsonBeanDeserializer(jdo.getPhases().toString());
-//				List<Phase> phases = (List<Phase>) jbd.deserialize(Phase.class);
-////				config.setBoundingBoxSouth(5.5d);
-//				game.setPhases(phases);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
+		if(jdo.getPhases() != null && !"".equals(jdo.getPhases())){
+			ListDeserializer jbd_list;
+			try {
+				jbd_list = new ListDeserializer();
+				JSONArray jsonArray = new JSONArray(jdo.getPhases());
+				game.setPhases(jbd_list.toBean(jsonArray,Phase.class));
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+		}
 
 		if (jdo.getDeleted() == null) {
 			game.setDeleted(false);

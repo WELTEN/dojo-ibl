@@ -881,6 +881,8 @@ var AppRouter = Backbone.Router.extend({
     },
     addDragDrop: function(){
 
+
+
         $( "#drag-list" ).sortable({
             connectWith: "div",
             remove: function(event, ui) {
@@ -889,7 +891,6 @@ var AppRouter = Backbone.Router.extend({
                 if($.cookie("dojoibl.game")){
                     _gameId = $.cookie("dojoibl.game");
                 }
-
 
                 ui.item.clone().appendTo(this);
                 $('.selected').removeClass('selected');
@@ -952,6 +953,22 @@ var AppRouter = Backbone.Router.extend({
                         app.ActivityList.add(new_response);
                     }
                 });
+
+                var phases = [];
+
+                $("ul.select-activities").children("li:not(.new-phase)").each(function () {
+                    var item = {}
+                    item ["title"] = $(this).find("a").text();
+                    item ["phaseId"] = $(this).find("a").attr("href").substring(5,6);
+                    item ["type"] = "org.celstec.arlearn2.beans.game.Phase";
+                    phases.push(item);
+                });
+
+                ////////////////////////
+                // Update phases in Game
+                ////////////////////////
+                var updateGame = new Game({ gameId: _gameId, phases: phases  });
+                updateGame.save({},{ beforeSend:setHeader });
             }
         });
 
@@ -1406,7 +1423,8 @@ tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry', 'run', 'user', 'use
     'inquiry_sidebar', 'activityDependency', 'message', 'message_right', 'inquiry_left_sidebar','message_own', 'response', 'response_discussion', 'response_treeview','response_author', 'response_discussion_author',
     'message_notification','notification_floating', 'activity_video', 'activity_widget', 'activity_discussion', 'notification_sidebar', 'user_inquiry','activity_tree_view',
     'item_breadcrumb_phase'
-    , 'item_breadcrumb_activity','new_inquiry_code','activity_html', 'response_reply', 'new_inquiry', 'activity_concept_map', 'new_activity_new_inquiry', 'new_phase_new_inquiry'], function() {
+    , 'item_breadcrumb_activity','new_inquiry_code','activity_html', 'response_reply', 'new_inquiry', 'activity_concept_map', 'new_activity_new_inquiry', 'new_phase_new_inquiry',
+    'new_form'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });

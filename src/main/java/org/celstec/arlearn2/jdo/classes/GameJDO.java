@@ -191,11 +191,31 @@ public class GameJDO extends GameClass {
         this.theme = theme;
     }
 
-	public Text getPhases() {
-		return phases;
+	public String getPhases() {
+		return phases.getValue();
 	}
 
 	public void setPhases(String phases) {
 		this.phases = new Text(phases);
+	}
+
+	@Override
+	public String toString() {
+		return "{" +
+				"title='" + title + '\'' +
+				", owner='" + owner + '\'' +
+				", creatorEmail='" + creatorEmail + '\'' +
+				", feedUrl='" + feedUrl + '\'' +
+				", config=" + config +
+				", description=" + description +
+				", sharing=" + sharing +
+				", licenseCode='" + licenseCode + '\'' +
+				", lat=" + lat +
+				", lng=" + lng +
+				", featured=" + featured +
+				", language='" + language + '\'' +
+				", theme=" + theme +
+				", phases=" + phases +
+				'}';
 	}
 }
