@@ -1,81 +1,7 @@
-//window.GameListView = Backbone.View.extend({
-//    tagName:  "div",
-//    className: "col-md-4",
-//    initialize:function () {
-//
-//        console.log("A game view has been initialized");
-//
-//        //console.log(this.options.model2);
-//
-//        this.template = _.template(tpl.get('game'));
-//
-//
-//
-//    },
-//    events: {
-//        'click #show-runs' : 'showRuns'
-//
-//    },
-//    render: function () {
-//        $(this.el).html(this.template(this.model));
-//        return this;
-//    },
-//    showRuns: function(e){
-//        e.preventDefault();
-//        console.log(this.model);
-//        console.log(_.template(tpl.get('run')));
-//        var subject = $('#search').val() || 'NYC';
-//        this.tweets.url = "http://localhost:8888/rest/myGames/gameId/"+ this.id;
-//        this.tweets.fetch();
-//        //$(this).append();
-//    }
-//
-//    //,
-//    //events:{
-//    //    "click .save":"saveWine"
-//    //},
-//    //saveWine:function () {
-//    //    //this.model.set({
-//    //    //    name:$('#name').val(),
-//    //    //    grapes:$('#grapes').val(),
-//    //    //    country:$('#country').val(),
-//    //    //    region:$('#region').val(),
-//    //    //    year:$('#year').val(),
-//    //    //    description:$('#description').val()
-//    //    //});
-//    //    if (this.model.isNew()) {
-//    //        var self = this;
-//    //        app.wineList.create(this.model, {
-//    //            success:function () {
-//    //                app.navigate('wines/' + self.model.id, false);
-//    //            }
-//    //        });
-//    //    } else {
-//    //        this.model.save();
-//    //    }
-//    //
-//    //    return false;
-//    //}
-//});
-
-//// Main
-//window.MainView = Backbone.View.extend({
-//    tagName: "div",
-//    className: "row",
-//    initialize:function () {
-//        this.template = _.template(tpl.get('main'));
-//    },
-//    render:function () {
-//        $(this.el).html(this.template(this.model));
-//
-//        return this;
-//    }
-//});
-
 // Game
 window.GameListView = Backbone.View.extend({
     tagName:  "div",
-    className: "col-lg-3 animated fadeInUp",
+    className: "col-lg-3 game animated fadeInUp",
     initialize:function (options) {
         //this.collection.bind('add', this.render);
         this.listenTo(app.GameList, 'add', this.show);
@@ -88,7 +14,8 @@ window.GameListView = Backbone.View.extend({
         }
     },
     events: {
-        'click .show-runs' : 'showRuns'
+        'click .show-runs' : 'showRuns',
+        'click .delete-inquiry': 'deleteInquiry'
     },
     show: function(){
     },
@@ -97,15 +24,60 @@ window.GameListView = Backbone.View.extend({
             model: this.model,
             time: new Date(this.model.lastModificationDate).toLocaleDateString(),
             timeago: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()),
-            description: jQuery.trim(this.model.description).substring(0, 50).split(" ").slice(0, -1).join(" ") + "..."
+            //description: jQuery.trim(this.model.description).substring(0, 50).split(" ").slice(0, -1).join(" ") + "..."
+            description: jQuery.trim(this.model.description)
         }));
+
+        //this.el.$(".back").hide();
 
         //$(".col-lg-3.animated.fadeInUp").flip();
         return this;
     },
     showRuns: function(e){
         e.preventDefault();
+        //var _aux = $(this.el).find(".widget-text-box > tbody");
+        //
+        //console.log($(_aux).length, "Game Id: "+this.model.gameId);
+        //$(_aux).slideUp(200).html("");
+        //
+        //this.RunAccessList = new RunByGameCollection({ id: this.model.gameId });
+        //this.RunAccessList.fetch({
+        //    beforeSend: setHeader,
+        //    success: function(response, xhr) {
+        //        if(xhr.runs.length == 0){
+        //            console.error("The game does not have runs. There have been a problem during the creation of the inquiry.")
+        //            //$(_aux).html("<li><a href=''>No inquiries</a></li>").slideDown(200);
+        //        }else if(xhr.runs.length == 1){
+        //            _.each(xhr.runs, function(run){
+        //                $(_aux).html(new this.RunListView({ model: run }).render().el).slideDown(200);
+        //            });
+        //        }else{
+        //            _.each(xhr.runs, function(run){
+        //                $(_aux).html(new this.RunListView({ model: run }).render().el).slideDown(200);
+        //            });
+        //        }
+        //    }
+        //});
         var _aux = $(this.el).find(".widget-text-box > tbody");
+
+
+        //if($(this.el).find(".front:visible")){
+            $(this.el).find(".front").toggle();
+        //}
+
+        //if($(this.el).find(".front:hidden")){
+            $(this.el).find(".back").toggle();
+        //}
+
+        //if($(this.el).find(".back:visible")){
+        //    $(this.el).find(".back").hide();
+        //}
+        //
+        //if($(this.el).find(".back:hidden")){
+        //    $(this.el).find(".back").show();
+        //}
+
+
 
         console.log($(_aux).length, "Game Id: "+this.model.gameId);
         $(_aux).slideUp(200).html("");
@@ -128,6 +100,33 @@ window.GameListView = Backbone.View.extend({
                 }
             }
         });
+    },
+    deleteInquiry: function(e){
+        e.preventDefault();
+
+        swal({
+            title: "Are you sure?",
+            text: "You will not be able to recover this inquiry!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, delete it!",
+            closeOnConfirm: false
+        }, function () {
+            swal("Deleted!", "Your inquiry has been deleted.", "success");
+            //////////////
+            // Delete game
+            //////////////
+            var deleteGame = new GameDelete({ id: $(e.currentTarget).attr('data') });
+            deleteGame.gameId = $(e.currentTarget).attr('data');
+            deleteGame.destroy({
+                beforeSend:setHeader,
+                type: 'DELETE',
+                success: function(r, new_response){
+                    console.log(r, new_response);
+                }
+            });
+        });
     }
 });
 
@@ -143,6 +142,20 @@ window.RunListView = Backbone.View.extend({
     }
 });
 
+
+// Run
+window.ProfileView = Backbone.View.extend({
+    tagName:  "div",
+    className: "wrapper wrapper-content animated fadeInRight profile-personal",
+    initialize:function () {
+        this.template = _.template(tpl.get('profile'));
+    },
+    render:function () {
+        $(this.el).html(this.template(this.model));
+        return this;
+    }
+});
+
 // Inquiries
 window.InquiryView = Backbone.View.extend({
     tagName:  "div",
@@ -151,10 +164,24 @@ window.InquiryView = Backbone.View.extend({
     initialize:function (options) {
         this.template = _.template(tpl.get('inquiry'));
         //console.log(options.model);
-        this.distributeFields(options.model);
+        this.options = options;
     },
     render:function () {
+
         $(this.el).html(this.template(this.model));
+
+        var container = $(this.el).find('#circlemenu');
+
+        console.log(this.model);
+
+        var gameId = this.model.game.gameId;
+
+        this.model.game.phases.forEach(function(phase){
+            console.log(phase, $(container));
+            container.append('<li class="question"><input type="text" class="knob" data-readonly="true" value="85" data-width="50" data-height="50" data-fgcolor="#39CCCC" /><div class="knob-label"><a href="#inquiry/'+gameId+'/phase/'+phase.phaseId+'">'+phase.title+'</a></div></li>');
+            //container.append("<p>asdasd</p>");
+        });
+
         var radius = 170;
         var fields = $(this.el).find('#circlemenu li'),
             container = $(this.el).find('#circlemenu'),
@@ -167,11 +194,13 @@ window.InquiryView = Backbone.View.extend({
 
         fields.each(function() {
 
+            console.log(width, $(this).width());
+
             var x = Math.round(width/2 + radius * Math.cos(angle) - $(this).width()/2);
             var y = Math.round(height/2 + radius * Math.sin(angle) - $(this).height()/2);
-            //console.log(x,y);
+            console.log(x,y);
             if(window.console) {
-                //console.log($(this).text(), x, y);
+                console.log($(this).text(), x, y);
             }
             $(this).css({
                 left: x + 'px',
@@ -181,10 +210,6 @@ window.InquiryView = Backbone.View.extend({
         });
 
         return this;
-    },
-    distributeFields: function(model){
-        console.log(model);
-
     }
 });
 

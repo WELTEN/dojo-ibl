@@ -22,6 +22,12 @@ window.Game = Backbone.Model.extend({
     }
 });
 
+window.GameDelete = Backbone.Model.extend({
+    url: function(){
+        return "/rest/myGames/gameId/"+this.gameId;
+    }
+});
+
 
 window.GiveAccessToGame = Backbone.Model.extend({
     initialize: function(){

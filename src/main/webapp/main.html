@@ -41,6 +41,7 @@
     <link href="dist/js/plugins/jquery-ui/jquery-ui.css" rel="stylesheet">
     <link href="dist/js/plugins/toastr/toastr.min.css" rel="stylesheet">
     <link href="dist/css/plugins/chosen/chosen.css" rel="stylesheet">
+    <link href="dist/js/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <!--<link href="dist/css/plugins/intro/introjs.css" rel="stylesheet">-->
     <!--<link href="dist/js/plugins/summernote/summernote.css" rel="stylesheet">-->
 
@@ -59,12 +60,9 @@
                         DIBL
                     </div>
                 </li>
-                <!--<li class="active">-->
-                    <!--<a href="friends.html"><i class="fa fa-th-large"></i> <span class="nav-label">Users view</span></a>-->
-                <!--</li>-->
-                <!--<li>-->
-                    <!--<a href="dashboard.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard view</span> </a>-->
-                <!--</li>-->
+                <li >
+                    <a href="#profile"><i class="fa fa-user"></i> <span class="nav-label">Profile</span> <span class="label label-warning pull-right">NEW</span></a>
+                </li>
             </ul>
 
         </div>
@@ -95,15 +93,15 @@
             </nav>
         </div>
         <div class="row wrapper border-bottom white-bg page-heading">
-            <div class="col-sm-3">
-                <h2>List of inquiries</h2>
+            <div class="col-md-7">
+                <h2></h2>
                 <ol class="breadcrumb">
 
                 </ol>
             </div>
-            <div class="col-sm-4 breadcrumb-flow tooltip-demo">
-            </div>
-            <div class="col-sm-5">
+            <!--<div class="col-sm-4 breadcrumb-flow tooltip-demo">-->
+            <!--</div>-->
+            <div class="col-md-5">
                 <div class="title-action">
                     <a href="#inquiry/edit/" class="btn btn-danger edit-inquiry"><i class="fa fa-pencil"></i> Edit inquiry</a>
                     <a href="#inquiry/new/" class="btn btn-warning new-inquiry" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in"></i> Join inquiry</a>
@@ -112,6 +110,15 @@
             </div>
         </div>
         <div class="row inquiry">
+            <!--<div class="middle-box text-center default-hint animated fadeInRightBig">-->
+                <!--<h3 class="font-bold default-hint">Upss!! There are no inquiries available for you :(</h3>-->
+                <!--<div class="error-desc default-hint">You can either create a new inquiry or join an existing one using the options at the top right.<br>-->
+                    <!--<div class="title-action default-hint">-->
+                        <!--<a href="#inquiry/new/" class="default-hint btn btn-warning new-inquiry" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in"></i> Join inquiry</a>-->
+                        <!--<a href="#inquiry/new/" class="default-hint btn btn-success new-inquiry"><i class="fa fa-plus"></i> New inquiry</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
         <div class="footer">
             <div class="pull-right">
@@ -180,8 +187,9 @@
 <script src="dist/js/plugins/validate/jquery.validate.min.js"></script>
 <script src="dist/js/plugins/toastr/toastr.min.js"></script>
 <script src="dist/js/plugins/chosen/chosen.jquery.js"></script>
-<script src="https://cdn.rawgit.com/nnattawat/flip/v1.0.19/dist/jquery.flip.min.js">
-<!--<script src="dist/css/plugins/intro/intro.js"></script>-->
+<script src="dist/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+
 <!--<script src="dist/js/plugins/summernote/summernote.min.js"></script>-->
 <!--<script src="dist/js/plugins/chosen/chosen.jquery.js"></script>-->
 <script src="dist/js/plugins/d3/d3.min.js"></script>

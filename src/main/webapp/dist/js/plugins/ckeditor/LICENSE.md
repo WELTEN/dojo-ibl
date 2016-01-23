@@ -1154,7 +1154,7 @@ Version 1.1
      by license or settlement) prior to the initiation of patent
      infringement litigation, then the reasonable value of the licenses
      granted by such Participant under Sections 2.1 or 2.2 shall be taken
-     into account in determining the amount or value of any payment or
+     into account in determining the phaseId or value of any payment or
      license.
 
      8.4.  In the event of termination under Sections 8.1 or 8.2 above,

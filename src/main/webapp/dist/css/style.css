@@ -3996,7 +3996,7 @@ a.close-canvas-menu:hover {
 }
 .spiner-example {
   height: 200px;
-  padding-top: 70px;
+  padding-top: 15em;
 }
 /* MARGINS & PADDINGS */
 .p-xxs {
@@ -6148,7 +6148,7 @@ body.body-small .vote-icon {
 .sk-spinner-cube-grid .sk-cube {
   width: 33%;
   height: 33%;
-  background-color: #1ab394;
+  background-color: #FF0002;
   float: left;
   -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
   animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
@@ -8033,6 +8033,11 @@ body.md-skin {
   }
 }
 @media (max-width: 768px) {
+
+  body.mini-navbar #page-wrapper {
+    margin: 0 0 0 0px !important;
+  }
+
   #page-wrapper {
     position: inherit;
     margin: 0 0 0 0px;
@@ -8045,7 +8050,7 @@ body.md-skin {
     width: 70px;
   }
   .body-small.mini-navbar .navbar-static-side {
-    display: block;
+    display: none !important;
   }
   .lock-word {
     display: none;
@@ -8286,6 +8291,17 @@ div.phases-breadcrumb  {
   width: 47%;
 }
 
+.inquiry{
+  padding: 1em;
+}
+
+.default-hint-hide{
+  display: none !important;
+}
+
+.default-hint-show{
+  display: block !important;
+}
 
 .inquiry-description dt{
   float: left ;
@@ -8487,12 +8503,12 @@ ul li{list-style:none;}
 }
 
 .show-runs{
-  color: #ffffff;
+  color: #000;
   text-decoration: underline;
 }
 
 .show-runs:hover{
-  color: #e1fcff;
+  color: rgba(0, 0, 0, 0.48);
   text-decoration: underline;
 }
 
@@ -8501,7 +8517,7 @@ ul li{list-style:none;}
 }
 
 #inquiry-description-value{
-  height: 9em;
+  height: 14em;
 }
 
 .edit-inquiry{
@@ -8515,3 +8531,63 @@ ul li{list-style:none;}
   color: #fff;
   border-radius: 5px 5px 0px 0px;
 }
+
+.wizard{
+  padding: 2em !important;
+}
+
+.game{
+  padding: 1em;
+  min-height: 250px;
+}
+
+.back{
+  display: none;
+}
+
+.profile-personal .ibox-content{
+  padding: 15px 20px 20px 20px;
+}
+/*.flip {*/
+  /*-webkit-perspective: 800;*/
+  /*width: 400px;*/
+  /*height: 280px;*/
+  /*position: relative;*/
+  /*margin: 50px auto;*/
+  /*float: left;*/
+  /*margin: 1em;*/
+/*}*/
+/*.flip .card.flipped {*/
+  /*-webkit-transform: rotatey(-180deg);*/
+/*}*/
+/*.flip .card {*/
+  /*width: 100%;*/
+  /*height: 100%;*/
+  /*-webkit-transform-style: preserve-3d;*/
+  /*-webkit-transition: 0.5s;*/
+/*}*/
+/*.flip .card .face {*/
+  /*width: 100%;*/
+  /*height: 100%;*/
+  /*position: absolute;*/
+  /*-webkit-backface-visibility: hidden ;*/
+  /*z-index: 2;*/
+  /*font-family: Georgia;*/
+  /*font-size: 3em;*/
+  /*text-align: center;*/
+  /*line-height: 200px;*/
+/*}*/
+/*.flip .card .front {*/
+  /*position: absolute;*/
+  /*z-index: 1;*/
+  /*background: black;*/
+  /*color: white;*/
+  /*cursor: pointer;*/
+/*}*/
+/*.flip .card .back {*/
+  /*-webkit-transform: rotatex(-180deg);*/
+  /*background: blue;*/
+  /*background: white;*/
+  /*color: black;*/
+  /*cursor: pointer;*/
+/*}*/
