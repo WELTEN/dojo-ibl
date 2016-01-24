@@ -35,52 +35,11 @@ window.GameListView = Backbone.View.extend({
     },
     showRuns: function(e){
         e.preventDefault();
-        //var _aux = $(this.el).find(".widget-text-box > tbody");
-        //
-        //console.log($(_aux).length, "Game Id: "+this.model.gameId);
-        //$(_aux).slideUp(200).html("");
-        //
-        //this.RunAccessList = new RunByGameCollection({ id: this.model.gameId });
-        //this.RunAccessList.fetch({
-        //    beforeSend: setHeader,
-        //    success: function(response, xhr) {
-        //        if(xhr.runs.length == 0){
-        //            console.error("The game does not have runs. There have been a problem during the creation of the inquiry.")
-        //            //$(_aux).html("<li><a href=''>No inquiries</a></li>").slideDown(200);
-        //        }else if(xhr.runs.length == 1){
-        //            _.each(xhr.runs, function(run){
-        //                $(_aux).html(new this.RunListView({ model: run }).render().el).slideDown(200);
-        //            });
-        //        }else{
-        //            _.each(xhr.runs, function(run){
-        //                $(_aux).html(new this.RunListView({ model: run }).render().el).slideDown(200);
-        //            });
-        //        }
-        //    }
-        //});
+
         var _aux = $(this.el).find(".widget-text-box > tbody");
 
-
-        //if($(this.el).find(".front:visible")){
-            $(this.el).find(".front").toggle();
-        //}
-
-        //if($(this.el).find(".front:hidden")){
-            $(this.el).find(".back").toggle();
-        //}
-
-        //if($(this.el).find(".back:visible")){
-        //    $(this.el).find(".back").hide();
-        //}
-        //
-        //if($(this.el).find(".back:hidden")){
-        //    $(this.el).find(".back").show();
-        //}
-
-
-
-        console.log($(_aux).length, "Game Id: "+this.model.gameId);
-        $(_aux).slideUp(200).html("");
+        $(this.el).find(".front").toggle();
+        $(this.el).find(".back").toggle();
 
         this.RunAccessList = new RunByGameCollection({ id: this.model.gameId });
         this.RunAccessList.fetch({
@@ -88,14 +47,13 @@ window.GameListView = Backbone.View.extend({
             success: function(response, xhr) {
                 if(xhr.runs.length == 0){
                     console.error("The game does not have runs. There have been a problem during the creation of the inquiry.")
-                    //$(_aux).html("<li><a href=''>No inquiries</a></li>").slideDown(200);
                 }else if(xhr.runs.length == 1){
                     _.each(xhr.runs, function(run){
-                        $(_aux).html(new this.RunListView({ model: run }).render().el).slideDown(200);
+                        $(_aux).html(new this.RunListView({ model: run }).render().el);
                     });
                 }else{
                     _.each(xhr.runs, function(run){
-                        $(_aux).html(new this.RunListView({ model: run }).render().el).slideDown(200);
+                        $(_aux).html(new this.RunListView({ model: run }).render().el);
                     });
                 }
             }
@@ -126,6 +84,8 @@ window.GameListView = Backbone.View.extend({
                     console.log(r, new_response);
                 }
             });
+
+            $(e.currentTarget).closest('.col-lg-3.game.animated.fadeInUp').hide();
         });
     }
 });
@@ -172,12 +132,12 @@ window.InquiryView = Backbone.View.extend({
 
         var container = $(this.el).find('#circlemenu');
 
-        console.log(this.model);
+        //console.log(this.model);
 
         var gameId = this.model.game.gameId;
 
         this.model.game.phases.forEach(function(phase){
-            console.log(phase, $(container));
+            //console.log(phase, $(container));
             container.append('<li class="question"><input type="text" class="knob" data-readonly="true" value="85" data-width="50" data-height="50" data-fgcolor="#39CCCC" /><div class="knob-label"><a href="#inquiry/'+gameId+'/phase/'+phase.phaseId+'">'+phase.title+'</a></div></li>');
             //container.append("<p>asdasd</p>");
         });
@@ -194,13 +154,13 @@ window.InquiryView = Backbone.View.extend({
 
         fields.each(function() {
 
-            console.log(width, $(this).width());
+            //console.log(width, $(this).width());
 
             var x = Math.round(width/2 + radius * Math.cos(angle) - $(this).width()/2);
             var y = Math.round(height/2 + radius * Math.sin(angle) - $(this).height()/2);
-            console.log(x,y);
+            //console.log(x,y);
             if(window.console) {
-                console.log($(this).text(), x, y);
+                //console.log($(this).text(), x, y);
             }
             $(this).css({
                 left: x + 'px',
@@ -218,24 +178,17 @@ window.InquiryNewView = Backbone.View.extend({
     className: "col-md-12 wrapper wrapper-content animated fadeInUp",
     initialize:function () {
         this.template = _.template(tpl.get('new_inquiry'));
+
+
     },
     events: {
-        "click .drag.external-event.navy-bg.remove": "loadActivity",
-        "focusout input.form-control": "saveActivity"
-    },
-    saveActivity: function(e){
-        console.log("saving activity");
+        "click .drag.external-event.navy-bg.remove": "loadActivity"
     },
     loadActivity: function(e) {
 
         $('.selected').removeClass('selected');
         $(e.toElement).addClass('selected');
 
-        //console.log($(".activities-form form").length);
-        //
-        //if($(".activities-form form").length != 0){
-        //    $(".activities-form form").hide();
-        //}
         $(".activities-form .spiner-example").show(1000);
 
         var _gameId = 0;
@@ -244,7 +197,8 @@ window.InquiryNewView = Backbone.View.extend({
             _gameId = $.cookie("dojoibl.game");
         }
 
-        $(".activities").switchClass("col-lg-12","col-lg-4", 500, "easeInOutQuad", function(){
+        $(e.toElement).closest(".activities").switchClass("col-lg-12","col-lg-4", 500, "easeInOutQuad", function(){
+
             $(".activities-form").show();
 
             var act = new ActivityCollection({ });
@@ -257,15 +211,6 @@ window.InquiryNewView = Backbone.View.extend({
                     setTimeout(function(){
                         $(".activities-form .spiner-example").hide(1000);
                     }, 2000);
-
-                    console.log("JOJ");
-
-                    //
-                    //if($(".activities-form form").length != 0){
-                    //    $(".activities-form form").show();
-                    //}else{
-                    //    $(".activities-form").append(tpl.get('new_form'));
-                    //}
 
                     $.each(xhr, function(name, value){
                         if( name != 'videoFeed' && name != 'audioFeed' ){
@@ -394,8 +339,159 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
         this.template = _.template(tpl.get('new_phase_new_inquiry'));
 
     },
+    events: {
+        "click .remove-phase": "removePhase",
+        "focusout .activities-form form": "saveActivity"
+    },
+    saveActivity: function(e) {
+
+        var frm = $(e.currentTarget).closest('form');
+
+        var data = app.getDataForm(frm);
+
+        /////////////////////////////////////
+        // Create the activity = General Item
+        /////////////////////////////////////
+        var newActivity = new ActivityUpdate(data);
+        newActivity.id = data.id;
+        newActivity.gameId = data.gameId;
+        newActivity.save({}, {
+            beforeSend:setHeader,
+            type: 'POST',
+            success: function(r, new_response){
+                console.info("Activity saved");
+            },
+            error: function(){
+                console.error("Activity couldn't be saved due to en error");
+            }
+        });
+    },
+    removePhase: function(){
+        console.log("remove");
+    },
     render:function () {
         $(this.el).html(this.template());
+
+        $( "#drag-list" ).sortable({
+            connectWith: "div",
+            remove: function(event, ui) {
+                var _gameId = 0;
+
+                if($.cookie("dojoibl.game")){
+                    _gameId = $.cookie("dojoibl.game");
+                }
+
+                ui.item.clone().appendTo(this);
+                $('.selected').removeClass('selected');
+                ui.item.addClass('remove').addClass('selected');
+
+                var _aux = ui.item;
+
+                var type = $(ui.item).attr('data');
+                var phase = $(ui.item).closest("div[id*='tab']").attr("id").substring(4,5);
+                var feed = "";
+
+                if(type == "org.celstec.arlearn2.beans.generalItem.VideoObject"){
+                    var data = {
+                        type: type,
+                        section: phase,
+                        gameId: _gameId,
+                        deleted: true,
+                        name: "Dummy title",
+                        description: "Dummy description",
+                        autoLaunch: false,
+                        fileReferences: [],
+                        sortKey: 1,
+                        videoFeed: feed
+                    };
+                }else if(type == "org.celstec.arlearn2.beans.generalItem.AudioObject") {
+                    var data = {
+                        type: type,
+                        section: phase,
+                        gameId: _gameId,
+                        deleted: true,
+                        name: "Dummy title",
+                        description: "Dummy description",
+                        autoLaunch: false,
+                        fileReferences: [],
+                        sortKey: 1,
+                        audioFeed: feed
+                    };
+                }else{
+                    var data = {
+                        type: type,
+                        section: phase,
+                        gameId: _gameId,
+                        deleted: true,
+                        name: "Dummy title",
+                        description: "Dummy description",
+                        autoLaunch: false,
+                        fileReferences: [],
+                        sortKey: 1
+                    };
+                }
+
+                /////////////////////////////////////
+                // Create the activity = General Item
+                /////////////////////////////////////
+                var newActivity = new Activity(data);
+                newActivity.save({}, {
+                    beforeSend:setHeader,
+                    success: function(r, new_response){
+                        $(_aux).attr("id", new_response.id);
+                        //app.ActivityList.add(new_response);
+                    }
+                });
+
+                var phases = [];
+
+                $("ul.select-activities").children("li:not(.new-phase)").each(function () {
+                    var item = {}
+                    item ["title"] = $(this).find("a").text();
+                    item ["phaseId"] = $(this).find("a").attr("href").substring(5,6);
+                    item ["type"] = "org.celstec.arlearn2.beans.game.Phase";
+                    phases.push(item);
+                });
+
+                ////////////////////////
+                // Update phases in Game
+                ////////////////////////
+                var updateGame = new Game({ gameId: _gameId, phases: phases, title: $("#inquiry-title-value").val(), description: $("#inquiry-description-value").val()  });
+                updateGame.save({},{ beforeSend:setHeader });
+            }
+        });
+
+        $( ".activities" ).sortable({
+            connectWith: "div.activities"
+        });
+
+        $("#remove-drag").droppable({
+            drop: function (event, ui) {
+                $(ui.draggable).remove();
+
+                var _gameId = 0;
+
+                if($.cookie("dojoibl.game")){
+                    _gameId = $.cookie("dojoibl.game");
+                }
+
+                /////////////////////////////////////
+                // Create the activity = General Item
+                /////////////////////////////////////
+                var newActivity = new ActivityDelete({id: $(ui.draggable).attr("id")});
+                newActivity.id = $(ui.draggable).attr("id");
+                newActivity.gameId = _gameId;
+                newActivity.destroy({
+                    beforeSend:setHeader,
+                    type: 'DELETE',
+                    success: function(r, new_response){
+                        console.log(r);
+                    }
+                });
+            },
+            hoverClass: "remove-drag-hover",
+            accept: '.remove'
+        });
 
         return this;
     }
@@ -473,7 +569,31 @@ window.ActivityBulletView = Backbone.View.extend({
         $(this.el).attr("data", this.model.id);
     },
     render:function () {
-        $(this.el).html(this.template({model: this.model, phase: this.phase}));
+
+        var icon;
+
+        switch(this.model.type){
+            case "org.celstec.arlearn2.beans.generalItem.AudioObject":
+                icon = '<i class="fa fa-external-link"></i> ';
+                break;
+            case "org.celstec.arlearn2.beans.generalItem.NarratorItem":
+                icon = '<i class="fa fa-file-text"></i> ';
+                break;
+            case "org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest":
+                icon = '<i class="fa fa-sitemap"></i> ';
+                break;
+            case "org.celstec.arlearn2.beans.generalItem.VideoObject":
+                icon = '<i class="fa fa-file-movie-o"></i> ';
+                break;
+            case "org.celstec.arlearn2.beans.generalItem.OpenBadge":
+                icon = '<i class="fa fa-link"></i> ';
+                break;
+            case "org.celstec.arlearn2.beans.generalItem.ScanTag":
+                icon = '<i class="fa fa-file-archive"></i> ';
+                break;
+        }
+
+        $(this.el).html(this.template({ model: this.model, phase: this.phase, icon: icon }));
         return this;
     }
 });
@@ -516,12 +636,6 @@ window.ResponseListView = Backbone.View.extend({
                         $("textarea[responseid='"+res.parentId+"']").parent().parent()
                     );
                 }
-
-
-
-                //console.log(res.parentId);
-
-                //console.log($("textarea[responseid='"+res.parentId+"']").parent().parent().length);
 
             }else{
                 console.log("hola");
@@ -616,6 +730,31 @@ window.ResponseListView = Backbone.View.extend({
     }
 });
 
+window.ResponseDataCollectionListView = Backbone.View.extend({
+    initialize: function(options){
+        _(this).bindAll('render');
+        this.collection.bind('add', this.render);
+        this.users = options.users;
+        this.game = options.game;
+        this.runId = options.run;
+    },
+    render: function(){
+
+        console.log(this.collection.models.length);
+
+        _.each(this.collection.models, function(response){
+            var res = response.toJSON();
+            var aux = response.toJSON().userEmail.split(':');
+            var user = this.users.where({ 'localId': aux[1] });
+
+            $('#list_answers.data-collection').append(new DataCollectionGridItemView({ model: response.toJSON(), user: user[0] }).render().el);
+
+        }, this);
+
+        this.collection.reset();
+    }
+});
+
 window.ResponseView = Backbone.View.extend({
     tagName: "div",
     className: "social-comment",
@@ -652,26 +791,54 @@ window.ResponseReplyView = Backbone.View.extend({
 window.ActivityView = Backbone.View.extend({
     initialize:function (xhr) {
         if(xhr.model.type.indexOf("VideoObject") > -1){
+
             //console.debug("VideoObject");
             this.template = _.template(tpl.get('activity_video'));
+
         }else if(xhr.model.type.indexOf("OpenBadge") > -1) {
+
             //console.debug("OpenBadge");
             this.template = _.template(tpl.get('activity_widget'));
+
         }else if(xhr.model.type.indexOf("AudioObject") > -1) {
+
             console.log("Insert html");
             this.template = _.template(tpl.get('activity_html'));
+
         }else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
+
             this.template = _.template(tpl.get('activity_tree_view'));
+
         }else if(xhr.model.type.indexOf("SingleChoiceImageTest") > -1) {
+
             this.template = _.template(tpl.get('activity_concept_map'));
+
+        }else if(xhr.model.type.indexOf("ScanTag") > -1) {
+
+            this.template = _.template(tpl.get('activity_data_collection'));
+
         }else{
             console.debug("Discussion");
-            this.template = _.template(tpl.get('activity_detail'));
+            this.template = _.template(tpl.get('activity_text'));
         }
     },
     render:function () {
         $(this.el).html(this.template(this.model));
         $(this.el).find('#nestable3').nestable();
+        return this;
+    }
+});
+
+window.DataCollectionGridItemView = Backbone.View.extend({
+    tagName: "div",
+    className: "file-box",
+    model: Response,
+    initialize: function() {
+        this.template = _.template(tpl.get('response_grid_item'));
+    },
+    render:function () {
+        $(this.el).append(this.template({ model: this.model, modified: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()), created: jQuery.timeago(new Date(this.model.timestamp).toISOString())}));
+
         return this;
     }
 });
@@ -690,7 +857,7 @@ window.ConceptMapView = Backbone.View.extend({
         console.log(this.gItem);
 
         _.each(this.model.responses, function(response){
-            //console.log(response);
+            console.log(response);
             var item_nodes = {}
             item_nodes ["id"] = response.responseId;
             item_nodes ["name"] = response.responseValue;

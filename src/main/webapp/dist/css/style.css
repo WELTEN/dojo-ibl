@@ -8037,6 +8037,14 @@ body.md-skin {
   body.mini-navbar #page-wrapper {
     margin: 0 0 0 0px !important;
   }
+  #circlemenu{
+
+  }
+
+  #circlemenu li, .list_activities li{
+    left: 0 !important;
+    top: 0 !important;
+  }
 
   #page-wrapper {
     position: inherit;
@@ -8545,7 +8553,7 @@ ul li{list-style:none;}
   display: none;
 }
 
-.profile-personal .ibox-content{
+.profile-personal .ibox-content, .data-collection{
   padding: 15px 20px 20px 20px;
 }
 /*.flip {*/
