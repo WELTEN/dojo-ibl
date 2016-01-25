@@ -8038,12 +8038,46 @@ body.md-skin {
     margin: 0 0 0 0px !important;
   }
   #circlemenu{
-
+    position: relative !important;
+    float: none !important;
+    top: 0px !important;
+    margin: 0px !important;
+    left: 25% !important;
   }
 
   #circlemenu li, .list_activities li{
     left: 0 !important;
     top: 0 !important;
+  }
+
+  .list_activities{
+    margin: 1em auto !important;
+    width: 80% !important;
+    background: bisque;
+    padding: 20px;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  #circlemenu li, .list_activities li {
+    display: block !important;
+    /*width: 80% !important;*/
+    position: relative !important;
+    background-color: black !important;
+    border-radius: 64px !important;
+    color: white !important;
+    text-align: center !important;
+    padding: 11px !important;
+    cursor: auto !important;
+    margin: 3px !important;
+  }
+
+  .wrapper-content {
+    padding: 10px 10px 0px !important;
+  }
+
+  .special-height{
+    height: auto !important;
   }
 
   #page-wrapper {
@@ -8203,7 +8237,7 @@ div.phases-breadcrumb  {
   color: white;
   text-align: center;
   padding: 11px;
-  cursor: pointer;
+  cursor: auto;
 }
 
 .list_activities{
@@ -8303,12 +8337,8 @@ div.phases-breadcrumb  {
   padding: 1em;
 }
 
-.default-hint-hide{
-  display: none !important;
-}
-
-.default-hint-show{
-  display: block !important;
+.default-hint{
+  visibility: hidden !important;
 }
 
 .inquiry-description dt{
