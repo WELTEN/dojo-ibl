@@ -192,7 +192,7 @@ public class GameJDO extends GameClass {
     }
 
 	public String getPhases() {
-		return phases.getValue();
+		return (phases != null ? phases.getValue() : "");
 	}
 
 	public void setPhases(String phases) {
