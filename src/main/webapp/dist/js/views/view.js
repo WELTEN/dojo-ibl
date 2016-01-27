@@ -100,13 +100,12 @@ window.GameListView = Backbone.View.extend({
         'click .show-runs' : 'showRuns',
         'click .delete-inquiry': 'deleteInquiry'
     },
-    add: function(a){
-        $(this.el).append(new GameItemView({ model: a.toJSON() }).render().el);
+    add: function(game){
+        $(this.el).append(new GameItemView({ model: game.toJSON() }).render().el);
     },
     render: function () {
-        _.each(this.collection.models, function(e){
-            console.log(e.toJSON());
-            $(this.el).append(new GameItemView({ model: e.toJSON() }).render().el);
+        _.each(this.collection.models, function(game){
+            $(this.el).append(new GameItemView({ model: game.toJSON() }).render().el);
         }, this);
         return this;
     }
