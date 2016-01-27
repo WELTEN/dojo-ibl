@@ -241,15 +241,15 @@ window.GameAccessCollection = Backbone.Collection.extend({
     },
     model: GameAccess,
     url: function(){
-        if(this.from){
-            return "/rest/myGames/gameAccess?from="+this.from;
-
-        }else{
+        //if(this.from){
+        //    return "/rest/myGames/gameAccess?from="+this.from;
+        //
+        //}else{
             return "/rest/myGames/gameAccess";
-        }
+        //}
     },
     parse: function(response){
-        //this.from = response.serverTime;
+        this.from = response.serverTime;
         return response.gamesAccess;
     }
 });

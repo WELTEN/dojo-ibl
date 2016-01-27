@@ -784,11 +784,34 @@ var AppRouter = Backbone.Router.extend({
         //    success: successGameHandler
         //});
 
-        new GameListView({ collection: this.GameAccessList });
+        $('.inquiry').append(new GameListView({ collection: this.GameList }).render().el);
 
-        this.GameAccessList.fetch({
-            beforeSend: setHeader
-        });
+        console.log(this.GameList.length, this.GameList)
+
+        if(this.GameList.length == 0){
+            this.GameAccessList.fetch({
+                beforeSend: setHeader,
+                success: function(e, response){
+                    _.each(response.gamesAccess, function(gameAccess){
+                        var game = new GameCollection({ });
+                        game.gameId = gameAccess.gameId;
+                        game.fetch({
+                            beforeSend: setHeader,
+                            success: function (response, game) {
+                                ///////////////////////////////////////////////
+                                // Checking if the game is deleted or
+                                // there is an access game but there is no game
+                                ///////////////////////////////////////////////
+                                if(!game.deleted && game.error != "game does not exist"){
+                                    app.GameList.add(game);
+                                }
+                            }
+                        });
+                    });
+                }
+            });
+        }
+
     },
     initialRun: function(callback) {
         if (this.RunList) {
@@ -857,7 +880,7 @@ var AppRouter = Backbone.Router.extend({
     },
     removePhase: function(){
         $(".remove-phase").click(function(){
-            console.log("Delete phase. Delete all the general items under it");
+            console.warning("TODO: Delete phase. Delete all the general items under it");
             var tabId = $(this).parents('li').children('a').attr('href');
             $(this).parents('li').remove('li');
             $(tabId).remove();

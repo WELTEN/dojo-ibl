@@ -93,62 +93,21 @@
 window.GameListView = Backbone.View.extend({
     initialize:function (options) {
         _(this).bindAll('render');
-        this.collection.bind('add', this.render);
-
-
-        //console.log(this.collection.models.length);
-
-        //this.render = _.wrap(this.render, function(render) {
-        //    this.beforeRender();
-        //    render();
-        //    this.afterRender();
-        //});
-        //
-        //this.render();
+        _(this).bindAll('add');
+        this.collection.bind('add', this.add);
     },
     events: {
         'click .show-runs' : 'showRuns',
         'click .delete-inquiry': 'deleteInquiry'
     },
-    //beforeRender: function(){
-    //  console.log("before");
-    //},
-    //afterRender: function(){
-    //    console.log(app.GameList.length);
-    //    app.GameList.each(function(game){
-    //        console.log(game.toJSON())
-    //        $('.inquiry').append(new GameItemView({ model: game.toJSON() }).render().el);
-    //    });
-    //},
+    add: function(a){
+        $(this.el).append(new GameItemView({ model: a.toJSON() }).render().el);
+    },
     render: function () {
-
-        // Put into GameList as it been received
         _.each(this.collection.models, function(e){
-
-                var game = new GameCollection({ });
-                game.gameId = e.toJSON().gameId;
-                game.fetch({
-                    beforeSend: setHeader,
-                    success: function (response, game) {
-                        if(!game.deleted)
-                            $('.inquiry').append(new GameItemView({ model: game }).render().el);
-                    }
-                });
-
-        //    //var game = new GameCollection({ });
-        //    //game.gameId = e.toJSON().gameId;
-        //    //game.fetch({
-        //    //    beforeSend: setHeader,
-        //    //    success: function (response, game) {
-        //    //        if(!game.deleted)
-        //    //            $('.inquiry').append(new GameItemView({ model: game }).render().el);
-        //    //    }
-        //    //});
-        //
+            console.log(e.toJSON());
+            $(this.el).append(new GameItemView({ model: e.toJSON() }).render().el);
         }, this);
-
-        this.collection.reset();
-
         return this;
     }
 });
@@ -178,7 +137,8 @@ window.GameItemView = Backbone.View.extend({
         $(this.el).html(this.template({
             model: this.model,
             time: new Date(this.model.lastModificationDate).toLocaleDateString(),
-            timeago: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()),
+            timeago: new Date(this.model.lastModificationDate),
+            //timeago: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()),
             //description: jQuery.trim(this.model.description).substring(0, 50).split(" ").slice(0, -1).join(" ") + "..."
             description: jQuery.trim(this.model.description)
         }));
@@ -328,8 +288,6 @@ window.InquiryNewView = Backbone.View.extend({
     className: "col-md-12 wrapper wrapper-content animated fadeInUp",
     initialize:function () {
         this.template = _.template(tpl.get('new_inquiry'));
-
-
     },
     events: {
         "click .drag.external-event.navy-bg.remove": "loadActivity"
@@ -347,68 +305,63 @@ window.InquiryNewView = Backbone.View.extend({
             _gameId = $.cookie("dojoibl.game");
         }
 
-        $(e.toElement).closest(".activities").switchClass("col-lg-12","col-lg-4", 500, "easeInOutQuad", function(){
+        $(".activities-form").show();
 
-            $(".activities-form").show();
+        var act = new ActivityCollection({ });
+        act.id = $(e.toElement).attr('id');
+        act.gameId = _gameId;
+        act.fetch({
+            beforeSend: setHeader,
+            success: function (response, xhr) {
 
-            var act = new ActivityCollection({ });
-            act.id = $(e.toElement).attr('id');
-            act.gameId = _gameId;
-            act.fetch({
-                beforeSend: setHeader,
-                success: function (response, xhr) {
+                setTimeout(function(){
+                    $(".activities-form .spiner-example").hide(1000);
+                }, 2000);
 
-                    setTimeout(function(){
-                        $(".activities-form .spiner-example").hide(1000);
-                    }, 2000);
+                $.each(xhr, function(name, value){
+                    if( name != 'videoFeed' && name != 'audioFeed' ){
+                        $('[name="audioFeed"]').prev(".hr-line-dashed").hide();
+                        $('[name="audioFeed"]').closest('.form-group').hide();
+                        $('[name="resource"]').prev(".hr-line-dashed").hide();
+                        $('[name="resource"]').closest('.form-group').hide();
+                        $('[name="videoFeed"]').prev(".hr-line-dashed").hide();
+                        $('[name="videoFeed"]').closest('.form-group').hide();
+                    }else{
+                        $('[name="audioFeed"]').prev(".hr-line-dashed").show();
+                        $('[name="audioFeed"]').closest('.form-group').show();
+                        $('[name="resource"]').prev(".hr-line-dashed").show();
+                        $('[name="resource"]').closest('.form-group').show();
+                        $('[name="videoFeed"]').prev(".hr-line-dashed").show();
+                        $('[name="videoFeed"]').closest('.form-group').show();
+                    }
 
-                    $.each(xhr, function(name, value){
-                        if( name != 'videoFeed' && name != 'audioFeed' ){
-                            $('[name="audioFeed"]').prev(".hr-line-dashed").hide();
-                            $('[name="audioFeed"]').closest('.form-group').hide();
-                            $('[name="resource"]').prev(".hr-line-dashed").hide();
-                            $('[name="resource"]').closest('.form-group').hide();
-                            $('[name="videoFeed"]').prev(".hr-line-dashed").hide();
-                            $('[name="videoFeed"]').closest('.form-group').hide();
-                        }else{
-                            $('[name="audioFeed"]').prev(".hr-line-dashed").show();
-                            $('[name="audioFeed"]').closest('.form-group').show();
-                            $('[name="resource"]').prev(".hr-line-dashed").show();
-                            $('[name="resource"]').closest('.form-group').show();
-                            $('[name="videoFeed"]').prev(".hr-line-dashed").show();
-                            $('[name="videoFeed"]').closest('.form-group').show();
-                        }
+                    if(name == 'videoFeed'){
+                        $('[name="audioFeed"]').attr('name','videoFeed');
+                        $('[name="resource"]').attr('name','videoFeed');
+                    }
 
-                        if(name == 'videoFeed'){
-                            $('[name="audioFeed"]').attr('name','videoFeed');
-                            $('[name="resource"]').attr('name','videoFeed');
-                        }
+                    if(name == 'audioFeed'){
+                        $('[name="videoFeed"]').attr('name','audioFeed');
+                        $('[name="resource"]').attr('name','audioFeed');
+                    }
 
-                        if(name == 'audioFeed'){
-                            $('[name="videoFeed"]').attr('name','audioFeed');
-                            $('[name="resource"]').attr('name','audioFeed');
-                        }
+                    var $el = $('[name="'+name+'"]'),
+                        type = $el.attr('type');
 
-                        var $el = $('[name="'+name+'"]'),
-                            type = $el.attr('type');
+                    switch(type){
+                        case 'checkbox':
+                            $el.attr('checked', 'checked');
+                            break;
+                        case 'radio':
+                            $el.filter('[value="'+value+'"]').attr('checked', 'checked');
+                            break;
+                        default:
+                            $el.val(value);
+                    }
 
-                        switch(type){
-                            case 'checkbox':
-                                $el.attr('checked', 'checked');
-                                break;
-                            case 'radio':
-                                $el.filter('[value="'+value+'"]').attr('checked', 'checked');
-                                break;
-                            default:
-                                $el.val(value);
-                        }
-
-                    });
-                }
-            });
+                });
+            }
         });
-
-
     },
     render:function () {
         $(this.el).html(this.template(this.model));
@@ -609,12 +562,6 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
                 updateGame.save({},{ beforeSend:setHeader });
             }
         });
-
-        console.log(this.el);
-
-        //$( ".activities" ).sortable({
-        //    connectWith: "div.activities"
-        //});
 
         $("#remove-drag").droppable({
             drop: function (event, ui) {
