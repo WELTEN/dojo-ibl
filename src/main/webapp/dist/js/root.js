@@ -16,6 +16,7 @@ var AppRouter = Backbone.Router.extend({
         this.Response = new ResponseCollection();
         this.ActivityList = new ActivityCollection({ });
         this.GameAccessList = new GameAccessCollection();
+        this.RunAccessList = new RunByGameCollection({ });
     },
     routes: {
         ""			                                        : "showInquiries",
@@ -408,7 +409,7 @@ var AppRouter = Backbone.Router.extend({
 
         app.changeTitle("New inquiry");
         app.breadcrumbManager(0, "");
-        app.breadcrumbManagerSmall("","list of inquiries");
+        app.breadcrumbManagerSmall("#","list of inquiries");
 
         var _gameId = 0;
 
@@ -567,7 +568,7 @@ var AppRouter = Backbone.Router.extend({
 
         app.removeEditButton();
         app.breadcrumbManager(0, "");
-        app.breadcrumbManagerSmall("","list of inquiries");
+        app.breadcrumbManagerSmall("#","list of inquiries");
 
         var _gameId = id;
 

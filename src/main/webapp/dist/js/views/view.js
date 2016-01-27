@@ -101,17 +101,17 @@ window.GameListView = Backbone.View.extend({
         'click .delete-inquiry': 'deleteInquiry'
     },
     add: function(game){
-        $(this.el).append(new GameItemView({ model: game.toJSON() }).render().el);
+        $(this.el).append(new GameListItemView({ model: game.toJSON() }).render().el);
     },
     render: function () {
         _.each(this.collection.models, function(game){
-            $(this.el).append(new GameItemView({ model: game.toJSON() }).render().el);
+            $(this.el).append(new GameListItemView({ model: game.toJSON() }).render().el);
         }, this);
         return this;
     }
 });
 
-window.GameItemView = Backbone.View.extend({
+window.GameListItemView = Backbone.View.extend({
     tagName:  "div",
     className: "col-lg-3 game animated fadeInUp",
     initialize:function (options) {
@@ -147,10 +147,26 @@ window.GameItemView = Backbone.View.extend({
     showRuns: function(e){
         e.preventDefault();
 
-        var _aux = $(this.el).find(".widget-text-box > tbody");
+        var _aux = $(this.el).find(".widget-text-box");
 
         $(this.el).find(".front").toggle();
         $(this.el).find(".back").toggle();
+
+        //$(_aux).append(new RunListView({ collection: app.RunList }).render().el);
+        //
+        //if(app.RunList.length == 0) {
+        //    app.RunAccessList.id = this.model.gameId;
+        //    app.RunAccessList.fetch({
+        //        beforeSend: setHeader,
+        //        success: function (e, response) {
+        //            //console.log(response);
+        //            _.each(response.runs, function (run) {
+        //                console.log(run);
+        //                app.RunList.add(run);
+        //            });
+        //        }
+        //    });
+        //}
 
         this.RunAccessList = new RunByGameCollection({ id: this.model.gameId });
         this.RunAccessList.fetch({
@@ -160,11 +176,11 @@ window.GameItemView = Backbone.View.extend({
                     console.error("The game does not have runs. There have been a problem during the creation of the inquiry.")
                 }else if(xhr.runs.length == 1){
                     _.each(xhr.runs, function(run){
-                        $(_aux).html(new this.RunListView({ model: run }).render().el);
+                        $(_aux).html(new this.RunListItemView({ model: run }).render().el);
                     });
                 }else{
                     _.each(xhr.runs, function(run){
-                        $(_aux).html(new this.RunListView({ model: run }).render().el);
+                        $(_aux).html(new this.RunListItemView({ model: run }).render().el);
                     });
                 }
             }
@@ -203,11 +219,34 @@ window.GameItemView = Backbone.View.extend({
 
 // Run
 window.RunListView = Backbone.View.extend({
+    tagName:  "tbody",
+    initialize:function () {
+        _(this).bindAll('render');
+        _(this).bindAll('add');
+        this.collection.bind('add', this.add);
+    },
+    add: function(run){
+        console.log("add");
+        $(this.el).append(new RunListItemView({ model: run.toJSON() }).render().el);
+    },
+    render: function () {
+
+        console.log("render");
+
+        _.each(this.collection.models, function(run){
+            console.log(run.toJSON());
+            //$(this.el).append(new RunListItemView({ model: run.toJSON() }).render().el);
+        }, this);
+        return this;
+    }
+});
+window.RunListItemView = Backbone.View.extend({
     tagName:  "tr",
     initialize:function () {
         this.template = _.template(tpl.get('run'));
     },
     render:function () {
+        console.log(this.model);
         $(this.el).html(this.template(this.model));
         return this;
     }
