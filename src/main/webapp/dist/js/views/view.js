@@ -1,17 +1,171 @@
 // Game
+//window.GameListView = Backbone.View.extend({
+//    tagName:  "div",
+//    className: "col-lg-3 game animated fadeInUp",
+//    initialize:function (options) {
+//        //this.collection.bind('add', this.render);
+//        this.listenTo(app.GameList, 'add', this.show);
+//        if(options.v == 1){
+//            this.template = _.template(tpl.get('game_teacher'));
+//        }
+//
+//        if(options.v == 2){
+//            this.template = _.template(tpl.get('game'));
+//        }
+//    },
+//    events: {
+//        'click .show-runs' : 'showRuns',
+//        'click .delete-inquiry': 'deleteInquiry'
+//    },
+//    show: function(){
+//    },
+//    render: function () {
+//        $(this.el).html(this.template({
+//            model: this.model,
+//            time: new Date(this.model.lastModificationDate).toLocaleDateString(),
+//            timeago: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()),
+//            //description: jQuery.trim(this.model.description).substring(0, 50).split(" ").slice(0, -1).join(" ") + "..."
+//            description: jQuery.trim(this.model.description)
+//        }));
+//
+//        //this.el.$(".back").hide();
+//
+//        //$(".col-lg-3.animated.fadeInUp").flip();
+//        return this;
+//    },
+//    showRuns: function(e){
+//        e.preventDefault();
+//
+//        var _aux = $(this.el).find(".widget-text-box > tbody");
+//
+//        $(this.el).find(".front").toggle();
+//        $(this.el).find(".back").toggle();
+//
+//        this.RunAccessList = new RunByGameCollection({ id: this.model.gameId });
+//        this.RunAccessList.fetch({
+//            beforeSend: setHeader,
+//            success: function(response, xhr) {
+//                if(xhr.runs.length == 0){
+//                    console.error("The game does not have runs. There have been a problem during the creation of the inquiry.")
+//                }else if(xhr.runs.length == 1){
+//                    _.each(xhr.runs, function(run){
+//                        $(_aux).html(new this.RunListView({ model: run }).render().el);
+//                    });
+//                }else{
+//                    _.each(xhr.runs, function(run){
+//                        $(_aux).html(new this.RunListView({ model: run }).render().el);
+//                    });
+//                }
+//            }
+//        });
+//    },
+//    deleteInquiry: function(e){
+//        e.preventDefault();
+//
+//        swal({
+//            title: "Are you sure?",
+//            text: "You will not be able to recover this inquiry!",
+//            type: "warning",
+//            showCancelButton: true,
+//            confirmButtonColor: "#DD6B55",
+//            confirmButtonText: "Yes, delete it!",
+//            closeOnConfirm: false
+//        }, function () {
+//            swal("Deleted!", "Your inquiry has been deleted.", "success");
+//            //////////////
+//            // Delete game
+//            //////////////
+//            var deleteGame = new GameDelete({ id: $(e.currentTarget).attr('data') });
+//            deleteGame.gameId = $(e.currentTarget).attr('data');
+//            deleteGame.destroy({
+//                beforeSend:setHeader,
+//                type: 'DELETE',
+//                success: function(r, new_response){
+//                    console.log(r, new_response);
+//                }
+//            });
+//
+//            $(e.currentTarget).closest('.col-lg-3.game.animated.fadeInUp').hide();
+//        });
+//    }
+//});
+
 window.GameListView = Backbone.View.extend({
+    initialize:function (options) {
+        _(this).bindAll('render');
+        this.collection.bind('add', this.render);
+
+
+        //console.log(this.collection.models.length);
+
+        //this.render = _.wrap(this.render, function(render) {
+        //    this.beforeRender();
+        //    render();
+        //    this.afterRender();
+        //});
+        //
+        //this.render();
+    },
+    events: {
+        'click .show-runs' : 'showRuns',
+        'click .delete-inquiry': 'deleteInquiry'
+    },
+    //beforeRender: function(){
+    //  console.log("before");
+    //},
+    //afterRender: function(){
+    //    console.log(app.GameList.length);
+    //    app.GameList.each(function(game){
+    //        console.log(game.toJSON())
+    //        $('.inquiry').append(new GameItemView({ model: game.toJSON() }).render().el);
+    //    });
+    //},
+    render: function () {
+
+        // Put into GameList as it been received
+        _.each(this.collection.models, function(e){
+
+                var game = new GameCollection({ });
+                game.gameId = e.toJSON().gameId;
+                game.fetch({
+                    beforeSend: setHeader,
+                    success: function (response, game) {
+                        if(!game.deleted)
+                            $('.inquiry').append(new GameItemView({ model: game }).render().el);
+                    }
+                });
+
+        //    //var game = new GameCollection({ });
+        //    //game.gameId = e.toJSON().gameId;
+        //    //game.fetch({
+        //    //    beforeSend: setHeader,
+        //    //    success: function (response, game) {
+        //    //        if(!game.deleted)
+        //    //            $('.inquiry').append(new GameItemView({ model: game }).render().el);
+        //    //    }
+        //    //});
+        //
+        }, this);
+
+        this.collection.reset();
+
+        return this;
+    }
+});
+
+window.GameItemView = Backbone.View.extend({
     tagName:  "div",
     className: "col-lg-3 game animated fadeInUp",
     initialize:function (options) {
-        //this.collection.bind('add', this.render);
-        this.listenTo(app.GameList, 'add', this.show);
-        if(options.v == 1){
-            this.template = _.template(tpl.get('game_teacher'));
-        }
-
-        if(options.v == 2){
+        ////this.collection.bind('add', this.render);
+        //this.listenTo(app.GameList, 'add', this.show);
+        //if(options.v == 1){
+        //    this.template = _.template(tpl.get('game_teacher'));
+        //}
+        //
+        //if(options.v == 2){
             this.template = _.template(tpl.get('game'));
-        }
+        //}
     },
     events: {
         'click .show-runs' : 'showRuns',
@@ -20,6 +174,7 @@ window.GameListView = Backbone.View.extend({
     show: function(){
     },
     render: function () {
+
         $(this.el).html(this.template({
             model: this.model,
             time: new Date(this.model.lastModificationDate).toLocaleDateString(),
@@ -28,9 +183,6 @@ window.GameListView = Backbone.View.extend({
             description: jQuery.trim(this.model.description)
         }));
 
-        //this.el.$(".back").hide();
-
-        //$(".col-lg-3.animated.fadeInUp").flip();
         return this;
     },
     showRuns: function(e){
@@ -137,9 +289,7 @@ window.InquiryView = Backbone.View.extend({
         var gameId = this.model.game.gameId;
 
         this.model.game.phases.forEach(function(phase){
-            //console.log(phase, $(container));
-            container.append('<li class="question"><input type="text" class="knob" data-readonly="true" value="85" data-width="50" data-height="50" data-fgcolor="#39CCCC" /><div class="knob-label"><a href="#inquiry/'+gameId+'/phase/'+phase.phaseId+'">'+phase.title+'</a></div></li>');
-            //container.append("<p>asdasd</p>");
+            container.append('<li><input type="text" class="knob" data-readonly="true" value="0" data-width="50" data-height="50" data-fgcolor="#39CCCC" /><div class="knob-label"><a href="#inquiry/'+gameId+'/phase/'+phase.phaseId+'">'+phase.title+'</a></div></li>');
         });
 
         var radius = 170;
@@ -304,7 +454,6 @@ window.NewActivityNewInquiryView = Backbone.View.extend({
         "change .type-activity": "changeSelect"
     },
     loadActivity: function() {
-        console.log("hola", this);
         $('.selected.remove').removeClass('select');
     },
     changeSelect: function() {
@@ -340,7 +489,7 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
 
     },
     events: {
-        "click .remove-phase": "removePhase",
+        //"click .remove-phase": "removePhase",
         "focusout .activities-form form": "saveActivity"
     },
     saveActivity: function(e) {
@@ -366,9 +515,9 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
             }
         });
     },
-    removePhase: function(){
-        console.log("remove");
-    },
+    //removePhase: function(){
+    //    console.log("remove");
+    //},
     render:function () {
         $(this.el).html(this.template());
 
@@ -397,8 +546,8 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
                         section: phase,
                         gameId: _gameId,
                         deleted: true,
-                        name: "Dummy title",
-                        description: "Dummy description",
+                        name: "",
+                        description: "",
                         autoLaunch: false,
                         fileReferences: [],
                         sortKey: 1,
@@ -410,8 +559,8 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
                         section: phase,
                         gameId: _gameId,
                         deleted: true,
-                        name: "Dummy title",
-                        description: "Dummy description",
+                        name: "",
+                        description: "",
                         autoLaunch: false,
                         fileReferences: [],
                         sortKey: 1,
@@ -423,8 +572,8 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
                         section: phase,
                         gameId: _gameId,
                         deleted: true,
-                        name: "Dummy title",
-                        description: "Dummy description",
+                        name: "",
+                        description: "",
                         autoLaunch: false,
                         fileReferences: [],
                         sortKey: 1
@@ -461,9 +610,11 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
             }
         });
 
-        $( ".activities" ).sortable({
-            connectWith: "div.activities"
-        });
+        console.log(this.el);
+
+        //$( ".activities" ).sortable({
+        //    connectWith: "div.activities"
+        //});
 
         $("#remove-drag").droppable({
             drop: function (event, ui) {
@@ -542,7 +693,6 @@ window.SideBarView = Backbone.View.extend({
     },
     cleanup: function() {
         this.undelegateEvents();
-        console.info("Extra info",this);
         $(this.el).empty();
     }
 });
@@ -648,12 +798,17 @@ window.ResponseListView = Backbone.View.extend({
         this.collection.reset();
 
         $('.reply').click(function(e){
+
+            console.log($(this).parent().parent().find(".response").length);
+
             //////////////////////////////////////////////////////////////////
             // Problem here is that we have more .responses now under one div
             // todo make it better
             /////////////////////////////////////////////////////////////////
             if($(this).parent().parent().find(".response").length == 0){
                 if($(this).attr("data")){
+
+                    console.log("hoola");
 
                     var form = new ResponseReplyView({}).render().el;
 
@@ -687,7 +842,7 @@ window.ResponseListView = Backbone.View.extend({
                     console.error("Id of the response is missing")
                 }
             }else{
-                console.log("remove");
+                console.log("remove",$(this).parent().siblings(".social-comment:last"));
                 $(this).parent().siblings(".social-comment:last").remove();
             }
 
@@ -718,7 +873,8 @@ window.ResponseListView = Backbone.View.extend({
             })
                 //show the rows that match.
                 .show();
-        }).focus(function () {
+        }).focus(function ()
+        {
             this.value = "";
             $(this).css({
                 "color": "black"
@@ -740,7 +896,7 @@ window.ResponseDataCollectionListView = Backbone.View.extend({
     },
     render: function(){
 
-        console.log(this.collection.models.length);
+        //console.log(this.collection.models.length);
 
         _.each(this.collection.models, function(response){
             var res = response.toJSON();
@@ -750,6 +906,20 @@ window.ResponseDataCollectionListView = Backbone.View.extend({
             $('#list_answers.data-collection').append(new DataCollectionGridItemView({ model: response.toJSON(), user: user[0] }).render().el);
 
         }, this);
+
+        document.getElementById('list_answers').onclick = function (event) {
+            event = event || window.event;
+            var target = event.target || event.srcElement,
+                link = target.src ? target.parentNode : target,
+                options = {index: link, event: event},
+                    links = this.getElementsByTagName('a');
+            blueimp.Gallery(links, options);
+        };
+
+        $(".add-new-tag").click(function(e){
+            e.preventDefault();
+            $(".tag-list").append('<li><a href="">Film</a></li>');
+        });
 
         this.collection.reset();
     }
@@ -802,8 +972,8 @@ window.ActivityView = Backbone.View.extend({
 
         }else if(xhr.model.type.indexOf("AudioObject") > -1) {
 
-            console.log("Insert html");
             this.template = _.template(tpl.get('activity_html'));
+
 
         }else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
 
@@ -824,6 +994,10 @@ window.ActivityView = Backbone.View.extend({
     },
     render:function () {
         $(this.el).html(this.template(this.model));
+
+        console.log($("iframe").html())
+
+
         $(this.el).find('#nestable3').nestable();
         return this;
     }
@@ -1685,7 +1859,7 @@ window.InquiryLeftSidebarView = Backbone.View.extend({
     className: "col-md-2 pull-left",
     initialize:function () {
         this.template = _.template(tpl.get('inquiry_left_sidebar'));
-        console.log("load inquiry left sidebar");
+        //console.log("load inquiry left sidebar");
     },
     render:function () {
         $(this.el).html(this.template(this.model));

@@ -15,6 +15,7 @@ var AppRouter = Backbone.Router.extend({
         this.UsersList = new UserCollection({ });
         this.Response = new ResponseCollection();
         this.ActivityList = new ActivityCollection({ });
+        this.GameAccessList = new GameAccessCollection();
     },
     routes: {
         ""			                                        : "showInquiries",
@@ -37,6 +38,7 @@ var AppRouter = Backbone.Router.extend({
         this.initializeChannelAPI();
         this.changeTitle("List of inquiries");
         this.removeEditButton();
+        this.breadcrumbManagerSmallHide();
 
         $(".join-inquiry").click(function(){
             //////////////////////////
@@ -154,7 +156,7 @@ var AppRouter = Backbone.Router.extend({
 
                 app.createEditButton(results.gameId);
 
-                app.breadcrumbManagerSmall("","list of inquiries");
+                app.breadcrumbManagerSmall("#","list of inquiries");
                 app.changeTitle(results.game.title);
 
                 //console.log(results);
@@ -207,6 +209,7 @@ var AppRouter = Backbone.Router.extend({
             _runId = $.cookie("dojoibl.run");
         }
 
+        this.createEditButton(_gameId);
         this.createCookie("dojoibl.game", _gameId);
 
         var game = new GameCollection({ });
@@ -275,6 +278,7 @@ var AppRouter = Backbone.Router.extend({
         }
 
         this.createCookie("dojoibl.activity", activity);
+        this.createEditButton(_gameId);
 
         this.loadInquiryUsers(_runId);
 
@@ -541,14 +545,11 @@ var AppRouter = Backbone.Router.extend({
             }
         });
 
-        this.addDragDrop();
-
         var pageNum = 1;
 
         ////////////////////
         // Manage activities
         ////////////////////
-        //this.newActivityNewInquiry(pageNum);
         this.removeActivity();
 
         ////////////////
@@ -564,15 +565,13 @@ var AppRouter = Backbone.Router.extend({
         this.isAuthenticated();
         app.showView(".row.inquiry", new InquiryNewView());
 
-        app.changeTitle("Edit inquiry");
+        app.removeEditButton();
         app.breadcrumbManager(0, "");
         app.breadcrumbManagerSmall("","list of inquiries");
 
         var _gameId = id;
 
-
         $.cookie("dojoibl.game", _gameId);
-
 
         if($("#inquiry-title-value").val() == "" && $("#inquiry-description-value").val() == ""){
             var game = new GameCollection({  });
@@ -580,6 +579,9 @@ var AppRouter = Backbone.Router.extend({
             game.fetch({
                 beforeSend: setHeader,
                 success: function (response, game) {
+
+                    app.changeTitle("Editing inquiry '"+game.title+"'");
+
                     $("#inquiry-title-value").val(game.title);
                     $("#inquiry-description-value").val(game.description);
 
@@ -593,6 +595,11 @@ var AppRouter = Backbone.Router.extend({
 
                         $('<li><a data-toggle="tab" href="#tab-'+_number_phase+'" > Phase '+_number_phase+'<i class="fa fa-remove remove-phase"></i></a></li>')
                             .insertBefore($("ul.select-activities > li.new-phase"));
+
+
+                        $( ".tab-content .activities" ).sortable({
+                            connectWith: "div.activities"
+                        });
 
                         app.removePhase();
                     });
@@ -701,8 +708,14 @@ var AppRouter = Backbone.Router.extend({
                 var updateGame = new Game({ gameId: _gameId, phases: app.checkPhases(), title: $("#inquiry-title-value").val(), description: $("#inquiry-description-value").val()  });
                 updateGame.save({},{ beforeSend:setHeader });
 
-                app.navigate('#', true);
+                var _p = $(".tab-pane.active").attr("id").substring(4,5);
 
+                if(_p != ""){
+                    app.cleanMainView();
+                    app.navigate('#inquiry/'+_gameId+'/phase/'+_p, true);
+                }else{
+                    app.navigate('#', true);
+                }
             },
             afterSync: function(event){
 
@@ -718,14 +731,11 @@ var AppRouter = Backbone.Router.extend({
             }
         });
 
-        this.addDragDrop();
-
         var pageNum = 1;
 
         ////////////////////
         // Manage activities
         ////////////////////
-        //this.newActivityNewInquiry(pageNum);
         this.removeActivity();
 
         ////////////////
@@ -764,28 +774,21 @@ var AppRouter = Backbone.Router.extend({
 
         this.cleanMainView();
 
-        this.GameParticipateList = new GameParticipateCollection();
-        this.GameParticipateList.fetch({
-            beforeSend: setHeader,
-            success: successGameParticipateHandler
-        });
-
-        //$(".confirm-new-inquiry").click(function(e){
-        //    var new_game = new MyGame({ title: $("#new_inquiry input").val(), description: $("#new_inquiry textarea").val() });
-        //    new_game.save({}, {
-        //        beforeSend:setHeader,
-        //        success: function(r, game){
-        //            app.GameList.add(game);
-        //            app.navigate('inquiry/new/');
-        //         }
-        //    });
-        //    $('#new_inquiry').modal('toggle');
-        //    e.preventDefault();
+        //this.GameParticipateList = new GameParticipateCollection();
+        //this.GameParticipateList.fetch({
+        //    beforeSend: setHeader,
+        //    success: successGameParticipateHandler
+        //});
+        //this.GameAccessList.fetch({
+        //    beforeSend: setHeader,
+        //    success: successGameHandler
         //});
 
-        //console.log("GameAccessList",app.GameAccessList);
-        //console.log("GameParticipateList", app.GameParticipateList);
-        //console.log("GameList", app.GameList);
+        new GameListView({ collection: this.GameAccessList });
+
+        this.GameAccessList.fetch({
+            beforeSend: setHeader
+        });
     },
     initialRun: function(callback) {
         if (this.RunList) {
@@ -827,22 +830,12 @@ var AppRouter = Backbone.Router.extend({
         $('<li><a data-toggle="tab" href="#tab-'+_number_phase+'" > Phase '+_number_phase+'<i class="fa fa-remove remove-phase"></i></a></li>')
             .insertBefore($("ul.select-activities > li.new-phase"));
 
-        //app.newActivityNewInquiry(_number_phase);
-        app.removePhase();
+        $( ".tab-content .activities" ).sortable({
+            connectWith: "div.activities"
+        });
 
-        app.addDragDrop();
+        app.removePhase();
     },
-    //newActivityNewInquiry: function(tab){
-    //    $("#tab-"+tab+" button.new-activity").click(function(e){
-    //        e.preventDefault();
-    //        $("div[id*='tab'].active tbody").append(new NewActivityNewInquiryView({}).render().el);
-    //
-    //        ///////////////////////////////////////////////////////////////////
-    //        // We need to put it also here for those divs generated with jQuery
-    //        ///////////////////////////////////////////////////////////////////
-    //        app.removeActivity();
-    //    });
-    //},
     checkPhases: function(){
         var phases = [];
 
@@ -855,9 +848,6 @@ var AppRouter = Backbone.Router.extend({
         });
 
         return phases;
-    },
-    addDragDrop: function(){
-
     },
     removeActivity: function(){
         $("button.remove-activity").click(function(){
@@ -935,15 +925,6 @@ var AppRouter = Backbone.Router.extend({
     },
     secureAccess: function(run){
         // TODO check runAccess
-    },
-    createEditButton: function(gameId){
-        $(".edit-inquiry").attr("href","#inquiry/edit/"+gameId);
-        $(".edit-inquiry").show();
-    },
-    removeEditButton: function(){
-
-        $(".edit-inquiry").hide();
-        $(".edit-inquiry").attr("href","");
     },
 
     // chat
@@ -1139,7 +1120,11 @@ var AppRouter = Backbone.Router.extend({
         }
     },
     breadcrumbManagerSmall: function(routing, label){
+        $("ol.bradcrumb").show();
         $("ol.breadcrumb").html('<li><a href="'+routing+'"><i class="fa fa-angle-left"></i> <strong>Back to '+label+'</strong></a></li>');
+    },
+    breadcrumbManagerSmallHide: function(){
+        $("ol.bradcrumb").hide();
     },
     changeTitle: function(title) {
         $('.row.wrapper.border-bottom.white-bg.page-heading > div > h2').html(title);
@@ -1175,6 +1160,15 @@ var AppRouter = Backbone.Router.extend({
                 success: successInquiryUsers
             });
         }
+    },
+    createEditButton: function(gameId){
+        $(".edit-inquiry").attr("href","#inquiry/edit/"+gameId);
+        $(".edit-inquiry").show();
+    },
+    removeEditButton: function(){
+
+        $(".edit-inquiry").hide();
+        $(".edit-inquiry").attr("href","");
     },
 
     // authentication
@@ -1214,7 +1208,7 @@ var successInquiryUsers = function(response, xhr){
 };
 
 var successGameParticipateHandler = function(response, xhr){
-    //console.log("Games I participate:");
+
     _.each(xhr.games, function(game){
         //console.log(game);
         if(!game.deleted){
@@ -1225,7 +1219,6 @@ var successGameParticipateHandler = function(response, xhr){
         }
     });
 
-    app.GameAccessList = new GameAccessCollection();
     app.GameAccessList.fetch({
         beforeSend: setHeader,
         success: successGameHandler
@@ -1233,27 +1226,35 @@ var successGameParticipateHandler = function(response, xhr){
 };
 
 var successGameHandler = function(response, xhr){
-    //console.log("Games I have access / I have created:");
-    _.each(xhr.gamesAccess, function(e){
-        //console.log(e);
-        var _gl = app.GameList.get(e.gameId);
 
-        if(!_gl) {
-            var game = new GameCollection({  });
-            game.gameId = e.gameId;
-            game.fetch({
-                beforeSend: setHeader,
-                success: function (response, game) {
-                    if(!game.deleted)
-                        $('.inquiry').append( new GameListView({ model: game, v: 2 }).render().el );
-                }
-            });
-            app.GameList.add(game);
-        }else{
-            var game = _gl;
-            $('.inquiry').append( new GameListView({ model: game.toJSON(), v: 1 }).render().el );
-        }
-    });
+    ///////////////////////////////////////////////////
+    // We save the serverTime to optimize the next call
+    ///////////////////////////////////////////////////
+    app.GameAccessList.from = xhr.serverTime;
+
+
+    //_.each(xhr.gamesAccess, function(e){
+    //    //console.log(e);
+    //    var _gl = app.GameList.get(e.gameId);
+    //
+    //    if(!_gl) {
+    //        var game = new GameCollection({  });
+    //        game.gameId = e.gameId;
+    //        game.fetch({
+    //            beforeSend: setHeader,
+    //            success: function (response, game) {
+    //                if(!game.deleted)
+    //                    $('.inquiry').append( new GameListView({ model: game, v: 2 }).render().el );
+    //            }
+    //        });
+    //        app.GameList.add(game);
+    //    }else{
+    //        var game = _gl;
+    //        $('.inquiry').append( new GameListView({ model: game.toJSON(), v: 1 }).render().el );
+    //    }
+    //});
+
+
 };
 
 tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry', 'run', 'user', 'user_sidebar', 'phase', 'activity', 'activity_text','activity_details', 'inquiry_structure',
