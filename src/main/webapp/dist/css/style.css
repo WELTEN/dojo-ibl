@@ -1306,7 +1306,8 @@ button.dim:active:before {
   border-radius: 2px;
   cursor: pointer;
   margin: 5px;
-  width: 83px;
+  width: 97%;
+  max-width: 37em;
   float: left;
 }
 #remove-drag{
@@ -8629,3 +8630,7 @@ ul li{list-style:none;}
   /*color: black;*/
   /*cursor: pointer;*/
 /*}*/
+
+textarea.form-control{
+  height: 12em;
+}
