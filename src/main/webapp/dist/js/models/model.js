@@ -233,9 +233,23 @@ window.ChannelAPI = Backbone.Model.extend({
 
 // Collections
 window.GameAccessCollection = Backbone.Collection.extend({
+    intialize: function(models, options){
+        options || (options = {});
+        if (options.from) {
+            this.from = options.from;
+        };
+    },
     model: GameAccess,
-    url: "/rest/myGames/gameAccess",
+    url: function(){
+        if(this.from){
+            return "/rest/myGames/gameAccess?from="+this.from;
+
+        }else{
+            return "/rest/myGames/gameAccess";
+        }
+    },
     parse: function(response){
+        //this.from = response.serverTime;
         return response.gamesAccess;
     }
 });
