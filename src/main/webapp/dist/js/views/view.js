@@ -654,7 +654,10 @@ window.SideBarView = Backbone.View.extend({
         var newMessage = new Message({ runId: $.cookie("dojoibl.run"), threadId: 0, subject: "", body: $('input#add-new-message').val() });
 
         newMessage.save({}, {
-            beforeSend:setHeader
+            beforeSend:setHeader,
+            success: function(response, message){
+                app.MessagesList.add(message)
+            }
         });
         $('input#add-new-message').val('');
     },
@@ -667,7 +670,10 @@ window.SideBarView = Backbone.View.extend({
             var newMessage = new Message({ runId: $.cookie("dojoibl.run"), threadId: 0, subject: "", body: $('input#add-new-message').val() });
 
             newMessage.save({}, {
-                beforeSend:setHeader
+                beforeSend:setHeader,
+                success: function(response, message){
+                    app.MessagesList.add(message)
+                }
             });
             $('input#add-new-message').val('');
         }
@@ -1902,14 +1908,27 @@ window.InquiryStructureView = Backbone.View.extend({
 });
 
 // Messages
-window.MessageFromNotificationView = Backbone.View.extend({
-    tagName:  "div",
-    className: "right",
-    initialize:function (a) {
-        this.template = _.template(tpl.get('message_own'));
+
+window.MessagesListView = Backbone.View.extend({
+    el: ".chat-discussion",
+    initialize:function (options) {
+        _(this).bindAll('render');
+        _(this).bindAll('add');
+        this.collection.bind('add', this.add);
     },
-    render:function () {
-        $(this.el).html(this.template(this.model));
+    add: function(message){
+        console.log("adding a message");
+        if(message.toJSON().senderId == $.cookie("dojoibl.localId")){
+            $(this.el).append(new MessageRightView({ model: message.toJSON() }).render().el);
+        }else{
+            $(this.el).append(new MessageLeftView({ model: message.toJSON() }).render().el);
+        }
+    },
+    render: function () {
+        console.log("rendering a message");
+        _.each(this.collection.models, function(message){
+            this.add(message);
+        }, this);
         return this;
     }
 });
@@ -1921,7 +1940,7 @@ window.MessageLeftView = Backbone.View.extend({
         this.template = _.template(tpl.get('message_right'));
     },
     render:function () {
-        $(this.el).html(this.template(this.model));
+        $(this.el).html(this.template({ model: this.model, time: jQuery.timeago(new Date(this.model.date))} ));
         return this;
     }
 });
@@ -1933,12 +1952,11 @@ window.MessageRightView = Backbone.View.extend({
         this.template = _.template(tpl.get('message'));
     },
     render:function () {
-        $(this.el).html(this.template(this.model));
+        $(this.el).html(this.template({ model: this.model, time: jQuery.timeago(new Date(this.model.date))}));
         return this;
     }
 });
-//
-//
+
 //window.ActivityView = Backbone.View.extend({
 //    tagName: 'section',
 //    className: 'phase-detail box box-success box-solid',

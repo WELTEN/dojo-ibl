@@ -1,9 +1,9 @@
     <div class="author-name">
-        <%= senderId %>
+        <%= model.senderId %>
         <small class="chat-date">
-            11:24 am
+            <%= time %>
         </small>
     </div>
-    <div class="chat-message">
-        <%= body %>
+    <div class="chat-message active">
+        <%= model.body %>
     </div>

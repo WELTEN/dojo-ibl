@@ -17,6 +17,7 @@ var AppRouter = Backbone.Router.extend({
         this.ActivityList = new ActivityCollection({ });
         this.GameAccessList = new GameAccessCollection();
         this.RunAccessList = new RunByGameCollection({ });
+        this.MessagesList = new MessageCollection();
     },
     routes: {
         ""			                                        : "showInquiries",
@@ -170,11 +171,7 @@ var AppRouter = Backbone.Router.extend({
 
                 $(".knob").knob();
 
-                $('.chat-discussion').slimScroll({
-                    height: '400px',
-                    start: 'bottom',
-                    railOpacity: 0.4
-                });
+                app.loadChat();
             }
         });
 
@@ -795,8 +792,6 @@ var AppRouter = Backbone.Router.extend({
 
         $('.inquiry').append(new GameListView({ collection: this.GameList }).render().el);
 
-        console.log(this.GameList.length, this.GameList)
-
         if(this.GameList.length == 0){
             this.GameAccessList.fetch({
                 beforeSend: setHeader,
@@ -959,10 +954,9 @@ var AppRouter = Backbone.Router.extend({
         // TODO check runAccess
     },
 
-    // chat
+    // chat - Listener for the channel API here
     initializeChannelAPI: function(){
         if(!this.ChannelAPI){
-            //console.debug("[initializeChannelAPI]", "Initializing the chat");
 
             this.ChannelAPI = new ChannelAPICollection();
             this.ChannelAPI.fetch({
@@ -973,37 +967,22 @@ var AppRouter = Backbone.Router.extend({
                     socket = channel.open();
 
                     socket.onopen = function() {
-                        ///////////////////////////////////////////////////////////////////////////////////////
+                        /////////////////////////////////////////
                         // TODO Block the chat until is connected
-                        ///////////////////////////////////////////////////////////////////////////////////////
+                        /////////////////////////////////////////
                         $('#messages').append('<p>Connected!</p>');
                     };
 
                     socket.onmessage = function(message) {
                         var a = $.parseJSON(message.data);
 
-                        // TODO create a getMessage service on the API
-                        //if(app.MessagesList.where({ id: a.messageId }).length == 0){
-                        //    console.log("dentro");
-                        //    var message = new Message({ id: a.messageId });
-                        //    message.fetch({
-                        //        beforeSend: setHeader
-                        //    });
-                        //    app.MessagesList.add(message);
-                        //}
-
-                        //console.log(app.MessagesList);
-
                         if (a.type == "org.celstec.arlearn2.beans.notification.MessageNotification") {
                             if ($('.chat-discussion').length) {
-                                console.log(a);
-                                var aux = a.messageId;
-                                $('.chat-discussion').append(new MessageFromNotificationView({model: a}).render().el);
-                                //if (a.senderId == app.UserList.at(0).toJSON().localId){
-                                //    $('.direct-chat-messages').append(new MessageLeftView({ model: a }).render().el);
-                                //}else{
-                                //    $('.direct-chat-messages').append(new MessageRightView({ model: a }).render().el);
-                                //}
+
+                                app.MessagesList.id = $.cookie("dojoibl.run");
+                                app.MessagesList.fetch({
+                                    beforeSend: setHeader
+                                });
 
                                 $('.chat-discussion').animate({
                                     scrollTop: $('.chat-discussion')[0].scrollHeight
@@ -1084,47 +1063,40 @@ var AppRouter = Backbone.Router.extend({
     },
     loadChat: function(){
 
-        if($(".chat-discussion").length != 0){
-            console.log("hay chat");
-        }
-
-        console.debug("[loadChat]", "Loading the chat content");
-        this.MessagesList = new MessageCollection();
-        this.MessagesList.id = $.cookie("dojoibl.run");
-        this.MessagesList.fetch({
-            beforeSend: setHeader,
-            success: function (response, xhr) {
-
-                console.info("TODO: retrieve messages per blocks");
-
-                _.each(xhr.messages, function(message){
-                    //console.log(message);
-                    //////////////////////////////////////////////////////////////
-                    // TODO make different type of message if it is not my message
-                    // TODO place the focus at the end of the chat box
-                    //////////////////////////////////////////////////////////////
-                    if (message.senderId == app.UsersList.at(0).toJSON().localId){
-                        $('.chat-discussion').append(new MessageRightView({ model: message }).render().el);
-                    }else{
-                        $('.chat-discussion').append(new MessageLeftView({ model: message }).render().el);
-                    }
-
-                    //if($('.chat-discussion').length != 0){
-                    //    console.log($('.chat-discussion')[0])
-                    //    $('.chat-discussion').animate({
-                    //        scrollTop: $('.chat-discussion')[0].scrollHeight
-                    //    }, 0);
-                    //}else{
-                    //    console.log($('.chat-discussion'));
-                    //}
-
-                });
-            }
+        $('.chat-discussion').slimScroll({
+            height: '400px',
+            railOpacity: 0.4
         });
+        //
+        //
 
-        //$('.direct-chat-messages').animate({
-        //    scrollTop: $('.direct-chat-messages')[0].scrollHeight
-        //}, 2000);
+        //var scrollTo_int = $('.chat-discussion').prop('scrollHeight') + 'px';
+        //console.log(scrollTo_int);
+        //$('.chat-discussion').slimScroll({
+        //    scrollTo : scrollTo_int,
+        //    height: '400px',
+        //    railOpacity: 0.4
+        //});
+        if(this.MessagesList.length == 0) {
+            this.MessagesList.id = $.cookie("dojoibl.run");
+            this.MessagesList.fetch({
+                beforeSend: setHeader,
+                success: function () {
+                    //$('.chat-discussion').animate({
+                    //    scrollTop: $('.chat-discussion')[0].scrollHeight
+                    //}, 0);
+                }
+            });
+        }
+        //else{
+        //    if($('.chat-discussion').length != 0){
+        //        $('.chat-discussion').animate({
+        //            scrollTop: $('.chat-discussion')[0].scrollHeight
+        //        }, 0);
+        //    }
+        //}
+
+        new MessagesListView({ collection: this.MessagesList }).render().el;
     },
 
     // common
