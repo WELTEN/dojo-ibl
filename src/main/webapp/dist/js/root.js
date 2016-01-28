@@ -224,7 +224,7 @@ var AppRouter = Backbone.Router.extend({
             beforeSend: setHeader,
             success: function (response, game) {
                 console.log();
-                app.changeTitle(game.title+' <i class="fa fa-angle-double-right"></i> '+game.phases[_phase-1].title);
+                app.changeTitle(' <a href="#inquiry/'+_runId+'">'+game.title+'</a> <i class="fa fa-angle-double-right"></i> '+game.phases[_phase-1].title);
             }
         });
 
@@ -233,8 +233,6 @@ var AppRouter = Backbone.Router.extend({
             app.breadcrumbManager(1, "Data collection");
 
             app.breadcrumbManagerSmall("#inquiry/"+_runId,"the list of phases");
-
-
 
             $(this).addClass("animated fadeOutUpBig");
             this.ActivityList = new ActivitiesCollection({ });
@@ -312,8 +310,7 @@ var AppRouter = Backbone.Router.extend({
             this.Activity.fetch({
                 beforeSend: setHeader,
                 success: function (response, xhr) {
-                    //app.breadcrumbManager(2, "Data Collection", xhr.name );
-                    app.changeTitle(_gameObject.title+' <i class="fa fa-angle-double-right"></i> '+_gameObject.phases[_phase-1].title+' <i class="fa fa-angle-double-right"></i> '+xhr.name);
+                    app.changeTitle(' <a href="#inquiry/'+_runId+'">'+_gameObject.title+'</a> <i class="fa fa-angle-double-right"></i> <a href="#inquiry/'+_gameObject.gameId+'/phase/'+_phase+'">'+_gameObject.phases[_phase-1].title+'</a> <i class="fa fa-angle-double-right"></i> '+xhr.name);
 
                     if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
                         $(".row.inquiry").append($('<div />', {
