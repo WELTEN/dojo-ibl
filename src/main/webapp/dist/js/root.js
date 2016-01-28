@@ -884,7 +884,6 @@ var AppRouter = Backbone.Router.extend({
     },
     removePhase: function(){
         $(".remove-phase").click(function(){
-            console.warning("TODO: Delete phase. Delete all the general items under it");
             var tabId = $(this).parents('li').children('a').attr('href');
             $(this).parents('li').remove('li');
             $(tabId).remove();

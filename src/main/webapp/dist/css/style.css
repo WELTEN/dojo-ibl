@@ -8410,6 +8410,8 @@ div.phases-breadcrumb  {
 #concept-map > svg{
   border: 1px solid black;
   border-radius: 3px;
+  margin: 1em;
+  width: 95%;
 }
 
 .link {

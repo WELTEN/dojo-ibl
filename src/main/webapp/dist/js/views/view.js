@@ -985,10 +985,6 @@ window.ActivityView = Backbone.View.extend({
     },
     render:function () {
         $(this.el).html(this.template(this.model));
-
-        console.log($("iframe").html())
-
-
         $(this.el).find('#nestable3').nestable();
         return this;
     }
@@ -1010,7 +1006,6 @@ window.DataCollectionGridItemView = Backbone.View.extend({
 
 window.ConceptMapView = Backbone.View.extend({
     initialize: function(options){
-        console.log(options)
         this.gItem = options.gItem;
     },
     render: function(){
@@ -1019,37 +1014,35 @@ window.ConceptMapView = Backbone.View.extend({
         var nodes = [];
         var links = [];
 
-        console.log(this.gItem);
-
         _.each(this.model.responses, function(response){
-            console.log(response);
-            var item_nodes = {}
-            item_nodes ["id"] = response.responseId;
-            item_nodes ["name"] = response.responseValue;
-            var min = 50;
-            var max = 550;
-            var random = Math.floor(Math.random() * (max - min + 1)) + min;
-            item_nodes ["x"] = random;
-            var min = 50;
-            var max = 150;
-            var random = Math.floor(Math.random() * (max - min + 1)) + min;
-            item_nodes ["y"] = random;
-            item_nodes ["gItem"] = response.generalItemId;
-            item_nodes ["runId"] = response.runId;
+            if(response.parentId != -1){
+                var item_nodes = {}
+                item_nodes ["id"] = response.responseId;
+                item_nodes ["name"] = response.responseValue;
+                var min = 50;
+                var max = 550;
+                var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                item_nodes ["x"] = random;
+                var min = 50;
+                var max = 150;
+                var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                item_nodes ["y"] = random;
+                item_nodes ["gItem"] = response.generalItemId;
+                item_nodes ["runId"] = response.runId;
+                nodes.push(item_nodes);
+            }else{
+                var item_links = {};
 
-            nodes.push(item_nodes);
+                var str = response.responseValue;
+                var arr_str = str.split(",");
+                item_links["source"] = arr_str[0];
+                item_links["target"] = arr_str[1];
+                links.push(item_links);
+            }
         }, this);
 
         var item2 = {};
         item2 ["nodes"] = nodes;
-
-        var item_links = {};
-
-        item_links["source"] = 0;
-        item_links["target"] = 1;
-
-        links.push(item_links);
-
         item2 ["links"] = links;
         jsonObj.push(item2);
 
@@ -1059,7 +1052,7 @@ window.ConceptMapView = Backbone.View.extend({
     },
     render2: function(jsonObj){
 
-        var width = $("#concept-map").width(),
+        var width = $("#concept-map").width()-20,
             height = 400, shiftKey;
 
         var svg = d3.select("#concept-map")
@@ -1480,6 +1473,7 @@ window.ConceptMapView = Backbone.View.extend({
                     d3.event.stopPropagation();
                     if (d3.event.keyCode == 13 && !d3.event.shiftKey){
                         this.blur();
+                        console.log("Save concept", d3.select(this));
                     }
                 })
                 .on("blur", function() {
@@ -1555,8 +1549,6 @@ window.ConceptMapView = Backbone.View.extend({
                         }
                     }
 
-                    console.log(d3.select(this).classed("selected"));
-
                     if(movement_allowed) return;
 
                     // select node
@@ -1613,6 +1605,8 @@ window.ConceptMapView = Backbone.View.extend({
                         link[direction] = true;
                         links.push(link);
                     }
+
+                    createLink(source.index, target.index);
 
                     // select new link
                     selected_link = link;
@@ -1738,7 +1732,7 @@ window.ConceptMapView = Backbone.View.extend({
 
             //var a = node.filter(function(d) { return console.log(d); d.selected; });
 
-            console.log(node.filter(function(d) { return d.selected; }).length);
+            //console.log(node.filter(function(d) { return d.selected; }).length);
 
             //a.forEach(function(node){
             //
@@ -1769,6 +1763,30 @@ window.ConceptMapView = Backbone.View.extend({
 
         function spliceLinksForNode(node) {
 
+        }
+
+        function createLink(pointA, pointB){
+            var newResponse = new Response({
+                generalItemId: $.cookie("dojoibl.activity"),
+                responseValue: pointA+","+pointB ,
+                runId: $.cookie("dojoibl.run"),
+                userEmail: 0,
+                parentId: -1
+            });
+            newResponse.save({}, {
+                beforeSend:setHeader,
+                success: function(r, response){
+
+                    var item_links = {};
+
+                    item_links["source"] = pointA;
+                    item_links["target"] = pointB;
+
+                    links.push(item_links);
+
+                    restart();
+                }
+            });
         }
 
         function createNode(){
@@ -1917,7 +1935,6 @@ window.MessagesListView = Backbone.View.extend({
         this.collection.bind('add', this.add);
     },
     add: function(message){
-        console.log("adding a message");
         if(message.toJSON().senderId == $.cookie("dojoibl.localId")){
             $(this.el).append(new MessageRightView({ model: message.toJSON() }).render().el);
         }else{
@@ -1925,7 +1942,6 @@ window.MessagesListView = Backbone.View.extend({
         }
     },
     render: function () {
-        console.log("rendering a message");
         _.each(this.collection.models, function(message){
             this.add(message);
         }, this);
