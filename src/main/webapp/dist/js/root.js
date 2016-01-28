@@ -39,6 +39,7 @@ var AppRouter = Backbone.Router.extend({
         this.initializeChannelAPI();
         this.changeTitle("List of inquiries");
         this.removeEditButton();
+        this.showJoinCreateButton();
         this.breadcrumbManagerSmallHide();
 
         $(".join-inquiry").click(function(){
@@ -148,6 +149,8 @@ var AppRouter = Backbone.Router.extend({
         this.initializeChannelAPI();
         this.loadChat();
 
+        this.removeJoinCreateButton();
+
         this.RunList = new RunCollection({ });
         this.RunList.id = id;
 
@@ -210,7 +213,9 @@ var AppRouter = Backbone.Router.extend({
             _runId = $.cookie("dojoibl.run");
         }
 
+        this.removeJoinCreateButton();
         this.createEditButton(_gameId);
+
         this.createCookie("dojoibl.game", _gameId);
 
         var game = new GameCollection({ });
@@ -280,6 +285,8 @@ var AppRouter = Backbone.Router.extend({
 
         this.createCookie("dojoibl.activity", activity);
         this.createEditButton(_gameId);
+
+        this.removeJoinCreateButton();
 
         this.loadInquiryUsers(_runId);
 
@@ -405,6 +412,9 @@ var AppRouter = Backbone.Router.extend({
     createInquiry: function(){
         this.isAuthenticated();
         this.removeEditButton();
+
+        this.showJoinCreateButton();
+
         app.showView(".row.inquiry", new InquiryNewView());
 
         app.changeTitle("New inquiry");
@@ -567,6 +577,7 @@ var AppRouter = Backbone.Router.extend({
         app.showView(".row.inquiry", new InquiryNewView());
 
         app.removeEditButton();
+        app.showJoinCreateButton();
         app.breadcrumbManager(0, "");
         app.breadcrumbManagerSmall("#","list of inquiries");
 
@@ -1193,6 +1204,12 @@ var AppRouter = Backbone.Router.extend({
 
         $(".edit-inquiry").hide();
         $(".edit-inquiry").attr("href","");
+    },
+    showJoinCreateButton: function(gameId){
+        $(".new-inquiry").show();
+    },
+    removeJoinCreateButton: function(){
+        $(".new-inquiry").hide();
     },
 
     // authentication
