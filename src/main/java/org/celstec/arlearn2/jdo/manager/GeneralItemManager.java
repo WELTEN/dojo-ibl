@@ -129,6 +129,7 @@ public class GeneralItemManager {
 		Object args [] ={gameId, generalItemId!=null?KeyFactory.createKey(GeneralItemJDO.class.getSimpleName(), Long.parseLong(generalItemId)):null, type, section};
 		query.setFilter(ManagerUtil.generateFilter(args, params, paramsNames));
 		query.declareParameters(ManagerUtil.generateDeclareParameters(args, types, params, paramsNames));
+		query.setOrdering("name asc");
 		return (List<GeneralItemJDO>) query.executeWithArray(ManagerUtil.filterOutNulls(args));
 	}
 

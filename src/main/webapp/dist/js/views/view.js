@@ -1473,7 +1473,7 @@ window.ConceptMapView = Backbone.View.extend({
                     d3.event.stopPropagation();
                     if (d3.event.keyCode == 13 && !d3.event.shiftKey){
                         this.blur();
-                        console.log("Save concept", d3.select(this));
+                        console.log("Save concept: ", d3.select(this));
                     }
                 })
                 .on("blur", function() {
