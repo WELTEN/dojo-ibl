@@ -1,9 +1,9 @@
-<img src="<%
+<%
 if ( picture != '') {
-    %> <%=picture%> <%
+%> <img src="<%= picture %>" alt="User image"> <%
 }else{
-    %> http://www.blogtard.com/img/5f.png <%
+%> <i class="fa fa-user profile-response"></i> <%
 }
-%>" alt="User Image">
+%>
 <a class="users-list-name" href="#"><%= name %></a>
 <span class="users-list-date">-</span>

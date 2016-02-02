@@ -148,12 +148,14 @@ var AppRouter = Backbone.Router.extend({
         this.breadcrumbManager(0, "");
 
         this.initializeChannelAPI();
-        this.loadChat();
+        //this.loadChat();
 
         this.removeJoinCreateButton();
 
         this.RunList = new RunCollection({ });
         this.RunList.id = id;
+
+        var _runId = id;
 
         this.RunList.fetch({
             beforeSend: setHeader,
@@ -171,7 +173,7 @@ var AppRouter = Backbone.Router.extend({
 
                 $(".knob").knob();
 
-                app.loadChat();
+                app.loadChat(_runId);
             }
         });
 
@@ -383,16 +385,13 @@ var AppRouter = Backbone.Router.extend({
                         // discussion thread
                         ///////////////////////////////////////////////////////////////////////////
                         $(".save[responseid='0']").click(function(){
-
                             if  ($("textarea[responseid='0']").val() != ""){
 
                                 var newResponse = new Response({ generalItemId: xhr.id, responseValue: $("textarea[responseid='0']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: 0 });
                                 newResponse.save({}, {
                                     beforeSend:setHeader,
                                     success: function(r, new_response){
-                                        app.Response.add(new_response);
-                                        //$(".m-r-sm.text-muted.notification-text").addClass("animated fadeInUp").html("Comment sent").fadeOut(5000);
-                                        app.showNotification("success", "Discussion thread", "Your comment has been sent");
+                                       app.showNotification("success", "Discussion thread", "Your comment has been sent");
                                     }
                                 });
                             }
@@ -915,10 +914,10 @@ var AppRouter = Backbone.Router.extend({
             "preventDuplicates": false,
             "positionClass": "toast-top-right",
             "onclick": null,
-            "showDuration": "70000",
-            "hideDuration": "70000",
-            "timeOut": "70000",
-            "extendedTimeOut": "70000",
+            "showDuration": "7000",
+            "hideDuration": "7000",
+            "timeOut": "7000",
+            "extendedTimeOut": "7000",
             "showEasing": "swing",
             "hideEasing": "linear",
             "showMethod": "fadeIn",
@@ -974,6 +973,8 @@ var AppRouter = Backbone.Router.extend({
 
                     socket.onmessage = function(message) {
                         var a = $.parseJSON(message.data);
+
+                        console.log(a);
 
                         if (a.type == "org.celstec.arlearn2.beans.notification.MessageNotification") {
                             if ($('.chat-discussion').length) {
@@ -1046,12 +1047,12 @@ var AppRouter = Backbone.Router.extend({
                             //}
                         }
 
-                        //if (a.type == "org.celstec.arlearn2.beans.run.Response") {
-                        //    /////////////////////////
-                        //    // Sidebar notifications
-                        //    /////////////////////////
-                        //    $("ul.notifications-side-bar").prepend(new NotificationSideBarView({model: a}).render().el)
-                        //}
+                        if (a.type == "org.celstec.arlearn2.beans.run.Response") {
+                            /////////////////////////
+                            // Sidebar notifications
+                            /////////////////////////
+                            app.Response.add(a);
+                        }
                     };
 
                     socket.onerror = function() { $('#messages').append('<p>Connection Error!</p>'); };
@@ -1060,40 +1061,31 @@ var AppRouter = Backbone.Router.extend({
             });
         }
     },
-    loadChat: function(){
+    loadChat: function(runId){
 
         $('.chat-discussion').slimScroll({
             height: '400px',
             railOpacity: 0.4
         });
-        //
-        //
 
-        //var scrollTo_int = $('.chat-discussion').prop('scrollHeight') + 'px';
-        //console.log(scrollTo_int);
-        //$('.chat-discussion').slimScroll({
-        //    scrollTo : scrollTo_int,
-        //    height: '400px',
-        //    railOpacity: 0.4
-        //});
-        if(this.MessagesList.length == 0) {
+        console.log(this.MessagesList.length, this.MessagesList.id, $.cookie("dojoibl.run"), runId);
+
+        if(this.MessagesList.length == 0 || runId != this.MessagesList.id) {
             this.MessagesList.id = $.cookie("dojoibl.run");
             this.MessagesList.fetch({
                 beforeSend: setHeader,
                 success: function () {
-                    //$('.chat-discussion').animate({
-                    //    scrollTop: $('.chat-discussion')[0].scrollHeight
-                    //}, 0);
+
+                    //var scrollTo_val = $('.chat-discussion').prop('scrollHeight') + 'px';
+                    //console.log(scrollTo_val);
+                    //$('.chat-discussion').slimScroll({ scrollTo : scrollTo_val });
+
+                    $('.chat-discussion').animate({
+                        scrollTop: $('.chat-discussion')[0].scrollHeight
+                    }, 0);
                 }
             });
         }
-        //else{
-        //    if($('.chat-discussion').length != 0){
-        //        $('.chat-discussion').animate({
-        //            scrollTop: $('.chat-discussion')[0].scrollHeight
-        //        }, 0);
-        //    }
-        //}
 
         new MessagesListView({ collection: this.MessagesList }).render().el;
     },

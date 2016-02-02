@@ -336,6 +336,12 @@ window.MessageCollection = Backbone.Collection.extend({
     parse: function(response){
         return   response.messages;
     },
+    byRun: function (runId) {
+        var filtered = this.filter(function (message) {
+            return message.get("runId") === runId;
+        });
+        return new window.MessageCollection(filtered);
+    },
     url: function(){
         return "/rest/messages/runId/"+this.id+"/default";
     }

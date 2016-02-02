@@ -1,11 +1,12 @@
 <a class="pull-left">
-    <img alt="image" src="<%
+    <%
     if ( author.picture != '') {
-        %> <%= author.picture %> <%
+    %> <img alt="image" src="<%= author.picture %>"> <%
     }else{
-        %> http://www.blogtard.com/img/5f.png <%
+    %> <i class="fa fa-user profile-response"></i> <%
     }
-    %>">
+    %>
+
 </a>
 <div class="media-body" data-item="<%= model.responseId %>">
     <a>

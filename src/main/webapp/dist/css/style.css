@@ -5304,8 +5304,9 @@ del {
   position: relative;
   margin: 0;
 }
-.social-footer .social-comment img {
+.social-footer .social-comment img, .social-footer .social-comment i.profile-response {
   width: 32px;
+  font-size: 40px;
   margin-right: 10px;
 }
 .social-comment:first-child {
@@ -8631,4 +8632,8 @@ ul li{list-style:none;}
 
 textarea.form-control{
   height: 12em;
+}
+
+.icon-game{
+  font-size: 30px;
 }

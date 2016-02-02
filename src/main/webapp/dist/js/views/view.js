@@ -489,6 +489,8 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
 
         var data = app.getDataForm(frm);
 
+        console.log(data);
+
         /////////////////////////////////////
         // Create the activity = General Item
         /////////////////////////////////////
@@ -542,7 +544,8 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
                         autoLaunch: false,
                         fileReferences: [],
                         sortKey: 1,
-                        videoFeed: feed
+                        videoFeed: feed,
+                        richText: ""
                     };
                 }else if(type == "org.celstec.arlearn2.beans.generalItem.AudioObject") {
                     var data = {
@@ -555,7 +558,8 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
                         autoLaunch: false,
                         fileReferences: [],
                         sortKey: 1,
-                        audioFeed: feed
+                        audioFeed: feed,
+                        richText: ""
                     };
                 }else{
                     var data = {
@@ -567,7 +571,8 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
                         description: "",
                         autoLaunch: false,
                         fileReferences: [],
-                        sortKey: 1
+                        sortKey: 1,
+                        richText: ""
                     };
                 }
 
@@ -628,6 +633,8 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
             hoverClass: "remove-drag-hover",
             accept: '.remove'
         });
+
+        $(this.el).find('.summernote').summernote();
 
         return this;
     }
@@ -768,7 +775,6 @@ window.ResponseListView = Backbone.View.extend({
             var user = this.users.where({ 'localId': aux[1] });
 
             if(res.parentId != 0){
-
                 if($("textarea[responseid='"+res.parentId+"']").parent().parent().length == 0){
                     $("div[data-item='"+res.parentId+"']").parent()
                         .append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
@@ -777,13 +783,9 @@ window.ResponseListView = Backbone.View.extend({
                         $("textarea[responseid='"+res.parentId+"']").parent().parent()
                     );
                 }
-
             }else{
-                console.log("hola");
                 $(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el).insertBefore($('#list_answers > .social-comment:last-child'));
             }
-
-
         }, this);
 
         this.collection.reset();
@@ -798,9 +800,6 @@ window.ResponseListView = Backbone.View.extend({
             /////////////////////////////////////////////////////////////////
             if($(this).parent().parent().find(".response").length == 0){
                 if($(this).attr("data")){
-
-                    console.log("hoola");
-
                     var form = new ResponseReplyView({}).render().el;
 
                     var gItem = $(this).attr("gitem");
@@ -823,7 +822,6 @@ window.ResponseListView = Backbone.View.extend({
                             newResponse.save({}, {
                                 beforeSend:setHeader,
                                 success: function(r, new_response){
-                                    app.Response.add(new_response);
                                 }
                             });
                         }
@@ -965,7 +963,6 @@ window.ActivityView = Backbone.View.extend({
 
             this.template = _.template(tpl.get('activity_html'));
 
-
         }else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
 
             this.template = _.template(tpl.get('activity_tree_view'));
@@ -985,7 +982,10 @@ window.ActivityView = Backbone.View.extend({
     },
     render:function () {
         $(this.el).html(this.template(this.model));
-        $(this.el).find('#nestable3').nestable();
+        //$(this.el).find('#nestable3').nestable();
+
+        //$(this.el).find('.summernote').code(); //save HTML If you need(aHTML: array).
+        //$(this.el).find('.summernote').destroy();
         return this;
     }
 });
