@@ -231,7 +231,7 @@ window.RunListView = Backbone.View.extend({
     },
     render: function () {
 
-        console.log("render");
+        //console.log("render");
 
         _.each(this.collection.models, function(run){
             console.log(run.toJSON());
@@ -963,9 +963,9 @@ window.ActivityView = Backbone.View.extend({
 
             this.template = _.template(tpl.get('activity_html'));
 
-        }else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
-
-            this.template = _.template(tpl.get('activity_tree_view'));
+        //}else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
+        //
+        //    this.template = _.template(tpl.get('activity_tree_view'));
 
         }else if(xhr.model.type.indexOf("SingleChoiceImageTest") > -1) {
 
@@ -1008,36 +1008,41 @@ window.ConceptMapView = Backbone.View.extend({
     initialize: function(options){
         this.gItem = options.gItem;
     },
-    render: function(){
+    render: function() {
 
         var jsonObj = [];
         var nodes = [];
         var links = [];
 
         _.each(this.model.responses, function(response){
-            if(response.parentId != -1){
-                var item_nodes = {}
-                item_nodes ["id"] = response.responseId;
-                item_nodes ["name"] = response.responseValue;
-                var min = 50;
-                var max = 550;
-                var random = Math.floor(Math.random() * (max - min + 1)) + min;
-                item_nodes ["x"] = random;
-                var min = 50;
-                var max = 150;
-                var random = Math.floor(Math.random() * (max - min + 1)) + min;
-                item_nodes ["y"] = random;
-                item_nodes ["gItem"] = response.generalItemId;
-                item_nodes ["runId"] = response.runId;
-                nodes.push(item_nodes);
-            }else{
-                var item_links = {};
+            if(!response.revoked){
+                if(response.parentId != -1){
+                    var item_nodes = {}
+                    item_nodes ["id"] = response.responseId;
+                    item_nodes ["name"] = response.responseValue;
+                    var min = 50;
+                    var max = 550;
+                    var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                    item_nodes ["x"] = random;
+                    var min = 50;
+                    var max = 150;
+                    var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                    item_nodes ["y"] = random;
+                    item_nodes ["gItem"] = response.generalItemId;
+                    item_nodes ["runId"] = response.runId;
+                    nodes.push(item_nodes);
+                }else{
+                    var item_links = {};
 
-                var str = response.responseValue;
-                var arr_str = str.split(",");
-                item_links["source"] = arr_str[0];
-                item_links["target"] = arr_str[1];
-                links.push(item_links);
+                    var str = response.responseValue;
+                    var arr_str = str.split(",");
+
+                    item_links["source"] = arr_str[0];
+                    item_links["target"] = arr_str[1];
+                    item_links["id"] = response.responseId;
+
+                    links.push(item_links);
+                }
             }
         }, this);
 
@@ -1046,11 +1051,11 @@ window.ConceptMapView = Backbone.View.extend({
         item2 ["links"] = links;
         jsonObj.push(item2);
 
-        this.render3(JSON.stringify(jsonObj));
+        this.render5(JSON.stringify(jsonObj));
 
         return this;
     },
-    render2: function(jsonObj){
+    render2: function(jsonObj) {
 
         var width = $("#concept-map").width()-20,
             height = 400, shiftKey;
@@ -1343,7 +1348,7 @@ window.ConceptMapView = Backbone.View.extend({
             })
         });
     },
-    render3: function(jsonObj){
+    render3: function(jsonObj) {
 
         var width = $("#concept-map").width(),
             height = 400, shiftKey;
@@ -1352,9 +1357,9 @@ window.ConceptMapView = Backbone.View.extend({
 
         var force = d3.layout.force()
             .size([width, height])
-            //.nodes([{}]) // initialize with a single node
-            .linkDistance(200)
-            .charge(-200)
+            .linkDistance(150)
+            .charge(-520)
+            //.gravity(.05)
             .on("tick", tick);
 
         var drag = force.drag()
@@ -1364,13 +1369,13 @@ window.ConceptMapView = Backbone.View.extend({
             .attr("width", width)
             .attr("height", height)
             .on('mousemove', mousemove)
-            //.on("keydown", keydown)
-            //.on("mousedown", mousedown);
+        //.on("keydown", keydown)
+        //.on("mousedown", mousedown);
 
 
         var nodes = force.nodes(),
             links = force.links(),
-            //labels = force.labels(),
+        //labels = force.labels(),
             node = svg.selectAll(".node"),
             link = svg.selectAll(".link"),
             label = svg.selectAll(".labels");
@@ -1451,33 +1456,35 @@ window.ConceptMapView = Backbone.View.extend({
             var _old_value = d3.select(this).html();
             var _old_label = d3.select(this),
                 _x_pos = d3.select(this).attr("x"),
-                _y_pos = d3.select(this).attr("y")-15;
+                _y_pos = d3.select(this).attr("y") - 15;
 
             d3.select(this).html("");
 
             var new_input = svg.append("foreignObject");
-            new_input.attr("x",_x_pos)
-                .attr("y",_y_pos)
+            new_input.attr("x", _x_pos)
+                .attr("y", _y_pos)
                 .append("xhtml:form")
                 .append("input")
-                .attr("value", function() {
+                .attr("value", function () {
                     this.focus();
-                    $(this).css("width","200px");
-                    $(this).css("outline","none");
-                    $(this).css("border","0px");
-                    $(this).css("background","transparent");
-                    $(this).addClass("edit-value-concept","transparent");
+                    $(this).css("width", "200px");
+                    $(this).css("outline", "none");
+                    $(this).css("border", "0px");
+                    $(this).css("background", "transparent");
+                    $(this).addClass("edit-value-concept", "transparent");
                     return _old_value;
                 })
-                .on("keydown", function(d){
+                .on("keydown", function (d) {
                     d3.event.stopPropagation();
-                    if (d3.event.keyCode == 13 && !d3.event.shiftKey){
+                    if (d3.event.keyCode == 13 && !d3.event.shiftKey) {
                         this.blur();
                         console.log("Save concept: ", d3.select(this));
                     }
                 })
-                .on("blur", function() {
-                    _old_label.text(function(d) { return $(".edit-value-concept").val(); });
+                .on("blur", function () {
+                    _old_label.text(function (d) {
+                        return $(".edit-value-concept").val();
+                    });
                     svg.select("foreignObject").remove();
                 });
         }
@@ -1487,23 +1494,71 @@ window.ConceptMapView = Backbone.View.extend({
         }
 
         function tick() {
-            link.attr("x1", function(d) { return d.source.x; })
-                .attr("y1", function(d) { return d.source.y; })
-                .attr("x2", function(d) { return d.target.x; })
-                .attr("y2", function(d) { return d.target.y; });
 
-            node.attr("cx", function(d) { return d.x; })
-                .attr("cy", function(d) { return d.y; });
+            link.attr("x1", function (d) {
+                return d.source.x;
+            })
+                .attr("y1", function (d) {
+                    return d.source.y;
+                })
+                .attr("x2", function (d) {
+                    return d.target.x;
+                })
+                .attr("y2", function (d) {
+                    return d.target.y;
+                })
+                .attr('d', function (d) {
+                    var deltaX = d.target.x - d.source.x,
+                        deltaY = d.target.y - d.source.y,
+                        dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY),
+                        normX = deltaX / dist,
+                        normY = deltaY / dist,
+                        sourcePadding = d.left ? 17 : 12,
+                        targetPadding = d.right ? 17 : 12,
+                        sourceX = d.source.x + (sourcePadding * normX),
+                        sourceY = d.source.y + (sourcePadding * normY),
+                        targetX = d.target.x - (targetPadding * normX),
+                        targetY = d.target.y - (targetPadding * normY);
+                    return 'M' + sourceX + ',' + sourceY + 'L' + targetX + ',' + targetY;
+                });
+            ;
 
-            label.attr("x", function(d) { return d.x+15; })
-                .attr("y", function(d) { return d.y+5; });
+            node.attr("cx", function (d) {
+                return d.x;
+            })
+                .attr("cy", function (d) {
+                    return d.y;
+                });
+
+            label.attr("x", function (d) {
+                return d.x + 15;
+            })
+                .attr("y", function (d) {
+                    return d.y + 5;
+                });
         }
 
         function restart() {
             link = link.data(links);
 
             link.enter().insert("line", ".node")
+                .style('marker-start', function (d) {
+                    return d.left ? 'url(#start-arrow)' : '';
+                })
+                .style('marker-end', function (d) {
+                    return d.right ? 'url(#end-arrow)' : '';
+                })
                 .attr("class", "link");
+
+            link.classed('selected', function (d) {
+                return d === selected_link;
+            })
+                .style('marker-start', function (d) {
+                    return d.left ? 'url(#start-arrow)' : '';
+                })
+                .style('marker-end', function (d) {
+                    return d.right ? 'url(#end-arrow)' : '';
+                });
 
             node = node.data(nodes);
 
@@ -1537,19 +1592,928 @@ window.ConceptMapView = Backbone.View.extend({
                 //    restart();
                 //
                 //})
-                .on('mousedown', function(d) {
+                .on('mousedown', function (d) {
 
                     if (!d.selected) { // Don't deselect on shift-drag.
-                        if (!shiftKey){
-                            node.classed("selected", function(p) { return p.selected = d === p; });
-                            label.classed("selected", function(p) { return p.selected = d === p; });
+                        if (!shiftKey) {
+                            node.classed("selected", function (p) {
+                                return p.selected = d === p;
+                            });
+                            label.classed("selected", function (p) {
+                                return p.selected = d === p;
+                            });
                         }
-                        else{
+                        else {
                             d3.select(this).classed("selected", d.selected = true);
                         }
                     }
 
-                    if(movement_allowed) return;
+                    if (movement_allowed) return;
+
+                    // select node
+                    mousedown_node = d;
+                    if (mousedown_node === selected_node) selected_node = null;
+                    else selected_node = mousedown_node;
+                    selected_link = null;
+
+                    // reposition drag line
+                    drag_line
+                        .style('marker-end', 'url(#end-arrow)')
+                        .classed('hidden', false)
+                        .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y);
+
+                    restart();
+                })
+                .on('mouseup', function (d) {
+                    if (!mousedown_node) return;
+
+                    // needed by FF
+                    drag_line
+                        .classed('hidden', true)
+                        .style('marker-end', '');
+
+                    // check for drag-to-self
+                    mouseup_node = d;
+                    if (mouseup_node === mousedown_node) {
+                        resetMouseVars();
+                        return;
+                    }
+
+                    // unenlarge target node
+                    d3.select(this).attr('transform', '');
+
+                    // add link to graph (update if exists)
+                    // NB: links are strictly source < target; arrows separately specified by booleans
+                    var source, target, direction;
+                    if (mousedown_node.id < mouseup_node.id) {
+                        source = mousedown_node;
+                        target = mouseup_node;
+                        direction = 'right';
+                    } else {
+                        source = mouseup_node;
+                        target = mousedown_node;
+                        direction = 'left';
+                    }
+
+                    var link;
+                    link = links.filter(function (l) {
+                        return (l.source === source && l.target === target);
+                    })[0];
+
+                    if (link) {
+                        link[direction] = true;
+                    } else {
+                        link = {source: source, target: target, left: false, right: false};
+                        link[direction] = true;
+                        links.push(link);
+                    }
+
+                    createLink(source.index, target.index);
+
+                    // select new link
+                    selected_link = link;
+                    selected_node = null;
+                    restart();
+                })
+                .on("mouseover", function (d) {
+                    d3.select(this).attr("r", "11");
+                })
+                .on("mouseout", function (d) {
+                    d3.select(this).attr("r", "10")
+                });
+
+            node.exit().remove();
+
+            label = label.data(nodes);
+            label.enter().append("text")
+                //.call(force.drag)
+                .on("dblclick", dblclickLabel)
+                .attr("y", function (d) {
+                    return d.y + 20;
+                })
+                .attr("x", function (d) {
+                    return d.x + 10;
+                })
+                .text(function (d) {
+                    return d.name
+                });
+
+            label.exit().remove();
+
+            force.start();
+        }
+
+        function mousemove() {
+            if (!mousedown_node) return;
+
+            // updathisrag line
+            drag_line.attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + d3.mouse(this)[0] + ',' + d3.mouse(this)[1]);
+
+            restart();
+        }
+
+        function start(jsonObj) {
+            var graph = JSON.parse(jsonObj)[0];
+
+            graph.nodes.forEach(function (d) {
+                nodes.push(d);
+            });
+
+            if (graph.nodes.length > 1) {
+                graph.links.forEach(function (d) {
+                    d.source = graph.nodes[d.source];
+                    d.target = graph.nodes[d.target];
+                    links.push({source: d.source, target: d.target})
+                });
+
+                link = link.data(links);
+            }
+
+            node = node.data(nodes);
+            label = label.data(nodes)
+                .enter().append("text")
+                //.call(force.drag)
+                .on("dblclick", dblclickLabel)
+                .attr("y", function (d) {
+                    return d.y + 20;
+                })
+                .attr("x", function (d) {
+                    return d.x + 10;
+                })
+                .text(function (d) {
+                    return d.name
+                });
+
+        }
+
+        $(".move-concept, .link-concept").click(function (e) {
+            e.preventDefault();
+            if (!movement_allowed) {
+                $(".move-concept").addClass("btn-warning");
+                $(".move-concept").removeClass("btn-primary");
+                $(".link-concept").addClass("btn-primary");
+                $(".link-concept").removeClass("btn-warning");
+
+                movement_allowed = true;
+
+                label.call(force.drag);
+                node.call(force.drag);
+
+            } else {
+                $(".move-concept").addClass("btn-primary");
+                $(".move-concept").removeClass("btn-warning");
+                $(".link-concept").addClass("btn-warning");
+                $(".link-concept").removeClass("btn-primary");
+
+                movement_allowed = false;
+
+                label.on("mousedown.drag", null);
+                node.on("mousedown.drag", null);
+
+            }
+            console.log(movement_allowed);
+        });
+
+        $(".add-concept").click(function (e) {
+            e.preventDefault();
+
+            createNode();
+        });
+
+        $(".remove-concept").click(function (e) {
+            e.preventDefault();
+            //console.log(node.filter(function(d) { return d.selected; }));
+
+            //var a = node.filter(function(d) { return console.log(d); d.selected; });
+
+            //console.log(node.filter(function(d) { return d.selected; }).length);
+
+            //a.forEach(function(node){
+            //
+            //    console.log(node);
+            //    console.log(nodes.indexOf(node), nodes, node);
+            //    nodes.splice(nodes.indexOf(node), 1);
+            //    var toSplice = links.filter(function(l) {
+            //        return (l.source === node || l.target === node);
+            //    });
+            //    toSplice.map(function(l) {
+            //        links.splice(links.indexOf(l), 1);
+            //    });
+            //});
+
+            //if(!selected_node && !selected_link) return;
+            //
+            //if (selected_node) {
+            //    nodes.splice(nodes.indexOf(selected_node), 1);
+            //    spliceLinksForNode(selected_node);
+            //} else if (selected_link) {
+            //    links.splice(links.indexOf(selected_link), 1);
+            //}
+            //selected_link = null;
+            //selected_node = null;
+            restart();
+
+        });
+
+        function spliceLinksForNode(node) {
+
+        }
+
+        function createLink(pointA, pointB) {
+            var newResponse = new Response({
+                generalItemId: $.cookie("dojoibl.activity"),
+                responseValue: pointA + "," + pointB,
+                runId: $.cookie("dojoibl.run"),
+                userEmail: 0,
+                parentId: -1
+            });
+            newResponse.save({}, {
+                beforeSend: setHeader,
+                success: function (r, response) {
+
+                    var item_links = {};
+
+                    item_links["source"] = pointA;
+                    item_links["target"] = pointB;
+
+                    links.push(item_links);
+
+                    restart();
+                }
+            });
+        }
+
+        function createNode() {
+
+            swal({
+                title: "Add new concept",
+                text: "Provide a general idea or understanding about the topic of the concept map",
+                type: "input",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                animation: "slide-from-top",
+                inputPlaceholder: "Example: Gravity"
+            }, function (inputValue) {
+                if (inputValue === false)
+                    return false;
+                if (inputValue === "") {
+                    swal.showInputError("You need to write something!");
+                    return false
+                }
+                swal("Nice!", "Your new node: " + inputValue + " has been created", "success");
+
+                var newResponse = new Response({
+                    generalItemId: $.cookie("dojoibl.activity"),
+                    responseValue: inputValue,
+                    runId: $.cookie("dojoibl.run"),
+                    userEmail: 0
+                });
+                newResponse.save({}, {
+                    beforeSend: setHeader,
+                    success: function (r, response) {
+
+                        var item_nodes = {};
+                        item_nodes ["id"] = response.responseId;
+                        item_nodes ["name"] = response.responseValue;
+                        var min = 50;
+                        var max = 550;
+                        var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                        item_nodes ["x"] = random;
+                        var min = 50;
+                        var max = 150;
+                        var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                        item_nodes ["y"] = random;
+                        item_nodes ["gItem"] = response.generalItemId;
+                        item_nodes ["runId"] = response.runId;
+
+                        nodes.push(item_nodes);
+
+                        restart();
+                    }
+                });
+            });
+
+
+            //node.filter(function(d,i) {
+            //    if(i==0){
+            //        var newResponse = new Response({
+            //            generalItemId: $.cookie("dojoibl.activity"),
+            //            responseValue: $('input.add-concept-value').val() ,
+            //            runId: $.cookie("dojoibl.run"),
+            //            userEmail: 0
+            //        });
+            //        newResponse.save({}, {
+            //            beforeSend:setHeader,
+            //            success: function(r, response){
+            //
+            //                var item_nodes = {}
+            //                item_nodes ["id"] = response.responseId;
+            //                item_nodes ["name"] = response.responseValue;
+            //                var min = 50;
+            //                var max = 550;
+            //                var random = Math.floor(Math.random() * (max - min + 1)) + min;
+            //                item_nodes ["x"] = random;
+            //                var min = 50;
+            //                var max = 150;
+            //                var random = Math.floor(Math.random() * (max - min + 1)) + min;
+            //                item_nodes ["y"] = random;
+            //                item_nodes ["gItem"] = response.generalItemId;
+            //                item_nodes ["runId"] = response.runId;
+            //
+            //                nodes.push(item_nodes);
+            //                console.log(nodes);
+            //
+            //                restart();
+            //            }
+            //        });
+            //    }
+            //
+            //    return d.selected;
+            //});
+        }
+
+    },
+    render4: function(jsonObj) {
+
+        // set up SVG for D3
+        var width  = 960,
+            height = 500,
+            colors = d3.scale.category10();
+
+        var width = $("#concept-map").width(),
+            height = 400, shiftKey;
+
+        var svg = d3.select("#concept-map")
+            .append('svg')
+            .attr('oncontextmenu', 'return false;')
+            .attr('width', width)
+            .attr('height', height);
+
+        // init D3 force layout
+        var force = d3.layout.force()
+            .nodes(nodes)
+            .links(links)
+            .size([width, height])
+            .linkDistance(150)
+            .charge(-500)
+            .on('tick', tick);
+
+        // Create nodes and links from jsonObj
+        var graph = JSON.parse(jsonObj)[0];
+        var nodes = [], links = [], lastNodeId = 2;
+        graph.nodes.forEach(function (d) {
+
+            d.reflexive = false;
+            nodes.push(d);
+        });
+
+        if (graph.nodes.length > 1) {
+            graph.links.forEach(function (d) {
+
+                d.source = graph.nodes[d.source];
+                d.target = graph.nodes[d.target];
+                var _link = { source: d.source, target: d.target, left: true, right: false };
+                links.push(_link)
+                console.log(_link);
+            });
+        }
+
+        var nodes = [
+                {id: 0, reflexive: false},
+                {id: 1, reflexive: true },
+                {id: 2, reflexive: false}
+            ],
+            lastNodeId = 2,
+            links = [
+                {source: nodes[0], target: nodes[1], left: false, right: true },
+                {source: nodes[1], target: nodes[2], left: false, right: true }
+            ];
+
+        // define arrow markers for graph links
+        svg.append('svg:defs').append('svg:marker')
+            .attr('id', 'end-arrow')
+            .attr('viewBox', '0 -5 10 10')
+            .attr('refX', 6)
+            .attr('markerWidth', 3)
+            .attr('markerHeight', 3)
+            .attr('orient', 'auto')
+            .append('svg:path')
+            .attr('d', 'M0,-5L10,0L0,5')
+            .attr('fill', '#000');
+
+        svg.append('svg:defs').append('svg:marker')
+            .attr('id', 'start-arrow')
+            .attr('viewBox', '0 -5 10 10')
+            .attr('refX', 4)
+            .attr('markerWidth', 3)
+            .attr('markerHeight', 3)
+            .attr('orient', 'auto')
+            .append('svg:path')
+            .attr('d', 'M10,-5L0,0L10,5')
+            .attr('fill', '#000');
+
+        // line displayed when dragging new nodes
+        var drag_line = svg.append('svg:path')
+            .attr('class', 'link dragline hidden')
+            .attr('d', 'M0,0L0,0');
+
+        // handles to link and node element groups
+        var path = svg.append('svg:g').selectAll('path'),
+            circle = svg.append('svg:g').selectAll('g');
+
+        // mouse event vars
+        var selected_node = null,
+            selected_link = null,
+            mousedown_link = null,
+            mousedown_node = null,
+            mouseup_node = null;
+
+        function resetMouseVars() {
+            mousedown_node = null;
+            mouseup_node = null;
+            mousedown_link = null;
+        }
+
+        // update force layout (called automatically each iteration)
+        function tick() {
+            // draw directed edges with proper padding from node centers
+            path.attr('d', function(d) {
+                var deltaX = d.target.x - d.source.x,
+                    deltaY = d.target.y - d.source.y,
+                    dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY),
+                    normX = deltaX / dist,
+                    normY = deltaY / dist,
+                    sourcePadding = d.left ? 17 : 12,
+                    targetPadding = d.right ? 17 : 12,
+                    sourceX = d.source.x + (sourcePadding * normX),
+                    sourceY = d.source.y + (sourcePadding * normY),
+                    targetX = d.target.x - (targetPadding * normX),
+                    targetY = d.target.y - (targetPadding * normY);
+                return 'M' + sourceX + ',' + sourceY + 'L' + targetX + ',' + targetY;
+            });
+
+            circle.attr('transform', function(d) {
+                return 'translate(' + d.x + ',' + d.y + ')';
+            });
+        }
+
+        // update graph (called when needed)
+        function restart() {
+            // path (link) group
+            path = path.data(links);
+
+            // update existing links
+            path.classed('selected', function(d) { return d === selected_link; })
+                //.style('marker-start', function(d) { return d.left ? 'url(#start-arrow)' : ''; })
+                //.style('marker-end', function(d) { return d.right ? 'url(#end-arrow)' : ''; });
+
+            // add new links
+            path.enter().append('svg:path')
+                .attr('class', 'link')
+                .classed('selected', function(d) { return d === selected_link; })
+                //.style('marker-start', function(d) { return d.left ? 'url(#start-arrow)' : ''; })
+                //.style('marker-end', function(d) { return d.right ? 'url(#end-arrow)' : ''; })
+                .on('mousedown', function(d) {
+                    if(d3.event.ctrlKey) return;
+
+                    // select link
+                    mousedown_link = d;
+                    if(mousedown_link === selected_link) selected_link = null;
+                    else selected_link = mousedown_link;
+                    selected_node = null;
+                    restart();
+                });
+
+            // remove old links
+            path.exit().remove();
+
+            // circle (node) group
+            // NB: the function arg is crucial here! nodes are known by id, not by index!
+            circle = circle.data(nodes, function(d) { return d.id; });
+
+            // update existing nodes (reflexive & selected visual states)
+            circle.selectAll('circle')
+                .style('fill', function(d) { return (d === selected_node) ? d3.rgb(colors(d.id)).brighter().toString() : colors(d.id); })
+                //.classed('reflexive', function(d) { return d.reflexive; })
+            ;
+
+            // add new nodes
+            var g = circle.enter().append('svg:g');
+
+            g.append('svg:circle')
+            .attr('class', 'node')
+            .attr('r', 12)
+            .style('fill', function(d) { return (d === selected_node) ? d3.rgb(colors(d.id)).brighter().toString() : colors(d.id); })
+            .style('stroke', function(d) { return d3.rgb(colors(d.id)).darker().toString(); })
+            //.classed('reflexive', function(d) { return d.reflexive; })
+            .on('mouseover', function(d) {
+                if(!mousedown_node || d === mousedown_node) return;
+                // enlarge target node
+                d3.select(this).attr('transform', 'scale(1.1)');
+            })
+            .on('mouseout', function(d) {
+                if(!mousedown_node || d === mousedown_node) return;
+                // unenlarge target node
+                d3.select(this).attr('transform', '');
+            })
+            .on('mousedown', function(d) {
+                if(d3.event.ctrlKey) return;
+
+                // select node
+                mousedown_node = d;
+                if(mousedown_node === selected_node) selected_node = null;
+                else selected_node = mousedown_node;
+                selected_link = null;
+
+                // reposition drag line
+                drag_line
+                    .style('marker-end', 'url(#end-arrow)')
+                    .classed('hidden', false)
+                    .attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + mousedown_node.x + ',' + mousedown_node.y);
+
+                restart();
+            })
+            .on('mouseup', function(d) {
+                if(!mousedown_node) return;
+
+                // needed by FF
+                drag_line
+                    .classed('hidden', true)
+                    .style('marker-end', '');
+
+                // check for drag-to-self
+                mouseup_node = d;
+                if(mouseup_node === mousedown_node) { resetMouseVars(); return; }
+
+                // unenlarge target node
+                d3.select(this).attr('transform', '');
+
+                // add link to graph (update if exists)
+                // NB: links are strictly source < target; arrows separately specified by booleans
+                var source, target, direction;
+                if(mousedown_node.id < mouseup_node.id) {
+                    source = mousedown_node;
+                    target = mouseup_node;
+                    direction = 'right';
+                } else {
+                    source = mouseup_node;
+                    target = mousedown_node;
+                    direction = 'left';
+                }
+
+                var link;
+                link = links.filter(function(l) {
+                    return (l.source === source && l.target === target);
+                })[0];
+
+                if(link) {
+                    link[direction] = true;
+                } else {
+                    link = {source: source, target: target, left: false, right: false};
+                    link[direction] = true;
+                    links.push(link);
+                }
+
+                // select new link
+                selected_link = link;
+                selected_node = null;
+                restart();
+            });
+
+            // show node IDs
+            g.append('svg:text')
+                .attr('x', 0)
+                .attr('y', 4)
+                .attr('class', 'id')
+                .text(function(d) { return d.id; });
+
+            // remove old nodes
+            circle.exit().remove();
+
+            // set the graph in motion
+            force.start();
+        }
+
+
+        function mousedown() {
+            // prevent I-bar on drag
+            //d3.event.preventDefault();
+
+            // because :active only works in WebKit?
+            svg.classed('active', true);
+
+            if(d3.event.ctrlKey || mousedown_node || mousedown_link) return;
+
+            // insert new node at point
+            var point = d3.mouse(this),
+                node = {id: ++lastNodeId, reflexive: false};
+            node.x = point[0];
+            node.y = point[1];
+            nodes.push(node);
+
+            restart();
+        }
+
+        function mousemove() {
+            if(!mousedown_node) return;
+
+            // update drag line
+            drag_line.attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + d3.mouse(this)[0] + ',' + d3.mouse(this)[1]);
+
+            restart();
+        }
+
+        function mouseup() {
+            if(mousedown_node) {
+                // hide drag line
+                drag_line
+                    .classed('hidden', true)
+                    .style('marker-end', '');
+            }
+
+            // because :active only works in WebKit?
+            svg.classed('active', false);
+
+            // clear mouse event vars
+            resetMouseVars();
+        }
+
+        function spliceLinksForNode(node) {
+            var toSplice = links.filter(function(l) {
+                return (l.source === node || l.target === node);
+            });
+            toSplice.map(function(l) {
+                links.splice(links.indexOf(l), 1);
+            });
+        }
+
+        // only respond once per keydown
+        var lastKeyDown = -1;
+
+        function keydown() {
+            d3.event.preventDefault();
+
+            if(lastKeyDown !== -1) return;
+            lastKeyDown = d3.event.keyCode;
+
+            // ctrl
+            if(d3.event.keyCode === 17) {
+                circle.call(force.drag);
+                svg.classed('ctrl', true);
+            }
+
+            if(!selected_node && !selected_link) return;
+            switch(d3.event.keyCode) {
+                case 8: // backspace
+                case 46: // delete
+                    if(selected_node) {
+                        nodes.splice(nodes.indexOf(selected_node), 1);
+                        spliceLinksForNode(selected_node);
+                    } else if(selected_link) {
+                        links.splice(links.indexOf(selected_link), 1);
+                    }
+                    selected_link = null;
+                    selected_node = null;
+                    restart();
+                    break;
+                case 66: // B
+                    if(selected_link) {
+                        // set link direction to both left and right
+                        selected_link.left = true;
+                        selected_link.right = true;
+                    }
+                    restart();
+                    break;
+                case 76: // L
+                    if(selected_link) {
+                        // set link direction to left only
+                        selected_link.left = true;
+                        selected_link.right = false;
+                    }
+                    restart();
+                    break;
+                case 82: // R
+                    if(selected_node) {
+                        // toggle node reflexivity
+                        selected_node.reflexive = !selected_node.reflexive;
+                    } else if(selected_link) {
+                        // set link direction to right only
+                        selected_link.left = false;
+                        selected_link.right = true;
+                    }
+                    restart();
+                    break;
+            }
+        }
+
+        function keyup() {
+            lastKeyDown = -1;
+
+            // ctrl
+            if(d3.event.keyCode === 17) {
+                circle
+                    .on('mousedown.drag', null)
+                    .on('touchstart.drag', null);
+                svg.classed('ctrl', false);
+            }
+        }
+
+        // app starts here
+        svg.on('mousedown', mousedown)
+            .on('mousemove', mousemove)
+            .on('mouseup', mouseup);
+        d3.select(window)
+            .on('keydown', keydown)
+            .on('keyup', keyup);
+        restart();
+    },
+    render5: function(jsonObj) {
+
+        // Manage actions
+        $(".add-concept").click(function (e) {
+            e.preventDefault();
+
+            createNode();
+        });
+
+
+        var width  = 960,
+            height = 500,
+            colors = d3.scale.category10();
+
+        var svg = d3.select("#concept-map")
+            .append('svg')
+            .attr('oncontextmenu', 'return false;')
+            .attr('width', width)
+            .attr('height', height);
+
+
+        //console.log(jsonObj);
+
+        // set up initial nodes and links
+        //  - nodes are known by 'id', not by index in array.
+        //  - reflexive edges are indicated on the node (as a bold black circle).
+        //  - links are always source < target; edge directions are set by 'left' and 'right'.
+        // Create nodes and links from jsonObj
+        var graph = JSON.parse(jsonObj)[0];
+
+        var nodes = [], links = [], lastNodeId = 2;
+        graph.nodes.forEach(function (d) {
+            d.reflexive = false;
+            nodes.push(d);
+        });
+
+        if (graph.nodes.length > 1) {
+            graph.links.forEach(function (d) {
+                //console.log(graph.nodes[d.source]);
+                console.log(d);
+                d.source = graph.nodes[d.source];
+                d.target = graph.nodes[d.target];
+                var _link = { source: d.source, target: d.target, left: true, right: false, id: d.id };
+                links.push(_link);
+            });
+        }
+
+        // init D3 force layout
+        var force = d3.layout.force()
+            .nodes(nodes)
+            .links(links)
+            .size([width, height])
+            .linkDistance(250)
+            .charge(-500)
+            .on('tick', tick);
+
+        // define arrow markers for graph links
+        svg.append('svg:defs').append('svg:marker')
+            .attr('id', 'end-arrow')
+            .attr('viewBox', '0 -5 10 10')
+            .attr('refX', 6)
+            .attr('markerWidth', 3)
+            .attr('markerHeight', 3)
+            .attr('orient', 'auto')
+            .append('svg:path')
+            .attr('d', 'M0,-5L10,0L0,5')
+            .attr('fill', '#000');
+
+        svg.append('svg:defs').append('svg:marker')
+            .attr('id', 'start-arrow')
+            .attr('viewBox', '0 -5 10 10')
+            .attr('refX', 4)
+            .attr('markerWidth', 3)
+            .attr('markerHeight', 3)
+            .attr('orient', 'auto')
+            .append('svg:path')
+            .attr('d', 'M10,-5L0,0L10,5')
+            .attr('fill', '#000');
+
+        // line displayed when dragging new nodes
+        var drag_line = svg.append('svg:path')
+            .attr('class', 'link dragline hidden')
+            .attr('d', 'M0,0L0,0');
+
+        // handles to link and node element groups
+        var path = svg.append('svg:g').selectAll('path'),
+            circle = svg.append('svg:g').selectAll('g');
+
+        // mouse event vars
+        var selected_node = null,
+            selected_link = null,
+            mousedown_link = null,
+            mousedown_node = null,
+            mouseup_node = null;
+
+        function resetMouseVars() {
+            mousedown_node = null;
+            mouseup_node = null;
+            mousedown_link = null;
+        }
+
+        // update force layout (called automatically each iteration)
+        function tick() {
+            // draw directed edges with proper padding from node centers
+            path.attr('d', function(d) {
+                var deltaX = d.target.x - d.source.x,
+                    deltaY = d.target.y - d.source.y,
+                    dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY),
+                    normX = deltaX / dist,
+                    normY = deltaY / dist,
+                    sourcePadding = d.left ? 17 : 12,
+                    targetPadding = d.right ? 17 : 12,
+                    sourceX = d.source.x + (sourcePadding * normX),
+                    sourceY = d.source.y + (sourcePadding * normY),
+                    targetX = d.target.x - (targetPadding * normX),
+                    targetY = d.target.y - (targetPadding * normY);
+                return 'M' + sourceX + ',' + sourceY + 'L' + targetX + ',' + targetY;
+            });
+
+            circle.attr('transform', function(d) {
+                return 'translate(' + d.x + ',' + d.y + ')';
+            });
+        }
+
+        // update graph (called when needed)
+        function restart() {
+            // path (link) group
+            path = path.data(links);
+
+            // update existing links
+            path.classed('selected', function(d) { return d === selected_link; })
+                .style('marker-start', function(d) { return d.left ? 'url(#start-arrow)' : ''; })
+                .style('marker-end', function(d) { return d.right ? 'url(#end-arrow)' : ''; });
+
+
+            // add new links
+            path.enter().append('svg:path')
+                .attr('class', 'link')
+                .classed('selected', function(d) { return d === selected_link; })
+                .style('marker-start', function(d) { return d.left ? 'url(#start-arrow)' : ''; })
+                .style('marker-end', function(d) { return d.right ? 'url(#end-arrow)' : ''; })
+                .on('mousedown', function(d) {
+                    if(d3.event.ctrlKey) return;
+
+                    console.log(d);
+
+                    // select link
+                    mousedown_link = d;
+                    if(mousedown_link === selected_link) selected_link = null;
+                    else selected_link = mousedown_link;
+                    selected_node = null;
+                    restart();
+                });
+
+            // remove old links
+            path.exit().remove();
+
+
+            // circle (node) group
+            // NB: the function arg is crucial here! nodes are known by id, not by index!
+            circle = circle.data(nodes, function(d) { return d.id; });
+
+            // update existing nodes (reflexive & selected visual states)
+            circle.selectAll('circle')
+                .style('fill', function(d) { return (d === selected_node) ? d3.rgb(colors(d.id)).brighter().toString() : colors(d.id); })
+                .classed('reflexive', function(d) { return d.reflexive; });
+
+            // add new nodes
+            var g = circle.enter().append('svg:g');
+
+            g.append('svg:circle')
+                .attr('class', 'node')
+                .attr('r', 30)
+                .style('fill', function(d) { return (d === selected_node) ? d3.rgb(colors(d.id)).brighter().toString() : colors(d.id); })
+                .style('stroke', function(d) { return d3.rgb(colors(d.id)).darker().toString(); })
+                .on('mouseover', function(d) {
+                    if(!mousedown_node || d === mousedown_node) return;
+                    // enlarge target node
+                    d3.select(this).attr('transform', 'scale(1.1)');
+                })
+                .on('mouseout', function(d) {
+                    if(!mousedown_node || d === mousedown_node) return;
+                    // unenlarge target node
+                    d3.select(this).attr('transform', '');
+                })
+                .on('mousedown', function(d) {
+                    if(d3.event.ctrlKey) return;
 
                     // select node
                     mousedown_node = d;
@@ -1612,33 +2576,32 @@ window.ConceptMapView = Backbone.View.extend({
                     selected_link = link;
                     selected_node = null;
                     restart();
-                })
-                .on("mouseover", function(d){
-                    d3.select(this).attr("r", "11");
-                })
-                .on("mouseout", function(d){
-                    d3.select(this).attr("r", "10")
                 });
 
-            node.exit().remove();
+            // show node IDs
+            g.append('svg:text')
+                .attr('x', 0)
+                .attr('y', 4)
+                .attr('class', 'id')
+                .text(function(d) { return d.name; });
 
-            label = label.data(nodes);
-            label.enter().append("text")
-                //.call(force.drag)
-                .on("dblclick", dblclickLabel)
-                .attr("y", function(d) {
-                    return d.y+20;
-                })
-                .attr("x", function(d) {
-                    return d.x+10;
-                })
-                .text(function(d){
-                    return d.name
-                });
+            // remove old nodes
+            circle.exit().remove();
 
-            label.exit().remove();
-
+            // set the graph in motion
             force.start();
+        }
+
+        function mousedown() {
+            // prevent I-bar on drag
+            //d3.event.preventDefault();
+
+            // because :active only works in WebKit?
+            svg.classed('active', true);
+
+            if(d3.event.ctrlKey || mousedown_node || mousedown_link) return;
+
+            restart();
         }
 
         function mousemove() {
@@ -1650,135 +2613,167 @@ window.ConceptMapView = Backbone.View.extend({
             restart();
         }
 
-        function start(jsonObj){
-            var graph = JSON.parse(jsonObj)[0];
-
-            graph.nodes.forEach(function(d){
-                nodes.push(d);
-            });
-
-            if(graph.nodes.length > 1){
-                graph.links.forEach(function(d) {
-                    d.source = graph.nodes[d.source];
-                    d.target = graph.nodes[d.target];
-                    links.push({source: d.source, target: d.target})
-                });
-
-                link = link.data(links);
+        function mouseup() {
+            if(mousedown_node) {
+                // hide drag line
+                drag_line
+                    .classed('hidden', true)
+                    .style('marker-end', '');
             }
 
-            node = node.data(nodes);
-            label = label.data(nodes)
-                .enter().append("text")
-                //.call(force.drag)
-                .on("dblclick", dblclickLabel)
-                .attr("y", function(d) {
-                    return d.y+20;
-                })
-                .attr("x", function(d) {
-                    return d.x+10;
-                })
-                .text(function(d){
-                    return d.name
-                });
+            // because :active only works in WebKit?
+            svg.classed('active', false);
 
+            // clear mouse event vars
+            resetMouseVars();
         }
-
-        $(".move-concept, .link-concept").click(function(e){
-            e.preventDefault();
-            if(!movement_allowed){
-                $(".move-concept").addClass("btn-warning");
-                $(".move-concept").removeClass("btn-primary");
-                $(".link-concept").addClass("btn-primary");
-                $(".link-concept").removeClass("btn-warning");
-
-                movement_allowed = true;
-
-                label.call(force.drag);
-                node.call(force.drag);
-
-            }else{
-                $(".move-concept").addClass("btn-primary");
-                $(".move-concept").removeClass("btn-warning");
-                $(".link-concept").addClass("btn-warning");
-                $(".link-concept").removeClass("btn-primary");
-
-                movement_allowed = false;
-
-                label.on("mousedown.drag", null);
-                node.on("mousedown.drag", null);
-
-            }
-            console.log(movement_allowed);
-        });
-
-        $(".add-concept").click(function(e){
-            e.preventDefault();
-
-            $(this).parent().append('<input type="email" placeholder="New concept text here..." class="btn m-xs has-error pull-right .form-control add-concept add-concept-value">');
-            $('input.add-concept-value').keypress(function (e) {
-                var key = e.which;
-                if(key == 13){
-                    createNode();
-                    $('input.add-concept-value').remove();
-                }
-            });
-
-        });
-
-        $(".remove-concept").click(function(e){
-            e.preventDefault();
-            //console.log(node.filter(function(d) { return d.selected; }));
-
-            //var a = node.filter(function(d) { return console.log(d); d.selected; });
-
-            //console.log(node.filter(function(d) { return d.selected; }).length);
-
-            //a.forEach(function(node){
-            //
-            //    console.log(node);
-            //    console.log(nodes.indexOf(node), nodes, node);
-            //    nodes.splice(nodes.indexOf(node), 1);
-            //    var toSplice = links.filter(function(l) {
-            //        return (l.source === node || l.target === node);
-            //    });
-            //    toSplice.map(function(l) {
-            //        links.splice(links.indexOf(l), 1);
-            //    });
-            //});
-
-            //if(!selected_node && !selected_link) return;
-            //
-            //if (selected_node) {
-            //    nodes.splice(nodes.indexOf(selected_node), 1);
-            //    spliceLinksForNode(selected_node);
-            //} else if (selected_link) {
-            //    links.splice(links.indexOf(selected_link), 1);
-            //}
-            //selected_link = null;
-            //selected_node = null;
-            restart();
-
-        });
 
         function spliceLinksForNode(node) {
+            var toSplice = links.filter(function(l) {
+                return (l.source === node || l.target === node);
+            });
 
+            console.log(toSplice);
+
+            toSplice.map(function(l) {
+                links.splice(links.indexOf(l), 1);
+            });
         }
 
-        function createLink(pointA, pointB){
+        // only respond once per keydown
+        var lastKeyDown = -1;
+
+        function keydown() {
+
+            if(lastKeyDown !== -1) return;
+            lastKeyDown = d3.event.keyCode;
+
+            // ctrl
+            if(d3.event.keyCode === 17) {
+                circle.call(force.drag);
+                svg.classed('ctrl', true);
+            }
+
+            if(!selected_node && !selected_link) return;
+            switch(d3.event.keyCode) {
+                case 8: // backspace
+                case 46: // delete
+                    d3.event.preventDefault();
+
+                    if(selected_node) {
+                        nodes.splice(nodes.indexOf(selected_node), 1);
+                        spliceLinksForNode(selected_node);
+
+                        deleteResponse(selected_node);
+
+                    } else if(selected_link) {
+
+                        console.log(selected_link);
+
+                        deleteResponse(selected_link);
+
+                        links.splice(links.indexOf(selected_link), 1);
+                    }
+
+                    selected_link = null;
+                    selected_node = null;
+                    restart();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        function keyup() {
+            lastKeyDown = -1;
+
+            // ctrl
+            if(d3.event.keyCode === 17) {
+                circle
+                    .on('mousedown.drag', null)
+                    .on('touchstart.drag', null);
+                svg.classed('ctrl', false);
+            }
+        }
+
+        function createNode() {
+            swal({
+                title: "Add new concept",
+                text: "Provide a general idea or understanding about the topic of the concept map",
+                type: "input",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                animation: "slide-from-top",
+                inputPlaceholder: "Example: Gravity"
+            }, function (inputValue) {
+                if (inputValue === false)
+                    return false;
+                if (inputValue === "") {
+                    swal.showInputError("You need to write something!");
+                    return false
+                }
+                swal("Nice!", "Your new node: " + inputValue + " has been created", "success");
+
+                var newResponse = new Response({
+                    generalItemId: $.cookie("dojoibl.activity"),
+                    responseValue: inputValue,
+                    runId: $.cookie("dojoibl.run"),
+                    userEmail: 0
+                });
+                newResponse.save({}, {
+                    beforeSend: setHeader,
+                    success: function (r, response) {
+
+                        var item_nodes = {};
+                        item_nodes ["id"] = response.responseId;
+                        item_nodes ["name"] = response.responseValue;
+                        var min = 50;
+                        var max = 550;
+                        var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                        item_nodes ["x"] = random;
+                        var min = 50;
+                        var max = 150;
+                        var random = Math.floor(Math.random() * (max - min + 1)) + min;
+                        item_nodes ["y"] = random;
+                        item_nodes ["gItem"] = response.generalItemId;
+                        item_nodes ["runId"] = response.runId;
+
+                        nodes.push(item_nodes);
+
+                        restart();
+                    }
+                });
+            });
+        }
+
+        function deleteResponse(response) {
+
+            console.log(response);
+
+            var responseDelete = new ResponseDelete({ id: response.id });
+            responseDelete.id = response.id;
+            responseDelete.destroy({
+                beforeSend:setHeader,
+                success: function(r, new_response){
+                }
+            });
+        }
+
+        function createLink(pointA, pointB) {
             var newResponse = new Response({
                 generalItemId: $.cookie("dojoibl.activity"),
-                responseValue: pointA+","+pointB ,
+                responseValue: pointA + "," + pointB,
                 runId: $.cookie("dojoibl.run"),
                 userEmail: 0,
                 parentId: -1
             });
             newResponse.save({}, {
-                beforeSend:setHeader,
-                success: function(r, response){
+                beforeSend: setHeader,
+                success: function (r, response) {
 
                     var item_links = {};
 
+                    //item_links["id"] = response.id;
                     item_links["source"] = pointA;
                     item_links["target"] = pointB;
 
@@ -1789,75 +2784,14 @@ window.ConceptMapView = Backbone.View.extend({
             });
         }
 
-        function createNode(){
-            var newResponse = new Response({
-                generalItemId: $.cookie("dojoibl.activity"),
-                responseValue: $('input.add-concept-value').val() ,
-                runId: $.cookie("dojoibl.run"),
-                userEmail: 0
-            });
-            newResponse.save({}, {
-                beforeSend:setHeader,
-                success: function(r, response){
-
-                    var item_nodes = {}
-                    item_nodes ["id"] = response.responseId;
-                    item_nodes ["name"] = response.responseValue;
-                    var min = 50;
-                    var max = 550;
-                    var random = Math.floor(Math.random() * (max - min + 1)) + min;
-                    item_nodes ["x"] = random;
-                    var min = 50;
-                    var max = 150;
-                    var random = Math.floor(Math.random() * (max - min + 1)) + min;
-                    item_nodes ["y"] = random;
-                    item_nodes ["gItem"] = response.generalItemId;
-                    item_nodes ["runId"] = response.runId;
-
-                    nodes.push(item_nodes);
-
-                    restart();
-                }
-            });
-
-            //node.filter(function(d,i) {
-            //    if(i==0){
-            //        var newResponse = new Response({
-            //            generalItemId: $.cookie("dojoibl.activity"),
-            //            responseValue: $('input.add-concept-value').val() ,
-            //            runId: $.cookie("dojoibl.run"),
-            //            userEmail: 0
-            //        });
-            //        newResponse.save({}, {
-            //            beforeSend:setHeader,
-            //            success: function(r, response){
-            //
-            //                var item_nodes = {}
-            //                item_nodes ["id"] = response.responseId;
-            //                item_nodes ["name"] = response.responseValue;
-            //                var min = 50;
-            //                var max = 550;
-            //                var random = Math.floor(Math.random() * (max - min + 1)) + min;
-            //                item_nodes ["x"] = random;
-            //                var min = 50;
-            //                var max = 150;
-            //                var random = Math.floor(Math.random() * (max - min + 1)) + min;
-            //                item_nodes ["y"] = random;
-            //                item_nodes ["gItem"] = response.generalItemId;
-            //                item_nodes ["runId"] = response.runId;
-            //
-            //                nodes.push(item_nodes);
-            //                console.log(nodes);
-            //
-            //                restart();
-            //            }
-            //        });
-            //    }
-            //
-            //    return d.selected;
-            //});
-        }
-
+        // app starts here
+        svg.on('mousedown', mousedown)
+            .on('mousemove', mousemove)
+            .on('mouseup', mouseup);
+        d3.select(window)
+            .on('keydown', keydown)
+            .on('keyup', keyup);
+        restart();
     }
 });
 
@@ -1972,30 +2906,6 @@ window.MessageRightView = Backbone.View.extend({
         return this;
     }
 });
-
-//window.ActivityView = Backbone.View.extend({
-//    tagName: 'section',
-//    className: 'phase-detail box box-success box-solid',
-//    initialize:function (xhr) {
-//        if(xhr.model.type.indexOf("VideoObject") > -1){
-//            this.template = _.template(tpl.get('activity_video'));
-//        }else if(xhr.model.type.indexOf("OpenBadge") > -1) {
-//            this.template = _.template(tpl.get('activity_widget'));
-//        }else if(xhr.model.type.indexOf("AudioObject") > -1) {
-//            this.template = _.template(tpl.get('activity_discussion'));
-//        }else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
-//            this.template = _.template(tpl.get('activity_tree_view'));
-//        }else{
-//            this.template = _.template(tpl.get('activity_detail'));
-//        }
-//    },
-//
-//    render:function () {
-//        $(this.el).html(this.template(this.model));
-//        $(this.el).find('#nestable3').nestable();
-//        return this;
-//    }
-//});
 
 window.ActivityDepencyView = window.ActivityView.extend({
     tagName:  "span",
@@ -2151,14 +3061,97 @@ window.GeneralFloatingNotificationView = Backbone.View.extend({
     }
 });
 
-window.NotificationSideBarView = Backbone.View.extend({
-    tagName:  "li",
-    initialize:function () {
-        this.template = _.template(tpl.get('notification_sidebar'));
+//window.NotificationSideBarView = Backbone.View.extend({
+//    tagName:  "li",
+//    initialize:function () {
+//        this.template = _.template(tpl.get('notification_sidebar'));
+//    },
+//    render:function () {
+//        $(this.el).html(this.template(this.model));
+//        return this;
+//    }
+//});
+
+window.InquiryToolbarView = Backbone.View.extend({
+    className: "row wrapper white-bg page-heading toolbar",
+    initialize:function (options) {
+        this.template = _.template(tpl.get('inquiry_toolbar'));
+        this.runId = options.runId;
+
     },
     render:function () {
-        $(this.el).html(this.template(this.model));
+        $(this.el).html(this.template({ run: this.runId }));
+
         return this;
     }
 });
 
+// Timeline
+window.TimelineView = Backbone.View.extend({
+    tagName:  "div",
+    className: "ibox float-e-margins",
+    initialize:function (options) {
+        this.template = _.template(tpl.get('timeline'));
+
+        _(this).bindAll('render');
+        _(this).bindAll('add');
+        this.collection.bind('add', this.add);
+
+    },
+    add: function(response){
+        if(!response.toJSON().revoked && response.toJSON().parentId != -1){
+            $(this.el).find("#vertical-timeline").append(new TimelineItemView({ model: response.toJSON()} ).render().el);
+        }
+    },
+    render:function () {
+        $(this.el).html(this.template);
+
+        _.each(this.collection.models, function(response){
+            if(!response.toJSON().revoked && response.toJSON().parentId != -1){
+                $(this.el).find("#vertical-timeline").append(new TimelineItemView({ model: response.toJSON()}).render().el );
+            }
+        }, this);
+
+        return this;
+    }
+});
+
+window.TimelineItemView = Backbone.View.extend({
+    tagName:  "div",
+    className: "vertical-timeline-block",
+    initialize:function () {
+        this.template = _.template(tpl.get('timeline_item'));
+        _(this).bindAll('render');
+    },
+    render:function () {
+
+        var _self = this;
+
+        if(!app.ActivityList.get(_self.model.generalItemId)){
+            var act = new ActivityUpdate();
+            act.id = _self.model.generalItemId;
+            act.gameId = $.cookie("dojoibl.game");
+            act.fetch({
+                beforeSend: setHeader,
+                success: function(a,r){
+                    app.ActivityList.add(r);
+                    $(_self.el).html(_self.template({
+                        model: _self.model,
+                        time: jQuery.timeago(new Date(_self.model.lastModificationDate).toISOString()),
+                        timeDate: new Date(_self.model.lastModificationDate).toLocaleDateString('en-GB'),
+                        activity: r
+                    }));
+                }
+            });
+        }else{
+            $(_self.el).html(_self.template({
+                model: _self.model,
+                time: jQuery.timeago(new Date(_self.model.lastModificationDate).toISOString()),
+                timeDate: new Date(_self.model.lastModificationDate).toLocaleDateString('en-GB'),
+                activity: app.ActivityList.get(_self.model.generalItemId)
+            }));
+        }
+
+        return _self;
+    }
+});

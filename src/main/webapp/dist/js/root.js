@@ -18,11 +18,13 @@ var AppRouter = Backbone.Router.extend({
         this.GameAccessList = new GameAccessCollection();
         this.RunAccessList = new RunByGameCollection({ });
         this.MessagesList = new MessageCollection();
+        this.TimeLineList = new TimelineCollection();
     },
     routes: {
         ""			                                        : "showInquiries",
         "logout"			                                : "logout",
         "inquiry/:id"	                                    : "showInquiry",
+        "inquiry/timeline/:id"	                            : "showTimeline",
         "inquiry/edit/:id"	                                : "editInquiry",
         "inquiry/new/"	                                    : "createInquiry",
         "inquiry/:id/phase/:phase"                          : "showPhase",
@@ -42,6 +44,7 @@ var AppRouter = Backbone.Router.extend({
         this.removeEditButton();
         this.showJoinCreateButton();
         this.breadcrumbManagerSmallHide();
+        this.removeToolBar();
 
         $(".join-inquiry").click(function(){
             //////////////////////////
@@ -157,6 +160,13 @@ var AppRouter = Backbone.Router.extend({
 
         var _runId = id;
 
+        // Add toolbar
+        this.addToolBar(_runId);
+
+        $(".btn.btn-success.dim.timeline").text("Timeline view");
+        $(".btn.btn-success.dim.timeline").attr("href","#inquiry/timeline/"+_runId);
+        $(".btn.btn-success.dim.timeline").addClass("btn-outline");
+
         this.RunList.fetch({
             beforeSend: setHeader,
             success: function (response, results) {
@@ -196,8 +206,6 @@ var AppRouter = Backbone.Router.extend({
         //    b.css('overflow', 'auto');
         //    b.scrollTop(s);
         //});
-
-
     },
     showPhase: function(id, phase){
         this.isAuthenticated();
@@ -211,6 +219,9 @@ var AppRouter = Backbone.Router.extend({
         if($.cookie("dojoibl.run")){
             _runId = $.cookie("dojoibl.run");
         }
+
+        // Add toolbar
+        this.addToolBar(_runId);
 
         this.removeJoinCreateButton();
         this.createEditButton(_gameId);
@@ -299,6 +310,9 @@ var AppRouter = Backbone.Router.extend({
             }
         });
 
+        // Add toolbar
+        this.addToolBar(_runId);
+
         $( ".list_activities li[data='"+activity+"']").addClass("animated bounceOutUp");
         window.setTimeout(function () {
 
@@ -309,6 +323,7 @@ var AppRouter = Backbone.Router.extend({
             this.Activity.fetch({
                 beforeSend: setHeader,
                 success: function (response, xhr) {
+
                     app.changeTitle(' <a href="#inquiry/'+_runId+'">'+_gameObject.title+'</a> <i class="fa fa-angle-double-right"></i> <a href="#inquiry/'+_gameObject.gameId+'/phase/'+_phase+'">'+_gameObject.phases[_phase-1].title+'</a> <i class="fa fa-angle-double-right"></i> '+xhr.name);
 
                     if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
@@ -336,7 +351,6 @@ var AppRouter = Backbone.Router.extend({
                         app.Response.fetch({
                             beforeSend: setHeader,
                             success: function(response, xhr){
-                                //console.log(xhr, response)
                                 new ConceptMapView({ model: xhr }).render().el;
                             }
                         });
@@ -401,6 +415,62 @@ var AppRouter = Backbone.Router.extend({
                 }
             });
         }, 500);
+    },
+    showTimeline: function(id){
+
+        this.isAuthenticated();
+
+        this.secureAccess(id); // TODO still need to do it
+
+        $(".phases-breadcrumb").hide();
+
+        this.createCookie("dojoibl.run", id);
+
+        this.common();
+        this.breadcrumbManager(0, "");
+
+        this.removeJoinCreateButton();
+
+        var _runId = id;
+
+        // Add toolbar
+        this.addToolBar(_runId);
+
+        $(".btn.btn-outline.btn-success.dim.timeline").text("Standard view");
+        $(".btn.btn-outline.btn-success.dim.timeline").attr("href","#inquiry/"+_runId);
+        $(".btn.btn-outline.btn-success.dim.timeline").removeClass("btn-outline");
+
+        app.breadcrumbManagerSmall("#inquiry/"+_runId,"the list of phases");
+
+        $(this).addClass("animated fadeOutUpBig");
+
+        if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
+            $(".row.inquiry").append($('<div />', {
+                "class": 'col-md-9 wrapper wrapper-content animated fadeInUp',
+                id: "inquiry-content"
+            }));
+            $('.row.inquiry').append(new SideBarView({ }).render().el);
+            app.initializeChannelAPI();
+            app.loadChat();
+        }
+
+        $('#inquiry-content').html(new TimelineView({ collection: this.TimeLineList }).render().el);
+
+        if(this.TimeLineList.length == 0){
+            this.TimeLineList.id = _runId;
+            this.TimeLineList.fetch({
+                beforeSend: setHeader
+            });
+        }
+
+        $(window).scroll(function() {
+            if($(window).scrollTop() + $(window).height() == $(document).height() && typeof app.TimeLineList.resumptionToken !== 'undefined') {
+                app.TimeLineList.id = _runId;
+                app.TimeLineList.fetch({
+                    beforeSend: setHeader
+                });
+            }
+        });
     },
     createInquiry: function(){
         this.isAuthenticated();
@@ -951,6 +1021,16 @@ var AppRouter = Backbone.Router.extend({
     secureAccess: function(run){
         // TODO check runAccess
     },
+    addToolBar: function(run){
+        if($(".toolbar").length == 0){
+            $( new InquiryToolbarView({ runId: run }).render().el ).insertBefore($('.row.inquiry'));
+        }
+    },
+    removeToolBar: function(){
+        if($(".toolbar").length != 0){
+            $(".toolbar").remove();
+        }
+    },
 
     // chat - Listener for the channel API here
     initializeChannelAPI: function(){
@@ -973,9 +1053,6 @@ var AppRouter = Backbone.Router.extend({
 
                     socket.onmessage = function(message) {
                         var a = $.parseJSON(message.data);
-
-                        console.log(a);
-
                         if (a.type == "org.celstec.arlearn2.beans.notification.MessageNotification") {
                             if ($('.chat-discussion').length) {
 
@@ -1048,9 +1125,12 @@ var AppRouter = Backbone.Router.extend({
                         }
 
                         if (a.type == "org.celstec.arlearn2.beans.run.Response") {
-                            /////////////////////////
-                            // Sidebar notifications
-                            /////////////////////////
+                            /////////////////////////////////////////////////
+                            // Show notification if it is not my notification
+                            /////////////////////////////////////////////////
+                            if(a.userEmail.split(":")[1] != $.cookie("dojoibl.localId")){
+                                app.showNotification("success", "Discussion thread", "Your comment has been sent");
+                            }
                             app.Response.add(a);
                         }
                     };
@@ -1068,7 +1148,7 @@ var AppRouter = Backbone.Router.extend({
             railOpacity: 0.4
         });
 
-        console.log(this.MessagesList.length, this.MessagesList.id, $.cookie("dojoibl.run"), runId);
+        //console.log(this.MessagesList.length, this.MessagesList.id, $.cookie("dojoibl.run"), runId);
 
         if(this.MessagesList.length == 0 || runId != this.MessagesList.id) {
             this.MessagesList.id = $.cookie("dojoibl.run");
@@ -1258,12 +1338,50 @@ var successGameHandler = function(response, xhr){
 
 };
 
-tpl.loadTemplates(['main', 'game','game_teacher', 'inquiry', 'run', 'user', 'user_sidebar', 'phase', 'activity', 'activity_text','activity_details', 'inquiry_structure',
-    'inquiry_sidebar', 'activityDependency', 'message', 'message_right', 'inquiry_left_sidebar','message_own', 'response', 'response_discussion', 'response_treeview','response_author', 'response_discussion_author',
-    'message_notification','notification_floating', 'activity_video', 'activity_widget', 'activity_discussion', 'notification_sidebar', 'user_inquiry','activity_tree_view',
-    'item_breadcrumb_phase'
-    , 'item_breadcrumb_activity','new_inquiry_code','activity_html', 'response_reply', 'new_inquiry', 'activity_concept_map', 'new_activity_new_inquiry', 'new_phase_new_inquiry',
-    'new_form', 'profile', 'activity_data_collection', 'response_grid_item'], function() {
+tpl.loadTemplates(['main',
+    'game',
+    'inquiry',
+    'run',
+    'user',
+    'user_sidebar',
+    'phase',
+    'activity',
+    'activity_text',
+    'inquiry_structure',
+    'inquiry_sidebar',
+    'message',
+    'message_right',
+    'message_own',
+    'response',
+    'response_discussion',
+    'response_treeview',
+    'response_author',
+    'response_discussion_author',
+    'message_notification',
+    'notification_floating',
+    'activity_video',
+    'activity_widget',
+    'activity_discussion',
+    //'notification_sidebar',
+    'user_inquiry',
+    //'activity_tree_view',
+    'item_breadcrumb_phase',
+    'item_breadcrumb_activity',
+    'new_inquiry_code',
+    'activity_html',
+    'response_reply',
+    'new_inquiry',
+    'activity_concept_map',
+    'new_activity_new_inquiry',
+    'new_phase_new_inquiry',
+    'new_form',
+    'profile',
+    'activity_data_collection',
+    'response_grid_item',
+    'inquiry_toolbar',
+    'timeline',
+    'timeline_item'
+], function() {
     app = new AppRouter();
     Backbone.history.start();
 });

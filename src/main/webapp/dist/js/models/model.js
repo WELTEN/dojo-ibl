@@ -203,6 +203,13 @@ window.Response = Backbone.Model.extend({
     }
 });
 
+window.ResponseDelete = Backbone.Model.extend({
+    initialize: function(a){ },
+    url: function(){
+        return '/rest/response/responseId/'+this.id
+    }
+});
+
 window.Message = Backbone.Model.extend({
     idAttribute: "messageId",
     initialize: function(a){
@@ -321,10 +328,37 @@ window.ResponseCollection = Backbone.Collection.extend({
 
     },
     parse: function(response){
-      return   response.responses;
+        return   response.responses;
     },
     url: function(){
         return "/rest/response/runId/"+this.id+"/itemId/"+this.itemId;
+    },
+    comparator: function(item) {
+        return item.get('lastModificationDate');
+    }
+});
+
+window.TimelineCollection = Backbone.Collection.extend({
+    model: Response,
+    initialize: function(options){
+        this.on('all', function(e){
+            //console.debug("there was a change in collection", e);
+        });
+    },
+    parse: function(response){
+        this.resumptionToken = response.resumptionToken;
+        return   response.responses;
+    },
+    url: function(){
+        if(this.resumptionToken){
+            console.log("segunda y siguientes con token");
+            return "/rest/response/runId/"+this.id+"?resumptionToken="+this.resumptionToken;
+        }else{
+            console.log("la primera", this.id, Math.floor((Date.now() /1000) - 3600));
+            this.from = Math.floor((Date.now() /1000) - 3600);
+            return "/rest/response/runId/"+this.id+"?from=0";
+        }
+
     },
     comparator: function(item) {
         return item.get('lastModificationDate');
