@@ -3107,8 +3107,9 @@ window.TimelineView = Backbone.View.extend({
         $(this.el).html(this.template);
 
         _.each(this.collection.models, function(response){
-            if(!response.toJSON().revoked && response.toJSON().parentId != -1){
-                $(this.el).find("#vertical-timeline").append(new TimelineItemView({ model: response.toJSON()}).render().el );
+            if(!response.toJSON().revoked && response.toJSON().parentId != -1) {
+                console.log(response.toJSON());
+                $(this.el).find("#vertical-timeline").append(new TimelineItemView({model: response.toJSON()}).render().el);
             }
         }, this);
 
@@ -3126,31 +3127,37 @@ window.TimelineItemView = Backbone.View.extend({
     render:function () {
 
         var _self = this;
-
-        if(!app.ActivityList.get(_self.model.generalItemId)){
-            var act = new ActivityUpdate();
-            act.id = _self.model.generalItemId;
-            act.gameId = $.cookie("dojoibl.game");
-            act.fetch({
-                beforeSend: setHeader,
-                success: function(a,r){
-                    app.ActivityList.add(r);
-                    $(_self.el).html(_self.template({
-                        model: _self.model,
-                        time: jQuery.timeago(new Date(_self.model.lastModificationDate).toISOString()),
-                        timeDate: new Date(_self.model.lastModificationDate).toLocaleDateString('en-GB'),
-                        activity: r
-                    }));
-                }
-            });
-        }else{
-            $(_self.el).html(_self.template({
-                model: _self.model,
-                time: jQuery.timeago(new Date(_self.model.lastModificationDate).toISOString()),
-                timeDate: new Date(_self.model.lastModificationDate).toLocaleDateString('en-GB'),
-                activity: app.ActivityList.get(_self.model.generalItemId)
-            }));
-        }
+        //if(!_self.model.revoked && _self.model.parentId != -1) {
+            if (!app.ActivityList.get(_self.model.generalItemId)) {
+                console.log("4",$.cookie("dojoibl.game"),_self.model.generalItemId)
+                var act = new ActivityUpdate();
+                act.id = _self.model.generalItemId;
+                act.gameId = $.cookie("dojoibl.game");
+                act.fetch({
+                    beforeSend: setHeader,
+                    success: function (a, r) {
+                        app.ActivityList.add(r);
+                        console.log(_self.model)
+                        $(_self.el).html(_self.template({
+                            model: _self.model,
+                            author: _self.model.userEmail.split(':')[1],
+                            time: jQuery.timeago(new Date(_self.model.lastModificationDate).toISOString()),
+                            timeDate: new Date(_self.model.lastModificationDate).toLocaleDateString('en-GB'),
+                            activity: r
+                        }));
+                    }
+                });
+            } else {
+                console.log(app.ActivityList.get(_self.model.generalItemId).toJSON());
+                $(_self.el).html(_self.template({
+                    model: _self.model,
+                    author: _self.model.userEmail.split(':')[1],
+                    time: jQuery.timeago(new Date(_self.model.lastModificationDate).toISOString()),
+                    timeDate: new Date(_self.model.lastModificationDate).toLocaleDateString('en-GB'),
+                    activity: app.ActivityList.get(_self.model.generalItemId).toJSON()
+                }));
+            }
+        //}
 
         return _self;
     }

@@ -172,11 +172,10 @@ var AppRouter = Backbone.Router.extend({
             success: function (response, results) {
 
                 app.createEditButton(results.gameId);
+                app.createCookie("dojoibl.game", results.gameId);
 
                 app.breadcrumbManagerSmall("#","list of inquiries");
                 app.changeTitle(results.game.title);
-
-                //console.log(results);
 
                 $('.row.inquiry').html(new InquiryView({ model: results }).render().el);
                 $('.row.inquiry').append(new SideBarView({ }).render().el);
@@ -222,6 +221,10 @@ var AppRouter = Backbone.Router.extend({
 
         // Add toolbar
         this.addToolBar(_runId);
+
+        $(".btn.btn-success.dim.timeline").text("Timeline view");
+        $(".btn.btn-success.dim.timeline").attr("href","#inquiry/timeline/"+_runId);
+        $(".btn.btn-success.dim.timeline").addClass("btn-outline");
 
         this.removeJoinCreateButton();
         this.createEditButton(_gameId);
@@ -312,6 +315,10 @@ var AppRouter = Backbone.Router.extend({
 
         // Add toolbar
         this.addToolBar(_runId);
+
+        $(".btn.btn-success.dim.timeline").text("Timeline view");
+        $(".btn.btn-success.dim.timeline").attr("href","#inquiry/timeline/"+_runId);
+        $(".btn.btn-success.dim.timeline").addClass("btn-outline");
 
         $( ".list_activities li[data='"+activity+"']").addClass("animated bounceOutUp");
         window.setTimeout(function () {
@@ -424,6 +431,9 @@ var AppRouter = Backbone.Router.extend({
 
         $(".phases-breadcrumb").hide();
 
+        console.log(app.TimeLineList.id, id)
+        var different = (app.TimeLineList.id == id ? false : true);
+
         this.createCookie("dojoibl.run", id);
 
         this.common();
@@ -442,6 +452,8 @@ var AppRouter = Backbone.Router.extend({
 
         app.breadcrumbManagerSmall("#inquiry/"+_runId,"the list of phases");
 
+        app.changeTitle("Timeline");
+
         $(this).addClass("animated fadeOutUpBig");
 
         if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
@@ -456,9 +468,10 @@ var AppRouter = Backbone.Router.extend({
 
         $('#inquiry-content').html(new TimelineView({ collection: this.TimeLineList }).render().el);
 
-        if(this.TimeLineList.length == 0){
-            this.TimeLineList.id = _runId;
-            this.TimeLineList.fetch({
+        if(this.TimeLineList.length == 0 || different){
+            console.log("cero o diferente");
+            app.TimeLineList.id = _runId;
+            app.TimeLineList.fetch({
                 beforeSend: setHeader
             });
         }
@@ -517,6 +530,7 @@ var AppRouter = Backbone.Router.extend({
                                 newAccessGame.accessRight = 1;
                                 newAccessGame.fetch({}, { beforeSend:setHeader });
 
+                                new_response.id = new_response.gameId;
                                 app.GameList.add(new_response);
 
                                 /////////////////////////////////
@@ -876,6 +890,7 @@ var AppRouter = Backbone.Router.extend({
                                 // there is an access game but there is no game
                                 ///////////////////////////////////////////////
                                 if(!game.deleted && game.error != "game does not exist"){
+                                    game.id = game.gameId;
                                     app.GameList.add(game);
                                 }
                             }
@@ -1210,20 +1225,24 @@ var AppRouter = Backbone.Router.extend({
         //$('.default-hint').show();
     },
     common: function(callback) {
-        app.UsersList.fetch({
-            beforeSend: setHeader,
-            success: function(response, xhr) {
-                $(".m-r-sm.text-muted.notification-text").html(xhr.givenName+" "+xhr.familyName);
-                app.showView('ul.nav.metismenu > li:eq(0)', new UserView({ model: xhr }));
+        if(app.UsersList.get($.cookie("dojoibl.localId"))) {
+            app.UsersList.fetch({
+                beforeSend: setHeader,
+                success: function (response, xhr) {
+                    app.UsersList.add(xhr);
 
-                var date = new Date();
-                date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
-                var expires = "; expires=" + date.toGMTString();
+                    $(".m-r-sm.text-muted.notification-text").html(xhr.givenName + " " + xhr.familyName);
+                    app.showView('ul.nav.metismenu > li:eq(0)', new UserView({model: xhr}));
 
-                $.cookie("dojoibl.accountType", xhr.accountType , {expires: date, path: "/"});
-                $.cookie("dojoibl.localId", xhr.localId , {expires: date, path: "/"});
-            }
-        });
+                    var date = new Date();
+                    date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
+                    var expires = "; expires=" + date.toGMTString();
+
+                    $.cookie("dojoibl.accountType", xhr.accountType, {expires: date, path: "/"});
+                    $.cookie("dojoibl.localId", xhr.localId, {expires: date, path: "/"});
+                }
+            });
+        }
     },
     loadInquiryUsers: function(id){
         if(!this.InquiryUsers){

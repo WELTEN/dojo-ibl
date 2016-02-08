@@ -1,16 +1,50 @@
-<div class="vertical-timeline-icon navy-bg">
-    <i class="fa fa-file-text"></i>
-</div>
 
-<div class="vertical-timeline-content">
-    <h2>Comment in <%= activity.name %></h2>
-    <p><%= model.responseValue %></p>
-    <a href="#" class="btn btn-sm btn-primary"> More info</a>
-    <span class="vertical-date">
-        <%= time %> <br>
-        <small><%= timeDate %></small>
-    </span>
-</div>
+
+<% if ( activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem') { %>
+    <div class="vertical-timeline-icon navy-bg">
+        <i class="fa fa-comments"></i>
+    </div>
+    <div class="vertical-timeline-content">
+        <div class="col-sm-2">
+            <div class="text-center">
+                <i class="fa fa-user profile-timeline img-circle m-t-xs img-responsive"></i>
+                <div class="m-t-xs font-bold"><%= author %></div>
+            </div>
+        </div>
+        <h2>Commented in <%= activity.name %> in phase <%= activity.section %></h2>
+        <p><%= model.responseValue %></p>
+
+        <a href="#inquiry/<%= activity.gameId %>/phase/<%= activity.section %>/activity/<%= activity.id %>" class="btn btn-sm btn-primary"> More info</a>
+
+            <span class="vertical-date">
+                <%= time %> <br>
+                <small><%= timeDate %></small>
+            </span>
+    </div>
+<% }else if ( activity.type ==  'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest'){ %>
+    <div class="vertical-timeline-icon blue-bg">
+        <i class="fa fa-sitemap"></i>
+    </div>
+    <div class="vertical-timeline-content">
+        <div class="col-sm-2">
+            <div class="text-center">
+                <i class="fa fa-user profile-timeline img-circle m-t-xs img-responsive"></i>
+                <div class="m-t-xs font-bold"><%= author %></div>
+            </div>
+        </div>
+        <h2>Node created in <%= activity.name %> in phase <%= activity.section %></h2>
+        <p><%= model.responseValue %></p>
+
+        <a href="#inquiry/<%= activity.gameId %>/phase/<%= activity.section %>/activity/<%= activity.id %>" class="btn btn-sm btn-success"> Show concept map</a>
+
+        <span class="vertical-date">
+            <%= time %> <br>
+            <small><%= timeDate %></small>
+        </span>
+    </div>
+<% } %>
+
+
 
 <!--<div class="vertical-timeline-block">-->
     <!--<div class="vertical-timeline-icon blue-bg">-->
