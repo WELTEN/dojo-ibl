@@ -1210,11 +1210,11 @@ var AppRouter = Backbone.Router.extend({
         }
     },
     breadcrumbManagerSmall: function(routing, label){
-        $("ol.bradcrumb").show();
+        $("ol.breadcrumb").show();
         $("ol.breadcrumb").html('<li><a href="'+routing+'"><i class="fa fa-angle-left"></i> <strong>Back to '+label+'</strong></a></li>');
     },
     breadcrumbManagerSmallHide: function(){
-        $("ol.bradcrumb").hide();
+        $("ol.breadcrumb").hide();
     },
     changeTitle: function(title) {
         $('.row.wrapper.border-bottom.white-bg.page-heading > div > h2').html(title);
