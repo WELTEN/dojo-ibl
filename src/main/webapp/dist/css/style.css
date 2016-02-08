@@ -556,6 +556,11 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
     display: block !important;
   }
 }
+@media (max-width: 1200px) {
+  .col-md-9 {
+    width: 100%;
+  }
+}
 @media (min-width: 992px) {
   .menu-visible-md {
     display: block !important;
@@ -8704,4 +8709,10 @@ textarea.form-control{
 .profile-timeline{
   font-size: 3em;
   color: #2F4050;
+}
+
+.fixed-chat{
+  position: fixed;
+  margin: 0em 1em -1em 0em;
+  top: 1em;
 }

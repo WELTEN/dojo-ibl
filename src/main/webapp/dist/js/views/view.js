@@ -651,6 +651,16 @@ window.SideBarView = Backbone.View.extend({
     render:function () {
         $(this.el).html(this.template());
 
+        $(window).scroll(function(){
+            if ($(this).scrollTop() > 200 && $(this).width() > 1200 ) {
+                $(".ibox-chat-content").addClass('fixed-chat');
+            } else {
+                $(".ibox-chat-content").removeClass('fixed-chat');
+            }
+        });
+
+
+
         return this;
     },
     events: {
