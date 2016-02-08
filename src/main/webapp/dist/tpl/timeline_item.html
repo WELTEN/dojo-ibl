@@ -1,112 +1,36 @@
 
 
 <% if ( activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem') { %>
-    <div class="vertical-timeline-icon navy-bg">
-        <i class="fa fa-comments"></i>
-    </div>
-    <div class="vertical-timeline-content">
-        <div class="col-sm-2">
-            <div class="text-center">
-                <i class="fa fa-user profile-timeline img-circle m-t-xs img-responsive"></i>
-                <div class="m-t-xs font-bold"><%= author %></div>
-            </div>
+
+
+    <a href="#" class="pull-left">
+        <i class="fa fa-comments profile-timeline img-circle  img-responsive"></i>
+    </a>
+    <div class="media-body ">
+        <small class="pull-right"><%= time %></small>
+        <strong><%= author %></strong> commented on <strong><%= activity.name %></strong> activity. <br>
+        <small class="text-muted"><%= timeDate %></small>
+        <div class="well">
+            <%= model.responseValue %>
         </div>
-        <h2>Commented in <%= activity.name %> in phase <%= activity.section %></h2>
-        <p><%= model.responseValue %></p>
-
-        <a href="#inquiry/<%= activity.gameId %>/phase/<%= activity.section %>/activity/<%= activity.id %>" class="btn btn-sm btn-primary"> More info</a>
-
-            <span class="vertical-date">
-                <%= time %> <br>
-                <small><%= timeDate %></small>
-            </span>
+        <div class="actions">
+            <a href="#inquiry/<%= activity.gameId %>/phase/<%= activity.section %>/activity/<%= activity.id %>" class="btn btn-xs btn-white"> <i class="fa fa-eye"></i> Go to discussion</a>
+        </div>
     </div>
+
+
 <% }else if ( activity.type ==  'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest'){ %>
-    <div class="vertical-timeline-icon blue-bg">
-        <i class="fa fa-sitemap"></i>
-    </div>
-    <div class="vertical-timeline-content">
-        <div class="col-sm-2">
-            <div class="text-center">
-                <i class="fa fa-user profile-timeline img-circle m-t-xs img-responsive"></i>
-                <div class="m-t-xs font-bold"><%= author %></div>
-            </div>
+
+    <a href="#" class="pull-left">
+        <i class="fa fa-sitemap profile-timeline img-circle  img-responsive"></i>
+    </a>
+    <div class="media-body ">
+        <small class="pull-right"><%= time %></small>
+        <strong><%= author %></strong> added 1 node with the text '<%= model.responseValue %>' on <strong><%= activity.name %></strong> (concept map). <br>
+        <small class="text-muted"><%= timeDate %></small>
+        <div class="actions">
+            <a href="#inquiry/<%= activity.gameId %>/phase/<%= activity.section %>/activity/<%= activity.id %>" class="btn btn-xs btn-white"> <i class="fa fa-eye"></i> Show concept map</a>
         </div>
-        <h2>Node created in <%= activity.name %> in phase <%= activity.section %></h2>
-        <p><%= model.responseValue %></p>
-
-        <a href="#inquiry/<%= activity.gameId %>/phase/<%= activity.section %>/activity/<%= activity.id %>" class="btn btn-sm btn-success"> Show concept map</a>
-
-        <span class="vertical-date">
-            <%= time %> <br>
-            <small><%= timeDate %></small>
-        </span>
     </div>
+
 <% } %>
-
-
-
-<!--<div class="vertical-timeline-block">-->
-    <!--<div class="vertical-timeline-icon blue-bg">-->
-        <!--<i class="fa fa-file-text"></i>-->
-    <!--</div>-->
-
-    <!--<div class="vertical-timeline-content">-->
-        <!--<h2>Send documents to Mike</h2>-->
-        <!--<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.</p>-->
-        <!--<a href="#" class="btn btn-sm btn-success"> Download document </a>-->
-                                    <!--<span class="vertical-date">-->
-                                        <!--Today <br>-->
-                                        <!--<small>Dec 24</small>-->
-                                    <!--</span>-->
-    <!--</div>-->
-<!--</div>-->
-
-<!--<div class="vertical-timeline-block">-->
-    <!--<div class="vertical-timeline-icon lazur-bg">-->
-        <!--<i class="fa fa-coffee"></i>-->
-    <!--</div>-->
-
-    <!--<div class="vertical-timeline-content">-->
-        <!--<h2>Coffee Break</h2>-->
-        <!--<p>Go to shop and find some products. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's. </p>-->
-        <!--<a href="#" class="btn btn-sm btn-info">Read more</a>-->
-        <!--<span class="vertical-date"> Yesterday <br><small>Dec 23</small></span>-->
-    <!--</div>-->
-<!--</div>-->
-
-<!--<div class="vertical-timeline-block">-->
-    <!--<div class="vertical-timeline-icon yellow-bg">-->
-        <!--<i class="fa fa-phone"></i>-->
-    <!--</div>-->
-
-    <!--<div class="vertical-timeline-content">-->
-        <!--<h2>Phone with Jeronimo</h2>-->
-        <!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui ut.</p>-->
-        <!--<span class="vertical-date">Yesterday <br><small>Dec 23</small></span>-->
-    <!--</div>-->
-<!--</div>-->
-
-<!--<div class="vertical-timeline-block">-->
-    <!--<div class="vertical-timeline-icon lazur-bg">-->
-        <!--<i class="fa fa-user-md"></i>-->
-    <!--</div>-->
-
-    <!--<div class="vertical-timeline-content">-->
-        <!--<h2>Go to the doctor dr Smith</h2>-->
-        <!--<p>Find some issue and go to doctor. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. </p>-->
-        <!--<span class="vertical-date">Yesterday <br><small>Dec 23</small></span>-->
-    <!--</div>-->
-<!--</div>-->
-
-<!--<div class="vertical-timeline-block">-->
-    <!--<div class="vertical-timeline-icon navy-bg">-->
-        <!--<i class="fa fa-comments"></i>-->
-    <!--</div>-->
-
-    <!--<div class="vertical-timeline-content">-->
-        <!--<h2>Chat with Monica and Sandra</h2>-->
-        <!--<p>Web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). </p>-->
-        <!--<span class="vertical-date">Yesterday <br><small>Dec 23</small></span>-->
-    <!--</div>-->
-<!--</div>-->

@@ -3119,7 +3119,8 @@ window.TimelineView = Backbone.View.extend({
 
 window.TimelineItemView = Backbone.View.extend({
     tagName:  "div",
-    className: "vertical-timeline-block",
+    //className: "vertical-timeline-block",
+    className: "feed-element",
     initialize:function () {
         this.template = _.template(tpl.get('timeline_item'));
         _(this).bindAll('render');
