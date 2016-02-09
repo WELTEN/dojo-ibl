@@ -3106,6 +3106,7 @@ window.TimelineView = Backbone.View.extend({
         _(this).bindAll('render');
         _(this).bindAll('add');
         this.collection.bind('add', this.add);
+        //this.collection.bind('reset', this.render);
 
     },
     add: function(response){
@@ -3122,6 +3123,8 @@ window.TimelineView = Backbone.View.extend({
                 $(this.el).find("#vertical-timeline").append(new TimelineItemView({model: response.toJSON()}).render().el);
             }
         }, this);
+
+        //this.collection.reset();
 
         return this;
     }
@@ -3148,7 +3151,7 @@ window.TimelineItemView = Backbone.View.extend({
                     beforeSend: setHeader,
                     success: function (a, r) {
                         app.ActivityList.add(r);
-                        console.log(_self.model)
+                        //console.log(_self.model)
                         $(_self.el).html(_self.template({
                             model: _self.model,
                             author: _self.model.userEmail.split(':')[1],
@@ -3159,7 +3162,7 @@ window.TimelineItemView = Backbone.View.extend({
                     }
                 });
             } else {
-                console.log(app.ActivityList.get(_self.model.generalItemId).toJSON());
+                //console.log(app.ActivityList.get(_self.model.generalItemId).toJSON());
                 $(_self.el).html(_self.template({
                     model: _self.model,
                     author: _self.model.userEmail.split(':')[1],

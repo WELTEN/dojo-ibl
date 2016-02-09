@@ -469,7 +469,6 @@ var AppRouter = Backbone.Router.extend({
         $('#inquiry-content').html(new TimelineView({ collection: this.TimeLineList }).render().el);
 
         if(this.TimeLineList.length == 0 || different){
-            console.log("cero o diferente");
             app.TimeLineList.id = _runId;
             app.TimeLineList.fetch({
                 beforeSend: setHeader
@@ -1225,7 +1224,7 @@ var AppRouter = Backbone.Router.extend({
         //$('.default-hint').show();
     },
     common: function(callback) {
-        if(app.UsersList.get($.cookie("dojoibl.localId"))) {
+        //if(app.UsersList.get($.cookie("dojoibl.localId"))) {
             app.UsersList.fetch({
                 beforeSend: setHeader,
                 success: function (response, xhr) {
@@ -1242,7 +1241,7 @@ var AppRouter = Backbone.Router.extend({
                     $.cookie("dojoibl.localId", xhr.localId, {expires: date, path: "/"});
                 }
             });
-        }
+        //}
     },
     loadInquiryUsers: function(id){
         if(!this.InquiryUsers){

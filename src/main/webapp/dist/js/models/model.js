@@ -351,14 +351,11 @@ window.TimelineCollection = Backbone.Collection.extend({
     },
     url: function(){
         if(this.resumptionToken){
-            console.log("segunda y siguientes con token");
-            return "/rest/response/runId/"+this.id+"?resumptionToken="+this.resumptionToken;
+            return "/rest/response/runId/"+this.id+"?from=0&resumptionToken="+this.resumptionToken;
         }else{
-            console.log("la primera", this.id, Math.floor((Date.now() /1000) - 3600));
-            this.from = Math.floor((Date.now() /1000) - 3600);
+            this.from = Math.floor((Date.now() /1000));
             return "/rest/response/runId/"+this.id+"?from=0";
         }
-
     },
     comparator: function(item) {
         return item.get('lastModificationDate');
