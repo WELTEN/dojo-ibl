@@ -8638,7 +8638,9 @@ ul li{list-style:none;}
 
 .game{
   padding: 1em;
-  min-height: 250px;
+  /*margin: 1em 0em 3em 0em;*/
+  min-height: 270px;
+  max-height: 290px;
 }
 
 .back{
@@ -8715,4 +8717,8 @@ textarea.form-control{
   position: fixed;
   margin: 0em 1em -1em 0em;
   top: 1em;
+}
+
+.new-role{
+  border: 1px dashed;
 }

@@ -28,6 +28,12 @@ window.GameDelete = Backbone.Model.extend({
     }
 });
 
+window.AddRole = Backbone.Model.extend({
+    url: function(){
+        return "/rest/myGames/config/gameId/"+this.gameId+"/role";
+    }
+});
+
 
 window.GiveAccessToGame = Backbone.Model.extend({
     initialize: function(){

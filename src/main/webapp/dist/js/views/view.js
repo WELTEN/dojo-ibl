@@ -328,7 +328,8 @@ window.InquiryNewView = Backbone.View.extend({
         this.template = _.template(tpl.get('new_inquiry'));
     },
     events: {
-        "click .drag.external-event.navy-bg.remove": "loadActivity"
+        "click .drag.external-event.navy-bg.remove": "loadActivity",
+        "click .add-new-role": "createNewRole"
     },
     loadActivity: function(e) {
 
@@ -417,6 +418,38 @@ window.InquiryNewView = Backbone.View.extend({
         for (var selector in config) {
             $(selector).chosen(config[selector]);
         }
+    },
+    createNewRole: function(e){
+        e.preventDefault();
+        console.log("click");
+
+        swal({
+            title: "Add a new role",
+            text: "Give a descriptive name for the new role",
+            type: "input",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            animation: "slide-from-top",
+            inputPlaceholder: "Example: Explainer"
+        }, function (inputValue) {
+            if (inputValue === false)
+                return false;
+            if (inputValue === "") {
+                swal.showInputError("You need to write something!");
+                return false
+            }
+            swal("Nice!", "A new role: " + inputValue + " has been created", "success");
+
+            var new_role = new AddRole("hol");
+            new_role.gameId = $.cookie("dojoibl.game");
+            new_role.save({}, {
+                beforeSend: setHeader,
+                success: function (r, response) {
+
+                }
+            });
+        });
+
     }
 });
 
