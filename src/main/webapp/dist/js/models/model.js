@@ -352,15 +352,16 @@ window.TimelineCollection = Backbone.Collection.extend({
         });
     },
     parse: function(response){
+        // TODO problem. last group of responses => no resumptionToken => it is empty and then it starts again.
         this.resumptionToken = response.resumptionToken;
         return   response.responses;
     },
     url: function(){
         if(this.resumptionToken){
-            return "/rest/response/runId/"+this.id+"?from=0&resumptionToken="+this.resumptionToken;
+            return "/rest/response/runId/"+this.id+"?from="+this.from+"&resumptionToken="+this.resumptionToken+"&orderByLastModificationDate=true";
         }else{
             this.from = Math.floor((Date.now() /1000));
-            return "/rest/response/runId/"+this.id+"?from=0";
+            return "/rest/response/runId/"+this.id+"?from="+this.from+"&orderByLastModificationDate=true";
         }
     },
     comparator: function(item) {

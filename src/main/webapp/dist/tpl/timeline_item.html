@@ -21,16 +21,34 @@
 
 <% }else if ( activity.type ==  'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest'){ %>
 
-    <a href="#" class="pull-left">
-        <i class="fa fa-sitemap profile-timeline img-circle  img-responsive"></i>
-    </a>
-    <div class="media-body ">
-        <small class="pull-right"><%= time %></small>
-        <strong><%= author %></strong> added 1 node with the text '<%= model.responseValue %>' on <strong><%= activity.name %></strong> (concept map). <br>
-        <small class="text-muted"><%= timeDate %></small>
-        <div class="actions">
-            <a href="#inquiry/<%= activity.gameId %>/phase/<%= activity.section %>/activity/<%= activity.id %>" class="btn btn-xs btn-white"> <i class="fa fa-eye"></i> Show concept map</a>
-        </div>
-    </div>
+    <% if ( model.parentId ==  -1){ %>
 
-<% } %>
+        <a href="#" class="pull-left">
+            <i class="fa fa-sitemap profile-timeline img-circle  img-responsive"></i>
+        </a>
+        <div class="media-body ">
+            <small class="pull-right"><%= time %></small>
+            <strong><%= author %></strong> linked two nodes in <strong><%= activity.name %></strong> (concept map). <br>
+            <small class="text-muted"><%= timeDate %></small>
+            <div class="actions">
+                <a href="#inquiry/<%= activity.gameId %>/phase/<%= activity.section %>/activity/<%= activity.id %>" class="btn btn-xs btn-white"> <i class="fa fa-eye"></i> Show concept map</a>
+            </div>
+        </div>
+
+    <% }else{ %>
+
+        <a href="#" class="pull-left">
+            <i class="fa fa-sitemap profile-timeline img-circle  img-responsive"></i>
+        </a>
+        <div class="media-body ">
+            <small class="pull-right"><%= time %></small>
+            <strong><%= author %></strong> added 1 node with the text '<%= model.responseValue %>' on <strong><%= activity.name %></strong> (concept map). <br>
+            <small class="text-muted"><%= timeDate %></small>
+            <div class="actions">
+                <a href="#inquiry/<%= activity.gameId %>/phase/<%= activity.section %>/activity/<%= activity.id %>" class="btn btn-xs btn-white"> <i class="fa fa-eye"></i> Show concept map</a>
+            </div>
+        </div>
+
+    <% } %>
+
+<% }%>

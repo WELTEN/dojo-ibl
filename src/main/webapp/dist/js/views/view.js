@@ -3137,27 +3137,31 @@ window.TimelineView = Backbone.View.extend({
         this.template = _.template(tpl.get('timeline'));
 
         _(this).bindAll('render');
+        _(this).bindAll('hidebutton');
         _(this).bindAll('add');
         this.collection.bind('add', this.add);
-        //this.collection.bind('reset', this.render);
+        this.collection.bind('add', this.hidebutton);
 
     },
     add: function(response){
-        if(!response.toJSON().revoked && response.toJSON().parentId != -1){
+        if(!response.toJSON().revoked){
             $(this.el).find("#vertical-timeline").append(new TimelineItemView({ model: response.toJSON()} ).render().el);
         }
     },
+    hidebutton: function(response){
+      if(!this.collection.resumptionToken){
+        $(".show-more-responses").hide();
+      }
+    }
+    ,
     render:function () {
         $(this.el).html(this.template);
 
         _.each(this.collection.models, function(response){
-            if(!response.toJSON().revoked && response.toJSON().parentId != -1) {
-                console.log(response.toJSON());
+            if(!response.toJSON().revoked) {
                 $(this.el).find("#vertical-timeline").append(new TimelineItemView({model: response.toJSON()}).render().el);
             }
         }, this);
-
-        //this.collection.reset();
 
         return this;
     }
@@ -3174,9 +3178,7 @@ window.TimelineItemView = Backbone.View.extend({
     render:function () {
 
         var _self = this;
-        //if(!_self.model.revoked && _self.model.parentId != -1) {
             if (!app.ActivityList.get(_self.model.generalItemId)) {
-                console.log("4",$.cookie("dojoibl.game"),_self.model.generalItemId)
                 var act = new ActivityUpdate();
                 act.id = _self.model.generalItemId;
                 act.gameId = $.cookie("dojoibl.game");
@@ -3184,7 +3186,6 @@ window.TimelineItemView = Backbone.View.extend({
                     beforeSend: setHeader,
                     success: function (a, r) {
                         app.ActivityList.add(r);
-                        //console.log(_self.model)
                         $(_self.el).html(_self.template({
                             model: _self.model,
                             author: _self.model.userEmail.split(':')[1],
@@ -3204,8 +3205,6 @@ window.TimelineItemView = Backbone.View.extend({
                     activity: app.ActivityList.get(_self.model.generalItemId).toJSON()
                 }));
             }
-        //}
-
         return _self;
     }
 });

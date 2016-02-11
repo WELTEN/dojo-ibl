@@ -18,18 +18,17 @@
  ******************************************************************************/
 package org.celstec.arlearn2.api;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-
 import org.celstec.arlearn2.beans.run.Response;
 import org.celstec.arlearn2.beans.run.ResponseList;
 import org.celstec.arlearn2.cache.CSVCache;
 import org.celstec.arlearn2.cache.CSVEntry;
-import org.celstec.arlearn2.delegators.GeneralItemDelegator;
 import org.celstec.arlearn2.delegators.ResponseDelegator;
 import org.celstec.arlearn2.tasks.beans.CSVGeneration;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 
 
 @Path("/response")
@@ -42,6 +41,7 @@ public class ResponseAPI extends Service {
 			@QueryParam("from") Long from,
 			@QueryParam("until") Long until,
 			@QueryParam("resumptionToken") String cursor,
+			@QueryParam("orderByLastModificationDate") boolean orderByLastModificationDate,
 			@PathParam("runIdentifier") Long runIdentifier, 
 			@HeaderParam("Accept") String accept)
 			 {
@@ -51,7 +51,7 @@ public class ResponseAPI extends Service {
 		if (from == null && until == null) {
 			return serialise(rd.getResponses(runIdentifier, null, null), accept);
 		}
-		return serialise(rd.getResponsesFromUntil(runIdentifier, from, until, cursor), accept);
+		return serialise(rd.getResponsesFromUntil(runIdentifier, from, until, cursor, orderByLastModificationDate), accept);
 	}
 
 	// TODO work out and return responses

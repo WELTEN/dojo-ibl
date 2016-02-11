@@ -1348,7 +1348,7 @@ button.dim:active:before {
 .chat-element:first-child {
   margin-top: 0;
 }
-.chat-element {
+.chat-element, .timeline-bottom-padding {
   padding-bottom: 15px;
 }
 .chat-element,
@@ -8721,4 +8721,9 @@ textarea.form-control{
 
 .new-role{
   border: 1px dashed;
+}
+
+.show-more-responses{
+  width: 40% !important;
+  margin: 1em auto !important;
 }

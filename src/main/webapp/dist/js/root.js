@@ -475,13 +475,11 @@ var AppRouter = Backbone.Router.extend({
             });
         }
 
-        $(window).scroll(function() {
-            if($(window).scrollTop() + $(window).height() == $(document).height() && typeof app.TimeLineList.resumptionToken !== 'undefined') {
-                app.TimeLineList.id = _runId;
-                app.TimeLineList.fetch({
-                    beforeSend: setHeader
-                });
-            }
+        $(".show-more-responses").click(function(){
+            app.TimeLineList.id = _runId;
+            app.TimeLineList.fetch({
+                beforeSend: setHeader
+            });
         });
     },
     createInquiry: function(){
