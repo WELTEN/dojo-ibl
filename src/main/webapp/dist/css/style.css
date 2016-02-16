@@ -8135,6 +8135,20 @@ body.md-skin {
     text-align: right;
     display: block;
   }
+
+  ul.inquiry-tabs span{
+    display: none;
+  }
+
+  #inquiry-content .tabs-container .tabs-left .panel-body {
+    width: 80% !important;
+    margin-left: 20% !important;
+  }
+
+  #inquiry-content .tabs-container .tabs-left > .nav-tabs {
+    width: 20% !important;
+  }
+
 }
 @media (max-width: 350px) {
   .timeline-item .date {
@@ -8221,8 +8235,9 @@ div.phases-breadcrumb  {
 }
 
 .special-height{
-  height: 45em;
+  min-height: 45em;
   /*overflow: hidden;*/
+  clear: none !important;
 }
 
 #circlemenu {
@@ -8726,4 +8741,30 @@ textarea.form-control{
 .show-more-responses{
   width: 40% !important;
   margin: 1em auto !important;
+}
+
+.inquiry-tabs{
+  margin-top: 5em;
+}
+
+.no-padding-no-border-radius{
+  border-radius: 7px !important;
+  padding: 0px !important;
+}
+
+#inquiry-content .tabs-container .tabs-left .panel-body{
+  width: 87%;
+  margin-left: 14%;
+}
+
+#inquiry-content .tabs-container .tabs-left > .nav-tabs{
+  width: 14%;
+}
+
+#inquiry-content .tabs-container .tabs-left .tab-pane .panel-body{
+  border-top: 0px !important;
+}
+
+#inquiry-content .ibox-content{
+  border-width: 0px 0px !important;
 }

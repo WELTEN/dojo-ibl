@@ -113,7 +113,7 @@ window.GameListView = Backbone.View.extend({
 
 window.GameListItemView = Backbone.View.extend({
     tagName:  "div",
-    className: "col-lg-3 game animated fadeInUp",
+    className: "col-lg-3 game animated fadeIn",
     initialize:function (options) {
         ////this.collection.bind('add', this.render);
         //this.listenTo(app.GameList, 'add', this.show);
@@ -270,7 +270,7 @@ window.ProfileView = Backbone.View.extend({
 window.InquiryView = Backbone.View.extend({
     tagName:  "div",
     id: "inquiry-content",
-    className: "col-md-9 wrapper wrapper-content animated fadeInUp",
+    className: "col-md-9 wrapper wrapper-content animated fadeIn",
     initialize:function (options) {
         this.template = _.template(tpl.get('inquiry'));
         //console.log(options.model);
@@ -323,7 +323,7 @@ window.InquiryView = Backbone.View.extend({
 
 window.InquiryNewView = Backbone.View.extend({
     tagName:  "div",
-    className: "col-md-12 wrapper wrapper-content animated fadeInUp",
+    className: "col-md-12 wrapper wrapper-content animated fadeIn",
     initialize:function () {
         this.template = _.template(tpl.get('new_inquiry'));
     },
@@ -455,7 +455,7 @@ window.InquiryNewView = Backbone.View.extend({
 
 window.NewInquiryCode = Backbone.View.extend({
     tagName:  "div",
-    className: "article col-md-6 col-md-offset-3 animated fadeInUp",
+    className: "article col-md-6 col-md-offset-3 animated fadeIn",
     initialize:function (options) {
         this.code = options.code;
         this.template = _.template(tpl.get('new_inquiry_code'));
@@ -740,7 +740,7 @@ window.SideBarView = Backbone.View.extend({
 
 // Phases
 window.PhaseView = Backbone.View.extend({
-    className: "animated fadeInUp",
+    className: "animated fadeIn",
     initialize:function () {
         this.template = _.template(tpl.get('phase'));
     },
@@ -2380,7 +2380,7 @@ window.ConceptMapView = Backbone.View.extend({
         });
 
 
-        var width  = 960,
+        var width  = $("#concept-map").width()-25,
             height = 500,
             colors = d3.scale.category10();
 
@@ -3131,10 +3131,8 @@ window.InquiryToolbarView = Backbone.View.extend({
 
 // Timeline
 window.TimelineView = Backbone.View.extend({
-    tagName:  "div",
-    className: "ibox float-e-margins",
+    el:  "#vertical-timeline",
     initialize:function (options) {
-        this.template = _.template(tpl.get('timeline'));
 
         _(this).bindAll('render');
         _(this).bindAll('hidebutton');
@@ -3145,7 +3143,7 @@ window.TimelineView = Backbone.View.extend({
     },
     add: function(response){
         if(!response.toJSON().revoked){
-            $(this.el).find("#vertical-timeline").append(new TimelineItemView({ model: response.toJSON()} ).render().el);
+            this.$el.append(new TimelineItemView({ model: response.toJSON()} ).render().el);
         }
     },
     hidebutton: function(response){
@@ -3155,17 +3153,53 @@ window.TimelineView = Backbone.View.extend({
     }
     ,
     render:function () {
-        $(this.el).html(this.template);
-
         _.each(this.collection.models, function(response){
             if(!response.toJSON().revoked) {
-                $(this.el).find("#vertical-timeline").append(new TimelineItemView({model: response.toJSON()}).render().el);
+                this.$el.prepend(new TimelineItemView({model: response.toJSON()}).render().el);
             }
         }, this);
 
         return this;
     }
 });
+//
+//// Timeline
+//window.TimelineView = Backbone.View.extend({
+//    tagName:  "div",
+//    className: "ibox float-e-margins",
+//    initialize:function (options) {
+//        this.template = _.template(tpl.get('timeline'));
+//
+//        _(this).bindAll('render');
+//        _(this).bindAll('hidebutton');
+//        _(this).bindAll('add');
+//        this.collection.bind('add', this.add);
+//        this.collection.bind('add', this.hidebutton);
+//
+//    },
+//    add: function(response){
+//        if(!response.toJSON().revoked){
+//            $(this.el).find("#vertical-timeline").append(new TimelineItemView({ model: response.toJSON()} ).render().el);
+//        }
+//    },
+//    hidebutton: function(response){
+//      if(!this.collection.resumptionToken){
+//        $(".show-more-responses").hide();
+//      }
+//    }
+//    ,
+//    render:function () {
+//        $(this.el).html(this.template);
+//
+//        _.each(this.collection.models, function(response){
+//            if(!response.toJSON().revoked) {
+//                $(this.el).find("#vertical-timeline").append(new TimelineItemView({model: response.toJSON()}).render().el);
+//            }
+//        }, this);
+//
+//        return this;
+//    }
+//});
 
 window.TimelineItemView = Backbone.View.extend({
     tagName:  "div",

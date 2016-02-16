@@ -161,7 +161,7 @@ var AppRouter = Backbone.Router.extend({
         var _runId = id;
 
         // Add toolbar
-        this.addToolBar(_runId);
+        //this.addToolBar(_runId);
 
         $(".btn.btn-success.dim.timeline").text("Timeline view");
         $(".btn.btn-success.dim.timeline").attr("href","#inquiry/timeline/"+_runId);
@@ -183,6 +183,26 @@ var AppRouter = Backbone.Router.extend({
                 $(".knob").knob();
 
                 app.loadChat(_runId);
+
+                app.loadTimeline(_runId);
+
+                //new TimelineView({ collection: app.TimeLineList }).render().el;
+                //
+                //var different = (app.TimeLineList.id == _runId ? false : true);
+                //if(app.TimeLineList.length == 0 || different){
+                //    app.TimeLineList.id = _runId;
+                //    app.TimeLineList.fetch({
+                //        beforeSend: setHeader
+                //    });
+                //}
+                //
+                //$(".show-more-responses").click(function(){
+                //    app.TimeLineList.id = _runId;
+                //    app.TimeLineList.fetch({
+                //        beforeSend: setHeader
+                //    });
+                //});
+
             }
         });
 
@@ -220,11 +240,11 @@ var AppRouter = Backbone.Router.extend({
         }
 
         // Add toolbar
-        this.addToolBar(_runId);
+        app.loadTimeline(_runId);
 
-        $(".btn.btn-success.dim.timeline").text("Timeline view");
-        $(".btn.btn-success.dim.timeline").attr("href","#inquiry/timeline/"+_runId);
-        $(".btn.btn-success.dim.timeline").addClass("btn-outline");
+        //$(".btn.btn-success.dim.timeline").text("Timeline view");
+        //$(".btn.btn-success.dim.timeline").attr("href","#inquiry/timeline/"+_runId);
+        //$(".btn.btn-success.dim.timeline").addClass("btn-outline");
 
         this.removeJoinCreateButton();
         this.createEditButton(_gameId);
@@ -240,6 +260,8 @@ var AppRouter = Backbone.Router.extend({
                 app.changeTitle(' <a href="#inquiry/'+_runId+'">'+game.title+'</a> <i class="fa fa-angle-double-right"></i> '+game.phases[_phase-1].title);
             }
         });
+
+
 
         $("#circlemenu li:nth-child("+phase+")").addClass("animated bounceOutUp");
         window.setTimeout(function () {
@@ -264,6 +286,9 @@ var AppRouter = Backbone.Router.extend({
             }
 
             $("#inquiry-content").html(new PhaseView().render().el);
+
+            // Add toolbar
+            app.loadTimeline(_runId);
 
             this.ActivityList.fetch({
                 beforeSend: setHeader,
@@ -313,12 +338,10 @@ var AppRouter = Backbone.Router.extend({
             }
         });
 
-        // Add toolbar
-        this.addToolBar(_runId);
 
-        $(".btn.btn-success.dim.timeline").text("Timeline view");
-        $(".btn.btn-success.dim.timeline").attr("href","#inquiry/timeline/"+_runId);
-        $(".btn.btn-success.dim.timeline").addClass("btn-outline");
+        //$(".btn.btn-success.dim.timeline").text("Timeline view");
+        //$(".btn.btn-success.dim.timeline").attr("href","#inquiry/timeline/"+_runId);
+        //$(".btn.btn-success.dim.timeline").addClass("btn-outline");
 
         $( ".list_activities li[data='"+activity+"']").addClass("animated bounceOutUp");
         window.setTimeout(function () {
@@ -348,6 +371,10 @@ var AppRouter = Backbone.Router.extend({
                     }
 
                     $("#inquiry-content").html(new ActivityView({ model: xhr }).render().el);
+
+
+                    // Add toolbar
+                    app.loadTimeline(_runId);
 
                     $(".knob").knob();
 
@@ -444,7 +471,7 @@ var AppRouter = Backbone.Router.extend({
         var _runId = id;
 
         // Add toolbar
-        this.addToolBar(_runId);
+        //this.addToolBar(_runId);
 
         $(".btn.btn-outline.btn-success.dim.timeline").text("Standard view");
         $(".btn.btn-outline.btn-success.dim.timeline").attr("href","#inquiry/"+_runId);
@@ -468,6 +495,7 @@ var AppRouter = Backbone.Router.extend({
 
         $('#inquiry-content').html(new TimelineView({ collection: this.TimeLineList }).render().el);
 
+        var different = (app.TimeLineList.id == id ? false : true);
         if(this.TimeLineList.length == 0 || different){
             app.TimeLineList.id = _runId;
             app.TimeLineList.fetch({
@@ -1144,6 +1172,7 @@ var AppRouter = Backbone.Router.extend({
                                 app.showNotification("success", "Discussion thread", "Your comment has been sent");
                             }
                             app.Response.add(a);
+                            app.TimeLineList.add(a);
                         }
                     };
 
@@ -1152,6 +1181,27 @@ var AppRouter = Backbone.Router.extend({
                 }
             });
         }
+    },
+    loadTimeline: function(_runId){
+        new TimelineView({ collection: app.TimeLineList }).render().el;
+
+        var different = (app.TimeLineList.id == _runId ? false : true);
+        if(app.TimeLineList.length == 0 || different){
+
+            console.log("s");
+
+            app.TimeLineList.id = _runId;
+            app.TimeLineList.fetch({
+                beforeSend: setHeader
+            });
+        }
+
+        $(".show-more-responses").click(function(){
+            app.TimeLineList.id = _runId;
+            app.TimeLineList.fetch({
+                beforeSend: setHeader
+            });
+        });
     },
     loadChat: function(runId){
 
@@ -1395,7 +1445,7 @@ tpl.loadTemplates(['main',
     'activity_data_collection',
     'response_grid_item',
     'inquiry_toolbar',
-    'timeline',
+    //'timeline',
     'timeline_item'
 ], function() {
     app = new AppRouter();
