@@ -228,6 +228,7 @@ var AppRouter = Backbone.Router.extend({
     },
     showPhase: function(id, phase){
         this.isAuthenticated();
+        this.common();
 
         var _self = this;
         var _gameId = id;
@@ -239,17 +240,13 @@ var AppRouter = Backbone.Router.extend({
             _runId = $.cookie("dojoibl.run");
         }
 
-        // Add toolbar
-        app.loadTimeline(_runId);
-
-        //$(".btn.btn-success.dim.timeline").text("Timeline view");
-        //$(".btn.btn-success.dim.timeline").attr("href","#inquiry/timeline/"+_runId);
-        //$(".btn.btn-success.dim.timeline").addClass("btn-outline");
-
-        this.removeJoinCreateButton();
-        this.createEditButton(_gameId);
-
         this.createCookie("dojoibl.game", _gameId);
+        this.createEditButton(_gameId);
+        this.removeJoinCreateButton();
+
+        //this.loadInquiryUsers(_runId);
+
+        this.breadcrumbManagerSmall("#inquiry/"+_runId,"the list of phases");
 
         var game = new GameCollection({ });
         game.gameId = _gameId;
@@ -261,34 +258,14 @@ var AppRouter = Backbone.Router.extend({
             }
         });
 
-
-
         $("#circlemenu li:nth-child("+phase+")").addClass("animated bounceOutUp");
+
         window.setTimeout(function () {
-            app.breadcrumbManager(1, "Data collection");
 
-            app.breadcrumbManagerSmall("#inquiry/"+_runId,"the list of phases");
-
-            $(this).addClass("animated fadeOutUpBig");
             this.ActivityList = new ActivitiesCollection({ });
             this.ActivityList
             this.ActivityList.id = _gameId;
             this.ActivityList.section = phase;
-
-            if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
-                $(".row.inquiry").append($('<div />', {
-                    "class": 'col-md-9 wrapper wrapper-content animated fadeInUp',
-                    id: "inquiry-content"
-                }));
-                $('.row.inquiry').append(new SideBarView({ }).render().el);
-                app.initializeChannelAPI();
-                app.loadChat();
-            }
-
-            $("#inquiry-content").html(new PhaseView().render().el);
-
-            // Add toolbar
-            app.loadTimeline(_runId);
 
             this.ActivityList.fetch({
                 beforeSend: setHeader,
@@ -302,8 +279,30 @@ var AppRouter = Backbone.Router.extend({
                         }
                     });
                     $(".knob").knob();
+
+                    console.log("activities load")
                 }
             });
+
+            if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
+                $(".row.inquiry").append($('<div />', {
+                    "class": 'col-md-9 wrapper wrapper-content animated fadeInUp',
+                    id: "inquiry-content"
+                    }
+                ));
+
+                if($(".col-lg-3.wrapper.wrapper-content.small-chat-float").length == 0){
+                    $('.row.inquiry').append(new SideBarView({ }).render().el);
+                    app.initializeChannelAPI();
+                    app.loadChat();
+                }
+            }
+
+            $("#inquiry-content").html(new PhaseView().render().el);
+
+            // Add toolbar
+            app.loadTimeline(_runId);
+
         }, 500);
     },
     showActivity: function(id, phase, activity){
@@ -321,10 +320,9 @@ var AppRouter = Backbone.Router.extend({
 
         this.createCookie("dojoibl.activity", activity);
         this.createEditButton(_gameId);
-
         this.removeJoinCreateButton();
 
-        this.loadInquiryUsers(_runId);
+        //this.loadInquiryUsers(_runId);
 
         this.breadcrumbManagerSmall("#inquiry/"+_gameId+"/phase/"+_phase,"the list of activities");
 
@@ -338,12 +336,8 @@ var AppRouter = Backbone.Router.extend({
             }
         });
 
-
-        //$(".btn.btn-success.dim.timeline").text("Timeline view");
-        //$(".btn.btn-success.dim.timeline").attr("href","#inquiry/timeline/"+_runId);
-        //$(".btn.btn-success.dim.timeline").addClass("btn-outline");
-
         $( ".list_activities li[data='"+activity+"']").addClass("animated bounceOutUp");
+
         window.setTimeout(function () {
 
             this.Activity = new ActivityCollection({ });
@@ -1188,8 +1182,6 @@ var AppRouter = Backbone.Router.extend({
 
         var different = (app.TimeLineList.id == _runId ? false : true);
         if(app.TimeLineList.length == 0 || different){
-
-            console.log("s");
 
             app.TimeLineList.id = _runId;
             app.TimeLineList.fetch({

@@ -685,7 +685,7 @@ window.SideBarView = Backbone.View.extend({
         $(this.el).html(this.template());
 
         $(window).scroll(function(){
-            if ($(this).scrollTop() > 200 && $(this).width() > 1200 ) {
+            if ($(this).scrollTop() > 153 && $(this).width() > 1200 ) {
                 $(".ibox-chat-content").addClass('fixed-chat');
             } else {
                 $(".ibox-chat-content").removeClass('fixed-chat');
