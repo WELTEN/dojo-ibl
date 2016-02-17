@@ -439,7 +439,7 @@ var AppRouter = Backbone.Router.extend({
                                 newResponse.save({}, {
                                     beforeSend:setHeader,
                                     success: function(r, new_response){
-                                       app.showNotification("success", "Discussion thread", "Your comment has been sent");
+                                       //app.showNotification("success", "Discussion thread", "Your comment has been sent");
                                     }
                                 });
                             }
@@ -1165,11 +1165,12 @@ var AppRouter = Backbone.Router.extend({
                         }
 
                         if (a.type == "org.celstec.arlearn2.beans.run.Response") {
+                            console.log(a);
                             /////////////////////////////////////////////////
                             // Show notification if it is not my notification
                             /////////////////////////////////////////////////
                             if(a.userEmail.split(":")[1] != $.cookie("dojoibl.localId")){
-                                app.showNotification("success", "Discussion thread", "Your comment has been sent");
+                                app.showNotification("success", "New comment", a.userEmail.split(":")[1]+" has commented something");
                             }
                             app.Response.add(a);
                             app.TimeLineList.add(a);
