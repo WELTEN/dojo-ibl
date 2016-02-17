@@ -140,14 +140,16 @@ var AppRouter = Backbone.Router.extend({
     },
     showInquiry:function (id) {
         this.isAuthenticated();
+        this.common();
 
-        this.secureAccess(id); // TODO still need to do it
+        //this.secureAccess(id); // TODO still need to do it
 
         $(".phases-breadcrumb").hide();
 
         this.createCookie("dojoibl.run", id);
 
-        this.common();
+        var _runId = id;
+
         this.breadcrumbManager(0, "");
 
         this.initializeChannelAPI();
@@ -156,16 +158,7 @@ var AppRouter = Backbone.Router.extend({
         this.removeJoinCreateButton();
 
         this.RunList = new RunCollection({ });
-        this.RunList.id = id;
-
-        var _runId = id;
-
-        // Add toolbar
-        //this.addToolBar(_runId);
-
-        $(".btn.btn-success.dim.timeline").text("Timeline view");
-        $(".btn.btn-success.dim.timeline").attr("href","#inquiry/timeline/"+_runId);
-        $(".btn.btn-success.dim.timeline").addClass("btn-outline");
+        this.RunList.id = _runId;
 
         this.RunList.fetch({
             beforeSend: setHeader,
@@ -177,32 +170,27 @@ var AppRouter = Backbone.Router.extend({
                 app.breadcrumbManagerSmall("#","list of inquiries");
                 app.changeTitle(results.game.title);
 
+
                 $('.row.inquiry').html(new InquiryView({ model: results }).render().el);
-                $('.row.inquiry').append(new SideBarView({ }).render().el);
+
+
+
+                if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
+
+                    if($(".col-lg-3.wrapper.wrapper-content.small-chat-float").length == 0){
+                        $('.row.inquiry').append(new SideBarView({ }).render().el);
+                        app.initializeChannelAPI();
+                        app.loadChat(_runId);
+                    }
+                }
+
+
 
                 $(".knob").knob();
 
-                app.loadChat(_runId);
+                //app.loadChat(_runId);
 
                 app.loadTimeline(_runId);
-
-                //new TimelineView({ collection: app.TimeLineList }).render().el;
-                //
-                //var different = (app.TimeLineList.id == _runId ? false : true);
-                //if(app.TimeLineList.length == 0 || different){
-                //    app.TimeLineList.id = _runId;
-                //    app.TimeLineList.fetch({
-                //        beforeSend: setHeader
-                //    });
-                //}
-                //
-                //$(".show-more-responses").click(function(){
-                //    app.TimeLineList.id = _runId;
-                //    app.TimeLineList.fetch({
-                //        beforeSend: setHeader
-                //    });
-                //});
-
             }
         });
 
@@ -210,21 +198,6 @@ var AppRouter = Backbone.Router.extend({
             selector: "[data-toggle=tooltip]",
             container: "body"
         });
-
-        /////////////////////////////////////////////////////////////////////////////
-        // Hide scroll bar while hovering the chat to make the chat experience easier
-        // Avoid undesirable scrolling movements
-        /////////////////////////////////////////////////////////////////////////////
-        //var b = $('html');
-        //$('.direct-chat').hover(function() {
-        //    var s = b.scrollTop();
-        //    b.css('overflow', 'hidden');
-        //    b.scrollTop(s);
-        //}, function() {
-        //    var s = b.scrollTop();
-        //    b.css('overflow', 'auto');
-        //    b.scrollTop(s);
-        //});
     },
     showPhase: function(id, phase){
         this.isAuthenticated();
@@ -284,7 +257,8 @@ var AppRouter = Backbone.Router.extend({
                 }
             });
 
-            if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
+            if($("#inquiry-content").length == 0){
+
                 $(".row.inquiry").append($('<div />', {
                     "class": 'col-md-9 wrapper wrapper-content animated fadeInUp',
                     id: "inquiry-content"
@@ -322,7 +296,7 @@ var AppRouter = Backbone.Router.extend({
         this.createEditButton(_gameId);
         this.removeJoinCreateButton();
 
-        //this.loadInquiryUsers(_runId);
+        this.loadInquiryUsers(_runId);
 
         this.breadcrumbManagerSmall("#inquiry/"+_gameId+"/phase/"+_phase,"the list of activities");
 
@@ -350,7 +324,7 @@ var AppRouter = Backbone.Router.extend({
 
                     app.changeTitle(' <a href="#inquiry/'+_runId+'">'+_gameObject.title+'</a> <i class="fa fa-angle-double-right"></i> <a href="#inquiry/'+_gameObject.gameId+'/phase/'+_phase+'">'+_gameObject.phases[_phase-1].title+'</a> <i class="fa fa-angle-double-right"></i> '+xhr.name);
 
-                    if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
+                    if($("#inquiry-content").length == 0){
                         $(".row.inquiry").append($('<div />', {
                             "class": 'col-md-9 wrapper wrapper-content animated fadeInUp',
                             id: "inquiry-content"
