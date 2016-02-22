@@ -3172,25 +3172,32 @@ window.TimelineView = Backbone.View.extend({
     }
     ,
     render:function () {
-        console.log("render foreach "+this.collection.models.length);
-        var right;
-        _.each(this.collection.models, function(response){
-            if(!response.toJSON().revoked) {
-                if(response.toJSON().generalItemId != this.right){
-                    if(this.left == true){
-                        this.left =  false;
-                        this.style =  this.style2;
-                    }else{
-                        this.left =  true;
-                        this.style =  this.style1;
+        //console.log("render foreach "+this.collection.models.length);
+        //if(this.collection.models.length == 0){
+        //    this.$el.html('<div class="alert alert-warning">' +
+        //    'The timeline is empty. Be the first contributing to this inquiry to see some activities here.' +
+        //    '</div>')
+        //    $("#vertical-timeline::before").css('background', '#fff');
+        //}else{
+            var right;
+            _.each(this.collection.models, function(response){
+                if(!response.toJSON().revoked) {
+                    if(response.toJSON().generalItemId != this.right){
+                        if(this.left == true){
+                            this.left =  false;
+                            this.style =  this.style2;
+                        }else{
+                            this.left =  true;
+                            this.style =  this.style1;
+                        }
                     }
+
+                    this.$el.prepend(new TimelineItemView({ model: response.toJSON(), right: this.left } ).render().el);
+
+                    this.right = response.toJSON().generalItemId;
                 }
-
-                this.$el.prepend(new TimelineItemView({ model: response.toJSON(), right: this.left } ).render().el);
-
-                this.right = response.toJSON().generalItemId;
-            }
-        }, this);
+            }, this);
+        //}
 
         //this.collection.reset();
 
