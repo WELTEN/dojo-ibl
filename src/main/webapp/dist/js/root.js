@@ -164,6 +164,8 @@ var AppRouter = Backbone.Router.extend({
             beforeSend: setHeader,
             success: function (response, results) {
 
+                //app.secureAccess(results.gameId);
+
                 app.createEditButton(results.gameId);
                 app.createCookie("dojoibl.game", results.gameId);
 
@@ -422,7 +424,7 @@ var AppRouter = Backbone.Router.extend({
 
         this.isAuthenticated();
 
-        this.secureAccess(id); // TODO still need to do it
+        //this.secureAccess(id); // TODO still need to do it
 
         $(".phases-breadcrumb").hide();
 
@@ -872,6 +874,7 @@ var AppRouter = Backbone.Router.extend({
             this.GameAccessList.fetch({
                 beforeSend: setHeader,
                 success: function(e, response){
+                    console.log(response);
                     _.each(response.gamesAccess, function(gameAccess){
                         var game = new GameCollection({ });
                         game.gameId = gameAccess.gameId;
@@ -1026,8 +1029,27 @@ var AppRouter = Backbone.Router.extend({
 
         return indexed_array;
     },
-    secureAccess: function(run){
+    secureAccess: function(_gameId){
         // TODO check runAccess
+        // Return true or false if you are the owner or not
+        //var access = new retrieveAccessToGame();
+        //access.gameId = _gameId;
+        //access.fetch({
+        //    beforeSend: setHeader,
+        //    success: function(r,s){
+        //        console.log(r,s);
+        //        _.each(s,function(a){
+        //           console.log(a.gameId);
+        //            //if(a.account.indexOf($.cookie("dojoibl.localId")) > -1 ){
+        //            //    return true;
+        //            //}
+        //        });
+        //    }
+        //});
+        //access.on('reset', function(){
+        //    console.log("finished");
+        //})
+        //return true;
     },
     addToolBar: function(run){
         if($(".toolbar").length == 0){
@@ -1273,6 +1295,8 @@ var AppRouter = Backbone.Router.extend({
         }
     },
     createEditButton: function(gameId){
+        console.log($.cookie("dojoibl.localId"));
+        console.log(app.GameAccessList);
         $(".edit-inquiry").attr("href","#inquiry/edit/"+gameId);
         $(".edit-inquiry").show();
     },

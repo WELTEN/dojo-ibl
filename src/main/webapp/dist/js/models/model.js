@@ -2,6 +2,7 @@
 // Games
 ////////
 window.GameAccess = Backbone.Model.extend({
+    idAttribute: "gameId",
     initialize: function(){
         //console.log("Game Access initialized");
     }
@@ -43,6 +44,16 @@ window.GiveAccessToGame = Backbone.Model.extend({
         return "/rest/myGames/access/gameId/"+this.gameId+"/account/"+this.accoundId+"/accessRight/"+this.accessRight;
     }
 });
+
+window.retrieveAccessToGame = Backbone.Model.extend({
+    initialize: function(){
+        console.log("Do I have access? to "+this.gameId);
+    },
+    url: function(){
+        return "/rest/myGames/access/gameId/"+this.gameId;
+    }
+});
+
 
 
 window.PictureUrlGame = Backbone.Model.extend({
