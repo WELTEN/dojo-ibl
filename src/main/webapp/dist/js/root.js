@@ -1152,11 +1152,13 @@ var AppRouter = Backbone.Router.extend({
         }
     },
     loadTimeline: function(_runId){
+        console.log("muestra timeline "+app.TimeLineList.length);
+
         new TimelineView({ collection: app.TimeLineList }).render().el;
 
         var different = (app.TimeLineList.id == _runId ? false : true);
         if(app.TimeLineList.length == 0 || different){
-
+            console.log("Nueva consulta para el run "+_runId);
             app.TimeLineList.id = _runId;
             app.TimeLineList.fetch({
                 beforeSend: setHeader
@@ -1164,6 +1166,7 @@ var AppRouter = Backbone.Router.extend({
         }
 
         $(".show-more-responses").click(function(){
+            console.log("Dame mas responses despues del click"+_runId);
             app.TimeLineList.id = _runId;
             app.TimeLineList.fetch({
                 beforeSend: setHeader

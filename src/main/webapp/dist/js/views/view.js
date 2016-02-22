@@ -212,7 +212,7 @@ window.GameListItemView = Backbone.View.extend({
                 }
             });
 
-            $(e.currentTarget).closest('.col-lg-3.game.animated.fadeInUp').hide();
+            $(e.currentTarget).closest('.col-lg-3.game.animated.fadeIn').hide();
         });
     }
 });
@@ -3140,10 +3140,29 @@ window.TimelineView = Backbone.View.extend({
         this.collection.bind('add', this.add);
         this.collection.bind('add', this.hidebutton);
 
+        this.left = true;
+        this.style = "float: left";
+        this.style1 = "float: right";
+        this.style2 = "float: left";
+        this.right = "";
+
     },
     add: function(response){
         if(!response.toJSON().revoked){
-            this.$el.append(new TimelineItemView({ model: response.toJSON()} ).render().el);
+
+            if(response.toJSON().generalItemId != this.right){
+                if(this.left == true){
+                    this.left =  false;
+                    this.style =  this.style2;
+                }else{
+                    this.left =  true;
+                    this.style =  this.style1;
+                }
+            }
+
+            this.$el.append(new TimelineItemView({ model: response.toJSON(), right: this.left } ).render().el);
+
+            this.right = response.toJSON().generalItemId;
         }
     },
     hidebutton: function(response){
@@ -3153,11 +3172,27 @@ window.TimelineView = Backbone.View.extend({
     }
     ,
     render:function () {
+        console.log("render foreach "+this.collection.models.length);
+        var right;
         _.each(this.collection.models, function(response){
             if(!response.toJSON().revoked) {
-                this.$el.prepend(new TimelineItemView({model: response.toJSON()}).render().el);
+                if(response.toJSON().generalItemId != this.right){
+                    if(this.left == true){
+                        this.left =  false;
+                        this.style =  this.style2;
+                    }else{
+                        this.left =  true;
+                        this.style =  this.style1;
+                    }
+                }
+
+                this.$el.prepend(new TimelineItemView({ model: response.toJSON(), right: this.left } ).render().el);
+
+                this.right = response.toJSON().generalItemId;
             }
         }, this);
+
+        //this.collection.reset();
 
         return this;
     }
@@ -3203,42 +3238,44 @@ window.TimelineView = Backbone.View.extend({
 
 window.TimelineItemView = Backbone.View.extend({
     tagName:  "div",
-    //className: "vertical-timeline-block",
     className: "feed-element",
-    initialize:function () {
+    initialize:function (options) {
+        this.right = options.right;
         this.template = _.template(tpl.get('timeline_item'));
         _(this).bindAll('render');
     },
     render:function () {
 
         var _self = this;
-            if (!app.ActivityList.get(_self.model.generalItemId)) {
-                var act = new ActivityUpdate();
-                act.id = _self.model.generalItemId;
-                act.gameId = $.cookie("dojoibl.game");
-                act.fetch({
-                    beforeSend: setHeader,
-                    success: function (a, r) {
-                        app.ActivityList.add(r);
-                        $(_self.el).html(_self.template({
-                            model: _self.model,
-                            author: _self.model.userEmail.split(':')[1],
-                            time: jQuery.timeago(new Date(_self.model.lastModificationDate).toISOString()),
-                            timeDate: new Date(_self.model.lastModificationDate).toLocaleDateString('en-GB'),
-                            activity: r
-                        }));
-                    }
-                });
-            } else {
-                //console.log(app.ActivityList.get(_self.model.generalItemId).toJSON());
-                $(_self.el).html(_self.template({
-                    model: _self.model,
-                    author: _self.model.userEmail.split(':')[1],
-                    time: jQuery.timeago(new Date(_self.model.lastModificationDate).toISOString()),
-                    timeDate: new Date(_self.model.lastModificationDate).toLocaleDateString('en-GB'),
-                    activity: app.ActivityList.get(_self.model.generalItemId).toJSON()
-                }));
-            }
+        if (!app.ActivityList.get(_self.model.generalItemId)) {
+            var act = new ActivityUpdate();
+            act.id = _self.model.generalItemId;
+            act.gameId = $.cookie("dojoibl.game");
+            act.fetch({
+                beforeSend: setHeader,
+                success: function (a, r) {
+                    app.ActivityList.add(r);
+                    $(_self.el).html(_self.template({
+                        model: _self.model,
+                        author: _self.model.userEmail.split(':')[1],
+                        time: jQuery.timeago(new Date(_self.model.lastModificationDate).toISOString()),
+                        timeDate: new Date(_self.model.lastModificationDate).toLocaleDateString('en-GB'),
+                        activity: r,
+                        right: _self.right
+                    }));
+                }
+            });
+        } else {
+            //console.log(app.ActivityList.get(_self.model.generalItemId).toJSON());
+            $(_self.el).html(_self.template({
+                model: _self.model,
+                author: _self.model.userEmail.split(':')[1],
+                time: jQuery.timeago(new Date(_self.model.lastModificationDate).toISOString()),
+                timeDate: new Date(_self.model.lastModificationDate).toLocaleDateString('en-GB'),
+                activity: app.ActivityList.get(_self.model.generalItemId).toJSON(),
+                right: _self.right
+            }));
+        }
         return _self;
     }
 });

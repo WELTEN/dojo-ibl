@@ -8770,3 +8770,15 @@ textarea.form-control{
 #inquiry-content .ibox-content{
   border-width: 0px 0px !important;
 }
+
+.date-timeline-extra{
+  left: auto !important;
+  right: 122%;
+  text-align: right;
+}
+.put-item-timeline-right{
+  float: right;
+}
+.vertical-timeline-content a{
+  text-decoration: underline !important;
+}
