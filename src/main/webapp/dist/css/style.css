@@ -2780,7 +2780,7 @@ a.forum-item-title:hover {
 @media only screen and (min-width: 1170px) {
   .center-orientation .vertical-timeline-content {
     margin-left: 0;
-    padding: 1.6em;
+    padding: 4px 15px;
     width: 45%;
   }
   .center-orientation .vertical-timeline-content::before {
