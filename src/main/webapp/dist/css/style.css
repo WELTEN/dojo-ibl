@@ -8782,3 +8782,14 @@ textarea.form-control{
 .vertical-timeline-content a{
   text-decoration: underline !important;
 }
+.create-question{
+  padding: 2em;
+}
+
+.social-comment .faq-answer .social-comment{
+  margin-left: 0px;
+}
+
+.social-comment .faq-answer .social-comment .social-comment{
+  margin-left: 45px;
+}

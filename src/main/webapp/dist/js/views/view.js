@@ -782,6 +782,9 @@ window.ActivityBulletView = Backbone.View.extend({
             case "org.celstec.arlearn2.beans.generalItem.ScanTag":
                 icon = '<i class="fa fa-file-archive"></i> ';
                 break;
+            case "org.celstec.arlearn2.beans.generalItem.ResearchQuestion":
+                icon = '<i class="fa fa-question"></i> ';
+                break;
         }
 
         $(this.el).html(this.template({ model: this.model, phase: this.phase, icon: icon }));
@@ -809,6 +812,7 @@ window.ResponseListView = Backbone.View.extend({
         this.users = options.users;
         this.game = options.game;
         this.runId = options.run;
+        //console.log("Discussion initialize");
     },
     render: function(){
 
@@ -816,6 +820,8 @@ window.ResponseListView = Backbone.View.extend({
             var res = response.toJSON();
             var aux = response.toJSON().userEmail.split(':');
             var user = this.users.where({ 'localId': aux[1] });
+
+            //console.log("Discussion render");
 
             if(res.parentId != 0){
                 if($("textarea[responseid='"+res.parentId+"']").parent().parent().length == 0){
@@ -827,7 +833,8 @@ window.ResponseListView = Backbone.View.extend({
                     );
                 }
             }else{
-                $(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el).insertBefore($('#list_answers > .social-comment:last-child'));
+                var view = new ResponseView({ model: response.toJSON(), user: user[0] }).render().el;
+                $(view).insertBefore($('#list_answers > .social-comment:last-child'));
             }
         }, this);
 
@@ -835,7 +842,7 @@ window.ResponseListView = Backbone.View.extend({
 
         $('.reply').click(function(e){
 
-            console.log($(this).parent().parent().find(".response").length);
+            //console.log($(this).parent().parent().find(".response").length);
 
             //////////////////////////////////////////////////////////////////
             // Problem here is that we have more .responses now under one div
@@ -874,7 +881,7 @@ window.ResponseListView = Backbone.View.extend({
                     console.error("Id of the response is missing")
                 }
             }else{
-                console.log("remove",$(this).parent().siblings(".social-comment:last"));
+                //console.log("remove",$(this).parent().siblings(".social-comment:last"));
                 $(this).parent().siblings(".social-comment:last").remove();
             }
 
@@ -917,6 +924,130 @@ window.ResponseListView = Backbone.View.extend({
         });
     }
 });
+
+window.ResponseListQuestionsView = Backbone.View.extend({
+    initialize: function(options){
+        _(this).bindAll('render');
+        this.collection.bind('add', this.render);
+        this.users = options.users;
+        this.game = options.game;
+        this.runId = options.run;
+    },
+    render: function(){
+        var number = 0;
+
+        //var styles = {
+        //    visibility : "hidden",
+        //    display: "none"
+        //};
+        //
+        //$(".spiner-example, .sk-spinner .sk-spinner-chasing-dots").css(styles)
+
+        _.each(this.collection.models, function(response){
+            var res = response.toJSON();
+            var aux = response.toJSON().userEmail.split(':');
+            var user = this.users.where({ 'localId': aux[1] });
+
+            //console.log(res);
+
+            if(res.parentId != 0){
+                if($(".faq-answer div[data-item='"+res.parentId+"']").length == 0){
+                    $("div[data-item='"+res.parentId+"'] .faq-answer")
+                        .append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
+                }else{
+                    $("div[data-item='"+res.parentId+"']")
+                        .append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
+                }
+            }else{
+                // Questions that we want to show for now
+                var view = new ResponseQuestionView({ model: response.toJSON(), user: user[0], number: number++ }).render().el;
+                $('#list_answers').prepend(view)
+            }
+        }, this);
+
+        this.collection.reset();
+
+        $('.reply').click(function(e){
+
+            //console.log($(this).parent().parent().find(".response").length);
+
+            if($(this).parent().parent().find(".response").length == 0){
+                if($(this).attr("data")){
+                    var form = new ResponseReplyView({}).render().el;
+
+                    var gItem = $(this).attr("gitem");
+
+                    $(form).find("button.save").attr("responseid", $(this).attr("data"));
+                    $(form).find("textarea.response").attr("responseid", $(this).attr("data"));
+
+                    $(this).parent().parent().append(form);
+
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    // This event should be captured here in order to capture input for future responses
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    $(".save[responseid='"+$(this).attr("data")+"']").click(function(){
+
+                        //console.log($(this).attr("responseid"), $("textarea[responseid='"+$(this).attr("responseid")+"']").val());
+
+                        if  ($("textarea[responseid='"+$(this).attr("responseid")+"']").val() != ""){
+
+                            var newResponse = new Response({ generalItemId: gItem, responseValue: $("textarea[responseid='"+$(this).attr("responseid")+"']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: $(this).attr("responseid") });
+                            newResponse.save({}, {
+                                beforeSend:setHeader,
+                                success: function(r, new_response){
+                                }
+                            });
+                        }
+                        $("textarea[responseid='"+$(this).attr("responseid")+"']").val("");
+                    });
+                }else{
+                    console.error("Id of the response is missing")
+                }
+            }else{
+                //console.log("remove",$(this).parent().siblings(".social-comment:last"));
+                $(this).parent().siblings(".social-comment:last").remove();
+            }
+
+            e.preventDefault();
+        });
+
+        $(".form-control.input-sm.pull-right").keyup(function () {
+            //split the current value of searchInput
+            var data = this.value.split(" ");
+            //create a jquery object of the rows
+            var jo = $("#activity-responses > tbody").find("tr");
+            if (this.value == "") {
+                jo.show();
+                return;
+            }
+            //hide all the rows
+            jo.hide();
+
+            //Recusively filter the jquery object to get results.
+            jo.filter(function (i, v) {
+                var $t = $(this);
+                for (var d = 0; d < data.length; ++d) {
+                    if ($t.is(":contains('" + data[d] + "')")) {
+                        return true;
+                    }
+                }
+                return false;
+            })
+                //show the rows that match.
+                .show();
+        }).focus(function ()
+        {
+            this.value = "";
+            $(this).css({
+                "color": "black"
+            });
+            $(this).unbind('focus');
+        }).css({
+            "color": "#C0C0C0"
+        });
+    }
+});
+
 
 window.ResponseDataCollectionListView = Backbone.View.extend({
     initialize: function(options){
@@ -964,6 +1095,8 @@ window.ResponseView = Backbone.View.extend({
     initialize: function(options) {
         this.template = _.template(tpl.get('response'));
         this.user = options.user;
+        //console.log(1,this.el);
+
     },
     render:function () {
         if(this.model.lastModificationDate == 0){
@@ -971,6 +1104,27 @@ window.ResponseView = Backbone.View.extend({
             $(this.el).append(this.template({ model: this.model, author: this.user.toJSON(), time: "Now" }));
         }else{
             $(this.el).append(this.template({ model: this.model, author: this.user.toJSON(), time: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()) }));
+        }
+        return this;
+    }
+});
+
+window.ResponseQuestionView = Backbone.View.extend({
+    tagName: "div",
+    className: "social-comment",
+    model: Response,
+    initialize: function(options) {
+        this.template = _.template(tpl.get('response_question'));
+        this.user = options.user;
+        this.number = options.number;
+        //console.log(2,this.el);
+    },
+    render:function () {
+        if(this.model.lastModificationDate == 0){
+            $(this.el).find(".username > .text-muted.pull-right").prepend("Now");
+            $(this.el).append(this.template({ model: this.model, author: this.user.toJSON(), time: "Now", number: this.number }));
+        }else{
+            $(this.el).append(this.template({ model: this.model, author: this.user.toJSON(), time: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()), number: this.number }));
         }
         return this;
     }
@@ -990,36 +1144,35 @@ window.ResponseReplyView = Backbone.View.extend({
     }
 });
 
+window.ResponseReplyQuestionView = Backbone.View.extend({
+    tagName: "div",
+    className: "input-group create-question",
+    model: Response,
+    initialize: function() {
+        this.template = _.template(tpl.get('response_reply_question'));
+    },
+    render:function () {
+        $(this.el).append(this.template());
+
+        return this;
+    }
+});
+
 window.ActivityView = Backbone.View.extend({
     initialize:function (xhr) {
         if(xhr.model.type.indexOf("VideoObject") > -1){
-
-            //console.debug("VideoObject");
             this.template = _.template(tpl.get('activity_video'));
-
         }else if(xhr.model.type.indexOf("OpenBadge") > -1) {
-
-            //console.debug("OpenBadge");
             this.template = _.template(tpl.get('activity_widget'));
-
         }else if(xhr.model.type.indexOf("AudioObject") > -1) {
-
             this.template = _.template(tpl.get('activity_html'));
-
-        //}else if(xhr.model.type.indexOf("MultipleChoiceImageTest") > -1) {
-        //
-        //    this.template = _.template(tpl.get('activity_tree_view'));
-
         }else if(xhr.model.type.indexOf("SingleChoiceImageTest") > -1) {
-
             this.template = _.template(tpl.get('activity_concept_map'));
-
         }else if(xhr.model.type.indexOf("ScanTag") > -1) {
-
             this.template = _.template(tpl.get('activity_data_collection'));
-
+        }else if(xhr.model.type.indexOf("ResearchQuestion") > -1) {
+            this.template = _.template(tpl.get('activity_research_question'));
         }else{
-            console.debug("Discussion");
             this.template = _.template(tpl.get('activity_text'));
         }
     },
@@ -1050,6 +1203,7 @@ window.DataCollectionGridItemView = Backbone.View.extend({
 window.ConceptMapView = Backbone.View.extend({
     initialize: function(options){
         this.gItem = options.gItem;
+
     },
     render: function() {
 
@@ -2408,8 +2562,6 @@ window.ConceptMapView = Backbone.View.extend({
 
         if (graph.nodes.length > 1) {
             graph.links.forEach(function (d) {
-                //console.log(graph.nodes[d.source]);
-                console.log(d);
                 d.source = graph.nodes[d.source];
                 d.target = graph.nodes[d.target];
                 var _link = { source: d.source, target: d.target, left: true, right: false, id: d.id };
@@ -2837,6 +2989,15 @@ window.ConceptMapView = Backbone.View.extend({
         d3.select(window)
             .on('keydown', keydown)
             .on('keyup', keyup);
+
+
+        var styles = {
+            visibility : "hidden",
+            display: "none"
+        };
+
+        $(".spiner-example, .sk-spinner .sk-spinner-chasing-dots").css(styles)
+
         restart();
     }
 });

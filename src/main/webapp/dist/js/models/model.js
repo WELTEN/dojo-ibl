@@ -369,10 +369,8 @@ window.TimelineCollection = Backbone.Collection.extend({
     },
     url: function(){
         if(this.resumptionToken){
-            console.log("con token");
             return "/rest/response/runId/"+this.id+"?from="+this.from+"&resumptionToken="+this.resumptionToken+"&orderByLastModificationDate=true";
         }else{
-            console.log("sin token");
             this.from = Math.floor((Date.now() /1000));
             return "/rest/response/runId/"+this.id+"?from="+this.from+"&orderByLastModificationDate=true";
         }

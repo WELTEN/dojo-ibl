@@ -1,11 +1,11 @@
 Backbone.View.prototype.close = function () {
     //console.log('Closing view ', this);
-    if (this.beforeClose) {
-        this.beforeClose();
-    }
     this.undelegateEvents();
     this.remove();
     this.unbind();
+    if (this.onClose) {
+        this.onClose();
+    }
 };
 
 var AppRouter = Backbone.Router.extend({
@@ -350,6 +350,15 @@ var AppRouter = Backbone.Router.extend({
 
                     if(xhr.type.indexOf("SingleChoiceImageTest") > -1) {
                         //var responses = new ResponseCollection();
+                        //app.Response.id = _runId;
+                        //app.Response.itemId = xhr.id;
+                        //app.Response.fetch({
+                        //    beforeSend: setHeader,
+                        //    success: function(response, xhr){
+                        //        new ConceptMapView({ model: xhr }).render().el;
+                        //    }
+                        //});
+
                         app.Response.id = _runId;
                         app.Response.itemId = xhr.id;
                         app.Response.fetch({
@@ -368,18 +377,27 @@ var AppRouter = Backbone.Router.extend({
                             beforeSend: setHeader
                         });
                     }
-                    else{
+                    else if(xhr.type.indexOf("VideoObject") > -1){
                         //app.Responses = new ResponseCollection();
 
-                        if(xhr.type.indexOf("VideoObject") > -1){
+
                             //
                             //}else if(xhr.type.indexOf("OpenBadge") > -1) {
                             //
                             //}else if(xhr.type.indexOf("MultipleChoiceImageTest") > -1) {
                             //    new window.ResponseTreeView({ collection: app.Responses });
-                        }else{
-                            new window.ResponseListView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId });
-                        }
+                        //}else{
+                    }else if(xhr.type.indexOf("ResearchQuestion") > -1) {
+
+                        new window.ResponseListQuestionsView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId });
+                        $('#list_answers').addClass("social-footer");
+                        //$('#list_answers').append(new ResponseReplyQuestionView({}).render().el);
+
+                        //if ($("#list_answers")) {
+                        //    $("#list_answers").close();
+                        //}
+
+                        $(new ResponseReplyQuestionView({}).render().el).insertBefore('#list_answers');
 
                         app.Response.id = _runId;
                         app.Response.itemId = xhr.id;
@@ -387,35 +405,66 @@ var AppRouter = Backbone.Router.extend({
                             beforeSend: setHeader
                         });
 
+                        $(".save[responseid='0']").click(function(){
+                            if  ($("textarea[responseid='0'], input[responseid='0']").val() != ""){
+
+                                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $("textarea[responseid='0'], input[responseid='0']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: 0 });
+                                newResponse.save({}, {
+                                    beforeSend:setHeader,
+                                    success: function(r, new_response){
+                                        //app.showNotification("success", "Discussion thread", "Your comment has been sent");
+                                    }
+                                });
+                            }
+                            $("textarea[responseid='0'], input[responseid='0']").val("");
+                        });
+                    }
+                    else{
+                        new window.ResponseListView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId });
                         $('#list_answers').addClass("social-footer");
                         $('#list_answers').append(new ResponseReplyView({}).render().el);
 
-                        $(".previous-activity").click(function(){
-                            console.log("previous activity");
+                        app.Response.id = _runId;
+                        app.Response.itemId = xhr.id;
+                        app.Response.fetch({
+                            beforeSend: setHeader
                         });
 
-                        $(".next-activity").click(function(){
-                            console.log("next activity");
+                        $(".save[responseid='0']").click(function(){
+                            if  ($("textarea[responseid='0'], input[responseid='0']").val() != ""){
+
+                                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $("textarea[responseid='0'], input[responseid='0']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: 0 });
+                                newResponse.save({}, {
+                                    beforeSend:setHeader,
+                                    success: function(r, new_response){
+                                        //app.showNotification("success", "Discussion thread", "Your comment has been sent");
+                                    }
+                                });
+                            }
+                            $("textarea[responseid='0'], input[responseid='0']").val("");
                         });
+                    }
+
+                        //app.Response.id = _runId;
+                        //app.Response.itemId = xhr.id;
+                        //app.Response.fetch({
+                        //    beforeSend: setHeader
+                        //});
+
+                        //$(".previous-activity").click(function(){
+                        //    console.log("previous activity");
+                        //});
+                        //
+                        //$(".next-activity").click(function(){
+                        //    console.log("next activity");
+                        //});
 
                         ///////////////////////////////////////////////////////////////////////////
                         // This event should be captured outside to manage the comments in the main
                         // discussion thread
                         ///////////////////////////////////////////////////////////////////////////
-                        $(".save[responseid='0']").click(function(){
-                            if  ($("textarea[responseid='0']").val() != ""){
 
-                                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $("textarea[responseid='0']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: 0 });
-                                newResponse.save({}, {
-                                    beforeSend:setHeader,
-                                    success: function(r, new_response){
-                                       //app.showNotification("success", "Discussion thread", "Your comment has been sent");
-                                    }
-                                });
-                            }
-                            $("textarea[responseid='0']").val("");
-                        });
-                    }
+                    //}
                 }
             });
         }, 500);
@@ -1174,13 +1223,13 @@ var AppRouter = Backbone.Router.extend({
         }
     },
     loadTimeline: function(_runId){
-        console.log("muestra timeline "+app.TimeLineList.length);
+        //console.log("muestra timeline "+app.TimeLineList.length);
 
         new TimelineView({ collection: app.TimeLineList }).render().el;
 
         var different = (app.TimeLineList.id == _runId ? false : true);
         if(app.TimeLineList.length == 0 || different){
-            console.log("Nueva consulta para el run "+_runId);
+            //console.log("Nueva consulta para el run "+_runId);
             app.TimeLineList.id = _runId;
             app.TimeLineList.fetch({
                 beforeSend: setHeader
@@ -1188,7 +1237,7 @@ var AppRouter = Backbone.Router.extend({
         }
 
         $(".show-more-responses").click(function(){
-            console.log("Dame mas responses despues del click"+_runId);
+            //console.log("Dame mas responses despues del click"+_runId);
             app.TimeLineList.id = _runId;
             app.TimeLineList.fetch({
                 beforeSend: setHeader
@@ -1295,8 +1344,8 @@ var AppRouter = Backbone.Router.extend({
         }
     },
     createEditButton: function(gameId){
-        console.log($.cookie("dojoibl.localId"));
-        console.log(app.GameAccessList);
+        //console.log($.cookie("dojoibl.localId"));
+        //console.log(app.GameAccessList);
         $(".edit-inquiry").attr("href","#inquiry/edit/"+gameId);
         $(".edit-inquiry").show();
     },
@@ -1413,6 +1462,7 @@ tpl.loadTemplates(['main',
     'message_right',
     'message_own',
     'response',
+    'response_question',
     'response_discussion',
     'response_treeview',
     'response_author',
@@ -1430,6 +1480,7 @@ tpl.loadTemplates(['main',
     'new_inquiry_code',
     'activity_html',
     'response_reply',
+    'response_reply_question',
     'new_inquiry',
     'activity_concept_map',
     'new_activity_new_inquiry',
@@ -1440,7 +1491,8 @@ tpl.loadTemplates(['main',
     'response_grid_item',
     'inquiry_toolbar',
     //'timeline',
-    'timeline_item'
+    'timeline_item',
+    'activity_research_question'
 ], function() {
     app = new AppRouter();
     Backbone.history.start();
