@@ -8786,6 +8786,10 @@ textarea.form-control{
   padding: 2em;
 }
 
+.reply-box{
+  margin: 15px !important;
+}
+
 .social-comment .faq-answer .social-comment{
   margin-left: 0px;
 }

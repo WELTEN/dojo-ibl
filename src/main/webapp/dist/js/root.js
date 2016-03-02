@@ -340,8 +340,9 @@ var AppRouter = Backbone.Router.extend({
                         }
                     }
 
-                    $("#inquiry-content").html(new ActivityView({ model: xhr }).render().el);
+                    //$("#inquiry-content").html(new ActivityView({ model: xhr }).render().el);
 
+                    console.log(xhr.type)
 
                     // Add toolbar
                     app.loadTimeline(_runId);
@@ -355,9 +356,11 @@ var AppRouter = Backbone.Router.extend({
                         //app.Response.fetch({
                         //    beforeSend: setHeader,
                         //    success: function(response, xhr){
-                        //        new ConceptMapView({ model: xhr }).render().el;
+                        //        new ConpeeceptMapView({ model: xhr }).render().el;
                         //    }
                         //});
+
+                        $("#inquiry-content").html(new ActivityView({ model: xhr }).render().el);
 
                         app.Response.id = _runId;
                         app.Response.itemId = xhr.id;
@@ -371,15 +374,33 @@ var AppRouter = Backbone.Router.extend({
                         console.log("Data collection");
                         new window.ResponseDataCollectionListView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId });
 
-                        app.Response.id = _runId;
-                        app.Response.itemId = xhr.id;
-                        app.Response.fetch({
-                            beforeSend: setHeader
-                        });
+                        //if(app.Response.itemId != xhr.id) {
+                            app.Response.id = _runId;
+                            app.Response.itemId = xhr.id;
+                            app.Response.fetch({
+                                beforeSend: setHeader
+                            });
+                        //}
                     }
                     else if(xhr.type.indexOf("VideoObject") > -1){
                         //app.Responses = new ResponseCollection();
 
+                        console.log(xhr);
+
+                        app.Response.id = _runId;
+                        app.Response.itemId = xhr.id;
+
+                        var view = new window.VideoActivityView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId, model: xhr });
+
+                        app.showView("#inquiry-content",view);
+                        $('#list_answers').addClass("social-footer");
+                        $('#list_answers').after(new ResponseReplyView({}).render().el);
+                        //if(app.Response.itemId != xhr.id){
+
+                        app.Response.fetch({
+                            beforeSend: setHeader,
+                            reset: true
+                        });
 
                             //
                             //}else if(xhr.type.indexOf("OpenBadge") > -1) {
@@ -389,20 +410,18 @@ var AppRouter = Backbone.Router.extend({
                         //}else{
                     }else if(xhr.type.indexOf("ResearchQuestion") > -1) {
 
-                        new window.ResponseListQuestionsView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId });
-                        $('#list_answers').addClass("social-footer");
-                        //$('#list_answers').append(new ResponseReplyQuestionView({}).render().el);
-
-                        //if ($("#list_answers")) {
-                        //    $("#list_answers").close();
-                        //}
-
-                        $(new ResponseReplyQuestionView({}).render().el).insertBefore('#list_answers');
-
                         app.Response.id = _runId;
                         app.Response.itemId = xhr.id;
+
+                        var view = new window.ResponseListQuestionsView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId, model: xhr });
+
+                        app.showView("#inquiry-content",view);
+                        $('#list_answers').addClass("social-footer");
+                        $(new ResponseReplyQuestionView({}).render().el).insertBefore('#list_answers');
+
                         app.Response.fetch({
-                            beforeSend: setHeader
+                            beforeSend: setHeader,
+                            reset: true
                         });
 
                         $(".save[responseid='0']").click(function(){
@@ -420,15 +439,24 @@ var AppRouter = Backbone.Router.extend({
                         });
                     }
                     else{
-                        new window.ResponseListView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId });
-                        $('#list_answers').addClass("social-footer");
-                        $('#list_answers').append(new ResponseReplyView({}).render().el);
 
                         app.Response.id = _runId;
                         app.Response.itemId = xhr.id;
+
+                        var view = new window.ResponseListView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId, model: xhr });
+
+                        app.showView("#inquiry-content",view);
+                        $('#list_answers').addClass("social-footer");
+                        $('#list_answers').after(new ResponseReplyView({}).render().el);
+                        //if(app.Response.itemId != xhr.id){
+
                         app.Response.fetch({
-                            beforeSend: setHeader
+                            beforeSend: setHeader,
+                            reset: true
                         });
+
+                        //}
+
 
                         $(".save[responseid='0']").click(function(){
                             if  ($("textarea[responseid='0'], input[responseid='0']").val() != ""){
@@ -444,27 +472,6 @@ var AppRouter = Backbone.Router.extend({
                             $("textarea[responseid='0'], input[responseid='0']").val("");
                         });
                     }
-
-                        //app.Response.id = _runId;
-                        //app.Response.itemId = xhr.id;
-                        //app.Response.fetch({
-                        //    beforeSend: setHeader
-                        //});
-
-                        //$(".previous-activity").click(function(){
-                        //    console.log("previous activity");
-                        //});
-                        //
-                        //$(".next-activity").click(function(){
-                        //    console.log("next activity");
-                        //});
-
-                        ///////////////////////////////////////////////////////////////////////////
-                        // This event should be captured outside to manage the comments in the main
-                        // discussion thread
-                        ///////////////////////////////////////////////////////////////////////////
-
-                    //}
                 }
             });
         }, 500);
@@ -1313,7 +1320,7 @@ var AppRouter = Backbone.Router.extend({
         //$('.default-hint').show();
     },
     common: function(callback) {
-        //if(app.UsersList.get($.cookie("dojoibl.localId"))) {
+        if($("li.dropdown.user.user-menu").length ==0) {
             app.UsersList.fetch({
                 beforeSend: setHeader,
                 success: function (response, xhr) {
@@ -1330,7 +1337,7 @@ var AppRouter = Backbone.Router.extend({
                     $.cookie("dojoibl.localId", xhr.localId, {expires: date, path: "/"});
                 }
             });
-        //}
+        }
     },
     loadInquiryUsers: function(id){
         if(!this.InquiryUsers){

@@ -806,39 +806,52 @@ window.ItemBreadcrumbView = Backbone.View.extend({
 
 // Responses
 window.ResponseListView = Backbone.View.extend({
+    className: "tabs-container",
+    tagName: "div",
     initialize: function(options){
-        _(this).bindAll('render');
-        this.collection.bind('add', this.render);
+
         this.users = options.users;
         this.game = options.game;
         this.runId = options.run;
-        //console.log("Discussion initialize");
+
+        this.template = _.template(tpl.get('activity_text'));
+
+        this.collection.on('add', this.addOne, this);
+        this.collection.on('reset', this.addAll, this);
+
+        this.childViews = [];
+    },
+    addAll: function(){
+
+        this.collection.forEach(this.addOne, this);
+    },
+    addOne: function(response){
+        var res = response.toJSON();
+        var aux = response.toJSON().userEmail.split(':');
+        var user = this.users.where({ 'localId': aux[1] });
+
+        if(res.parentId != 0){
+
+            var childView = new ResponseView({ model: response.toJSON(), user: user[0] });
+            this.childViews.push(childView);
+            childView = childView.render().el;
+
+            if($("textarea[responseid='"+res.parentId+"']").parent().parent().length == 0){
+                $("div[data-item='"+res.parentId+"']").parent().append(childView);
+            }else{
+                $(childView).insertBefore($("textarea[responseid='"+res.parentId+"']").parent().parent());
+            }
+            this.childViews.push(childView);
+        }else{
+            var view = new ResponseView({ model: response.toJSON(), user: user[0] });
+            this.childViews.push(view);
+            view = view.render().el;
+            this.$el.find('#list_answers').append(view);
+        }
     },
     render: function(){
 
-        _.each(this.collection.models, function(response){
-            var res = response.toJSON();
-            var aux = response.toJSON().userEmail.split(':');
-            var user = this.users.where({ 'localId': aux[1] });
-
-            //console.log("Discussion render");
-
-            if(res.parentId != 0){
-                if($("textarea[responseid='"+res.parentId+"']").parent().parent().length == 0){
-                    $("div[data-item='"+res.parentId+"']").parent()
-                        .append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
-                }else{
-                    $(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el).insertBefore(
-                        $("textarea[responseid='"+res.parentId+"']").parent().parent()
-                    );
-                }
-            }else{
-                var view = new ResponseView({ model: response.toJSON(), user: user[0] }).render().el;
-                $(view).insertBefore($('#list_answers > .social-comment:last-child'));
-            }
-        }, this);
-
-        this.collection.reset();
+        this.$el.html(this.template(this.model));
 
         $('.reply').click(function(e){
 
@@ -922,55 +935,78 @@ window.ResponseListView = Backbone.View.extend({
         }).css({
             "color": "#C0C0C0"
         });
+
+        return this;
+    },
+    onClose: function(){
+        this.remove();
+        this.unbind();
+        this.collection.unbind("add", this.addOne);
+
+        // handle other unbinding needs, here
+        _.each(this.childViews, function(childView){
+            if (childView.close){
+                childView.close();
+            }
+        })
     }
 });
 
 window.ResponseListQuestionsView = Backbone.View.extend({
+    className: "tabs-container",
+    tagName: "div",
     initialize: function(options){
-        _(this).bindAll('render');
-        this.collection.bind('add', this.render);
+
         this.users = options.users;
         this.game = options.game;
         this.runId = options.run;
+
+        this.template = _.template(tpl.get('activity_research_question'));
+
+        this.collection.on('add', this.addOne, this);
+        this.collection.on('reset', this.addAll, this);
+
+        this.number = 0;
+        this.childViews = [];
+
+    },
+    addAll: function(){
+        this.collection.forEach(this.addOne, this);
+    },
+    addOne: function(response){
+        var res = response.toJSON();
+        var aux = response.toJSON().userEmail.split(':');
+        var user = this.users.where({ 'localId': aux[1] });
+
+        if(res.parentId != 0){
+            var childView = new ResponseView({ model: response.toJSON(), user: user[0] });
+            this.childViews.push(childView);
+            childView.render().el;
+            if($("textarea[responseid='"+res.parentId+"']").parent().parent().length == 0){
+                $("div[data-item='"+res.parentId+"']").parent().append(childView);
+            }else{
+                $(childView).insertBefore($("textarea[responseid='"+res.parentId+"']").parent().parent());
+            }
+        }else{
+            var view = new ResponseQuestionView({ model: response.toJSON(), user: user[0], number: this.number++ });
+            this.childViews.push(view);
+            view = view.render().el;
+            this.$el.find('#list_answers').prepend(view);
+        }
     },
     render: function(){
-        var number = 0;
 
-        //var styles = {
-        //    visibility : "hidden",
-        //    display: "none"
-        //};
-        //
-        //$(".spiner-example, .sk-spinner .sk-spinner-chasing-dots").css(styles)
+        this.$el.html(this.template(this.model));
 
-        _.each(this.collection.models, function(response){
-            var res = response.toJSON();
-            var aux = response.toJSON().userEmail.split(':');
-            var user = this.users.where({ 'localId': aux[1] });
-
-            //console.log(res);
-
-            if(res.parentId != 0){
-                if($(".faq-answer div[data-item='"+res.parentId+"']").length == 0){
-                    $("div[data-item='"+res.parentId+"'] .faq-answer")
-                        .append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
-                }else{
-                    $("div[data-item='"+res.parentId+"']")
-                        .append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
-                }
-            }else{
-                // Questions that we want to show for now
-                var view = new ResponseQuestionView({ model: response.toJSON(), user: user[0], number: number++ }).render().el;
-                $('#list_answers').prepend(view)
-            }
-        }, this);
-
-        this.collection.reset();
 
         $('.reply').click(function(e){
 
             //console.log($(this).parent().parent().find(".response").length);
 
+            //////////////////////////////////////////////////////////////////
+            // Problem here is that we have more .responses now under one div
+            // todo make it better
+            /////////////////////////////////////////////////////////////////
             if($(this).parent().parent().find(".response").length == 0){
                 if($(this).attr("data")){
                     var form = new ResponseReplyView({}).render().el;
@@ -987,7 +1023,7 @@ window.ResponseListQuestionsView = Backbone.View.extend({
                     ////////////////////////////////////////////////////////////////////////////////////
                     $(".save[responseid='"+$(this).attr("data")+"']").click(function(){
 
-                        //console.log($(this).attr("responseid"), $("textarea[responseid='"+$(this).attr("responseid")+"']").val());
+                        console.log($(this).attr("responseid"), $("textarea[responseid='"+$(this).attr("responseid")+"']").val());
 
                         if  ($("textarea[responseid='"+$(this).attr("responseid")+"']").val() != ""){
 
@@ -1045,9 +1081,301 @@ window.ResponseListQuestionsView = Backbone.View.extend({
         }).css({
             "color": "#C0C0C0"
         });
+
+        return this;
+    },
+    onClose: function(){
+        this.remove();
+        this.unbind();
+        this.collection.unbind("add", this.addOne);
+
+        // handle other unbinding needs, here
+        _.each(this.childViews, function(childView){
+            if (childView.close){
+                childView.close();
+            }
+        })
     }
 });
 
+window.VideoActivityView = Backbone.View.extend({
+    className: "tabs-container",
+    tagName: "div",
+    initialize: function(options){
+
+        this.users = options.users;
+        this.game = options.game;
+        this.runId = options.run;
+
+        this.template = _.template(tpl.get('activity_video'));
+
+        this.collection.on('add', this.addOne, this);
+        this.collection.on('reset', this.addAll, this);
+
+        this.childViews = [];
+    },
+    addAll: function(){
+
+        this.collection.forEach(this.addOne, this);
+    },
+    addOne: function(response){
+        var res = response.toJSON();
+        var aux = response.toJSON().userEmail.split(':');
+        var user = this.users.where({ 'localId': aux[1] });
+
+        if(res.parentId != 0){
+
+            var childView = new ResponseView({ model: response.toJSON(), user: user[0] });
+            this.childViews.push(childView);
+            childView = childView.render().el;
+
+            if($("textarea[responseid='"+res.parentId+"']").parent().parent().length == 0){
+                $("div[data-item='"+res.parentId+"']").parent().append(childView);
+            }else{
+                $(childView).insertBefore($("textarea[responseid='"+res.parentId+"']").parent().parent());
+            }
+            this.childViews.push(childView);
+        }else{
+            var view = new ResponseView({ model: response.toJSON(), user: user[0] });
+            this.childViews.push(view);
+            view = view.render().el;
+            this.$el.find('#list_answers').append(view);
+        }
+    },
+    render: function(){
+
+        this.$el.html(this.template(this.model));
+
+        $('.reply').click(function(e){
+
+            //console.log($(this).parent().parent().find(".response").length);
+
+            //////////////////////////////////////////////////////////////////
+            // Problem here is that we have more .responses now under one div
+            // todo make it better
+            /////////////////////////////////////////////////////////////////
+            if($(this).parent().parent().find(".response").length == 0){
+                if($(this).attr("data")){
+                    var form = new ResponseReplyView({}).render().el;
+
+                    var gItem = $(this).attr("gitem");
+
+                    $(form).find("button.save").attr("responseid", $(this).attr("data"));
+                    $(form).find("textarea.response").attr("responseid", $(this).attr("data"));
+
+                    $(this).parent().parent().append(form);
+
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    // This event should be captured here in order to capture input for future responses
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    $(".save[responseid='"+$(this).attr("data")+"']").click(function(){
+
+                        console.log($(this).attr("responseid"), $("textarea[responseid='"+$(this).attr("responseid")+"']").val());
+
+                        if  ($("textarea[responseid='"+$(this).attr("responseid")+"']").val() != ""){
+
+                            var newResponse = new Response({ generalItemId: gItem, responseValue: $("textarea[responseid='"+$(this).attr("responseid")+"']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: $(this).attr("responseid") });
+                            newResponse.save({}, {
+                                beforeSend:setHeader,
+                                success: function(r, new_response){
+                                }
+                            });
+                        }
+                        $("textarea[responseid='"+$(this).attr("responseid")+"']").val("");
+                    });
+                }else{
+                    console.error("Id of the response is missing")
+                }
+            }else{
+                //console.log("remove",$(this).parent().siblings(".social-comment:last"));
+                $(this).parent().siblings(".social-comment:last").remove();
+            }
+
+            e.preventDefault();
+        });
+
+        $(".form-control.input-sm.pull-right").keyup(function () {
+            //split the current value of searchInput
+            var data = this.value.split(" ");
+            //create a jquery object of the rows
+            var jo = $("#activity-responses > tbody").find("tr");
+            if (this.value == "") {
+                jo.show();
+                return;
+            }
+            //hide all the rows
+            jo.hide();
+
+            //Recusively filter the jquery object to get results.
+            jo.filter(function (i, v) {
+                var $t = $(this);
+                for (var d = 0; d < data.length; ++d) {
+                    if ($t.is(":contains('" + data[d] + "')")) {
+                        return true;
+                    }
+                }
+                return false;
+            })
+                //show the rows that match.
+                .show();
+        }).focus(function ()
+        {
+            this.value = "";
+            $(this).css({
+                "color": "black"
+            });
+            $(this).unbind('focus');
+        }).css({
+            "color": "#C0C0C0"
+        });
+
+        return this;
+    },
+    onClose: function(){
+        this.remove();
+        this.unbind();
+        this.collection.unbind("add", this.addOne);
+
+        // handle other unbinding needs, here
+        _.each(this.childViews, function(childView){
+            if (childView.close){
+                childView.close();
+            }
+        })
+    }
+});
+
+
+////
+//window.ResponseListQuestionsView = Backbone.View.extend({
+//    initialize: function(options){
+//        _(this).bindAll('render');
+//        this.collection.bind('add', this.render);
+//        this.users = options.users;
+//        this.game = options.game;
+//        this.runId = options.run;
+//
+//        //this.collection.on('add', function(){
+//        //    console.log("add");
+//        //});
+//        //this.collection.on('reset', function(){
+//        //    console.log("reset")
+//        //});
+//    },
+//    render: function(){
+//        var number = 0;
+//
+//        //var styles = {
+//        //    visibility : "hidden",
+//        //    display: "none"
+//        //};
+//        //
+//        //$(".spiner-example, .sk-spinner .sk-spinner-chasing-dots").css(styles)
+//
+//        _.each(this.collection.models, function(response){
+//            var res = response.toJSON();
+//            var aux = response.toJSON().userEmail.split(':');
+//            var user = this.users.where({ 'localId': aux[1] });
+//
+//            //console.log(res);
+//
+//            if(res.parentId != 0){
+//                if($(".faq-answer div[data-item='"+res.parentId+"']").length == 0){
+//                    $("div[data-item='"+res.parentId+"'] .faq-answer")
+//                        .append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
+//                }else{
+//                    $("div[data-item='"+res.parentId+"']")
+//                        .append(new ResponseView({ model: response.toJSON(), user: user[0] }).render().el);
+//                }
+//            }else{
+//                // Questions that we want to show for now
+//                var view = new ResponseQuestionView({ model: response.toJSON(), user: user[0], number: number++ }).render().el;
+//                $('#list_answers').prepend(view)
+//            }
+//        }, this);
+//
+//        this.collection.reset();
+//
+//        $('.reply').click(function(e){
+//
+//            //console.log($(this).parent().parent().find(".response").length);
+//
+//            if($(this).parent().parent().find(".response").length == 0){
+//                if($(this).attr("data")){
+//                    var form = new ResponseReplyView({}).render().el;
+//
+//                    var gItem = $(this).attr("gitem");
+//
+//                    $(form).find("button.save").attr("responseid", $(this).attr("data"));
+//                    $(form).find("textarea.response").attr("responseid", $(this).attr("data"));
+//
+//                    $(this).parent().parent().append(form);
+//
+//                    ////////////////////////////////////////////////////////////////////////////////////
+//                    // This event should be captured here in order to capture input for future responses
+//                    ////////////////////////////////////////////////////////////////////////////////////
+//                    $(".save[responseid='"+$(this).attr("data")+"']").click(function(){
+//
+//                        //console.log($(this).attr("responseid"), $("textarea[responseid='"+$(this).attr("responseid")+"']").val());
+//
+//                        if  ($("textarea[responseid='"+$(this).attr("responseid")+"']").val() != ""){
+//
+//                            var newResponse = new Response({ generalItemId: gItem, responseValue: $("textarea[responseid='"+$(this).attr("responseid")+"']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: $(this).attr("responseid") });
+//                            newResponse.save({}, {
+//                                beforeSend:setHeader,
+//                                success: function(r, new_response){
+//                                }
+//                            });
+//                        }
+//                        $("textarea[responseid='"+$(this).attr("responseid")+"']").val("");
+//                    });
+//                }else{
+//                    console.error("Id of the response is missing")
+//                }
+//            }else{
+//                //console.log("remove",$(this).parent().siblings(".social-comment:last"));
+//                $(this).parent().siblings(".social-comment:last").remove();
+//            }
+//
+//            e.preventDefault();
+//        });
+//
+//        $(".form-control.input-sm.pull-right").keyup(function () {
+//            //split the current value of searchInput
+//            var data = this.value.split(" ");
+//            //create a jquery object of the rows
+//            var jo = $("#activity-responses > tbody").find("tr");
+//            if (this.value == "") {
+//                jo.show();
+//                return;
+//            }
+//            //hide all the rows
+//            jo.hide();
+//
+//            //Recusively filter the jquery object to get results.
+//            jo.filter(function (i, v) {
+//                var $t = $(this);
+//                for (var d = 0; d < data.length; ++d) {
+//                    if ($t.is(":contains('" + data[d] + "')")) {
+//                        return true;
+//                    }
+//                }
+//                return false;
+//            })
+//                //show the rows that match.
+//                .show();
+//        }).focus(function ()
+//        {
+//            this.value = "";
+//            $(this).css({
+//                "color": "black"
+//            });
+//            $(this).unbind('focus');
+//        }).css({
+//            "color": "#C0C0C0"
+//        });
+//    }
+//});
 
 window.ResponseDataCollectionListView = Backbone.View.extend({
     initialize: function(options){
@@ -1096,7 +1424,6 @@ window.ResponseView = Backbone.View.extend({
         this.template = _.template(tpl.get('response'));
         this.user = options.user;
         //console.log(1,this.el);
-
     },
     render:function () {
         if(this.model.lastModificationDate == 0){
@@ -1106,6 +1433,12 @@ window.ResponseView = Backbone.View.extend({
             $(this.el).append(this.template({ model: this.model, author: this.user.toJSON(), time: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()) }));
         }
         return this;
+    },
+    onclose: function(){
+        console.log("close child")
+        this.undelegateEvents();
+        this.remove();
+        this.unbind();
     }
 });
 
@@ -1127,12 +1460,18 @@ window.ResponseQuestionView = Backbone.View.extend({
             $(this.el).append(this.template({ model: this.model, author: this.user.toJSON(), time: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()), number: this.number }));
         }
         return this;
+    },
+    onclose: function(){
+        console.log("close child")
+        this.undelegateEvents();
+        this.remove();
+        this.unbind();
     }
 });
 
 window.ResponseReplyView = Backbone.View.extend({
     tagName: "div",
-    className: "social-comment",
+    className: "social-comment reply-box",
     model: Response,
     initialize: function() {
         this.template = _.template(tpl.get('response_reply'));
@@ -1173,7 +1512,7 @@ window.ActivityView = Backbone.View.extend({
         }else if(xhr.model.type.indexOf("ResearchQuestion") > -1) {
             this.template = _.template(tpl.get('activity_research_question'));
         }else{
-            this.template = _.template(tpl.get('activity_text'));
+            //this.template = _.template(tpl.get('activity_text'));
         }
     },
     render:function () {

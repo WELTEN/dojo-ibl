@@ -339,10 +339,6 @@ window.ActivityCollection = Backbone.Collection.extend({
 window.ResponseCollection = Backbone.Collection.extend({
     model: Response,
     initialize: function(a){
-        this.on('all', function(e){
-            //console.debug("there was a change in collection", e);
-        });
-
     },
     parse: function(response){
         return   response.responses;
@@ -350,8 +346,8 @@ window.ResponseCollection = Backbone.Collection.extend({
     url: function(){
         return "/rest/response/runId/"+this.id+"/itemId/"+this.itemId;
     },
-    comparator: function(item) {
-        return item.get('lastModificationDate');
+    comparator: function(todo1) {
+        return todo1.get('lastModificationDate');
     }
 });
 
