@@ -980,18 +980,13 @@ window.ResponseListQuestionsView = Backbone.View.extend({
         var aux = response.toJSON().userEmail.split(':');
         var user = this.users.where({ 'localId': aux[1] });
 
-
         if(res.parentId != 0){
             var childView = new ResponseView({ model: response.toJSON(), user: user[0] });
             this.childViews.push(childView);
             childView.render();
             if($(".faq-item[data-item='"+res.parentId+"']").length == 0){
-                console.log(1);
-
                 $(childView.el).insertAfter("div[data-item='"+res.parentId+"']")
             }else{
-
-                console.log(childView.el);
                 $(".faq-item[data-item='"+res.parentId+"'").find(".faq-answer").append(childView.el);
             }
         }else{
@@ -1020,11 +1015,7 @@ window.ResponseListQuestionsView = Backbone.View.extend({
 
         this.$el.html(this.template(this.model));
 
-
-
         $('.reply').click(function(e){
-
-            //console.log($(this).parent().parent().find(".response").length);
 
             //////////////////////////////////////////////////////////////////
             // Problem here is that we have more .responses now under one div
@@ -2392,87 +2383,9 @@ window.InquiryToolbarView = Backbone.View.extend({
 });
 
 // Timeline
-window.TimelineView = Backbone.View.extend({
-    el:  "#vertical-timeline",
-    initialize:function (options) {
-
-        _(this).bindAll('render');
-        _(this).bindAll('hidebutton');
-        _(this).bindAll('add');
-        this.collection.bind('add', this.add);
-        this.collection.bind('add', this.hidebutton);
-
-        this.left = true;
-        this.style = "float: left";
-        this.style1 = "float: right";
-        this.style2 = "float: left";
-        this.right = "";
-
-    },
-    add: function(response){
-        if(!response.toJSON().revoked){
-
-            if(response.toJSON().generalItemId != this.right){
-                if(this.left == true){
-                    this.left =  false;
-                    this.style =  this.style2;
-                }else{
-                    this.left =  true;
-                    this.style =  this.style1;
-                }
-            }
-
-            this.$el.append(new TimelineItemView({ model: response.toJSON(), right: this.left } ).render().el);
-
-            this.right = response.toJSON().generalItemId;
-        }
-    },
-    hidebutton: function(response){
-      if(!this.collection.resumptionToken){
-        $(".show-more-responses").hide();
-      }
-    }
-    ,
-    render:function () {
-        //console.log("render foreach "+this.collection.models.length);
-        //if(this.collection.models.length == 0){
-        //    this.$el.html('<div class="alert alert-warning">' +
-        //    'The timeline is empty. Be the first contributing to this inquiry to see some activities here.' +
-        //    '</div>')
-        //    $("#vertical-timeline::before").css('background', '#fff');
-        //}else{
-            var right;
-            _.each(this.collection.models, function(response){
-                if(!response.toJSON().revoked) {
-                    if(response.toJSON().generalItemId != this.right){
-                        if(this.left == true){
-                            this.left =  false;
-                            this.style =  this.style2;
-                        }else{
-                            this.left =  true;
-                            this.style =  this.style1;
-                        }
-                    }
-
-                    this.$el.prepend(new TimelineItemView({ model: response.toJSON(), right: this.left } ).render().el);
-
-                    this.right = response.toJSON().generalItemId;
-                }
-            }, this);
-        //}
-
-        //this.collection.reset();
-
-        return this;
-    }
-});
-//
-//// Timeline
 //window.TimelineView = Backbone.View.extend({
-//    tagName:  "div",
-//    className: "ibox float-e-margins",
+//    el:  "#vertical-timeline",
 //    initialize:function (options) {
-//        this.template = _.template(tpl.get('timeline'));
 //
 //        _(this).bindAll('render');
 //        _(this).bindAll('hidebutton');
@@ -2480,11 +2393,31 @@ window.TimelineView = Backbone.View.extend({
 //        this.collection.bind('add', this.add);
 //        this.collection.bind('add', this.hidebutton);
 //
+//        this.left = true;
+//        this.style = "float: left";
+//        this.style1 = "float: right";
+//        this.style2 = "float: left";
+//        this.right = "";
+//
 //    },
 //    add: function(response){
-//        if(!response.toJSON().revoked){
-//            $(this.el).find("#vertical-timeline").append(new TimelineItemView({ model: response.toJSON()} ).render().el);
-//        }
+//        console.log(response.toJSON());
+//        //if(!response.toJSON().revoked){
+//
+//            if(response.toJSON().generalItemId != this.right){
+//                if(this.left == true){
+//                    this.left =  false;
+//                    this.style =  this.style2;
+//                }else{
+//                    this.left =  true;
+//                    this.style =  this.style1;
+//                }
+//            }
+//
+//            this.$el.append(new TimelineItemView({ model: response.toJSON(), right: this.left } ).render().el);
+//
+//            this.right = response.toJSON().generalItemId;
+//        //}
 //    },
 //    hidebutton: function(response){
 //      if(!this.collection.resumptionToken){
@@ -2493,17 +2426,107 @@ window.TimelineView = Backbone.View.extend({
 //    }
 //    ,
 //    render:function () {
-//        $(this.el).html(this.template);
+//        //console.log("render foreach "+this.collection.models.length);
+//        //if(this.collection.models.length == 0){
+//        //    this.$el.html('<div class="alert alert-warning">' +
+//        //    'The timeline is empty. Be the first contributing to this inquiry to see some activities here.' +
+//        //    '</div>')
+//        //    $("#vertical-timeline::before").css('background', '#fff');
+//        //}else{
+//            var right;
+//            _.each(this.collection.models, function(response){
+//                if(!response.toJSON().revoked) {
+//                    if(response.toJSON().generalItemId != this.right){
+//                        if(this.left == true){
+//                            this.left =  false;
+//                            this.style =  this.style2;
+//                        }else{
+//                            this.left =  true;
+//                            this.style =  this.style1;
+//                        }
+//                    }
 //
-//        _.each(this.collection.models, function(response){
-//            if(!response.toJSON().revoked) {
-//                $(this.el).find("#vertical-timeline").append(new TimelineItemView({model: response.toJSON()}).render().el);
-//            }
-//        }, this);
+//                    this.$el.prepend(new TimelineItemView({ model: response.toJSON(), right: this.left } ).render().el);
+//
+//                    this.right = response.toJSON().generalItemId;
+//                }
+//            }, this);
+//        //}
+//
+//        //this.collection.reset();
 //
 //        return this;
 //    }
 //});
+
+// Responses
+window.TimelineView = Backbone.View.extend({
+    el: "#vertical-timeline",
+    initialize: function(options){
+
+        this.collection.on('add', this.addOne, this);
+        this.collection.on('add', this.hidebutton, this);
+        this.collection.on('reset', this.addAll, this);
+
+        this.childViews = [];
+
+        this.left = true;
+        this.style = "float: left";
+        this.style1 = "float: right";
+        this.style2 = "float: left";
+        this.right = "";
+
+    },
+    addAll: function(){
+        console.log("Dsdssd")
+        this.collection.forEach(this.addOne, this);
+    },
+    hidebutton: function(response){
+        if(!this.collection.resumptionToken){
+            $(".show-more-responses").hide();
+        }
+    },
+    addOne: function(response){
+        console.log("anade 1 a 1")
+        if(response.toJSON().generalItemId != this.right){
+            if(this.left == true){
+                this.left =  false;
+                this.style =  this.style2;
+            }else{
+                this.left =  true;
+                this.style =  this.style1;
+            }
+        }
+        var childView = new TimelineItemView({ model: response.toJSON(), right: this.left } );
+
+        this.childViews.push(childView);
+
+        childView = childView.render();
+
+        this.$el.append(childView.el);
+
+        this.right = response.toJSON().generalItemId;
+    },
+    render: function(){
+
+        this.addAll();
+        return this;
+    },
+    onClose: function(){
+        this.remove();
+        this.unbind();
+        this.collection.unbind("add", this.addOne);
+
+        console.log("remove timelineview");
+
+        // handle other unbinding needs, here
+        _.each(this.childViews, function(childView){
+            if (childView.close){
+                childView.close();
+            }
+        })
+    }
+});
 
 window.TimelineItemView = Backbone.View.extend({
     tagName:  "div",
@@ -2546,5 +2569,11 @@ window.TimelineItemView = Backbone.View.extend({
             }));
         }
         return _self;
+    },
+    onclose: function(){
+        console.log("close child")
+        this.undelegateEvents();
+        this.remove();
+        this.unbind();
     }
 });

@@ -1,5 +1,5 @@
 Backbone.View.prototype.close = function () {
-    //console.log('Closing view ', this);
+    console.log('Closing view ', this);
     this.undelegateEvents();
     this.remove();
     this.unbind();
@@ -175,8 +175,6 @@ var AppRouter = Backbone.Router.extend({
 
                 $('.row.inquiry').html(new InquiryView({ model: results }).render().el);
 
-
-
                 if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
 
                     if($(".col-lg-3.wrapper.wrapper-content.small-chat-float").length == 0){
@@ -186,11 +184,7 @@ var AppRouter = Backbone.Router.extend({
                     }
                 }
 
-
-
                 $(".knob").knob();
-
-                //app.loadChat(_runId);
 
                 app.loadTimeline(_runId);
             }
@@ -344,9 +338,6 @@ var AppRouter = Backbone.Router.extend({
 
                     console.log(xhr.type)
 
-                    // Add toolbar
-                    app.loadTimeline(_runId);
-
                     $(".knob").knob();
 
                     if(xhr.type.indexOf("SingleChoiceImageTest") > -1) {
@@ -411,8 +402,10 @@ var AppRouter = Backbone.Router.extend({
 
                         var view = new window.ResponseListQuestionsView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId, model: xhr });
 
+
                         app.showView("#inquiry-content",view);
                         $('#list_answers').addClass("social-footer");
+
 
                         app.Response.fetch({
                             beforeSend: setHeader,
@@ -431,18 +424,22 @@ var AppRouter = Backbone.Router.extend({
                         $('#list_answers').after(new ResponseReplyView({}).render().el);
                         //if(app.Response.itemId != xhr.id){
 
+                        console.log($("#vertical-timeline").html())
+
+                        app.loadTimeline(_runId);
+
+
                         app.Response.fetch({
                             beforeSend: setHeader,
                             reset: true
                         });
 
-                        //}
 
 
                         $(".save[responseid='0']").click(function(){
                             if  ($("textarea[responseid='0'], input[responseid='0']").val() != ""){
 
-                                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $("textarea[responseid='0'], input[responseid='0']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: 0 });
+                                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $("textarea[responseid='0'], input[responseid='0']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: 0, lastModificationDate: Date.now()  });
                                 newResponse.save({}, {
                                     beforeSend:setHeader,
                                     success: function(r, new_response){
@@ -453,6 +450,10 @@ var AppRouter = Backbone.Router.extend({
                             $("textarea[responseid='0'], input[responseid='0']").val("");
                         });
                     }
+
+
+                    // Add toolbar
+                    //app.loadTimeline(_runId);
                 }
             });
         }, 500);
@@ -1214,13 +1215,13 @@ var AppRouter = Backbone.Router.extend({
         }
     },
     loadTimeline: function(_runId){
-        //console.log("muestra timeline "+app.TimeLineList.length);
+        console.log("muestra timeline "+app.TimeLineList.length);
 
         new TimelineView({ collection: app.TimeLineList }).render().el;
 
         var different = (app.TimeLineList.id == _runId ? false : true);
         if(app.TimeLineList.length == 0 || different){
-            //console.log("Nueva consulta para el run "+_runId);
+            console.log("Nueva consulta para el run "+_runId);
             app.TimeLineList.id = _runId;
             app.TimeLineList.fetch({
                 beforeSend: setHeader
@@ -1228,7 +1229,7 @@ var AppRouter = Backbone.Router.extend({
         }
 
         $(".show-more-responses").click(function(){
-            //console.log("Dame mas responses despues del click"+_runId);
+            console.log("Dame mas responses despues del click"+_runId);
             app.TimeLineList.id = _runId;
             app.TimeLineList.fetch({
                 beforeSend: setHeader
