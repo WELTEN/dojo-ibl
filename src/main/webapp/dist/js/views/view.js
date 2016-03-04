@@ -972,31 +972,54 @@ window.ResponseListQuestionsView = Backbone.View.extend({
     },
     addAll: function(){
         this.collection.forEach(this.addOne, this);
+
+
     },
     addOne: function(response){
         var res = response.toJSON();
         var aux = response.toJSON().userEmail.split(':');
         var user = this.users.where({ 'localId': aux[1] });
 
+
         if(res.parentId != 0){
             var childView = new ResponseView({ model: response.toJSON(), user: user[0] });
             this.childViews.push(childView);
-            childView.render().el;
-            if($("textarea[responseid='"+res.parentId+"']").parent().parent().length == 0){
-                $("div[data-item='"+res.parentId+"']").parent().append(childView);
+            childView.render();
+            if($(".faq-item[data-item='"+res.parentId+"']").length == 0){
+                console.log(1);
+
+                $(childView.el).insertAfter("div[data-item='"+res.parentId+"']")
             }else{
-                $(childView).insertBefore($("textarea[responseid='"+res.parentId+"']").parent().parent());
+
+                console.log(childView.el);
+                $(".faq-item[data-item='"+res.parentId+"'").find(".faq-answer").append(childView.el);
             }
         }else{
             var view = new ResponseQuestionView({ model: response.toJSON(), user: user[0], number: this.number++ });
             this.childViews.push(view);
             view = view.render().el;
             this.$el.find('#list_answers').prepend(view);
+
+            var _id = response.toJSON().responseId;
+
+            $(".save[responseid="+_id+"]").click(function(){
+                if  ($("textarea[responseid="+_id+"]").val() != ""){
+                    console.log(response.toJSON(),"sending response...."+$("textarea[responseid="+_id+"]").val());
+
+                    var newResponse = new Response({ generalItemId: response.toJSON().generalItemId, responseValue: $("textarea[responseid="+_id+"]").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: _id });
+                    newResponse.save({}, {
+                        beforeSend:setHeader
+                    });
+                }
+                $("textarea[responseid="+_id+"]").val("");
+            });
+
         }
     },
     render: function(){
 
         this.$el.html(this.template(this.model));
+
 
 
         $('.reply').click(function(e){
@@ -1047,40 +1070,40 @@ window.ResponseListQuestionsView = Backbone.View.extend({
             e.preventDefault();
         });
 
-        $(".form-control.input-sm.pull-right").keyup(function () {
-            //split the current value of searchInput
-            var data = this.value.split(" ");
-            //create a jquery object of the rows
-            var jo = $("#activity-responses > tbody").find("tr");
-            if (this.value == "") {
-                jo.show();
-                return;
-            }
-            //hide all the rows
-            jo.hide();
-
-            //Recusively filter the jquery object to get results.
-            jo.filter(function (i, v) {
-                var $t = $(this);
-                for (var d = 0; d < data.length; ++d) {
-                    if ($t.is(":contains('" + data[d] + "')")) {
-                        return true;
-                    }
-                }
-                return false;
-            })
-                //show the rows that match.
-                .show();
-        }).focus(function ()
-        {
-            this.value = "";
-            $(this).css({
-                "color": "black"
-            });
-            $(this).unbind('focus');
-        }).css({
-            "color": "#C0C0C0"
-        });
+        //$(".form-control.input-sm.pull-right").keyup(function () {
+        //    //split the current value of searchInput
+        //    var data = this.value.split(" ");
+        //    //create a jquery object of the rows
+        //    var jo = $("#activity-responses > tbody").find("tr");
+        //    if (this.value == "") {
+        //        jo.show();
+        //        return;
+        //    }
+        //    //hide all the rows
+        //    jo.hide();
+        //
+        //    //Recusively filter the jquery object to get results.
+        //    jo.filter(function (i, v) {
+        //        var $t = $(this);
+        //        for (var d = 0; d < data.length; ++d) {
+        //            if ($t.is(":contains('" + data[d] + "')")) {
+        //                return true;
+        //            }
+        //        }
+        //        return false;
+        //    })
+        //        //show the rows that match.
+        //        .show();
+        //}).focus(function ()
+        //{
+        //    this.value = "";
+        //    $(this).css({
+        //        "color": "black"
+        //    });
+        //    $(this).unbind('focus');
+        //}).css({
+        //    "color": "#C0C0C0"
+        //});
 
         return this;
     },
@@ -1122,6 +1145,7 @@ window.VideoActivityView = Backbone.View.extend({
         var res = response.toJSON();
         var aux = response.toJSON().userEmail.split(':');
         var user = this.users.where({ 'localId': aux[1] });
+
 
         if(res.parentId != 0){
 

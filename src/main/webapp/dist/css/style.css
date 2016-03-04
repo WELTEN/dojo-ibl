@@ -4905,6 +4905,7 @@ dd.project-people {
   border: 1px solid #e7eaec;
   border-radius: 3px;
   padding: 15px;
+  overflow: scroll;
 }
 .faq-item .tag-item {
   background: #f3f3f4;
@@ -8237,7 +8238,7 @@ div.phases-breadcrumb  {
 }
 
 .special-height{
-  min-height: 45em;
+  /*min-height: 45em;*/
   /*overflow: hidden;*/
   clear: none !important;
 }
@@ -8787,7 +8788,23 @@ textarea.form-control{
 }
 
 .reply-box{
-  margin: 15px !important;
+  padding: 15px !important;
+  margin-top: 10px;
+  background: #f3f3f4;
+  border: 1px solid #e7eaec;
+  border-radius: 3px;
+  padding: 15px;
+}
+
+.reply-box-question{
+  padding: 15px !important;
+  margin-top: 10px;
+  background: #f3f3f4;
+  border: 1px solid #e7eaec;
+  border-radius: 3px;
+  padding: 15px;
+  margin-left: 0px !important;
+
 }
 
 .social-comment .faq-answer .social-comment{
@@ -8796,4 +8813,8 @@ textarea.form-control{
 
 .social-comment .faq-answer .social-comment .social-comment{
   margin-left: 45px;
+}
+
+.save:focus, .save:active{
+  outline: none;
 }

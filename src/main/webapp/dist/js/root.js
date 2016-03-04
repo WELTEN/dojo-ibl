@@ -383,10 +383,6 @@ var AppRouter = Backbone.Router.extend({
                         //}
                     }
                     else if(xhr.type.indexOf("VideoObject") > -1){
-                        //app.Responses = new ResponseCollection();
-
-                        console.log(xhr);
-
                         app.Response.id = _runId;
                         app.Response.itemId = xhr.id;
 
@@ -417,25 +413,10 @@ var AppRouter = Backbone.Router.extend({
 
                         app.showView("#inquiry-content",view);
                         $('#list_answers').addClass("social-footer");
-                        $(new ResponseReplyQuestionView({}).render().el).insertBefore('#list_answers');
 
                         app.Response.fetch({
                             beforeSend: setHeader,
                             reset: true
-                        });
-
-                        $(".save[responseid='0']").click(function(){
-                            if  ($("textarea[responseid='0'], input[responseid='0']").val() != ""){
-
-                                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $("textarea[responseid='0'], input[responseid='0']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: 0 });
-                                newResponse.save({}, {
-                                    beforeSend:setHeader,
-                                    success: function(r, new_response){
-                                        //app.showNotification("success", "Discussion thread", "Your comment has been sent");
-                                    }
-                                });
-                            }
-                            $("textarea[responseid='0'], input[responseid='0']").val("");
                         });
                     }
                     else{
@@ -785,6 +766,9 @@ var AppRouter = Backbone.Router.extend({
                                     break;
                                 case "org.celstec.arlearn2.beans.generalItem.ScanTag":
                                     icon = '<i class="fa fa-file-archive"></i> ';
+                                    break;
+                                case "org.celstec.arlearn2.beans.generalItem.ResearchQuestion":
+                                    icon = '<i class="fa fa-question"></i> ';
                                     break;
                             }
 
