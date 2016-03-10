@@ -343,6 +343,12 @@ window.ResponseCollection = Backbone.Collection.extend({
     parse: function(response){
         return   response.responses;
     },
+    //byActivity: function (activityId) {
+    //    var filtered = this.filter(function (response) {
+    //        return response.get("generalItemId") === activityId;
+    //    });
+    //    return new ResponseCollection(filtered);
+    //},
     url: function(){
         return "/rest/response/runId/"+this.id+"/itemId/"+this.itemId;
     },

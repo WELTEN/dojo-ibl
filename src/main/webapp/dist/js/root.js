@@ -432,7 +432,11 @@ var AppRouter = Backbone.Router.extend({
                         app.Response.id = _runId;
                         app.Response.itemId = xhr.id;
 
+
                         var view = new window.ResponseListView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId, model: xhr });
+
+                        //console.log(app.Response.byActivity(xhr.id));
+
 
                         app.showView("#inquiry-content",view);
                         $('#list_answers').addClass("social-footer");
@@ -1223,18 +1227,33 @@ var AppRouter = Backbone.Router.extend({
                         }
                     };
 
-                    socket.onerror = function() { $('#messages').append('<p>Connection Error!</p>'); };
+                    socket.onerror = function(error) {
+                        console.warn('Detected an error on the channel.');
+                        console.warn('Channel Error: ' + error.description + '.');
+                        console.warn('Http Error Code: ' + error.code);
+                        //isConnectionAlive = false;
+                        //if (error.description == 'Invalid+token.' || error.description == 'Token+timed+out.') {
+                        //    console.log('It should be recovered with onclose handler.');
+                        //} else {
+                        //    // In this case, we need to manually close the socket.
+                        //    // See also: https://code.google.com/p/googleappengine/issues/detail?id=4940
+                        //    console.log('Presumably it is "Unknown SID Error". Try closing the socket manually.');
+                        //    socket.close();
+                        //}
+                    };
                     socket.onclose = function() { $('#messages').append('<p>Connection Closed!</p>'); };
                 }
             });
         }
     },
     loadTimeline: function(_runId){
-        console.log("muestra timeline "+app.TimeLineList.length);
 
-        new TimelineView({ collection: app.TimeLineList }).render().el;
+        var timelineView = new TimelineView({ collection: app.TimeLineList });
 
         var different = (app.TimeLineList.id == _runId ? false : true);
+
+        console.log("muestra timeline "+app.TimeLineList.length, different);
+
         if(app.TimeLineList.length == 0 || different){
             console.log("Nueva consulta para el run "+_runId);
             app.TimeLineList.id = _runId;
@@ -1242,14 +1261,15 @@ var AppRouter = Backbone.Router.extend({
                 beforeSend: setHeader,
                 reset: true
             });
+        }else{
+            timelineView.render();
         }
 
         $(".show-more-responses").click(function(){
             console.log("Dame mas responses despues del click"+_runId);
             app.TimeLineList.id = _runId;
             app.TimeLineList.fetch({
-                beforeSend: setHeader,
-                reset:true
+                beforeSend: setHeader
             });
         });
     },

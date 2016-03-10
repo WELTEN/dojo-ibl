@@ -666,7 +666,7 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
                     beforeSend:setHeader,
                     type: 'DELETE',
                     success: function(r, new_response){
-                        console.log(r);
+                        console.warn("still need to remove responses from run");
                     }
                 });
             },
@@ -2472,7 +2472,7 @@ window.TimelineView = Backbone.View.extend({
 
         this.collection.on('add', this.addOne, this);
         this.collection.on('add', this.hidebutton, this);
-        this.collection.on('reset', this.addAll, this);
+        this.collection.on('reset', this.render, this);
 
         this.childViews = [];
 
@@ -2482,6 +2482,12 @@ window.TimelineView = Backbone.View.extend({
         this.style2 = "float: left";
         this.right = "";
 
+    },
+    render: function(){
+        console.log("render")
+        this.$el.empty();
+        this.collection.forEach(this.addOne, this);
+        return this;
     },
     addAll: function(){
         console.log("addAll")
@@ -2493,7 +2499,7 @@ window.TimelineView = Backbone.View.extend({
         }
     },
     addOne: function(response){
-        console.log("addOne")
+        //console.log("addOne", response.toJSON())
         if(response.toJSON().generalItemId != this.right){
             if(this.left == true){
                 this.left =  false;
@@ -2513,12 +2519,6 @@ window.TimelineView = Backbone.View.extend({
         this.$el.prepend(childView.el);
 
         this.right = response.toJSON().generalItemId;
-    },
-    render: function(){
-        console.log("render")
-
-        //this.addAll();
-        return this;
     },
     onClose: function(){
         this.remove();
@@ -2547,6 +2547,8 @@ window.TimelineItemView = Backbone.View.extend({
     render:function () {
 
         var _self = this;
+
+        var _app = app;
         if (!app.ActivityList.get(_self.model.generalItemId)) {
             var act = new ActivityUpdate();
             act.id = _self.model.generalItemId;
@@ -2554,19 +2556,26 @@ window.TimelineItemView = Backbone.View.extend({
             act.fetch({
                 beforeSend: setHeader,
                 success: function (a, r) {
-                    //app.ActivityList.add(r);
-                    $(_self.el).html(_self.template({
-                        model: _self.model,
-                        author: _self.model.userEmail.split(':')[1],
-                        time: jQuery.timeago(new Date(_self.model.lastModificationDate).toISOString()),
-                        timeDate: new Date(_self.model.lastModificationDate).toLocaleDateString('en-GB'),
-                        activity: r,
-                        right: _self.right
-                    }));
+
+                    ////////////////////////////////////////////////////////////////////////////////////////////////                    // We need to check both. If you delete a GeneralItem all its responses are still deleted: false
+                    // so they appear here.
+                    ////////////////////////////////////////////////////////////////////////////////////////////////
+                    if(r.deleted != true && ! r.hasOwnProperty('error') ){
+                        console.log(r.type);
+                        _app.ActivityList.add(r);
+                        //$(_self.el).html("<p>hola</p>")
+                        $(_self.el).html(_self.template({
+                            model: _self.model,
+                            author: _self.model.userEmail.split(':')[1],
+                            time: jQuery.timeago(new Date(_self.model.lastModificationDate).toISOString()),
+                            timeDate: new Date(_self.model.lastModificationDate).toLocaleDateString('en-GB'),
+                            activity: r,
+                            right: _self.right
+                        }));
+                    }
                 }
             });
         } else {
-            //console.log(app.ActivityList.get(_self.model.generalItemId).toJSON());
             $(_self.el).html(_self.template({
                 model: _self.model,
                 author: _self.model.userEmail.split(':')[1],

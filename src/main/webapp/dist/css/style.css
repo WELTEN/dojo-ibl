@@ -8250,7 +8250,7 @@ div.phases-breadcrumb  {
 }
 
 .special-height{
-  /*min-height: 45em;*/
+  min-height: 17em;
   /*overflow: hidden;*/
   clear: none !important;
 }
