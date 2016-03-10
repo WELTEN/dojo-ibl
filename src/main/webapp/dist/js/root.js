@@ -405,11 +405,26 @@ var AppRouter = Backbone.Router.extend({
 
                         app.showView("#inquiry-content",view);
                         $('#list_answers').addClass("social-footer");
+                        $(new ResponseReplyQuestionView({}).render().el).insertBefore('#list_answers');
 
 
                         app.Response.fetch({
                             beforeSend: setHeader,
                             reset: true
+                        });
+
+                        $(".save[responseid='0']").click(function(){
+                            if  ($("textarea[responseid='0'], input[responseid='0']").val() != ""){
+
+                                var newResponse = new Response({ generalItemId: xhr.id, responseValue: $("textarea[responseid='0'], input[responseid='0']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: 0, lastModificationDate: Date.now()  });
+                                newResponse.save({}, {
+                                    beforeSend:setHeader,
+                                    success: function(r, new_response){
+                                        //app.showNotification("success", "Discussion thread", "Your comment has been sent");
+                                    }
+                                });
+                            }
+                            $("textarea[responseid='0'], input[responseid='0']").val("");
                         });
                     }
                     else{

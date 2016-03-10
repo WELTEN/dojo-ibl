@@ -980,7 +980,6 @@ window.ResponseListQuestionsView = Backbone.View.extend({
     addAll: function(){
         this.collection.forEach(this.addOne, this);
 
-
     },
     addOne: function(response){
         var res = response.toJSON();

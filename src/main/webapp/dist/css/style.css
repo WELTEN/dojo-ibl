@@ -561,6 +561,18 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
     width: 100%;
   }
 }
+@media (max-width: 1300px) {
+  .inquiry-tabs span{
+    display: none;
+  }
+  #inquiry-content .tabs-container .tabs-left > .nav-tabs {
+    width: 5% !important;
+  }
+  #inquiry-content .tabs-container .tabs-left .panel-body {
+    width: 93% !important;
+    margin-left: 8.5% !important;
+  }
+}
 @media (min-width: 992px) {
   .menu-visible-md {
     display: block !important;
@@ -4905,7 +4917,7 @@ dd.project-people {
   border: 1px solid #e7eaec;
   border-radius: 3px;
   padding: 15px;
-  overflow: scroll;
+  /*overflow: scroll;*/
 }
 .faq-item .tag-item {
   background: #f3f3f4;
