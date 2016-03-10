@@ -1,5 +1,5 @@
 Backbone.View.prototype.close = function () {
-    console.log('Closing view ', this);
+    //console.log('Closing view ', this);
     this.undelegateEvents();
     this.remove();
     this.unbind();
@@ -310,11 +310,11 @@ var AppRouter = Backbone.Router.extend({
 
         window.setTimeout(function () {
 
-            this.Activity = new ActivityCollection({ });
-            this.Activity.id = activity;
-            this.Activity.gameId = id;
-            this.Activity.section = phase;
-            this.Activity.fetch({
+            this.ActivityItem = new ActivityCollection({ });
+            this.ActivityItem.id = activity;
+            this.ActivityItem.gameId = id;
+            this.ActivityItem.section = phase;
+            this.ActivityItem.fetch({
                 beforeSend: setHeader,
                 success: function (response, xhr) {
 
@@ -1224,7 +1224,8 @@ var AppRouter = Backbone.Router.extend({
             console.log("Nueva consulta para el run "+_runId);
             app.TimeLineList.id = _runId;
             app.TimeLineList.fetch({
-                beforeSend: setHeader
+                beforeSend: setHeader,
+                reset: true
             });
         }
 
@@ -1232,7 +1233,8 @@ var AppRouter = Backbone.Router.extend({
             console.log("Dame mas responses despues del click"+_runId);
             app.TimeLineList.id = _runId;
             app.TimeLineList.fetch({
-                beforeSend: setHeader
+                beforeSend: setHeader,
+                reset:true
             });
         });
     },
