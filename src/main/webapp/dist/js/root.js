@@ -409,6 +409,9 @@ var AppRouter = Backbone.Router.extend({
                             reset: true
                         });
 
+                        app.loadTimeline(_runId);
+
+
                         $(".save[responseid='0']").click(function(){
                             if  ($("textarea[responseid='0'], input[responseid='0']").val() != ""){
 
@@ -439,7 +442,6 @@ var AppRouter = Backbone.Router.extend({
                         $('#list_answers').after(new ResponseReplyView({}).render().el);
                         //if(app.Response.itemId != xhr.id){
 
-                        app.loadTimeline(_runId);
 
 
                         app.Response.fetch({
@@ -447,6 +449,7 @@ var AppRouter = Backbone.Router.extend({
                             reset: true
                         });
 
+                        app.loadTimeline(_runId);
 
 
                         $(".save[responseid='0']").click(function(){
@@ -1010,7 +1013,6 @@ var AppRouter = Backbone.Router.extend({
     },
     removeActivity: function(){
         $("button.remove-activity").click(function(){
-            console.log($(this));
             $(this).parent().parent().remove();
         });
     },
@@ -1207,7 +1209,6 @@ var AppRouter = Backbone.Router.extend({
                         }
 
                         if (a.type == "org.celstec.arlearn2.beans.run.Response") {
-                            console.log(a);
                             /////////////////////////////////////////////////
                             // Show notification if it is not my notification
                             /////////////////////////////////////////////////

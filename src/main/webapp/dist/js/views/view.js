@@ -843,9 +843,8 @@ window.ResponseListView = Backbone.View.extend({
         this.collection.forEach(this.addOne, this);
 
         $('.reply').click(function(e){
-
-            //console.log($(this).parent().parent().find(".response").length);
-
+            console.log(e);
+            e.preventDefault();
             //////////////////////////////////////////////////////////////////
             // Problem here is that we have more .responses now under one div
             // todo make it better
@@ -887,7 +886,7 @@ window.ResponseListView = Backbone.View.extend({
                 $(this).parent().siblings(".social-comment:last").remove();
             }
 
-            e.preventDefault();
+
         });
     },
     addOne: function(response){
@@ -922,40 +921,40 @@ window.ResponseListView = Backbone.View.extend({
 
         this.$el.html(this.template(this.model));
 
-        $(".form-control.input-sm.pull-right").keyup(function () {
-            //split the current value of searchInput
-            var data = this.value.split(" ");
-            //create a jquery object of the rows
-            var jo = $("#activity-responses > tbody").find("tr");
-            if (this.value == "") {
-                jo.show();
-                return;
-            }
-            //hide all the rows
-            jo.hide();
-
-            //Recusively filter the jquery object to get results.
-            jo.filter(function (i, v) {
-                var $t = $(this);
-                for (var d = 0; d < data.length; ++d) {
-                    if ($t.is(":contains('" + data[d] + "')")) {
-                        return true;
-                    }
-                }
-                return false;
-            })
-                //show the rows that match.
-                .show();
-        }).focus(function ()
-        {
-            this.value = "";
-            $(this).css({
-                "color": "black"
-            });
-            $(this).unbind('focus');
-        }).css({
-            "color": "#C0C0C0"
-        });
+        //$(".form-control.input-sm.pull-right").keyup(function () {
+        //    //split the current value of searchInput
+        //    var data = this.value.split(" ");
+        //    //create a jquery object of the rows
+        //    var jo = $("#activity-responses > tbody").find("tr");
+        //    if (this.value == "") {
+        //        jo.show();
+        //        return;
+        //    }
+        //    //hide all the rows
+        //    jo.hide();
+        //
+        //    //Recusively filter the jquery object to get results.
+        //    jo.filter(function (i, v) {
+        //        var $t = $(this);
+        //        for (var d = 0; d < data.length; ++d) {
+        //            if ($t.is(":contains('" + data[d] + "')")) {
+        //                return true;
+        //            }
+        //        }
+        //        return false;
+        //    })
+        //        //show the rows that match.
+        //        .show();
+        //}).focus(function ()
+        //{
+        //    this.value = "";
+        //    $(this).css({
+        //        "color": "black"
+        //    });
+        //    $(this).unbind('focus');
+        //}).css({
+        //    "color": "#C0C0C0"
+        //});
 
         return this;
     },
@@ -993,7 +992,51 @@ window.ResponseListQuestionsView = Backbone.View.extend({
     },
     addAll: function(){
         this.collection.forEach(this.addOne, this);
+        $('.reply').click(function(e){
 
+            //////////////////////////////////////////////////////////////////
+            // Problem here is that we have more .responses now under one div
+            // todo make it better
+            /////////////////////////////////////////////////////////////////
+            if($(this).parent().parent().find(".response").length == 0){
+                if($(this).attr("data")){
+                    var form = new ResponseReplyView({}).render().el;
+
+                    var gItem = $(this).attr("gitem");
+
+                    $(form).find("button.save").attr("responseid", $(this).attr("data"));
+                    $(form).find("textarea.response").attr("responseid", $(this).attr("data"));
+
+                    $(this).parent().parent().append(form);
+
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    // This event should be captured here in order to capture input for future responses
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    $(".save[responseid='"+$(this).attr("data")+"']").click(function(){
+
+                        //console.log($(this).attr("responseid"), $("textarea[responseid='"+$(this).attr("responseid")+"']").val());
+
+                        if  ($("textarea[responseid='"+$(this).attr("responseid")+"']").val() != ""){
+
+                            var newResponse = new Response({ generalItemId: gItem, responseValue: $("textarea[responseid='"+$(this).attr("responseid")+"']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: $(this).attr("responseid") });
+                            newResponse.save({}, {
+                                beforeSend:setHeader,
+                                success: function(r, new_response){
+                                }
+                            });
+                        }
+                        $("textarea[responseid='"+$(this).attr("responseid")+"']").val("");
+                    });
+                }else{
+                    console.error("Id of the response is missing")
+                }
+            }else{
+                //console.log("remove",$(this).parent().siblings(".social-comment:last"));
+                $(this).parent().siblings(".social-comment:last").remove();
+            }
+
+            e.preventDefault();
+        });
     },
     addOne: function(response){
         var res = response.toJSON();
@@ -1034,52 +1077,6 @@ window.ResponseListQuestionsView = Backbone.View.extend({
     render: function(){
 
         this.$el.html(this.template(this.model));
-
-        $('.reply').click(function(e){
-
-            //////////////////////////////////////////////////////////////////
-            // Problem here is that we have more .responses now under one div
-            // todo make it better
-            /////////////////////////////////////////////////////////////////
-            if($(this).parent().parent().find(".response").length == 0){
-                if($(this).attr("data")){
-                    var form = new ResponseReplyView({}).render().el;
-
-                    var gItem = $(this).attr("gitem");
-
-                    $(form).find("button.save").attr("responseid", $(this).attr("data"));
-                    $(form).find("textarea.response").attr("responseid", $(this).attr("data"));
-
-                    $(this).parent().parent().append(form);
-
-                    ////////////////////////////////////////////////////////////////////////////////////
-                    // This event should be captured here in order to capture input for future responses
-                    ////////////////////////////////////////////////////////////////////////////////////
-                    $(".save[responseid='"+$(this).attr("data")+"']").click(function(){
-
-                        console.log($(this).attr("responseid"), $("textarea[responseid='"+$(this).attr("responseid")+"']").val());
-
-                        if  ($("textarea[responseid='"+$(this).attr("responseid")+"']").val() != ""){
-
-                            var newResponse = new Response({ generalItemId: gItem, responseValue: $("textarea[responseid='"+$(this).attr("responseid")+"']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: $(this).attr("responseid") });
-                            newResponse.save({}, {
-                                beforeSend:setHeader,
-                                success: function(r, new_response){
-                                }
-                            });
-                        }
-                        $("textarea[responseid='"+$(this).attr("responseid")+"']").val("");
-                    });
-                }else{
-                    console.error("Id of the response is missing")
-                }
-            }else{
-                //console.log("remove",$(this).parent().siblings(".social-comment:last"));
-                $(this).parent().siblings(".social-comment:last").remove();
-            }
-
-            e.preventDefault();
-        });
 
         //$(".form-control.input-sm.pull-right").keyup(function () {
         //    //split the current value of searchInput
