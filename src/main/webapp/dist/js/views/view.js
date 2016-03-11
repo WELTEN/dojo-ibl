@@ -133,13 +133,19 @@ window.GameListItemView = Backbone.View.extend({
     },
     render: function () {
 
+        var desc = "Demo description";
+
+        if(this.model.description.length > 150){
+            desc = jQuery.trim(this.model.description.substring(0, 150) + '...')
+        }else{
+            desc = jQuery.trim(this.model.description)
+        }
+
         $(this.el).html(this.template({
             model: this.model,
             time: new Date(this.model.lastModificationDate).toLocaleDateString(),
             timeago: new Date(this.model.lastModificationDate),
-            //timeago: jQuery.timeago(new Date(this.model.lastModificationDate).toISOString()),
-            //description: jQuery.trim(this.model.description).substring(0, 50).split(" ").slice(0, -1).join(" ") + "..."
-            description: jQuery.trim(this.model.description)
+            description: desc
         }));
 
         return this;
@@ -2548,7 +2554,6 @@ window.TimelineItemView = Backbone.View.extend({
 
         var _self = this;
 
-        //var _app = app;
         if (!app.ActivityList.get(_self.model.generalItemId)) {
             var act = new ActivityUpdate();
             act.id = _self.model.generalItemId;
@@ -2561,7 +2566,6 @@ window.TimelineItemView = Backbone.View.extend({
                     // so they appear here.
                     ////////////////////////////////////////////////////////////////////////////////////////////////
                     if(r.deleted != true && ! r.hasOwnProperty('error') ){
-                        //console.log(r.type, app.ActivityList);
                         app.ActivityList.add(r);
                         //$(_self.el).html("<p>hola</p>")
                         $(_self.el).html(_self.template({
