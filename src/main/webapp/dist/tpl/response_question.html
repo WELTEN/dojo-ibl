@@ -10,10 +10,9 @@
             %>
         </div>
         <div class="col-md-11">
-            <a data-toggle="collapse" href="#faq<%= number %>" class="faq-question collapsed" aria-expanded="false">(<%= model.responseId %>) <%= model.responseValue %></a>
+            <a data-toggle="collapse" href="#faq<%= number %>" class="faq-question collapsed" aria-expanded="false"><%= model.responseValue %></a>
             <small>Added by <strong><%= author.givenName %></strong> <i class="fa fa-clock-o"></i> <%= time %></small>
             <!--- <a data="<%= model.responseId %>" gItem="<%= model.generalItemId %>" class="small reply"> Add comment</a>-->
-
         </div>
     </div>
     <div class="row">

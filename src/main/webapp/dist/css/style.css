@@ -8801,10 +8801,10 @@ textarea.form-control{
 
 .reply-box{
   padding: 15px !important;
-  margin-top: 10px;
+  margin-top: 0px;
   background: #f3f3f4;
-  border: 1px solid #e7eaec;
-  border-radius: 3px;
+  /*border: 1px solid #e7eaec;*/
+  border-radius: 1px 1px 5px 5px;
   padding: 15px;
 }
 

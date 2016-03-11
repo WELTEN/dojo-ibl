@@ -830,19 +830,20 @@ window.ResponseListView = Backbone.View.extend({
         console.log(options);
 
         this.template = _.template(tpl.get('activity_text'));
-        //this.emptyTemplate = _.template("<p>Yet, none add comments here. Be the first one</p>");
-
+        this.emptyTemplate = _.template('<div class="alert alert-warning">' +
+        'No comments here yet. <a class="alert-link" href="#"> Hurry up!</a> comment and be the first one!.' +
+        '</div>');
         this.collection.on('add', this.addOne, this);
         this.collection.on('reset', this.addAll, this);
 
         this.childViews = [];
     },
     addAll: function(){
-        //if (this.collection.length == 0){
-        //    console.log("s")
-        //    this.emptyCollection;
-        //}
-        this.collection.forEach(this.addOne, this);
+        if (this.collection.length == 0){
+            this.$el.find('#list_answers').append(this.emptyTemplate);
+        }else{
+            this.collection.forEach(this.addOne, this);
+        }
 
         $('.reply').click(function(e){
             console.log(e);
