@@ -872,7 +872,7 @@ window.ResponseListView = Backbone.View.extend({
 
                         if  ($("textarea[responseid='"+$(this).attr("responseid")+"']").val() != ""){
 
-                            var newResponse = new Response({ generalItemId: gItem, responseValue: $("textarea[responseid='"+$(this).attr("responseid")+"']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: $(this).attr("responseid") });
+                            var newResponse = new Response({ generalItemId: gItem, responseValue: $("textarea[responseid='"+$(this).attr("responseid")+"']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: $(this).attr("responseid"), lastModificationDate: Date.now() });
                             newResponse.save({}, {
                                 beforeSend:setHeader,
                                 success: function(r, new_response){
@@ -988,7 +988,7 @@ window.ResponseListQuestionsView = Backbone.View.extend({
 
                         if  ($("textarea[responseid='"+$(this).attr("responseid")+"']").val() != ""){
 
-                            var newResponse = new Response({ generalItemId: gItem, responseValue: $("textarea[responseid='"+$(this).attr("responseid")+"']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: $(this).attr("responseid") });
+                            var newResponse = new Response({ generalItemId: gItem, responseValue: $("textarea[responseid='"+$(this).attr("responseid")+"']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: $(this).attr("responseid"), lastModificationDate: Date.now() });
                             newResponse.save({}, {
                                 beforeSend:setHeader,
                                 success: function(r, new_response){
@@ -1183,7 +1183,7 @@ window.VideoActivityView = Backbone.View.extend({
 
                         if  ($("textarea[responseid='"+$(this).attr("responseid")+"']").val() != ""){
 
-                            var newResponse = new Response({ generalItemId: gItem, responseValue: $("textarea[responseid='"+$(this).attr("responseid")+"']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: $(this).attr("responseid") });
+                            var newResponse = new Response({ generalItemId: gItem, responseValue: $("textarea[responseid='"+$(this).attr("responseid")+"']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: $(this).attr("responseid"), lastModificationDate: Date.now() });
                             newResponse.save({}, {
                                 beforeSend:setHeader,
                                 success: function(r, new_response){
