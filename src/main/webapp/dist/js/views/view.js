@@ -827,6 +827,8 @@ window.ResponseListView = Backbone.View.extend({
         this.game = options.game;
         this.runId = options.run;
 
+        console.log(options);
+
         this.template = _.template(tpl.get('activity_text'));
         //this.emptyTemplate = _.template("<p>Yet, none add comments here. Be the first one</p>");
 
@@ -894,23 +896,25 @@ window.ResponseListView = Backbone.View.extend({
         var aux = response.toJSON().userEmail.split(':');
         var user = this.users.where({ 'localId': aux[1] });
 
-        if(res.parentId != 0){
+        if(this.model.id == res.generalItemId){
+            if(res.parentId != 0){
 
-            var childView = new ResponseView({ model: response.toJSON(), user: user[0] });
-            this.childViews.push(childView);
-            childView = childView.render().el;
+                var childView = new ResponseView({ model: response.toJSON(), user: user[0] });
+                this.childViews.push(childView);
+                childView = childView.render().el;
 
-            if($("textarea[responseid='"+res.parentId+"']").parent().parent().length == 0){
-                $("div[data-item='"+res.parentId+"']").parent().append(childView);
+                if($("textarea[responseid='"+res.parentId+"']").parent().parent().length == 0){
+                    $("div[data-item='"+res.parentId+"']").parent().append(childView);
+                }else{
+                    $(childView).insertBefore($("textarea[responseid='"+res.parentId+"']").parent().parent());
+                }
+                this.childViews.push(childView);
             }else{
-                $(childView).insertBefore($("textarea[responseid='"+res.parentId+"']").parent().parent());
+                var view = new ResponseView({ model: response.toJSON(), user: user[0] });
+                this.childViews.push(view);
+                view = view.render().el;
+                this.$el.find('#list_answers').append(view);
             }
-            this.childViews.push(childView);
-        }else{
-            var view = new ResponseView({ model: response.toJSON(), user: user[0] });
-            this.childViews.push(view);
-            view = view.render().el;
-            this.$el.find('#list_answers').append(view);
         }
     },
     //emptyCollection: function(){
@@ -920,41 +924,6 @@ window.ResponseListView = Backbone.View.extend({
     render: function(){
 
         this.$el.html(this.template(this.model));
-
-        //$(".form-control.input-sm.pull-right").keyup(function () {
-        //    //split the current value of searchInput
-        //    var data = this.value.split(" ");
-        //    //create a jquery object of the rows
-        //    var jo = $("#activity-responses > tbody").find("tr");
-        //    if (this.value == "") {
-        //        jo.show();
-        //        return;
-        //    }
-        //    //hide all the rows
-        //    jo.hide();
-        //
-        //    //Recusively filter the jquery object to get results.
-        //    jo.filter(function (i, v) {
-        //        var $t = $(this);
-        //        for (var d = 0; d < data.length; ++d) {
-        //            if ($t.is(":contains('" + data[d] + "')")) {
-        //                return true;
-        //            }
-        //        }
-        //        return false;
-        //    })
-        //        //show the rows that match.
-        //        .show();
-        //}).focus(function ()
-        //{
-        //    this.value = "";
-        //    $(this).css({
-        //        "color": "black"
-        //    });
-        //    $(this).unbind('focus');
-        //}).css({
-        //    "color": "#C0C0C0"
-        //});
 
         return this;
     },
@@ -1043,7 +1012,8 @@ window.ResponseListQuestionsView = Backbone.View.extend({
         var aux = response.toJSON().userEmail.split(':');
         var user = this.users.where({ 'localId': aux[1] });
 
-        if(res.parentId != 0){
+        if(this.model.id == res.generalItemId){
+            if(res.parentId != 0){
             var childView = new ResponseView({ model: response.toJSON(), user: user[0] });
             this.childViews.push(childView);
             childView.render();
@@ -1052,26 +1022,32 @@ window.ResponseListQuestionsView = Backbone.View.extend({
             }else{
                 $(".faq-item[data-item='"+res.parentId+"'").find(".faq-answer").append(childView.el);
             }
-        }else{
-            var view = new ResponseQuestionView({ model: response.toJSON(), user: user[0], number: this.number++ });
-            this.childViews.push(view);
-            view = view.render().el;
-            this.$el.find('#list_answers').prepend(view);
+        }else {
+                var view = new ResponseQuestionView({model: response.toJSON(), user: user[0], number: this.number++});
+                this.childViews.push(view);
+                view = view.render().el;
+                this.$el.find('#list_answers').prepend(view);
 
-            var _id = response.toJSON().responseId;
+                var _id = response.toJSON().responseId;
 
-            $(".save[responseid="+_id+"]").click(function(){
-                if  ($("textarea[responseid="+_id+"]").val() != ""){
-                    console.log(response.toJSON(),"sending response...."+$("textarea[responseid="+_id+"]").val());
+                $(".save[responseid=" + _id + "]").click(function () {
+                    if ($("textarea[responseid=" + _id + "]").val() != "") {
+                        console.log(response.toJSON(), "sending response...." + $("textarea[responseid=" + _id + "]").val());
 
-                    var newResponse = new Response({ generalItemId: response.toJSON().generalItemId, responseValue: $("textarea[responseid="+_id+"]").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: _id });
-                    newResponse.save({}, {
-                        beforeSend:setHeader
-                    });
-                }
-                $("textarea[responseid="+_id+"]").val("");
-            });
-
+                        var newResponse = new Response({
+                            generalItemId: response.toJSON().generalItemId,
+                            responseValue: $("textarea[responseid=" + _id + "]").val(),
+                            runId: $.cookie("dojoibl.run"),
+                            userEmail: 0,
+                            parentId: _id
+                        });
+                        newResponse.save({}, {
+                            beforeSend: setHeader
+                        });
+                    }
+                    $("textarea[responseid=" + _id + "]").val("");
+                });
+            }
         }
     },
     render: function(){
@@ -2177,21 +2153,31 @@ window.InquiryStructureView = Backbone.View.extend({
 window.MessagesListView = Backbone.View.extend({
     el: ".chat-discussion",
     initialize:function (options) {
-        _(this).bindAll('render');
-        _(this).bindAll('add');
-        this.collection.bind('add', this.add);
+
+        this.collection.on('add', this.addOne, this);
+        this.collection.on('reset', this.addAll, this);
+
+        this.number = 0;
+        this.childViews = [];
+
     },
-    add: function(message){
+    addAll: function(){
+        this.collection.forEach(this.addOne, this);
+    },
+    addOne: function(message){
+        var view;
         if(message.toJSON().senderId == $.cookie("dojoibl.localId")){
-            $(this.el).append(new MessageRightView({ model: message.toJSON() }).render().el);
+            view = new MessageRightView({ model: message.toJSON() });
         }else{
-            $(this.el).append(new MessageLeftView({ model: message.toJSON() }).render().el);
+            view = new MessageLeftView({ model: message.toJSON() });
         }
+        this.childViews.push(view);
+        console.log("hol");
+        view = view.render().el;
+        this.$el.append(view);
     },
     render: function () {
-        _.each(this.collection.models, function(message){
-            this.add(message);
-        }, this);
+        this.collection.forEach(this.addOne, this);
         return this;
     }
 });

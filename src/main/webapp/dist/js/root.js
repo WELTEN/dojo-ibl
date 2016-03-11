@@ -1226,6 +1226,19 @@ var AppRouter = Backbone.Router.extend({
                         console.warn('Detected an error on the channel.');
                         console.warn('Channel Error: ' + error.description + '.');
                         console.warn('Http Error Code: ' + error.code);
+
+                        swal({
+                            title: "Timeout!",
+                            text: "Refresh the current page to continue!",
+                            type: "warning",
+                            showCancelButton: false,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Yes, delete it!",
+                            closeOnConfirm: false
+                        }, function () {
+                            swal("Timeout!", "Refresh this page to continue.", "success");
+                        });
+
                         //isConnectionAlive = false;
                         //if (error.description == 'Invalid+token.' || error.description == 'Token+timed+out.') {
                         //    console.log('It should be recovered with onclose handler.');
@@ -1270,6 +1283,43 @@ var AppRouter = Backbone.Router.extend({
     },
     loadChat: function(runId){
 
+        //app.Response.id = _runId;
+        //app.Response.itemId = xhr.id;
+        //
+        //var view = new window.ResponseListQuestionsView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId, model: xhr });
+        //
+        //
+        //app.showView("#inquiry-content",view);
+        //$('#list_answers').addClass("social-footer");
+        //$(new ResponseReplyQuestionView({}).render().el).insertBefore('#list_answers');
+        //
+        //
+        //app.Response.fetch({
+        //    beforeSend: setHeader,
+        //    reset: true
+        //});
+
+        app.MessagesList.id = $.cookie("dojoibl.run");
+
+        var view = new MessagesListView({ collection: app.MessagesList });
+
+        app.MessagesList.fetch({
+            beforeSend: setHeader,
+            reset:true
+        });
+
+        //success: function () {
+        //
+        //    //var scrollTo_val = $('.chat-discussion').prop('scrollHeight') + 'px';
+        //    //console.log(scrollTo_val);
+        //    //$('.chat-discussion').slimScroll({ scrollTo : scrollTo_val });
+        //
+        //    $('.chat-discussion').animate({
+        //        scrollTop: $('.chat-discussion')[0].scrollHeight
+        //    }, 0);
+        //}
+
+
         $('.chat-discussion').slimScroll({
             height: '400px',
             railOpacity: 0.4
@@ -1277,24 +1327,8 @@ var AppRouter = Backbone.Router.extend({
 
         //console.log(this.MessagesList.length, this.MessagesList.id, $.cookie("dojoibl.run"), runId);
 
-        if(this.MessagesList.length == 0 || runId != this.MessagesList.id) {
-            this.MessagesList.id = $.cookie("dojoibl.run");
-            this.MessagesList.fetch({
-                beforeSend: setHeader,
-                success: function () {
 
-                    //var scrollTo_val = $('.chat-discussion').prop('scrollHeight') + 'px';
-                    //console.log(scrollTo_val);
-                    //$('.chat-discussion').slimScroll({ scrollTo : scrollTo_val });
 
-                    $('.chat-discussion').animate({
-                        scrollTop: $('.chat-discussion')[0].scrollHeight
-                    }, 0);
-                }
-            });
-        }
-
-        new MessagesListView({ collection: this.MessagesList }).render().el;
     },
 
     // common
