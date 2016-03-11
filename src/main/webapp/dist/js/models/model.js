@@ -341,14 +341,15 @@ window.ResponseCollection = Backbone.Collection.extend({
     initialize: function(a){
     },
     parse: function(response){
-        return   response.responses;
+        var _self = this;
+
+        console.log(this.itemId);
+        //return  response.responses.filter(function(task) {
+        //    console.log(task)
+        //    return task.generalItemId == _self.itemId;
+        //});
+        return  response.responses;
     },
-    //byActivity: function (activityId) {
-    //    var filtered = this.filter(function (response) {
-    //        return response.get("generalItemId") === activityId;
-    //    });
-    //    return new ResponseCollection(filtered);
-    //},
     url: function(){
         return "/rest/response/runId/"+this.id+"/itemId/"+this.itemId;
     },

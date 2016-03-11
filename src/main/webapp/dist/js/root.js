@@ -432,6 +432,8 @@ var AppRouter = Backbone.Router.extend({
                         app.Response.itemId = xhr.id;
 
 
+                        console.log(xhr.id)
+
                         var view = new window.ResponseListView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId, model: xhr });
 
                         //console.log(app.Response.byActivity(xhr.id));
