@@ -334,10 +334,6 @@ var AppRouter = Backbone.Router.extend({
                         }
                     }
 
-                    //$("#inquiry-content").html(new ActivityView({ model: xhr }).render().el);
-
-                    console.log(xhr.type)
-
                     $(".knob").knob();
 
                     if(xhr.type.indexOf("SingleChoiceImageTest") > -1) {
@@ -442,8 +438,6 @@ var AppRouter = Backbone.Router.extend({
                         $('#list_answers').addClass("social-footer");
                         $('#list_answers').after(new ResponseReplyView({}).render().el);
                         //if(app.Response.itemId != xhr.id){
-
-                        console.log($("#vertical-timeline").html())
 
                         app.loadTimeline(_runId);
 
@@ -751,11 +745,9 @@ var AppRouter = Backbone.Router.extend({
             });
         }
 
-        this.ActivityList = new ActivityEdit({ });
-        this.ActivityList
-        this.ActivityList.gameId = _gameId;
-
-        this.ActivityList.fetch({
+        var activity_edit = new ActivityEdit({});
+        activity_edit.gameId = _gameId;
+        activity_edit.fetch({
             beforeSend: setHeader,
             success: function (response, results) {
                 console.log(results);
@@ -1252,10 +1244,10 @@ var AppRouter = Backbone.Router.extend({
 
         var different = (app.TimeLineList.id == _runId ? false : true);
 
-        console.log("muestra timeline "+app.TimeLineList.length, different);
+        //console.log("muestra timeline "+app.TimeLineList.length, different);
 
         if(app.TimeLineList.length == 0 || different){
-            console.log("Nueva consulta para el run "+_runId);
+            //console.log("Nueva consulta para el run "+_runId);
             app.TimeLineList.id = _runId;
             app.TimeLineList.fetch({
                 beforeSend: setHeader,
@@ -1266,7 +1258,7 @@ var AppRouter = Backbone.Router.extend({
         }
 
         $(".show-more-responses").click(function(){
-            console.log("Dame mas responses despues del click"+_runId);
+            //console.log("Dame mas responses despues del click"+_runId);
             app.TimeLineList.id = _runId;
             app.TimeLineList.fetch({
                 beforeSend: setHeader

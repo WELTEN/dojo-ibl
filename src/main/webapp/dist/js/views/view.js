@@ -2484,13 +2484,13 @@ window.TimelineView = Backbone.View.extend({
 
     },
     render: function(){
-        console.log("render")
+        //console.log("render")
         this.$el.empty();
         this.collection.forEach(this.addOne, this);
         return this;
     },
     addAll: function(){
-        console.log("addAll")
+        //console.log("addAll")
         this.collection.forEach(this.addOne, this);
     },
     hidebutton: function(response){
@@ -2525,7 +2525,7 @@ window.TimelineView = Backbone.View.extend({
         this.unbind();
         this.collection.unbind("add", this.addOne);
 
-        console.log("remove timelineview");
+        //console.log("remove timelineview");
 
         // handle other unbinding needs, here
         _.each(this.childViews, function(childView){
@@ -2548,7 +2548,7 @@ window.TimelineItemView = Backbone.View.extend({
 
         var _self = this;
 
-        var _app = app;
+        //var _app = app;
         if (!app.ActivityList.get(_self.model.generalItemId)) {
             var act = new ActivityUpdate();
             act.id = _self.model.generalItemId;
@@ -2561,8 +2561,8 @@ window.TimelineItemView = Backbone.View.extend({
                     // so they appear here.
                     ////////////////////////////////////////////////////////////////////////////////////////////////
                     if(r.deleted != true && ! r.hasOwnProperty('error') ){
-                        console.log(r.type);
-                        _app.ActivityList.add(r);
+                        //console.log(r.type, app.ActivityList);
+                        app.ActivityList.add(r);
                         //$(_self.el).html("<p>hola</p>")
                         $(_self.el).html(_self.template({
                             model: _self.model,
