@@ -828,6 +828,7 @@ window.ResponseListView = Backbone.View.extend({
         this.runId = options.run;
 
         this.template = _.template(tpl.get('activity_text'));
+        //this.emptyTemplate = _.template("<p>Yet, none add comments here. Be the first one</p>");
 
         this.collection.on('add', this.addOne, this);
         this.collection.on('reset', this.addAll, this);
@@ -835,36 +836,11 @@ window.ResponseListView = Backbone.View.extend({
         this.childViews = [];
     },
     addAll: function(){
-
+        //if (this.collection.length == 0){
+        //    console.log("s")
+        //    this.emptyCollection;
+        //}
         this.collection.forEach(this.addOne, this);
-    },
-    addOne: function(response){
-        var res = response.toJSON();
-        var aux = response.toJSON().userEmail.split(':');
-        var user = this.users.where({ 'localId': aux[1] });
-
-        if(res.parentId != 0){
-
-            var childView = new ResponseView({ model: response.toJSON(), user: user[0] });
-            this.childViews.push(childView);
-            childView = childView.render().el;
-
-            if($("textarea[responseid='"+res.parentId+"']").parent().parent().length == 0){
-                $("div[data-item='"+res.parentId+"']").parent().append(childView);
-            }else{
-                $(childView).insertBefore($("textarea[responseid='"+res.parentId+"']").parent().parent());
-            }
-            this.childViews.push(childView);
-        }else{
-            var view = new ResponseView({ model: response.toJSON(), user: user[0] });
-            this.childViews.push(view);
-            view = view.render().el;
-            this.$el.find('#list_answers').append(view);
-        }
-    },
-    render: function(){
-
-        this.$el.html(this.template(this.model));
 
         $('.reply').click(function(e){
 
@@ -913,6 +889,38 @@ window.ResponseListView = Backbone.View.extend({
 
             e.preventDefault();
         });
+    },
+    addOne: function(response){
+        var res = response.toJSON();
+        var aux = response.toJSON().userEmail.split(':');
+        var user = this.users.where({ 'localId': aux[1] });
+
+        if(res.parentId != 0){
+
+            var childView = new ResponseView({ model: response.toJSON(), user: user[0] });
+            this.childViews.push(childView);
+            childView = childView.render().el;
+
+            if($("textarea[responseid='"+res.parentId+"']").parent().parent().length == 0){
+                $("div[data-item='"+res.parentId+"']").parent().append(childView);
+            }else{
+                $(childView).insertBefore($("textarea[responseid='"+res.parentId+"']").parent().parent());
+            }
+            this.childViews.push(childView);
+        }else{
+            var view = new ResponseView({ model: response.toJSON(), user: user[0] });
+            this.childViews.push(view);
+            view = view.render().el;
+            this.$el.find('#list_answers').append(view);
+        }
+    },
+    //emptyCollection: function(){
+    //    this.$el.html(this.template());
+    //    return this;
+    //},
+    render: function(){
+
+        this.$el.html(this.template(this.model));
 
         $(".form-control.input-sm.pull-right").keyup(function () {
             //split the current value of searchInput
