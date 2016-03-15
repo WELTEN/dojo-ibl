@@ -8315,7 +8315,14 @@ div.phases-breadcrumb  {
 #circlemenu li a{
   text-align: center;
   color: white;
-
+  text-align: center;
+  color: white;
+  text-decoration: underline;
+  display: block;
+}
+#circlemenu li a:hover {
+  color: #23C6C8;
+  text-decoration: underline;
 }
 
 #circlemenu.summary {

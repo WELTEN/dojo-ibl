@@ -2497,26 +2497,28 @@ window.TimelineView = Backbone.View.extend({
         }
     },
     addOne: function(response){
-        //console.log("addOne", response.toJSON())
-        if(response.toJSON().generalItemId != this.right){
-            if(this.left == true){
-                this.left =  false;
-                this.style =  this.style2;
-            }else{
-                this.left =  true;
-                this.style =  this.style1;
+
+        console.log(response.toJSON().runId,this.collection.id)
+
+            if(response.toJSON().generalItemId != this.right){
+                if(this.left == true){
+                    this.left =  false;
+                    this.style =  this.style2;
+                }else{
+                    this.left =  true;
+                    this.style =  this.style1;
+                }
             }
-        }
 
-        var childView = new TimelineItemView({ model: response.toJSON(), right: this.left } );
+            var childView = new TimelineItemView({ model: response.toJSON(), right: this.left } );
 
-        this.childViews.push(childView);
+            this.childViews.push(childView);
 
-        childView = childView.render();
+            childView = childView.render();
 
-        this.$el.prepend(childView.el);
+            this.$el.prepend(childView.el);
 
-        this.right = response.toJSON().generalItemId;
+            this.right = response.toJSON().generalItemId;
     },
     onClose: function(){
         this.remove();
