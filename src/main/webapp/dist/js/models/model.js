@@ -303,28 +303,15 @@ window.ActivitiesCollection = Backbone.Collection.extend({
         return "/rest/generalItems/gameId/"+this.id+"/section/"+this.section;
     },
     comparator: function(item) {
-        return item.get('sortKey');
+    if (typeof item.get('sortKey') === "undefined"){
+            return 0;
+        }else{
+            return item.get('sortKey');
+        }
+
     },
     parse: function(response){
-
-        //var listSource = new Array();
-        ////var self = this;
-        //
-        //_.each(response.generalItems, function(generalItem){
-        //    listSource.push(new Activity( {
-        //        "id": generalItem.id,
-        //        "name": generalItem.name,
-        //        "sortKey": generalItem.sortKey,
-        //        "description": generalItem.description,
-        //        "lastModificationDate":generalItem.lastModificationDate,
-        //        "gameId": generalItem.gameId,
-        //        "dependsOn": generalItem.dependsOn,
-        //        "roles": generalItem.roles
-        //    }));
-        //});
-
-        //return listSource;
-
+        return response.generalItems;
     }
 });
 

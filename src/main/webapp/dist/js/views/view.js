@@ -363,6 +363,8 @@ window.InquiryNewView = Backbone.View.extend({
                     $(".activities-form .spiner-example").hide(1000);
                 }, 2000);
 
+                console.log(xhr)
+
                 $.each(xhr, function(name, value){
                     if( name != 'videoFeed' && name != 'audioFeed' ){
                         $('[name="audioFeed"]').prev(".hr-line-dashed").hide();
@@ -528,7 +530,7 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
 
         var data = app.getDataForm(frm);
 
-        console.log(data);
+        //console.log(data);
 
         /////////////////////////////////////
         // Create the activity = General Item
@@ -1125,6 +1127,52 @@ window.VideoActivityView = Backbone.View.extend({
     addAll: function(){
 
         this.collection.forEach(this.addOne, this);
+        $('.reply').click(function(e){
+            console.log(e);
+            e.preventDefault();
+            //////////////////////////////////////////////////////////////////
+            // Problem here is that we have more .responses now under one div
+            // todo make it better
+            /////////////////////////////////////////////////////////////////
+            if($(this).parent().parent().find(".response").length == 0){
+                if($(this).attr("data")){
+                    var form = new ResponseReplyView({}).render().el;
+
+                    var gItem = $(this).attr("gitem");
+
+                    $(form).find("button.save").attr("responseid", $(this).attr("data"));
+                    $(form).find("textarea.response").attr("responseid", $(this).attr("data"));
+
+                    $(this).parent().parent().append(form);
+
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    // This event should be captured here in order to capture input for future responses
+                    ////////////////////////////////////////////////////////////////////////////////////
+                    $(".save[responseid='"+$(this).attr("data")+"']").click(function(){
+
+                        console.log($(this).attr("responseid"), $("textarea[responseid='"+$(this).attr("responseid")+"']").val());
+
+                        if  ($("textarea[responseid='"+$(this).attr("responseid")+"']").val() != ""){
+
+                            var newResponse = new Response({ generalItemId: gItem, responseValue: $("textarea[responseid='"+$(this).attr("responseid")+"']").val(), runId: $.cookie("dojoibl.run"), userEmail: 0, parentId: $(this).attr("responseid"), lastModificationDate: Date.now() });
+                            newResponse.save({}, {
+                                beforeSend:setHeader,
+                                success: function(r, new_response){
+                                }
+                            });
+                        }
+                        $("textarea[responseid='"+$(this).attr("responseid")+"']").val("");
+                    });
+                }else{
+                    console.error("Id of the response is missing")
+                }
+            }else{
+                //console.log("remove",$(this).parent().siblings(".social-comment:last"));
+                $(this).parent().siblings(".social-comment:last").remove();
+            }
+
+
+        });
     },
     addOne: function(response){
         var res = response.toJSON();
@@ -2173,7 +2221,6 @@ window.MessagesListView = Backbone.View.extend({
             view = new MessageLeftView({ model: message.toJSON() });
         }
         this.childViews.push(view);
-        console.log("hol");
         view = view.render().el;
         this.$el.append(view);
     },
@@ -2498,7 +2545,7 @@ window.TimelineView = Backbone.View.extend({
     },
     addOne: function(response){
 
-        console.log(response.toJSON().runId,this.collection.id)
+        //console.log(response.toJSON().runId,this.collection.id)
 
             if(response.toJSON().generalItemId != this.right){
                 if(this.left == true){
