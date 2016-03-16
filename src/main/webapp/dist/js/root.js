@@ -357,6 +357,9 @@ var AppRouter = Backbone.Router.extend({
                                 new ConceptMapView({ model: xhr }).render().el;
                             }
                         });
+
+                        app.loadTimeline(_runId);
+
                     }else if (xhr.type.indexOf("ScanTag") > -1){
                         console.log("Data collection");
                         new window.ResponseDataCollectionListView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId });
@@ -384,6 +387,8 @@ var AppRouter = Backbone.Router.extend({
                             beforeSend: setHeader,
                             reset: true
                         });
+
+                        app.loadTimeline(_runId);
 
                             //
                             //}else if(xhr.type.indexOf("OpenBadge") > -1) {
