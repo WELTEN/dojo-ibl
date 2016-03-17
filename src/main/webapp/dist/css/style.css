@@ -8249,8 +8249,13 @@ div.phases-breadcrumb  {
   position: relative;
 }
 
+#inquiry-content {
+  margin-bottom: 3em;
+
+}
+
 .special-height{
-  min-height: 17em;
+  min-height: 47em;
   /*overflow: hidden;*/
   clear: none !important;
 }
@@ -8376,7 +8381,7 @@ div.phases-breadcrumb  {
 }
 
 .inquiry{
-  /*padding: 1em;*/
+  padding-bottom: 5em;
 }
 
 .default-hint{

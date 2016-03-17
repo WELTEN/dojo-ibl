@@ -1179,7 +1179,6 @@ window.VideoActivityView = Backbone.View.extend({
         var aux = response.toJSON().userEmail.split(':');
         var user = this.users.where({ 'localId': aux[1] });
 
-
         if(res.parentId != 0){
 
             var childView = new ResponseView({ model: response.toJSON(), user: user[0] });
