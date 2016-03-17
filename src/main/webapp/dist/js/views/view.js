@@ -153,7 +153,7 @@ window.GameListItemView = Backbone.View.extend({
     showRuns: function(e){
         e.preventDefault();
 
-        var _aux = $(this.el).find(".widget-text-box");
+        var _aux = $(this.el).find(".widget-text-box tbody");
 
         $(this.el).find(".front").toggle();
         $(this.el).find(".back").toggle();
@@ -1713,6 +1713,9 @@ window.ResponseReplyQuestionView = Backbone.View.extend({
 
 window.ActivityView = Backbone.View.extend({
     initialize:function (xhr) {
+
+        //console.log(xhr);
+
         if(xhr.model.type.indexOf("VideoObject") > -1){
             this.template = _.template(tpl.get('activity_video'));
         }else if(xhr.model.type.indexOf("OpenBadge") > -1) {

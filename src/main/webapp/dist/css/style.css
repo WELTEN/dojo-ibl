@@ -3426,6 +3426,11 @@ video {
 .ibox-title h5 {
   margin-top: 5px;
 }
+
+.widget-text-box th{
+ text-align: center;
+}
+
 ul.unstyled,
 ol.unstyled {
   list-style: none outside none;

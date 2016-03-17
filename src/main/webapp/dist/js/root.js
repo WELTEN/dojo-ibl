@@ -360,19 +360,16 @@ var AppRouter = Backbone.Router.extend({
 
                         app.loadTimeline(_runId);
 
-                    }else if (xhr.type.indexOf("ScanTag") > -1){
-                        console.log("Data collection");
-                        new window.ResponseDataCollectionListView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId });
-
-                        //if(app.Response.itemId != xhr.id) {
-                            app.Response.id = _runId;
-                            app.Response.itemId = xhr.id;
-                            app.Response.fetch({
-                                beforeSend: setHeader
-                            });
-                        //}
-                    }
-                    else if(xhr.type.indexOf("AudioObject") > -1) {
+                    //}else if (xhr.type.indexOf("ScanTag") > -1){
+                    //    console.log("Data collection");
+                    //    new window.ResponseDataCollectionListView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId });
+                    //
+                    //    app.Response.id = _runId;
+                    //    app.Response.itemId = xhr.id;
+                    //    app.Response.fetch({
+                    //        beforeSend: setHeader
+                    //    });
+                    }else if(xhr.type.indexOf("AudioObject") > -1) {
                         app.Response.id = _runId;
                         app.Response.itemId = xhr.id;
 
