@@ -372,7 +372,51 @@ var AppRouter = Backbone.Router.extend({
                             });
                         //}
                     }
-                    else if(xhr.type.indexOf("VideoObject") > -1){
+                    else if(xhr.type.indexOf("AudioObject") > -1) {
+                        app.Response.id = _runId;
+                        app.Response.itemId = xhr.id;
+
+                        var view = new window.ExternalResourceActivityView({
+                            collection: app.Response,
+                            users: app.InquiryUsers,
+                            game: _gameId,
+                            run: _runId,
+                            model: xhr
+                        });
+
+                        app.showView("#inquiry-content", view);
+                        $('#list_answers').addClass("social-footer");
+                        $('#list_answers').after(new ResponseReplyView({}).render().el);
+                        //if(app.Response.itemId != xhr.id){
+
+                        app.Response.fetch({
+                            beforeSend: setHeader,
+                            reset: true
+                        });
+
+                        app.loadTimeline(_runId);
+
+                        $(".save[responseid='0']").click(function () {
+                            if ($("textarea[responseid='0'], input[responseid='0']").val() != "") {
+
+                                var newResponse = new Response({
+                                    generalItemId: xhr.id,
+                                    responseValue: $("textarea[responseid='0'], input[responseid='0']").val(),
+                                    runId: $.cookie("dojoibl.run"),
+                                    userEmail: 0,
+                                    parentId: 0,
+                                    lastModificationDate: Date.now()
+                                });
+                                newResponse.save({}, {
+                                    beforeSend: setHeader,
+                                    success: function (r, new_response) {
+                                        //app.showNotification("success", "Discussion thread", "Your comment has been sent");
+                                    }
+                                });
+                            }
+                            $("textarea[responseid='0'], input[responseid='0']").val("");
+                        });
+                    }else if(xhr.type.indexOf("VideoObject") > -1){
                         app.Response.id = _runId;
                         app.Response.itemId = xhr.id;
 
