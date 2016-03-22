@@ -335,7 +335,38 @@ window.InquiryNewView = Backbone.View.extend({
     },
     events: {
         "click .drag.external-event.navy-bg.remove": "loadActivity",
-        "click .add-new-role": "createNewRole"
+        "click .add-new-role": "createNewRole",
+        "click li:not(.new-phase).active": "changeTitle"
+    },
+    changeTitle: function(e){
+
+        swal({
+            title: "Change the name of phase",
+            text: "Give a descriptive name for the phase",
+            type: "input",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            animation: "slide-from-top",
+            inputPlaceholder: "Example: Data collection phase"
+        }, function (inputValue) {
+            if (inputValue === false)
+                return false;
+            if (inputValue === "") {
+                swal.showInputError("You need to write something!");
+                return false
+            }
+            swal("Nice!", "The new name of the phase is: " + inputValue, "success");
+
+            e.target.innerText = inputValue;
+            //+$('<i class="fa fa-remove remove-phase"></i>').html();
+
+            ////////////////////////
+            // Update phases in Game
+            ////////////////////////
+            var updateGame = new Game({ gameId: $.cookie("dojoibl.game"), phases: app.checkPhases(), title: $("#inquiry-title-value").val(), description: $("#inquiry-description-value").val()  });
+            updateGame.save({},{ beforeSend:setHeader });
+        });
+
     },
     loadActivity: function(e) {
 
@@ -521,9 +552,12 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
 
     },
     events: {
-        //"click .remove-phase": "removePhase",
+        //"click li": "changeTitle",
         "focusout .activities-form form": "saveActivity"
     },
+    //changeTitle: function(e){
+    //    console.log("change title");
+    //},
     saveActivity: function(e) {
 
         var frm = $(e.currentTarget).closest('form');
@@ -707,8 +741,6 @@ window.SideBarView = Backbone.View.extend({
             }
         });
 
-
-
         return this;
     },
     events: {
@@ -756,11 +788,13 @@ window.SideBarView = Backbone.View.extend({
 // Phases
 window.PhaseView = Backbone.View.extend({
     className: "animated fadeIn",
-    initialize:function () {
+    initialize:function (options) {
+        this.namePhase = options.namePhase;
         this.template = _.template(tpl.get('phase'));
     },
     render:function () {
-        $(this.el).html(this.template());
+        console.log();
+        $(this.el).html(this.template({ namePhase: this.namePhase }));
 
         return this;
     }

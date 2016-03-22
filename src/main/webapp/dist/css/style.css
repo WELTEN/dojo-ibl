@@ -8580,6 +8580,16 @@ text.id {
   list-style: none;
 }
 
+.select-activities li:not(.new-phase) a {
+  /*text-decoration: underline;*/
+}
+
+.select-activities li:not(.new-phase) a:hover {
+  text-decoration: underline;
+  cursor:pointer;
+}
+
+
 /*
  Steps create new inquiry
 */
