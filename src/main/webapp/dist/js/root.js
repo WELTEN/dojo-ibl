@@ -633,7 +633,6 @@ var AppRouter = Backbone.Router.extend({
 
                                 app.createCookie("dojoibl.game", _gameId);
 
-
                                 //////////////////////
                                 // Give access to Game
                                 //////////////////////
@@ -787,10 +786,20 @@ var AppRouter = Backbone.Router.extend({
                     $("#inquiry-title-value").val(game.title);
                     $("#inquiry-description-value").val(game.description);
 
+                    console.log(game);
+
+                    // Roles
+                    game.config.roles.forEach(function(role){
+
+                        role = JSON.parse(role);
+                        if($("#wizard-p-1").length == 0){
+                            console.log($("#wizard-p-1").length);
+                        }
+                        $("#wizard-p-1").append(new RoleView({ role: role.name }).render().el)
+                    });
+
                     var _number_phase = 0;
                     game.phases.forEach(function(e){
-
-                        console.log(e);
 
                         var _phase = new NewPhaseNewInquiryView({}).render().el;
                         _number_phase += 1;
@@ -799,13 +808,10 @@ var AppRouter = Backbone.Router.extend({
 
 
                         if(e.title != "Phase "+_number_phase) {
-                            console.log(e.title);
                             $('<li><a data-toggle="tab" href="#tab-' + _number_phase + '" > ' + e.title + '<i class="fa fa-remove remove-phase"></i></a></li>')
                                 .insertBefore($("ul.select-activities > li.new-phase"));
-
-
                         }else{
-                            console.log("Phase "+_number_phase);
+                            //console.log("Phase "+_number_phase);
 
                             $('<li><a data-toggle="tab" href="#tab-' + _number_phase + '" > Phase ' + _number_phase + '<i class="fa fa-remove remove-phase"></i></a></li>')
                                 .insertBefore($("ul.select-activities > li.new-phase"));
@@ -830,7 +836,7 @@ var AppRouter = Backbone.Router.extend({
         activity_edit.fetch({
             beforeSend: setHeader,
             success: function (response, results) {
-                console.log(results);
+                //console.log(results);
 
                 var section = "";
                 _.each(results.generalItems, function(gi){
@@ -921,8 +927,13 @@ var AppRouter = Backbone.Router.extend({
                 ////////////////////////
                 // Update phases in Game
                 ////////////////////////
-                var updateGame = new Game({ gameId: _gameId, phases: app.checkPhases(), title: $("#inquiry-title-value").val(), description: $("#inquiry-description-value").val()  });
-                updateGame.save({},{ beforeSend:setHeader });
+                var updateGame = new Game({ });
+                updateGame.save({ gameId: _gameId, phases: app.checkPhases(), title: $("#inquiry-title-value").val(), description: $("#inquiry-description-value").val() },{
+                    beforeSend:setHeader,
+                    success: function(r,s){
+                        //console.log(s);
+                    }
+                });
 
                 var _p = $(".tab-pane.active").attr("id").substring(4,5);
 
@@ -1079,6 +1090,7 @@ var AppRouter = Backbone.Router.extend({
     checkPhases: function(){
         var phases = [];
 
+
         $("ul.select-activities").children("li:not(.new-phase)").each(function () {
             var item = {}
             item ["title"] = $(this).find("a").text();
@@ -1100,8 +1112,6 @@ var AppRouter = Backbone.Router.extend({
             $(this).parents('li').remove('li');
             $(tabId).remove();
             $(".tabs-container tab-content").addClass("active");
-            ////reNumberPages();
-            //$('#pageTab a:first').tab('show');
         });
     },
     showView: function(selector, view) {
@@ -1628,7 +1638,8 @@ tpl.loadTemplates(['main',
     'inquiry_toolbar',
     //'timeline',
     'timeline_item',
-    'activity_research_question'
+    'activity_research_question',
+    'new_role'
 ], function() {
     app = new AppRouter();
     Backbone.history.start();

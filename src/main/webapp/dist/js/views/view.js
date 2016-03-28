@@ -381,6 +381,33 @@ window.InquiryNewView = Backbone.View.extend({
             _gameId = $.cookie("dojoibl.game");
         }
 
+        $("select[name='roles'] option").remove();
+
+        var _gl = app.GameList.get(_gameId);
+        if(!_gl){
+            var game = new GameCollection({ });
+            game.gameId = _gameId;
+            game.fetch({
+                beforeSend: setHeader,
+                success: function (response, game) {
+                    _gl = game;
+                    console.log(game);
+
+                    game.config.roles.forEach(function(role){
+                        role = JSON.parse(role);
+                        $("select[name='roles']").append('<option value="'+role.name+'">'+role.name+'</option>');
+                    });
+                }
+            });
+        }else{
+            console.log(_gl.toJSON());
+
+            _gl.toJSON().config.roles.forEach(function(role){
+                role = JSON.parse(role);
+                $("select[name='roles']").append('<option value="'+role.name+'">'+role.name+'</option>');
+            });
+        }
+
         $(".activities-form").show();
 
         var act = new ActivityCollection({ });
@@ -393,8 +420,6 @@ window.InquiryNewView = Backbone.View.extend({
                 setTimeout(function(){
                     $(".activities-form .spiner-example").hide(1000);
                 }, 2000);
-
-                console.log(xhr)
 
                 $.each(xhr, function(name, value){
                     if( name != 'videoFeed' && name != 'audioFeed' ){
@@ -460,8 +485,6 @@ window.InquiryNewView = Backbone.View.extend({
     },
     createNewRole: function(e){
         e.preventDefault();
-        console.log("click");
-
         swal({
             title: "Add a new role",
             text: "Give a descriptive name for the new role",
@@ -479,18 +502,35 @@ window.InquiryNewView = Backbone.View.extend({
             }
             swal("Nice!", "A new role: " + inputValue + " has been created", "success");
 
-            var new_role = new AddRole("hol");
+            var _val = inputValue;
+
+            var new_role = new AddRole();
             new_role.gameId = $.cookie("dojoibl.game");
-            new_role.save({}, {
+            new_role.save({ "name": inputValue }, {
                 beforeSend: setHeader,
                 success: function (r, response) {
-
+                    console.log(r, response.config.roles);
+                    $("#wizard-p-1").append(new RoleView({ role: _val }).render().el)
                 }
             });
         });
-
     }
 });
+
+// Phases
+window.RoleView = Backbone.View.extend({
+    className: "col-lg-3 fadeIn",
+    initialize:function (options) {
+        this.namePhase = options.role;
+        this.template = _.template(tpl.get('new_role'));
+    },
+    render:function () {
+        $(this.el).html(this.template({ name: this.namePhase, color: "#222222" }));
+
+        return this;
+    }
+});
+
 
 window.NewInquiryCode = Backbone.View.extend({
     tagName:  "div",
@@ -564,7 +604,7 @@ window.NewPhaseNewInquiryView = Backbone.View.extend({
 
         var data = app.getDataForm(frm);
 
-        //console.log(data);
+        console.log(data);
 
         /////////////////////////////////////
         // Create the activity = General Item

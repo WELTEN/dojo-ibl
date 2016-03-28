@@ -8778,6 +8778,10 @@ textarea.form-control{
   border: 1px dashed;
 }
 
+.role{
+  border: 1px solid;
+}
+
 .show-more-responses{
   width: 40% !important;
   margin: 1em auto !important;

@@ -271,6 +271,10 @@ public class GameDelegator extends GoogleDelegator {
         if (game.getGameId() != null) {
             oldGame = getGame(game.getGameId());
         }
+
+        if(oldGame.getConfig() != null)
+            game.setConfig(oldGame.getConfig());
+
         game.setGameId(GameManager.addGame(game));
         MyGamesCache.getInstance().removeGame(game.getGameId());
         MyGamesCache.getInstance().removeGameList(game.getGameId(), null, null, null, null);
@@ -285,6 +289,9 @@ public class GameDelegator extends GoogleDelegator {
         if (oldGame != null) {
             checkSharing(oldGame, game);
         }
+
+
+
         return game;
     }
 
