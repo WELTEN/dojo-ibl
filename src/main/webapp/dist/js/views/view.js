@@ -994,6 +994,7 @@ window.ResponseListView = Backbone.View.extend({
     addOne: function(response){
         var res = response.toJSON();
         var aux = response.toJSON().userEmail.split(':');
+        console.log(this.users);
         var user = this.users.where({ 'localId': aux[1] });
 
         if(this.model.id == res.generalItemId){
