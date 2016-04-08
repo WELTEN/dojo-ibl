@@ -260,6 +260,8 @@ var AppRouter = Backbone.Router.extend({
 
             if($("#inquiry-content").length == 0){
 
+                app.loadSideBar(_gameId, _runId)
+
                 $(".row.inquiry").append($('<div />', {
                     "class": 'col-md-9 wrapper wrapper-content animated fadeInUp',
                     id: "inquiry-content"
@@ -297,7 +299,7 @@ var AppRouter = Backbone.Router.extend({
         this.createEditButton(_gameId);
         this.removeJoinCreateButton();
 
-        //this.loadInquiryUsers(_runId);
+        this.loadInquiryUsers(_runId);
 
         //this.breadcrumbManagerSmall("#inquiry/"+_gameId+"/phase/"+_phase,"the list of activities");
 
@@ -325,6 +327,9 @@ var AppRouter = Backbone.Router.extend({
                     app.changeTitle(' <a href="#inquiry/'+_runId+'">'+_gameObject.title+'</a> <i class="fa fa-angle-double-right"></i> <a href="#inquiry/'+_gameObject.gameId+'/phase/'+_phase+'">'+_gameObject.phases[_phase-1].title+'</a> <i class="fa fa-angle-double-right"></i> '+xhr.name);
 
                     if($("#inquiry-content").length == 0){
+
+                        app.loadSideBar(_gameObject.gameId, _runId)
+
                         $(".row.inquiry").append($('<div />', {
                             "class": 'col-md-9 wrapper wrapper-content animated fadeInUp',
                             id: "inquiry-content"
@@ -1496,7 +1501,9 @@ var AppRouter = Backbone.Router.extend({
                     app.UsersList.add(xhr);
 
                     $(".m-r-sm.text-muted.notification-text").html(xhr.givenName + " " + xhr.familyName);
-                    app.showView('ul.nav.metismenu > li:eq(0)', new UserView({model: xhr}));
+                    //app.showView('ul.nav.metismenu > li:eq(0)', new UserView({model: xhr}));
+                    $('ul.nav.metismenu > li.nav-header').append(new UserView({ model: xhr }).render().el);
+
 
                     var date = new Date();
                     date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
