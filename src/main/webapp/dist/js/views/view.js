@@ -2841,8 +2841,11 @@ window.TimelineView = Backbone.View.extend({
 });
 
 window.TimelineView2 = Backbone.View.extend({
-    el: "#inquiry-content",
+    id: "inquiry-content",
+    className: "col-md-9 wrapper wrapper-content animated fadeIn",
     initialize: function(options){
+
+        this.template = _.template(tpl.get('timeline'));
 
         this.collection.on('add', this.addOne, this);
         this.collection.on('add', this.hidebutton, this);
@@ -2858,13 +2861,13 @@ window.TimelineView2 = Backbone.View.extend({
 
     },
     render: function(){
-        //console.log("render")
-        this.$el.empty();
+        console.log("render")
+        this.$el.html(this.template);
+        this.$el.find('#vertical-timeline').empty();
         this.collection.forEach(this.addOne, this);
         return this;
     },
     addAll: function(){
-        //console.log("addAll")
         this.collection.forEach(this.addOne, this);
     },
     hidebutton: function(response){
@@ -2873,9 +2876,6 @@ window.TimelineView2 = Backbone.View.extend({
         }
     },
     addOne: function(response){
-
-        //console.log(response.toJSON().runId,this.collection.id)
-
         if(response.toJSON().generalItemId != this.right){
             if(this.left == true){
                 this.left =  false;
@@ -2892,7 +2892,7 @@ window.TimelineView2 = Backbone.View.extend({
 
         childView = childView.render();
 
-        this.$el.prepend(childView.el);
+        this.$el.find('#vertical-timeline').prepend(childView.el);
 
         this.right = response.toJSON().generalItemId;
     },
@@ -2900,8 +2900,6 @@ window.TimelineView2 = Backbone.View.extend({
         this.remove();
         this.unbind();
         this.collection.unbind("add", this.addOne);
-
-        //console.log("remove timelineview");
 
         // handle other unbinding needs, here
         _.each(this.childViews, function(childView){

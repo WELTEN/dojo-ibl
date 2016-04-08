@@ -24,7 +24,7 @@ var AppRouter = Backbone.Router.extend({
         ""			                                        : "showInquiries",
         "logout"			                                : "logout",
         "inquiry/:id"	                                    : "showInquiry",
-        "inquiry/:id/timeline"	                            : "showTimeline2",
+        "inquiry/:id/timeline"	                            : "showTimeline",
         "inquiry/edit/:id"	                                : "editInquiry",
         "inquiry/new/"	                                    : "createInquiry",
         "inquiry/:id/phase/:phase"                          : "showPhase",
@@ -297,16 +297,15 @@ var AppRouter = Backbone.Router.extend({
         this.createEditButton(_gameId);
         this.removeJoinCreateButton();
 
-        this.loadInquiryUsers(_runId);
+        //this.loadInquiryUsers(_runId);
 
-        this.breadcrumbManagerSmall("#inquiry/"+_gameId+"/phase/"+_phase,"the list of activities");
+        //this.breadcrumbManagerSmall("#inquiry/"+_gameId+"/phase/"+_phase,"the list of activities");
 
         var game = new GameCollection({ });
         game.gameId = _gameId;
         game.fetch({
             beforeSend: setHeader,
             success: function (response, game) {
-                console.log();
                 _gameObject = game;
             }
         });
@@ -509,8 +508,6 @@ var AppRouter = Backbone.Router.extend({
                         $('#list_answers').after(new ResponseReplyView({}).render().el);
                         //if(app.Response.itemId != xhr.id){
 
-
-
                         app.Response.fetch({
                             beforeSend: setHeader,
                             reset: true
@@ -533,119 +530,44 @@ var AppRouter = Backbone.Router.extend({
                             $("textarea[responseid='0'], input[responseid='0']").val("");
                         });
                     }
-
-
-                    // Add toolbar
-                    //app.loadTimeline(_runId);
                 }
             });
         }, 500);
     },
-    //showTimeline1: function(id){
-    //
-    //    this.isAuthenticated();
-    //
-    //    //this.secureAccess(id); // TODO still need to do it
-    //
-    //    $(".phases-breadcrumb").hide();
-    //
-    //    console.log(app.TimeLineList.id, id)
-    //    var different = (app.TimeLineList.id == id ? false : true);
-    //
-    //    this.createCookie("dojoibl.run", id);
-    //
-    //    this.common();
-    //    this.breadcrumbManager(0, "");
-    //
-    //    this.removeJoinCreateButton();
-    //
-    //    var _runId = id;
-    //
-    //    // Add toolbar
-    //    //this.addToolBar(_runId);
-    //
-    //    $(".btn.btn-outline.btn-success.dim.timeline").text("Standard view");
-    //    $(".btn.btn-outline.btn-success.dim.timeline").attr("href","#inquiry/"+_runId);
-    //    $(".btn.btn-outline.btn-success.dim.timeline").removeClass("btn-outline");
-    //
-    //    app.breadcrumbManagerSmall("#inquiry/"+_runId,"the list of phases");
-    //
-    //    app.changeTitle("Timeline");
-    //
-    //    $(this).addClass("animated fadeOutUpBig");
-    //
-    //    if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
-    //        $(".row.inquiry").append($('<div />', {
-    //            "class": 'col-md-9 wrapper wrapper-content animated fadeInUp',
-    //            id: "inquiry-content"
-    //        }));
-    //        $('.row.inquiry').append(new SideBarView({ }).render().el);
-    //        app.initializeChannelAPI();
-    //        app.loadChat();
-    //    }
-    //
-    //    $('#inquiry-content').html(new TimelineView({ collection: this.TimeLineList }).render().el);
-    //
-    //    var different = (app.TimeLineList.id == id ? false : true);
-    //    if(this.TimeLineList.length == 0 || different){
-    //        app.TimeLineList.id = _runId;
-    //        app.TimeLineList.fetch({
-    //            beforeSend: setHeader
-    //        });
-    //    }
-    //
-    //    $(".show-more-responses").click(function(){
-    //        app.TimeLineList.id = _runId;
-    //        app.TimeLineList.fetch({
-    //            beforeSend: setHeader
-    //        });
-    //    });
-    //},
-    //showTimeline2: function(id){
-    //
-    //
-    //    if($("#inquiry-content").length == 0){
-    //
-    //        //$(".row.inquiry").append($('<div />', {
-    //        //        "class": 'col-md-9 wrapper wrapper-content animated fadeInUp',
-    //        //        id: "inquiry-content"
-    //        //    }
-    //        //));
-    //
-    //        var timelineView = new TimelineView2({ collection: app.TimeLineList });
-    //
-    //        var different = (app.TimeLineList.id == id ? false : true);
-    //
-    //        //console.log("muestra timeline "+app.TimeLineList.length, different);
-    //
-    //        if(app.TimeLineList.length == 0 || different){
-    //            //console.log("Nueva consulta para el run "+_runId);
-    //            app.TimeLineList.id = id;
-    //            app.TimeLineList.fetch({
-    //                beforeSend: setHeader,
-    //                reset: true
-    //            });
-    //        }else{
-    //            timelineView.render();
-    //        }
-    //
-    //        $(".show-more-responses").click(function(){
-    //            //console.log("Dame mas responses despues del click"+_runId);
-    //            app.TimeLineList.id = id;
-    //            app.TimeLineList.fetch({
-    //                beforeSend: setHeader
-    //            });
-    //        });
-    //
-    //        if($(".col-lg-3.wrapper.wrapper-content.small-chat-float").length == 0){
-    //            $('.row.inquiry').append(new SideBarView({ }).render().el);
-    //            app.initializeChannelAPI();
-    //            app.loadChat();
-    //        }
-    //    }
-    //
-    //    $("#inquiry-content").html(new PhaseView({ "namePhase": app.namePhase }).render().el);
-    //},
+    showTimeline: function(id){
+        this.isAuthenticated();
+        this.common();
+
+        $('.row.inquiry').html(new TimelineView2({ collection: app.TimeLineList }).render().el);
+
+        if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
+
+            app.loadSideBar($.cookie("dojoibl.game"), id)
+
+            if($(".col-lg-3.wrapper.wrapper-content.small-chat-float").length == 0){
+                $('.row.inquiry').append(new SideBarView({ }).render().el);
+                app.initializeChannelAPI();
+                app.loadChat(id);
+            }
+        }
+
+        if(app.TimeLineList.length == 0){
+            //console.log("Nueva consulta para el run "+_runId);
+            app.TimeLineList.id = id;
+            app.TimeLineList.fetch({
+                beforeSend: setHeader,
+                reset: true
+            });
+        }
+
+        $(".show-more-responses").click(function(){
+            //console.log("Dame mas responses despues del click"+_runId);
+            app.TimeLineList.id = id;
+            app.TimeLineList.fetch({
+                beforeSend: setHeader
+            });
+        });
+    },
     createInquiry: function(){
         this.isAuthenticated();
         this.removeEditButton();
@@ -1126,7 +1048,7 @@ var AppRouter = Backbone.Router.extend({
 
         $('.inquiry').append(new GameListView({ collection: this.GameList }).render().el);
 
-        if(this.GameList.length == 0){
+        if(this.GameList.length < 2){
             this.GameAccessList.fetch({
                 beforeSend: setHeader,
                 success: function(e, response){
@@ -1427,14 +1349,14 @@ var AppRouter = Backbone.Router.extend({
 
                         swal({
                             title: "Timeout!",
-                            text: "Refresh the current page to continue!",
+                            text: "The session has timed out. Refresh!",
                             type: "warning",
                             showCancelButton: false,
                             confirmButtonColor: "#DD6B55",
                             confirmButtonText: "Refresh!!",
                             closeOnConfirm: false
                         }, function () {
-                            window.location = window.location.href;
+                            window.location.replace(window.location.href);
                             //swal("Timeout!", "Refresh this page to continue.", "success");
                         });
 
@@ -1520,16 +1442,10 @@ var AppRouter = Backbone.Router.extend({
         //    }, 0);
         //}
 
-
         $('.chat-discussion').slimScroll({
             height: '400px',
             railOpacity: 0.4
         });
-
-        //console.log(this.MessagesList.length, this.MessagesList.id, $.cookie("dojoibl.run"), runId);
-
-
-
     },
 
     // common
@@ -1808,7 +1724,7 @@ tpl.loadTemplates(['main',
     'activity_data_collection',
     'response_grid_item',
     'inquiry_toolbar',
-    //'timeline',
+    'timeline',
     'timeline_item',
     'activity_research_question',
     'new_role'
