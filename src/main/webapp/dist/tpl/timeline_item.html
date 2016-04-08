@@ -24,7 +24,7 @@
             <!--<h2><%= activity.name %></h2>-->
             <p>
                 <strong><%= author %></strong> commented on <strong><a
-                    href="#inquiry/<%= activity.gameId %>/phase/<%= activity.section %>/activity/<%= activity.id %>"> <%= activity.name %></a></strong> activity <br>
+                    href="#inquiry/<%= activity.gameId %>/phase/<%= activity.section %>/activity/<%= activity.id %>?<%= model.responseId %>"> <%= activity.name %></a></strong> activity <br>
             </p>
             <p><%= model.responseValue %></p>
                 <span class="vertical-date <% if (right ==  1){ %> date-timeline-extra <% } %>">
@@ -112,7 +112,7 @@
             <!--<h2><%= activity.name %></h2>-->
             <p>
                 <strong><%= author %></strong> commented on <strong><a
-                    href="#inquiry/<%= activity.gameId %>/phase/<%= activity.section %>/activity/<%= activity.id %>"> <%= activity.name %></a></strong> activity <br>
+                    href="#inquiry/<%= activity.gameId %>/phase/<%= activity.section %>/activity/<%= activity.id %>?<%= model.responseId %>"> <%= activity.name %></a></strong> activity <br>
             </p>
             <p><%= model.responseValue %></p>
                     <span class="vertical-date <% if (right ==  1){ %> date-timeline-extra <% } %>">

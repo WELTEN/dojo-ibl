@@ -21,16 +21,17 @@ var AppRouter = Backbone.Router.extend({
         this.TimeLineList = new TimelineCollection();
     },
     routes: {
-        ""			                                        : "showInquiries",
-        "logout"			                                : "logout",
-        "inquiry/:id"	                                    : "showInquiry",
-        "inquiry/:id/timeline"	                            : "showTimeline",
-        "inquiry/edit/:id"	                                : "editInquiry",
-        "inquiry/new/"	                                    : "createInquiry",
-        "inquiry/:id/phase/:phase"                          : "showPhase",
-        "inquiry/:id/phase/:phase/activity/:activity"       : "showActivity",
-        "profile"                                           : "personalProfile",
-        "profile/:id"                                       : "friendProfile"
+        ""			                                                    : "showInquiries",
+        "logout"			                                            : "logout",
+        "inquiry/:id"	                                                : "showInquiry",
+        "inquiry/:id/timeline"	                                        : "showTimeline",
+        "inquiry/edit/:id"	                                            : "editInquiry",
+        "inquiry/new/"	                                                : "createInquiry",
+        "inquiry/:id/phase/:phase"                                      : "showPhase",
+        "inquiry/:id/phase/:phase/activity/:activity"                   : "showActivity",
+        "inquiry/:id/phase/:phase/activity/:activity?:resId"            : "showActivity",
+        "profile"                                                       : "personalProfile",
+        "profile/:id"                                                   : "friendProfile"
     },
 
     // main views
@@ -282,7 +283,7 @@ var AppRouter = Backbone.Router.extend({
 
         }, 500);
     },
-    showActivity: function(id, phase, activity){
+    showActivity: function(id, phase, activity, resId){
         this.isAuthenticated();
         this.common();
 
@@ -378,7 +379,8 @@ var AppRouter = Backbone.Router.extend({
                     //    app.Response.fetch({
                     //        beforeSend: setHeader
                     //    });
-                    }else if(xhr.type.indexOf("AudioObject") > -1) {
+                    }
+                    else if(xhr.type.indexOf("AudioObject") > -1) {
                         app.Response.id = _runId;
                         app.Response.itemId = xhr.id;
 
@@ -422,7 +424,8 @@ var AppRouter = Backbone.Router.extend({
                             }
                             $("textarea[responseid='0'], input[responseid='0']").val("");
                         });
-                    }else if(xhr.type.indexOf("VideoObject") > -1){
+                    }
+                    else if(xhr.type.indexOf("VideoObject") > -1) {
                         app.Response.id = _runId;
                         app.Response.itemId = xhr.id;
 
@@ -460,7 +463,8 @@ var AppRouter = Backbone.Router.extend({
                             //}else if(xhr.type.indexOf("MultipleChoiceImageTest") > -1) {
                             //    new window.ResponseTreeView({ collection: app.Responses });
                         //}else{
-                    }else if(xhr.type.indexOf("ResearchQuestion") > -1) {
+                    }
+                    else if(xhr.type.indexOf("ResearchQuestion") > -1) {
 
                         app.Response.id = _runId;
                         app.Response.itemId = xhr.id;
@@ -503,7 +507,7 @@ var AppRouter = Backbone.Router.extend({
 
                         //console.log(xhr.id)
 
-                        var view = new window.ResponseListView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId, model: xhr });
+                        var view = new window.ResponseListView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId, model: xhr});
 
                         //console.log(app.Response.byActivity(xhr.id));
 
@@ -535,6 +539,10 @@ var AppRouter = Backbone.Router.extend({
                             $("textarea[responseid='0'], input[responseid='0']").val("");
                         });
                     }
+                    //if(typeof resId != 'undefined'){
+                    //    console.log(resId, $("[data-item='"+resId+"']").length);
+                    //    $("div[data-item='"+resId+"']").closest( ".social-comment").css("background-color", "yellow");
+                    //}
                 }
             });
         }, 500);
@@ -1361,7 +1369,8 @@ var AppRouter = Backbone.Router.extend({
                             confirmButtonText: "Refresh!!",
                             closeOnConfirm: false
                         }, function () {
-                            window.location.replace(window.location.href);
+                            //window.location.replace(window.location.href);
+                            location.reload();
                             //swal("Timeout!", "Refresh this page to continue.", "success");
                         });
 

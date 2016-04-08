@@ -925,6 +925,7 @@ window.ResponseListView = Backbone.View.extend({
         this.users = options.users;
         this.game = options.game;
         this.runId = options.run;
+        //this.highlitghResId = options.highlitgh;
 
         console.log(options);
 
