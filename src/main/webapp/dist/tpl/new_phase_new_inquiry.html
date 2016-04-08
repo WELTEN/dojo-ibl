@@ -112,10 +112,18 @@
                 <label class="col-sm-2 control-label">Roles</label>
 
                 <div class="col-sm-10">
-                    <select data-placeholder="Choose a Country..." class="chosen-select form-control"  name="roles" tabindex="4">
-                        <option value="">Select</option>
-                    </select>
-                    <span class="help-block m-b-none">Select which roles will be in charge of this activity</span>
+                    <div class="input-group">
+                        <select data-placeholder="Roles..." class="chosen-select" multiple style="width:350px;" name="roles" tabindex="4">
+                            <option value="">Select</option>
+
+                            <option value="Zambia">Zambia</option>
+                            <option value="Zimbabwe">Zimbabwe</option>
+                        </select>
+                    </div>
+                    <!--<select data-placeholder="Choose a Country..." class="chosen-select form-control"  name="roles" tabindex="4">-->
+                        <!--<option value="">Select</option>-->
+                    <!--</select>-->
+                    <!--<span class="help-block m-b-none">Select which roles will be in charge of this activity</span>-->
                 </div>
             </div>
         </form>
