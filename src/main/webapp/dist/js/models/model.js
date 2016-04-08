@@ -36,6 +36,14 @@ window.AddRole = Backbone.Model.extend({
 });
 
 
+window.RemoveRole = Backbone.Model.extend({
+    url: function(){
+        return "/rest/myGames/config/gameId/"+this.gameId+"/role/remove";
+    }
+});
+
+
+
 window.GiveAccessToGame = Backbone.Model.extend({
     initialize: function(){
         console.log("Give access to a Run");
