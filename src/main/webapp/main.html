@@ -40,17 +40,18 @@
     <link href="dist/js/plugins/dropzone/dropzone.css" rel="stylesheet">
     <link href="dist/js/plugins/jquery-ui/jquery-ui.css" rel="stylesheet">
     <link href="dist/js/plugins/toastr/toastr.min.css" rel="stylesheet">
-    <link href="dist/css/plugins/chosen/chosen.css" rel="stylesheet">
+    <link href="dist/js/plugins/chosen/chosen.css" rel="stylesheet">
     <link href="dist/js/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <link href="dist/css/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
 
     <!--<link href="dist/css/plugins/intro/introjs.css" rel="stylesheet">-->
     <link href="dist/js/plugins/summernote/summernote.css" rel="stylesheet">
     <link href="dist/js/plugins/summernote/summernote-bs3.css" rel="stylesheet">
+    <link href="dist/js/plugins/colorpicker/bootstrap-colorpicker.css" rel="stylesheet">
 
 </head>
 
-<body class="mini-navbar">
+<body class="">
 
 <div id="wrapper">
 
@@ -64,7 +65,18 @@
                     </div>
                 </li>
                 <li >
-                    <a href="#profile"><i class="fa fa-user"></i> <span class="nav-label">Profile</span> <span class="label label-warning pull-right">NEW</span></a>
+                    <a href="#profile"><i class="fa fa-user"></i> <span class="nav-label">Your profile</span> <!-- <span class="label label-warning pull-right">Current</span> --></a>
+                </li>
+                <li class="active inquiry-sidebar hide-sidebar">
+                    <a href="#"><i class="fa fa-asterisk"></i> <span class="nav-label sidebar-inquiry-title">Colony on Mars </span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li class="active">
+                            <a href="#"><i class="fa fa-share-alt"></i>Activities view <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                            </ul>
+                        </li>
+                        <!--<li class="sidebar-inquiry-timeline"><a href="#"><i class="fa fa-clock-o"></i>Timeline</a></li>-->
+                    </ul>
                 </li>
             </ul>
 
@@ -164,6 +176,35 @@
     </div>
 </div>
 
+<div class="modal inmodal" id="editRole" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Edit role</h4>
+            </div>
+            <div class="modal-body">
+                <p><strong>Tip</strong>: ask your teacher for the code. Type the code below and we will do the magic for you.
+                    After you insert the code you will be redirect to the inquiry.
+                    The code </p>
+                <div class="form-group">
+                    <label>Title role</label>
+                    <input type="text" class="form-control rolestring" />
+                </div>
+                <div class="form-group">
+                    <label>Color</label>
+                    <input type="text" class="form-control editrolecolor rolecolor" value="#5367ce" />
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger remove-role">Delete role</button>
+                <button type="button" class="btn btn-primary modify-role" data-dismiss="modal">Modify role</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Mainly scripts -->
 <script src="dist/js/jquery-2.1.1.js"></script>
 <script src="dist/js/bootstrap.min.js"></script>
@@ -196,13 +237,14 @@
 <script src="dist/js/plugins/staps/jquery.steps.min.js"></script>
 <script src="dist/js/plugins/validate/jquery.validate.min.js"></script>
 <script src="dist/js/plugins/toastr/toastr.min.js"></script>
-<script src="dist/js/plugins/chosen/chosen.jquery.js"></script>
+<!--<script src="dist/js/plugins/chosen/chosen.jquery.js"></script>-->
 <script src="dist/js/plugins/sweetalert/sweetalert.min.js"></script>
 <script src="dist/js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
 <script src="dist/js/plugins/touchPunch/jquery.ui.touch-punch.min.js"></script>
 
 <script src="dist/js/plugins/summernote/summernote.min.js"></script>
-<!--<script src="dist/js/plugins/chosen/chosen.jquery.js"></script>-->
+<script src="dist/js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+<script src="dist/js/plugins/chosen/chosen.jquery.js"></script>
 <script src="dist/js/plugins/d3/d3.min.js"></script>
 
 <script src="dist/js/models/model.js"></script>
@@ -223,6 +265,16 @@
     <a class="play-pause"></a>
     <ol class="indicator"></ol>
 </div>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-75878329-2', 'auto');
+    ga('send', 'pageview');
+
+</script>
 </body>
 
 </html>
