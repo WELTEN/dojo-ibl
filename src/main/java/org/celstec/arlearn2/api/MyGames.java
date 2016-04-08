@@ -334,6 +334,18 @@ public class MyGames extends Service {
 		GameDelegator qg = new GameDelegator(token);
 		return serialise(qg.createRole(gameIdentifier, roleString), accept);
 	}
+
+	@POST
+	@Path("/config/gameId/{gameIdentifier}/role/remove")
+	public String removeRole(@HeaderParam("Authorization") String token, String roleString,
+							 @PathParam("gameIdentifier") Long gameIdentifier,
+							 @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+							 @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+		if (!validCredentials(token))
+			return serialise(getInvalidCredentialsBean(), accept);
+		GameDelegator qg = new GameDelegator(token);
+		return serialise(qg.removeRole(gameIdentifier, roleString), accept);
+	}
 	
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON })

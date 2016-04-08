@@ -350,6 +350,23 @@ public class GameDelegator extends GoogleDelegator {
 
     }
 
+    public Game removeRole(Long gameIdentifier, String roleString) {
+        Game g = getGame(gameIdentifier);
+        if (g.getError() != null)
+            return g;
+        if (g.getConfig() == null)
+            g.setConfig(new Config());
+        Config c = g.getConfig();
+        if (c.getRoles() == null)
+            c.setRoles(new ArrayList<String>());
+
+        c.getRoles().remove(roleString);
+
+        createGame(g, GameModification.ALTERED);
+        return g;
+
+    }
+
     public Game setWithMap(Long gameIdentifier, boolean value) {
         Game g = getGame(gameIdentifier);
         if (g.getError() != null)
