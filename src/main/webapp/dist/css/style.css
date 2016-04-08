@@ -234,7 +234,10 @@ h5 {
   padding-left: 52px;
 }
 .nav-third-level li a {
-  padding-left: 62px;
+  padding-left: 72px;
+}
+.nav-fourth-level li a {
+  padding-left: 82px;
 }
 .nav-second-level li:last-child {
   margin-bottom: 10px;
@@ -8284,7 +8287,7 @@ div.phases-breadcrumb  {
   color: white;
   text-align: center;
   padding: 11px;
-  cursor: auto;
+  cursor: pointer;
 }
 
 .list_activities{
@@ -8858,4 +8861,13 @@ textarea.form-control{
 
 .save:focus, .save:active{
   outline: none;
+}
+
+
+.hide-sidebar{
+  display: none !important;
+}
+
+.show-sidebar{
+  display: block !important;
 }

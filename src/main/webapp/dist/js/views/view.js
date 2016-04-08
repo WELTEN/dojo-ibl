@@ -293,7 +293,7 @@ window.InquiryView = Backbone.View.extend({
         var gameId = this.model.game.gameId;
 
         this.model.game.phases.forEach(function(phase){
-            container.append('<li><input type="text" class="knob" data-readonly="true" value="0" data-width="50" data-height="50" data-fgcolor="#39CCCC" /><div class="knob-label"><a href="#inquiry/'+gameId+'/phase/'+phase.phaseId+'">'+phase.title+'</a></div></li>');
+            container.append('<li href="#inquiry/'+gameId+'/phase/'+phase.phaseId+'" ><input type="text" class="knob" data-readonly="true" value="0" data-width="50" data-height="50" data-fgcolor="#39CCCC" /><div class="knob-label"><a href="#inquiry/'+gameId+'/phase/'+phase.phaseId+'">'+phase.title+'</a></div></li>');
         });
 
         var radius = 170;
@@ -391,6 +391,7 @@ window.InquiryNewView = Backbone.View.extend({
                 beforeSend: setHeader,
                 success: function (response, game) {
                     _gl = game;
+
                     console.log(game);
 
                     game.config.roles.forEach(function(role){
@@ -468,6 +469,17 @@ window.InquiryNewView = Backbone.View.extend({
     },
     render:function () {
         $(this.el).html(this.template(this.model));
+        $('.editrolecolor').colorpicker();
+        var config = {
+            ''           : {},
+            '.chosen-select-deselect'  : { allow_single_deselect:true },
+            '.chosen-select-no-single' : { disable_search_threshold:10 },
+            '.chosen-select-no-results': { no_results_text:'Oops, nothing found!' },
+            '.chosen-select-width'     : { width:"95%" }
+        }
+        //for (var selector in config) {
+            $(".chosen-select").chosen();
+        //}
 
         return this;
     },
@@ -509,10 +521,14 @@ window.InquiryNewView = Backbone.View.extend({
             new_role.save({ "name": inputValue }, {
                 beforeSend: setHeader,
                 success: function (r, response) {
+
+                    app.GameList.set({ response }, { remove: false });
+
                     console.log(r, response.config.roles);
                     $("#wizard-p-1").append(new RoleView({ role: _val }).render().el)
                 }
             });
+
         });
     }
 });
@@ -530,6 +546,13 @@ window.RoleView = Backbone.View.extend({
         return this;
     }
 });
+
+
+
+/////////////////
+//// Manage roles
+/////////////////
+
 
 
 window.NewInquiryCode = Backbone.View.extend({
@@ -2800,6 +2823,78 @@ window.TimelineView = Backbone.View.extend({
             this.$el.prepend(childView.el);
 
             this.right = response.toJSON().generalItemId;
+    },
+    onClose: function(){
+        this.remove();
+        this.unbind();
+        this.collection.unbind("add", this.addOne);
+
+        //console.log("remove timelineview");
+
+        // handle other unbinding needs, here
+        _.each(this.childViews, function(childView){
+            if (childView.close){
+                childView.close();
+            }
+        })
+    }
+});
+
+window.TimelineView2 = Backbone.View.extend({
+    el: "#inquiry-content",
+    initialize: function(options){
+
+        this.collection.on('add', this.addOne, this);
+        this.collection.on('add', this.hidebutton, this);
+        this.collection.on('reset', this.render, this);
+
+        this.childViews = [];
+
+        this.left = true;
+        this.style = "float: left";
+        this.style1 = "float: right";
+        this.style2 = "float: left";
+        this.right = "";
+
+    },
+    render: function(){
+        //console.log("render")
+        this.$el.empty();
+        this.collection.forEach(this.addOne, this);
+        return this;
+    },
+    addAll: function(){
+        //console.log("addAll")
+        this.collection.forEach(this.addOne, this);
+    },
+    hidebutton: function(response){
+        if(!this.collection.resumptionToken){
+            $(".show-more-responses").hide();
+        }
+    },
+    addOne: function(response){
+
+        //console.log(response.toJSON().runId,this.collection.id)
+
+        if(response.toJSON().generalItemId != this.right){
+            if(this.left == true){
+                this.left =  false;
+                this.style =  this.style2;
+            }else{
+                this.left =  true;
+                this.style =  this.style1;
+            }
+        }
+
+        var childView = new TimelineItemView({ model: response.toJSON(), right: this.left } );
+
+        this.childViews.push(childView);
+
+        childView = childView.render();
+
+        this.$el.prepend(childView.el);
+
+        this.right = response.toJSON().generalItemId;
     },
     onClose: function(){
         this.remove();

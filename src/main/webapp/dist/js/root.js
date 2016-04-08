@@ -24,7 +24,7 @@ var AppRouter = Backbone.Router.extend({
         ""			                                        : "showInquiries",
         "logout"			                                : "logout",
         "inquiry/:id"	                                    : "showInquiry",
-        "inquiry/timeline/:id"	                            : "showTimeline",
+        "inquiry/:id/timeline"	                            : "showTimeline2",
         "inquiry/edit/:id"	                                : "editInquiry",
         "inquiry/new/"	                                    : "createInquiry",
         "inquiry/:id/phase/:phase"                          : "showPhase",
@@ -45,6 +45,7 @@ var AppRouter = Backbone.Router.extend({
         this.showJoinCreateButton();
         this.breadcrumbManagerSmallHide();
         this.removeToolBar();
+        this.resetSideBar();
 
         $(".join-inquiry").click(function(){
             //////////////////////////
@@ -187,6 +188,8 @@ var AppRouter = Backbone.Router.extend({
                 $(".knob").knob();
 
                 app.loadTimeline(_runId);
+
+                app.loadSideBar(results.gameId, _runId)
             }
         });
 
@@ -494,7 +497,7 @@ var AppRouter = Backbone.Router.extend({
                         app.Response.itemId = xhr.id;
 
 
-                        console.log(xhr.id)
+                        //console.log(xhr.id)
 
                         var view = new window.ResponseListView({ collection: app.Response, users: app.InquiryUsers, game: _gameId, run: _runId, model: xhr });
 
@@ -538,66 +541,111 @@ var AppRouter = Backbone.Router.extend({
             });
         }, 500);
     },
-    showTimeline: function(id){
-
-        this.isAuthenticated();
-
-        //this.secureAccess(id); // TODO still need to do it
-
-        $(".phases-breadcrumb").hide();
-
-        console.log(app.TimeLineList.id, id)
-        var different = (app.TimeLineList.id == id ? false : true);
-
-        this.createCookie("dojoibl.run", id);
-
-        this.common();
-        this.breadcrumbManager(0, "");
-
-        this.removeJoinCreateButton();
-
-        var _runId = id;
-
-        // Add toolbar
-        //this.addToolBar(_runId);
-
-        $(".btn.btn-outline.btn-success.dim.timeline").text("Standard view");
-        $(".btn.btn-outline.btn-success.dim.timeline").attr("href","#inquiry/"+_runId);
-        $(".btn.btn-outline.btn-success.dim.timeline").removeClass("btn-outline");
-
-        app.breadcrumbManagerSmall("#inquiry/"+_runId,"the list of phases");
-
-        app.changeTitle("Timeline");
-
-        $(this).addClass("animated fadeOutUpBig");
-
-        if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
-            $(".row.inquiry").append($('<div />', {
-                "class": 'col-md-9 wrapper wrapper-content animated fadeInUp',
-                id: "inquiry-content"
-            }));
-            $('.row.inquiry').append(new SideBarView({ }).render().el);
-            app.initializeChannelAPI();
-            app.loadChat();
-        }
-
-        $('#inquiry-content').html(new TimelineView({ collection: this.TimeLineList }).render().el);
-
-        var different = (app.TimeLineList.id == id ? false : true);
-        if(this.TimeLineList.length == 0 || different){
-            app.TimeLineList.id = _runId;
-            app.TimeLineList.fetch({
-                beforeSend: setHeader
-            });
-        }
-
-        $(".show-more-responses").click(function(){
-            app.TimeLineList.id = _runId;
-            app.TimeLineList.fetch({
-                beforeSend: setHeader
-            });
-        });
-    },
+    //showTimeline1: function(id){
+    //
+    //    this.isAuthenticated();
+    //
+    //    //this.secureAccess(id); // TODO still need to do it
+    //
+    //    $(".phases-breadcrumb").hide();
+    //
+    //    console.log(app.TimeLineList.id, id)
+    //    var different = (app.TimeLineList.id == id ? false : true);
+    //
+    //    this.createCookie("dojoibl.run", id);
+    //
+    //    this.common();
+    //    this.breadcrumbManager(0, "");
+    //
+    //    this.removeJoinCreateButton();
+    //
+    //    var _runId = id;
+    //
+    //    // Add toolbar
+    //    //this.addToolBar(_runId);
+    //
+    //    $(".btn.btn-outline.btn-success.dim.timeline").text("Standard view");
+    //    $(".btn.btn-outline.btn-success.dim.timeline").attr("href","#inquiry/"+_runId);
+    //    $(".btn.btn-outline.btn-success.dim.timeline").removeClass("btn-outline");
+    //
+    //    app.breadcrumbManagerSmall("#inquiry/"+_runId,"the list of phases");
+    //
+    //    app.changeTitle("Timeline");
+    //
+    //    $(this).addClass("animated fadeOutUpBig");
+    //
+    //    if($(".col-md-9.wrapper.wrapper-content.animated.fadeInUp").length == 0){
+    //        $(".row.inquiry").append($('<div />', {
+    //            "class": 'col-md-9 wrapper wrapper-content animated fadeInUp',
+    //            id: "inquiry-content"
+    //        }));
+    //        $('.row.inquiry').append(new SideBarView({ }).render().el);
+    //        app.initializeChannelAPI();
+    //        app.loadChat();
+    //    }
+    //
+    //    $('#inquiry-content').html(new TimelineView({ collection: this.TimeLineList }).render().el);
+    //
+    //    var different = (app.TimeLineList.id == id ? false : true);
+    //    if(this.TimeLineList.length == 0 || different){
+    //        app.TimeLineList.id = _runId;
+    //        app.TimeLineList.fetch({
+    //            beforeSend: setHeader
+    //        });
+    //    }
+    //
+    //    $(".show-more-responses").click(function(){
+    //        app.TimeLineList.id = _runId;
+    //        app.TimeLineList.fetch({
+    //            beforeSend: setHeader
+    //        });
+    //    });
+    //},
+    //showTimeline2: function(id){
+    //
+    //
+    //    if($("#inquiry-content").length == 0){
+    //
+    //        //$(".row.inquiry").append($('<div />', {
+    //        //        "class": 'col-md-9 wrapper wrapper-content animated fadeInUp',
+    //        //        id: "inquiry-content"
+    //        //    }
+    //        //));
+    //
+    //        var timelineView = new TimelineView2({ collection: app.TimeLineList });
+    //
+    //        var different = (app.TimeLineList.id == id ? false : true);
+    //
+    //        //console.log("muestra timeline "+app.TimeLineList.length, different);
+    //
+    //        if(app.TimeLineList.length == 0 || different){
+    //            //console.log("Nueva consulta para el run "+_runId);
+    //            app.TimeLineList.id = id;
+    //            app.TimeLineList.fetch({
+    //                beforeSend: setHeader,
+    //                reset: true
+    //            });
+    //        }else{
+    //            timelineView.render();
+    //        }
+    //
+    //        $(".show-more-responses").click(function(){
+    //            //console.log("Dame mas responses despues del click"+_runId);
+    //            app.TimeLineList.id = id;
+    //            app.TimeLineList.fetch({
+    //                beforeSend: setHeader
+    //            });
+    //        });
+    //
+    //        if($(".col-lg-3.wrapper.wrapper-content.small-chat-float").length == 0){
+    //            $('.row.inquiry').append(new SideBarView({ }).render().el);
+    //            app.initializeChannelAPI();
+    //            app.loadChat();
+    //        }
+    //    }
+    //
+    //    $("#inquiry-content").html(new PhaseView({ "namePhase": app.namePhase }).render().el);
+    //},
     createInquiry: function(){
         this.isAuthenticated();
         this.removeEditButton();
@@ -770,6 +818,7 @@ var AppRouter = Backbone.Router.extend({
         app.breadcrumbManager(0, "");
         app.breadcrumbManagerSmall("#","list of inquiries");
 
+
         var _gameId = id;
 
         $.cookie("dojoibl.game", _gameId);
@@ -795,7 +844,9 @@ var AppRouter = Backbone.Router.extend({
                         if($("#wizard-p-1").length == 0){
                             console.log($("#wizard-p-1").length);
                         }
-                        $("#wizard-p-1").append(new RoleView({ role: role.name }).render().el)
+                        $("#wizard-p-1").append(new RoleView({ role: role.name }).render().el);
+
+
                     });
 
                     var _number_phase = 0;
@@ -824,6 +875,10 @@ var AppRouter = Backbone.Router.extend({
 
                         app.removePhase();
                     });
+
+                    game.id = game.gameId;
+
+                    app.GameList.add(game);
 
                     $(".select-activities > li:first-child").addClass("active");
                     $(".tab-content > div.tab-pane:first-child").addClass("active");
@@ -931,7 +986,7 @@ var AppRouter = Backbone.Router.extend({
                 updateGame.save({ gameId: _gameId, phases: app.checkPhases(), title: $("#inquiry-title-value").val(), description: $("#inquiry-description-value").val() },{
                     beforeSend:setHeader,
                     success: function(r,s){
-                        //console.log(s);
+                        console.log(s);
                     }
                 });
 
@@ -957,6 +1012,63 @@ var AppRouter = Backbone.Router.extend({
                 inquiry_description: "required"
             }
         });
+
+        //$(".role").click(function(e){
+        //        var _e = e;
+        //        console.log(_e);
+        //        var _gl = app.GameList.get($.cookie("dojoibl.game"));
+        //        if(!_gl) {
+        //            console.info("Retrieve from the server");
+        //        }else{
+        //            console.log(_gl.toJSON());
+        //            var game = _gl.toJSON();
+        //
+        //            // Roles
+        //            game.config.roles.forEach(function(role){
+        //
+        //                role = JSON.parse(role);
+        //
+        //                //if (role.name == )
+        //
+        //
+        //                console.log(_e);
+        //                //if($("#wizard-p-1").length == 0){
+        //                //    console.log($("#wizard-p-1").length);
+        //                //}
+        //                //$("#wizard-p-1").append(new RoleView({ role: role.name }).render().el);
+        //
+        //
+        //        });
+        //    }
+        //
+        //});
+
+        //$(".modify-role").click(function(){
+        //    console.log($("input.rolestring").val());
+        //    console.log($("input.rolecolor").val());
+        //
+        //    var _gl = app.GameList.get($.cookie("dojoibl.game"));
+        //    if(!_gl) {
+        //        console.info("Retrieve from the server");
+        //    }else{
+        //        console.log(_gl.toJSON());
+        //        var game = _gl.toJSON();
+        //
+        //        // Roles
+        //        game.config.roles.forEach(function(role){
+        //
+        //            role = JSON.parse(role);
+        //
+        //            if($("#wizard-p-1").length == 0){
+        //                console.log($("#wizard-p-1").length);
+        //            }
+        //            $("#wizard-p-1").append(new RoleView({ role: role.name }).render().el);
+        //
+        //
+        //        });
+        //    }
+        //
+        //});
 
         var pageNum = 1;
 
@@ -1322,10 +1434,11 @@ var AppRouter = Backbone.Router.extend({
                             confirmButtonText: "Refresh!!",
                             closeOnConfirm: false
                         }, function () {
-                            swal("Timeout!", "Refresh this page to continue.", "success");
+                            window.location = window.location.href;
+                            //swal("Timeout!", "Refresh this page to continue.", "success");
                         });
 
-                        app.navigate('#', true);
+                        //app.navigate('#', true);
 
                         //isConnectionAlive = false;
                         //if (error.description == 'Invalid+token.' || error.description == 'Token+timed+out.') {
@@ -1459,7 +1572,8 @@ var AppRouter = Backbone.Router.extend({
         //$('.default-hint').show();
     },
     common: function(callback) {
-        if($("li.dropdown.user.user-menu").length ==0) {
+        console.debug("common");
+        if($("li.dropdown.user.user-menu").length == 0) {
             app.UsersList.fetch({
                 beforeSend: setHeader,
                 success: function (response, xhr) {
@@ -1505,6 +1619,64 @@ var AppRouter = Backbone.Router.extend({
     },
     removeJoinCreateButton: function(){
         $(".new-inquiry").hide();
+    },
+    loadSideBar: function(gameId, runId){
+        console.debug("Loading sidebar... for game "+gameId);
+        $(".inquiry-sidebar").addClass("show-sidebar");
+
+        var _gl = app.GameList.get(gameId);
+        var _runId = runId;
+
+        if(!_gl) {
+            var game = new GameCollection({  });
+            game.gameId = gameId;
+            game.fetch({
+                beforeSend: setHeader,
+                success: function (response, game) {
+                    $(".sidebar-inquiry-title").text(game.title);
+                    $(".sidebar-inquiry-timeline > a").attr("href", "#inquiry/"+_runId+"/timeline");
+                    $(".nav-third-level").html("");
+                    var _number_phase = 0;
+                    game.phases.forEach(function(e){
+
+                        //if(e.title.length > 50){
+                        //    $(".nav-third-level").append("<li>" +
+                        //        "<a href='#inquiry/"+game.gameId+"/phase/"+ e.phaseId+"'><i class='fa fa-circle'></i>"+e.title.substring(0, 50) + '...'+"</a>" +
+                        //        "</li>");
+                        //}else{
+                        $(".nav-third-level").append("<li>" +
+                        "<a href='#inquiry/"+game.gameId+"/phase/"+ e.phaseId+"'><i class='fa fa-circle'></i>"+e.title+"</a>" +
+                        "</li>");
+                        //}
+                    });
+                    app.GameList.add(game);
+                }
+            });
+        }else{
+            var game = _gl.toJSON();
+
+            $(".sidebar-inquiry-title").text(game.title);
+            $(".nav-third-level").html("");
+            var _number_phase = 0;
+            game.phases.forEach(function(e){
+
+                //if(e.title.length > 50){
+                //    $(".nav-third-level").append("<li>" +
+                //        "<a href='#inquiry/"+game.gameId+"/phase/"+ e.phaseId+"'><i class='fa fa-circle'></i>"+e.title.substring(0, 50) + '...'+"</a>" +
+                //        "</li>");
+                //}else{
+                    $(".nav-third-level").append("<li>" +
+                        "<a href='#inquiry/"+game.gameId+"/phase/"+ e.phaseId+"'><i class='fa fa-circle'></i>"+e.title+"</a>" +
+                        "</li>");
+                //}
+            });
+        }
+
+
+    },
+    resetSideBar: function(){
+        console.debug("Reseting sidebar... ");
+        $(".inquiry-sidebar").removeClass("show-sidebar");
     },
 
     // authentication
