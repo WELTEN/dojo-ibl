@@ -1,10 +1,10 @@
-angular.module('DojoIBL', ['ngRoute', 'ngResource', 'infinite-scroll', 'angular-cache', 'pascalprecht.translate'])
+angular.module('DojoIBL', ['ngRoute', 'ngResource', 'angular-cache', 'pascalprecht.translate'])
 
     .config(function ($translateProvider) {
 
         $translateProvider.useStaticFilesLoader({
             files: [{
-                prefix: '/ng/i18n/',
+                prefix: '/dist/i18n/',
                 suffix: '.json'
             }]
         });
