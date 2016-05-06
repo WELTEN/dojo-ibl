@@ -14,7 +14,7 @@ angular.module('DojoIBL', ['ngRoute', 'ngResource', 'angular-cache', 'pascalprec
     })
 
     .run(function ($http) {
-        $http.defaults.headers.common['Authorization'] = 'GoogleLogin auth=63f5b75a3fc7540cc561b4a2aa234fd';
+        $http.defaults.headers.common['Authorization'] = 'GoogleLogin auth=5f108bd43fbb44457b2a8862ac2df65';
         //$http.defaults.headers.common['Authorization'] = 'GoogleLogin auth='+localStorage.getItem('accessToken');
     }
 );

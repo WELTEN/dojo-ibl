@@ -81,15 +81,42 @@
             </div>
         </div>
         <div class="row inquiry">
-            <!--<div class="middle-box text-center default-hint animated fadeInRightBig">-->
-            <!--<h3 class="font-bold default-hint">Upss!! There are no inquiries available for you :(</h3>-->
-            <!--<div class="error-desc default-hint">You can either create a new inquiry or join an existing one using the options at the top right.<br>-->
-            <!--<div class="title-action default-hint">-->
-            <!--<a href="#inquiry/new/" class="default-hint btn btn-warning new-inquiry" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in"></i> Join inquiry</a>-->
-            <!--<a href="#inquiry/new/" class="default-hint btn btn-success new-inquiry"><i class="fa fa-plus"></i> New inquiry</a>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
+            <div class="col-lg-3 game animated fadeIn" ng-repeat="game in games">
+                <div class="ibox-content game text-center">
+                    <h1><a class="show-runs">{{ game.title }}</a></h1>
+                    <div class="front">
+                        <div class="m-b-sm">
+                            <!--<object class="img-circle" data="http://icons.iconarchive.com/icons/blackvariant/button-ui-system-apps/1024/LaunchPad-Rocket-icon.png" type="image/png">-->
+                            <!--<img src="/game/4913623780556800/gameThumbnail" class="img-circle circle-border m-b-md" alt="inquiry icon">-->
+                            <!--</object>-->
+                            <i class="fa fa-mortar-board icon-game"></i>
+                        </div>
+                        <p><b>Description:</b> {{ game.description }} </p>
+                        <p><b>Date:</b> 3/18/2016 (Fri Mar 18 2016 16:08:33 GMT+0100 (CET))</p>
+
+                        <div class="text-center">
+                            <a href="#inquiry/edit/4913623780556800" class="btn btn-xs btn-warning"><i class="fa fa-pencil-square"></i> Edit </a>
+                            <a href="#inquiry/delete/4913623780556800" class="btn btn-xs btn-danger delete-inquiry" data="4913623780556800"><i class="fa fa-trash"></i> Delete </a>
+                        </div>
+                    </div>
+                    <div ng-show="">
+                        <table class="widget-text-box table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Code</th>
+                                <th>Access</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+            </div>
         </div>
         <div class="footer">
             <div class="pull-right">
