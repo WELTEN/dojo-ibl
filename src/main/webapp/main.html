@@ -52,8 +52,24 @@
 </head>
 
 <body ng-app="DojoIBL">
+    <div id="wrapper">
 
-    <div ng-view></div>
+        <dibl-sidebar></dibl-sidebar>
+
+        <div id="page-wrapper" class="gray-bg">
+
+            <dibl-header></dibl-header>
+
+            <dibl-toolbar></dibl-toolbar>
+
+            <div ng-view></div>
+
+            <dibl-footer></dibl-footer>
+
+        </div>
+    </div>
+
+
 
     <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
@@ -129,6 +145,10 @@
     <script src="dist/js/routes.js"></script>
 
     <!-- Directives -->
+    <script src="dist/js/directives/dibl-sidebar.js"></script>
+    <script src="dist/js/directives/dibl-header.js"></script>
+    <script src="dist/js/directives/dibl-toolbar.js"></script>
+    <script src="dist/js/directives/dibl-footer.js"></script>
 
     <!-- Services -->
     <script src="dist/js/services/game.js"></script>
@@ -140,6 +160,10 @@
 
     <!-- Controller -->
     <script src="dist/js/controller/home.js"></script>
+    <script src="dist/js/controller/sidebar.js"></script>
+    <script src="dist/js/controller/header.js"></script>
+    <script src="dist/js/controller/toolbar.js"></script>
+    <script src="dist/js/controller/footer.js"></script>
 
 
     <script src="dist/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
