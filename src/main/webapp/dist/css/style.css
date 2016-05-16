@@ -1327,7 +1327,7 @@ button.dim:active:before {
   cursor: pointer;
   margin: 5px;
   width: 97%;
-  max-width: 37em;
+  max-width: §em;
   float: left;
 }
 #remove-drag{
@@ -3765,6 +3765,7 @@ table.table-mail tr td {
 }
 .ibox-content {
   clear: both;
+  overflow: hidden;
 }
 .ibox-heading {
   background-color: #f3f6fb;
@@ -3788,7 +3789,7 @@ table.table-mail tr td {
 }
 .ibox-tools {
   display: block;
-  float: none;
+  float: right;
   margin-top: 0;
   position: relative;
   padding: 0;
@@ -4022,7 +4023,7 @@ a.close-canvas-menu:hover {
 }
 .spiner-example {
   height: 200px;
-  padding-top: 15em;
+  padding-top: 7em;
 }
 /* MARGINS & PADDINGS */
 .p-xxs {
@@ -4468,7 +4469,7 @@ body.mini-navbar.fixed-sidebar .logo-element {
   border-left: 0;
   padding: 10px 0;
 }
-ul.clear-list:first-child {
+ul.clear-list:first-child, .list-group-item:first-child {
   border-top: none !important;
 }
 /* Intimeline */
@@ -8258,8 +8259,9 @@ div.phases-breadcrumb  {
 }
 
 #inquiry-content {
-  margin-bottom: 3em;
+  padding-bottom: 3em;
   padding-right: 0px;
+  overflow: hidden;
 }
 
 .special-height{
@@ -8269,25 +8271,27 @@ div.phases-breadcrumb  {
 }
 
 #circlemenu {
-  position: absolute;
+  /*position: absolute;*/
   /* opacity: .8; */
   /* float: left; */
-  top: 15em;
-  margin: 0em;
-  left: 45%;
+  /*top: 15em;*/
+  /*margin: 0em;*/
+  /*left: 45%;*/
+  position: relative;
+  overflow: hidden;
 }
 
 #circlemenu li, .list_activities li {
-  display: block;
-  width: 120px;
-  height: 120px;
-  position: absolute;
+  width: 90px;
+  height: 90px;
+  /* position: absolute; */
   background-color: black;
   border-radius: 64px;
   color: white;
   text-align: center;
-  padding: 11px;
+  padding: 34px 0px;
   cursor: pointer;
+  vertical-align: sub;
 }
 
 .list_activities{
@@ -8870,4 +8874,12 @@ textarea.form-control{
 
 .show-sidebar{
   display: block !important;
+}
+
+.padding{
+  padding: 15px;
+  overflow: hidden;
+}
+.fist-item {
+  border-top: none !important;
 }

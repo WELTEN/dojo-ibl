@@ -1,4 +1,4 @@
-angular.module('DojoIBL', ['ngRoute', 'ngResource', 'angular-cache', 'pascalprecht.translate'])
+angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache', 'infinite-scroll', 'pascalprecht.translate'])
 
     .config(function ($translateProvider) {
 

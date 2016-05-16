@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('ToolbarController', function ($scope, Session) {
+    .controller('FooterController', function ($scope, Session) {
         $scope.test = "foo";
 
         $scope.name = "your name";

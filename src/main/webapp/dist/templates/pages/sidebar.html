@@ -2,24 +2,43 @@
     <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
-
+                <div class="dropdown profile-element">
+                    <span>
+                        <img alt="image" class="img-circle" ng-src="{{ myAccount.picture }}">
+                    </span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                            <span class="block m-t-xs">
+                                <strong class="font-bold">{{ myAccount.name }}</strong>
+                            </span>
+                            <span class="text-muted text-xs block">Art Director</span>
+                        </span>
+                    </a>
+                </div>
                 <div class="logo-element">
-                    <a href="#">DIBL</a>
+                    IN+
                 </div>
             </li>
-            <li >
-                <a href="#"><i class="fa fa-home"></i> <span class="nav-label">Inquiries</span> <!-- <span class="label label-warning pull-right">Current</span> --></a>
+            <li>
+                <a href="#/home"><i class="fa fa-home"></i> <span class="nav-label">Inquiries</span>
+                    <!-- <span class="label label-warning pull-right">Current</span> --></a>
             </li>
-            <li >
-                <a href="#profile"><i class="fa fa-user"></i> <span class="nav-label">Your profile</span> <!-- <span class="label label-warning pull-right">Current</span> --></a>
+            <li>
+                <a href="#profile"><i class="fa fa-user"></i> <span class="nav-label">Your profile</span>
+                    <!-- <span class="label label-warning pull-right">Current</span> --></a>
             </li>
-            <li class="active inquiry-sidebar hide-sidebar">
-                <a href="#"><i class="fa fa-asterisk"></i> <span class="nav-label sidebar-inquiry-title">Colony on Mars </span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                    <li class="sidebar-inquiry-timeline"><a href="#"><i class="fa fa-clock-o"></i>Timeline <!--<span class="label label-danger pull-right">Unavailable</span>--></a></li>
+            <li ng-show="run" class="active inquiry-sidebar">
+                <a href="#"><i class="fa fa-asterisk"></i> <span class="nav-label sidebar-inquiry-title">{{ run.title | limitTo: 15 }} {{ run.title.length > 15 ? '...' : ''}}</span><span
+                        class="fa arrow"></span></a>
+                <ul class="nav nav-second-level ">
+                    <li class="sidebar-inquiry-timeline"><a href="#inquiry/{{ run.runId }}/timeline"><i class="fa fa-clock-o"></i>Timeline
+                        <!--<span class="label label-danger pull-right">Unavailable</span>--></a></li>
                     <li class="active">
                         <a href="#"><i class="fa fa-share-alt"></i>Phases view <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
+                            <li ng-repeat="phase in run.game.phases"><a
+                                    href="#inquiry/{{ run.runId }}/phase/{{ phase.phaseId }}"><i
+                                    class="fa fa-circle"></i> {{ phase.title }}</a></li>
                         </ul>
                     </li>
                 </ul>

@@ -54,73 +54,60 @@
 <body ng-app="DojoIBL">
     <div id="wrapper">
 
-        <dibl-sidebar></dibl-sidebar>
+        <div ui-view></div>
 
-        <div id="page-wrapper" class="gray-bg">
-
-            <dibl-header></dibl-header>
-
-            <dibl-toolbar></dibl-toolbar>
-
-            <div ng-view></div>
-
-            <dibl-footer></dibl-footer>
-
-        </div>
     </div>
 
+    <!--<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">-->
+        <!--<div class="modal-dialog">-->
+            <!--<div class="modal-content animated bounceInRight">-->
+                <!--<div class="modal-header">-->
+                    <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                    <!--<i class="fa fa-sign-in modal-icon"></i>-->
+                    <!--<h4 class="modal-title">Join inquiry</h4>-->
+                <!--</div>-->
+                <!--<div class="modal-body">-->
+                    <!--<p><strong>Tip</strong>: ask your teacher for the code. Type the code below and we will do the magic for you.-->
+                        <!--After you insert the code you will be redirect to the inquiry.-->
+                    <!--The code </p>-->
+                    <!--<div class="form-group"><label>Insert inquiry code</label> <input id="inquiry-code" type="email" placeholder="Inquiry code" required class="form-control"></div>-->
+                <!--</div>-->
+                <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn btn-white" data-dismiss="modal">Close</button>-->
+                    <!--<button type="button" class="btn btn-primary join-inquiry" data-dismiss="modal">Join</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 
+    <!--<div class="modal inmodal" id="editRole" tabindex="-1" role="dialog" aria-hidden="true">-->
+        <!--<div class="modal-dialog modal-sm">-->
+            <!--<div class="modal-content animated bounceInRight">-->
+                <!--<div class="modal-header">-->
+                    <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>-->
+                    <!--<h4 class="modal-title">Edit role</h4>-->
+                <!--</div>-->
+                <!--<div class="modal-body">-->
+                    <!--<p><strong>Tip</strong>: ask your teacher for the code. Type the code below and we will do the magic for you.-->
+                        <!--After you insert the code you will be redirect to the inquiry.-->
+                        <!--The code </p>-->
+                    <!--<div class="form-group">-->
+                        <!--<label>Title role</label>-->
+                        <!--<input type="text" class="form-control rolestring" />-->
+                    <!--</div>-->
+                    <!--<div class="form-group">-->
+                        <!--<label>Color</label>-->
+                        <!--<input type="text" class="form-control editrolecolor rolecolor" value="#5367ce" />-->
+                    <!--</div>-->
+                <!--</div>-->
 
-    <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content animated bounceInRight">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <i class="fa fa-sign-in modal-icon"></i>
-                    <h4 class="modal-title">Join inquiry</h4>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Tip</strong>: ask your teacher for the code. Type the code below and we will do the magic for you.
-                        After you insert the code you will be redirect to the inquiry.
-                    The code </p>
-                    <div class="form-group"><label>Insert inquiry code</label> <input id="inquiry-code" type="email" placeholder="Inquiry code" required class="form-control"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary join-inquiry" data-dismiss="modal">Join</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal inmodal" id="editRole" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content animated bounceInRight">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">Edit role</h4>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Tip</strong>: ask your teacher for the code. Type the code below and we will do the magic for you.
-                        After you insert the code you will be redirect to the inquiry.
-                        The code </p>
-                    <div class="form-group">
-                        <label>Title role</label>
-                        <input type="text" class="form-control rolestring" />
-                    </div>
-                    <div class="form-group">
-                        <label>Color</label>
-                        <input type="text" class="form-control editrolecolor rolecolor" value="#5367ce" />
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger remove-role">Delete role</button>
-                    <button type="button" class="btn btn-primary modify-role" data-dismiss="modal">Modify role</button>
-                </div>
-            </div>
-        </div>
-    </div>
+                <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn btn-danger remove-role">Delete role</button>-->
+                    <!--<button type="button" class="btn btn-primary modify-role" data-dismiss="modal">Modify role</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 
     <!-- Mainly scripts -->
     <script src="dist/js/vendor/jquery.min.js"></script>
@@ -128,6 +115,7 @@
 
     <script src="dist/js/vendor/angular.js"></script>
     <script src="dist/js/vendor/angular-route.js"></script>
+    <script src="dist/js/vendor/angular-ui-router.js"></script>
     <script src="dist/js/vendor/angular-resource.js"></script>
     <script src="dist/js/vendor/angular-cookies.js"></script>
     <script src="dist/js/vendor/angular-translate.js"></script>
@@ -140,6 +128,7 @@
     <script src="dist/js/vendor/inspinia.js"></script>
     <script src="dist/js/vendor/pace.min.js"></script>
     <script src="dist/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="dist/js/vendor/ng-infinite-scroll.min.js"></script>
 
     <script src="dist/js/app.js"></script>
     <script src="dist/js/routes.js"></script>
@@ -149,22 +138,37 @@
     <script src="dist/js/directives/dibl-header.js"></script>
     <script src="dist/js/directives/dibl-toolbar.js"></script>
     <script src="dist/js/directives/dibl-footer.js"></script>
+    <script src="dist/js/directives/dibl-chat.js"></script>
 
     <!-- Services -->
     <script src="dist/js/services/game.js"></script>
+    <script src="dist/js/services/run.js"></script>
     <script src="dist/js/services/session.js"></script>
     <script src="dist/js/services/property.js"></script>
+    <script src="dist/js/services/activity.js"></script>
+    <script src="dist/js/services/account.js"></script>
+    <script src="dist/js/services/response.js"></script>
 
     <!-- Resources -->
     <script src="dist/js/resources/game.js"></script>
+    <script src="dist/js/resources/run.js"></script>
+    <script src="dist/js/resources/activity.js"></script>
+    <script src="dist/js/resources/account.js"></script>
+    <script src="dist/js/resources/response.js"></script>
 
     <!-- Controller -->
     <script src="dist/js/controller/home.js"></script>
+    <script src="dist/js/controller/footer.js"></script>
+    <script src="dist/js/controller/inquiry.js"></script>
+    <script src="dist/js/controller/phase.js"></script>
+    <script src="dist/js/controller/activity.js"></script>
+    <script src="dist/js/controller/channel-monitor.js"></script>
+    <script src="dist/js/controller/inquiry-edit.js"></script>
+    <script src="dist/js/controller/profile.js"></script>
     <script src="dist/js/controller/sidebar.js"></script>
     <script src="dist/js/controller/header.js"></script>
     <script src="dist/js/controller/toolbar.js"></script>
-    <script src="dist/js/controller/footer.js"></script>
-
+    <script src="dist/js/controller/timeline.js"></script>
 
     <script src="dist/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 

@@ -1,0 +1,22 @@
+    <div class="animated fadeIn"><!--<div class="tabs-container">-->
+
+        <div class="panel-body no-padding-no-border-radius">
+            <div class="ibox-content special-height">
+                <div class="heading">
+                    <small class="chat-date pull-right">
+
+                    </small>
+                    {{ phase.title }}
+                </div>
+                <div class="row m-t-sm">
+                    <div class="list_activities">
+                        <li data="{{ activity.id }}" ng-repeat="activity in activities">
+                            <div class="knob-label"><a
+                                    href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}"><i
+                                    class="fa fa-file-text"></i> {{ activity.name }}</a></div>
+                        </li>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
