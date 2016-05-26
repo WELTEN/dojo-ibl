@@ -50,7 +50,7 @@
     <!-- Custom styles for this template -->
     <link href="dist/css/landing.css" rel="stylesheet">
 </head>
-<body id="page-top">
+<body id="page-top" ng-app="DojoIBL">
 <div class="navbar-wrapper">
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
@@ -84,7 +84,7 @@
         <li data-target="#inSlider" data-slide-to="0" class="active"></li>
         <!--<li data-target="#inSlider" data-slide-to="1"></li>-->
     </ol>
-    <div class="carousel-inner" role="listbox">
+    <div class="carousel-inner" role="listbox" ng-controller="LandingController">
         <div class="item active">
             <div class="container">
                 <div class="carousel-caption">
@@ -92,7 +92,7 @@
                         Inquiry-based Learning<br/></h1>
                     <p></p>
                     <p>
-                        <a href="{{wespotUrl()}}" class="btn btn-lg btn-primary"> {{'arl.login.signinwespot' | translate}}</a>
+                        <a href="{{ wespotUrl() }}" class="btn btn-lg btn-primary"> {{'arl.login.signinwespot' | translate}}</a>
 
                         <a class="btn btn-lg btn-primary" href="main.html" role="button">Login</a>
                         <a class="caption-link" href="/register.html" role="button">Register</a>
@@ -584,6 +584,8 @@
 
     <script src="dist/js/vendor/angular.js"></script>
     <script src="dist/js/vendor/angular-route.js"></script>
+    <script src="dist/js/vendor/angular-ui-comments.js"></script>
+    <script src="dist/js/vendor/angular-ui-router.js"></script>
     <script src="dist/js/vendor/angular-resource.js"></script>
     <script src="dist/js/vendor/angular-cookies.js"></script>
     <script src="dist/js/vendor/angular-translate.js"></script>
@@ -595,6 +597,8 @@
     <script src="dist/js/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
     <script src="dist/js/plugins/timeago/jquery.timeago.js"></script>
     <script src="dist/js/vendor/wow.min.js"></script>
+    <script src="dist/js/vendor/ng-infinite-scroll.min.js"></script>
+
     <script src="dist/js/landing.js"></script>
 
     <!-- Custom and plugin javascript -->
@@ -605,8 +609,49 @@
     <script src="dist/js/app.js"></script>
     <script src="dist/js/routes.js"></script>
 
-    <!-- Controllers -->
-    <script src="dist/js/controller/landing.js"></script>
+<!-- Directives -->
+<script src="dist/js/directives/dibl-sidebar.js"></script>
+<script src="dist/js/directives/dibl-header.js"></script>
+<script src="dist/js/directives/dibl-toolbar.js"></script>
+<script src="dist/js/directives/dibl-footer.js"></script>
+<script src="dist/js/directives/dibl-chat.js"></script>
+<script src="dist/js/directives/dibl-comment.js"></script>
+<script src="dist/js/directives/dibl-originalimage.js"></script>
+
+<!-- Services -->
+<script src="dist/js/services/game.js"></script>
+<script src="dist/js/services/run.js"></script>
+<script src="dist/js/services/session.js"></script>
+<script src="dist/js/services/property.js"></script>
+<script src="dist/js/services/activity.js"></script>
+<script src="dist/js/services/account.js"></script>
+<script src="dist/js/services/response.js"></script>
+
+<!-- Resources -->
+<script src="dist/js/resources/game.js"></script>
+<script src="dist/js/resources/run.js"></script>
+<script src="dist/js/resources/activity.js"></script>
+<script src="dist/js/resources/account.js"></script>
+<script src="dist/js/resources/response.js"></script>
+<script src="dist/js/resources/oauth.js"></script>
+
+
+<!-- Controller -->
+<script src="dist/js/controller/home.js"></script>
+<script src="dist/js/controller/footer.js"></script>
+<script src="dist/js/controller/inquiry.js"></script>
+<script src="dist/js/controller/phase.js"></script>
+<script src="dist/js/controller/activity.js"></script>
+<script src="dist/js/controller/channel-monitor.js"></script>
+<script src="dist/js/controller/inquiry-edit-game.js"></script>
+<script src="dist/js/controller/profile.js"></script>
+<script src="dist/js/controller/sidebar.js"></script>
+<script src="dist/js/controller/header.js"></script>
+<script src="dist/js/controller/toolbar.js"></script>
+<script src="dist/js/controller/timeline.js"></script>
+<script src="dist/js/controller/landing.js"></script>
+<script src="dist/js/controller/oauth.js"></script>
+
 
 
     <script>

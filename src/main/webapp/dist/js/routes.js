@@ -4,7 +4,7 @@ angular.module('DojoIBL')
         $stateProvider
             .state('landing', {
                 url: '/landing',
-                //templateUrl: '/dist/templates/landing.html',
+                templateUrl: '/dist/templates/landing.html',
                 controller: 'LandingController'
             })
             .state('home', {
@@ -60,20 +60,38 @@ angular.module('DojoIBL')
             .state('inquiry.timeline', {
                 url: '/:runId/timeline',
                 templateUrl: '/dist/templates/timeline.html',
-                controller: 'TimelineController'
+                controller: 'Controller'
             })
-            .state('edit', {
-                url: '/inquiry/:runId/edit',
-                templateUrl: '/dist/templates/inquiry-edit.html',
-                controller: 'InquiryEditController'
+            .state('editgame', {
+                url: '/inquiry/:gameId/edit',
+                templateUrl: '/dist/templates/inquiry-edit-game.html',
+                controller: 'InquiryEditGameController'
+            })
+            .state('editrun', {
+                url: '/inquiry/:gameId/run/:runId/edit',
+                templateUrl: '/dist/templates/inquiry-edit-run.html',
+                controller: 'InquiryEditRunController'
+            })
+            .state('news', {
+                url: '/create/inquiry',
+                templateUrl: '/dist/templates/inquiry-new.html',
+                controller: 'InquiryNewController'
             })
             .state('profile', {
                 url: '/profile',
                 templateUrl: '/dist/templates/profile.html',
                 controller: 'ProfileController'
             })
+            .state('oauth', {
+                url: '/oauth/:accessToken/:type/:exp',
+                controller: 'OauthController'
+            })
+            .state('error', {
+                url: '/error',
+                templateUrl: '/dist/templates/error.html'
+            })
         ;
 
-        $urlRouterProvider.otherwise({redirectTo: '/home'});
+        $urlRouterProvider.otherwise({redirectTo: '/error'});
 
     }]);

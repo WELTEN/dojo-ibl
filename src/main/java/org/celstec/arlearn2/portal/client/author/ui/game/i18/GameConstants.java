@@ -1,7 +1,6 @@
 package org.celstec.arlearn2.portal.client.author.ui.game.i18;
 
 import com.google.gwt.i18n.client.Constants;
-import com.google.gwt.i18n.client.Constants.DefaultStringValue;
 
 public interface GameConstants extends Constants {
 
@@ -101,7 +100,7 @@ public interface GameConstants extends Constants {
 	String name();
 	
 	@DefaultStringValue("Can edit")
-	String canEdit();
+	String cannew();
 	
 	@DefaultStringValue("Select people")
 	String selectAccount();

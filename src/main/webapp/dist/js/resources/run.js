@@ -17,6 +17,22 @@ angular.module('DojoIBL')
                 method: 'GET',
                 isArray: false,
                 url: config.server+'/rest/myRuns/runAccess/gameId/:id'
+            },
+            'create': {
+                method: 'POST',
+                isArray: false,
+                url: config.server + '/rest/myRuns'
+            },
+            giveAccess: {
+                params: { runId: '@runId', accountId: '@accountId', accessRight: '@accessRight' },
+                method: 'GET',
+                isArray: false,
+                url: config.server+'/rest/myRuns/access/runId/:runId/account/:accountId/accessRight/:accessRight'
+            },
+            addUserToRun: {
+                method: 'POST',
+                isArray: false,
+                url: config.server+'/rest/users'
             }
         });
     }

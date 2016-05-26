@@ -20,21 +20,21 @@
                 </div>
             </li>
             <li>
-                <a href="#/home"><i class="fa fa-home"></i> <span class="nav-label">Inquiries</span>
+                <a href="#/home"><i class="fa fa-home"></i> <span class="nav-label">{{'dibl.sidebar.inquiries' | translate}}</span>
                     <!-- <span class="label label-warning pull-right">Current</span> --></a>
             </li>
             <li>
-                <a href="#profile"><i class="fa fa-user"></i> <span class="nav-label">Your profile</span>
+                <a href="#profile"><i class="fa fa-user"></i> <span class="nav-label">{{'dibl.sidebar.profile' | translate}}</span>
                     <!-- <span class="label label-warning pull-right">Current</span> --></a>
             </li>
             <li ng-show="run" class="active inquiry-sidebar">
-                <a href="#"><i class="fa fa-asterisk"></i> <span class="nav-label sidebar-inquiry-title">{{ run.title | limitTo: 15 }} {{ run.title.length > 15 ? '...' : ''}}</span><span
+                <a href="#inquiry/{{ run.runId }}"><i class="fa fa-asterisk"></i> <span class="nav-label sidebar-inquiry-title">{{ run.title | limitTo: 15 }} {{ run.title.length > 15 ? '...' : ''}}</span><span
                         class="fa arrow"></span></a>
                 <ul class="nav nav-second-level ">
-                    <li class="sidebar-inquiry-timeline"><a href="#inquiry/{{ run.runId }}/timeline"><i class="fa fa-clock-o"></i>Timeline
+                    <li class="sidebar-inquiry-timeline"><a href="#inquiry/{{ run.runId }}/timeline"><i class="fa fa-clock-o"></i>{{'dibl.sidebar.timeline' | translate}}
                         <!--<span class="label label-danger pull-right">Unavailable</span>--></a></li>
                     <li class="active">
-                        <a href="#"><i class="fa fa-share-alt"></i>Phases view <span class="fa arrow"></span></a>
+                        <a href="#inquiry/{{ run.runId }}"><i class="fa fa-share-alt"></i>{{'dibl.sidebar.phases' | translate}} <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
                             <li ng-repeat="phase in run.game.phases"><a
                                     href="#inquiry/{{ run.runId }}/phase/{{ phase.phaseId }}"><i

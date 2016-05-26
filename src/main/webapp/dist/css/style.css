@@ -1327,9 +1327,15 @@ button.dim:active:before {
   cursor: pointer;
   margin: 5px;
   width: 97%;
-  max-width: §em;
   float: left;
+  z-index: 9999;
 }
+
+.dropped{
+  width: 100%;
+  margin: 1em 0 0 0;
+}
+
 #remove-drag{
   clear: both;  
 }
@@ -3399,7 +3405,7 @@ video {
   padding: 0 20px;
 }
 .wrapper-content {
-  padding: 10px 10px 40px;
+  padding: 10px 10px 20px;
 }
 #page-wrapper {
   padding: 0 15px;
@@ -3415,7 +3421,7 @@ video {
 }
 .title-action {
   text-align: right;
-  padding: 30px;
+  /*padding: 30px;*/
 }
 .ibox-content h1,
 .ibox-content h2,
@@ -8259,7 +8265,7 @@ div.phases-breadcrumb  {
 }
 
 #inquiry-content {
-  padding-bottom: 3em;
+  /*padding-bottom: 3em;*/
   padding-right: 0px;
   overflow: hidden;
 }
@@ -8880,6 +8886,16 @@ textarea.form-control{
   padding: 15px;
   overflow: hidden;
 }
+
+.padding{
+  padding: 15px;
+  overflow: hidden;
+}
+
 .fist-item {
   border-top: none !important;
+}
+
+text-angular > p{
+  height: 5em;
 }

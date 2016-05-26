@@ -1,0 +1,289 @@
+<dibl-sidebar></dibl-sidebar>
+
+<div id="page-wrapper" class="gray-bg">
+
+    <dibl-header></dibl-header>
+
+    <dibl-toolbar></dibl-toolbar>
+
+    <div class="row inquiry">
+
+        <div class="col-lg-3">
+            <div class="wrapper wrapper-content project-manager">
+                <h4>{{ run.title }}</h4>
+                <img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">
+
+                <div ng-bind-html="game.description | unsafe"></div>
+
+            </div>
+        </div>
+        <div class="col-md-9" id="inquiry-content">
+            <div class="col-md-6 wrapper wrapper-content animated fadeInpanel-body">
+                <div class="ibox-content">
+                    <div class="heading ng-binding">
+                        {{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}
+                    </div>
+                    <div class="padding">
+                        <div class="ibox-content profile-content">
+                            <form role="form">
+                                <div class="box-body">
+                                    <form novalidate>
+                                        <div class="form-group">
+                                            <label for="gameTitle">{{'dibl.inquiry.new-edit.inquiry-title' |
+                                                translate}}</label>
+                                            <input required type="name" class="form-control" id="gameTitle"
+                                                   placeholder="{{'dibl.inquiry.new-edit.inquiry-title-placeholder' | translate}}"
+                                                   ng-model="game.title">
+                                        </div>
+                                    </form>
+
+                                    <label>{{ 'dibl.inquiry.new-edit.inquiry-title' | translate }}</label>
+                                    <!--<div summernote></div>-->
+                                    <summernote ng-model="game.description"></summernote>
+
+                                    <!--<text-angular ta-toolbar="[['h1','h2','h3', 'B'], ['html']]"-->
+                                    <!--id="gameDescription"-->
+                                    <!--name="description"-->
+                                    <!--class="hola"-->
+                                    <!--ng-model="run.game.description"></text-angular>-->
+                                </div>
+
+
+                            </form>
+
+                            <div class="pull-right tooltip-demo">
+                                <a class="btn btn-white btn-sm" data-toggle="tooltip"
+                                   data-placement="top" title="Move to draft folder"><i class="fa fa-times"></i>
+                                    Discard</a>
+
+                                <a class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                   data-placement="top" ng-click="ok()" title="Save inquiry"><i class="fa fa-check"></i>
+                                    {{ 'dibl.inquiry.new-edit.inquiry-save' | translate }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 wrapper wrapper-content animated fadeInpanel-body">
+                <div class="ibox-content">
+                    <div class="heading ng-binding">
+                        {{ 'dibl.inquiry.new-edit.inquiry-roles' | translate }}
+                    </div>
+                    <div class="padding">
+                        <div class="ibox-content profile-content">
+                            <h4><strong>{{ 'dibl.inquiry.new-edit.roles-title' | translate }} </strong></h4>
+
+                            <p>{{ 'dibl.inquiry.new-edit.p-available-roles' | translate }} <b>{{ game.title }}</b></p>
+
+                            <ul class="tag-list" style="padding: 0; display: inline-block;">
+                                <li ng-repeat="role in game.config.roles"><a href="" ng-click="selectRole($index)"><i
+                                        class="fa fa-tag"></i> {{ role.name }}</a></li>
+                                <li ng-show="game.config.roles == 0"><a href=""><i class="fa fa-tag"></i> {{
+                                    'dibl.inquiry.new-edit.no-roles' | translate }}</a></li>
+                            </ul>
+                            <br/>
+                            <input required type="name" class="form-control" id="roleName"
+                                   placeholder="Enter a role"
+                                   ng-model="roleName">
+                            <br/>
+
+                            <p>{{ game.config.roles }}</p>
+
+                            <div class="user-button">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button type="button" ng-click="addRole()"
+                                                class="btn btn-primary btn-sm btn-block"><i
+                                                class="fa fa-envelope"></i> {{ 'dibl.inquiry.new-edit.add-role' |
+                                            translate }}
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="button" ng-click="removeRole()"
+                                                class="btn btn-default btn-sm btn-block"><i
+                                                class="fa fa-coffee"></i> {{ 'dibl.inquiry.new-edit.remove-role' |
+                                            translate }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
+            <div class="ibox-content">
+                <div class="heading ng-binding">
+                    {{ 'dibl.inquiry.new-edit.inquiry-phases-activities' | translate }}
+                </div>
+                <div class="padding">
+                    <p>Drag and drop activities </p>
+                </div>
+                <div class="padding">
+                    <div class="col-lg-3 nice-border">
+                        <h3>Types of activities</h3>
+
+                        <div>
+                            <p>Drag &amp; drop some activity types into de bullseye <i class="fa fa-arrows"></i></p>
+
+                            <div id="drag-list">
+                                <!--<div ng-repeat='item in list_original' jqyoui-draggable="{index: {{$index}}, placeholder: 'keep'}"-->
+                                <!--ng-model="list_original" data-drag="true" data-jqyoui-options="{ revert: 'invalid', helper: 'clone' }"-->
+                                <!--class="external-event navy-bg" data="{{ item.type }}">-->
+                                <!--<i class="fa {{ item.icon }}"></i>-->
+                                <!--{{ $index }} {{ item.title }}-->
+                                <!--</div>-->
+                                <div class="btn btn-primary dropped" ng-repeat="item in list_original"
+                                     jqyoui-draggable="{index: {{$index}}, placeholder: 'keep', onDrag:'dragStartCallback(item)', onStop: 'dragStopCallback()'}"
+                                     ng-model="list_original" data-drag="true"
+                                     data-jqyoui-options="{ revert: 'invalid', helper: 'clone' }"
+                                     data="{{ item.type }}" name="{{ item.name }}">
+                                    <i class="fa {{ item.icon }}"></i>
+                                    {{ $index }} {{ item.name }}
+                                </div>
+                            </div>
+                            <!--<div id="remove-drag" style="width: 100%; height: 80px; background-color: #FF8B8B;"-->
+                                 <!--class="ui-droppable">-->
+                                <!--<div style="color: #fff; font-size: 17px; text-align: center; padding-top: 20px">To-->
+                                    <!--remove activities-->
+                                    <!--<div class="tip"><i class="fa fa-trash-o"></i> Drop here</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+
+                    <div class="col-lg-9">
+                        <div class="tabs-container" ng-controller="TabController as tab">
+                            <ul class="nav nav-tabs select-activities">
+                                <li ng-repeat="phase in game.phases" ng-class="{ active:tab.isSet($index) }">
+                                    <a data-toggle="tab" ng-click="tab.setTab($index)">
+                                        {{$index}} {{ phase.title | limitTo: 8 }} {{ phase.title.length > 8 ? '...' :
+                                        ''}}
+                                        <i class="fa fa-remove remove-phase" ng-click="removePhase($index)"></i>
+                                    </a>
+                                </li>
+
+                                <li class="new-phase">
+                                    <a data-toggle="tab" ng-click="addPhase()">
+                                        <i class="fa fa-plus"></i> Add phase
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" ng-repeat="phase in game.phases"
+                                     ng-class="{true: 'active'}[tab.isSet($index) == true]" ng-show="tab.isSet($index)">
+                                    <div class="panel-body">
+                                        <div class="col-lg-4 activities" ng-model="lists[$index]" data="{{$index}}"
+                                             data-drop="true" data-jqyoui-options
+                                             jqyoui-droppable="{onDrop:'dropCallback(item)'}">
+                                            <div ng-hide="lists[$index].length > 0" class="tip"
+                                                 style="color: #000; font-size: 18px; text-align: center; padding-top: 200px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
+                                                Drag here activity types from the left panel
+                                            </div>
+                                            <!--ng-class="{'btn-danger':selected, 'btn-success':!selected}"-->
+                                            <div class="btn btn-success dropped" ng-click="selectActivity(item)"
+                                                 ng-repeat="item in lists[$index] track by $index"
+                                                 data-drag="true"
+                                                 data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
+
+                                                 data="{{ item.type }}">
+                                                <span ng-show="item.name.length == 0"> <small>No name provided</small> </span>{{
+                                                item.name }}
+                                            </div>
+                                            <!--<div ng-repeat="activity in activities"-->
+                                            <!--class="drag external-event navy-bg remove"-->
+                                            <!--data="org.celstec.arlearn2.beans.generalItem.NarratorItem"-->
+                                            <!--id="{{ activity.gItem }}"><i class="fa fa-file-text"></i> {{ activity.name }}-->
+                                            <!--</div>-->
+                                        </div>
+
+                                        <div class="col-md-8">
+                                            <div ng-show="lists[$index].length > 0 && !selected" class="tip"
+                                                 style="color: #000; font-size: 18px; text-align: center; padding-top: 200px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
+                                                Now select one activity and edit it here...
+                                            </div>
+                                            <div class="mail-box" ng-show="selected">
+
+                                                <div class="mail-body">
+
+                                                    <form class="form-horizontal" method="get">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Title:</label>
+
+                                                            <div class="col-sm-9">
+                                                                <input type="text"
+                                                                       ng-model="activity.name"
+                                                                       class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-3 control-label">Description:</label>
+
+                                                            <div class="col-sm-9">
+                                                                <textarea class="form-control"
+                                                                          ng-model="activity.description"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" ng-show="false"><label
+                                                                class="col-sm-2 control-label">Roles:</label>
+
+                                                            <div class="col-sm-10">
+                                                                <select multiple chosen
+                                                                        ng-options="s for s in run.game.config.roles">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+
+                                                </div>
+
+                                                <!--<summernote ng-model="activity.description"></summernote>-->
+
+
+                                                <div class="mail-body text-right tooltip-demo">
+
+                                                    <a ng-click="removeActivity()" ng-disabled="!activity.id" class="btn btn-danger btn-sm"
+                                                       data-toggle="tooltip"
+                                                       data-placement="top" title="Discard email"><i
+                                                            class="fa fa-times"></i>
+                                                        Delete</a>
+
+                                                    <a ng-click="resetActivity()" ng-disabled="!activity.id" class="btn btn-white btn-sm"
+                                                       data-toggle="tooltip"
+                                                       data-placement="top" title="Discard email"><i
+                                                            class="fa fa-times"></i>
+                                                        Discard</a>
+
+                                                    <a ng-click="saveActivity(activity)" class="btn btn-sm btn-primary"
+                                                       data-toggle="tooltip"
+                                                       data-placement="top" title="Send"><i class="fa fa-reply"></i>
+                                                        Send</a>
+                                                </div>
+                                                <div class="clearfix"></div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div ng-repeat="list in lists">
+            <span>{{ list }}</span>
+        </div>
+
+        <dibl-footer></dibl-footer>
+
+    </div>

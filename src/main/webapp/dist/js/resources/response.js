@@ -5,7 +5,7 @@ angular.module('DojoIBL')
             getResponsesForActivity: {
                 method: 'GET',
                 isArray: false,
-                url: config.server+'/rest/response/runId/:rundId/itemId/:itemId'
+                url: config.server+'/rest/response/runId/:runId/itemId/:itemId'
             },
             getResponsesForInquiry: {
                 method: 'GET',

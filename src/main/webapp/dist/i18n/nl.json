@@ -1,0 +1,42 @@
+{
+  "dibl": {
+    "login": {
+      "signmessage": "Sign in to start your session",
+      "signinfacebook": "Sign in with Facebook",
+      "signingoogle": "Sign in with Google",
+      "signinlinkedin": "Sign in with LinkedIn",
+      "signintwitter": "Sign in with Twitter",
+      "signinwespot": "Sign in with weSPOT",
+      "signineco": "Sign in with ECO"
+    },
+    "sidebar": {
+      "inquiries": "Inquiries",
+      "profile": "Your profile",
+      "timeline": "Timeline",
+      "phases": "Phases view"
+    },
+    "header": {
+      "logout": "Logout",
+      "feedback": "Feedback",
+      "version": "Alpha version"
+    },
+    "toolbar": {
+      "back": "Terug naar"
+    },
+    "inquiry": {
+      "structure": {
+        "chat": "Chat",
+        "send": "Send"
+      },
+      "home": {
+
+      },
+      "phase": {
+
+      },
+      "activity": {
+
+      }
+    }
+  }
+}

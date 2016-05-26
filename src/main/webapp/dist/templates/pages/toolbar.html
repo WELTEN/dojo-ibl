@@ -1,25 +1,28 @@
-<div class="row wrapper border-bottom white-bg page-heading">
+<div class="row wrapper border-bottom white-bg page-heading p-sm">
     <div class="col-md-7">
         <h2>
-            <a href="#inquiry/{{ run.runId }}"> {{ run.title }} </a>
+            <a ng-show="state.current.name == 'home'"> <span>List of inquiries</span> </a>
+            <a ng-show="state.current.name == 'editgame'"> <span> {{'dibl.toolbar.edit-inquiry-structure' | translate }} <b>{{ game.title }}</b></span> </a>
+            <a ng-show="state.current.name == 'editrun'" href="#inquiry/{{ run.runId }}" > <span>{{'dibl.toolbar.edit-inquiry-run' | translate }} {{ run.title }}</span> </a>
+            <a ng-show="state.current.name != 'editrun' && state.current.name != 'editgame'" href="#inquiry/{{ run.runId }}" > <span>{{ run.title }}</span> </a>
 
             <span ng-show="state.current.name == 'inquiry.phase' || state.current.name == 'inquiry.activity'"><i class="fa fa-angle-double-right"></i> <a href="#inquiry/{{ run.runId }}/phase/1">Phase 1</a></span>
             <span ng-show="state.current.name == 'inquiry.activity'"><i  class="fa fa-angle-double-right"></i> Activity XXX</span>
         </h2>
-        <ol class="breadcrumb">
+        <ol class="breadcrumb" ng-hide="state.current.name == 'home'">
             <li>
                 <a href="#inquiry/6270274026602496">
                     <i class="fa fa-angle-left"></i>
-                    <strong>Back to the list of phases</strong>
+                    <strong>{{'dibl.toolbar.back' | translate }} list of phases</strong>
                 </a>
             </li>
         </ol>
     </div>
     <div class="col-md-5">
         <div class="title-action">
-            <a href="#inquiry/edit/" class="btn btn-danger edit-inquiry"><i class="fa fa-pencil"></i> Edit inquiry</a>
-            <a href="#inquiry/new/" ng-hide="{{ run }}" class="btn btn-warning new-inquiry" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in"></i> Find & Join inquiry</a>
-            <a href="#inquiry/new/" ng-hide="{{ run }}" class="btn btn-success new-inquiry"><i class="fa fa-plus"></i> New inquiry</a>
+            <a href="#inquiry/{{ run.runId }}/edit" ng-hide="state.current.name == 'edit' || !run" class="btn btn-danger m-md"><i class="fa fa-pencil"></i> {{'dibl.toolbar.edit' | translate }}</a>
+            <a href="" ng-show="state.current.name == 'home'" class="btn btn-warning  m-md" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in"></i> {{'dibl.toolbar.join' | translate }}</a>
+            <a href="#create/inquiry" ng-show="state.current.name == 'home'" class="btn btn-success m-md"><i class="fa fa-plus"></i> {{'dibl.toolbar.new' | translate }} </a>
         </div>
     </div>
 </div>

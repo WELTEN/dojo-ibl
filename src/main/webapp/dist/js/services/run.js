@@ -20,6 +20,12 @@ angular.module('DojoIBL')
 
                     Run.getRun({id: id}).$promise.then(
                         function (data) {
+                            var roles = [];
+                            for (var i=0; i < data.game.config.roles.length; i++){
+                                roles.push(JSON.parse(data.game.config.roles[i]))
+                            }
+                            data.game.config.roles = roles;
+
                             dataCache.put(id, data);
                             deferred.resolve(data);
                         }
@@ -67,7 +73,20 @@ angular.module('DojoIBL')
             },
             newRun: function(runAsJson){
                 var newrun = new Run(runAsJson);
-                newrun.$save();
+                var dataCache = CacheFactory.get('runsCache');
+
+                ////////////////////////////////////////
+                // Only put in cache when we are editing
+                ////////////////////////////////////////
+                if(runAsJson.runId)
+                    dataCache.put(runAsJson.runId, runAsJson);
+                return newrun.$save();
+            },
+            giveAccess: function(runId, accountId, accessRight){
+                Run.giveAccess({ runId: runId, accountId: accountId, accessRight: accessRight});
+            },
+            addUserToRun: function(json){
+                Run.addUserToRun(json);
             }
         }
     }

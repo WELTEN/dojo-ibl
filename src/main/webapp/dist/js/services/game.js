@@ -37,10 +37,30 @@ angular.module('DojoIBL')
                 dataCache.put(game.gameId, game);
 
             },
+            newGame: function(gameAsJson){
+                var dataCache = CacheFactory.get('gamesCache');
 
+                ////////////////////////////////////////
+                // Only put in cache when we are editing
+                ////////////////////////////////////////
+                if(gameAsJson.gameId)
+                    dataCache.put(gameAsJson.gameId, gameAsJson);
+
+                var newGame = new Game(gameAsJson);
+
+                return newGame.$save();
+            },
+            giveAccess: function(id, accountId, accessRight){
+                Game.giveAccess({ gameId: id, accountId: accountId, accessRight: accessRight});
+            },
             getGames: function(){
                 var dataCache = CacheFactory.get('gamesCache');
                 return dataCache.keySet();
+            },
+            deleteGame: function(gameId){
+                var dataCache = CacheFactory.get('gamesCache');
+                dataCache.remove(gameId);
+                return Game.deleteGame({ gameId: gameId });
             }
         }
     }

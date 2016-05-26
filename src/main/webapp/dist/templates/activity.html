@@ -1,57 +1,62 @@
-    <div class="tabs-container">
+<div class="tabs-container">
 
 
-        <div class="panel-body no-padding-no-border-radius">
-            <div class="ibox-content special-height">
-                <div class="heading">
-                    <small class="chat-date pull-right">
+    <div class="panel-body no-padding-no-border-radius">
+        <div class="ibox-content">
+            <div class="heading">
+                <small class="chat-date pull-right">
 
-                    </small>
-                    <i class="fa fa-file-text"></i> Discussion activity
-                </div>
-
-                <div class="mail-body">
-                    <div class="text-center">
-                        <h1>{{ activity.name }}</h1>
-                        <!--<span class="text-muted"><i class="fa fa-clock-o"></i> 28th Oct 2015</span>-->
-                    </div>
-                    <p></p>
-
-                    <p>{{ activity.description }}</p>
-                    <span><i class="fa fa-circle text-navy"></i> <small class="text-muted">{{ activity.lastModificationDate | date:'medium' }}</small></span>
-                </div>
-
-                <div id="list_answers" class="row m-t-sm social-footer">
-
-                    <div class="social-comment"><a class="pull-left">
-                        <img alt="image"
-                             src="https://lh3.googleusercontent.com/-yV13oZKxUsU/UqcNzQ7-nMI/AAAAAAAADfQ/hj92IJR83BY/w577-h578-no/2013-12-02+19.39.55-1.jpg">
-
-                    </a>
-
-                        <div class="media-body" data-item="5162687860310016">
-                            <a>
-                                Angel
-                            </a>
-                            Hi, hope you enjoy the platform. What's your impression so far?
-                            <br>
-                            <!--<a href="#" class="small"><i class="fa fa-thumbs-up"></i> 11 Like this!</a> --->
-                            <a data="5162687860310016" gitem="5073520312713216" class="small reply"> Reply</a> -
-                            <small class="text-muted">3 months ago</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="social-comment reply-box">
-                    <div class="media-body">
-                        <textarea responseid="0" class="form-control response"
-                                  placeholder="Write comment..."></textarea>
-
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-sm btn-primary m-t-sm save" responseid="0"><strong>Post
-                                comment</strong></button>
-                        </div>
-                    </div>
-                </div>
+                </small>
+                <i class="fa fa-file-text"></i> Discussion activity
             </div>
+
+            <div class="mail-body">
+                <div class="text-center">
+                    <h1>{{ activity.name }}</h1>
+                    <!--<span class="text-muted"><i class="fa fa-clock-o"></i> 28th Oct 2015</span>-->
+                </div>
+                <p></p>
+
+                <p>{{ activity.description }}</p>
+                <span><i class="fa fa-circle text-navy"></i> <small class="text-muted">{{ activity.lastModificationDate
+                    | date:'medium' }}
+                </small></span>
+            </div>
+
+            <div id="list_answers" class="row m-t-sm social-footer">
+                 <!--infinite-scroll='loadMoreGames()'-->
+                 <!--infinite-scroll-distance='1'-->
+                 <!--infinite-scroll-immediate-check="true" infinite-scroll-disabled="disableGameLoading">-->
+                <div class="social-comment" ng-repeat="response in games.games">
+                    <a href="" class="pull-left">
+                        <img original-src="original.jpg" src="dist/img/avatar.png" />
+                    </a>
+                    <div class="media-body">
+                        <a href="#">
+                            {{ response.userEmail }}
+                        </a>
+                        {{ response.responseValue }}
+                        <br>
+                        <a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> -
+                        <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small>
+                        <!--<div ng-transclude="body"></div>-->
+                    </div>
+
+                </div>
+
+                <div class="social-comment">
+                    <a href="" class="pull-left">
+                        <img original-src="{{ myAccount.picture }}" src="{{ myAccount.picture }}" />
+                    </a>
+                    <div class="media-body">
+                        <textarea class="form-control" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-sm btn-primary m-t-sm save" responseid="0"><strong>{{'dibl.inquiry.activity.post-comment'
+                                | translate }}</strong></button>
+                        </div>
+                    </div>
+                </div>
+
         </div>
     </div>
+</div>

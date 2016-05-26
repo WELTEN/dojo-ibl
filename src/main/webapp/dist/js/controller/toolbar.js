@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('ToolbarController', function ($scope, $state, $stateParams,RunService, ActivityService, Session) {
+    .controller('ToolbarController', function ($scope, $state, $stateParams,RunService, ActivityService, Session, GameService) {
         $scope.test = "foo";
 
         $scope.name = "your name";
@@ -20,8 +20,6 @@ angular.module('DojoIBL')
 
             });
         }
-
-
 
         if (Session.getAccessToken() ) {
             //Account.accountDetails().$promise.then(

@@ -1,19 +1,5 @@
 package org.celstec.arlearn2.portal.client.author.ui.game;
 
-import org.celstec.arlearn2.beans.game.GameAccess;
-import org.celstec.arlearn2.gwtcommonlib.client.datasource.CollaboratorModel;
-import org.celstec.arlearn2.gwtcommonlib.client.datasource.ContactModel;
-import org.celstec.arlearn2.gwtcommonlib.client.datasource.GameModel;
-import org.celstec.arlearn2.gwtcommonlib.client.datasource.desktop.ContactsDataSource;
-import org.celstec.arlearn2.gwtcommonlib.client.datasource.desktop.GameCollaboratorDataSource;
-import org.celstec.arlearn2.gwtcommonlib.client.network.CollaborationClient;
-import org.celstec.arlearn2.gwtcommonlib.client.network.JsonCallback;
-import org.celstec.arlearn2.gwtcommonlib.client.network.game.GameClient;
-import org.celstec.arlearn2.gwtcommonlib.client.objects.Game;
-import org.celstec.arlearn2.gwtcommonlib.client.ui.grid.GenericListGrid;
-import org.celstec.arlearn2.portal.client.author.ui.SectionConfig;
-import org.celstec.arlearn2.portal.client.author.ui.game.i18.GameConstants;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONValue;
 import com.smartgwt.client.data.Criteria;
@@ -30,6 +16,18 @@ import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.widgets.layout.HStack;
 import com.smartgwt.client.widgets.layout.LayoutSpacer;
 import com.smartgwt.client.widgets.layout.VLayout;
+import org.celstec.arlearn2.gwtcommonlib.client.datasource.CollaboratorModel;
+import org.celstec.arlearn2.gwtcommonlib.client.datasource.ContactModel;
+import org.celstec.arlearn2.gwtcommonlib.client.datasource.GameModel;
+import org.celstec.arlearn2.gwtcommonlib.client.datasource.desktop.ContactsDataSource;
+import org.celstec.arlearn2.gwtcommonlib.client.datasource.desktop.GameCollaboratorDataSource;
+import org.celstec.arlearn2.gwtcommonlib.client.network.CollaborationClient;
+import org.celstec.arlearn2.gwtcommonlib.client.network.JsonCallback;
+import org.celstec.arlearn2.gwtcommonlib.client.network.game.GameClient;
+import org.celstec.arlearn2.gwtcommonlib.client.objects.Game;
+import org.celstec.arlearn2.gwtcommonlib.client.ui.grid.GenericListGrid;
+import org.celstec.arlearn2.portal.client.author.ui.SectionConfig;
+import org.celstec.arlearn2.portal.client.author.ui.game.i18.GameConstants;
 
 public class CollaboratorsConfig extends SectionConfig {
 	private static GameConstants constants = GWT.create(GameConstants.class);
@@ -123,7 +121,7 @@ public class CollaboratorsConfig extends SectionConfig {
 	}
 
 	private Canvas getAddPlayerForm() {
-		final CheckboxItem canEdit = new CheckboxItem("canEdit", constants.canEdit());
+		final CheckboxItem canEdit = new CheckboxItem("canEdit", constants.cannew());
 
 		addCollaboratorForm = new DynamicForm();
 		addCollaboratorForm.setWidth("30%");

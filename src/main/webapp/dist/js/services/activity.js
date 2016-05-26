@@ -7,26 +7,22 @@ angular.module('DojoIBL')
             cacheFlushInterval: 60 * 60 * 1000, // This cache will clear itself every hour
             deleteOnExpire: 'aggressive', // Items will be deleted from this cache when they expire
             storageMode: 'localStorage' // This cache will use `localStorage`.
-
         });
 
         return {
-            //getRunById: function (id) {
-            //    var deferred = $q.defer();
-            //    var dataCache = CacheFactory.get('runsCache');
-            //    if (dataCache.get(id)) {
-            //        deferred.resolve(dataCache.get(id));
-            //    } else {
-            //
-            //        Run.getRun({id: id}).$promise.then(
-            //            function (data) {
-            //                dataCache.put(id, data);
-            //                deferred.resolve(data);
-            //            }
-            //        );
-            //    }
-            //    return deferred.promise;
-            //},
+            newActivity: function(activityAsJson){
+                var dataCache = CacheFactory.get('activitiesCache');
+
+                ////////////////////////////////////////
+                // Only put in cache when we are editing
+                ////////////////////////////////////////
+                //if(activityAsJson.activity)
+                //    dataCache.put(activityAsJson.gameId, gameAsJson);
+
+                var newActivity = new Activity(activityAsJson);
+
+                return newActivity.$save();
+            },
             getItemFromCache: function(id) {
                 var dataCache = CacheFactory.get('activitiesCache');
                 return dataCache.get(id);
@@ -51,11 +47,12 @@ angular.module('DojoIBL')
                 );
 
                 return deferred.promise;
+            },
+            deleteActivity: function(gameId, itemId){
+                var dataCache = CacheFactory.get('activitiesCache');
+                dataCache.remove(itemId);
+                return Activity.delete({ gameId: gameId, itemId: itemId});
             }
-            //newRun: function(runAsJson){
-            //    var newrun = new Run(runAsJson);
-            //    newrun.$save();
-            //}
         }
     }
 );
