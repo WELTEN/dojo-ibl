@@ -56,7 +56,24 @@
         "no-roles": "No roles yet",
         "add-role": "Add role",
         "remove-role": "Remove",
-        "inquiry-phases-activities": "3. Phases & activities"
+        "inquiry-phases-activities": "3. Phases & activities",
+        "configuration-dashboard": "Configuration dashboard for activities and phases.",
+        "phases": "Phases",
+        "add-phase": "Add phase",
+        "activities": "Activities",
+        "click-first": "Click first on",
+        "adding-phases": "to start adding phases to the inquiry.",
+        "adding-activities": "Now click on the green buttons to start adding activities to the phase.",
+        "editing-activities": "Now click on one of the blue activities to edit it here.",
+        "title-activity": "Title:",
+        "type-activity": "Type:",
+        "video-activity": "Video link:",
+        "google-activity": "Google resource link:",
+        "description-activity": "Description:",
+        "roles-activity": "Roles:",
+        "save-activity": "Save",
+        "delete-activity": "Delete",
+        "run-inquiries": "4. Inquiry runs"
       }
     }
   }

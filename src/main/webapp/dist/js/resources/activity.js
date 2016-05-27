@@ -17,6 +17,12 @@ angular.module('DojoIBL')
                 method: 'DELETE',
                 isArray: false,
                 url: config.server + '/rest/generalItems/gameId/:gameId/generalItem/:itemId'
+            },
+            'getActivity':{
+                params: { gameId: '@gameId', itemId: '@itemId' },
+                method: 'GET',
+                isArray: false,
+                url: config.server + '/rest/generalItems/gameId/:gameId/generalItem/:itemId'
             }
         });
     }

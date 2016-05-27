@@ -48,6 +48,22 @@ angular.module('DojoIBL')
 
                 return deferred.promise;
             },
+            getActivityById: function(itemId, gameId) {
+                var deferred = $q.defer();
+                var dataCache = CacheFactory.get('activitiesCache');
+                if (dataCache.get(itemId)) {
+                    deferred.resolve(dataCache.get(itemId));
+                } else {
+
+                    Activity.getActivity({ itemId:itemId, gameId: gameId}).$promise.then(
+                        function(data){
+                            dataCache.put(itemId, data);
+                            deferred.resolve(data);
+                        }
+                    );
+                }
+                return deferred.promise;
+            },
             deleteActivity: function(gameId, itemId){
                 var dataCache = CacheFactory.get('activitiesCache');
                 dataCache.remove(itemId);

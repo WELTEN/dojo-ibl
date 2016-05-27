@@ -89,6 +89,14 @@ public class RunDelegator extends GoogleDelegator {
         return rl;
     }
 
+//    public RunList getRunsByGameId(Long gameId) {
+//        RunList rl = new RunList();
+//
+//        rl.setRuns(RunManager.getRuns(null, gameId, null, null, null, null));
+//
+//        return rl;
+//    }
+
     public long getRunDuration(Long runId) {
         Run r = getRun(runId);
         if (r == null) {
