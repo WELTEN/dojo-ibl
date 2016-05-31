@@ -5,7 +5,7 @@ angular.module('DojoIBL')
             getResponsesForActivity: {
                 method: 'GET',
                 isArray: false,
-                url: config.server+'/rest/response/runId/:runId/itemId/:itemId'
+                url: config.server+'/rest/response/runId/:runId/itemId/:itemId?orderByLastModificationDate=true'
             },
             getResponsesForInquiry: {
                 method: 'GET',
@@ -16,6 +16,12 @@ angular.module('DojoIBL')
                 method: 'GET',
                 isArray: false,
                 url: config.server + '/rest/response/runId/:runId?from=:from&resumptionToken=:resumptionToken&orderByLastModificationDate=true'
+            },
+            deleteResponse: {
+                params: { responseId: '@responseId' },
+                method: 'DELETE',
+                isArray: false,
+                url: config.server + '/rest/response/responseId/:responseId'
             }
         });
     }

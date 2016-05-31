@@ -2,7 +2,7 @@ angular.module('DojoIBL')
 
     .controller('PhaseController', function ($scope, $sce, $stateParams, $state, Session, ActivityService, RunService) {
 
-        console.log($stateParams)
+        //console.log($stateParams)
 
         $scope.runId = $stateParams.runId;
 
@@ -10,7 +10,7 @@ angular.module('DojoIBL')
 
             $scope.phase = data.game.phases[$stateParams.phase];
 
-            console.log(data);
+            //console.log(data);
 
             ActivityService.getActivitiesForPhase(data.game.gameId, $stateParams.phase).then(function (data) {
                 $scope.activities = data;

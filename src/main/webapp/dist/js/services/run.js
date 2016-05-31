@@ -59,8 +59,6 @@ angular.module('DojoIBL')
                 Run.getParticipateRunsForGame({id: gameId}).$promise.then(
                     function (data) {
                         var runAccess={};
-                        console.log(data.runs.length)
-
                         for (var i = 0; i < data.runs.length; i++) {
                             dataCache.put(data.runs[i].runId, data.runs[i]);
                             runAccess['id'+data.runs[i].runId] = data.runs[i];

@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('InquiryEditGameController', function ($scope, $sce, $stateParams, $state, Session, RunService, GameService ) {
+    .controller('InquiryEditRunController', function ($scope, $sce, $stateParams, $state, Session, RunService, UserService ) {
 
         console.log($stateParams.runId);
 
@@ -31,66 +31,13 @@ angular.module('DojoIBL')
             }
         });
 
-        $scope.addRole = function () {
+        UserService.getUsersForRun($stateParams.runId).then(function(data){
 
-            $scope.game.config.roles.push({
-                name: $scope.roleName
-            });
+            //$scope.usersRun[value.runId] = data;
+            $scope.usersRun = data;
+            console.log(data);
 
-            GameService.newGame($scope.game);
-            RunService.newRun($scope.run);
-
-            $scope.roleName = "";
-
-        };
-
-        $scope.selectRole = function(index){
-
-            $scope.removeRole = function(){
-                $scope.game.config.roles.splice(index, 1);
-                GameService.newGame($scope.game);
-                RunService.newRun($scope.run);
-            };
-
-        };
-
-        $scope.addPhase = function(){
-
-            swal({
-                title: "New phase",
-                text: "Provide a new for the phase",
-                type: "input",
-                showCancelButton: true,
-                closeOnConfirm: true,
-                animation: "slide-from-top",
-                inputPlaceholder: "Example: Data collection"
-            }, function (inputValue) {
-                if (inputValue === false)
-                    return false;
-                if (inputValue === "") {
-                    swal.showInputError("You need to write something!");
-                    return false
-                }
-
-                $scope.run.game.phases.push({
-                    phaseId: 1,
-                    title: inputValue,
-                    type: "org.celstec.arlearn2.beans.game.Phase"
-                });
-
-                GameService.newGame($scope.run.game);
-                RunService.newRun($scope.run);
-
-            });
-        };
-
-        $scope.removePhase = function(index){
-
-            $scope.run.game.phases.splice(index, 1);
-
-            GameService.newGame($scope.run.game);
-            RunService.newRun($scope.run);
-        };
+        });
 
         $scope.ok = function(){
             RunService.newRun($scope.run);
@@ -135,31 +82,4 @@ angular.module('DojoIBL')
         //    angle += step;
         //});
 
-    }).controller('TabController', function ($scope, $stateParams, RunService, ActivityService) {
-        this.tab = 0;
-
-        RunService.getRunById($stateParams.runId).then(function (data) {
-
-            console.log(data.game);
-
-            if (data.game.config.roles)
-                $scope.roles = data.game.config.roles;
-
-            $scope.run = data;
-
-        });
-
-        this.setTab = function (tabId) {
-            this.tab = tabId;
-            console.log("set" + tabId);
-            ActivityService.getActivitiesForPhase($scope.run.game.gameId, tabId).then(function (data) {
-                console.log(data);
-                $scope.activities = data;
-            });
-        };
-
-        this.isSet = function (tabId) {
-            return this.tab === tabId;
-        };
-    })
-;
+    });

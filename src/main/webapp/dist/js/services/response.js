@@ -11,22 +11,19 @@ angular.module('DojoIBL')
         });
 
         return {
-            //getGameById: function(id) {
-            //    var deferred = $q.defer();
-            //    var dataCache = CacheFactory.get('gamesCache');
-            //    if (dataCache.get(id)) {
-            //        deferred.resolve(dataCache.get(id));
-            //    } else {
-            //
-            //        Game.getGameById({id:id}).$promise.then(
-            //            function(data){
-            //                dataCache.put(id, data);
-            //                deferred.resolve(data);
-            //            }
-            //        );
-            //    }
-            //    return deferred.promise;
-            //},
+            newResponse: function(responseAsJson){
+                var dataCache = CacheFactory.get('responsesCache');
+
+                ////////////////////////////////////////
+                // Only put in cache when we are editing
+                ////////////////////////////////////////
+                if(responseAsJson.responseId)
+                    dataCache.put(responseAsJson.responseId, responseAsJson);
+
+                var newResponse = new Response(responseAsJson);
+
+                return newResponse.$save();
+            },
             getResponsesByInquiry: function (runId) {
                 var service = this;
                 var dataCache = CacheFactory.get('responsesCache');
@@ -48,21 +45,12 @@ angular.module('DojoIBL')
                 );
 
                 return deferred.promise;
+            },
+            deleteResponse: function(responseId){
+                var dataCache = CacheFactory.get('responsesCache');
+                dataCache.remove(responseId);
+                return Response.deleteResponse({ responseId: responseId });
             }
-            //getGameFromCache: function(id) {
-            //    var dataCache = CacheFactory.get('gamesCache');
-            //    return dataCache.get(id);
-            //},
-            //storeInCache:function(game){
-            //    var dataCache = CacheFactory.get('gamesCache');
-            //    dataCache.put(game.gameId, game);
-            //
-            //},
-            //
-            //getGames: function(){
-            //    var dataCache = CacheFactory.get('gamesCache');
-            //    return dataCache.keySet();
-            //}
         }
     }
 );

@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService, AccountService, Response) {
+    .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService, AccountService, Response, ResponseService) {
         $scope.activity = ActivityService.getItemFromCache($stateParams.activityId);
         console.log($scope.activity);
 
@@ -35,6 +35,39 @@ angular.module('DojoIBL')
 
             });
 
+        $scope.sendComment = function(){
+            AccountService.myDetails().then(function(data){
+                ResponseService.newResponse({
+                    "type": "org.celstec.arlearn2.beans.run.Response",
+                    "runId": $stateParams.runId,
+                    "deleted": false,
+                    "generalItemId": $stateParams.activityId,
+                    "userEmail": data.accountType+":"+data.localId,
+                    "responseValue": $scope.response,
+                    "parentId": 0,
+                    "revoked": false,
+                    "lastModificationDate": new Date().getTime()
+                }).then(function(data){
+                    console.log(data);
+
+                    $scope.games.games.push(data);
+
+                    $scope.response = null;
+                });
+            });
+        };
+
+        $scope.removeComment = function(data){
+            console.log(data);
+            var idx = $scope.games.games.indexOf(data);
+
+            // is currently selected
+            if (idx > -1) {
+                $scope.games.games.splice(idx, 1);
+            }
+            ResponseService.deleteResponse(data.responseId);
+        };
+
         //$scope.disableGameLoading = false;
         //
         //$scope.loadMoreGames = function () {
@@ -63,5 +96,10 @@ angular.module('DojoIBL')
         //    view = view.render().el;
         //    this.$el.find('#list_answers').append(view);
         //}
+
+
+        $scope.trustSrc = function(src) {
+            return $sce.trustAsResourceUrl(src);
+        }
     }
 );

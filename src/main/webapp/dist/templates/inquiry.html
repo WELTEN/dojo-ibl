@@ -16,13 +16,13 @@
             </div>
         </div>
         <div class="col-sm-6 padding">
-                <h2>{{ inqTitle }}</h2>
-                <img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">
-                <!--<p class="small font-bold">-->
-                    <!--<span><i class="fa fa-circle text-warning"></i> High priority</span>-->
-                <!--</p>-->
-                <p><b>Description</b>: {{ inqDescription }}</p>
-
+            <h2>{{ inqTitle }}</h2>
+            <img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">
+            <!--<p class="small font-bold">-->
+                <!--<span><i class="fa fa-circle text-warning"></i> High priority</span>-->
+            <!--</p>-->
+            <!--<p><b>Description</b>: {{ inqDescription }}</p>-->
+            <div ng-bind-html="run.game.description"></div>
         </div>
         <div class="col-md-6">
             <div class="padding" ng-show="visualization">
@@ -33,7 +33,7 @@
                             80%
                         </span>
                         <span class="label label-success">{{$index + 1}}</span>
-                        <a href="#inquiry/{{ inqId }}/phase/{{ phase.phaseId }}"> {{ phase.title }}</a>
+                        <a href="#inquiry/{{ inqId }}/phase/{{$index}}"> {{ phase.title }}</a>
                     </li>
                     <li class="animate-repeat" ng-if="phases.length == 0">
                         <strong>No phases found...</strong>
@@ -43,7 +43,7 @@
 
             <ul id="circlemenu" class="list" ng-hide="visualization">
                 <li href="#inquiry/{{ inqId }}/phase/{{ phase.phaseId }}" ng-style="{'left': '{{ calculateLeft($index + 1) }}px','top': '{{ calculateTop(phases, $index) }}px'}" ng-repeat="phase in phases">
-                    <div class="knob-label"><a href="#inquiry/{{ inqId }}/phase/{{ phase.phaseId }}"> {{ phase.title }}</a></div>
+                    <div class="knob-label"><a href="#inquiry/{{ inqId }}/phase/{{$index + 1}}"> {{ phase.title }}</a></div>
                 </li>
             </ul>
         </div>

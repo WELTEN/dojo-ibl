@@ -37,7 +37,7 @@
                         <a href="#inquiry/{{ run.runId }}"><i class="fa fa-share-alt"></i>{{'dibl.sidebar.phases' | translate}} <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
                             <li ng-repeat="phase in run.game.phases"><a
-                                    href="#inquiry/{{ run.runId }}/phase/{{ phase.phaseId }}"><i
+                                    href="#inquiry/{{ run.runId }}/phase/{{ $index }}"><i
                                     class="fa fa-circle"></i> {{ phase.title }}</a></li>
                         </ul>
                     </li>

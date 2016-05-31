@@ -2,6 +2,8 @@ angular.module('DojoIBL')
 
     .controller('InquiryEditGameController', function ($scope, $sce, $stateParams, $state, Session, RunService, ActivityService,
                                                        AccountService, GameService, UserService ) {
+        // Managing different tabs activities
+        $scope.lists = [];
 
         GameService.getGameById($stateParams.gameId).then(function(data){
             if (data.error) {
@@ -38,9 +40,6 @@ angular.module('DojoIBL')
                 {'name': 'Research question', 'type': 'org.celstec.arlearn2.beans.generalItem.ResearchQuestion', 'icon': 'fa-question'}
             ];
 
-            // Managing different tabs activities
-            $scope.lists = [];
-
             angular.forEach($scope.game.phases, function(value, key) {
                 $scope.lists[key] = [];
                 ActivityService.getActivitiesForPhase($stateParams.gameId, key).then(function(data){
@@ -64,6 +63,10 @@ angular.module('DojoIBL')
 
         $scope.selectActivity = function(activity, combinationId){
             $scope.activity = activity;
+
+            // Save roles into an array
+            $scope.selection = $scope.activity.roles || [];
+
             $scope.selected = true;
 
             $scope.selectedCombination = combinationId;
@@ -77,7 +80,7 @@ angular.module('DojoIBL')
         };
 
         $scope.addOne = function(a){
-
+            console.log($scope.lists);
             var object = {
                 type: a.type,
                 section: $(".select-activities > li.active").attr('data'),
@@ -97,6 +100,8 @@ angular.module('DojoIBL')
                 object.audioFeed = "example link";
             }
 
+            $scope.lists[$(".select-activities > li.active").attr('data')] = []
+
             ActivityService.newActivity(object).then(function(data){
                 ActivityService.getActivityById(data.id, $stateParams.gameId).then(function(data){
                     $scope.lists[$(".select-activities > li.active").attr('data')].push(data);
@@ -104,8 +109,28 @@ angular.module('DojoIBL')
             });
         };
 
+
+
+        $scope.toggleSelection = function toggleSelection(rol) {
+            var idx = $scope.selection.indexOf(rol);
+
+            // is currently selected
+            if (idx > -1) {
+                $scope.selection.splice(idx, 1);
+            }
+
+            // is newly selected
+            else {
+                $scope.selection.push(rol);
+            }
+        };
+
         $scope.saveActivity = function(){
+            // Save array of roles into the activity
+            $scope.activity.roles = $scope.selection;
+
             console.log($scope.activity);
+
             ActivityService.newActivity($scope.activity);
         };
 
@@ -133,10 +158,13 @@ angular.module('DojoIBL')
         $scope.addPhase = function(){
 
             $scope.phases.push({
-                phaseId: $scope.phases.length,
+                //phaseId: $scope.phases.length,
                 title: $scope.phaseName,
                 type: "org.celstec.arlearn2.beans.game.Phase"
             });
+
+            //$scope.lists.push($scope.phases.length);
+            //$scope.lists = [];
 
             $scope.phaseName = "";
 

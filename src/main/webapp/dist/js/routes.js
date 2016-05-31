@@ -15,7 +15,6 @@ angular.module('DojoIBL')
             .state('inquiry', {
                 url : '/inquiry',
                 abstract: true,
-                //templateUrl: '/dist/templates/inquiry.html',
                 views: {
                     '': {
                         templateUrl: '/dist/templates/inquiry-structure.html'
@@ -60,7 +59,7 @@ angular.module('DojoIBL')
             .state('inquiry.timeline', {
                 url: '/:runId/timeline',
                 templateUrl: '/dist/templates/timeline.html',
-                controller: 'Controller'
+                controller: 'TimelineController'
             })
             .state('editgame', {
                 url: '/inquiry/:gameId/edit',
@@ -89,6 +88,11 @@ angular.module('DojoIBL')
             .state('error', {
                 url: '/error',
                 templateUrl: '/dist/templates/error.html'
+            })
+            .state('channelmonitor', {
+                url: '/channelmonitor',
+                templateUrl: '/dist/templates/monitor.html',
+                controller: 'ChannelMonitorController'
             })
         ;
 

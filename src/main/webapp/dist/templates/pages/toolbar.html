@@ -6,8 +6,8 @@
             <a ng-show="state.current.name == 'editrun'" href="#inquiry/{{ run.runId }}" > <span>{{'dibl.toolbar.edit-inquiry-run' | translate }} {{ run.title }}</span> </a>
             <a ng-show="state.current.name != 'editrun' && state.current.name != 'editgame'" href="#inquiry/{{ run.runId }}" > <span>{{ run.title }}</span> </a>
 
-            <span ng-show="state.current.name == 'inquiry.phase' || state.current.name == 'inquiry.activity'"><i class="fa fa-angle-double-right"></i> <a href="#inquiry/{{ run.runId }}/phase/1">Phase 1</a></span>
-            <span ng-show="state.current.name == 'inquiry.activity'"><i  class="fa fa-angle-double-right"></i> Activity XXX</span>
+            <span ng-show="state.current.name == 'inquiry.phase' || state.current.name == 'inquiry.activity'"><i class="fa fa-angle-double-right"></i> <a href="#inquiry/{{ run.runId }}/phase/{{ activity.section }}">{{ namePhase.title }}</a></span>
+            <span ng-show="state.current.name == 'inquiry.activity'"><i  class="fa fa-angle-double-right"></i> {{ activity.name }}</span>
         </h2>
         <ol class="breadcrumb" ng-hide="state.current.name == 'home'">
             <li>
@@ -20,9 +20,18 @@
     </div>
     <div class="col-md-5">
         <div class="title-action">
-            <a href="#inquiry/{{ run.runId }}/edit" ng-hide="state.current.name == 'edit' || !run" class="btn btn-danger m-md"><i class="fa fa-pencil"></i> {{'dibl.toolbar.edit' | translate }}</a>
-            <a href="" ng-show="state.current.name == 'home'" class="btn btn-warning  m-md" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in"></i> {{'dibl.toolbar.join' | translate }}</a>
-            <a href="#create/inquiry" ng-show="state.current.name == 'home'" class="btn btn-success m-md"><i class="fa fa-plus"></i> {{'dibl.toolbar.new' | translate }} </a>
+            <a ng-show="state.current.name == 'editrun'" href="#/inquiry/{{ run.gameId }}/edit"  class="btn btn-danger m-md"><i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-structure' | translate }} <b>{{ run.game.title }}</b></a>
+            <a ng-show="state.current.name == 'inquiry.home' || state.current.name == 'inquiry.phase' || state.current.name == 'inquiry.activity' || state.current.name == 'inquiry.timeline'" href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit"  class="btn btn-danger m-md"><i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-run' | translate }} <b>{{ run.title }}</b></a>
+
+            <div class="input-group" ng-show="state.current.name == 'home'">
+                <input type="text" class="form-control ng-pristine ng-untouched ng-valid" ng-model="inquiryCode">
+                <span class="input-group-btn">
+                    <button type="button" ng-disabled="inquiryCode.length < 4 || !inquiryCode" ng-click="findAndJoin()" class="btn btn-warning ng-binding" disabled="disabled"><i class="fa fa-plus"></i> {{'dibl.toolbar.join' | translate }}
+                    </button>
+                </span>
+            </div>
+            <!--<a  href="" ng-show="state.current.name == 'home'" class="btn btn-warning  m-md" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in"></i> </a>-->
+            <a ng-show="state.current.name == 'home'" href="#create/inquiry"  class="btn btn-success m-md"><i class="fa fa-plus"></i> {{'dibl.toolbar.new' | translate }} </a>
         </div>
     </div>
 </div>

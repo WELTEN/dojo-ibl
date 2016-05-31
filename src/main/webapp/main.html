@@ -43,6 +43,7 @@
     <link href="dist/js/plugins/chosen/chosen.css" rel="stylesheet">
     <link href="dist/js/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <link href="dist/css/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+    <link href="dist/css/textAngular.css" rel="stylesheet">
 
     <!--<link href="dist/css/plugins/intro/introjs.css" rel="stylesheet">-->
     <link href="dist/js/plugins/summernote/summernote.css" rel="stylesheet">
@@ -51,7 +52,7 @@
 
 </head>
 
-<body ng-app="DojoIBL">
+<body ng-app="DojoIBL" scroll>
 
 
         <div ui-view></div>
@@ -128,10 +129,10 @@
     <script src="dist/js/vendor/angular-dragdrop.min.js"></script>
     <script src="dist/js/vendor/angular-translate-loader-static-files.js"></script>
 
-    <!--<script src="dist/js/vendor/textAngular-sanitize.min.js"></script>-->
-    <!--<script src="dist/js/vendor/textAngular-rangy.min.js"></script>-->
-    <!--<script src="dist/js/vendor/textAngularSetup.js"></script>-->
-    <!--<script src="dist/js/vendor/textAngular.min.js"></script>-->
+    <script src="dist/js/vendor/textAngular-sanitize.min.js"></script>
+    <script src="dist/js/vendor/textAngular-rangy.min.js"></script>
+    <script src="dist/js/vendor/textAngularSetup.js"></script>
+    <script src="dist/js/vendor/textAngular.min.js"></script>
 
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-loader-static-files/2.11.0/angular-translate-loader-static-files.min.js"></script>-->
 
@@ -155,6 +156,7 @@
     <script src="dist/js/directives/dibl-chat.js"></script>
     <script src="dist/js/directives/dibl-comment.js"></script>
     <script src="dist/js/directives/dibl-originalimage.js"></script>
+    <script src="dist/js/directives/dibl-scroll.js"></script>
     <!--<script src="dist/js/directives/dibl-dragdrop.js"></script>-->
 
     <!-- Services -->
@@ -166,6 +168,8 @@
     <script src="dist/js/services/account.js"></script>
     <script src="dist/js/services/response.js"></script>
     <script src="dist/js/services/users.js"></script>
+    <script src="dist/js/services/channel-monitor.js"></script>
+    <script src="dist/js/services/message.js"></script>
 
     <!-- Resources -->
     <script src="dist/js/resources/game.js"></script>
@@ -175,6 +179,7 @@
     <script src="dist/js/resources/oauth.js"></script>
     <script src="dist/js/resources/response.js"></script>
     <script src="dist/js/resources/users.js"></script>
+    <script src="dist/js/resources/message.js"></script>
 
     <!-- Controller -->
     <script src="dist/js/controller/home.js"></script>
@@ -182,8 +187,9 @@
     <script src="dist/js/controller/inquiry.js"></script>
     <script src="dist/js/controller/phase.js"></script>
     <script src="dist/js/controller/activity.js"></script>
-    <script src="dist/js/controller/channel-monitor.js"></script>
+    <!--<script src="dist/js/controller/channel-monitor.js"></script>-->
     <script src="dist/js/controller/inquiry-edit-game.js"></script>
+    <script src="dist/js/controller/inquiry-edit-run.js"></script>
     <script src="dist/js/controller/profile.js"></script>
     <script src="dist/js/controller/sidebar.js"></script>
     <script src="dist/js/controller/header.js"></script>
@@ -191,6 +197,7 @@
     <script src="dist/js/controller/timeline.js"></script>
     <script src="dist/js/controller/oauth.js"></script>
     <script src="dist/js/controller/inquiry-new.js"></script>
+    <script src="dist/js/controller/chat.js"></script>
 
     <script src="dist/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 

@@ -24,7 +24,8 @@
       "back": "Back to the",
       "new": "Create inquiry",
       "join": "Find & join inquiry",
-      "edit": "Edit inquiry",
+      "edit-structure": "Edit structure of ",
+      "edit-run": "Edit ",
       "edit-inquiry-structure": "You are editing the structure of",
       "edit-inquiry-run": "You are editing "
     },

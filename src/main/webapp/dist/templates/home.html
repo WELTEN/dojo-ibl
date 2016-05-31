@@ -9,7 +9,7 @@
         <div class="row inquiry">
             <div class="col-lg-3 game animated fadeIn" ng-repeat="game in games">
                 <div class="ibox-content game text-center">
-                    <h1><a class="show-runs" ng-click="showRuns(game.gameId)">{{ game.title | limitTo: 20 }} {{
+                    <h1><a class="show-runs" ng-click="showRuns(game.gameId);showRunsValue = !showRunsValue;">{{ game.title | limitTo: 20 }} {{
                         game.title.length > 20 ? '...' : ''}}</a></h1>
 
                     <div ng-show="showRunsValue" class="front">
@@ -19,10 +19,11 @@
                             <!--</object>-->
                             <i class="fa fa-mortar-board icon-game"></i>
                         </div>
-                        <p><b>Description:</b> {{ game.description | limitTo: 60 }} {{ game.description.length > 60 ?
-                            '...' : ''}} </p>
+                        <div ng-bind-html="game.description | limitTo: 150 "></div>
 
-                        <p><b>Date:</b> {{ game.lastModificationDate | date:'medium' }} </p>
+                        <!--<p><b>Description:</b> {{ game.description }}  </p>-->
+
+                        <p>{{ game.lastModificationDate | date:'medium' }} </p>
 
                         <div class="text-center">
                             <a href="#inquiry/{{ game.gameId }}/edit" class="btn btn-xs btn-warning"><i class="fa fa-pencil-square"></i> Edit </a>

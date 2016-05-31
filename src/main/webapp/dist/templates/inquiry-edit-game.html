@@ -10,10 +10,10 @@
 
         <div class="col-lg-3">
             <div class="wrapper wrapper-content project-manager">
-                <h4>{{ run.title }}</h4>
+                <h4>{{ game.title }}</h4>
                 <img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">
 
-                <div ng-bind-html="game.description | unsafe"></div>
+                <div ng-bind-html="game.description"></div>
 
             </div>
         </div>
@@ -39,14 +39,11 @@
                                     </form>
 
                                     <label>{{ 'dibl.inquiry.new-edit.inquiry-title' | translate }}</label>
-                                    <!--<div summernote></div>-->
-                                    <summernote ng-model="game.description"></summernote>
-
-                                    <!--<text-angular ta-toolbar="[['h1','h2','h3', 'B'], ['html']]"-->
-                                    <!--id="gameDescription"-->
-                                    <!--name="description"-->
-                                    <!--class="hola"-->
-                                    <!--ng-model="run.game.description"></text-angular>-->
+                                    <text-angular  ta-toolbar="[
+                                        ['bold','italics'],
+                                        ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
+                                        ['insertImage', 'insertLink','insertVideo']]
+                                        "ng-model="game.description"></text-angular>
                                 </div>
 
 
@@ -78,7 +75,7 @@
                             <p>{{ 'dibl.inquiry.new-edit.p-available-roles' | translate }} <b>{{ game.title }}</b></p>
 
                             <ul class="tag-list" style="padding: 0; display: inline-block;">
-                                <li ng-repeat="role in game.config.roles"><a href="" ng-click="selectRole($index)"><i
+                                <li ng-repeat="role in game.config.roles track by $index"><a href="" ng-click="selectRole($index)"><i
                                         class="fa fa-tag"></i> {{ role.name }}</a></li>
                                 <li ng-show="game.config.roles == 0"><a href=""><i class="fa fa-tag"></i> {{
                                     'dibl.inquiry.new-edit.no-roles' | translate }}</a></li>
@@ -89,7 +86,7 @@
                                    ng-model="roleName">
                             <br/>
 
-                            <p>{{ game.config.roles }}</p>
+                            <!--<p>{{ game.config.roles }}</p>-->
 
                             <div class="user-button">
                                 <div class="row">
@@ -147,7 +144,7 @@
                         <div id="drag-list">
                             <div class="btn btn-primary dropped" ng-repeat="item in list_original"
                                  ng-model="list_original" data="{{ item.type }}" name="{{ item.name }}"
-                                 ng-click="addOne(item)">
+                                 ng-click="addOne(item)" ng-disabled="phases.length == 0">
                                 <i class="fa {{ item.icon }}"></i>
                                 {{ $index }} {{ item.name }}
                             </div>
@@ -171,7 +168,7 @@
                                     <a data-toggle="tab" ng-click="tab.setTab($index)">
                                         {{$index}} {{ phase.title | limitTo: 8 }} {{ phase.title.length > 8 ? '...' :
                                         ''}}
-                                        <i class="fa fa-remove remove-phase" ng-click="removePhase($index)"></i>
+                                        <i class="fa fa-remove remove-phase" ng-hide="phases.length == 1" ng-click="removePhase($index)"></i>
                                     </a>
                                 </li>
 
@@ -181,7 +178,7 @@
                                 <div class="tab-pane" ng-repeat="phase in phases track by $index"
                                      ng-class="{true: 'active'}[tab.isSet($index) == true]" ng-show="tab.isSet($index)">
                                     <div class="panel-body">
-                                        <div class="col-lg-4 activities" ng-model="lists[$index]" data="{{$index}}"
+                                        <div class="col-lg-3 activities" ng-model="lists[$index]" data="{{$index}}"
                                              data-drop="true" data-jqyoui-options
                                              jqyoui-droppable="{onDrop:'dropCallback(item)'}">
                                             <div ng-hide="lists[$index].length > 0" class="tip"
@@ -209,7 +206,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-8">
+                                        <div class="col-md-9">
                                             <div ng-show="lists[$index].length > 0 && !selectedCombination" class="tip"
                                                  style="color: #000; font-size: 18px; text-align: center; padding-top: 200px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
                                                 {{ 'dibl.inquiry.new-edit.editing-activities' | translate }}
@@ -268,28 +265,60 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-
-                                                            <label class="col-sm-3 control-label">{{
-                                                                'dibl.inquiry.new-edit.description-activity' | translate
-                                                                }}</label>
+                                                            <label class="col-sm-3 control-label">Roles</label>
 
                                                             <div class="col-sm-9">
-                                                                <textarea ng-disabled="activity == null"
-                                                                          class="form-control"
-                                                                          ng-model="activity.description"></textarea>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group" ng-show="false"><label
-                                                                class="col-sm-2 control-label">{{
-                                                            'dibl.inquiry.new-edit.roles-activity' | translate
-                                                            }}</label>
+                                                                <label class="checkbox-inline" ng-repeat="role in game.config.roles track by $index" >
+                                                                    <input type="checkbox"
+                                                                           name="selectedFruits[]"
+                                                                           value="{{role.name}}"
+                                                                           ng-checked="selection.indexOf(role.name) > -1"
+                                                                           ng-click="toggleSelection(role.name)"
+                                                                            > {{role.name}}
+                                                                </label>
 
-                                                            <div class="col-sm-10">
-                                                                <select ng-disabled="activity == null" multiple chosen
-                                                                        ng-options="s for s in run.game.config.roles">
-                                                                </select>
                                                             </div>
                                                         </div>
+                                                        <div class="form-group">
+                                                            <div class="col-sm-12">
+                                                                <text-angular  ta-toolbar="[
+                                                                ['bold','italics'],
+                                                                ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
+                                                                ['insertImage', 'insertLink','insertVideo']]
+                                                                "ng-model="activity.richText"></text-angular>
+                                                            </div>
+                                                        </div>
+                                                        <!--<div class="form-group">-->
+                                                            <!--<label class="col-sm-12 control-label">Rich text </label>-->
+
+                                                            <!--<div class="col-sm-12">-->
+                                                                <!--<div ng-bind-html="activity.richText"></div>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
+
+                                                        <!--<div class="form-group">-->
+
+                                                            <!--<label class="col-sm-3 control-label">{{-->
+                                                                <!--'dibl.inquiry.new-edit.description-activity' | translate-->
+                                                                <!--}}</label>-->
+
+                                                            <!--<div class="col-sm-9">-->
+                                                                <!--<textarea ng-disabled="activity == null"-->
+                                                                          <!--class="form-control"-->
+                                                                          <!--ng-model="activity.description"></textarea>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="form-group"><label-->
+                                                                <!--class="col-sm-2 control-label">{{-->
+                                                            <!--'dibl.inquiry.new-edit.roles-activity' | translate-->
+                                                            <!--}}</label>-->
+
+                                                            <!--<div class="col-sm-10">-->
+                                                                <!--<select ng-disabled="activity == null" multiple chosen-->
+                                                                        <!--ng-options="s for s in run.game.config.roles track by $index">-->
+                                                                <!--</select>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
 
                                                     </form>
 
@@ -403,7 +432,7 @@
                                            class="btn btn-white btn-sm"><i class="fa fa-user"></i> Add users </a>
                                         <a href="#inquiry/{{ run.runId }}" class="btn btn-white btn-sm"><i
                                                 class="fa fa-folder"></i> View </a>
-                                        <a href="#inquiry/{{ run.runId }}/edit" class="btn btn-white btn-sm"><i
+                                        <a href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit" class="btn btn-white btn-sm"><i
                                                 class="fa fa-pencil"></i> Edit </a>
                                     </td>
                                 </tr>

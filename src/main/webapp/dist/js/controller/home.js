@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('HomeController', function ($scope, $sce, Game, GameService, config, Session, RunService) {
+    .controller('HomeController', function ($scope, $sce, Game, GameService, config, Session, RunService, ChannelService) {
 
         $scope.games = [];
 
@@ -31,12 +31,36 @@ angular.module('DojoIBL')
             RunService.getParticipateRunsForGame(id).then(function(data){
                 $scope.runs = data;
             });
-
-            this.showRunsValue = !this.showRunsValue;
         };
 
         $scope.deleteInquiry = function (id) {
             GameService.deleteGame(id)
         };
+
+        //var socket = new ChannelService.SocketHandler();
+        //socket.onMessage(function (data) {
+        //    $scope.$apply(function () {
+        //        console.log(data);
+        //        console.log(data.type);
+        //        $scope.notifications.push({
+        //            sort: new Date(),
+        //            time: new Date().toISOString(),
+        //            json: JSON.stringify(data, undefined, 2)
+        //        });
+        //        switch (data.type) {
+        //            //case 'org.celstec.arlearn2.beans.notification.GeneralItemModification':
+        //            //    //GeneralItemService.handleNotification(data);
+        //            //    console.log("Received ")
+        //            //    break;
+        //        }
+        //
+        //    });
+        //    //jQuery("time.timeago").timeago();
+        //});
+        //
+        //$scope.notifications = [];
+        //$scope.waitingForData = function () {
+        //    $scope.notifications.length == 0;
+        //}
     }
 );

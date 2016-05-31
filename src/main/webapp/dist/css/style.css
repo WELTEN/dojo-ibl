@@ -8312,16 +8312,17 @@ div.phases-breadcrumb  {
 .list_activities li{
   position: relative;
   background-color: #286090;
-  margin: 10px;
   float: left;
   cursor: auto;
+  width: 12em;
+  list-style: none;
+  padding: 1em;
 }
 
 .list_activities li a{
   color: #ffffff;
   text-decoration: underline;
-  /* Remove when we include the percentages again*/
-  margin: 2em auto;
+  padding: 1em;
   display: block;
 }
 
@@ -8898,4 +8899,21 @@ textarea.form-control{
 
 text-angular > p{
   height: 5em;
+}
+
+.checkbox-inline{
+  margin-right: 1em !important;
+  margin-left: 0 !important;
+}
+
+.ta-editor {
+  height: auto;
+  overflow: auto;
+  font-family: inherit;
+  font-size: 100%;
+  margin:20px 0;
+}
+
+.ta-editor > *{
+  outline: none;
 }

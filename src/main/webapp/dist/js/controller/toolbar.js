@@ -4,6 +4,7 @@ angular.module('DojoIBL')
         $scope.test = "foo";
 
         $scope.name = "your name";
+        $scope.inquiryCode;
 
         $scope.state = $state;
 
@@ -12,14 +13,29 @@ angular.module('DojoIBL')
                 $scope.run = data;
 
                 if ($stateParams.phase) {
-                    //ActivityService.getActivitiesForPhase(data.game.gameId, $stateParams.phase).then(function (data) {
-                    //    $scope.activities = data;
-                    //    console.log(data);
-                    //});
+
+
+                    GameService.getGameById(data.gameId).then(function (data) {
+                        $scope.namePhase = data.phases[$stateParams.phase];
+                        //console.log(data.phases);
+                    });
+
+                    if ($stateParams.activityId) {
+
+                        ActivityService.getActivityById($stateParams.activityId, data.gameId).then(function (data) {
+                            $scope.activity = data;
+
+                            //console.log(data);
+
+
+                        });
+                    }
                 }
 
             });
         }
+
+
 
         if (Session.getAccessToken() ) {
             //Account.accountDetails().$promise.then(
@@ -29,5 +45,12 @@ angular.module('DojoIBL')
             //    }
             //);
         }
+
+
+        $scope.findAndJoin = function(){
+            console.log($scope.inquiryCode);
+            $scope.inquiryCode = null;
+        }
+
     }
 );
