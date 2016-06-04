@@ -10,6 +10,12 @@ angular.module('DojoIBL')
 
         });
 
+        var responses = {};
+
+        var resumptionToken;
+        var serverTime= 0;
+        var serverTimeFirstInvocation;
+
         return {
             newResponse: function(responseAsJson){
                 var dataCache = CacheFactory.get('responsesCache');
@@ -24,32 +30,47 @@ angular.module('DojoIBL')
 
                 return newResponse.$save();
             },
-            getResponsesByInquiry: function (runId) {
-                var service = this;
-                var dataCache = CacheFactory.get('responsesCache');
-                var deferred = $q.defer();
-                Response.getResponsesForInquiry({ runId: runId }).$promise.then(
-                    function (data) {
-                        console.log(data);
-                        //var generalItems={};
-                        //generalItems[gameId] = generalItems[gameId] || {};
-                        //for (i = 0; i < data.generalItems.length; i++) {
-                        //    if (!data.generalItems[i].deleted) {
-                        //        dataCache.put(data.generalItems[i].id, data.generalItems[i]);
-                        //        generalItems[gameId][data.generalItems[i].id] = data.generalItems[i];
-                        //        // returnElements.push(data.generalItems[i])
-                        //    }
-                        //}
-                        deferred.resolve(generalItems[gameId]);
-                    }
-                );
-
-                return deferred.promise;
-            },
             deleteResponse: function(responseId){
                 var dataCache = CacheFactory.get('responsesCache');
                 dataCache.remove(responseId);
                 return Response.deleteResponse({ responseId: responseId });
+            },
+            getResponsesByInquiryActivity: function(runId, itemId){
+                var deferred = $q.defer();
+                var dataCache = CacheFactory.get('responsesCache');
+
+                Response.getResponsesInquiryActivity({ runId:runId, itemId:itemId, resumptionToken: resumptionToken, from:serverTime }).$promise.then(function (data) {
+                    if (data.error) {
+                        deferred.resolve(data);
+                    } else {
+
+                        for (var i = 0; i < data.responses.length; i++) {
+                            if (data.responses[i].revoked || data.responses[i].deleted) {
+                                delete responses[data.responses[i].responseId];
+                            } else {
+
+                                dataCache.put(data.responses[i].responseId, data.responses[i]);
+                                responses[data.responses[i].responseId] = data.responses[i];
+                            }
+                        }
+
+                        //dataCache.put("responses"+itemId, data);
+
+                        resumptionToken = data.resumptionToken;
+                        serverTimeFirstInvocation = serverTimeFirstInvocation || data.serverTime;
+                        if (!data.resumptionToken){
+                            serverTime = serverTimeFirstInvocation;
+                            serverTimeFirstInvocation = undefined;
+                        }
+
+                        deferred.resolve(data);
+                    }
+                });
+                return deferred.promise;
+            },
+            getResponsesFromCache: function(itemId){
+                var dataCache = CacheFactory.get('responsesCache');
+                return dataCache.get("responses"+itemId);
             }
         }
     }

@@ -3309,6 +3309,8 @@ a {
 a:hover,
 a:focus {
   text-decoration: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
 .border-bottom {
   border-bottom: 1px solid #e7eaec !important;
@@ -5011,6 +5013,7 @@ dd.project-people {
 }
 .chat-discussion .chat-message.left .message {
   text-align: left;
+  width: 100%;
   margin-left: 55px;
 }
 .chat-discussion .chat-message.right .message {
@@ -5022,19 +5025,20 @@ dd.project-people {
   color: #888888;
 }
 .message-content {
+  padding: 8px 0px;
   display: block;
 }
 .chat-discussion {
-  background: #eee;
-  padding: 15px;
-  height: 400px;
+  /*background: #eee;*/
+  /*padding: 15px;*/
+  /*height: 400px;*/
   overflow-y: auto;
   bottom: 20px;
   right: 75px;
   background: #fff;
   border: 1px solid #e7eaec;
   /* width: 230px; */
-  height: 400px;
+  /*height: 400px;*/
   border-radius: 0px 0px 5px 5px;
 }
 .chat-users {
@@ -5490,7 +5494,7 @@ body.body-small .vote-icon {
   font-size: 11px;
   line-height: 14px;
   max-width: 80%;
-  background: #f3f3f4;
+  /*background: #f3f3f4;*/
   margin-bottom: 10px;
 }
 .small-chat-box .content .chat-message.active, .chat-discussion .chat-message.active {
@@ -5507,6 +5511,7 @@ body.body-small .vote-icon {
 .small-chat-box .content .right, .chat-discussion .right{
   text-align: right;
   clear: both;
+  width: 100%;
 }
 .small-chat-box .content .right .chat-message, .chat-discussion .right .chat-message  {
   float: right;

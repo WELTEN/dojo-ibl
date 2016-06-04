@@ -12,35 +12,34 @@
         </div>
         <div class="col-lg-4 wrapper wrapper-content small-chat-float" ng-controller="InstantMessagingController">
             <div class="ibox-chat-content" ng-class="{'fixed-chat':boolChangeClass }">
-                <div class="heading" draggable="true">
+                <div class="heading">
                     <small class="chat-date pull-right">
                     </small>
                     {{'dibl.inquiry.structure.chat' | translate }}
                 </div>
                 <div class="slimScrollDiv" style="position: relative; width: auto; height: 400px;">
-                    <div class="chat-discussion" style="width: auto; height: 400px;">
-                         <!--infinite-scroll='loadMoreMessages()'-->
-                         <!--infinite-scroll-distance='1'-->
-                         <!--infinite-scroll-immediate-check="false" infinite-scroll-disabled="disableMessageLoading"-->
+                    <div class="chat-discussion" chat style="width: auto; height: 400px;">
 
-                        <div class="left" ng-repeat="message in messages.messages">
-                            <div class="author-name">
-                                {{ message.senderId }}
-                                <small class="chat-date">
-                                    {{ message.date }}
-                                </small>
-                            </div>
-                            <div class="chat-message">
+                        <div class="chat-message" ng-class="{'left': message.senderId != myAccount.localId,'right': message.senderId == myAccount.localId }" ng-repeat="message in messages.messages">
+                            <img class="message-avatar" src="dist/img/avatar.png" ng-src="{{ getAvatar(message) }}" alt="">
+                            <div class="message">
+                                <a class="message-author" href="#"> {{ getUser(message) }} </a>
+                                <span class="message-date"> {{ message.date | date:'medium' }}</span>
+                                <span class="message-content">
                                 {{ message.body }}
+                                </span>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="form-chat">
                     <div class="input-group input-group-sm">
-                        <input id="add-new-message" type="text" class="form-control" ng-model="bodyMessage"> <span
-                            class="input-group-btn">
-            <button ng-click="sendMessage()" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button> </span></div>
+                        <input id="add-new-message" type="text" class="form-control" ng-model="bodyMessage">
+                        <span class="input-group-btn">
+                            <button ng-click="sendMessage()" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

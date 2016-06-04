@@ -247,15 +247,75 @@ public class ResponseManager {
             String params = null;
             Object args[] = null;
             if (from == null) {
-                filter = "runId == runIdParam & generalItemId == itemIdParam & lastModificationDate <= untilParam";
+                filter = "runId == runIdParam & generalItemId == itemIdParam & lastModificationDate <= untilParam & revoked == false";
                 params = "Long runIdParam, Long untilParam, Long itemIdParam";
                 args = new Object[] { runId, until,itemId };
             } else if (until == null) {
-                filter = "runId == runIdParam & generalItemId == itemIdParam & lastModificationDate >= fromParam";
+                filter = "runId == runIdParam & generalItemId == itemIdParam & lastModificationDate >= fromParam & revoked == false";
                 params = "Long runIdParam, Long fromParam, Long itemIdParam";
                 args = new Object[] { runId, from ,itemId};
             } else {
-                filter = "runId == runIdParam & generalItemId == itemIdParam & lastModificationDate >= fromParam & lastModificationDate <= untilParam";
+                filter = "runId == runIdParam & generalItemId == itemIdParam & lastModificationDate >= fromParam & lastModificationDate <= untilParam & revoked == false";
+                params = "Long runIdParam, Long fromParam, Long untilParam, Long itemIdParam";
+                args = new Object[] { runId, from, until ,itemId};
+            }
+
+            query.setFilter(filter);
+            query.declareParameters(params);
+//			Iterator<UserJDO> it = ((List<UserJDO>) query.executeWithArray(args)).iterator();
+            List<ResponseJDO> results = (List<ResponseJDO>) query.executeWithArray(args);
+            Iterator<ResponseJDO> it = (results).iterator();
+            int i = 0;
+            while (it.hasNext()) {
+                i++;
+                ResponseJDO object = it.next();
+                returnList.addResponse(toBean(object));
+
+            }
+            Cursor c = JDOCursorHelper.getCursor(results);
+            cursorString = c.toWebSafeString();
+            if (returnList.getResponses().size() == RESPONSES_IN_LIST) {
+                returnList.setResumptionToken(cursorString);
+            }
+            returnList.setServerTime(System.currentTimeMillis());
+
+
+        }finally {
+            pm.close();
+        }
+        return returnList;
+
+    }
+
+    public static ResponseList getResponse(Long runId, Long itemId, Long from, Long until, String cursorString, boolean orderByLastModificationDate) {
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+        ResponseList returnList = new ResponseList();
+        try {
+            Query query = pm.newQuery(ResponseJDO.class);
+            if (cursorString != null) {
+
+                Cursor c = Cursor.fromWebSafeString(cursorString);
+                Map<String, Object> extendsionMap = new HashMap<String, Object>();
+                extendsionMap.put(JDOCursorHelper.CURSOR_EXTENSION, c);
+                query.setExtensions(extendsionMap);
+            }
+            query.setRange(0, RESPONSES_IN_LIST);
+			if (orderByLastModificationDate) {
+				query.setOrdering("lastModificationDate desc");
+			}
+            String filter = null;
+            String params = null;
+            Object args[] = null;
+            if (from == null) {
+                filter = "runId == runIdParam & generalItemId == itemIdParam & lastModificationDate <= untilParam & revoked == false";
+                params = "Long runIdParam, Long untilParam, Long itemIdParam";
+                args = new Object[] { runId, until,itemId };
+            } else if (until == null) {
+                filter = "runId == runIdParam & generalItemId == itemIdParam & lastModificationDate >= fromParam & revoked == false";
+                params = "Long runIdParam, Long fromParam, Long itemIdParam";
+                args = new Object[] { runId, from ,itemId};
+            } else {
+                filter = "runId == runIdParam & generalItemId == itemIdParam & lastModificationDate >= fromParam & lastModificationDate <= untilParam & revoked == false";
                 params = "Long runIdParam, Long fromParam, Long untilParam, Long itemIdParam";
                 args = new Object[] { runId, from, until ,itemId};
             }

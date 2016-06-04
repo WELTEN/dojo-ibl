@@ -1,10 +1,9 @@
 angular.module('DojoIBL')
 
-    .directive('diblComment', function() {
+    .directive('comment', function() {
         return  {
-            restrict: 'E',
-            templateUrl: '/dist/templates/pages/comment.html'
-            //controller: 'ToolbarController'
+            restrict: 'EA',
+            templateUrl: '/dist/templates/directives/comment.html'
         };
     })
 

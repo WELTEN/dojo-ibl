@@ -8,6 +8,11 @@ angular.module('DojoIBL')
                 url: config.server+'/rest/myRuns/runId/:id'
 
             },
+            getRunByCode: {
+                method: 'GET',
+                isArray: false,
+                url: config.server+'/rest/myRuns/code/:code'
+            },
             getParticipateRunsForGame: {
                 method: 'GET',
                 isArray: false,

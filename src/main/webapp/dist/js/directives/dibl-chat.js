@@ -1,9 +1,17 @@
 angular.module('DojoIBL')
 
-    .directive('diblChat', function() {
+    .directive('chat', function() {
         return  {
             restrict: 'A',
-            templateUrl: '/dist/templates/directives/chat.html'
+            link: function (scope, element, attrs, controller) {
+                scope.$watch(
+                    function () { return element[0].childNodes.length; },
+                    function (newValue, oldValue) {
+                        if (newValue !== oldValue) {
+                            element.scrollTop(element[0].scrollHeight);
+                        }
+                    });
+            }
         };
     }
 

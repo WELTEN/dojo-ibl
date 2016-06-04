@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .factory('Session', function SessionFactory($http) {
+    .factory('Session', function SessionFactory($http, CacheFactory) {
         function getCookie(name) {
             var value = "; " + document.cookie;
             var parts = value.split("; " + name + "=");
@@ -30,6 +30,18 @@ angular.module('DojoIBL')
                 return localStorage.setItem('accessToken', value)
             },
             reset: function(){
+                var accounts = CacheFactory.get('accountCache');
+                var activities = CacheFactory.get('activitiesCache');
+                var games = CacheFactory.get('gamesCache');
+                var responses = CacheFactory.get('responsesCache');
+                var runs = CacheFactory.get('runsCache');
+                var users = CacheFactory.get('usersCache');
+                if(accounts) accounts.removeAll();
+                if(activities) activities.removeAll();
+                if(games) games.removeAll();
+                if(responses) responses.removeAll();
+                if(runs) runs.removeAll();
+                if(users) users.removeAll();
                 localStorage.removeItem('oauth');
                 localStorage.removeItem('accessToken');
             }

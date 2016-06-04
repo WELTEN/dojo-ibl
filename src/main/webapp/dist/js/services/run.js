@@ -33,7 +33,17 @@ angular.module('DojoIBL')
                 }
                 return deferred.promise;
             },
+            getRunByCode: function (code) {
+                var deferred = $q.defer();
 
+                Run.getRunByCode({ code: code }).$promise.then(
+                    function (data) {
+                        deferred.resolve(data);
+                    }
+                );
+
+                return deferred.promise;
+            },
             getOwnedRunsForGame: function (gameId) {
                 var service = this;
                 var deferred = $q.defer();

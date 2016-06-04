@@ -81,6 +81,11 @@ angular.module('DojoIBL')
                 templateUrl: '/dist/templates/profile.html',
                 controller: 'ProfileController'
             })
+            .state('profileAccount', {
+                url: '/profile/:accountId',
+                templateUrl: '/dist/templates/profile.html',
+                controller: 'ProfileController'
+            })
             .state('oauth', {
                 url: '/oauth/:accessToken/:type/:exp',
                 controller: 'OauthController'

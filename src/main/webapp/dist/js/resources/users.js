@@ -6,7 +6,11 @@ angular.module('DojoIBL')
                 method: 'GET',
                 isArray: false,
                 url: config.server+'/rest/users/runId/:id'
-
+            },
+            getUserByAccount: {
+                method: 'GET',
+                isArray: false,
+                url: config.server+'/rest/users/runId/:runId/account/:accountId'
             }
         });
     }

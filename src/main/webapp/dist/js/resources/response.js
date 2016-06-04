@@ -5,7 +5,12 @@ angular.module('DojoIBL')
             getResponsesForActivity: {
                 method: 'GET',
                 isArray: false,
-                url: config.server+'/rest/response/runId/:runId/itemId/:itemId?orderByLastModificationDate=true'
+                url: config.server + '/rest/response/runId/:runId/itemId/:itemId?from=:from&resumptionToken=:resumptionToken&orderByLastModificationDate=true'
+            },
+            'getResponsesInquiryActivity': {
+                method: 'GET',
+                isArray: false,
+                url: config.server + '/rest/response/runId/:runId/itemId/:itemId?resumptionToken=:resumptionToken&from=:from&orderByLastModificationDate=true'
             },
             getResponsesForInquiry: {
                 method: 'GET',

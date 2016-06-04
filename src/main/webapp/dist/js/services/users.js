@@ -16,9 +16,35 @@ angular.module('DojoIBL')
                 var deferred = $q.defer();
                 User.getUsersRun({id: runId}).$promise.then(
                     function (data) {
+
+                        angular.forEach(data.users, function(user){
+                            dataCache.put(user.localId, user);
+                        });
+
                         deferred.resolve(data.users);
                     }
                 );
+                return deferred.promise;
+            },
+            getUserFromCache: function(accountId) {
+                var dataCache = CacheFactory.get('usersCache');
+                return dataCache.get(accountId);
+            },
+            getUserByAccount: function(runId, accountId) {
+                var deferred = $q.defer();
+                var dataCache = CacheFactory.get('usersCache');
+                if (dataCache.get(accountId)) {
+                    deferred.resolve(dataCache.get(accountId));
+                } else {
+
+                    User.getUserByAccount({ runId: runId, accountId:accountId }).$promise.then(
+                        function(data){
+
+                            dataCache.put(accountId, data);
+                            deferred.resolve(data);
+                        }
+                    );
+                }
                 return deferred.promise;
             }
         }

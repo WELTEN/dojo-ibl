@@ -1,0 +1,13 @@
+<comment ng-repeat="comment in games.games | filter:{ revoked: false } track by $index " comment-data="comment"></comment>
+
+<div class="social-comment">
+    <a href="" class="pull-left">
+        <img original-src="{{ myAccount.picture }}" src="{{ myAccount.picture }}" />
+    </a>
+    <div class="media-body">
+        <textarea class="form-control" ng-model="response" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>
+        <div class="text-right">
+            <button type="submit" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendComment()"><strong>{{'dibl.inquiry.activity.post-comment' | translate }}</strong></button>
+        </div>
+    </div>
+</div>

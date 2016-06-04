@@ -13,6 +13,12 @@ angular.module('DojoIBL')
                 for (var i = 0; i < data.oauthInfoList.length; i++) {
                     providers['prov' + data.oauthInfoList[i].providerId] = data.oauthInfoList[i];
 
+                    if (data.oauthInfoList[i].providerId == 5){
+                        $scope.wespotUrl = "https://wespot-arlearn.appspot.com/Login.html?client_id="+providers.prov5.clientId
+                        +"&redirect_uri="+providers.prov5.redirectUri+"&response_type=code&scope=profile+email"
+                    }
+
+
                 }
 
                 console.log(providers);

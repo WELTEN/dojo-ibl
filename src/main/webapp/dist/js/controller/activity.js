@@ -1,8 +1,7 @@
 angular.module('DojoIBL')
 
-    .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService, AccountService, Response, ResponseService) {
+    .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService, UserService, AccountService, Response, ResponseService) {
         $scope.activity = ActivityService.getItemFromCache($stateParams.activityId);
-        console.log($scope.activity);
 
         AccountService.myDetails().then(
             function(data){
@@ -13,27 +12,76 @@ angular.module('DojoIBL')
         $scope.games = {};
         $scope.games.games = [];
 
-        Response.getResponsesForActivity({runId: $stateParams.runId, itemId: $stateParams.activityId })
-            .$promise.then(function (data) {
+        $scope.responses = [];
+        $scope.showButtonMore;
 
-                console.log(data)
-                $scope.games.games = $scope.games.games.concat(data.responses);
-                //for (i = 0; i < data.responses.length; i++) {
-                //    //GameService.storeInCache(data.games[i]);
-                //    data.responses[i].description = $sce.trustAsHtml(data.games[i].description);
-                //
-                //}
-                //$scope.games = GameService.getGames();
-                $scope.games.resumptionToken = data.resumptionToken;
-                $scope.games.serverTime = data.serverTime;
+        function loadResponses() {
+
+            var resp_cache = ResponseService.getResponsesFromCache($stateParams.activityId);
+            if(resp_cache) {
+                $scope.responses = $scope.responses.concat(resp_cache.responses);
+
+                console.log(resp_cache)
+
+                if (resp_cache.resumptionToken) {
+                    console.log(resp_cache.resumptionToken);
+
+                    $scope.showButtonMore = true;
+                }else{
+                    $scope.showButtonMore = false;
+                }
+            }
+
+            if(!resp_cache){
+                ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId).then(function (data) {
+
+                    $scope.responses = $scope.responses.concat(data.responses);
+
+                    if (data.resumptionToken) {
+                        console.log(data.resumptionToken);
+                        //loadResponses();
+                        $scope.showButtonMore = true;
+                    }else{
+                        $scope.showButtonMore = false;
+                    }
+                });
+            }
+        }
+
+        $scope.loadMoreResponses = function(){
+            ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId).then(function (data) {
+
+                $scope.responses = $scope.responses.concat(data.responses);
 
                 if (data.resumptionToken) {
-                    $scope.disableGameLoading = false
-                } else {
-                    $scope.disableGameLoading = true
+                    console.log(data.resumptionToken);
+                    //loadResponses();
+                    $scope.showButtonMore = true;
+                }else{
+                    $scope.showButtonMore = false;
                 }
-
             });
+        };
+
+
+
+        //console.log("load responses",$scope.games.games);
+        loadResponses();
+
+        $scope.getUser = function (response){
+            return UserService.getUserFromCache(response.userEmail.split(':')[1]).name;
+        };
+        $scope.getAvatar = function (response){
+            return UserService.getUserFromCache(response.userEmail.split(':')[1]).picture;
+        };
+
+        //$scope.getUser = function(response) {
+        //
+        //    UserService.getUserByAccount($stateParams.runId, response.userEmail).then(function (data) {
+        //        console.log(data);
+        //        return data;
+        //    });
+        //};
 
         $scope.sendComment = function(){
             AccountService.myDetails().then(function(data){
@@ -48,9 +96,9 @@ angular.module('DojoIBL')
                     "revoked": false,
                     "lastModificationDate": new Date().getTime()
                 }).then(function(data){
-                    console.log(data);
+                    //console.log(data);
 
-                    $scope.games.games.push(data);
+                    $scope.responses.push(data);
 
                     $scope.response = null;
                 });
@@ -59,44 +107,48 @@ angular.module('DojoIBL')
 
         $scope.removeComment = function(data){
             console.log(data);
-            var idx = $scope.games.games.indexOf(data);
+            var idx = $scope.responses.indexOf(data);
 
             // is currently selected
             if (idx > -1) {
-                $scope.games.games.splice(idx, 1);
+                $scope.responses.splice(idx, 1);
             }
             ResponseService.deleteResponse(data.responseId);
         };
 
-        //$scope.disableGameLoading = false;
-        //
-        //$scope.loadMoreGames = function () {
-        //
-        //    $scope.disableGameLoading = true;
-        //
-        //
-        //
-        //};
+        $scope.responseChildren;
 
-        //if(res.parentId != 0){
-        //
-        //    var childView = new ResponseView({ model: response.toJSON(), user: user[0] });
-        //    this.childViews.push(childView);
-        //    childView = childView.render().el;
-        //
-        //    if($("textarea[responseid='"+res.parentId+"']").parent().parent().length == 0){
-        //        $("div[data-item='"+res.parentId+"']").parent().append(childView);
-        //    }else{
-        //        $(childView).insertBefore($("textarea[responseid='"+res.parentId+"']").parent().parent());
-        //    }
-        //    this.childViews.push(childView);
-        //}else{
-        //    var view = new ResponseView({ model: response.toJSON(), user: user[0] });
-        //    this.childViews.push(view);
-        //    view = view.render().el;
-        //    this.$el.find('#list_answers').append(view);
-        //}
+        $scope.sendChildComment = function(responseParent, responseChildren) {
 
+            AccountService.myDetails().then(function(data){
+                ResponseService.newResponse({
+                    "type": "org.celstec.arlearn2.beans.run.Response",
+                    "runId": $stateParams.runId,
+                    "deleted": false,
+                    "generalItemId": $stateParams.activityId,
+                    "userEmail": data.accountType+":"+data.localId,
+                    "responseValue": responseChildren,
+                    "parentId": responseParent.responseId,
+                    "revoked": false,
+                    "lastModificationDate": new Date().getTime()
+                }).then(function(childComment){
+
+                    //console.log(response);
+                    console.log(childComment);
+
+                    //if(!$scope.response.children) {
+                    //    $scope.response.children = [];
+                    //}
+                    //$scope.response.children.push(childComment);
+
+                    $scope.responses.push(data);
+
+                    $scope.responseChildren = null;
+                });
+            });
+
+
+        };
 
         $scope.trustSrc = function(src) {
             return $sce.trustAsResourceUrl(src);

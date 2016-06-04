@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('ToolbarController', function ($scope, $state, $stateParams,RunService, ActivityService, Session, GameService) {
+    .controller('ToolbarController', function ($scope, $state, $stateParams,RunService, ActivityService, Session, GameService, AccountService, config) {
         $scope.test = "foo";
 
         $scope.name = "your name";
@@ -35,20 +35,27 @@ angular.module('DojoIBL')
             });
         }
 
-
-
-        if (Session.getAccessToken() ) {
-            //Account.accountDetails().$promise.then(
-            //    function(data){
-            //        $scope.pictureUrl = data.picture;
-            //        $scope.name = data.name;
-            //    }
-            //);
-        }
-
-
         $scope.findAndJoin = function(){
-            console.log($scope.inquiryCode);
+
+            RunService.getRunByCode($scope.inquiryCode).then(function(run){
+
+                AccountService.myDetails().then(function(user){
+
+                    GameService.giveAccess(run.game.gameId, user.accountType+":"+user.localId,1);
+
+                    RunService.giveAccess(run.runId, user.accountType+":"+user.localId,1);
+
+                    RunService.addUserToRun({
+                        runId: run.runId,
+                        email: user.accountType+":"+user.localId,
+                        accountType: user.accountType,
+                        localId: user.localId,
+                        gameId: run.game.gameId });
+
+                    window.location.href=config.server+'/main.html#/inquiry/'+run.runId;
+                });
+            });
+
             $scope.inquiryCode = null;
         }
 

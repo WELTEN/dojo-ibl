@@ -37,6 +37,11 @@ angular.module('DojoIBL')
             GameService.deleteGame(id)
         };
 
+        $scope.isLoggedIn = function () {
+            if (Session.getAccessToken() ) return true;
+            return false;
+        };
+
         //var socket = new ChannelService.SocketHandler();
         //socket.onMessage(function (data) {
         //    $scope.$apply(function () {

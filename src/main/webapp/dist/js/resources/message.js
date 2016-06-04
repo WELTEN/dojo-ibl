@@ -6,6 +6,11 @@ angular.module('DojoIBL')
                 method: 'GET',
                 isArray: false,
                 url: config.server + '/rest/messages/runId/:runId/default?from=:from&resumptionToken=:resumptionToken'
+            },
+            'getMessageById': {
+                method: 'GET',
+                isArray: false,
+                url: config.server + '/rest/messages/messageId/:messageId'
             }
         });
     }

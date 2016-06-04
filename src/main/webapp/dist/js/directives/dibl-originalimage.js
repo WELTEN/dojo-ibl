@@ -5,7 +5,7 @@ angular.module('DojoIBL')
             scope: { hires: '@' },
             link: function(scope, element, attrs) {
                 element.one('load', function() {
-                    element.attr('src', scope.original-src);
+                    element.attr('ng-src', scope.src);
                 });
             }
         };

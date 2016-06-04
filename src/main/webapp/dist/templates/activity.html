@@ -26,20 +26,20 @@
 
 
             <div id="list_answers" class="row m-t-sm social-footer">
-                 <!--infinite-scroll='loadMoreGames()'-->
-                 <!--infinite-scroll-distance='1'-->
-                 <!--infinite-scroll-immediate-check="true" infinite-scroll-disabled="disableGameLoading">-->
-                <div ng-show="games.games.length == 0" class="tip"
+
+                <div ng-show="responses.length == 0" class="tip"
                      style="color: #000; font-size: 18px; text-align: center; width:90%; margin:0 auto; position: relative">
                     No comments so far, be the first one!!
                 </div>
-                <div class="social-comment" ng-repeat="response in games.games | filter:{ revoked: false } track by $index ">
+
+
+                <div class="social-comment" ng-repeat="response in responses track by $index ">
                     <a href="" class="pull-left">
-                        <img original-src="original.jpg" src="dist/img/avatar.png" />
+                        <img src="dist/img/avatar.png" ng-src="{{ getAvatar(response) }}" />
                     </a>
                     <div class="media-body">
-                        <a href="#">
-                            {{ response.userEmail }}
+                        <a href="#/profile/">
+                            {{ getUser(response) }}
                         </a>
                         {{ response.responseValue }}
                         <br>
@@ -50,23 +50,27 @@
                     </div>
 
                     <!--<div ng-transclude="body"></div>-->
+                    <div comments-transclude comment-data="response.children"></div>
 
                     <div class="social-comment" ng-show="hiddenDiv">
                         <a href="" class="pull-left">
-                            <img original-src="{{ myAccount.picture }}" src="{{ myAccount.picture }}" />
+                            <img src="dist/img/avatar.png" ng-src="{{ myAccount.picture }}" />
                         </a>
                         <div class="media-body">
-                            <textarea class="form-control" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>
+                            <textarea class="form-control" ng-model="responseChildren" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>
                             <div class="text-right">
-                                <button type="submit" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendComment()"><strong>{{'dibl.inquiry.activity.post-comment' | translate }}</strong></button>
+                                <button type="submit" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendChildComment(response, responseChildren )"><strong>{{'dibl.inquiry.activity.post-comment' | translate }}</strong></button>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="social-comment" ng-show="showButtonMore">
 
+                    <a class="btn btn-primary btn-rounded btn-block" ng-click="loadMoreResponses()"><i class="fa fa-info-circle"></i> Click to load more</a>
+                </div>
                 <div class="social-comment">
                     <a href="" class="pull-left">
-                        <img original-src="{{ myAccount.picture }}" src="{{ myAccount.picture }}" />
+                        <img src="dist/img/avatar.png" ng-src="{{ myAccount.picture }}" />
                     </a>
                     <div class="media-body">
                         <textarea class="form-control" ng-model="response" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>
