@@ -12,7 +12,6 @@ angular.module('DojoIBL')
                 isArray: false,
                 url: config.server+'/rest/account/accountDetails/:fullId'
             }
-
         });
     })
     .factory('Contacts', function GameFactory($resource, $http, config) {

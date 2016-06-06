@@ -1,5 +1,5 @@
 angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache', 'ngDragDrop', 'localytics.directives',
-    'summernote', 'ngSanitize', 'infinite-scroll', 'textAngular', 'pascalprecht.translate'])
+    'summernote', 'ngSanitize', 'ui.select', 'infinite-scroll', 'textAngular', 'pascalprecht.translate'])
 
     .config(function ($translateProvider) {
 
