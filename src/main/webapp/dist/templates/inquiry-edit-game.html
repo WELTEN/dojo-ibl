@@ -91,7 +91,7 @@
                             <div class="user-button">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button type="button" ng-click="addRole()"
+                                        <button type="button" ng-disabled="!roleName" ng-click="addRole()"
                                                 class="btn btn-primary btn-sm btn-block"><i
                                                 class="fa fa-envelope"></i> {{ 'dibl.inquiry.new-edit.add-role' |
                                             translate }}
@@ -424,7 +424,8 @@
                                     </td>
                                     <td class="project-people">
                                         <a href="" ng-repeat="user in usersRun[run.runId] track by $index"><img
-                                                alt="{{ user.name }}" class="img-circle"
+                                                alt="{{ user.name }}" title="{{ user.name }}" class="img-circle"
+                                                src="dist/img/avatar3.png"
                                                 ng-src="{{ user.picture }}"></a>
                                     </td>
                                     <td class="project-actions">

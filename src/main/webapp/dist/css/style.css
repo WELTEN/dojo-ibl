@@ -558,6 +558,9 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   .menu-visible-lg {
     display: block !important;
   }
+  #inquiry-content {
+    width: 66% !important;
+  }
 }
 @media (max-width: 1200px) {
   .col-md-9 {
@@ -7069,6 +7072,9 @@ body.landing-page {
   .landing-page .featurette-heading {
     margin-top: 120px;
   }
+  #inquiry-content {
+    width: 100%;
+  }
 }
 @media (max-width: 768px) {
   .landing-page .navbar .navbar-header {
@@ -8094,8 +8100,6 @@ body.md-skin {
 
   .list_activities{
     margin: 1em auto !important;
-    width: 80% !important;
-    background: bisque;
     padding: 20px;
     border-radius: 14px;
     overflow: hidden;
@@ -8105,7 +8109,7 @@ body.md-skin {
     display: block !important;
     /*width: 80% !important;*/
     position: relative !important;
-    background-color: black !important;
+    background-color: #286090;
     border-radius: 64px !important;
     color: white !important;
     text-align: center !important;
@@ -8271,7 +8275,7 @@ div.phases-breadcrumb  {
 
 #inquiry-content {
   /*padding-bottom: 3em;*/
-  padding-right: 0px;
+  /*padding-right: 0px;*/
   overflow: hidden;
 }
 
@@ -8307,8 +8311,6 @@ div.phases-breadcrumb  {
 
 .list_activities{
   margin: 0px auto 2em;
-  width: 36em;
-  background: bisque;
   padding: 20px;
   border-radius: 14px;
   overflow: hidden;
@@ -8319,9 +8321,10 @@ div.phases-breadcrumb  {
   background-color: #286090;
   float: left;
   cursor: auto;
-  width: 12em;
+  width: 10em;
   list-style: none;
   padding: 1em;
+  margin: 0 1em;
 }
 
 .list_activities li a{

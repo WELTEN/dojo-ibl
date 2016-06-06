@@ -34,7 +34,21 @@ angular.module('DojoIBL')
         };
 
         $scope.deleteInquiry = function (id) {
-            GameService.deleteGame(id)
+
+            function arrayObjectIndexOf(myArray, searchTerm, property) {
+                for(var i = 0, len = myArray.length; i < len; i++) {
+                    if (myArray[i][property] === searchTerm) return i;
+                }
+                return -1;
+            }
+            var idx = arrayObjectIndexOf($scope.games, GameService.getGameFromCache(id).gameId, "gameId");
+
+            // is currently selected
+            if (idx > -1) {
+                $scope.games.splice(idx, 1);
+            }
+
+            GameService.deleteGame(id);
         };
 
         $scope.isLoggedIn = function () {

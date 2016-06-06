@@ -10,18 +10,19 @@
 
         <div class="col-lg-3">
             <div class="wrapper wrapper-content project-manager">
-                <h4>{{ run.title }} </h4>
+                <h4>{{ game.title }}</h4>
                 <img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">
 
-                <div ng-bind-html="run.description | unsafe"></div>
+                <div ng-bind-html="game.description"></div>
 
             </div>
         </div>
+
         <div class="col-md-9" id="inquiry-content">
             <div class="col-md-6 wrapper wrapper-content animated fadeInpanel-body">
                 <div class="ibox-content">
                     <div class="heading ng-binding">
-                        {{ 'dibl.inquiry.new-edit.inquiry-metadata' | translate }} <i class="fa fa-check" ng-show="run.runId"></i>
+                        {{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}
                     </div>
                     <div class="padding">
                         <div class="ibox-content profile-content">
@@ -29,71 +30,81 @@
                                 <div class="box-body">
                                     <form novalidate>
                                         <div class="form-group">
-                                            <label for="gameTitle">{{'dibl.inquiry.new-edit.inquiry-title' | translate}}</label>
+                                            <label for="gameTitle">{{'dibl.inquiry.new-edit.inquiry-title' |
+                                                translate}}</label>
                                             <input required type="name" class="form-control" id="gameTitle"
                                                    placeholder="{{'dibl.inquiry.new-edit.inquiry-title-placeholder' | translate}}"
-                                                   ng-model="run.title">
+                                                   ng-model="game.title">
                                         </div>
                                     </form>
 
                                     <label>{{ 'dibl.inquiry.new-edit.inquiry-title' | translate }}</label>
-                                    <!--<div summernote></div>-->
-                                    <!--<summernote ng-model="run.description"></summernote>-->
-                                    <textarea name="sada" id="" ng-model="run.description" rows="5"></textarea>
-
-                                    <!--<text-angular ta-toolbar="[['h1','h2','h3', 'B'], ['html']]"-->
-                                    <!--id="gameDescription"-->
-                                    <!--name="description"-->
-                                    <!--class="hola"-->
-                                    <!--ng-model="run.game.description"></text-angular>-->
+                                    <text-angular ta-toolbar="[
+                                    ['bold','italics'],
+                                    ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
+                                    ['insertImage', 'insertLink','insertVideo']]
+                                    " ng-model="game.description"></text-angular>
                                 </div>
 
 
                             </form>
 
                             <div class="pull-right tooltip-demo">
-                                <!--<a href="mailbox.html" class="btn btn-white btn-sm" data-toggle="tooltip"-->
-                                   <!--data-placement="top" title="Move to draft folder"><i class="fa fa-times"></i>-->
-                                    <!--Discard</a>-->
 
-                                <a class="btn btn-primary btn-sm" data-toggle="tooltip"
-                                   data-placement="top" ng-click="ok()" title="Save inquiry"><i class="fa fa-check"></i>
-                                    {{ 'dibl.inquiry.new-edit.inquiry-save' | translate }}</a>
+                                <button type="button"  ng-disabled="!game.title || !game.description" class="btn btn-white btn-sm">
+                                    <i class="fa fa-times"></i> Discard
+                                </button>
+
+                                <button type="button"  ng-disabled="!game.title || !game.description" ng-click="ok()" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-check"></i> {{ 'dibl.inquiry.new-edit.inquiry-save' | translate }}
+                                </button>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-6 wrapper wrapper-content animated fadeInpanel-body">
+            <div class="col-md-6 wrapper wrapper-content animated fadeInpanel-body" ng-show="game.gameId">
                 <div class="ibox-content">
                     <div class="heading ng-binding">
-                        {{ 'dibl.inquiry.new-edit.inquiry-roles' | translate }} <i class="fa fa-check" ng-show="game.config.roles.length > 0"></i>
+                        {{ 'dibl.inquiry.new-edit.inquiry-roles' | translate }}
                     </div>
                     <div class="padding">
                         <div class="ibox-content profile-content">
                             <h4><strong>{{ 'dibl.inquiry.new-edit.roles-title' | translate }} </strong></h4>
-                            <p>{{ 'dibl.inquiry.new-edit.p-available-roles' | translate }} '{{ run.title }}'</p>
+
+                            <p>{{ 'dibl.inquiry.new-edit.p-available-roles' | translate }} <b>{{ game.title }}</b></p>
 
                             <ul class="tag-list" style="padding: 0; display: inline-block;">
-                                    <li ng-repeat="role in roles"><a href="" ng-click="selectRole($index)"><i class="fa fa-tag"></i> {{ role.name }}</a></li>
-                                <li ng-show="roles == 0"><a href=""><i class="fa fa-tag"></i> {{ 'dibl.inquiry.new-edit.no-roles' | translate }}</a></li>
+                                <li ng-repeat="role in game.config.roles track by $index"><a href=""
+                                                                                             ng-click="selectRole($index)"><i
+                                        class="fa fa-tag"></i> {{ role.name }}</a></li>
+                                <li ng-show="game.config.roles == 0"><a href=""><i class="fa fa-tag"></i> {{
+                                    'dibl.inquiry.new-edit.no-roles' | translate }}</a></li>
                             </ul>
                             <br/>
                             <input required type="name" class="form-control" id="roleName"
                                    placeholder="Enter a role"
                                    ng-model="roleName">
                             <br/>
+
+                            <!--<p>{{ game.config.roles }}</p>-->
+
                             <div class="user-button">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button type="button" ng-disable="roleName.length ==0" ng-click="addRole()" class="btn btn-primary btn-sm btn-block"><i
-                                                class="fa fa-envelope"></i> {{ 'dibl.inquiry.new-edit.add-role' | translate }}
+                                        <button type="button"  ng-disabled="!roleName" ng-click="addRole()"
+                                                class="btn btn-primary btn-sm btn-block"><i
+                                                class="fa fa-envelope"></i> {{ 'dibl.inquiry.new-edit.add-role' |
+                                            translate }}
                                         </button>
                                     </div>
                                     <div class="col-md-6">
-                                        <button type="button" ng-click="removeRole()"  class="btn btn-default btn-sm btn-block"><i
-                                                class="fa fa-coffee"></i> {{ 'dibl.inquiry.new-edit.remove-role' | translate }}
+                                        <button type="button" ng-click="removeRole()"
+                                                class="btn btn-default btn-sm btn-block"><i
+                                                class="fa fa-coffee"></i> {{ 'dibl.inquiry.new-edit.remove-role' |
+                                            translate }}
                                         </button>
                                     </div>
                                 </div>
@@ -104,121 +115,347 @@
             </div>
 
         </div>
-        <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
+
+        <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body" ng-show="game.gameId">
             <div class="ibox-content">
                 <div class="heading ng-binding">
                     {{ 'dibl.inquiry.new-edit.inquiry-phases-activities' | translate }}
                 </div>
                 <div class="padding">
-                    <p>Drag and drop activities </p>
+                    <p>{{ 'dibl.inquiry.new-edit.configuration-dashboard' | translate }}</p>
                 </div>
                 <div class="padding">
                     <div class="col-lg-3 nice-border">
-                        <h3>Types of activities</h3>
-                        <div>
-                            <p>Drag &amp; drop some activity types into de bullseye <i class="fa fa-arrows"></i></p>
+                        <h3>{{ 'dibl.inquiry.new-edit.phases' | translate }}</h3>
 
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="phaseName">
+                        <span class="input-group-btn">
+                            <button
+                                    type="button" ng-disabled="phaseName.length < 4 || !phaseName"
+                                    ng-click="addPhase()" class="btn btn-success"><i class="fa fa-plus"></i> {{
+                                'dibl.inquiry.new-edit.add-phase' | translate }}
+                            </button>
+                        </span>
+                        </div>
 
-                            <div id="drag-list" >
-                                <div class="drag external-event navy-bg" data="org.celstec.arlearn2.beans.generalItem.AudioObject"><i class="fa fa-external-link"></i> Google resource</div>
-                                <div class="drag external-event navy-bg" data="org.celstec.arlearn2.beans.generalItem.NarratorItem"><i class="fa fa-file-text"></i> Text activity</div>
-                                <div class="drag external-event navy-bg" data="org.celstec.arlearn2.beans.generalItem.VideoObject"><i class="fa fa-external-link"></i> Youtube video</div>
-                                <div class="drag external-event navy-bg" data="org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest"><i class="fa fa-sitemap"></i> Concept map</div>
-                                <!-- div class='drag external-event navy-bg' data='org.celstec.arlearn2.beans.generalItem.AudioObject' >Upload multimedia</div>-->
-                                <!-- div class='drag external-event navy-bg' data='org.celstec.arlearn2.beans.generalItem.ScanTag' ><i class="fa fa-file-archive"></i> Data collection</div>-->
-                                <div class="drag external-event navy-bg" data="org.celstec.arlearn2.beans.generalItem.AudioObject"><i class="fa fa-external-link"></i> Golabs plugin</div>
-                                <div class="drag external-event navy-bg" data="org.celstec.arlearn2.beans.generalItem.OpenBadge"><i class="fa fa-link"></i> External widget</div>
-                                <div class="drag external-event navy-bg" data="org.celstec.arlearn2.beans.generalItem.ResearchQuestion"><i class="fa fa-question"></i> Research question</div>
-                                <!--vy-bg' data='org.celstec.arlearn2.beans.generalItem.MultipleChoiceImageTest' ><i class="fa fa-link"></i> Activity type X</div>-->
-                            </div>
-                            <div id="remove-drag" style="width: 100%; height: 80px; background-color: #FF8B8B;" class="ui-droppable">
-                                <div style="color: #fff; font-size: 17px; text-align: center; padding-top: 20px">To remove activities
-                                    <div class="tip"><i class="fa fa-trash-o"></i> Drop here</div>
-                                </div>
+                        <br/>
+                        <br/>
+
+                        <h3>{{ 'dibl.inquiry.new-edit.activities' | translate }}</h3>
+
+                        <div id="drag-list">
+                            <div class="btn btn-primary dropped" ng-repeat="item in list_original"
+                                 ng-model="list_original" data="{{ item.type }}" name="{{ item.name }}"
+                                 ng-click="addOne(item)" ng-disabled="phases.length == 0">
+                                <i class="fa {{ item.icon }}"></i>
+                                {{ $index }} {{ item.name }}
                             </div>
                         </div>
                     </div>
 
                     <div class="col-lg-9">
-                        <div class="tabs-container" ng-controller="TabControllerNew as tab">
+                        <div class="tabs-container" ng-show="phases == 0" class="tip"
+                             style="color: #000; font-size: 18px; text-align: center; padding-top: 200px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
+                            {{ 'dibl.inquiry.new-edit.click-first' | translate }}
+                            <button class="btn btn-success dropped" ng-click="addPhase()"
+                                    style="width: 10em; vertical-align: baseline;"><i class="fa fa-plus"></i> {{
+                                'dibl.inquiry.new-edit.add-phase' | translate }}
+                            </button>
+                            {{ 'dibl.inquiry.new-edit.adding-phases' | translate }}
+                        </div>
+                        <div class="tabs-container" ng-controller="TabController as tab">
                             <ul class="nav nav-tabs select-activities">
-                                <li class="active" ng-repeat="phase in run.game.phases" ng-class="{ active:tab.isSet($index) }">
-                                    <a data-toggle="tab" ng-click="tab.setTab($index)"> {{ phase.title | limitTo: 8 }} {{ phase.title.length > 8 ?
-                                        '...' : ''}}
-                                        <i class="fa fa-remove remove-phase" ng-click="removePhase($index)"></i>
+                                <li ng-repeat="phase in phases track by $index" ng-class="{ active:tab.isSet($index) }"
+                                    data="{{$index}}">
+                                    <a data-toggle="tab" ng-click="tab.setTab($index)">
+                                        {{$index}} {{ phase.title | limitTo: 8 }} {{ phase.title.length > 8 ? '...' :
+                                        ''}}
+                                        <i class="fa fa-remove remove-phase" ng-hide="phases.length == 1"
+                                           ng-click="removePhase($index)"></i>
                                     </a>
                                 </li>
 
-                                <li class="new-phase">
-                                    <a data-toggle="tab" ng-click="addPhase()">
-                                        <i class="fa fa-plus"></i> Add phase
-                                    </a>
-                                </li>
                             </ul>
+
                             <div class="tab-content">
-                                <div class="tab-pane" ng-class="{true: 'active'}[tab.isSet($index) == true]" ng-show="tab.isSet($index)" ng-repeat="phase in run.game.phases">
+                                <div class="tab-pane" ng-repeat="phase in phases track by $index"
+                                     ng-class="{true: 'active'}[tab.isSet($index) == true]" ng-show="tab.isSet($index)">
                                     <div class="panel-body">
-                                        <div class="col-lg-4 activities ui-sortable">
-                                            <div class="tip"
+                                        <div class="col-lg-3 activities" ng-model="lists[$index]" data="{{$index}}"
+                                             data-drop="true" data-jqyoui-options
+                                             jqyoui-droppable="{onDrop:'dropCallback(item)'}">
+                                            <div ng-hide="lists[$index].length > 0" class="tip"
                                                  style="color: #000; font-size: 18px; text-align: center; padding-top: 200px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
-                                                Drag here activity types from the left panel and click to edit
-                                                <div class="tip"><i class="fa fa-dot-circle-o"></i></div>
+                                                {{ 'dibl.inquiry.new-edit.adding-activities' | translate }}
+                                                {{$index}}
                                             </div>
-                                            <div ng-repeat="activity in activities"
-                                                    class="drag external-event navy-bg remove"
-                                                 data="org.celstec.arlearn2.beans.generalItem.NarratorItem"
-                                                 id="{{ activity.gItem }}"><i class="fa fa-file-text"></i> {{ activity.name }}
+
+                                            <button ng-repeat="combination in combinations" class="btn btn-white"
+                                                    ng-model="x" value="{{combination.combinationId}}"
+                                                    ng-click="SelectedCombination(combination.combinationId);"
+                                                    ng-class="{'btn-primary':selectedCombination==combination.combinationId}"
+                                                    type="button">{{combination.name}}
+                                            </button>
+
+                                            <div class="btn btn-success dropped"
+                                                 ng-click="selectActivity(item, item.id)"
+                                                 ng-repeat="item in lists[$index] track by $index"
+                                                 data-drag="true"
+                                                 data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
+                                                 data="{{ item.type }}"
+                                                 ng-class="{'btn-warning':selectedCombination==item.id}">
+                                                <span ng-show="item.name.length == 0"> <small>No name provided</small> </span>
+                                                {{ item.name }}
                                             </div>
                                         </div>
-                                        <div class="col-md-8">
 
-                                            <div class="mail-box">
+                                        <div class="col-md-9">
+                                            <div ng-show="lists[$index].length > 0 && !selectedCombination" class="tip"
+                                                 style="color: #000; font-size: 18px; text-align: center; padding-top: 200px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
+                                                {{ 'dibl.inquiry.new-edit.editing-activities' | translate }}
+                                            </div>
+                                            <div class="mail-box" ng-show="selected">
 
                                                 <div class="mail-body">
 
                                                     <form class="form-horizontal" method="get">
-                                                        <div class="form-group"><label class="col-sm-2 control-label">Title:</label>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">{{
+                                                                'dibl.inquiry.new-edit.title-activity' | translate
+                                                                }}</label>
 
-                                                            <div class="col-sm-10"><input type="text" class="form-control"></div>
-                                                        </div>
-                                                        <div class="form-group"><label class="col-sm-2 control-label">Roles:</label>
-
-                                                            <div class="col-sm-10">
-                                                                <select>
-                                                                    <input ng-repeat="role in run.game.config.roles"/>
-                                                                </select>
+                                                            <div class="col-sm-9">
+                                                                <input ng-disabled="activity == null" type="text"
+                                                                       ng-model="activity.name"
+                                                                       class="form-control">
                                                             </div>
                                                         </div>
+                                                        <div class="form-group" ng-hide="true">
+                                                            <label class="col-sm-3 control-label">{{
+                                                                'dibl.inquiry.new-edit.type-activity' | translate
+                                                                }}</label>
+
+                                                            <div class="col-sm-9">
+                                                                <input ng-disabled="activity == null" type="text"
+                                                                       ng-model="activity.type"
+                                                                       class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" ng-show="activity.videoFeed">
+                                                            <label class="col-sm-3 control-label">{{
+                                                                'dibl.inquiry.new-edit.video-activity' | translate
+                                                                }}</label>
+
+                                                            <div class="col-sm-9">
+                                                                <input ng-disabled="activity == null"
+                                                                       placeholder="Video URL"
+                                                                       type="text"
+                                                                       ng-model="activity.videoFeed"
+                                                                       class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group" ng-show="activity.audioFeed">
+                                                            <label class="col-sm-3 control-label">{{
+                                                                'dibl.inquiry.new-edit.google-activity' | translate
+                                                                }}</label>
+
+                                                            <div class="col-sm-9">
+                                                                <input ng-show="activity.audioFeed"
+                                                                       ng-disabled="activity == null" type="text"
+                                                                       placeholder="Audio URL"
+                                                                       ng-model="activity.audioFeed"
+                                                                       class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Roles</label>
+
+                                                            <div class="col-sm-9">
+                                                                <label class="checkbox-inline"
+                                                                       ng-repeat="role in game.config.roles track by $index">
+                                                                    <input type="checkbox"
+                                                                           name="selectedFruits[]"
+                                                                           value="{{role.name}}"
+                                                                           ng-checked="selection.indexOf(role.name) > -1"
+                                                                           ng-click="toggleSelection(role.name)"
+                                                                            > {{role.name}}
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-sm-12">
+                                                                <text-angular ta-toolbar="[
+                                                            ['bold','italics'],
+                                                            ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
+                                                            ['insertImage', 'insertLink','insertVideo']]
+                                                            " ng-model="activity.richText"></text-angular>
+                                                            </div>
+                                                        </div>
+                                                        <!--<div class="form-group">-->
+                                                        <!--<label class="col-sm-12 control-label">Rich text </label>-->
+
+                                                        <!--<div class="col-sm-12">-->
+                                                        <!--<div ng-bind-html="activity.richText"></div>-->
+                                                        <!--</div>-->
+                                                        <!--</div>-->
+
+                                                        <!--<div class="form-group">-->
+
+                                                        <!--<label class="col-sm-3 control-label">{{-->
+                                                        <!--'dibl.inquiry.new-edit.description-activity' | translate-->
+                                                        <!--}}</label>-->
+
+                                                        <!--<div class="col-sm-9">-->
+                                                        <!--<textarea ng-disabled="activity == null"-->
+                                                        <!--class="form-control"-->
+                                                        <!--ng-model="activity.description"></textarea>-->
+                                                        <!--</div>-->
+                                                        <!--</div>-->
+                                                        <!--<div class="form-group"><label-->
+                                                        <!--class="col-sm-2 control-label">{{-->
+                                                        <!--'dibl.inquiry.new-edit.roles-activity' | translate-->
+                                                        <!--}}</label>-->
+
+                                                        <!--<div class="col-sm-10">-->
+                                                        <!--<select ng-disabled="activity == null" multiple chosen-->
+                                                        <!--ng-options="s for s in run.game.config.roles track by $index">-->
+                                                        <!--</select>-->
+                                                        <!--</div>-->
+                                                        <!--</div>-->
 
                                                     </form>
 
                                                 </div>
 
-                                                <summernote></summernote>
+                                                <!--<summernote ng-model="activity.description"></summernote>-->
+
+
                                                 <div class="mail-body text-right tooltip-demo">
-                                                    <a href="mailbox.html" class="btn btn-sm btn-primary" data-toggle="tooltip"
-                                                       data-placement="top" title="Send"><i class="fa fa-reply"></i> Send</a>
-                                                    <a href="mailbox.html" class="btn btn-white btn-sm" data-toggle="tooltip"
-                                                       data-placement="top" title="Discard email"><i class="fa fa-times"></i>
-                                                        Discard</a>
-                                                    <a href="mailbox.html" class="btn btn-white btn-sm" data-toggle="tooltip"
-                                                       data-placement="top" title="Move to draft folder"><i class="fa fa-pencil"></i>
-                                                        Draft</a>
+
+                                                    <a ng-click="removeActivity(activity)"
+                                                       ng-disabled="activity == null" class="btn btn-danger btn-sm"
+                                                       data-toggle="tooltip"
+                                                       data-placement="top" title="Discard email"><i
+                                                            class="fa fa-times"></i>
+                                                        {{ 'dibl.inquiry.new-edit.delete-activity' | translate }}</a>
+
+                                                    <!--<a ng-click="resetActivity()" ng-disabled="!activity.id" class="btn btn-white btn-sm"-->
+                                                    <!--data-toggle="tooltip"-->
+                                                    <!--data-placement="top" title="Discard email"><i-->
+                                                    <!--class="fa fa-times"></i>-->
+                                                    <!--Discard</a>-->
+
+                                                    <a ng-click="saveActivity()" ng-disabled="activity == null"
+                                                       class="btn btn-sm btn-primary"
+                                                       data-toggle="tooltip"
+                                                       data-placement="top" title="Send"><i class="fa fa-reply"></i>
+                                                        {{ 'dibl.inquiry.new-edit.save-activity' | translate }}</a>
                                                 </div>
                                                 <div class="clearfix"></div>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body" ng-show="game.gameId">
+            <div class="ibox-content">
+                <div class="heading ng-binding">
+                    {{'dibl.inquiry.new-edit.run-inquiries' | translate}}
+                </div>
+                <div class="padding">
+                    <div class="ibox-content profile-content">
+
+
+                        <div class="col-md-6">
+                            <h3>Create new runs for this inquiry structure</h3>
+
+                            <p>This panel allows you to create more runs for this inquiry structure. Students can be
+                                added later.</p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h3>Create a new inquiry run</h3>
+
+                            <div class="input-group">
+
+                                <input type="text" class="form-control" ng-model="run.title">
+                        <span class="input-group-btn">
+                            <button
+                                    type="button" ng-disabled="run.title.length < 4 || !run.title"
+                                    ng-click="createInquiryRun()" class="btn btn-success"><i class="fa fa-plus"></i>
+                                Add new inquiry run
+                            </button>
+                        </span>
+                            </div>
+                        </div>
+
+                        <div class="project-list">
+                            <table class="table table-hover">
+                                <tbody>
+                                <tr ng-repeat="run in gameRuns track by $index">
+                                    <td class="project-status">
+                                        <span ng-show="!deleted" class="label label-primary">Active</span>
+                                        <span ng-show="deleted" class="label label-danger">Deleted</span>
+                                    </td>
+                                    <td class="project-completion">
+                                        <p><b>Code</b></p>
+                                        <small>{{ run.code }}</small>
+                                        <!--<div class="progress progress-mini">-->
+                                        <!--<div style="width: 48%;" class="progress-bar"></div>-->
+                                        <!--</div>-->
+                                    </td>
+                                    <td class="project-title">
+                                        <a href="#inquiry/{{ run.runId }}">{{ run.title }}</a>
+                                        <br>
+                                        <small>Created {{ run.serverCreationTime | date:'medium' }}</small>
+                                        <br/>
+                                        <small>Modification {{ run.lastModificationDate | date:'medium' }}</small>
+                                    </td>
+                                    <td class="project-completion">
+                                        <small>Completion with: 48%</small>
+                                        <div class="progress progress-mini">
+                                            <div style="width: 48%;" class="progress-bar"></div>
+                                        </div>
+                                    </td>
+                                    <td class="project-people">
+                                        <a href="" ng-repeat="user in usersRun[run.runId] track by $index"><img
+                                                alt="{{ user.name }}" title="{{ user.name }}" class="img-circle"
+                                                src="dist/img/avatar3.png"
+                                                ng-src="{{ user.picture }}"></a>
+                                    </td>
+                                    <td class="project-actions">
+                                        <a href="#inquiry/{{ run.runId }}" ng-disabled="true"
+                                           class="btn btn-white btn-sm"><i class="fa fa-user"></i> Add users </a>
+                                        <a href="#inquiry/{{ run.runId }}" class="btn btn-white btn-sm"><i
+                                                class="fa fa-folder"></i> View </a>
+                                        <a href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit"
+                                           class="btn btn-white btn-sm"><i
+                                                class="fa fa-pencil"></i> Edit </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--<div ng-repeat="list in lists">-->
+        <!--<span>{{ list }}</span>-->
+        <!--</div>-->
+
+        <dibl-footer></dibl-footer>
+
     </div>
-
-    <dibl-footer></dibl-footer>
-
-</div>

@@ -34,8 +34,7 @@ angular.module('DojoIBL')
                     $.getJSON("chats/channel", context.socketCreationCallback);
                 };
                 context.channelSocket = socket;
-                console.log("Channel info received");
-                console.log(channelData.channelId);
+                console.info("Channel info received");
                 context.channelSocket.onmessage = context.messageCallback;
             };
 

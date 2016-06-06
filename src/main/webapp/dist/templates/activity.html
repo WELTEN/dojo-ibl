@@ -27,13 +27,13 @@
 
             <div id="list_answers" class="row m-t-sm social-footer">
 
-                <div ng-show="responses.length == 0" class="tip"
-                     style="color: #000; font-size: 18px; text-align: center; width:90%; margin:0 auto; position: relative">
-                    No comments so far, be the first one!!
+
+                <div ng-show="responses.length == 0" class="alert alert-warning">
+                    No comments so far. <a class="alert-link"> Be the first one {{ myAccount.givenName }}</a>.
                 </div>
 
 
-                <div class="social-comment" ng-repeat="response in responses track by $index ">
+                <div class="social-comment" ng-repeat="response in responses track by $index">
                     <a href="" class="pull-left">
                         <img src="dist/img/avatar.png" ng-src="{{ getAvatar(response) }}" />
                     </a>
@@ -59,7 +59,7 @@
                         <div class="media-body">
                             <textarea class="form-control" ng-model="responseChildren" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>
                             <div class="text-right">
-                                <button type="submit" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendChildComment(response, responseChildren )"><strong>{{'dibl.inquiry.activity.post-comment' | translate }}</strong></button>
+                                <button type="submit" ng-disabled="!responseChildren" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendChildComment(response, responseChildren )"><strong>{{'dibl.inquiry.activity.post-comment' | translate }}</strong></button>
                             </div>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                     <div class="media-body">
                         <textarea class="form-control" ng-model="response" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>
                         <div class="text-right">
-                            <button type="submit" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendComment()"><strong>{{'dibl.inquiry.activity.post-comment' | translate }}</strong></button>
+                            <button type="submit" ng-disabled="!response" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendComment()"><strong>{{'dibl.inquiry.activity.post-comment' | translate }}</strong></button>
                         </div>
                     </div>
                 </div>

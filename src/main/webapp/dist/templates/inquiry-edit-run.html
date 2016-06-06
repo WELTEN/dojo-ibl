@@ -108,8 +108,8 @@
                                 <table class="table table-hover">
                                     <tbody>
                                     <tr ng-repeat="user in usersRun track by $index">
-                                        <td class="client-avatar"><img alt="image" ng-src="{{ user.picture }}"> </td>
-                                        <td><a data-toggle="tab" href="#contact-1" class="client-link">{{ user.name }}</a></td>
+                                        <td class="client-avatar"><img alt="image" src="dist/img/avatar04.png" ng-src="{{ user.picture }}"> </td>
+                                        <td><a data-toggle="tab" href="#/profile/{{ user.localId }}" class="client-link">{{ user.name }}</a></td>
                                         <td> ROLE</td>
                                         <td class="contact-type"><i class="fa fa-envelope"> </i></td>
                                         <td> {{ user.email }}</td>

@@ -1,163 +1,275 @@
 angular.module('DojoIBL')
 
-    .controller('InquiryNewController', function ($scope, $sce, $stateParams, $state, Session, RunService, GameService, AccountService ) {
+    .controller('InquiryNewGameController', function ($scope, $sce, $stateParams, $state, Session, RunService, ActivityService,
+                                                       AccountService, GameService, UserService ) {
+        // Managing different tabs activities
+        $scope.lists = [];
 
-        $scope.roles = [];
+        //GameService.getGameById($stateParams.gameId).then(function(data){
+        //    if (data.error) {
+        //        $scope.showNoAccess = true;
+        //    } else {
+        //        $scope.show = true;
+        //    }
+        //
+        //    $scope.game = data;
+        //
+        //    if(!$scope.game.config.roles)
+        //        $scope.game.config.roles = [];
+        //    else{
+        //        //$scope.game.config.roles = new JSONObject(data.config.roles);
+        //    }
+        //
+        //    $scope.phases = $scope.game.phases;
+        //
+        //    if (data.lat) {
+        //        $scope.coords.latitude = data.lat;
+        //        $scope.coords.longitude = data.lng;
+        //        $scope.map.center.latitude = data.lat;
+        //        $scope.map.center.longitude = data.lng;
+        //        $scope.showMap = true;
+        //    }
+        //
+        //    // Original list of activities
+        //    $scope.list_original = [
+        //        {'name': 'Google Resources', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-file-text'},
+        //        {'name': 'Text activity', 'type': 'org.celstec.arlearn2.beans.generalItem.NarratorItem', 'icon': 'fa-file-text'},
+        //        {'name': 'Youtube video', 'type': 'org.celstec.arlearn2.beans.generalItem.VideoObject', 'icon': 'fa-external-link'},
+        //        {'name': 'Concept map', 'type': 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest', 'icon': 'fa-sitemap'},
+        //        {'name': 'External widget', 'type': 'org.celstec.arlearn2.beans.generalItem.OpenBadge', 'icon': 'fa-link'},
+        //        {'name': 'Research question', 'type': 'org.celstec.arlearn2.beans.generalItem.ResearchQuestion', 'icon': 'fa-question'}
+        //    ];
+        //
+        //    angular.forEach($scope.game.phases, function(value, key) {
+        //        $scope.lists[key] = [];
+        //        ActivityService.getActivitiesForPhase($stateParams.gameId, key).then(function(data){
+        //            angular.forEach(data, function(i,a){
+        //                $scope.lists[key].push(i);
+        //            });
+        //        });
+        //    });
+        //});
+
+        // Original list of activities
+        $scope.list_original = [
+            //{'name': 'Google Resources', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-file-text'},
+            {'name': 'Text activity', 'type': 'org.celstec.arlearn2.beans.generalItem.NarratorItem', 'icon': 'fa-file-text'},
+            {'name': 'Youtube video', 'type': 'org.celstec.arlearn2.beans.generalItem.VideoObject', 'icon': 'fa-external-link'},
+            //{'name': 'Concept map', 'type': 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest', 'icon': 'fa-sitemap'},
+            //{'name': 'External widget', 'type': 'org.celstec.arlearn2.beans.generalItem.OpenBadge', 'icon': 'fa-link'},
+            //{'name': 'Research question', 'type': 'org.celstec.arlearn2.beans.generalItem.ResearchQuestion', 'icon': 'fa-question'}
+        ];
 
         $scope.ok = function(){
-            GameService.newGame($scope.run).then(function(game){
 
-                if(!game.config.roles)
-                    game.config.roles = [];
+            $scope.game.deleted = false;
+            $scope.game.revoked = false;
 
-                $scope.game = game;
+            GameService.newGame($scope.game).then(function(data){
+                $scope.game = data;
+                $scope.game.config.roles = [];
+                $scope.phases = $scope.game.phases;
+            });
+            //$window.history.back();
+        };
 
-                AccountService.myDetails().then(function(data){
-                    GameService.giveAccess(game.gameId, data.accountType+":"+data.localId,1);
-                });
+        ////////////////////
+        // Manage activities
+        ////////////////////
+        $scope.selected = false;
+        $scope.activity = {};
 
-                $scope.run.gameId = game.gameId;
+        $scope.selectActivity = function(activity, combinationId){
+            $scope.activity = activity;
 
-                RunService.newRun($scope.run).then(function(run){
+            // Save roles into an array
+            $scope.selection = $scope.activity.roles || [];
 
-                    $scope.run = run;
+            $scope.selected = true;
 
-                    AccountService.myDetails().then(function(data){
+            $scope.selectedCombination = combinationId;
 
-                        RunService.giveAccess($scope.run.runId, data.accountType+":"+data.localId,1);
+            $scope.removeActivity = function(data){
+                var position = $scope.lists[$(".select-activities > li.active").attr('data')].indexOf(data);
+                $scope.lists[$(".select-activities > li.active").attr('data')].splice(position, 1);
+                ActivityService.deleteActivity($scope.activity.gameId, $scope.activity.id);
+                $scope.activity = null;
+            };
+        };
 
-                        RunService.addUserToRun({
-                            runId: $scope.run.runId,
-                            email: data.accountType+":"+data.localId,
-                            accountType: data.accountType,
-                            localId: data.localId,
-                            gameId: game.gameId });
-                    });
+        $scope.addOne = function(a){
+            var object = {
+                type: a.type,
+                section: $(".select-activities > li.active").attr('data'),
+                gameId: $scope.game.gameId,
+                deleted: false,
+                name: a.name,
+                description: "",
+                autoLaunch: false,
+                fileReferences: [],
+                sortKey: 1,
+                richText: ""
+            };
+
+            if(a.type == "org.celstec.arlearn2.beans.generalItem.VideoObject"){
+                object.videoFeed = "example link";
+            }else if(a.type == "org.celstec.arlearn2.beans.generalItem.AudioObject") {
+                object.audioFeed = "example link";
+            }
+
+            if(angular.isUndefined($scope.lists[$(".select-activities > li.active").attr('data')])){
+                $scope.lists[$(".select-activities > li.active").attr('data')] = []
+            }
+
+            ActivityService.newActivity(object).then(function(data){
+                ActivityService.getActivityById(data.id, $scope.game.gameId).then(function(data){
+                    $scope.lists[$(".select-activities > li.active").attr('data')].push(data);
                 });
             });
         };
-        //
-        $scope.addRole = function () {
 
+
+
+        $scope.toggleSelection = function toggleSelection(rol) {
+            var idx = $scope.selection.indexOf(rol);
+
+            // is currently selected
+            if (idx > -1) {
+                $scope.selection.splice(idx, 1);
+            }
+
+            // is newly selected
+            else {
+                $scope.selection.push(rol);
+            }
+        };
+
+        $scope.saveActivity = function(){
+            // Save array of roles into the activity
+            $scope.activity.roles = $scope.selection;
+
+            console.log($scope.activity);
+
+            ActivityService.newActivity($scope.activity);
+        };
+
+        ///////////////
+        // Manage roles
+        ///////////////
+        $scope.addRole = function () {
             $scope.game.config.roles.push({
                 name: $scope.roleName
             });
-
             GameService.newGame($scope.game);
-            RunService.newRun($scope.run);
-
             $scope.roleName = "";
-
         };
-        //
-        $scope.selectRole = function(index){
 
+        $scope.selectRole = function(index){
             $scope.removeRole = function(){
                 $scope.game.config.roles.splice(index, 1);
                 GameService.newGame($scope.game);
-                RunService.newRun($scope.run);
             };
-
         };
 
-        //
-        //$scope.addPhase = function(){
-        //
-        //    swal({
-        //        title: "New phase",
-        //        text: "Provide a new for the phase",
-        //        type: "input",
-        //        showCancelButton: true,
-        //        closeOnConfirm: true,
-        //        animation: "slide-from-top",
-        //        inputPlaceholder: "Example: Data collection"
-        //    }, function (inputValue) {
-        //        if (inputValue === false)
-        //            return false;
-        //        if (inputValue === "") {
-        //            swal.showInputError("You need to write something!");
-        //            return false
-        //        }
-        //
-        //        $scope.run.game.phases.push({
-        //            phaseId: 1,
-        //            title: inputValue,
-        //            type: "org.celstec.arlearn2.beans.game.Phase"
-        //        });
-        //
-        //        GameService.newGame($scope.run.game);
-        //        RunService.newRun($scope.run);
-        //
-        //    });
-        //};
-        //
-        //$scope.removePhase = function(index){
-        //
-        //    $scope.run.game.phases.splice(index, 1);
-        //
-        //    GameService.newGame($scope.run.game);
-        //    RunService.newRun($scope.run);
-        //};
+        ////////////////
+        // Manage phases
+        ////////////////
+        $scope.addPhase = function(){
 
+            $scope.phases.push({
+                //phaseId: $scope.phases.length,
+                title: $scope.phaseName,
+                type: "org.celstec.arlearn2.beans.game.Phase"
+            });
 
+            //$scope.lists.push($scope.phases.length);
+            //$scope.lists = [];
 
-        //$scope.chat = true;
-        //$scope.visualization = true;
-        //$scope.state = $state.current.name;
-        //
-        //RunService.getRunById($stateParams.runId).then(function (data) {
-        //    $scope.inqTitle = data.title;
-        //    $scope.inqId = data.runId;
-        //    $scope.phases = data.game.phases;
-        //    console.log(data);
-        //});
+            $scope.phaseName = "";
 
-        //var radius = 170;
-        //var fields = $(this.el).find('#circlemenu li'),
-        //    container = $(this.el).find('#circlemenu'),
-        //    width = container.width(),
-        //    height = container.height(),
-        //    angle = 300,
-        //    step = (2*Math.PI) / fields.length;
-        //
-        ////console.log(fields, container);
-        //
-        //fields.each(function() {
-        //
-        //    //console.log(width, $(this).width());
-        //
-        //    var x = Math.round(width/2 + radius * Math.cos(angle) - $(this).width()/2);
-        //    var y = Math.round(height/2 + radius * Math.sin(angle) - $(this).height()/2);
-        //    //console.log(x,y);
-        //    if(window.console) {
-        //        //console.log($(this).text(), x, y);
-        //    }
-        //    $(this).css({
-        //        left: x + 'px',
-        //        top: y + 'px'
-        //    });
-        //    angle += step;
-        //});
+            $scope.game.phases = $scope.phases;
 
-    }).controller('TabControllerNew', function ($scope, $stateParams, RunService, ActivityService) {
+            GameService.newGame($scope.game);
+        };
+
+        $scope.removePhase = function(index){
+            $scope.phases.splice(index, 1);
+            $scope.game.phases = $scope.phases;
+            GameService.newGame($scope.game);
+        };
+
+        if($scope.game){
+            //////////////////////
+            // Manage inquiry runs
+            //////////////////////
+            RunService.getParticipateRunsForGame($scope.game.gameId).then(function(data){
+                if (data.error) {
+                    $scope.showNoAccess = true;
+                } else {
+                    $scope.show = true;
+                }
+
+                $scope.gameRuns = data;
+
+                $scope.usersRun = [];
+
+                angular.forEach($scope.gameRuns, function(value, key) {
+                    //console.log(key, value)
+                    $scope.usersRun[value.runId] = [];
+                    UserService.getUsersForRun(value.runId).then(function(data){
+
+                        $scope.usersRun[value.runId] = data;
+
+                    });
+                });
+            });
+        }
+
+        $scope.createInquiryRun = function(){
+            // Add the link between run and game
+            $scope.run.gameId = $stateParams.gameId;
+            RunService.newRun($scope.run).then(function(run){
+                // Update run with data from the server
+                $scope.run = run;
+
+                if(angular.isUndefined($scope.gameRuns)){
+                    $scope.gameRuns = []
+                }
+
+                $scope.gameRuns.push(run);
+
+                AccountService.myDetails().then(function(data){
+                    // Grant me access to the run
+                    RunService.giveAccess($scope.run.runId, data.accountType+":"+data.localId,1);
+                    // Add me as a user to the run
+                    RunService.addUserToRun({
+                        runId: $scope.run.runId,
+                        email: data.accountType+":"+data.localId,
+                        accountType: data.accountType,
+                        localId: data.localId,
+                        gameId: $stateParams.gameId });
+                    // Reset the run variable to create new ones
+                    $scope.run = null;
+                });
+            });
+        };
+
+    }).controller('TabController', function ($scope, $stateParams, GameService, ActivityService) {
         this.tab = 0;
 
-        //RunService.getRunById($stateParams.runId).then(function (data) {
+
+        //GameService.getGameById($stateParams.gameId).then(function (data) {
         //
-        //    console.log(data.game);
+        //    if (data.config.roles)
+        //        $scope.roles = data.config.roles;
         //
-        //    if (data.game.config.roles)
-        //        $scope.roles = data.game.config.roles;
-        //
-        //    $scope.run = data;
+        //    $scope.game = data;
         //
         //});
 
         this.setTab = function (tabId) {
             this.tab = tabId;
-            console.log("set" + tabId);
-            ActivityService.getActivitiesForPhase($scope.run.game.gameId, tabId).then(function (data) {
-                console.log(data);
+            ActivityService.getActivitiesForPhase($scope.game.gameId, tabId).then(function (data) {
                 $scope.activities = data;
             });
         };

@@ -10,6 +10,11 @@ angular.module('DojoIBL')
 
         $scope.bodyMessage;
 
+        $scope.onKeydown = function(keycode){
+            // do something with the keycode
+            console.log(keycode)
+        };
+
         $scope.sendMessage = function() {
             AccountService.myDetails().then(function(data){
                 MessageService.newMessage({
@@ -32,8 +37,6 @@ angular.module('DojoIBL')
             $scope.messages.messages = $scope.messages.messages.concat(data.messages);
 
             if (data.resumptionToken) {
-                console.log(data.resumptionToken);
-                //loadResponses();
                 $scope.showButtonMore = true;
             }else{
                 $scope.showButtonMore = false;
@@ -46,9 +49,15 @@ angular.module('DojoIBL')
             $scope.$apply(function () {
                 switch (data.type) {
                     case 'org.celstec.arlearn2.beans.notification.MessageNotification':
-                        MessageService.getMessageById(data.messageId).then(function (data) {
-                            $scope.messages.messages = $scope.messages.messages.concat(data);
-                        });
+                        console.log(data)
+
+                        if(data.runId == $stateParams.runId){
+                            MessageService.getMessageById(data.messageId).then(function (data) {
+                                $scope.messages.messages = $scope.messages.messages.concat(data);
+                            });
+                        }
+
+
                         break;
                 }
             });

@@ -32,12 +32,12 @@ angular.module('DojoIBL')
 
             // Original list of activities
             $scope.list_original = [
-                {'name': 'Google Resources', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-file-text'},
+                //{'name': 'Google Resources', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-file-text'},
                 {'name': 'Text activity', 'type': 'org.celstec.arlearn2.beans.generalItem.NarratorItem', 'icon': 'fa-file-text'},
                 {'name': 'Youtube video', 'type': 'org.celstec.arlearn2.beans.generalItem.VideoObject', 'icon': 'fa-external-link'},
-                {'name': 'Concept map', 'type': 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest', 'icon': 'fa-sitemap'},
-                {'name': 'External widget', 'type': 'org.celstec.arlearn2.beans.generalItem.OpenBadge', 'icon': 'fa-link'},
-                {'name': 'Research question', 'type': 'org.celstec.arlearn2.beans.generalItem.ResearchQuestion', 'icon': 'fa-question'}
+                //{'name': 'Concept map', 'type': 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest', 'icon': 'fa-sitemap'},
+                //{'name': 'External widget', 'type': 'org.celstec.arlearn2.beans.generalItem.OpenBadge', 'icon': 'fa-link'},
+                //{'name': 'Research question', 'type': 'org.celstec.arlearn2.beans.generalItem.ResearchQuestion', 'icon': 'fa-question'}
             ];
 
             angular.forEach($scope.game.phases, function(value, key) {
@@ -100,7 +100,9 @@ angular.module('DojoIBL')
                 object.audioFeed = "example link";
             }
 
-            $scope.lists[$(".select-activities > li.active").attr('data')] = []
+            if(angular.isUndefined($scope.lists[$(".select-activities > li.active").attr('data')])){
+                $scope.lists[$(".select-activities > li.active").attr('data')] = []
+            }
 
             ActivityService.newActivity(object).then(function(data){
                 ActivityService.getActivityById(data.id, $stateParams.gameId).then(function(data){
@@ -195,7 +197,7 @@ angular.module('DojoIBL')
             $scope.usersRun = [];
 
             angular.forEach($scope.gameRuns, function(value, key) {
-                //console.log(key, value)
+                console.log(key, value)
                 $scope.usersRun[value.runId] = [];
                 UserService.getUsersForRun(value.runId).then(function(data){
 
@@ -211,6 +213,14 @@ angular.module('DojoIBL')
             RunService.newRun($scope.run).then(function(run){
                 // Update run with data from the server
                 $scope.run = run;
+
+                if(angular.isUndefined($scope.gameRuns)){
+                    $scope.gameRuns = []
+                }
+
+                console.log($scope.gameRuns)
+
+                //$scope.gameRuns.push(run);
                 AccountService.myDetails().then(function(data){
                     // Grant me access to the run
                     RunService.giveAccess($scope.run.runId, data.accountType+":"+data.localId,1);

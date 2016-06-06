@@ -74,12 +74,12 @@ angular.module('DojoIBL')
             .state('news', {
                 url: '/create/inquiry',
                 templateUrl: '/dist/templates/inquiry-new.html',
-                controller: 'InquiryNewController'
+                controller: 'InquiryNewGameController'
             })
-            .state('profile', {
-                url: '/profile',
-                templateUrl: '/dist/templates/profile.html',
-                controller: 'ProfileController'
+            .state('profiles', {
+                url: '/profiles',
+                templateUrl: '/dist/templates/profiles.html',
+                controller: 'ProfilesController'
             })
             .state('profileAccount', {
                 url: '/profile/:accountId',

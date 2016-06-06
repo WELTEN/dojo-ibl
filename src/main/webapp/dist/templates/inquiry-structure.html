@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-chat">
                     <div class="input-group input-group-sm">
-                        <input id="add-new-message" type="text" class="form-control" ng-model="bodyMessage">
+                        <input id="add-new-message"  ng-enter="sendMessage()" type="text" class="form-control" ng-model="bodyMessage">
                         <span class="input-group-btn">
                             <button ng-click="sendMessage()" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>
                         </span>

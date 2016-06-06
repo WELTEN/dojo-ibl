@@ -7,7 +7,7 @@
 
         <dibl-toolbar></dibl-toolbar>
         <div class="row inquiry">
-            <div class="col-lg-3 game animated fadeIn" ng-repeat="game in games">
+            <div class="col-lg-3 game animated fadeIn" ng-repeat="game in games | filter:{ deleted: 'false' } track by $index">
                 <div class="ibox-content game text-center">
                     <h1><a class="show-runs" ng-click="showRuns(game.gameId);showRunsValue = !showRunsValue;">{{ game.title | limitTo: 20 }} {{
                         game.title.length > 20 ? '...' : ''}}</a></h1>
