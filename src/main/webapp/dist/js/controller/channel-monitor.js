@@ -24,17 +24,17 @@ angular.module('DojoIBL')
                 context.channelId = channelData.channelId;
                 var socket = channel.open();
                 socket.onerror = function () {
-                    console.log("Channel error");
+                    //console.log("Channel error");
                 };
                 socket.onclose = function () {
-                    console.log("Channel closed, reopening");
+                    //console.log("Channel closed, reopening");
                     //We reopen the channel
                     context.messageCallback = context.channelSocket.onmessage;
                     context.channelSocket = undefined;
                     $.getJSON("chats/channel", context.socketCreationCallback);
                 };
                 context.channelSocket = socket;
-                console.info("Channel info received");
+                //console.info("Channel info received");
                 context.channelSocket.onmessage = context.messageCallback;
             };
 

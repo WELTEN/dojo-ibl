@@ -9,7 +9,6 @@ angular.module('DojoIBL')
                     function (newValue, oldValue) {
                         if (newValue !== oldValue) {
                             element.scrollTop(element[0].scrollHeight);
-                            console.log(element[0].scrollHeight);
                         }
                     });
             }
