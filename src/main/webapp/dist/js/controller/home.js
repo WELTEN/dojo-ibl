@@ -35,20 +35,36 @@ angular.module('DojoIBL')
 
         $scope.deleteInquiry = function (id) {
 
-            function arrayObjectIndexOf(myArray, searchTerm, property) {
-                for(var i = 0, len = myArray.length; i < len; i++) {
-                    if (myArray[i][property] === searchTerm) return i;
+
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this inquiry!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            }, function () {
+                swal("Deleted!", "Your inquiry has been deleted.", "success");
+
+
+                function arrayObjectIndexOf(myArray, searchTerm, property) {
+                    for(var i = 0, len = myArray.length; i < len; i++) {
+                        if (myArray[i][property] === searchTerm) return i;
+                    }
+                    return -1;
                 }
-                return -1;
-            }
-            var idx = arrayObjectIndexOf($scope.games, GameService.getGameFromCache(id).gameId, "gameId");
+                var idx = arrayObjectIndexOf($scope.games, GameService.getGameFromCache(id).gameId, "gameId");
 
-            // is currently selected
-            if (idx > -1) {
-                $scope.games.splice(idx, 1);
-            }
+                // is currently selected
+                if (idx > -1) {
+                    $scope.games.splice(idx, 1);
+                }
 
-            GameService.deleteGame(id);
+                GameService.deleteGame(id);
+
+            });
+
         };
 
         $scope.isLoggedIn = function () {

@@ -21,8 +21,6 @@ angular.module('DojoIBL')
             if(resp_cache) {
                 $scope.responses = $scope.responses.concat(resp_cache.responses);
 
-                console.log(resp_cache)
-
                 if (resp_cache.resumptionToken) {
                     console.log(resp_cache.resumptionToken);
 
@@ -38,7 +36,7 @@ angular.module('DojoIBL')
                     $scope.responses = $scope.responses.concat(data.responses);
 
                     if (data.resumptionToken) {
-                        console.log(data.resumptionToken);
+
                         //loadResponses();
                         $scope.showButtonMore = true;
                     }else{

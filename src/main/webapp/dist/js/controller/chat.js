@@ -49,14 +49,12 @@ angular.module('DojoIBL')
             $scope.$apply(function () {
                 switch (data.type) {
                     case 'org.celstec.arlearn2.beans.notification.MessageNotification':
-                        console.log(data)
 
                         if(data.runId == $stateParams.runId){
                             MessageService.getMessageById(data.messageId).then(function (data) {
                                 $scope.messages.messages = $scope.messages.messages.concat(data);
                             });
                         }
-
 
                         break;
                 }

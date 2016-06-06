@@ -35,10 +35,7 @@ angular.module('DojoIBL')
         $scope.signout = function() {
             Session.reset();
             document.cookie =  'arlearn.AccessToken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
-            //$location.path(config.server+'/index.html');
             window.location.href=config.server+'/index.html';
-               //$location.replace(config.server+'/index.html');
-            //$apply(function() { $location.path(config.server+'/index.html'); });
         }
     }
 );
