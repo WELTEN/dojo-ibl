@@ -1,8 +1,8 @@
 angular.module('DojoIBL')
 
     .constant('config', {
-        //"server": "http://dojo-ibl.appspot.com"
-        "server": "http://localhost:8888"
+        "server": "http://dojo-ibl.appspot.com"
+        //"server": "http://localhost:8888"
     }
 
 );
