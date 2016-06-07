@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('TimelineController', function ($scope, $sce, $stateParams, $state, Response) {
+    .controller('TimelineController', function ($scope, $sce, $stateParams, $state, Response, ActivityService) {
 
         console.log($stateParams)
         $scope.games = {};
@@ -16,7 +16,19 @@ angular.module('DojoIBL')
                 .$promise.then(function (data) {
 
 
-                    $scope.games.games = $scope.games.games.concat(data.responses);
+
+
+                    var responses = [];
+
+                    angular.forEach(data.responses, function(resp){
+                        resp.activity = ActivityService.getItemFromCache(resp.generalItemId)
+                        responses.push(resp);
+                    });
+
+                    $scope.games.games = $scope.games.games.concat(responses);
+
+                    console.log(responses);
+
                     //for (i = 0; i < data.responses.length; i++) {
                     //    //GameService.storeInCache(data.games[i]);
                     //    data.responses[i].description = $sce.trustAsHtml(data.games[i].description);
@@ -26,6 +38,9 @@ angular.module('DojoIBL')
                     $scope.games.resumptionToken = data.resumptionToken;
                     $scope.games.serverTime = data.serverTime;
 
+                    //console.log(data.resumptionToken, "HOLA");
+
+                    //if (data.resumptionToken) {
                     if (data.resumptionToken) {
                         $scope.disableGameLoading = false
                     } else {

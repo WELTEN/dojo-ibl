@@ -2,15 +2,12 @@ angular.module('DojoIBL')
 
     .controller('SidebarController', function ($scope, Session, $state, $stateParams, RunService, Account, AccountService) {
 
-        //if (Session.getAccessToken() ) {
-        //AccountService.myDetails().then(
-        //    function(data){
-        //        $scope.myAccount = data;
-        //        console.log(data)
-        //        //loadAccessRules();
-        //    }
-        //);
-        //}
+        AccountService.myDetails().then(
+            function(data){
+                $scope.myAccount = data;
+                console.log(data);
+            }
+        );
 
         if ($stateParams.runId) {
 

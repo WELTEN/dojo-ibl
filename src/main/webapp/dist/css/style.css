@@ -8324,7 +8324,7 @@ div.phases-breadcrumb  {
   width: 10em;
   list-style: none;
   padding: 1em;
-  margin: 0 1em;
+  margin: 5px 10px;
 }
 
 .list_activities li a{
