@@ -1,12 +1,15 @@
 angular.module('DojoIBL')
 
-    .controller('TimelineController', function ($scope, $sce, $stateParams, $state, Response, ActivityService) {
+    .controller('TimelineController', function ($scope, $sce, $stateParams, $state, Response, ActivityService, UserService) {
 
         console.log($stateParams)
         $scope.games = {};
         $scope.games.games = [];
 
         $scope.disableGameLoading = false;
+
+        var old_item_id = 0;
+        var old_side_left = true;
 
         $scope.loadMoreGames = function () {
 
@@ -15,32 +18,31 @@ angular.module('DojoIBL')
             Response.resume({resumptionToken: $scope.games.resumptionToken, runId: $stateParams.runId, from: 0 })
                 .$promise.then(function (data) {
 
-
-
-
                     var responses = [];
 
                     angular.forEach(data.responses, function(resp){
+
+                        if(resp.generalItemId != old_item_id){
+                            if(old_side_left){
+                                resp.move_right = false;
+                            }else{
+                                resp.move_right = true;
+                            }
+                        }
+
+                        old_item_id = resp.generalItemId;
+                        old_side_left = resp.move_right;
+
                         resp.activity = ActivityService.getItemFromCache(resp.generalItemId)
+                        resp.user = UserService.getUserFromCache(resp.userEmail.split(':')[1]);
+
                         responses.push(resp);
                     });
 
                     $scope.games.games = $scope.games.games.concat(responses);
-
-                    console.log(responses);
-
-                    //for (i = 0; i < data.responses.length; i++) {
-                    //    //GameService.storeInCache(data.games[i]);
-                    //    data.responses[i].description = $sce.trustAsHtml(data.games[i].description);
-                    //
-                    //}
-                    //$scope.games = GameService.getGames();
                     $scope.games.resumptionToken = data.resumptionToken;
                     $scope.games.serverTime = data.serverTime;
 
-                    //console.log(data.resumptionToken, "HOLA");
-
-                    //if (data.resumptionToken) {
                     if (data.resumptionToken) {
                         $scope.disableGameLoading = false
                     } else {

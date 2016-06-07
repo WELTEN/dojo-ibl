@@ -10,10 +10,12 @@
 
         <div class="col-lg-3">
             <div class="wrapper wrapper-content project-manager">
-                <h4>{{ run.title }}</h4>
+                <h4><b>{{'dibl.inquiry.new-edit.inquiry-title' |
+                    translate}}</b>: {{ run.title }}</h4>
+                <br/>
                 <img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">
-
-                <div ng-bind-html="run.game.description | unsafe"></div>
+                <br/>
+                <b>{{ 'dibl.inquiry.new-edit.inquiry-description' | translate }}</b> <div ng-bind-html="run.game.description | unsafe"></div>
 
             </div>
         </div>
@@ -21,7 +23,7 @@
             <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
                 <div class="ibox-content">
                     <div class="heading ng-binding">
-                        {{'dibl.inquiry.new-editnewuiry-metadata' | translate}}
+                        {{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}
                     </div>
                     <div class="padding">
                         <div class="ibox-content profile-content">
@@ -29,7 +31,7 @@
                                 <div class="box-body">
                                     <form novalidate>
                                         <div class="form-group">
-                                            <label for="gameTitle">{{'dibl.inquiry.new-editnewuiry-title' |
+                                            <label for="gameTitle">{{'dibl.inquiry.new-edit.inquiry-title' |
                                                 translate}}</label>
                                             <input required type="name" class="form-control" id="gameTitle"
                                                    placeholder="{{'dibl.inquiry.new-edit.inquiry-title-placeholder' | translate}}"
@@ -37,7 +39,7 @@
                                         </div>
                                     </form>
 
-                                    <label>{{ 'dibl.inquiry.new-editnewuiry-title' | translate }}</label>
+                                    <label>{{ 'dibl.inquiry.new-edit.inquiry-description' | translate }}</label>
                                     <!--<div summernote></div>-->
 
                                     <text-angular ta-toolbar="[
@@ -63,7 +65,7 @@
 
                                 <a class="btn btn-primary btn-sm" data-toggle="tooltip"
                                    data-placement="top" ng-click="ok()" title="Save inquiry"><i class="fa fa-check"></i>
-                                    {{ 'dibl.inquiry.new-editnewuiry-save' | translate }}</a>
+                                    {{ 'dibl.inquiry.new-edit.inquiry-save' | translate }}</a>
                             </div>
                         </div>
                     </div>
@@ -77,31 +79,6 @@
                 </div>
                 <div class="padding">
                     <div class="ibox-content profile-content">
-
-                        <!--<div class="row">-->
-                        <!--<div class="col-md-6">-->
-                        <!--<h3>Create new runs for this inquiry structure</h3>-->
-
-                        <!--<p>This panel allows you to create more runs for this inquiry structure. Students can be-->
-                        <!--added later.</p>-->
-                        <!--</div>-->
-
-                        <!--<div class="col-md-6">-->
-                        <!--<h3>Create a new inquiry run</h3>-->
-
-                        <!--<div class="input-group">-->
-
-                        <!--<input type="text" class="form-control" ng-model="run.title">-->
-                        <!--<span class="input-group-btn">-->
-                        <!--<button-->
-                        <!--type="button" ng-disabled="run.title.length < 4 || !run.title"-->
-                        <!--ng-click="createInquiryRun()" class="btn btn-success"><i class="fa fa-plus"></i>-->
-                        <!--Add new inquiry run-->
-                        <!--</button>-->
-                        <!--</span>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--</div>-->
 
                         <div class="row">
                             <div class="project-list col-md-12">
@@ -122,10 +99,9 @@
 
                                 <div class="input-group">
 
-                                    <input type="text" class="form-control" ng-model="run.title">
+                                    <input type="text" class="form-control">
                                     <span class="input-group-btn">
-                                        <button type="button" ng-disabled="run.title.length < 4 || !run.title"
-                                                ng-click="createInquiryRun()" class="btn btn-success"><i class="fa fa-plus"></i>
+                                        <button type="button" ng-click="createInquiryRun()" class="btn btn-success"><i class="fa fa-plus"></i>
                                             Add new user to inquiry run
                                         </button>
                                     </span>

@@ -197,7 +197,6 @@ angular.module('DojoIBL')
             $scope.usersRun = [];
 
             angular.forEach($scope.gameRuns, function(value, key) {
-                console.log(key, value)
                 $scope.usersRun[value.runId] = [];
                 UserService.getUsersForRun(value.runId).then(function(data){
 

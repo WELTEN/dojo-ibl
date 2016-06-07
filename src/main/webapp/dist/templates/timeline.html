@@ -12,59 +12,33 @@
 
         <div class="feed-element" ng-repeat="response in games.games">
             <div class="vertical-timeline-block ">
+
                 <div class="vertical-timeline-icon navy-bg">
                     <i class="fa fa-briefcase"></i>
                 </div>
 
-                <div class="vertical-timeline-content  put-item-timeline-right ">
-                    <!--<h2>DojoIBL mobile app</h2>-->
+                <div class="vertical-timeline-content" ng-class="{ 'put-item-timeline-right': response.move_right }">
                     <p>
-                        <strong>{{ response.userEmail.split(':')[1]}}</strong> commented on <strong><a
-                            href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}"> {{ response.activity.name }} </a></strong> activity <br>
+                        <strong>{{ response.user.givenName }}</strong> commented on <strong>
+                        <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}"> {{ response.activity.name }} </a></strong> activity <br>
                     </p>
 
                     <p>{{ response.responseValue }}</p>
-                    <span class="vertical-date  date-timeline-extra ">
-                        about a month ago <br>
+                    <span class="vertical-date" ng-class="{ 'date-timeline-extra' : response.move_right }">
+                        <!--about a month ago <br>-->
                         <small>{{ response.lastModificationDate | date:'medium' }}</small>
                     </span>
                 </div>
+
             </div>
         </div>
-        {{ disableGameLoading }}
-        <div class="spiner-example" ng-show="disableGameLoading">
+
+        <div class="spiner-example" ng-show="games.resumptionToken">
             <div class="sk-spinner sk-spinner-three-bounce" ng-show="disableGameLoading">
                 <div class="sk-bounce1"></div>
                 <div class="sk-bounce2"></div>
                 <div class="sk-bounce3"></div>
             </div>
         </div>
-        <!--<div class="feed-element">-->
-            <!--<div class="vertical-timeline-block ">-->
-                <!--<div class="vertical-timeline-icon navy-bg">-->
-                    <!--<i class="fa fa-briefcase"></i>-->
-                <!--</div>-->
-
-                <!--<div class="vertical-timeline-content ">-->
-                    <!--&lt;!&ndash;<h2>Post issues here</h2>&ndash;&gt;-->
-                    <!--<p>-->
-                        <!--<strong>stefaan.ternier</strong> commented on <strong><a-->
-                            <!--href="#inquiry/5737014913662976/phase/2/activity/5709875686408192"> Post issues-->
-                        <!--here</a></strong>-->
-                        <!--activity <br>-->
-                    <!--</p>-->
-
-                    <!--<p>Provide an alternative list-based visualisation for the inquiry phases view-->
-                    <!--</p>-->
-                <!--<span class="vertical-date ">-->
-                    <!--about a month ago <br>-->
-                    <!--<small>07/04/2016</small>-->
-                <!--</span>-->
-                <!--</div>-->
-            <!--</div>-->
-
-        <!--</div>-->
     </div>
-    <!--<button class="btn btn-primary btn-block m show-more-responses"><i class="fa fa-arrow-down"></i> Show More-->
-    <!--</button>-->
 </div>
