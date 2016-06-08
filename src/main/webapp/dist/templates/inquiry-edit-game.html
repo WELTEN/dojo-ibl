@@ -8,7 +8,7 @@
 
     <div class="row inquiry">
 
-        <div class="col-lg-3">
+        <div class="col-md-3">
             <div class="wrapper wrapper-content project-manager">
                 <h4>{{ game.title }}</h4>
                 <img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">
@@ -18,99 +18,96 @@
             </div>
         </div>
 
-        <div class="col-md-9" id="inquiry-content">
-            <div class="col-md-6 wrapper wrapper-content animated fadeInpanel-body">
-                <div class="ibox-content">
-                    <div class="heading ng-binding">
-                        {{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}
-                    </div>
-                    <div class="padding">
-                        <div class="ibox-content profile-content">
-                            <form role="form">
-                                <div class="box-body">
-                                    <form novalidate>
-                                        <div class="form-group">
-                                            <label for="gameTitle">{{'dibl.inquiry.new-edit.inquiry-title' |
-                                                translate}}</label>
-                                            <input required type="name" class="form-control" id="gameTitle"
-                                                   placeholder="{{'dibl.inquiry.new-edit.inquiry-title-placeholder' | translate}}"
-                                                   ng-model="game.title">
-                                        </div>
-                                    </form>
+        <div class="col-md-5 wrapper wrapper-content animated fadeInpanel-body">
+            <div class="ibox-content">
+                <div class="heading ng-binding">
+                    {{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}
+                </div>
+                <div class="padding">
+                    <div class="ibox-content profile-content">
+                        <form role="form">
+                            <div class="box-body">
+                                <form novalidate>
+                                    <div class="form-group">
+                                        <label for="gameTitle">{{'dibl.inquiry.new-edit.inquiry-title' |
+                                            translate}}</label>
+                                        <input required type="name" class="form-control" id="gameTitle"
+                                               placeholder="{{'dibl.inquiry.new-edit.inquiry-title-placeholder' | translate}}"
+                                               ng-model="game.title">
+                                    </div>
+                                </form>
 
-                                    <label>{{ 'dibl.inquiry.new-edit.inquiry-title' | translate }}</label>
-                                    <text-angular  ta-toolbar="[
-                                        ['bold','italics'],
-                                        ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
-                                        ['insertImage', 'insertLink','insertVideo']]
-                                        "ng-model="game.description"></text-angular>
-                                </div>
-
-
-                            </form>
-
-                            <div class="pull-right tooltip-demo">
-                                <a class="btn btn-white btn-sm" data-toggle="tooltip"
-                                   data-placement="top" title="Move to draft folder"><i class="fa fa-times"></i>
-                                    Discard</a>
-
-                                <a class="btn btn-primary btn-sm" data-toggle="tooltip"
-                                   data-placement="top" ng-click="ok()" title="Save inquiry"><i class="fa fa-check"></i>
-                                    {{ 'dibl.inquiry.new-edit.inquiry-save' | translate }}</a>
+                                <label>{{ 'dibl.inquiry.new-edit.inquiry-title' | translate }}</label>
+                                <text-angular  ta-toolbar="[
+                                    ['bold','italics'],
+                                    ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
+                                    ['insertImage', 'insertLink','insertVideo']]
+                                    "ng-model="game.description"></text-angular>
                             </div>
+
+
+                        </form>
+
+                        <div class="pull-right tooltip-demo">
+                            <a class="btn btn-white btn-sm" data-toggle="tooltip"
+                               data-placement="top" title="Move to draft folder"><i class="fa fa-times"></i>
+                                Discard</a>
+
+                            <a class="btn btn-primary btn-sm" data-toggle="tooltip"
+                               data-placement="top" ng-click="ok()" title="Save inquiry"><i class="fa fa-check"></i>
+                                {{ 'dibl.inquiry.new-edit.inquiry-save' | translate }}</a>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-6 wrapper wrapper-content animated fadeInpanel-body">
-                <div class="ibox-content">
-                    <div class="heading ng-binding">
-                        {{ 'dibl.inquiry.new-edit.inquiry-roles' | translate }}
-                    </div>
-                    <div class="padding">
-                        <div class="ibox-content profile-content">
-                            <h4><strong>{{ 'dibl.inquiry.new-edit.roles-title' | translate }} </strong></h4>
+        <div class="col-md-4 wrapper wrapper-content animated fadeInpanel-body">
+            <div class="ibox-content">
+                <div class="heading ng-binding">
+                    {{ 'dibl.inquiry.new-edit.inquiry-roles' | translate }}
+                </div>
+                <div class="padding">
+                    <div class="ibox-content profile-content">
+                        <h4><strong>{{ 'dibl.inquiry.new-edit.roles-title' | translate }} </strong></h4>
 
-                            <p>{{ 'dibl.inquiry.new-edit.p-available-roles' | translate }} <b>{{ game.title }}</b></p>
+                        <p>{{ 'dibl.inquiry.new-edit.p-available-roles' | translate }} <b>{{ game.title }}</b></p>
 
-                            <ul class="tag-list" style="padding: 0; display: inline-block;">
-                                <li ng-repeat="role in game.config.roles track by $index"><a href="" ng-click="selectRole($index)"><i
-                                        class="fa fa-tag"></i> {{ role.name }}</a></li>
-                                <li ng-show="game.config.roles == 0"><a href=""><i class="fa fa-tag"></i> {{
-                                    'dibl.inquiry.new-edit.no-roles' | translate }}</a></li>
-                            </ul>
-                            <br/>
-                            <input required type="name" class="form-control" id="roleName"
-                                   placeholder="Enter a role"
-                                   ng-model="roleName">
-                            <br/>
+                        <ul class="tag-list" style="padding: 0; display: inline-block;">
+                            <li ng-repeat="role in game.config.roles track by $index"><a href="" ng-click="selectRole($index)"><i
+                                    class="fa fa-tag"></i> {{ role.name }}</a></li>
+                            <li ng-show="game.config.roles == 0"><a href=""><i class="fa fa-tag"></i> {{
+                                'dibl.inquiry.new-edit.no-roles' | translate }}</a></li>
+                        </ul>
+                        <br/>
+                        <input required type="name" class="form-control" id="roleName"
+                               placeholder="Enter a role"
+                               ng-model="roleName">
+                        <br/>
 
-                            <!--<p>{{ game.config.roles }}</p>-->
+                        <!--<p>{{ game.config.roles }}</p>-->
 
-                            <div class="user-button">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <button type="button" ng-disabled="!roleName" ng-click="addRole()"
-                                                class="btn btn-primary btn-sm btn-block"><i
-                                                class="fa fa-envelope"></i> {{ 'dibl.inquiry.new-edit.add-role' |
-                                            translate }}
-                                        </button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button type="button" ng-click="removeRole()"
-                                                class="btn btn-default btn-sm btn-block"><i
-                                                class="fa fa-coffee"></i> {{ 'dibl.inquiry.new-edit.remove-role' |
-                                            translate }}
-                                        </button>
-                                    </div>
+                        <div class="user-button">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button type="button" ng-disabled="!roleName" ng-click="addRole()"
+                                            class="btn btn-primary btn-sm btn-block"><i
+                                            class="fa fa-envelope"></i> {{ 'dibl.inquiry.new-edit.add-role' |
+                                        translate }}
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="button" ng-click="removeRole()"
+                                            class="btn btn-default btn-sm btn-block"><i
+                                            class="fa fa-coffee"></i> {{ 'dibl.inquiry.new-edit.remove-role' |
+                                        translate }}
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
@@ -146,7 +143,7 @@
                                  ng-model="list_original" data="{{ item.type }}" name="{{ item.name }}"
                                  ng-click="addOne(item)" ng-disabled="phases.length == 0">
                                 <i class="fa {{ item.icon }}"></i>
-                                {{ $index }} {{ item.name }}
+                                {{ item.name }}
                             </div>
                         </div>
                     </div>
@@ -191,18 +188,19 @@
                                                     ng-model="x" value="{{combination.combinationId}}"
                                                     ng-click="SelectedCombination(combination.combinationId);"
                                                     ng-class="{'btn-primary':selectedCombination==combination.combinationId}"
-                                                    type="button">{{combination.name}}
+                                                    type="button">
+                                                {{combination.name}}
                                             </button>
 
                                             <div class="btn btn-success dropped"
                                                  ng-click="selectActivity(item, item.id)"
-                                                 ng-repeat="item in lists[$index] track by $index"
+                                                 ng-repeat="(key, item) in lists[$index] | orderByDayNumber:'sortKey'"
                                                  data-drag="true"
                                                  data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
                                                  data="{{ item.type }}"
                                                  ng-class="{'btn-warning':selectedCombination==item.id}">
                                                 <span ng-show="item.name.length == 0"> <small>No name provided</small> </span>
-                                                {{ item.name }}
+                                                {{ item.sortKey }}. {{ item.name }}
                                             </div>
                                         </div>
 
@@ -277,6 +275,16 @@
                                                                             > {{role.name}}
                                                                 </label>
 
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Order</label>
+
+                                                            <div class="col-sm-9">
+                                                                <input type="number"
+                                                                       placeholder="Order"
+                                                                       ng-model="activity.sortKey"
+                                                                       class="form-control">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">

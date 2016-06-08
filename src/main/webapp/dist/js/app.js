@@ -22,5 +22,18 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
     })
     .filter('unsafe', function($sce) {
         return $sce.trustAsHtml;
+    })
+    .filter('orderByDayNumber', function() {
+        return function(items, field, reverse) {
+            var filtered = [];
+            angular.forEach(items, function(item) {
+                filtered.push(item);
+            });
+            filtered.sort(function (a, b) {
+                return (a[field] > b[field] ? 1 : -1);
+            });
+            if(reverse) filtered.reverse();
+            return filtered;
+        };
     });
 ;

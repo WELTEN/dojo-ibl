@@ -217,8 +217,6 @@ angular.module('DojoIBL')
                     $scope.gameRuns = []
                 }
 
-                console.log($scope.gameRuns)
-
                 //$scope.gameRuns.push(run);
                 AccountService.myDetails().then(function(data){
                     // Grant me access to the run
