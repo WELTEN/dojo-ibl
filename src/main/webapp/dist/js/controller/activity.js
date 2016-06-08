@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService, UserService, AccountService, Response, ResponseService) {
+    .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService, UserService, AccountService, Response, ResponseService, ChannelService) {
         $scope.activity = ActivityService.getItemFromCache($stateParams.activityId);
 
         AccountService.myDetails().then(
@@ -16,13 +16,11 @@ angular.module('DojoIBL')
 
         $scope.loadResponses = function() {
             ResponseService.getResponses($stateParams.runId, $stateParams.activityId).then(function (data) {
-
-                console.log(data);
-
                 if (data.error) {
                     $scope.showNoAccess = true;
                 } else {
                     $scope.show = true;
+                    $scope.resum = data.resumptionToken;
                     if (data.resumptionToken) {
                         $scope.loadMoreButton = true;
                     }else{
@@ -63,13 +61,6 @@ angular.module('DojoIBL')
         };
 
         $scope.removeComment = function(data){
-            //console.log(data);
-            //var idx = $scope.responses.indexOf(data);
-            //
-            //// is currently selected
-            //if (idx > -1) {
-            //    $scope.responses.splice(idx, 1);
-            //}
             ResponseService.deleteResponse(data.responseId);
         };
 
@@ -92,12 +83,26 @@ angular.module('DojoIBL')
                     $scope.responseChildren = null;
                 });
             });
-
-
         };
 
         $scope.trustSrc = function(src) {
             return $sce.trustAsResourceUrl(src);
         }
+
+        var socket = new ChannelService.SocketHandler();
+        socket.onMessage(function (data) {
+            $scope.$apply(function () {
+                console.log(data.type);
+                switch (data.type) {
+
+                    case 'org.celstec.arlearn2.beans.run.Response':
+
+                        $scope.loadResponses();
+
+                        break;
+                }
+            });
+            //jQuery("time.timeago").timeago();
+        });
     }
 );

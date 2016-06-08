@@ -27,8 +27,7 @@
 
             <div id="list_answers" class="row m-t-sm social-footer">
 
-
-                <div ng-show="responses.responses.length == 0" class="alert alert-warning">
+                <div class="alert alert-warning">
                     No comments so far. <a class="alert-link"> Be the first one {{ myAccount.givenName }}</a>.
                 </div>
 
@@ -65,8 +64,9 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="social-comment" >
-                    <a class="btn btn-primary btn-rounded btn-block"  ng-click="loadResponses()"><i class="fa fa-info-circle"></i> Click to load more</a>
+                    <a class="btn btn-primary btn-rounded btn-block" ng-show="resum"  ng-click="loadResponses()"><i class="fa fa-info-circle"></i> Click to load more</a>
                 </div>
                 <div class="social-comment">
                     <a href="" class="pull-left">

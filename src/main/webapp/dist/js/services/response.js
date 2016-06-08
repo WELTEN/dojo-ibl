@@ -19,7 +19,6 @@ angular.module('DojoIBL')
                 responses[response.runId+"_"+response.generalItemId] = {};
             }
             responses[response.runId+"_"+response.generalItemId][response.responseId] = response;
-            console.log(responses);
         }
 
         var resumptionToken;

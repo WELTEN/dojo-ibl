@@ -10,6 +10,17 @@ angular.module('DojoIBL')
 
         });
 
+        var games = {};
+        var dataCache = CacheFactory.get('gamesCache');
+        var gameIds = dataCache.keys();
+        for (var i=0; i < gameIds.length; i++) {
+            games[gameIds[i]] = dataCache.get(gameIds[i]);
+        }
+
+        var resumptionToken;
+        var serverTime= 0;
+        var serverTimeFirstInvocation;
+
         return {
             getGameById: function(id) {
                 var deferred = $q.defer();
@@ -28,13 +39,21 @@ angular.module('DojoIBL')
 
                             data.config.roles = rol;
                             dataCache.put(id, data);
+                            games[id] = data;
                             deferred.resolve(data);
                         }
                     );
                 }
                 return deferred.promise;
             },
-
+            refreshGame: function(id) {
+                var dataCache = CacheFactory.get('gamesCache');
+                if (dataCache.get(id)) {
+                    delete games[id];
+                    dataCache.remove(id);
+                }
+                return this.getGameById(id);
+            },
             getGameFromCache: function(id) {
                 var dataCache = CacheFactory.get('gamesCache');
                 return dataCache.get(id);
@@ -42,7 +61,6 @@ angular.module('DojoIBL')
             storeInCache:function(game){
                 var dataCache = CacheFactory.get('gamesCache');
                 dataCache.put(game.gameId, game);
-
             },
             newGame: function(gameAsJson){
                 var dataCache = CacheFactory.get('gamesCache');
@@ -61,8 +79,7 @@ angular.module('DojoIBL')
                 Game.giveAccess({ gameId: id, accountId: accountId, accessRight: accessRight});
             },
             getGames: function(){
-                var dataCache = CacheFactory.get('gamesCache');
-                return dataCache.keySet();
+                return games;
             },
             deleteGame: function(gameId){
                 var dataCache = CacheFactory.get('gamesCache');

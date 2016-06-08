@@ -57,8 +57,7 @@ angular.module('DojoIBL')
 
                         if(data.runId == $stateParams.runId){
                             MessageService.getMessageById(data.messageId).then(function (data) {
-                                console.log(data);
-                                console.log($scope.messages.messages);
+                                console.info("message received");
                             });
                         }
 

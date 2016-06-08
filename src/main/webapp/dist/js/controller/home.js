@@ -72,30 +72,22 @@ angular.module('DojoIBL')
             return false;
         };
 
-        //var socket = new ChannelService.SocketHandler();
-        //socket.onMessage(function (data) {
-        //    $scope.$apply(function () {
-        //        console.log(data);
-        //        console.log(data.type);
-        //        $scope.notifications.push({
-        //            sort: new Date(),
-        //            time: new Date().toISOString(),
-        //            json: JSON.stringify(data, undefined, 2)
-        //        });
-        //        switch (data.type) {
-        //            //case 'org.celstec.arlearn2.beans.notification.GeneralItemModification':
-        //            //    //GeneralItemService.handleNotification(data);
-        //            //    console.log("Received ")
-        //            //    break;
-        //        }
-        //
-        //    });
-        //    //jQuery("time.timeago").timeago();
-        //});
-        //
-        //$scope.notifications = [];
-        //$scope.waitingForData = function () {
-        //    $scope.notifications.length == 0;
-        //}
+        var socket = new ChannelService.SocketHandler();
+        socket.onMessage(function (data) {
+            $scope.$apply(function () {
+                console.log(data)
+                switch (data.type) {
+                    case 'org.celstec.arlearn2.beans.game.Game':
+
+                        GameService.refreshGame(data.gameId).then(function (data) {
+                            console.log('refresh complete');
+                        });
+
+                        break;
+                }
+            });
+            //jQuery("time.timeago").timeago();
+        });
+
     }
 );
