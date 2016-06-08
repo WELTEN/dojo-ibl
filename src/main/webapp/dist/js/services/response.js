@@ -11,6 +11,16 @@ angular.module('DojoIBL')
         });
 
         var responses = {};
+        var dataCache = CacheFactory.get('responsesCache');
+        var responsesId = dataCache.keys();
+        for (var i=0; i < responsesId.length; i++) {
+            var response = dataCache.get(responsesId[i]);
+            if (!responses[response.runId+"_"+response.generalItemId]){
+                responses[response.runId+"_"+response.generalItemId] = {};
+            }
+            responses[response.runId+"_"+response.generalItemId][response.responseId] = response;
+            console.log(responses);
+        }
 
         var resumptionToken;
         var serverTime= 0;
@@ -28,14 +38,28 @@ angular.module('DojoIBL')
 
                 var newResponse = new Response(responseAsJson);
 
-                return newResponse.$save();
+                return newResponse.$save(function(data){
+                    responses[data.runId+"_"+data.generalItemId][data.responseId] = data;
+                });
             },
             deleteResponse: function(responseId){
+                var deferred = $q.defer();
                 var dataCache = CacheFactory.get('responsesCache');
                 dataCache.remove(responseId);
-                return Response.deleteResponse({ responseId: responseId });
+
+                Response.deleteResponse({ responseId: responseId }).$promise.then(
+                    function (data) {
+                        deferred.resolve(data);
+                        delete responses[data.runId+"_"+data.generalItemId][data.responseId]
+                    }
+                );
+
+                return deferred.promise;
             },
             getResponsesByInquiryActivity: function(runId, itemId){
+                return responses[runId+"_"+itemId];
+            },
+            getResponses: function (runId, itemId) {
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('responsesCache');
 
@@ -43,18 +67,13 @@ angular.module('DojoIBL')
                     if (data.error) {
                         deferred.resolve(data);
                     } else {
-
-                        for (var i = 0; i < data.responses.length; i++) {
-                            if (data.responses[i].revoked || data.responses[i].deleted) {
-                                delete responses[data.responses[i].responseId];
-                            } else {
-
+                        responses[runId+"_"+itemId] = responses[runId+"_"+itemId] || {};
+                        for (i = 0; i < data.responses.length; i++) {
+                            if (!data.responses[i].deleted) {
                                 dataCache.put(data.responses[i].responseId, data.responses[i]);
-                                responses[data.responses[i].responseId] = data.responses[i];
+                                responses[runId+"_"+itemId][data.responses[i].responseId] = data.responses[i];
                             }
                         }
-
-                        //dataCache.put("responses"+itemId, data);
 
                         resumptionToken = data.resumptionToken;
                         serverTimeFirstInvocation = serverTimeFirstInvocation || data.serverTime;
@@ -66,8 +85,42 @@ angular.module('DojoIBL')
                         deferred.resolve(data);
                     }
                 });
+
                 return deferred.promise;
             },
+            //getResponsesByInquiryActivity: function(runId, itemId){
+            //    var deferred = $q.defer();
+            //    var dataCache = CacheFactory.get('responsesCache');
+            //
+            //    Response.getResponsesInquiryActivity({ runId:runId, itemId:itemId, resumptionToken: resumptionToken, from:serverTime }).$promise.then(function (data) {
+            //        if (data.error) {
+            //            deferred.resolve(data);
+            //        } else {
+            //
+            //            for (var i = 0; i < data.responses.length; i++) {
+            //                if (data.responses[i].revoked || data.responses[i].deleted) {
+            //                    delete responses[data.responses[i].responseId];
+            //                } else {
+            //
+            //                    dataCache.put(data.responses[i].responseId, data.responses[i]);
+            //                    responses[data.responses[i].responseId] = data.responses[i];
+            //                }
+            //            }
+            //
+            //            //dataCache.put("responses"+itemId, data);
+            //
+            //            resumptionToken = data.resumptionToken;
+            //            serverTimeFirstInvocation = serverTimeFirstInvocation || data.serverTime;
+            //            if (!data.resumptionToken){
+            //                serverTime = serverTimeFirstInvocation;
+            //                serverTimeFirstInvocation = undefined;
+            //            }
+            //
+            //            deferred.resolve(data);
+            //        }
+            //    });
+            //    return deferred.promise;
+            //},
             getResponsesFromCache: function(itemId){
                 var dataCache = CacheFactory.get('responsesCache');
                 return dataCache.get("responses"+itemId);

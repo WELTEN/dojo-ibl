@@ -10,11 +10,6 @@ angular.module('DojoIBL')
 
         $scope.bodyMessage;
 
-        $scope.onKeydown = function(keycode){
-            // do something with the keycode
-            console.log(keycode)
-        };
-
         $scope.sendMessage = function() {
             AccountService.myDetails().then(function(data){
                 MessageService.newMessage({
@@ -23,7 +18,6 @@ angular.module('DojoIBL')
                     subject: "empty",
                     body: $scope.bodyMessage
                 }).then(function(data){
-                    //$scope.messages.messages.push(data);
                     $scope.bodyMessage = null;
                 });
             });
@@ -32,17 +26,28 @@ angular.module('DojoIBL')
         $scope.messages = {};
         $scope.messages.messages = [];
 
-        MessageService.getMessagesDefaultByRun($stateParams.runId).then(function (data) {
 
-            $scope.messages.messages = $scope.messages.messages.concat(data.messages);
+        $scope.loadMoreButton = false;
 
-            if (data.resumptionToken) {
-                $scope.showButtonMore = true;
-            }else{
-                $scope.showButtonMore = false;
-            }
-        });
+        $scope.loadMessages = function() {
+            MessageService.getMessages($stateParams.runId).then(function (data) {
+                if (data.error) {
+                    $scope.showNoAccess = true;
+                } else {
+                    $scope.show = true;
+                    if (data.resumptionToken) {
+                        $scope.loadMoreButton = true;
+                    }else{
+                        $scope.loadMoreButton = false;
+                    }
+                }
+                $scope.messages.messages = MessageService.getMessagesDefaultByRun($stateParams.runId);
+            });
+        }
 
+        $scope.loadMessages();
+
+        $scope.messages.messages = MessageService.getMessagesDefaultByRun($stateParams.runId);
 
         var socket = new ChannelService.SocketHandler();
         socket.onMessage(function (data) {
@@ -52,7 +57,8 @@ angular.module('DojoIBL')
 
                         if(data.runId == $stateParams.runId){
                             MessageService.getMessageById(data.messageId).then(function (data) {
-                                $scope.messages.messages = $scope.messages.messages.concat(data);
+                                console.log(data);
+                                console.log($scope.messages.messages);
                             });
                         }
 

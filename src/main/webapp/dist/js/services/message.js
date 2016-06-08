@@ -9,17 +9,33 @@ angular.module('DojoIBL')
             storageMode: 'localStorage' // This cache will use `localStorage`.
         });
 
+        var messages = {};
+        var dataCache = CacheFactory.get('messagesCache');
+        var messagesId = dataCache.keys();
+        for (var i=0; i < messagesId.length; i++) {
+            var message = dataCache.get(messagesId[i]);
+            if (!messages[message.runId]){
+                messages[message.runId] = {};
+            }
+
+            messages[message.runId][message.messageId] = message;
+        }
+
         var resumptionToken;
         var serverTime= 0;
         var serverTimeFirstInvocation;
 
         return {
+            getMessagesDefaultByRun: function(runId){
+                //console.log(messages[runId]);
+                return messages[runId];
+            },
             newMessage: function(jsonMessage){
                 var newMessage = new Message(jsonMessage);
                 var dataCache = CacheFactory.get('messagesCache');
                 return newMessage.$save();
             },
-            getMessagesDefaultByRun: function(runId){
+            getMessages: function (runId) {
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('messagesCache');
 
@@ -27,6 +43,17 @@ angular.module('DojoIBL')
                     if (data.error) {
                         deferred.resolve(data);
                     } else {
+
+                        messages[runId] = messages[runId] || {};
+                        for (i = 0; i < data.messages.length; i++) {
+                            if (!data.messages[i].deleted) {
+                                dataCache.put(data.messages[i].messageId, data.messages[i]);
+                                messages[runId][data.messages[i].messageId] = data.messages[i];
+                            }
+                        }
+
+                        //console.log(messages);
+
                         resumptionToken = data.resumptionToken;
                         serverTimeFirstInvocation = serverTimeFirstInvocation || data.serverTime;
                         if (!data.resumptionToken){
@@ -37,6 +64,7 @@ angular.module('DojoIBL')
                         deferred.resolve(data);
                     }
                 });
+
                 return deferred.promise;
             },
             getMessageById: function(messageId){
@@ -49,6 +77,8 @@ angular.module('DojoIBL')
                     Message.getMessageById({ messageId:messageId }).$promise.then(
                         function(data){
                             dataCache.put(messageId, data);
+                            messages[data.runId][data.messageId] = data;
+                            console.log(data);
                             deferred.resolve(data);
                         }
                     );

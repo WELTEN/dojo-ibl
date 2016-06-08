@@ -9,6 +9,7 @@ angular.module('DojoIBL')
             storageMode: 'localStorage' // This cache will use `localStorage`.
         });
 
+
         return {
             newActivity: function(activityAsJson){
                 var dataCache = CacheFactory.get('activitiesCache');

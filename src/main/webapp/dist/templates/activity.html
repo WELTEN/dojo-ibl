@@ -28,18 +28,19 @@
             <div id="list_answers" class="row m-t-sm social-footer">
 
 
-                <div ng-show="responses.length == 0" class="alert alert-warning">
+                <div ng-show="responses.responses.length == 0" class="alert alert-warning">
                     No comments so far. <a class="alert-link"> Be the first one {{ myAccount.givenName }}</a>.
                 </div>
 
 
-                <div class="social-comment" ng-repeat="response in responses track by $index">
+                <div class="social-comment" ng-repeat="response in responses.responses track by $index">
                     <a href="" class="pull-left">
-                        <img src="dist/img/avatar.png" ng-src="{{ getAvatar(response) }}" />
+                        <img src="dist/img/avatar.png" ng-src="" />
                     </a>
+                    <!--{{ getAvatar(response) }}-->
                     <div class="media-body">
                         <a href="#/profile/">
-                            {{ getUser(response) }}
+                            <!--{{ getUser(response) }}-->
                         </a>
                         {{ response.responseValue }}
                         <br>
@@ -64,9 +65,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="social-comment" ng-show="showButtonMore">
-
-                    <a class="btn btn-primary btn-rounded btn-block" ng-click="loadMoreResponses()"><i class="fa fa-info-circle"></i> Click to load more</a>
+                <div class="social-comment" >
+                    <a class="btn btn-primary btn-rounded btn-block"  ng-click="loadResponses()"><i class="fa fa-info-circle"></i> Click to load more</a>
                 </div>
                 <div class="social-comment">
                     <a href="" class="pull-left">

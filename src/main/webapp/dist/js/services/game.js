@@ -27,7 +27,6 @@ angular.module('DojoIBL')
                             });
 
                             data.config.roles = rol;
-                            console.log(data.config.roles);
                             dataCache.put(id, data);
                             deferred.resolve(data);
                         }

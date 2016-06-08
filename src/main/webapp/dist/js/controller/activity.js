@@ -9,62 +9,33 @@ angular.module('DojoIBL')
             }
         );
 
-        $scope.games = {};
-        $scope.games.games = [];
+        $scope.responses = {};
+        $scope.responses.responses = [];
 
-        $scope.responses = [];
-        $scope.showButtonMore;
+        $scope.loadMoreButton = false;
 
-        function loadResponses() {
+        $scope.loadResponses = function() {
+            ResponseService.getResponses($stateParams.runId, $stateParams.activityId).then(function (data) {
 
-            var resp_cache = ResponseService.getResponsesFromCache($stateParams.activityId);
-            if(resp_cache) {
-                $scope.responses = $scope.responses.concat(resp_cache.responses);
+                console.log(data);
 
-                if (resp_cache.resumptionToken) {
-                    console.log(resp_cache.resumptionToken);
-
-                    $scope.showButtonMore = true;
-                }else{
-                    $scope.showButtonMore = false;
-                }
-            }
-
-            if(!resp_cache){
-                ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId).then(function (data) {
-
-                    $scope.responses = $scope.responses.concat(data.responses);
-
+                if (data.error) {
+                    $scope.showNoAccess = true;
+                } else {
+                    $scope.show = true;
                     if (data.resumptionToken) {
-
-                        //loadResponses();
-                        $scope.showButtonMore = true;
+                        $scope.loadMoreButton = true;
                     }else{
-                        $scope.showButtonMore = false;
+                        $scope.loadMoreButton = false;
                     }
-                });
-            }
-        }
-
-        $scope.loadMoreResponses = function(){
-            ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId).then(function (data) {
-
-                $scope.responses = $scope.responses.concat(data.responses);
-
-                if (data.resumptionToken) {
-                    console.log(data.resumptionToken);
-                    //loadResponses();
-                    $scope.showButtonMore = true;
-                }else{
-                    $scope.showButtonMore = false;
                 }
+                $scope.responses.responses = ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId);
             });
         };
 
+        $scope.loadResponses();
 
-
-        //console.log("load responses",$scope.games.games);
-        loadResponses();
+        $scope.responses.responses = ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId);
 
         $scope.getUser = function (response){
             return UserService.getUserFromCache(response.userEmail.split(':')[1]).name;
@@ -72,14 +43,6 @@ angular.module('DojoIBL')
         $scope.getAvatar = function (response){
             return UserService.getUserFromCache(response.userEmail.split(':')[1]).picture;
         };
-
-        //$scope.getUser = function(response) {
-        //
-        //    UserService.getUserByAccount($stateParams.runId, response.userEmail).then(function (data) {
-        //        console.log(data);
-        //        return data;
-        //    });
-        //};
 
         $scope.sendComment = function(){
             AccountService.myDetails().then(function(data){
@@ -94,23 +57,19 @@ angular.module('DojoIBL')
                     "revoked": false,
                     "lastModificationDate": new Date().getTime()
                 }).then(function(data){
-                    //console.log(data);
-
-                    $scope.responses.push(data);
-
                     $scope.response = null;
                 });
             });
         };
 
         $scope.removeComment = function(data){
-            console.log(data);
-            var idx = $scope.responses.indexOf(data);
-
-            // is currently selected
-            if (idx > -1) {
-                $scope.responses.splice(idx, 1);
-            }
+            //console.log(data);
+            //var idx = $scope.responses.indexOf(data);
+            //
+            //// is currently selected
+            //if (idx > -1) {
+            //    $scope.responses.splice(idx, 1);
+            //}
             ResponseService.deleteResponse(data.responseId);
         };
 
@@ -130,17 +89,6 @@ angular.module('DojoIBL')
                     "revoked": false,
                     "lastModificationDate": new Date().getTime()
                 }).then(function(childComment){
-
-                    //console.log(response);
-                    console.log(childComment);
-
-                    //if(!$scope.response.children) {
-                    //    $scope.response.children = [];
-                    //}
-                    //$scope.response.children.push(childComment);
-
-                    $scope.responses.push(data);
-
                     $scope.responseChildren = null;
                 });
             });

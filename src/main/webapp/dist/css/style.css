@@ -8925,3 +8925,8 @@ text-angular > p{
 .ta-editor > *{
   outline: none;
 }
+
+.load-more-messages{
+  width: 50%;
+  margin: 1em auto;
+}

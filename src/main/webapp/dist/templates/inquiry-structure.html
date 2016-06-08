@@ -19,8 +19,12 @@
                 </div>
                 <div class="slimScrollDiv" style="position: relative; width: auto; height: 400px;">
                     <div class="chat-discussion" chat style="width: auto; height: 400px;">
+                        <a class="btn btn-primary btn-rounded btn-block load-more-messages" ng-show="loadMoreButton" ng-click="loadMessages()"><i class="fa fa-info-circle"></i> Click to load more</a>
 
-                        <div class="chat-message" ng-class="{'left': message.senderId != myAccount.localId,'right': message.senderId == myAccount.localId }" ng-repeat="message in messages.messages">
+                        <div class="chat-message"
+                             ng-class="{'left': message.senderId != myAccount.localId,'right': message.senderId == myAccount.localId }"
+                             ng-repeat="message in messages.messages">
+
                             <img class="message-avatar" src="dist/img/avatar.png" ng-src="{{ getAvatar(message) }}" alt="">
                             <div class="message">
                                 <a class="message-author" href="#"> {{ getUser(message) }} </a>
