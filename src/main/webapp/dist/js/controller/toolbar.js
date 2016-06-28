@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('ToolbarController', function ($scope, $state, $stateParams,RunService, ActivityService, Session, GameService, AccountService, config) {
+    .controller('ToolbarController', function ($scope, $state, $stateParams,RunService, ActivityService, Session, Game, GameService, AccountService, config) {
         $scope.test = "foo";
 
         $scope.name = "your name";
@@ -9,27 +9,40 @@ angular.module('DojoIBL')
         $scope.state = $state;
 
         if ($stateParams.runId) {
-            RunService.getRunById($stateParams.runId).then(function(data){
-                $scope.run = data;
+            RunService.getRunById($stateParams.runId).then(function(run){
+                $scope.run = run;
 
-                if ($stateParams.phase) {
+                console.log(run);
+
+                Game.access({ }).$promise.then(function (data) {
+
+                    angular.forEach(data.gamesAccess, function (gameAccess) {
+
+                        if(run.gameId == gameAccess.gameId){
+                            GameService.getGameById(gameAccess.gameId).then(function (aux) {
 
 
-                    GameService.getGameById(data.gameId).then(function (data) {
-                        $scope.namePhase = data.phases[$stateParams.phase];
-                        //console.log(data.phases);
+                                var data_extended = angular.extend({}, aux, gameAccess);
+
+                                $scope.game = data_extended;
+
+                                console.log(data_extended);
+
+                                if ($stateParams.phase) {
+                                    $scope.namePhase = aux.phases[$stateParams.phase];
+                                }
+                            });
+                        }
                     });
-
-                    if ($stateParams.activityId) {
-
-                        ActivityService.getActivityById($stateParams.activityId, data.gameId).then(function (data) {
-                            $scope.activity = data;
-
-                            //console.log(data);
+                });
 
 
-                        });
-                    }
+
+                if ($stateParams.activityId) {
+
+                    ActivityService.getActivityById($stateParams.activityId, data.gameId).then(function (data) {
+                        $scope.activity = data;
+                    });
                 }
 
             });
@@ -41,9 +54,14 @@ angular.module('DojoIBL')
 
                 AccountService.myDetails().then(function(user){
 
-                    GameService.giveAccess(run.game.gameId, user.accountType+":"+user.localId,1);
+                    //////
+                    // AccessRight explanation
+                    // 1: Editor
+                    // 2: User
 
-                    RunService.giveAccess(run.runId, user.accountType+":"+user.localId,1);
+                    GameService.giveAccess(run.game.gameId, user.accountType+":"+user.localId,2);
+
+                    RunService.giveAccess(run.runId, user.accountType+":"+user.localId,2);
 
                     RunService.addUserToRun({
                         runId: run.runId,

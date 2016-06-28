@@ -1,12 +1,11 @@
 package org.celstec.arlearn2.jdo.manager;
 
-import javax.jdo.PersistenceManager;
-
+import com.google.appengine.api.datastore.KeyFactory;
 import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.jdo.PMF;
 import org.celstec.arlearn2.jdo.classes.AccountJDO;
 
-import com.google.appengine.api.datastore.KeyFactory;
+import javax.jdo.PersistenceManager;
 
 public class AccountManager {
 
@@ -35,6 +34,15 @@ public class AccountManager {
 				account.setPicture(picture);
 				account.setLastModificationDate(System.currentTimeMillis());
                 account.setAllowTrackLocation(allowTrackLocation);
+
+				////////////////////////////////////////////
+				// Added index for new accounts
+				// Enables full search of accounts in DojoIBL
+				// Date: 08/06/2016
+				// Author: Angel
+				////////////////////////////////////////////
+//				new AccountSearchIndex(account.getName(), account.getLocalId(), account.getAccountType()).scheduleTask();
+
 				return account;
 			} catch (Exception e) {
 

@@ -1,7 +1,9 @@
 package org.celstec.arlearn2.delegators;
 
+import com.google.appengine.api.search.*;
 import org.celstec.arlearn2.api.Service;
 import org.celstec.arlearn2.beans.account.Account;
+import org.celstec.arlearn2.beans.account.AccountList;
 import org.celstec.arlearn2.cache.AccountCache;
 import org.celstec.arlearn2.jdo.manager.AccountManager;
 import org.celstec.arlearn2.jdo.manager.ApplicationKeyManager;
@@ -65,11 +67,38 @@ public class AccountDelegator extends GoogleDelegator {
         }
         if (applicationKey.contains(":")) applicationKey = applicationKey.substring(0, applicationKey.indexOf(":"));
         boolean tokenExists = ApplicationKeyManager.getConfigurationObject(applicationKey);
+
         if (tokenExists) {
             return AccountManager.addAccount(account);
         }
         account.setError("token invalid");
         return account;
+    }
+
+    public Index getIndex() {
+        IndexSpec indexSpec = IndexSpec.newBuilder().setName("account_index").build();
+        return SearchServiceFactory.getSearchService().getIndex(indexSpec);
+    }
+
+    public AccountList search(String searchQuery) {
+        try {
+            Results<ScoredDocument> results = getIndex().search(searchQuery);
+            AccountList resultsList = new AccountList();
+            for (ScoredDocument document : results) {
+                Account ac = new Account();
+                ac.setLocalId(document.getFields("localId").iterator().next().getText());
+                ac.setName(document.getFields("accountName").iterator().next().getText());
+                ac.setAccountType(Integer.parseInt(document.getFields("accountType").iterator().next().getText()));
+
+                resultsList.addAccount(ac);
+            }
+            return resultsList;
+        } catch (SearchException e) {
+            if (StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
+                // retry
+            }
+        }
+        return null;
     }
 
 }

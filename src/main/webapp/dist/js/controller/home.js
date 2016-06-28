@@ -8,13 +8,14 @@ angular.module('DojoIBL')
 
             angular.forEach(data.gamesAccess, function (gameAccess) {
 
+                //console.log(gameAccess);
+
                 GameService.getGameById(gameAccess.gameId).then(function (data) {
-                        $scope.games = $scope.games.concat(data);
-                        //for (i = 0; i < data.length; i++) {
-                        //    //GameService.storeInCache(data.games[i]);
-                        //    data[i].description = $sce.trustAsHtml(data[i].description);
-                        //
-                        //}
+
+                    var data_extended = angular.extend({}, data, gameAccess);
+
+                    $scope.games = $scope.games.concat(data_extended);
+
                 });
             });
         });

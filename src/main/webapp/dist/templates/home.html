@@ -21,13 +21,11 @@
                         </div>
                         <div ng-bind-html="game.description | limitTo: 150 "></div>
 
-                        <!--<p><b>Description:</b> {{ game.description }}  </p>-->
-
                         <p>{{ game.lastModificationDate | date:'medium' }} </p>
 
                         <div class="text-center">
-                            <a href="#inquiry/{{ game.gameId }}/edit" class="btn btn-xs btn-warning"><i class="fa fa-pencil-square"></i> Edit </a>
-                            <a ng-click="deleteInquiry(game.gameId)"class="btn btn-xs btn-danger delete-inquiry"><i class="fa fa-trash"></i> Delete </a>
+                            <a href="#inquiry/{{ game.gameId }}/edit" ng-show="game.accessRights == 1" class="btn btn-xs btn-warning"><i class="fa fa-pencil-square"></i> Edit </a>
+                            <a ng-click="deleteInquiry(game.gameId)" ng-show="game.accessRights == 1" class="btn btn-xs btn-danger delete-inquiry"><i class="fa fa-trash"></i> Delete </a>
                         </div>
                     </div>
                     <div ng-hide="showRunsValue">

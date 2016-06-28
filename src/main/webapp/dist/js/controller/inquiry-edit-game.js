@@ -228,6 +228,7 @@ angular.module('DojoIBL')
                         accountType: data.accountType,
                         localId: data.localId,
                         gameId: $stateParams.gameId });
+
                     // Reset the run variable to create new ones
                     $scope.run = null;
                 });
@@ -236,7 +237,6 @@ angular.module('DojoIBL')
 
     }).controller('TabController', function ($scope, $stateParams, GameService, ActivityService) {
         this.tab = 0;
-
 
         GameService.getGameById($stateParams.gameId).then(function (data) {
 
