@@ -26,28 +26,29 @@ angular.module('DojoIBL')
         $scope.messages = {};
         $scope.messages.messages = [];
 
-
         $scope.loadMoreButton = false;
 
-        $scope.loadMessages = function() {
-            MessageService.getMessages($stateParams.runId).then(function (data) {
-                if (data.error) {
-                    $scope.showNoAccess = true;
-                } else {
-                    $scope.show = true;
-                    if (data.resumptionToken) {
-                        $scope.loadMoreButton = true;
-                    }else{
-                        $scope.loadMoreButton = false;
-                    }
-                }
-                $scope.messages.messages = MessageService.getMessagesDefaultByRun($stateParams.runId);
-            });
-        }
+        $scope.messages.messages = MessageService.getMessages($stateParams.runId);
 
-        $scope.loadMessages();
-
-        $scope.messages.messages = MessageService.getMessagesDefaultByRun($stateParams.runId);
+        //$scope.loadMessages = function() {
+        //    MessageService.getMessages($stateParams.runId).then(function (data) {
+        //        if (data.error) {
+        //            $scope.showNoAccess = true;
+        //        } else {
+        //            $scope.show = true;
+        //            if (data.resumptionToken) {
+        //                $scope.loadMoreButton = true;
+        //            }else{
+        //                $scope.loadMoreButton = false;
+        //            }
+        //        }
+        //        $scope.messages.messages = MessageService.getMessagesDefaultByRun($stateParams.runId);
+        //    });
+        //}
+        //
+        //$scope.loadMessages();
+        //
+        //$scope.messages.messages = MessageService.getMessagesDefaultByRun($stateParams.runId);
 
         var socket = new ChannelService.SocketHandler();
         socket.onMessage(function (data) {

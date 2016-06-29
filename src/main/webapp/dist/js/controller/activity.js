@@ -14,26 +14,28 @@ angular.module('DojoIBL')
 
         $scope.loadMoreButton = false;
 
-        $scope.loadResponses = function() {
-            ResponseService.getResponses($stateParams.runId, $stateParams.activityId).then(function (data) {
-                if (data.error) {
-                    $scope.showNoAccess = true;
-                } else {
-                    $scope.show = true;
-                    $scope.resum = data.resumptionToken;
-                    if (data.resumptionToken) {
-                        $scope.loadMoreButton = true;
-                    }else{
-                        $scope.loadMoreButton = false;
-                    }
-                }
-                $scope.responses.responses = ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId);
-            });
-        };
+        $scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
 
-        $scope.loadResponses();
-
-        $scope.responses.responses = ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId);
+        //$scope.loadResponses = function() {
+        //    ResponseService.getResponses($stateParams.runId, $stateParams.activityId).then(function (data) {
+        //        if (data.error) {
+        //            $scope.showNoAccess = true;
+        //        } else {
+        //            $scope.show = true;
+        //            $scope.resum = data.resumptionToken;
+        //            if (data.resumptionToken) {
+        //                $scope.loadMoreButton = true;
+        //            }else{
+        //                $scope.loadMoreButton = false;
+        //            }
+        //        }
+        //        $scope.responses.responses = ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId);
+        //    });
+        //};
+        //
+        //$scope.loadResponses();
+        //
+        //$scope.responses.responses = ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId);
 
         $scope.getUser = function (response){
             return UserService.getUserFromCache(response.userEmail.split(':')[1]).name;
@@ -97,7 +99,7 @@ angular.module('DojoIBL')
 
                     case 'org.celstec.arlearn2.beans.run.Response':
 
-                        $scope.loadResponses();
+                        //$scope.loadResponses();
 
                         break;
                 }

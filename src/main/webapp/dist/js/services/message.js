@@ -14,10 +14,7 @@ angular.module('DojoIBL')
         var messagesId = dataCache.keys();
         for (var i=0; i < messagesId.length; i++) {
             var message = dataCache.get(messagesId[i]);
-            if (!messages[message.runId]){
-                messages[message.runId] = {};
-            }
-
+            messages[message.runId] = messages[message.runId] || {};
             messages[message.runId][message.messageId] = message;
         }
 
@@ -35,37 +32,60 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('messagesCache');
                 return newMessage.$save();
             },
-            getMessages: function (runId) {
+            getMessages: function (runId, from, resumptionToken) {
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('messagesCache');
 
-                Message.resume({ runId:runId, resumptionToken: resumptionToken, from:serverTime }).$promise.then(function (data) {
-                    if (data.error) {
-                        deferred.resolve(data);
-                    } else {
+                messages[runId] = messages[runId] || {};
+                if (!from) {
+                    from = 0;
+                }
 
-                        messages[runId] = messages[runId] || {};
-                        for (i = 0; i < data.messages.length; i++) {
-                            if (!data.messages[i].deleted) {
-                                dataCache.put(data.messages[i].messageId, data.messages[i]);
-                                messages[runId][data.messages[i].messageId] = data.messages[i];
+                var service = this;
+
+                if(resumptionToken){
+                    Message.resume({ runId:runId, resumptionToken: resumptionToken, from:from }).$promise.then(function (data) {
+                        if (data.error) {
+                            deferred.resolve(data);
+                        } else {
+
+                            for (i = 0; i < data.messages.length; i++) {
+                                if (!data.messages[i].deleted) {
+                                    dataCache.put(data.messages[i].messageId, data.messages[i]);
+                                    messages[runId][data.messages[i].messageId] = data.messages[i];
+                                }else{
+                                    delete messages[runId][data.messages[i].messageId];
+                                }
+                            }
+
+                            if(data.resumptionToken){
+                                service.getMessages(runId, from, data.resumptionToken);
                             }
                         }
+                    });
+                }else{
+                    Message.resume({ runId:runId, from:0 }).$promise.then(function (data) {
+                        if (data.error) {
+                            deferred.resolve(data);
+                        } else {
 
-                        //console.log(messages);
+                            for (i = 0; i < data.messages.length; i++) {
+                                if (!data.messages[i].deleted) {
+                                    dataCache.put(data.messages[i].messageId, data.messages[i]);
+                                    messages[runId][data.messages[i].messageId] = data.messages[i];
+                                }else{
+                                    delete messages[runId][data.messages[i].messageId];
+                                }
+                            }
 
-                        resumptionToken = data.resumptionToken;
-                        serverTimeFirstInvocation = serverTimeFirstInvocation || data.serverTime;
-                        if (!data.resumptionToken){
-                            serverTime = serverTimeFirstInvocation;
-                            serverTimeFirstInvocation = undefined;
+                            if(data.resumptionToken){
+                                service.getMessages(runId, from, data.resumptionToken);
+                            }
                         }
+                    });
+                }
 
-                        deferred.resolve(data);
-                    }
-                });
-
-                return deferred.promise;
+                return messages[runId];
             },
             getMessageById: function(messageId){
                 var deferred = $q.defer();

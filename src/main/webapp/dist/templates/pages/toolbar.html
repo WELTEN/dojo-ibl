@@ -6,8 +6,7 @@
             <a ng-show="state.current.name == 'editrun'" href="#inquiry/{{ run.runId }}" > <span>{{'dibl.toolbar.edit-inquiry-run' | translate }} {{ run.title }}</span> </a>
             <a ng-show="state.current.name != 'editrun' && state.current.name != 'editgame'" href="#inquiry/{{ run.runId }}" > <span>{{ run.title }}</span> </a>
 
-            <span ng-show="state.current.name == 'inquiry.phase' || state.current.name == 'inquiry.activity'">
-                <i class="fa fa-angle-double-right"></i> <a href="#inquiry/{{ run.runId }}/phase/{{ activity.section }}">{{ namePhase.title }}</a></span>
+            <span ng-show="state.current.name == 'inquiry.phase' || state.current.name == 'inquiry.activity'"> <i class="fa fa-angle-double-right"></i> <a href="#inquiry/{{ run.runId }}/phase/{{ activity.section }}">{{ namePhase.title }}</a></span>
             <span ng-show="state.current.name == 'inquiry.activity'"><i  class="fa fa-angle-double-right"></i> {{ activity.name }}</span>
         </h2>
         <ol class="breadcrumb" ng-hide="state.current.name == 'home'">

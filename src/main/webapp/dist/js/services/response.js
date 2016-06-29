@@ -15,9 +15,7 @@ angular.module('DojoIBL')
         var responsesId = dataCache.keys();
         for (var i=0; i < responsesId.length; i++) {
             var response = dataCache.get(responsesId[i]);
-            if (!responses[response.runId+"_"+response.generalItemId]){
-                responses[response.runId+"_"+response.generalItemId] = {};
-            }
+            responses[response.runId+"_"+response.generalItemId] = responses[response.runId] || {};
             responses[response.runId+"_"+response.generalItemId][response.responseId] = response;
         }
 
@@ -58,55 +56,86 @@ angular.module('DojoIBL')
             getResponsesByInquiryActivity: function(runId, itemId){
                 return responses[runId+"_"+itemId];
             },
-            getResponses: function (runId, itemId) {
+
+            getResponses: function (runId, itemId, from, resumptionToken) {
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('responsesCache');
 
-                Response.getResponsesInquiryActivity({ runId:runId, itemId:itemId, resumptionToken: resumptionToken, from:serverTime }).$promise.then(function (data) {
-                    if (data.error) {
-                        deferred.resolve(data);
-                    } else {
-                        responses[runId+"_"+itemId] = responses[runId+"_"+itemId] || {};
-                        for (i = 0; i < data.responses.length; i++) {
-                            if (!data.responses[i].deleted) {
-                                dataCache.put(data.responses[i].responseId, data.responses[i]);
-                                responses[runId+"_"+itemId][data.responses[i].responseId] = data.responses[i];
+                responses[runId+"_"+itemId] = responses[runId+"_"+itemId] || {};
+                if (!from) {
+                    from = 0;
+                }
+
+                var service = this;
+
+                if(resumptionToken){
+                    Response.getResponsesInquiryActivity({ runId:runId, itemId:itemId, resumptionToken: resumptionToken, from: from }).$promise.then(function (data) {
+                        if (data.error) {
+                            deferred.resolve(data);
+                        } else {
+
+                            for (i = 0; i < data.responses.length; i++) {
+                                if (!data.responses[i].deleted) {
+                                    dataCache.put(data.responses[i].responseId, data.responses[i]);
+                                    responses[runId+"_"+itemId][data.responses[i].responseId] = data.responses[i];
+                                }else{
+                                    delete [runId+"_"+itemId][data.responses[i].responseId];
+                                }
+                            }
+
+                            if(data.resumptionToken){
+                                service.getResponses(runId, from, data.resumptionToken);
                             }
                         }
+                    });
+                }else{
+                    Response.getResponsesInquiryActivity({ runId:runId, itemId:itemId, from: 0 }).$promise.then(function (data) {
+                        if (data.error) {
+                            deferred.resolve(data);
+                        } else {
 
-                        resumptionToken = data.resumptionToken;
-                        serverTimeFirstInvocation = serverTimeFirstInvocation || data.serverTime;
-                        if (!data.resumptionToken){
-                            serverTime = serverTimeFirstInvocation;
-                            serverTimeFirstInvocation = undefined;
+                            for (i = 0; i < data.responses.length; i++) {
+                                if (!data.responses[i].deleted) {
+                                    dataCache.put(data.responses[i].responseId, data.responses[i]);
+                                    responses[runId+"_"+itemId][data.responses[i].responseId] = data.responses[i];
+                                }else{
+                                    delete [runId+"_"+itemId][data.responses[i].responseId];
+                                }
+                            }
+
+                            if(data.resumptionToken){
+                                service.getResponses(runId, from, data.resumptionToken);
+                            }
                         }
+                    });
+                }
 
-                        deferred.resolve(data);
-                    }
-                });
-
-                return deferred.promise;
+                return responses[runId+"_"+itemId];
             },
-            //getResponsesByInquiryActivity: function(runId, itemId){
+
+            //getResponses: function (runId, itemId) {
             //    var deferred = $q.defer();
             //    var dataCache = CacheFactory.get('responsesCache');
+            //
+            //    console.log(resumptionToken, serverTime);
             //
             //    Response.getResponsesInquiryActivity({ runId:runId, itemId:itemId, resumptionToken: resumptionToken, from:serverTime }).$promise.then(function (data) {
             //        if (data.error) {
             //            deferred.resolve(data);
             //        } else {
             //
-            //            for (var i = 0; i < data.responses.length; i++) {
-            //                if (data.responses[i].revoked || data.responses[i].deleted) {
-            //                    delete responses[data.responses[i].responseId];
-            //                } else {
+            //            console.log(data.responses.length);
+            //
+            //            responses[runId+"_"+itemId] = responses[runId+"_"+itemId] || {};
+            //            for (i = 0; i < data.responses.length; i++) {
+            //                if (!data.responses[i].deleted) {
+            //
+            //                    //console.log(data.responses[i]);
             //
             //                    dataCache.put(data.responses[i].responseId, data.responses[i]);
-            //                    responses[data.responses[i].responseId] = data.responses[i];
+            //                    responses[runId+"_"+itemId][data.responses[i].responseId] = data.responses[i];
             //                }
             //            }
-            //
-            //            //dataCache.put("responses"+itemId, data);
             //
             //            resumptionToken = data.resumptionToken;
             //            serverTimeFirstInvocation = serverTimeFirstInvocation || data.serverTime;
@@ -118,6 +147,7 @@ angular.module('DojoIBL')
             //            deferred.resolve(data);
             //        }
             //    });
+            //
             //    return deferred.promise;
             //},
             getResponsesFromCache: function(itemId){

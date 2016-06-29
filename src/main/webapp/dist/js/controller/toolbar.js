@@ -40,7 +40,7 @@ angular.module('DojoIBL')
 
                 if ($stateParams.activityId) {
 
-                    ActivityService.getActivityById($stateParams.activityId, data.gameId).then(function (data) {
+                    ActivityService.getActivityById($stateParams.activityId, run.gameId).then(function (data) {
                         $scope.activity = data;
                     });
                 }

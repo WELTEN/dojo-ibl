@@ -27,19 +27,18 @@
 
             <div id="list_answers" class="row m-t-sm social-footer">
 
-                <div class="alert alert-warning">
+                <div class="alert alert-warning" ng-show="responses.responses.length == 0 ">
                     No comments so far. <a class="alert-link"> Be the first one {{ myAccount.givenName }}</a>.
                 </div>
 
-
                 <div class="social-comment" ng-repeat="response in responses.responses track by $index">
                     <a href="" class="pull-left">
-                        <img src="dist/img/avatar.png" ng-src="" />
+                        <img src="dist/img/avatar.png" ng-src="{{ getAvatar(response) }}" />
                     </a>
-                    <!--{{ getAvatar(response) }}-->
+
                     <div class="media-body">
                         <a href="#/profile/">
-                            <!--{{ getUser(response) }}-->
+                            {{ getUser(response) }}
                         </a>
                         {{ response.responseValue }}
                         <br>
@@ -49,8 +48,7 @@
                         <a class="small" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>
                     </div>
 
-                    <!--<div ng-transclude="body"></div>-->
-                    <div comments-transclude comment-data="response.children"></div>
+                    <!--<ng-include src="'comments.template'" ng-repeat="comment in comment.children"></ng-include>-->
 
                     <div class="social-comment" ng-show="hiddenDiv">
                         <a href="" class="pull-left">
@@ -79,7 +77,7 @@
                         </div>
                     </div>
                 </div>
-
+            </div>
         </div>
     </div>
 </div>
