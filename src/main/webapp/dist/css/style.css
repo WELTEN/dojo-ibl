@@ -561,11 +561,23 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   #inquiry-content {
     width: 66% !important;
   }
+  #small-chat {
+    display: none;
+  }
+
+  .small-chat-box{
+    display: none !important;
+  }
 }
 @media (max-width: 1200px) {
   .col-md-9 {
     width: 100%;
   }
+
+  .small-chat-float{
+    display: none;
+  }
+
 }
 @media (max-width: 1300px) {
   .inquiry-tabs span{
@@ -4989,7 +5001,7 @@ dd.project-people {
   width: 48px;
   border: 1px solid #e7eaec;
   border-radius: 4px;
-  margin-top: 1px;
+  /*margin-top: 1px;*/
 }
 .chat-discussion .chat-message.left .message-avatar {
   float: left;
@@ -4998,15 +5010,24 @@ dd.project-people {
 .chat-discussion .chat-message.right .message-avatar, .small-chat-float {
   float: right;
   /*margin-left: 10px;*/
+  padding-left: 0px !important;
+}
+.left .message{
+  background-color: rgba(12, 10, 8, 0.3);
+  border-radius: 1px 20px 20px 20px;
+}
+.right .message{
+  border-radius: 20px 1px 20px 20px;
 }
 .message {
-  background-color: #fff;
-  border: 1px solid #e7eaec;
+  background-color: #1ab394;
+  /* border: 1px solid #e7eaec; */
   text-align: left;
   display: block;
   padding: 10px 10px;
   position: relative;
-  border-radius: 4px;
+  border-radius: 10px 1px 10px 10px;
+  color: white;
 }
 .chat-discussion .chat-message.left .message-date {
   float: right;
@@ -5016,7 +5037,6 @@ dd.project-people {
 }
 .chat-discussion .chat-message.left .message {
   text-align: left;
-  width: 100%;
   margin-left: 55px;
 }
 .chat-discussion .chat-message.right .message {
@@ -5025,7 +5045,20 @@ dd.project-people {
 }
 .message-date {
   font-size: 10px;
-  color: #888888;
+  color: #000;
+}
+.message-author {
+  font-size: 10px;
+  font-weight: 900;
+  color: #000;
+
+}
+
+.right .message-author{
+  margin-left: 1em;
+}
+.left .message-author{
+  margin-right: 1em;
 }
 .message-content {
   padding: 8px 0px;
@@ -5454,7 +5487,7 @@ body.body-small .vote-icon {
   right: 75px;
   background: #fff;
   border: 1px solid #e7eaec;
-  width: 230px;
+  width: 300px;
   height: 320px;
   border-radius: 4px;
 }
@@ -5496,9 +5529,6 @@ body.body-small .vote-icon {
   border-radius: 6px;
   font-size: 11px;
   line-height: 14px;
-  max-width: 80%;
-  /*background: #f3f3f4;*/
-  margin-bottom: 10px;
 }
 .small-chat-box .content .chat-message.active, .chat-discussion .chat-message.active {
   background: #1ab394;
@@ -5514,7 +5544,7 @@ body.body-small .vote-icon {
 .small-chat-box .content .right, .chat-discussion .right{
   text-align: right;
   clear: both;
-  width: 100%;
+  /*width: 100%;*/
 }
 .small-chat-box .content .right .chat-message, .chat-discussion .right .chat-message  {
   float: right;
@@ -8792,7 +8822,7 @@ textarea.form-control{
 
 .fixed-chat{
   position: fixed;
-  margin: 0em 1.2em -1em 0em;
+  margin: 0em 1.8em -1em 0em;
   top: 1em;
 }
 

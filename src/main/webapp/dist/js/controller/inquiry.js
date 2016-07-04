@@ -24,6 +24,7 @@ angular.module('DojoIBL')
             angle = 300,
             radius = 100;
 
+
         //$scope.getTotal = function(){
         //    var total = 0;
         //    for(var i = 0; i < $scope.cart.products.length; i++){

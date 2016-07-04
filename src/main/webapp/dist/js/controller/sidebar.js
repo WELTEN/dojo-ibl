@@ -1,6 +1,10 @@
 angular.module('DojoIBL')
 
-    .controller('SidebarController', function ($scope, Session, $state, $stateParams, RunService, Account, AccountService) {
+    .controller('SidebarController', function ($scope,$rootScope, Session, $state, $stateParams, RunService, Account, AccountService) {
+
+        $scope.$on("$stateChangeSuccess", function updatePage() {
+            $scope.phaseNumber = $state.params.phase;
+        });
 
         if ($stateParams.runId) {
 

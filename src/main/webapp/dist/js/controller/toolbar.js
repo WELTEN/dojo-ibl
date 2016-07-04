@@ -12,7 +12,7 @@ angular.module('DojoIBL')
             RunService.getRunById($stateParams.runId).then(function(run){
                 $scope.run = run;
 
-                console.log(run);
+                //console.log(run);
 
                 Game.access({ }).$promise.then(function (data) {
 
@@ -26,7 +26,7 @@ angular.module('DojoIBL')
 
                                 $scope.game = data_extended;
 
-                                console.log(data_extended);
+                                //console.log(data_extended);
 
                                 if ($stateParams.phase) {
                                     $scope.namePhase = aux.phases[$stateParams.phase];

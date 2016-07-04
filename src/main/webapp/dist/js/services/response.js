@@ -19,6 +19,8 @@ angular.module('DojoIBL')
             responses[response.runId+"_"+response.generalItemId][response.responseId] = response;
         }
 
+        //console.log(responses);
+
         var resumptionToken;
         var serverTime= 0;
         var serverTimeFirstInvocation;
@@ -111,7 +113,7 @@ angular.module('DojoIBL')
                 }
 
                 return responses[runId+"_"+itemId];
-            },
+            }
 
             //getResponses: function (runId, itemId) {
             //    var deferred = $q.defer();
@@ -150,10 +152,10 @@ angular.module('DojoIBL')
             //
             //    return deferred.promise;
             //},
-            getResponsesFromCache: function(itemId){
-                var dataCache = CacheFactory.get('responsesCache');
-                return dataCache.get("responses"+itemId);
-            }
+            //getResponsesFromCache: function(itemId){
+            //    var dataCache = CacheFactory.get('responsesCache');
+            //    return dataCache.get("responses"+itemId);
+            //}
         }
     }
 );

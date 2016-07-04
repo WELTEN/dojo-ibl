@@ -2,7 +2,6 @@ angular.module('DojoIBL')
 
     .controller('TimelineController', function ($scope, $sce, $stateParams, $state, Response, ActivityService, UserService) {
 
-        console.log($stateParams)
         $scope.games = {};
         $scope.games.games = [];
 

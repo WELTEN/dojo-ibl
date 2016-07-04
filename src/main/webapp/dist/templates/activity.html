@@ -6,8 +6,10 @@
                 <small class="chat-date pull-right">
 
                 </small>
-                <span ng-show="activity.videoFeed"><i class="fa fa-file-text"></i> {{ activity.name }} | Video activity </span>
-                <span ng-hide="activity.videoFeed"><i class="fa fa-file-text"></i> {{ activity.name }} | Discussion activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'"><i class="fa fa-file-video-o"></i> {{ activity.name }} | Video activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"><i class="fa fa-file-text"></i> {{ activity.name }} | Discussion activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'"><i class="fa fa-picture-o"></i> {{ activity.name }} | Data collection activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.OpenBadge'"><i class="fa fa-question"></i> {{ activity.name }} | Research question activity</span>
             </div>
 
             <div class="mail-body">
@@ -22,8 +24,15 @@
                 </div>
                 <div ng-bind-html="activity.richText"></div>
                 <iframe ng-show="activity.videoFeed" style="width: 100%; height: 600px;"  ng-src="{{trustSrc(activity.videoFeed)}}" frameborder="0"></iframe>
+
             </div>
 
+            <div ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.OpenBadge'" class="input-group create-question">
+                <input responseid="0" class="form-control response" ng-model="response" placeholder="Type your question here...">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary save" ng-disabled="!response" ng-click="sendComment()" responseid="0">Add question</button>
+                </span>
+            </div>
 
             <div id="list_answers" class="row m-t-sm social-footer">
 
@@ -31,42 +40,14 @@
                     No comments so far. <a class="alert-link"> Be the first one {{ myAccount.givenName }}</a>.
                 </div>
 
-                <div class="social-comment" ng-repeat="response in responses.responses track by $index">
-                    <a href="" class="pull-left">
-                        <img src="dist/img/avatar.png" ng-src="{{ getAvatar(response) }}" />
-                    </a>
+                <responses responses="responses.responses" ng-if="activity.type != 'org.celstec.arlearn2.beans.generalItem.OpenBadge'"></responses>
 
-                    <div class="media-body">
-                        <a href="#/profile/">
-                            {{ getUser(response) }}
-                        </a>
-                        {{ response.responseValue }}
-                        <br>
-                        <!--<a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> --->
-                        <a data="{{ response.responseId }}" gItem="{{ response.generalItemId }}" class="small reply" ng-click="hiddenDiv = !hiddenDiv"> <i class="fa fa-mail-reply"></i> Reply</a> -
-                        <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small> -
-                        <a class="small" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>
-                    </div>
-
-                    <!--<ng-include src="'comments.template'" ng-repeat="comment in comment.children"></ng-include>-->
-
-                    <div class="social-comment" ng-show="hiddenDiv">
-                        <a href="" class="pull-left">
-                            <img src="dist/img/avatar.png" ng-src="{{ myAccount.picture }}" />
-                        </a>
-                        <div class="media-body">
-                            <textarea class="form-control" ng-model="responseChildren" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>
-                            <div class="text-right">
-                                <button type="submit" ng-disabled="!responseChildren" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendChildComment(response, responseChildren )"><strong>{{'dibl.inquiry.activity.post-comment' | translate }}</strong></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <response-questions responses='responses.responses' ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.OpenBadge'"></response-questions>
 
                 <div class="social-comment" >
                     <a class="btn btn-primary btn-rounded btn-block" ng-show="resum"  ng-click="loadResponses()"><i class="fa fa-info-circle"></i> Click to load more</a>
                 </div>
-                <div class="social-comment">
+                <div class="social-comment" ng-hide="activity.type == 'org.celstec.arlearn2.beans.generalItem.OpenBadge'">
                     <a href="" class="pull-left">
                         <img src="dist/img/avatar.png" ng-src="{{ myAccount.picture }}" />
                     </a>

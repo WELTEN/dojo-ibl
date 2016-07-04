@@ -40,6 +40,7 @@
                 <div class="form-chat">
                     <div class="input-group input-group-sm">
                         <input id="add-new-message"  ng-enter="sendMessage()" type="text" class="form-control" ng-model="bodyMessage">
+                        <!--<text-angular ta-toolbar="[]" ng-enter="sendMessage()" ng-model="bodyMessage"></text-angular>-->
                         <span class="input-group-btn">
                             <button ng-click="sendMessage()" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>
                         </span>
@@ -53,3 +54,48 @@
 
 </div>
 
+<div ng-class="{ 'active': hiddenDiv }" class="small-chat-box fadeInRight animated" ng-controller="InstantMessagingController">
+
+    <div class="heading" draggable="true">
+        <small class="chat-date pull-right">
+
+        </small>
+        Small chat
+    </div>
+
+    <div class="slimScrollDiv" style="position: relative; width: auto; height: 234px;">
+        <div class="chat-discussion" chat style="width: auto; height: 234px;">
+            <a class="btn btn-primary btn-rounded btn-block load-more-messages" ng-show="loadMoreButton" ng-click="loadMessages()"><i class="fa fa-info-circle"></i> Click to load more</a>
+
+            <div class="chat-message"
+                 ng-class="{'left': message.senderId != myAccount.localId,'right': message.senderId == myAccount.localId }"
+                 ng-repeat="message in messages.messages">
+
+                <img class="message-avatar" src="dist/img/avatar.png" ng-src="{{ getAvatar(message) }}" alt="">
+                <div class="message">
+                    <a class="message-author" href="#"> {{ getUser(message) }} </a>
+                    <span class="message-date"> {{ message.date | date:'medium' }}</span>
+                                <span class="message-content">
+                                {{ message.body }}
+                                </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="form-chat">
+        <div class="input-group input-group-sm">
+            <input ng-enter="sendMessage()" type="text" class="form-control" ng-model="bodyMessage">
+            <!--<text-angular ta-toolbar="[]" ng-enter="sendMessage()" ng-model="bodyMessage"></text-angular>-->
+            <span class="input-group-btn">
+                <button ng-click="sendMessage()" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>
+            </span>
+        </div>
+    </div>
+</div>
+<div id="small-chat">
+    <span class="badge badge-warning pull-right">{{ numberMessages }}</span>
+    <a class="open-small-chat" ng-click="hiddenDiv = !hiddenDiv">
+        <i ng-class="{ 'fa-remove': hiddenDiv, 'fa-comments': !hiddenDiv,  }" class="fa"></i>
+    </a>
+</div>

@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .directive('chat', function() {
+    .directive('chat', function($window) {
         return  {
             restrict: 'A',
             link: function (scope, element, attrs, controller) {

@@ -8,9 +8,6 @@ angular.module('DojoIBL')
             $scope.phase = data.game.phases[$stateParams.phase];
 
             ActivityService.getActivitiesForPhase(data.game.gameId, $stateParams.phase).then(function (data) {
-
-                console.log(data);
-
                 $scope.activities = data;
             });
 

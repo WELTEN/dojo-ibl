@@ -98,7 +98,7 @@ angular.module('DojoIBL')
                         function(data){
                             dataCache.put(messageId, data);
                             messages[data.runId][data.messageId] = data;
-                            console.log(data);
+                            //console.log(data);
                             deferred.resolve(data);
                         }
                     );

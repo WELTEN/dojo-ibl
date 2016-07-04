@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('InstantMessagingController', function ($scope, $stateParams, Message, MessageService, ChannelService, AccountService, UserService) {
+    .controller('InstantMessagingController', function ($window, $scope, $stateParams, Message, MessageService, ChannelService, AccountService, UserService) {
 
         AccountService.myDetails().then(
             function(data){
@@ -50,6 +50,8 @@ angular.module('DojoIBL')
         //
         //$scope.messages.messages = MessageService.getMessagesDefaultByRun($stateParams.runId);
 
+        $scope.numberMessages = 0;
+
         var socket = new ChannelService.SocketHandler();
         socket.onMessage(function (data) {
             $scope.$apply(function () {
@@ -57,6 +59,7 @@ angular.module('DojoIBL')
                     case 'org.celstec.arlearn2.beans.notification.MessageNotification':
 
                         if(data.runId == $stateParams.runId){
+                            $scope.numberMessages += 1;
                             MessageService.getMessageById(data.messageId).then(function (data) {
                                 console.info("message received");
                             });

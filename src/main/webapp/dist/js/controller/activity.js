@@ -16,32 +16,14 @@ angular.module('DojoIBL')
 
         $scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
 
-        //$scope.loadResponses = function() {
-        //    ResponseService.getResponses($stateParams.runId, $stateParams.activityId).then(function (data) {
-        //        if (data.error) {
-        //            $scope.showNoAccess = true;
-        //        } else {
-        //            $scope.show = true;
-        //            $scope.resum = data.resumptionToken;
-        //            if (data.resumptionToken) {
-        //                $scope.loadMoreButton = true;
-        //            }else{
-        //                $scope.loadMoreButton = false;
-        //            }
-        //        }
-        //        $scope.responses.responses = ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId);
-        //    });
-        //};
-        //
-        //$scope.loadResponses();
-        //
-        //$scope.responses.responses = ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId);
-
         $scope.getUser = function (response){
             return UserService.getUserFromCache(response.userEmail.split(':')[1]).name;
         };
         $scope.getAvatar = function (response){
             return UserService.getUserFromCache(response.userEmail.split(':')[1]).picture;
+        };
+        $scope.removeComment = function(data){
+            ResponseService.deleteResponse(data.responseId);
         };
 
         $scope.sendComment = function(){
@@ -60,10 +42,6 @@ angular.module('DojoIBL')
                     $scope.response = null;
                 });
             });
-        };
-
-        $scope.removeComment = function(data){
-            ResponseService.deleteResponse(data.responseId);
         };
 
         $scope.responseChildren;
@@ -89,17 +67,16 @@ angular.module('DojoIBL')
 
         $scope.trustSrc = function(src) {
             return $sce.trustAsResourceUrl(src);
-        }
+        };
 
         var socket = new ChannelService.SocketHandler();
         socket.onMessage(function (data) {
             $scope.$apply(function () {
-                console.log(data.type);
                 switch (data.type) {
 
                     case 'org.celstec.arlearn2.beans.run.Response':
 
-                        //$scope.loadResponses();
+                        $scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
 
                         break;
                 }

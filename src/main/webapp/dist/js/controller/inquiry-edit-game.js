@@ -38,6 +38,8 @@ angular.module('DojoIBL')
                 //{'name': 'Concept map', 'type': 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest', 'icon': 'fa-sitemap'},
                 //{'name': 'External widget', 'type': 'org.celstec.arlearn2.beans.generalItem.OpenBadge', 'icon': 'fa-link'},
                 //{'name': 'Research question', 'type': 'org.celstec.arlearn2.beans.generalItem.ResearchQuestion', 'icon': 'fa-question'}
+                {'name': 'Research question', 'type': 'org.celstec.arlearn2.beans.generalItem.OpenBadge', 'icon': 'fa-question'},
+                {'name': 'Data collection', 'type': 'org.celstec.arlearn2.beans.generalItem.ScanTag', 'icon': 'fa-picture-o'}
             ];
 
             angular.forEach($scope.game.phases, function(value, key) {

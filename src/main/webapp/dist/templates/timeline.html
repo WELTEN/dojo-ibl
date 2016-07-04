@@ -20,7 +20,7 @@
                 <div class="vertical-timeline-content" ng-class="{ 'put-item-timeline-right': response.move_right }">
                     <p>
                         <strong>{{ response.user.givenName }}</strong> commented on <strong>
-                        <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}"> {{ response.activity.name }} </a></strong> activity <br>
+                        <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}?scrollTo={{ response.responseId }}"> {{ response.activity.name }} </a></strong> activity <br>
                     </p>
 
                     <p>{{ response.responseValue }}</p>
