@@ -4860,6 +4860,7 @@ a.compose-mail {
 .mail-body {
   border-top: 1px solid #e7eaec;
   padding: 20px;
+  clear: both;
 }
 .mail-text {
   border-top: 1px solid #e7eaec;

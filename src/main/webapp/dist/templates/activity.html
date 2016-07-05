@@ -12,6 +12,77 @@
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.OpenBadge'"><i class="fa fa-question"></i> {{ activity.name }} | Research question activity</span>
             </div>
 
+            <div class="col-lg-3 m-t-sm" ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div class="file-manager">
+                            <h5>Show:</h5>
+                            <a href="#" class="file-control active">All</a>
+                            <a href="#" class="file-control">Documents</a>
+                            <a href="#" class="file-control">Audio</a>
+                            <a href="#" class="file-control">Images</a>
+                            <div class="hr-line-dashed"></div>
+
+                            <!--<button ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"-->
+                                    <!--ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"-->
+                                    <!--ngf-resize="{width: 100, height: 100}">Upload Files</button>-->
+
+
+                            <div class="btn btn-primary btn-block" ngf-select="upload($file)">Upload Files</div>
+
+                            <!--Image thumbnail: <img ngf-thumbnail="file || '/thumb.jpg'">-->
+
+                            <!--<button class="btn btn-primary btn-block" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"-->
+                                    <!--ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"-->
+                                    <!--ngf-resize="{width: 100, height: 100}">Upload Files</button>-->
+
+                            <div class="hr-line-dashed"></div>
+                            <h5>Folders</h5>
+                            <ul class="folder-list" style="padding: 0">
+                                <li><a href=""><i class="fa fa-folder"></i> Files</a></li>
+                                <li><a href=""><i class="fa fa-folder"></i> Pictures</a></li>
+                                <li><a href=""><i class="fa fa-folder"></i> Web pages</a></li>
+                                <li><a href=""><i class="fa fa-folder"></i> Illustrations</a></li>
+                                <li><a href=""><i class="fa fa-folder"></i> Films</a></li>
+                                <li><a href=""><i class="fa fa-folder"></i> Books</a></li>
+                            </ul>
+                            <h5 class="tag-title">Tags</h5>
+                            <ul class="tag-list" style="padding: 0">
+                                <li><a href="">Family</a></li>
+                                <li><a href="">Work</a></li>
+                                <li><a href="">Home</a></li>
+                                <li><a href="">Children</a></li>
+                                <li><a href="">Holidays</a></li>
+                                <li><a href="">Music</a></li>
+                                <li><a href="">Photography</a></li>
+                                <li><a href="">Film</a></li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9 animated fadeInRight m-t-sm" ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
+                <div class="lightBoxGallery">
+                    <div class="file-box" ng-repeat="response in responses.responses">
+                        <div class="file">
+                            <a href="{{ getResponseString(response) }}" title="dsasd" data-gallery="">
+                                <span class="corner"></span>
+
+                                <div class="icon">
+                                    <img src="{{ getResponseString(response) }}?thumbnail=200">
+                                </div>
+                                <div class="file-name">
+                                    <br>
+                                    <small>{{ response.lastModificationDate| date:'medium' }}</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="mail-body">
                 <div class="text-center">
 
@@ -34,7 +105,9 @@
                 </span>
             </div>
 
-            <div id="list_answers" class="row m-t-sm social-footer">
+
+
+            <div id="list_answers" class="row m-t-sm social-footer" ng-hide="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
 
                 <div class="alert alert-warning" ng-show="responses.responses.length == 0 ">
                     No comments so far. <a class="alert-link"> Be the first one {{ myAccount.givenName }}</a>.

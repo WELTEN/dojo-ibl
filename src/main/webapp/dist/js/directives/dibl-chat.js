@@ -5,7 +5,9 @@ angular.module('DojoIBL')
             restrict: 'A',
             link: function (scope, element, attrs, controller) {
                 scope.$watch(
-                    function () { return element[0].childNodes.length; },
+                    function () {
+                        return element[0].childNodes.length;
+                    },
                     function (newValue, oldValue) {
                         if (newValue !== oldValue) {
                             element.scrollTop(element[0].scrollHeight);

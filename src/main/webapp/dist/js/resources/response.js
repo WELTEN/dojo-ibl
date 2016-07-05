@@ -1,7 +1,7 @@
 angular.module('DojoIBL')
 
     .factory('Response', function ResponseFactory($resource, $http, config) {
-        return $resource(config.server+'/rest/response', {}, {
+        return $resource(config.server + '/rest/response', {}, {
             getResponsesForActivity: {
                 method: 'GET',
                 isArray: false,
@@ -15,7 +15,7 @@ angular.module('DojoIBL')
             getResponsesForInquiry: {
                 method: 'GET',
                 isArray: false,
-                url: config.server+'/rest/response/runId/:runId'
+                url: config.server + '/rest/response/runId/:runId'
             },
             'resume': {
                 method: 'GET',
@@ -23,10 +23,13 @@ angular.module('DojoIBL')
                 url: config.server + '/rest/response/runId/:runId?from=:from&resumptionToken=:resumptionToken&orderByLastModificationDate=true'
             },
             deleteResponse: {
-                params: { responseId: '@responseId' },
+                params: {responseId: '@responseId'},
                 method: 'DELETE',
                 isArray: false,
                 url: config.server + '/rest/response/responseId/:responseId'
+            },
+            'uploadUrl': {
+                url: config.server + '/rest/response/url/runId/:runId/account/:account/:key'
             }
         });
     }

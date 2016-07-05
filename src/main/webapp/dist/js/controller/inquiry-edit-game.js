@@ -82,7 +82,7 @@ angular.module('DojoIBL')
         };
 
         $scope.addOne = function(a){
-            console.log($scope.lists);
+
             var object = {
                 type: a.type,
                 section: $(".select-activities > li.active").attr('data'),

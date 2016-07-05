@@ -20,7 +20,12 @@ angular.module('DojoIBL')
                 //if(activityAsJson.activity)
                 //    dataCache.put(activityAsJson.gameId, gameAsJson);
 
+                console.log(activityAsJson);
+
                 var newActivity = new Activity(activityAsJson);
+
+                console.log(newActivity);
+
 
                 return newActivity.$save();
             },

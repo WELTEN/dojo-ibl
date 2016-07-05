@@ -113,6 +113,10 @@ angular.module('DojoIBL')
                 }
 
                 return responses[runId+"_"+itemId];
+            },
+            uploadUrl: function(runId, account, key) {
+                console.log(runId, account, key)
+                return Response.uploadUrl({ runId:runId, account:account, key:key });
             }
 
             //getResponses: function (runId, itemId) {
