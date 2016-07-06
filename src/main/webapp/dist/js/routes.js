@@ -101,6 +101,6 @@ angular.module('DojoIBL')
             })
         ;
 
-        $urlRouterProvider.otherwise({redirectTo: '/error'});
+        $urlRouterProvider.otherwise('/error');
 
     }]);

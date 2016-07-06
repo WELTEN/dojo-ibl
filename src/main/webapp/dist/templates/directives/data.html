@@ -1,0 +1,15 @@
+<a href="{{ getResponseString(response) }}" title="dsasd" data-gallery="">
+    <span class="corner"></span>
+
+    <div class="icon">
+
+        <img ng-show="getResponse(response) == 'image'" src="{{ getResponseString(response) }}?thumbnail=200">
+        <i ng-show="getResponse(response) == 'pdf'" class="fa fa-file"></i>
+        <i ng-show="getResponse(response) == 'video'" class="fa fa-film"></i>
+    </div>
+    <div class="file-name">
+        <br>
+        <small>{{ response.lastModificationDate| date:'medium' }}</small>
+    </div>
+</a>
+
