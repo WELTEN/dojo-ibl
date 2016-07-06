@@ -1,13 +1,24 @@
-<a href="{{ getResponseString(response) }}" title="dsasd" data-gallery="">
+<a href="{{ resource }}" title="{{ name }}" data-gallery="">
     <span class="corner"></span>
 
-    <div class="icon">
+    <div class="icon" ng-if="type == 'image'">
+        <img ng-if="type == 'image'" ng-src="{{ resource }}?thumbnail=200">
+    </div>
 
-        <img ng-show="getResponse(response) == 'image'" src="{{ getResponseString(response) }}?thumbnail=200">
-        <i ng-show="getResponse(response) == 'pdf'" class="fa fa-file"></i>
-        <i ng-show="getResponse(response) == 'video'" class="fa fa-film"></i>
+    <div class="icon" ng-if="type == 'pdf'">
+        <i class="fa fa-file"></i>
+    </div>
+
+    <div class="icon" ng-if="type == 'video'">
+
+        <i class="fa fa-film"></i>
+    </div>
+
+    <div class="icon" ng-if="type == 'audio'">
+        <i class="fa fa-music"></i>
     </div>
     <div class="file-name">
+        <!--<p>{{ name }}</p>-->
         <br>
         <small>{{ response.lastModificationDate| date:'medium' }}</small>
     </div>

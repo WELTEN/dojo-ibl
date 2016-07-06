@@ -17,18 +17,20 @@
                     <i class="fa fa-briefcase"></i>
                 </div>
 
-                <div class="vertical-timeline-content" ng-class="{ 'put-item-timeline-right': response.move_right }">
-                    <p>
-                        <strong>{{ response.user.givenName }}</strong> commented on <strong>
-                        <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}?scrollTo={{ response.responseId }}"> {{ response.activity.name }} </a></strong> activity <br>
-                    </p>
+                <item response="response"></item>
 
-                    <p>{{ response.responseValue }}</p>
-                    <span class="vertical-date" ng-class="{ 'date-timeline-extra' : response.move_right }">
-                        <!--about a month ago <br>-->
-                        <small>{{ response.lastModificationDate | date:'medium' }}</small>
-                    </span>
-                </div>
+                <!--<div class="vertical-timeline-content" ng-class="{ 'put-item-timeline-right': response.move_right }">-->
+                    <!--<p>-->
+                        <!--<strong>{{ response.user.givenName }}</strong> commented on <strong>-->
+                        <!--<a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}?scrollTo={{ response.responseId }}"> {{ response.activity.name }} </a></strong> activity <br>-->
+                    <!--</p>-->
+
+                    <!--<p>{{ response.responseValue }}</p>-->
+                    <!--<span class="vertical-date" ng-class="{ 'date-timeline-extra' : response.move_right }">-->
+                        <!--&lt;!&ndash;about a month ago <br>&ndash;&gt;-->
+                        <!--<small>{{ response.lastModificationDate | date:'medium' }}</small>-->
+                    <!--</span>-->
+                <!--</div>-->
 
             </div>
         </div>
