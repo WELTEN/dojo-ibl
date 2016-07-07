@@ -3,15 +3,16 @@
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <span>
+                    <span><a href="#/profile/{{ myAccount.localId }}">
                         <img alt="image" class="img-circle" src="dist/img/avatar.png" ng-src="{{ myAccount.picture }}">
+                    </a>
                     </span>
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#/profile/{{ myAccount.localId }}">
                         <span class="clear">
                             <span class="block m-t-xs">
                                 <strong class="font-bold">{{ myAccount.name }}</strong>
                             </span>
-                            <span class="text-muted text-xs block">Art Director</span>
+                            <!--<span class="text-muted text-xs block">Art Director</span>-->
                         </span>
                     </a>
                 </div>
