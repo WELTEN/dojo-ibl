@@ -33,8 +33,8 @@
             <a ng-show="state.current.name == 'editrun' && game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"  class="btn btn-danger m-md"><i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-structure' | translate }} <b>{{ run.game.title }}</b></a>
             <a ng-show="state.current.name == 'inquiry.home' || state.current.name == 'inquiry.phase' || state.current.name == 'inquiry.activity' || state.current.name == 'inquiry.timeline'" href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit"  class="btn btn-danger m-md"><i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-run' | translate }} <b>{{ run.title }}</b></a>
 
-            <div class="col-md-6 m-md">
-                <div class="input-group" ng-show="state.current.name == 'home'">
+            <div class="col-md-6 m-md" ng-show="state.current.name == 'home'">
+                <div class="input-group" >
                     <input type="text" class="form-control ng-pristine ng-untouched ng-valid" ng-model="inquiryCode">
                 <span class="input-group-btn">
                     <button type="button" ng-disabled="inquiryCode.length < 4 || !inquiryCode" ng-click="findAndJoin()" class="btn btn-warning ng-binding" disabled="disabled"><i class="fa fa-plus"></i> {{'dibl.toolbar.join' | translate }}
@@ -43,8 +43,8 @@
                 </div>
             </div>
 
-            <div class="col-md-2">
-                <a ng-show="state.current.name == 'home'" href="#create/inquiry"  class="btn btn-success m-md"><i class="fa fa-plus"></i> {{'dibl.toolbar.new' | translate }} </a>
+            <div class="col-md-2" ng-show="state.current.name == 'home'">
+                <a  href="#create/inquiry"  class="btn btn-success m-md"><i class="fa fa-plus"></i> {{'dibl.toolbar.new' | translate }} </a>
             </div>
 
 
