@@ -1,22 +1,24 @@
 <a href="{{ resource }}" title="{{ name }}" data-gallery="">
     <span class="corner"></span>
 
-    <div class="icon" ng-if="type == 'image'">
-        <img ng-if="type == 'image'" ng-src="{{ resource }}?thumbnail=200">
+    <div class="icon" ng-if="extension == 'image'" >
+        <img ng-src="{{ resource }}?thumbnail=200">
     </div>
 
     <div class="icon" ng-if="type == 'pdf'">
         <i class="fa fa-file"></i>
     </div>
 
-    <div class="icon" ng-if="type == 'video'">
+    <video ng-if="extension == 'video'" width="320" height="240" controls>
+        <source src="{{ resource }}" type="{{ type }}">
+        Your browser does not support the video tag.
+    </video>
 
-        <i class="fa fa-film"></i>
-    </div>
+    <audio ng-if="extension == 'audio'" controls>
+        <source src="{{ resource }}" type="{{ type }}">
+        Your browser does not support the audio element.
+    </audio>
 
-    <div class="icon" ng-if="type == 'audio'">
-        <i class="fa fa-music"></i>
-    </div>
     <div class="file-name">
         <!--<p>{{ name }}</p>-->
         <br>

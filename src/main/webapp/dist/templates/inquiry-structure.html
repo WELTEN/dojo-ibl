@@ -25,14 +25,8 @@
                              ng-class="{'left': message.senderId != myAccount.localId,'right': message.senderId == myAccount.localId }"
                              ng-repeat="message in messages.messages">
 
-                            <img class="message-avatar" src="dist/img/avatar.png" ng-src="{{ getAvatar(message) }}" alt="">
-                            <div class="message">
-                                <a class="message-author" href="#"> {{ getUser(message) }} </a>
-                                <span class="message-date"> {{ message.date | date:'medium' }}</span>
-                                <span class="message-content">
-                                {{ message.body }}
-                                </span>
-                            </div>
+                            <message message="message"></message>
+
                         </div>
 
                     </div>

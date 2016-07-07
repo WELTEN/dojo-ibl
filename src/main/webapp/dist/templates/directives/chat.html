@@ -1,26 +1,10 @@
-<div class="col-lg-3 wrapper wrapper-content small-chat-float">
-    <div class="ibox-chat-content">
-        <div class="heading" draggable="true">
-            <small class="chat-date pull-right">
-
-            </small>
-            {{ inqTitle }}'s chat
-        </div>
-        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 400px;">
-            <div class="chat-discussion" style="overflow: hidden; width: auto; height: 400px;">
-
-            </div>
-            <div class="slimScrollBar"
-                 style="width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; height: 402.01px; background: rgb(0, 0, 0);"></div>
-            <div class="slimScrollRail"
-                 style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; opacity: 0.4; z-index: 90; right: 1px; background: rgb(51, 51, 51);"></div>
-        </div>
-        <div class="form-chat">
-            <div class="input-group input-group-sm">
-                <text-angular ng-model="run.game.description"></text-angular>
-                <input id="add-new-message" type="text" class="form-control"> <span class="input-group-btn">
-            <button id="send-message" class="btn btn-primary" type="button">Send
-            </button> </span></div>
-        </div>
+<div>
+    <img class="message-avatar" src="dist/img/avatar.png" ng-src="{{ avatar }}" alt="">
+    <div class="message">
+        <a class="message-author" href="#"> {{ userName }} </a>
+        <span class="message-date"> {{ message.date | date:'medium' }}</span>
+        <span class="message-content">
+        {{ message.body }}
+        </span>
     </div>
 </div>

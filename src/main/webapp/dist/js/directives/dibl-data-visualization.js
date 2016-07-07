@@ -9,32 +9,37 @@ angular.module('DojoIBL')
             templateUrl: '/dist/templates/directives/data.html',
             link: function (scope, elem, attr) {
 
-                var json = JSON.parse(scope.response.responseValue);
+                if(scope.response.responseValue.indexOf("{") == -1){
+                    scope.extension = "text";
+                    scope.resource = scope.response.responseValue;
+                }else{
+                    var json = JSON.parse(scope.response.responseValue);
 
-                if (json.answer){
-
+                    if (json.pdfUrl){
+                        scope.type = json.fileType;
+                        scope.name = json.fileName;
+                        scope.extension = "pdf"
+                        scope.resource = json.pdfUrl;
+                    }
+                    if (json.videoUrl){
+                        scope.type = json.fileType;
+                        scope.name = json.fileName;
+                        scope.extension = "video"
+                        scope.resource = json.videoUrl;
+                    }
+                    if (json.imageUrl){
+                        scope.type = json.fileType;
+                        scope.name = json.fileName;
+                        scope.extension = "image"
+                        scope.resource = json.imageUrl;
+                    }
+                    if (json.audioUrl){
+                        scope.type = json.fileType;
+                        scope.name = json.fileName;
+                        scope.extension = "audio"
+                        scope.resource = json.audioUrl;
+                    }
                 }
-                if (json.pdfUrl){
-                    scope.name = json.fileName;
-                    scope.type = "pdf"
-                    scope.resource = json.pdfUrl;
-                }
-                if (json.videoUrl){
-                    scope.name = json.fileName;
-                    scope.type = "video"
-                    scope.resource = json.videoUrl;
-                }
-                if (json.imageUrl){
-                    scope.name = json.fileName;
-                    scope.type = "image"
-                    scope.resource = json.imageUrl;
-                }
-                if (json.audioUrl){
-                    scope.name = json.fileName;
-                    scope.type = "audio"
-                    scope.resource = json.audioUrl;
-                }
-
             }
         };
     }
