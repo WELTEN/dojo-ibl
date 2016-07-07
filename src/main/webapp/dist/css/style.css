@@ -3687,6 +3687,11 @@ img.circle-border {
   margin-bottom: 0;
 }
 
+.inqCode{
+  width: 8em;
+  display: inline;
+}
+
 code {
   background-color: #F9F2F4;
   border-radius: 4px;

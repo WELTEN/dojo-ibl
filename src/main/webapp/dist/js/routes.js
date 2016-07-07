@@ -73,7 +73,8 @@ angular.module('DojoIBL')
                 templateUrl: '/dist/templates/inquiry-edit-run.html',
                 controller: 'InquiryEditRunController',
                 ncyBreadcrumb: {
-                    label: "{{'dibl.toolbar.editrun' | translate}}"
+                    label: "{{'dibl.toolbar.editrun' | translate}}",
+                    parent: 'inquiry.home' // Override the parent state (only for the breadcrumb).
                 }
             })
             .state('news', {

@@ -7,6 +7,26 @@
 
         <dibl-toolbar></dibl-toolbar>
         <div class="row inquiry">
+
+            <div ng-show="!games.length" class="tip" style="color: #000; font-size: 18px; text-align: center; padding-top: 150px; width:90%; margin:0 auto; z-index: 1;">
+                {{ 'dibl.inquiry.home.click-first' | translate }}
+                <a class="btn btn-success dropped" href="#create/inquiry"
+                        style="width: 10em; vertical-align: baseline;"><i class="fa fa-plus"></i> {{
+                    'dibl.inquiry.home.new-inquiry' | translate }}
+                </a>
+                {{ 'dibl.inquiry.home.to-start' | translate }}
+            </div>
+
+            <div ng-show="!games.length" class="tip" style="color: #000; font-size: 18px; text-align: center; padding-top: 60px; width:90%; margin:0 auto; z-index: 1;">
+                {{ 'dibl.inquiry.home.click-first-1' | translate }}
+                <input type="text" class="form-control ng-pristine ng-untouched ng-valid inqCode" ng-model="inquiryCode">
+                {{ 'dibl.inquiry.home.click-first-2' | translate }}
+                <button class="btn btn-warning dropped" ng-disabled="inquiryCode.length < 4 || !inquiryCode" ng-click="findAndJoin()" style="width: 10em; vertical-align: baseline;">
+                    <i class="fa fa-plus"></i> {{ 'dibl.inquiry.home.join-inquiry' | translate }}
+                </button>
+                {{ 'dibl.inquiry.home.to-use' | translate }}
+            </div>
+
             <div class="col-lg-3 game animated fadeIn" ng-repeat="game in games | filter:{ deleted: 'false' } track by $index">
                 <div class="ibox-content game text-center">
                     <h1><a class="show-runs" ng-click="showRuns(game.gameId); showRunsValue = !showRunsValue;">{{ game.title | limitTo: 20 }} {{

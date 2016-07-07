@@ -149,8 +149,7 @@
                     </div>
 
                     <div class="col-lg-9">
-                        <div class="tabs-container" ng-show="phases == 0" class="tip"
-                             style="color: #000; font-size: 18px; text-align: center; padding-top: 200px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
+                        <div class="tabs-container" ng-show="phases == 0" class="tip" style="color: #000; font-size: 18px; text-align: center; padding-top: 200px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
                             {{ 'dibl.inquiry.new-edit.click-first' | translate }}
                             <button class="btn btn-success dropped" ng-click="addPhase()"
                                     style="width: 10em; vertical-align: baseline;"><i class="fa fa-plus"></i> {{
@@ -158,6 +157,7 @@
                             </button>
                             {{ 'dibl.inquiry.new-edit.adding-phases' | translate }}
                         </div>
+
                         <div class="tabs-container" ng-controller="TabController as tab">
                             <ul class="nav nav-tabs select-activities">
                                 <li ng-repeat="phase in phases track by $index" ng-class="{ active:tab.isSet($index) }"

@@ -34,7 +34,7 @@
       "activity": "Activity",
       "timeline": "Timeline",
       "editstructure": "Editing inquiry structure",
-      "editinquiryrun": "Editing inquiry run",
+      "editrun": "Editing inquiry run",
       "newinquiry": "New inquiry",
       "profile": "Profile"
     },
@@ -44,7 +44,13 @@
         "send": "Send"
       },
       "home": {
-
+        "click-first": "Click first",
+        "click-first-1": "or paste here",
+        "click-first-2": "an inquiry code and click ",
+        "join-inquiry": "join inquiry",
+        "new-inquiry": "create inquiry",
+        "to-start": "to setup your own inquiry structure",
+        "to-use": "to use an existing one."
       },
       "phase": {
 

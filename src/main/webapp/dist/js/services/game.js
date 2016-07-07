@@ -32,15 +32,21 @@ angular.module('DojoIBL')
                     Game.getGameById({id:id}).$promise.then(
                         function(data){
 
-                            var rol = [];
-                            angular.forEach(data.config.roles, function(d){
-                                rol.push(JSON.parse(d));
-                            });
+                            if (data.deleted) {
+                                delete games[id];
+                                dataCache.remove(id);
 
-                            data.config.roles = rol;
-                            dataCache.put(id, data);
-                            games[id] = data;
-                            deferred.resolve(data);
+                            } else {
+                                var rol = [];
+                                angular.forEach(data.config.roles, function(d){
+                                    rol.push(JSON.parse(d));
+                                });
+
+                                data.config.roles = rol;
+                                dataCache.put(id, data);
+                                games[id] = data;
+                                deferred.resolve(data);
+                            }
                         }
                     );
                 }
