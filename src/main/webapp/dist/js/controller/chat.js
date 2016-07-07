@@ -61,7 +61,7 @@ angular.module('DojoIBL')
         });
 
         $scope.getUser = function (message){
-            return UserService.getUserFromCache(message.senderId).name;
+            return UserService.getUserByAccount($stateParams.runId, message.senderId).name;
         };
         $scope.getAvatar = function (message){
             return UserService.getUserFromCache(message.senderId).picture;
