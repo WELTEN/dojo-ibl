@@ -13,7 +13,7 @@
       "inquiries": "Inquiries",
       "profile": "Your profile",
       "timeline": "Timeline",
-      "phases": "Phases view"
+      "phases": "Inquiry"
     },
     "header": {
       "logout": "Logout",
@@ -27,7 +27,16 @@
       "edit-structure": "Edit structure of ",
       "edit-run": "Edit ",
       "edit-inquiry-structure": "You are editing the structure of",
-      "edit-inquiry-run": "You are editing "
+      "edit-inquiry-run": "You are editing ",
+      "home": "Home page",
+      "phases": "Inquiry",
+      "phase": "Phase",
+      "activity": "Activity",
+      "timeline": "Timeline",
+      "editstructure": "Editing inquiry structure",
+      "editinquiryrun": "Editing inquiry run",
+      "newinquiry": "New inquiry",
+      "profile": "Profile"
     },
     "inquiry": {
       "structure": {

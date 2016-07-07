@@ -10,7 +10,10 @@ angular.module('DojoIBL')
             .state('home', {
                 url: '/home',
                 templateUrl: '/dist/templates/home.html',
-                controller: 'HomeController'
+                controller: 'HomeController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.home' | translate}}"
+                }
             })
             .state('inquiry', {
                 url : '/inquiry',
@@ -24,67 +27,78 @@ angular.module('DojoIBL')
             .state('inquiry.home', {
                 url: '/:runId',
                 templateUrl: '/dist/templates/inquiry.html',
-                controller: 'InquiryController'
-                //controller: function ($scope, $stateParams, RunService) {
-                //    // If we got here from a url of /contacts/42
-                //    //expect($stateParams).toBe({contactId: "42"});
-                //    if($stateParams)
-                //        console.log($stateParams.runId);
-                //        RunService.getRunById($stateParams.runId).then(function(data){
-                //            $scope.inqTitle = data.title;
-                //            $scope.inqDescription = data.game.description;
-                //            $scope.inqId = data.runId;
-                //            $scope.phases = data.game.phases;
-                //            console.log(data);
-                //            //AccountService.myDetails().then(
-                //            //    function(data){
-                //            //        $scope.myAccount = data;
-                //            //        loadAccessRules();
-                //            //    }
-                //            //);
-                //
-                //        });
-                //}
+                controller: 'InquiryController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.phases' | translate}}"
+                }
             })
             .state('inquiry.phase', {
                 url: '/:runId/phase/:phase',
                 templateUrl: '/dist/templates/phase.html',
-                controller: 'PhaseController'
+                controller: 'PhaseController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.phase' | translate}}",
+                    parent: 'inquiry.home' // Override the parent state (only for the breadcrumb).
+                }
             })
             .state('inquiry.activity', {
                 url: '/:runId/phase/:phase/activity/:activityId',
                 templateUrl: '/dist/templates/activity.html',
-                controller: 'ActivityController'
+                controller: 'ActivityController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.activity' | translate}}",
+                    parent: 'inquiry.phase' // Override the parent state (only for the breadcrumb).
+
+                }
             })
             .state('inquiry.timeline', {
                 url: '/:runId/timeline',
                 templateUrl: '/dist/templates/timeline.html',
-                controller: 'TimelineController'
+                controller: 'TimelineController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.timeline' | translate}}",
+                    parent: 'inquiry.home' // Override the parent state (only for the breadcrumb).
+                }
             })
             .state('editgame', {
                 url: '/inquiry/:gameId/edit',
                 templateUrl: '/dist/templates/inquiry-edit-game.html',
-                controller: 'InquiryEditGameController'
+                controller: 'InquiryEditGameController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.editstructure' | translate}}"
+                }
             })
             .state('editrun', {
                 url: '/inquiry/:gameId/run/:runId/edit',
                 templateUrl: '/dist/templates/inquiry-edit-run.html',
-                controller: 'InquiryEditRunController'
+                controller: 'InquiryEditRunController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.editrun' | translate}}"
+                }
             })
             .state('news', {
                 url: '/create/inquiry',
                 templateUrl: '/dist/templates/inquiry-new.html',
-                controller: 'InquiryNewGameController'
+                controller: 'InquiryNewGameController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.newinquiry' | translate}}"
+                }
             })
             .state('profiles', {
                 url: '/profiles',
                 templateUrl: '/dist/templates/profiles.html',
-                controller: 'ProfilesController'
+                controller: 'ProfilesController',
+                ncyBreadcrumb: {
+                    label: 'Profiles'
+                }
             })
             .state('profileAccount', {
                 url: '/profile/:accountId',
                 templateUrl: '/dist/templates/profile.html',
-                controller: 'ProfileController'
+                controller: 'ProfileController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.profile' | translate}}"
+                }
             })
             .state('oauth', {
                 url: '/oauth/:accessToken/:type/:exp',

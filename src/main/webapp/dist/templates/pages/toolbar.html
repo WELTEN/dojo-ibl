@@ -1,30 +1,11 @@
 <div class="row wrapper border-bottom white-bg page-heading p-sm">
     <div class="col-md-7">
         <h2>
-            <a ng-show="state.current.name == 'home'"> <span>List of inquiries</span> </a>
-            <a ng-show="state.current.name == 'editgame'"> <span> {{'dibl.toolbar.edit-inquiry-structure' | translate }} <b>{{ game.title }}</b></span> </a>
-            <a ng-show="state.current.name == 'editrun'" href="#inquiry/{{ run.runId }}" > <span>{{'dibl.toolbar.edit-inquiry-run' | translate }} {{ run.title }}</span> </a>
-            <a ng-show="state.current.name != 'editrun' && state.current.name != 'editgame'" href="#inquiry/{{ run.runId }}" > <span>{{ run.title }}</span> </a>
-
-            <span ng-show="state.current.name == 'inquiry.phase' || state.current.name == 'inquiry.activity'"> <i class="fa fa-angle-double-right"></i> <a href="#inquiry/{{ run.runId }}/phase/{{ activity.section }}">{{ namePhase.title }}</a></span>
-            <span ng-show="state.current.name == 'inquiry.activity'"><i  class="fa fa-angle-double-right"></i> {{ activity.name }}</span>
+            <span ncy-breadcrumb-last></span>
         </h2>
-        <ol class="breadcrumb" ng-hide="state.current.name == 'home'">
+        <ol class="breadcrumb">
             <li>
-                <a ng-show="state.current.name == 'editrun'" href="#/home">
-                    <i class="fa fa-angle-left"></i>
-                    <strong>{{'dibl.toolbar.back' | translate }} list of inquiries</strong>
-                </a>
-
-                <a ng-show="state.current.name == 'inquiry.phase'" href="#/inquiry/{{ run.runId }}">
-                    <i class="fa fa-angle-left"></i>
-                    <strong>{{'dibl.toolbar.back' | translate }} list of phases</strong>
-                </a>
-
-                <a ng-show="state.current.name == 'inquiry.activity'" href="#/inquiry/{{ run.runId }}/phase/{{ activity.section }}">
-                    <i class="fa fa-angle-left"></i>
-                    <strong>{{'dibl.toolbar.back' | translate }} to phase</strong>
-                </a>
+                <strong><div ncy-breadcrumb></div></strong>
             </li>
         </ol>
     </div>

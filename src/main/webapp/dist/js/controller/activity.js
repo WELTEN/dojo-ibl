@@ -5,6 +5,8 @@ angular.module('DojoIBL')
 
         $scope.activity = ActivityService.getItemFromCache($stateParams.activityId);
 
+        console.log($scope.activity);
+
         AccountService.myDetails().then(
             function(data){
                 $scope.myAccount = data;

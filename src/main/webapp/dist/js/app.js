@@ -1,5 +1,6 @@
 angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache', 'ngDragDrop', 'localytics.directives',
-    'summernote', 'ngSanitize', 'ui.select', 'infinite-scroll', 'textAngular', 'pascalprecht.translate', 'ngFileUpload'])
+    'summernote', 'ngSanitize', 'ui.select', 'infinite-scroll', 'textAngular', 'pascalprecht.translate', 'ngFileUpload',
+    'ncy-angular-breadcrumb'])
 
     .config(function ($translateProvider) {
 
@@ -12,7 +13,12 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
 
         $translateProvider.preferredLanguage('en');
     })
-
+    .config(function($breadcrumbProvider) {
+        $breadcrumbProvider.setOptions({
+            prefixStateName: 'home',
+            template: 'bootstrap2'
+        });
+    })
     .run(function ($http) {
         //$http.defaults.headers.common['Authorization'] = 'GoogleLogin auth=5f108bd43fbb44457b2a8862ac2df65';
         $http.defaults.headers.common['Authorization'] = 'GoogleLogin auth='+localStorage.getItem('accessToken');

@@ -3686,12 +3686,7 @@ img.circle-border {
   padding: 0;
   margin-bottom: 0;
 }
-.breadcrumb > li a {
-  color: inherit;
-}
-.breadcrumb > .active {
-  color: inherit;
-}
+
 code {
   background-color: #F9F2F4;
   border-radius: 4px;
@@ -8269,6 +8264,9 @@ body.md-skin {
 }
 
 
+.divider{
+  display: none;
+}
 
 div.phases-breadcrumb  {
   display: block;
