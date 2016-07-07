@@ -68,6 +68,11 @@ angular.module('DojoIBL')
 
         };
 
+        $scope.config = {
+            itemsPerPage: 5,
+            fillLastPage: true
+        }
+
         $scope.isLoggedIn = function () {
             if (Session.getAccessToken() ) return true;
             return false;
