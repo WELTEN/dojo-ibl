@@ -86,7 +86,7 @@ angular.module('DojoIBL')
                             }
 
                             if(data.resumptionToken){
-                                service.getResponses(runId, from, data.resumptionToken);
+                                service.getResponses(runId, itemId, from, data.resumptionToken);
                             }
                         }
                     });
@@ -106,7 +106,7 @@ angular.module('DojoIBL')
                             }
 
                             if(data.resumptionToken){
-                                service.getResponses(runId, from, data.resumptionToken);
+                                service.getResponses(runId, itemId, from, data.resumptionToken);
                             }
                         }
                     });
@@ -118,48 +118,6 @@ angular.module('DojoIBL')
                 console.log(runId, account, key)
                 return Response.uploadUrl({ runId:runId, account:account, key:key });
             }
-
-            //getResponses: function (runId, itemId) {
-            //    var deferred = $q.defer();
-            //    var dataCache = CacheFactory.get('responsesCache');
-            //
-            //    console.log(resumptionToken, serverTime);
-            //
-            //    Response.getResponsesInquiryActivity({ runId:runId, itemId:itemId, resumptionToken: resumptionToken, from:serverTime }).$promise.then(function (data) {
-            //        if (data.error) {
-            //            deferred.resolve(data);
-            //        } else {
-            //
-            //            console.log(data.responses.length);
-            //
-            //            responses[runId+"_"+itemId] = responses[runId+"_"+itemId] || {};
-            //            for (i = 0; i < data.responses.length; i++) {
-            //                if (!data.responses[i].deleted) {
-            //
-            //                    //console.log(data.responses[i]);
-            //
-            //                    dataCache.put(data.responses[i].responseId, data.responses[i]);
-            //                    responses[runId+"_"+itemId][data.responses[i].responseId] = data.responses[i];
-            //                }
-            //            }
-            //
-            //            resumptionToken = data.resumptionToken;
-            //            serverTimeFirstInvocation = serverTimeFirstInvocation || data.serverTime;
-            //            if (!data.resumptionToken){
-            //                serverTime = serverTimeFirstInvocation;
-            //                serverTimeFirstInvocation = undefined;
-            //            }
-            //
-            //            deferred.resolve(data);
-            //        }
-            //    });
-            //
-            //    return deferred.promise;
-            //},
-            //getResponsesFromCache: function(itemId){
-            //    var dataCache = CacheFactory.get('responsesCache');
-            //    return dataCache.get("responses"+itemId);
-            //}
         }
     }
 );
