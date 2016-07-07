@@ -1,6 +1,8 @@
 package org.celstec.arlearn2.api;
 
 //import com.google.gdata.util.AuthenticationException;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import org.celstec.arlearn2.beans.AuthResponse;
 import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.delegators.AccountDelegator;
@@ -164,6 +166,23 @@ public class AccountApi extends Service {
 						 @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
 		AccountDelegator ad = new AccountDelegator(token);
 		return serialise(ad.search(searchQuery), accept);
+	}
+
+	@GET
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Path("/url/account/{account}/{key}")
+	public String getUploadUrl(@HeaderParam("Authorization") String token,
+							   @PathParam("account") String account,
+							   @PathParam("key") String key,
+							   @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+							   @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+		if (!validCredentials(token))
+			return serialise(getInvalidCredentialsBean(), accept);
+		BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+		String url = blobstoreService.createUploadUrl("/uploadUserContent/"+key+"?account=" + account);
+
+//		String url = blobstoreService.createUploadUrl("/uploadGameContent/generalItems/"+itemId+"/"+key + "?runId=" + runId);
+		return "{ \"uploadUrl\": \""+url+"\"}";
 	}
 	
 }

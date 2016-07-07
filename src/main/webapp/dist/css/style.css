@@ -4772,6 +4772,11 @@ a.compose-mail {
   width: 96px;
   height: 96px;
 }
+
+.profile-image .pointer {
+  cursor: pointer;
+}
+
 .profile-info {
   margin-left: 120px;
 }

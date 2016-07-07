@@ -11,6 +11,9 @@ angular.module('DojoIBL')
                 method: 'GET',
                 isArray: false,
                 url: config.server+'/rest/account/accountDetails/:fullId'
+            },
+            'uploadUrl': {
+                url: config.server + '/rest/account/url/account/:account/:key'
             }
         });
     })

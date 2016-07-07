@@ -25,6 +25,10 @@ angular.module('DojoIBL')
                     );
                 }
                 return deferred.promise;
+            },
+            uploadUrl: function(account, key) {
+                console.log(account, key)
+                return Account.uploadUrl({ account:account, key:key });
             }
         }
 
