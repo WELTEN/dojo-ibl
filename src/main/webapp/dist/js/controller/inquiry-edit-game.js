@@ -215,9 +215,13 @@ angular.module('DojoIBL')
                 // Update run with data from the server
                 $scope.run = run;
 
+                console.log(run);
+
                 if(angular.isUndefined($scope.gameRuns)){
                     $scope.gameRuns = []
                 }
+
+
 
                 //$scope.gameRuns.push(run);
                 AccountService.myDetails().then(function(data){
@@ -229,7 +233,10 @@ angular.module('DojoIBL')
                         email: data.accountType+":"+data.localId,
                         accountType: data.accountType,
                         localId: data.localId,
-                        gameId: $stateParams.gameId });
+                        gameId: $stateParams.gameId
+                    });
+
+                    $scope.gameRuns[$scope.run.runId] = $scope.run;
 
                     // Reset the run variable to create new ones
                     $scope.run = null;
