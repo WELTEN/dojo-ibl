@@ -42,7 +42,7 @@ var AppRouter = Backbone.Router.extend({
         this.initialGame();
         this.initializeChannelAPI();
         this.changeTitle("List of inquiries");
-        this.removeEditButton();
+        this.removenewButton();
         this.showJoinCreateButton();
         this.breadcrumbManagerSmallHide();
         this.removeToolBar();
@@ -168,7 +168,7 @@ var AppRouter = Backbone.Router.extend({
 
                 //app.secureAccess(results.gameId);
 
-                app.createEditButton(results.gameId);
+                app.createnewButton(results.gameId);
                 app.createCookie("dojoibl.game", results.gameId);
 
                 app.breadcrumbManagerSmall("#","list of inquiries");
@@ -214,7 +214,7 @@ var AppRouter = Backbone.Router.extend({
         }
 
         this.createCookie("dojoibl.game", _gameId);
-        this.createEditButton(_gameId);
+        this.createnewButton(_gameId);
         this.removeJoinCreateButton();
 
         //this.loadInquiryUsers(_runId);
@@ -297,7 +297,7 @@ var AppRouter = Backbone.Router.extend({
         }
 
         this.createCookie("dojoibl.activity", activity);
-        this.createEditButton(_gameId);
+        this.createnewButton(_gameId);
         this.removeJoinCreateButton();
 
         this.loadInquiryUsers(_runId);
@@ -583,7 +583,7 @@ var AppRouter = Backbone.Router.extend({
     },
     createInquiry: function(){
         this.isAuthenticated();
-        this.removeEditButton();
+        this.removenewButton();
 
         this.showJoinCreateButton();
 
@@ -744,11 +744,11 @@ var AppRouter = Backbone.Router.extend({
         });
         this.removePhase();
     },
-    editInquiry: function(id){
+    newInquiry: function(id){
         this.isAuthenticated();
         app.showView(".row.inquiry", new InquiryNewView());
 
-        app.removeEditButton();
+        app.removenewButton();
         app.showJoinCreateButton();
         app.breadcrumbManager(0, "");
         app.breadcrumbManagerSmall("#","list of inquiries");
@@ -821,9 +821,9 @@ var AppRouter = Backbone.Router.extend({
             });
         }
 
-        var activity_edit = new ActivityEdit({});
-        activity_edit.gameId = _gameId;
-        activity_edit.fetch({
+        var activity_new = new Activitynew({});
+        activity_new.gameId = _gameId;
+        activity_new.fetch({
             beforeSend: setHeader,
             success: function (response, results) {
                 //console.log(results);
@@ -1535,13 +1535,13 @@ var AppRouter = Backbone.Router.extend({
             });
         }
     },
-    createEditButton: function(gameId){
+    createnewButton: function(gameId){
         //console.log($.cookie("dojoibl.localId"));
         //console.log(app.GameAccessList);
         $(".edit-inquiry").attr("href","#inquiry/edit/"+gameId);
         $(".edit-inquiry").show();
     },
-    removeEditButton: function(){
+    removenewButton: function(){
 
         $(".edit-inquiry").hide();
         $(".edit-inquiry").attr("href","");

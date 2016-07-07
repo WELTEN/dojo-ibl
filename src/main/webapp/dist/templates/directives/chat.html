@@ -1,0 +1,10 @@
+<div>
+    <img class="message-avatar" src="dist/img/avatar.png" ng-src="{{ avatar }}" alt="">
+    <div class="message">
+        <a class="message-author" href="#"> {{ userName }} </a>
+        <span class="message-date"> {{ message.date | date:'medium' }}</span>
+        <span class="message-content">
+        {{ message.body }}
+        </span>
+    </div>
+</div>

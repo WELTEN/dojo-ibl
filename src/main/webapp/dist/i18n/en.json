@@ -1,0 +1,81 @@
+{
+  "dibl": {
+    "login": {
+      "signmessage": "Sign in to start your session",
+      "signinfacebook": "Sign in with Facebook",
+      "signingoogle": "Sign in with Google",
+      "signinlinkedin": "Sign in with LinkedIn",
+      "signintwitter": "Sign in with Twitter",
+      "signinwespot": "Sign in with weSPOT",
+      "signineco": "Sign in with ECO"
+    },
+    "sidebar": {
+      "inquiries": "Inquiries",
+      "profile": "Your profile",
+      "timeline": "Timeline",
+      "phases": "Phases view"
+    },
+    "header": {
+      "logout": "Logout",
+      "feedback": "Feedback",
+      "version": "Alpha version"
+    },
+    "toolbar": {
+      "back": "Back to the",
+      "new": "Create inquiry",
+      "join": "Join inquiry",
+      "edit-structure": "Edit structure of ",
+      "edit-run": "Edit ",
+      "edit-inquiry-structure": "You are editing the structure of",
+      "edit-inquiry-run": "You are editing "
+    },
+    "inquiry": {
+      "structure": {
+        "chat": "Chat",
+        "send": "Send"
+      },
+      "home": {
+
+      },
+      "phase": {
+
+      },
+      "activity": {
+        "post-comment": "Post comment",
+        "placeholder-comment": "Write your comment...",
+        "reply-comment": "Reply"
+      },
+      "new-edit": {
+        "inquiry-metadata": "1. Inquiry metadata",
+        "inquiry-title": "Inquiry title",
+        "inquiry-title-placeholder": "Enter an inquiry title",
+        "inquiry-description": "Inquiry description",
+        "inquiry-save": "Save",
+        "inquiry-roles": "2. Roles",
+        "roles-title": "Roles",
+        "p-available-roles": "List of available roles in",
+        "no-roles": "No roles yet",
+        "add-role": "Add role",
+        "remove-role": "Remove",
+        "inquiry-phases-activities": "3. Phases & activities",
+        "configuration-dashboard": "Configuration dashboard for activities and phases.",
+        "phases": "Phases",
+        "add-phase": "Add phase",
+        "activities": "Activities",
+        "click-first": "Click first on",
+        "adding-phases": "to start adding phases to the inquiry.",
+        "adding-activities": "Now click on the green buttons to start adding activities to the phase.",
+        "editing-activities": "Now click on one of the blue activities to edit it here.",
+        "title-activity": "Title:",
+        "type-activity": "Type:",
+        "video-activity": "Video link:",
+        "google-activity": "Google resource link:",
+        "description-activity": "Description:",
+        "roles-activity": "Roles:",
+        "save-activity": "Save",
+        "delete-activity": "Delete",
+        "run-inquiries": "4. Inquiry runs"
+      }
+    }
+  }
+}

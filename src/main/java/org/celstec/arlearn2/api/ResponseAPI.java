@@ -18,6 +18,8 @@
  ******************************************************************************/
 package org.celstec.arlearn2.api;
 
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import org.celstec.arlearn2.beans.run.Response;
 import org.celstec.arlearn2.beans.run.ResponseList;
 import org.celstec.arlearn2.cache.CSVCache;
@@ -217,4 +219,22 @@ public class ResponseAPI extends Service {
                 "\"id\":'"+csvId+"'," +
                 "\"info\":'BUILDING (1) FINISHED (2)\"}";
     }
+
+	@GET
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Path("/url/runId/{runIdentifier}/account/{account}/{key}")
+	public String getUploadUrl(@HeaderParam("Authorization") String token,
+									  @PathParam("runIdentifier") Long runId,
+									  @PathParam("account") String account,
+									  @PathParam("key") String key,
+									  @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+									  @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+		if (!validCredentials(token))
+			return serialise(getInvalidCredentialsBean(), accept);
+		BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+		String url = blobstoreService.createUploadUrl("/uploadServiceWithUrl/generalItems?withBlob=true&runId=" + runId + "&account=" + account + "&fileName="+key);
+
+//		String url = blobstoreService.createUploadUrl("/uploadGameContent/generalItems/"+itemId+"/"+key + "?runId=" + runId);
+		return "{ \"uploadUrl\": \""+url+"\"}";
+	}
 }

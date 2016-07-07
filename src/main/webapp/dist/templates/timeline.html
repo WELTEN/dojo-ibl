@@ -1,0 +1,32 @@
+<div class="ibox-content special-height">
+    <div class="heading">
+        <small class="chat-date pull-right">
+
+        </small>
+        Timeline
+    </div>
+    <div id="vertical-timeline" class="vertical-container dark-timeline center-orientation"
+         infinite-scroll='loadMoreGames()'
+         infinite-scroll-distance='1'
+         infinite-scroll-immediate-check="true" infinite-scroll-disabled="disableGameLoading">
+
+        <div class="feed-element" ng-repeat="response in games.games">
+            <div class="vertical-timeline-block ">
+
+                <div class="vertical-timeline-icon navy-bg">
+                    <i class="fa fa-briefcase"></i>
+                </div>
+
+                <item response="response"></item>
+            </div>
+        </div>
+
+        <div class="spiner-example" ng-show="games.resumptionToken">
+            <div class="sk-spinner sk-spinner-three-bounce" ng-show="disableGameLoading">
+                <div class="sk-bounce1"></div>
+                <div class="sk-bounce2"></div>
+                <div class="sk-bounce3"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -160,6 +160,12 @@ public class MessageManager {
 
     }
 
+    public static Message getMessage(Long identifier) {
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+        MessageJDO messageJDO = pm.getObjectById(MessageJDO.class, KeyFactory.createKey(MessageJDO.class.getSimpleName(), identifier));
+        return toBean(messageJDO);
+    }
+
     public static MessageList getRecentMessagesByThreadId(Long threadId, int amount) {
         MessageList returnList = new MessageList();
         PersistenceManager pm = PMF.get().getPersistenceManager();

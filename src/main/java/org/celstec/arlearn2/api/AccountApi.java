@@ -154,5 +154,16 @@ public class AccountApi extends Service {
         AccountDelegator ad = new AccountDelegator(this);
         return serialise(ad.createAccount((Account) inContact, token), accept);
     }
+
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Path("/search")
+	public String search(@HeaderParam("Authorization") String token,
+						 String searchQuery,
+						 @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+						 @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+		AccountDelegator ad = new AccountDelegator(token);
+		return serialise(ad.search(searchQuery), accept);
+	}
 	
 }

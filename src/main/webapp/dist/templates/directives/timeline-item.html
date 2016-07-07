@@ -1,0 +1,36 @@
+<div class="vertical-timeline-content" ng-class="{ 'put-item-timeline-right': response.move_right }" >
+    <p ng-if="extension == 'text'">
+        <strong>{{ response.user.givenName }}</strong> commented on <strong>
+        <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}?scrollTo={{ response.responseId }}"> {{ response.activity.name }} </a></strong> activity <br>
+    </p>
+    <p ng-if="extension == 'text'">{{ response.responseValue }}</p>
+
+    <p ng-if="extension == 'image'">
+        <strong>{{ response.user.givenName }}</strong> uploaded a picture on <strong>
+        <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}?scrollTo={{ response.responseId }}"> {{ response.activity.name }} </a></strong> activity <br>
+    </p>
+    <img ng-if="extension == 'image'" ng-src="{{ resource }}?thumbnail=200">
+
+    <p ng-if="extension == 'video'">
+        <strong>{{ response.user.givenName }}</strong> uploaded a video on <strong>
+        <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}?scrollTo={{ response.responseId }}"> {{ response.activity.name }} </a></strong> activity <br>
+    </p>
+    <video ng-if="extension == 'video'" width="320" height="240" controls>
+        <source src="{{ resource }}" type="{{ type }}">
+        Your browser does not support the video tag.
+    </video>
+
+    <p ng-if="extension == 'audio'">
+        <strong>{{ response.user.givenName }}</strong> uploaded an audio on <strong>
+        <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}?scrollTo={{ response.responseId }}"> {{ response.activity.name }} </a></strong> activity <br>
+    </p>
+    <audio ng-if="extension == 'audio'" controls>
+        <source src="{{ resource }}" type="{{ type }}">
+        Your browser does not support the audio element.
+    </audio>
+
+    <span class="vertical-date" ng-class="{ 'date-timeline-extra' : response.move_right }">
+        <!--about a month ago <br>-->
+        <small>{{ response.lastModificationDate | date:'medium' }}</small>
+    </span>
+</div>

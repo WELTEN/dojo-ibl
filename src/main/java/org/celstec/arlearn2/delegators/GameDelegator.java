@@ -270,10 +270,11 @@ public class GameDelegator extends GoogleDelegator {
         Game oldGame = null;
         if (game.getGameId() != null) {
             oldGame = getGame(game.getGameId());
+//            if(oldGame.getConfig() != null)
+//                game.setConfig(oldGame.getConfig());
         }
 
-        if(oldGame.getConfig() != null)
-            game.setConfig(oldGame.getConfig());
+
 
         game.setGameId(GameManager.addGame(game));
         MyGamesCache.getInstance().removeGame(game.getGameId());

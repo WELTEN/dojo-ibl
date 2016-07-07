@@ -1,0 +1,61 @@
+<div id="wrapper" ng-show="isLoggedIn()">
+    <dibl-sidebar></dibl-sidebar>
+
+    <div id="page-wrapper" class="gray-bg">
+
+        <dibl-header></dibl-header>
+
+        <dibl-toolbar></dibl-toolbar>
+        <div class="row inquiry">
+            <div class="col-lg-3 game animated fadeIn" ng-repeat="game in games | filter:{ deleted: 'false' } track by $index">
+                <div class="ibox-content game text-center">
+                    <h1><a class="show-runs" ng-click="showRuns(game.gameId); showRunsValue = !showRunsValue;">{{ game.title | limitTo: 20 }} {{
+                        game.title.length > 20 ? '...' : ''}}</a></h1>
+
+                    <div ng-show="showRunsValue" class="front">
+                        <div class="m-b-sm">
+                            <!--<object class="img-circle" data="http://icons.iconarchive.com/icons/blackvariant/button-ui-system-apps/1024/LaunchPad-Rocket-icon.png" type="image/png">-->
+                            <!--<img src="/game/4913623780556800/gameThumbnail" class="img-circle circle-border m-b-md" alt="inquiry icon">-->
+                            <!--</object>-->
+                            <i class="fa fa-mortar-board icon-game"></i>
+                        </div>
+                        <div ng-bind-html="game.description | limitTo: 150 "></div>
+
+                        <p>{{ game.lastModificationDate | date:'medium' }} </p>
+
+                        <div class="text-center">
+                            <a href="#inquiry/{{ game.gameId }}/edit" ng-show="game.accessRights == 1" class="btn btn-xs btn-warning"><i class="fa fa-pencil-square"></i> Edit </a>
+                            <a ng-click="deleteInquiry(game.gameId)" ng-show="game.accessRights == 1" class="btn btn-xs btn-danger delete-inquiry"><i class="fa fa-trash"></i> Delete </a>
+                        </div>
+                    </div>
+                    <div ng-hide="showRunsValue">
+                        <table class="widget-text-box table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Code</th>
+                                <th>Access</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="run in runs">
+                                <td><span class="client-link">{{ run.title | limitTo: 20 }} {{ run.title.length > 20 ? '...' : ''}}</span>
+                                </td>
+                                <td>{{ run.code }}</td>
+                                <td class="client-status">
+                                <span class="label label-primary">
+                                <a href="#inquiry/{{ run.runId }}" class="client-link">Access</a>
+                                </span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <dibl-footer></dibl-footer>
+
+    </div>
+</div>

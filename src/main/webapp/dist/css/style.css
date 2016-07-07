@@ -558,11 +558,26 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   .menu-visible-lg {
     display: block !important;
   }
+  #inquiry-content {
+    width: 66% !important;
+  }
+  #small-chat {
+    display: none;
+  }
+
+  .small-chat-box{
+    display: none !important;
+  }
 }
 @media (max-width: 1200px) {
   .col-md-9 {
     width: 100%;
   }
+
+  .small-chat-float{
+    display: none;
+  }
+
 }
 @media (max-width: 1300px) {
   .inquiry-tabs span{
@@ -1327,9 +1342,15 @@ button.dim:active:before {
   cursor: pointer;
   margin: 5px;
   width: 97%;
-  max-width: 37em;
   float: left;
+  z-index: 9999;
 }
+
+.dropped{
+  width: 100%;
+  margin: 1em 0 0 0;
+}
+
 #remove-drag{
   clear: both;  
 }
@@ -3303,6 +3324,8 @@ a {
 a:hover,
 a:focus {
   text-decoration: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
 .border-bottom {
   border-bottom: 1px solid #e7eaec !important;
@@ -3399,7 +3422,7 @@ video {
   padding: 0 20px;
 }
 .wrapper-content {
-  padding: 10px 10px 40px;
+  padding: 10px 10px 20px;
 }
 #page-wrapper {
   padding: 0 15px;
@@ -3415,7 +3438,7 @@ video {
 }
 .title-action {
   text-align: right;
-  padding: 30px;
+  /*padding: 30px;*/
 }
 .ibox-content h1,
 .ibox-content h2,
@@ -3765,6 +3788,7 @@ table.table-mail tr td {
 }
 .ibox-content {
   clear: both;
+  overflow: hidden;
 }
 .ibox-heading {
   background-color: #f3f6fb;
@@ -3788,7 +3812,7 @@ table.table-mail tr td {
 }
 .ibox-tools {
   display: block;
-  float: none;
+  float: right;
   margin-top: 0;
   position: relative;
   padding: 0;
@@ -4022,7 +4046,7 @@ a.close-canvas-menu:hover {
 }
 .spiner-example {
   height: 200px;
-  padding-top: 15em;
+  padding-top: 7em;
 }
 /* MARGINS & PADDINGS */
 .p-xxs {
@@ -4468,7 +4492,7 @@ body.mini-navbar.fixed-sidebar .logo-element {
   border-left: 0;
   padding: 10px 0;
 }
-ul.clear-list:first-child {
+ul.clear-list:first-child, .list-group-item:first-child {
   border-top: none !important;
 }
 /* Intimeline */
@@ -4604,7 +4628,7 @@ ul.notes li div {
 /* FILE MANAGER */
 .file-box {
   float: left;
-  width: 220px;
+  /*width: 220px;*/
 }
 .file-manager h5 {
   text-transform: uppercase;
@@ -4688,6 +4712,10 @@ ul.notes li div {
   overflow: hidden;
 }
 .file .icon {
+  /*padding: 15px 10px;*/
+  text-align: center;
+}
+.file .icon i{
   padding: 15px 10px;
   text-align: center;
 }
@@ -4836,6 +4864,7 @@ a.compose-mail {
 .mail-body {
   border-top: 1px solid #e7eaec;
   padding: 20px;
+  clear: both;
 }
 .mail-text {
   border-top: 1px solid #e7eaec;
@@ -4977,7 +5006,7 @@ dd.project-people {
   width: 48px;
   border: 1px solid #e7eaec;
   border-radius: 4px;
-  margin-top: 1px;
+  /*margin-top: 1px;*/
 }
 .chat-discussion .chat-message.left .message-avatar {
   float: left;
@@ -4986,15 +5015,24 @@ dd.project-people {
 .chat-discussion .chat-message.right .message-avatar, .small-chat-float {
   float: right;
   /*margin-left: 10px;*/
+  padding-left: 0px !important;
+}
+.left .message{
+  background-color: rgba(12, 10, 8, 0.3);
+  border-radius: 1px 20px 20px 20px;
+}
+.right .message{
+  border-radius: 20px 1px 20px 20px;
 }
 .message {
-  background-color: #fff;
-  border: 1px solid #e7eaec;
+  background-color: #1ab394;
+  /* border: 1px solid #e7eaec; */
   text-align: left;
   display: block;
   padding: 10px 10px;
   position: relative;
-  border-radius: 4px;
+  border-radius: 10px 1px 10px 10px;
+  color: white;
 }
 .chat-discussion .chat-message.left .message-date {
   float: right;
@@ -5012,22 +5050,36 @@ dd.project-people {
 }
 .message-date {
   font-size: 10px;
-  color: #888888;
+  color: #000;
+}
+.message-author {
+  font-size: 10px;
+  font-weight: 900;
+  color: #000;
+
+}
+
+.right .message-author{
+  margin-left: 1em;
+}
+.left .message-author{
+  margin-right: 1em;
 }
 .message-content {
+  padding: 8px 0px;
   display: block;
 }
 .chat-discussion {
-  background: #eee;
-  padding: 15px;
-  height: 400px;
+  /*background: #eee;*/
+  /*padding: 15px;*/
+  /*height: 400px;*/
   overflow-y: auto;
   bottom: 20px;
   right: 75px;
   background: #fff;
   border: 1px solid #e7eaec;
   /* width: 230px; */
-  height: 400px;
+  /*height: 400px;*/
   border-radius: 0px 0px 5px 5px;
 }
 .chat-users {
@@ -5440,7 +5492,7 @@ body.body-small .vote-icon {
   right: 75px;
   background: #fff;
   border: 1px solid #e7eaec;
-  width: 230px;
+  width: 300px;
   height: 320px;
   border-radius: 4px;
 }
@@ -5482,9 +5534,6 @@ body.body-small .vote-icon {
   border-radius: 6px;
   font-size: 11px;
   line-height: 14px;
-  max-width: 80%;
-  background: #f3f3f4;
-  margin-bottom: 10px;
 }
 .small-chat-box .content .chat-message.active, .chat-discussion .chat-message.active {
   background: #1ab394;
@@ -5500,6 +5549,7 @@ body.body-small .vote-icon {
 .small-chat-box .content .right, .chat-discussion .right{
   text-align: right;
   clear: both;
+  /*width: 100%;*/
 }
 .small-chat-box .content .right .chat-message, .chat-discussion .right .chat-message  {
   float: right;
@@ -7057,6 +7107,9 @@ body.landing-page {
   .landing-page .featurette-heading {
     margin-top: 120px;
   }
+  #inquiry-content {
+    width: 100%;
+  }
 }
 @media (max-width: 768px) {
   .landing-page .navbar .navbar-header {
@@ -8082,8 +8135,6 @@ body.md-skin {
 
   .list_activities{
     margin: 1em auto !important;
-    width: 80% !important;
-    background: bisque;
     padding: 20px;
     border-radius: 14px;
     overflow: hidden;
@@ -8093,7 +8144,7 @@ body.md-skin {
     display: block !important;
     /*width: 80% !important;*/
     position: relative !important;
-    background-color: black !important;
+    background-color: #286090;
     border-radius: 64px !important;
     color: white !important;
     text-align: center !important;
@@ -8258,8 +8309,9 @@ div.phases-breadcrumb  {
 }
 
 #inquiry-content {
-  margin-bottom: 3em;
-  padding-right: 0px;
+  /*padding-bottom: 3em;*/
+  /*padding-right: 0px;*/
+  overflow: hidden;
 }
 
 .special-height{
@@ -8269,31 +8321,31 @@ div.phases-breadcrumb  {
 }
 
 #circlemenu {
-  position: absolute;
+  /*position: absolute;*/
   /* opacity: .8; */
   /* float: left; */
-  top: 15em;
-  margin: 0em;
-  left: 45%;
+  /*top: 15em;*/
+  /*margin: 0em;*/
+  /*left: 45%;*/
+  position: relative;
+  overflow: hidden;
 }
 
 #circlemenu li, .list_activities li {
-  display: block;
-  width: 120px;
-  height: 120px;
-  position: absolute;
+  width: 90px;
+  height: 90px;
+  /* position: absolute; */
   background-color: black;
   border-radius: 64px;
   color: white;
   text-align: center;
-  padding: 11px;
+  padding: 34px 0px;
   cursor: pointer;
+  vertical-align: sub;
 }
 
 .list_activities{
   margin: 0px auto 2em;
-  width: 36em;
-  background: bisque;
   padding: 20px;
   border-radius: 14px;
   overflow: hidden;
@@ -8302,16 +8354,18 @@ div.phases-breadcrumb  {
 .list_activities li{
   position: relative;
   background-color: #286090;
-  margin: 10px;
   float: left;
   cursor: auto;
+  width: 10em;
+  list-style: none;
+  padding: 1em;
+  margin: 5px 10px;
 }
 
 .list_activities li a{
   color: #ffffff;
   text-decoration: underline;
-  /* Remove when we include the percentages again*/
-  margin: 2em auto;
+  padding: 1em;
   display: block;
 }
 
@@ -8773,7 +8827,7 @@ textarea.form-control{
 
 .fixed-chat{
   position: fixed;
-  margin: 0em 1.2em -1em 0em;
+  margin: 0em 1.8em -1em 0em;
   top: 1em;
 }
 
@@ -8870,4 +8924,44 @@ textarea.form-control{
 
 .show-sidebar{
   display: block !important;
+}
+
+.padding{
+  padding: 15px;
+  overflow: hidden;
+}
+
+.padding{
+  padding: 15px;
+  overflow: hidden;
+}
+
+.fist-item {
+  border-top: none !important;
+}
+
+text-angular > p{
+  height: 5em;
+}
+
+.checkbox-inline{
+  margin-right: 1em !important;
+  margin-left: 0 !important;
+}
+
+.ta-editor {
+  height: auto;
+  overflow: auto;
+  font-family: inherit;
+  font-size: 100%;
+  margin:20px 0;
+}
+
+.ta-editor > *{
+  outline: none;
+}
+
+.load-more-messages{
+  width: 50%;
+  margin: 1em auto;
 }

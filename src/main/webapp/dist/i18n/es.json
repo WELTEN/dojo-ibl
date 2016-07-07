@@ -1,0 +1,47 @@
+{
+  "dibl": {
+    "login": {
+      "signmessage": "Sign in to start your session",
+      "signinfacebook": "Sign in with Facebook",
+      "signingoogle": "Sign in with Google",
+      "signinlinkedin": "Sign in with LinkedIn",
+      "signintwitter": "Sign in with Twitter",
+      "signinwespot": "Sign in with weSPOT",
+      "signineco": "Sign in with ECO"
+    },
+    "sidebar": {
+      "inquiries": "Investigaciones",
+      "profile": "Tu perfil",
+      "timeline": "Linea de tiempo",
+      "phases": "Fases"
+    },
+    "header": {
+      "logout": "Salir",
+      "feedback": "Comentarios",
+      "version": "Versión alpha"
+    },
+    "toolbar": {
+      "back": "Volver a",
+      "new": "Nueva investigación",
+      "join": "Buscar y usar",
+      "edit": "Editar investigación"
+    },
+    "inquiry": {
+      "structure": {
+        "chat": "Mensajes",
+        "send": "Enviar"
+      },
+      "home": {
+
+      },
+      "phase": {
+
+      },
+      "activity": {
+        "post-comment": "Enviar comentario",
+        "placeholder-comment": "Escribe tu comentario...",
+        "reply-comment": "Responder"
+      }
+    }
+  }
+}

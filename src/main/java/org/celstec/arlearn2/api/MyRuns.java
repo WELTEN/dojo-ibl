@@ -104,6 +104,20 @@ public class MyRuns extends Service {
 //		}
 //		return serialise(rd.getParticipateRuns(from, until), accept);
 	}
+//
+//	@GET
+//	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+//	@Path("/gameId/{gameId}")
+//	public String getRunsWithGameId(
+//			@HeaderParam("Authorization") String token,
+//			@DefaultValue("application/json") @HeaderParam("Accept") String accept,
+//			@PathParam("gameId") Long gameId
+//	)  {
+//		if (!validCredentials(token))
+//			return serialise(getInvalidCredentialsBean(), accept);
+//		RunDelegator rd = new RunDelegator(this);
+//			return serialise(rd.getParticipateRuns(gameId), accept);
+//	}
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })

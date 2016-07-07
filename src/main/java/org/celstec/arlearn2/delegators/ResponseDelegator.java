@@ -63,7 +63,7 @@ public class ResponseDelegator extends GoogleDelegator {
 
     public ResponseList getResponses(Long runId, Long itemId, String account) {
         ResponseList rl = new ResponseList();
-        rl.setResponses(ResponseManager.getResponse(runId, itemId, account, null, null));
+        rl.setResponses(ResponseManager.getResponse(runId, itemId, account, null, false));
         return rl;
     }
 

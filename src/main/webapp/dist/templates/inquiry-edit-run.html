@@ -1,0 +1,149 @@
+<dibl-sidebar></dibl-sidebar>
+
+<div id="page-wrapper" class="gray-bg">
+
+    <dibl-header></dibl-header>
+
+    <dibl-toolbar></dibl-toolbar>
+
+    <div class="row inquiry">
+
+        <div class="col-lg-3">
+            <div class="wrapper wrapper-content project-manager">
+                <h4><b>{{'dibl.inquiry.new-edit.inquiry-title' |
+                    translate}}</b>: {{ run.title }}</h4>
+                <br/>
+                <img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">
+                <br/>
+                <b>{{ 'dibl.inquiry.new-edit.inquiry-description' | translate }}</b> <div ng-bind-html="run.game.description | unsafe"></div>
+
+            </div>
+        </div>
+        <div class="col-md-9" id="inquiry-content">
+            <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
+                <div class="ibox-content">
+                    <div class="heading ng-binding">
+                        {{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}
+                    </div>
+                    <div class="padding">
+                        <div class="ibox-content profile-content">
+                            <form role="form">
+                                <div class="box-body">
+                                    <form novalidate>
+                                        <div class="form-group">
+                                            <label for="gameTitle">{{'dibl.inquiry.new-edit.inquiry-title' |
+                                                translate}}</label>
+                                            <input required type="name" class="form-control" id="gameTitle"
+                                                   placeholder="{{'dibl.inquiry.new-edit.inquiry-title-placeholder' | translate}}"
+                                                   ng-model="run.title">
+                                        </div>
+                                    </form>
+
+                                    <label>{{ 'dibl.inquiry.new-edit.inquiry-description' | translate }}</label>
+                                    <!--<div summernote></div>-->
+
+                                    <text-angular ta-toolbar="[
+                                        ['bold','italics'],
+                                        ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
+                                        ['insertImage', 'insertLink','insertVideo']]
+                                        " ng-model="run.game.description"></text-angular>
+
+                                    <!--<text-angular ta-toolbar="[['h1','h2','h3', 'B'], ['html']]"-->
+                                    <!--id="gameDescription"-->
+                                    <!--name="description"-->
+                                    <!--class="hola"-->
+                                    <!--ng-model="run.game.description"></text-angular>-->
+                                </div>
+
+
+                            </form>
+
+                            <div class="pull-right tooltip-demo">
+                                <a href="mailbox.html" class="btn btn-white btn-sm" data-toggle="tooltip"
+                                   data-placement="top" title="Move to draft folder"><i class="fa fa-times"></i>
+                                    Discard</a>
+
+                                <a class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                   data-placement="top" ng-click="ok()" title="Save inquiry"><i class="fa fa-check"></i>
+                                    {{ 'dibl.inquiry.new-edit.inquiry-save' | translate }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
+            <div class="ibox-content">
+                <div class="heading ng-binding">
+                    2. Inquiry run's participants
+                </div>
+                <div class="padding">
+                    <div class="ibox-content profile-content">
+
+                        <div class="row">
+                            <div class="project-list col-md-12">
+                                <h3>Create a new inquiry run</h3>
+
+                                <!--<ui-select class="form-control" multiple tagging="newPlayerTransform" ng-model="selection.friends"-->
+                                           <!--theme="bootstrap" ng-disabled="disabled"  title="Choose a friend">-->
+                                    <!--<ui-select-match placeholder="Select friend...">{{$item.name}} &lt;{{$item.email}}&gt;</ui-select-match>-->
+                                    <!--<ui-select-choices repeat="friend in friends | propsFilter: {name: $select.search}">-->
+                                        <!--<div ng-if="friend.isTag" ng-bind-html="friend.name +' <small>(new)</small>'| highlight: $select.search"></div>-->
+                                        <!--<div ng-if="!friend.isTag" ng-bind-html="friend.name + friend.isTag| highlight: $select.search"></div>-->
+                                        <!--<small>-->
+                                            <!--email: {{friend.email}}-->
+                                            <!--</span>-->
+                                        <!--</small>-->
+                                    <!--</ui-select-choices>-->
+                                <!--</ui-select>-->
+
+                                <div class="input-group">
+
+                                    <input type="text" class="form-control">
+                                    <span class="input-group-btn">
+                                        <button type="button" ng-click="createInquiryRun()" class="btn btn-success"><i class="fa fa-plus"></i>
+                                            Add new user to inquiry run
+                                        </button>
+                                    </span>
+                                </div>
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <tr ng-repeat="user in usersRun track by $index">
+                                        <td class="client-avatar"><img alt="image" src="dist/img/avatar04.png"
+                                                                       ng-src="{{ user.picture }}"></td>
+                                        <td><a data-toggle="tab" href="#/profile/{{ user.localId }}"
+                                               class="client-link">{{ user.name }}</a></td>
+                                        <td> ROLE</td>
+                                        <td class="contact-type"><i class="fa fa-envelope"> </i></td>
+                                        <td> {{ user.email }}</td>
+                                        <td ng-show="!user.deleted" class="client-status"><span
+                                                class="label label-primary">Active</span></td>
+                                        <td ng-show="user.deleted" class="client-status"><span
+                                                class="label label-danger">Deleted</span></td>
+                                        <td>
+                                            <div class="pull-right">
+                                                <button type="button" class="btn btn-sm btn-white"><i
+                                                        class="fa fa-times"></i> Remove
+                                                </button>
+                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-user"></i> </button>-->
+                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-list"></i> </button>-->
+                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-pencil"></i> </button>-->
+                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-print"></i> </button>-->
+                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-cogs"></i> </button>-->
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <dibl-footer></dibl-footer>
+
+</div>

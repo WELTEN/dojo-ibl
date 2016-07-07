@@ -7,8 +7,6 @@ import org.celstec.arlearn2.jdo.manager.MessageManager;
 import org.celstec.arlearn2.jdo.manager.ThreadManager;
 import org.celstec.arlearn2.tasks.beans.NotifyUsersForMessage;
 
-import java.util.logging.Logger;
-
 public class MessageDelegator extends GoogleDelegator {
 
     public MessageDelegator(Service service) {
@@ -31,6 +29,11 @@ public class MessageDelegator extends GoogleDelegator {
 
         return returnMessage;
     }
+
+    public Message getMessagesById(long messageIdentifier) {
+        return MessageManager.getMessage(messageIdentifier);
+    }
+
 
     public MessageList getMessagesForThread(long threadId) {
         return MessageManager.getMessagesByThreadId(threadId);
