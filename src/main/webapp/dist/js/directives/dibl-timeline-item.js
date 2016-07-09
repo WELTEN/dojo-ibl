@@ -13,7 +13,6 @@ angular.module('DojoIBL')
                     scope.resource = scope.response.responseValue;
                 }else{
                     var json = JSON.parse(scope.response.responseValue);
-                    console.log(json);
 
                     if (json.pdfUrl){
                         scope.type = json.fileType;

@@ -2,11 +2,11 @@
     <div class="faq-item">
         <div class="row">
             <div class="col-md-1 text-right">
-                <img src="dist/img/avatar.png" ng-src="{{ getAvatar(response) }}" />
+                <img src="dist/img/avatar.png" ng-src="{{ user.picture }}" />
             </div>
             <div class="col-md-11">
                 <a class="faq-question" aria-expanded="true">{{ response.responseValue }}</a>
-                <small>Added by <strong>{{ getUser(response) }}</strong> <i class="fa fa-clock-o"></i> {{ response.lastModificationDate | date:'medium' }}</small>
+                <small>Added by <strong>{{ user.name }}</strong> <i class="fa fa-clock-o"></i> {{ response.lastModificationDate | date:'medium' }}</small>
                 <!--- <a data="5680572198289408" gItem="4812805597298688" class="small reply"> Add comment</a>-->
             </div>
         </div>

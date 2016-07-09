@@ -24,12 +24,9 @@ angular.module('DojoIBL')
                 }
             );
 
-            scope.getUser = function (response){
-                return UserService.getUserFromCache(response.userEmail.split(':')[1]).name;
-            };
-            scope.getAvatar = function (response){
-                return UserService.getUserFromCache(response.userEmail.split(':')[1]).picture;
-            };
+            UserService.getUserByAccount(scope.response.runId, scope.response.userEmail.split(':')[1]).then(function(data){
+                scope.user = data;
+            });
 
             scope.removeComment = function(data){
                 ResponseService.deleteResponse(data.responseId);

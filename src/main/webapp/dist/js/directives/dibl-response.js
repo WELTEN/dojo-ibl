@@ -1,5 +1,5 @@
 angular.module('DojoIBL')
-    .directive('response', function ($compile, ResponseService, AccountService, $stateParams, UserService, ActivityService) {
+    .directive('response', function ($compile, ResponseService, AccountService, $stateParams, UserService, ActivityService,RunService) {
         return {
             restrict: "E",
             replace: true,
@@ -15,12 +15,9 @@ angular.module('DojoIBL')
                     }
                 );
 
-                scope.getUser = function (response){
-                    return UserService.getUserFromCache(response.userEmail.split(':')[1]).name;
-                };
-                scope.getAvatar = function (response){
-                    return UserService.getUserFromCache(response.userEmail.split(':')[1]).picture;
-                };
+                UserService.getUserByAccount(scope.response.runId, scope.response.userEmail.split(':')[1]).then(function(data){
+                    scope.user = data;
+                });
 
                 scope.removeComment = function(data){
                     ResponseService.deleteResponse(data.responseId);
@@ -28,17 +25,16 @@ angular.module('DojoIBL')
 
                 scope.share = function(data){
 
-                    var act = ActivityService.getItemFromCache(data.generalItemId);
-                    //console.log(data, act);
+                    console.log(data);
 
-                    var controllerElement = document.querySelector('[ng-controller=InstantMessagingController]');
-                    var controllerScope = angular.element(controllerElement).scope();
-                    controllerScope.bodyMessage = act.name+"@"+UserService.getUserFromCache(data.userEmail.split(':')[1]).name+": "+data.responseValue;
-
-                    //controllerScope.bodyMessage = $compile('<b>'+UserService.getUserFromCache(data.userEmail.split(':')[1]).name+'</b>')(scope).html();
-                    //console.log($compile('<b>'+UserService.getUserFromCache(data.userEmail.split(':')[1]).name+'</b>')(scope).html())
+                    RunService.getRunById(data.runId).then(function (run) {
+                        ActivityService.getActivityById(data.generalItemId, run.gameId).then(function(act){
+                            var controllerElement = document.querySelector('[ng-controller=InstantMessagingController]');
+                            var controllerScope = angular.element(controllerElement).scope();
+                            controllerScope.bodyMessage = act.name+"@"+UserService.getUserFromCache(data.userEmail.split(':')[1]).name+": "+data.responseValue;
+                        });
+                    });
                 };
-
 
                 scope.sendChildComment = function(responseParent, responseChildren) {
 

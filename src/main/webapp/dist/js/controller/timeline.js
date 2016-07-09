@@ -1,6 +1,7 @@
 angular.module('DojoIBL')
 
-    .controller('TimelineController', function ($scope, $sce, $stateParams, $state, Response, ActivityService, UserService) {
+    .controller('TimelineController', function ($scope, $sce, $stateParams, $state, Response,
+                                                ActivityService, UserService, GameService, RunService) {
 
         $scope.games = {};
         $scope.games.games = [];
@@ -21,6 +22,7 @@ angular.module('DojoIBL')
 
                     angular.forEach(data.responses, function(resp){
 
+                        // TODO check this is not working well
                         if(resp.generalItemId != old_item_id){
                             if(old_side_left){
                                 resp.move_right = false;
@@ -32,8 +34,15 @@ angular.module('DojoIBL')
                         old_item_id = resp.generalItemId;
                         old_side_left = resp.move_right;
 
-                        resp.activity = ActivityService.getItemFromCache(resp.generalItemId)
-                        resp.user = UserService.getUserFromCache(resp.userEmail.split(':')[1]);
+                        RunService.getRunById($stateParams.runId).then(function (run) {
+                            ActivityService.getActivityById(resp.generalItemId, run.gameId).then(function(data){
+                                resp.activity = data;
+                            });
+                        });
+
+                        UserService.getUserByAccount($stateParams.runId, resp.userEmail.split(':')[1]).then(function(data){
+                            resp.user = data;
+                        });
 
                         responses.push(resp);
                     });

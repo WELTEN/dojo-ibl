@@ -36,7 +36,6 @@ angular.module('DojoIBL')
                 if (dataCache.get(accountId)) {
                     deferred.resolve(dataCache.get(accountId));
                 } else {
-
                     User.getUserByAccount({ runId: runId, accountId:accountId }).$promise.then(
                         function(data){
 
