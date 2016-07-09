@@ -1,11 +1,11 @@
 <div class="social-comment" id="{{ response.responseId }}">
     <a href="" class="pull-left">
-        <img src="dist/img/avatar.png" ng-src="{{ getAvatar(response) }}" />
+        <img src="dist/img/avatar.png" ng-src="{{ user.picture }}" />
     </a>
 
     <div class="media-body" data-item="{{ response.responseId }}">
         <a href="#/profile/">
-            {{ getUser(response) }}
+            {{ user.name }}
         </a>
         {{ response.responseValue }}
         <br>

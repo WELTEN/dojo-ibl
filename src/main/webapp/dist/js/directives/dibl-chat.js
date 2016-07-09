@@ -10,7 +10,6 @@ angular.module('DojoIBL')
                     },
                     function (newValue, oldValue) {
                         if (newValue !== oldValue) {
-                            console.log(element[0].scrollHeight)
                             element.scrollTop(element[0].scrollHeight);
                         }
                     });
@@ -43,9 +42,9 @@ angular.module('DojoIBL')
             templateUrl: '/dist/templates/directives/chat.html',
             link: function (scope, elem, attr) {
 
-                scope.userName = UserService.getUserFromCache(scope.message.senderId).name;
-                scope.avatar = UserService.getUserFromCache(scope.message.senderId).picture;
-
+                UserService.getUserByAccount(scope.message.runId, scope.message.senderId).then(function(data){
+                    scope.user = data;
+                });
             }
         };
     })
