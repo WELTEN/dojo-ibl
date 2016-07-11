@@ -67,6 +67,12 @@
                     <div class="file-box" ng-repeat="response in responses.responses">
                         <div class="file">
                             <data response="response"></data>
+
+                            <div class="file-name">
+                                <!--<p>{{ name }}</p>-->
+                                <br>
+                                <small>{{ response.lastModificationDate| date:'medium' }}</small>
+                            </div>
                         </div>
                     </div>
                 </div>

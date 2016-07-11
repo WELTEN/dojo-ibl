@@ -8977,3 +8977,7 @@ text-angular > p{
   width: 50%;
   margin: 1em auto;
 }
+
+.message-content a{
+  color:blue;
+}

@@ -5,7 +5,7 @@
         <img ng-src="{{ resource }}?thumbnail=200">
     </div>
 
-    <div class="icon" ng-if="type == 'pdf'">
+    <div class="icon" ng-if="extension == 'pdf'">
         <i class="fa fa-file"></i>
     </div>
 
@@ -18,11 +18,5 @@
         <source src="{{ resource }}" type="{{ type }}">
         Your browser does not support the audio element.
     </audio>
-
-    <div class="file-name">
-        <!--<p>{{ name }}</p>-->
-        <br>
-        <small>{{ response.lastModificationDate| date:'medium' }}</small>
-    </div>
 </a>
 
