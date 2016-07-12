@@ -84,6 +84,7 @@ angular.module('DojoIBL')
                         context.messageCallback = context.channelSocket.onmessage;
                         context.channelSocket = undefined;
                         $.getJSON("chats/channel", context.socketCreationCallback);
+                        dataCache.remove(user.accountType+":"+user.localId);
                     };
 
                     context.channelSocket = socket;
