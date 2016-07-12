@@ -73,19 +73,22 @@ angular.module('DojoIBL')
             return $sce.trustAsResourceUrl(src);
         };
 
-        var socket = new ChannelService.SocketHandler();
-        socket.onMessage(function (data) {
-            $scope.$apply(function () {
-                switch (data.type) {
+        AccountService.myDetails().then(function(data) {
 
-                    case 'org.celstec.arlearn2.beans.run.Response':
+            var socket = new ChannelService.SocketHandler(data);
+            socket.onMessage(function (data) {
+                $scope.$apply(function () {
+                    switch (data.type) {
 
-                        $scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
+                        case 'org.celstec.arlearn2.beans.run.Response':
 
-                        break;
-                }
+                            $scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
+
+                            break;
+                    }
+                });
+                //jQuery("time.timeago").timeago();
             });
-            //jQuery("time.timeago").timeago();
         });
 
         // upload on file select or drop

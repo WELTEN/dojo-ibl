@@ -54,15 +54,17 @@ angular.module('DojoIBL')
             $templateRequest(getTemplate(scope.response.parentId == 0)).then(function(html){
                 element.html(html).show();
 
-                console.log(element.html(html))
-
                 if(scope.response.parentId != 0){
-                    console.log(scope.response.parentId)
-                    $("div[data-item='"+scope.response.parentId+"']").append(element);
+                    //console.log(scope.response.parentId)
+                    //$("div[data-item='"+scope.response.parentId+"']").append(element);
 
                 }
                 $compile(element.contents())(scope);
             });
+
+            console.log($("div[data-item='"+scope.response.parentId+"']").length);
+
+            $("div[data-item='"+scope.response.parentId+"']").append(element);
         };
 
         return {

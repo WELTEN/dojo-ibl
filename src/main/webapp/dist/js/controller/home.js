@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('HomeController', function ($scope, $sce, Game, GameService, config, Session, RunService, ChannelService) {
+    .controller('HomeController', function ($scope, $sce, Game, GameService, config, Session, RunService, ChannelService, AccountService) {
 
         $scope.games = [];
 
@@ -80,21 +80,22 @@ angular.module('DojoIBL')
             return false;
         };
 
-        var socket = new ChannelService.SocketHandler();
-        socket.onMessage(function (data) {
-            $scope.$apply(function () {
-                console.log(data)
-                switch (data.type) {
-                    case 'org.celstec.arlearn2.beans.game.Game':
+        AccountService.myDetails().then(function(data){
+            var socket = new ChannelService.SocketHandler(data);
+            socket.onMessage(function (data) {
+                $scope.$apply(function () {
+                    console.log(data)
+                    switch (data.type) {
+                        case 'org.celstec.arlearn2.beans.game.Game':
 
-                        GameService.refreshGame(data.gameId).then(function (data) {
-                            console.log('refresh complete');
-                        });
+                            GameService.refreshGame(data.gameId).then(function (data) {
+                                console.log('refresh complete');
+                            });
 
-                        break;
-                }
+                            break;
+                    }
+                });
             });
-            //jQuery("time.timeago").timeago();
         });
 
     }

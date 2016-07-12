@@ -32,23 +32,25 @@ angular.module('DojoIBL')
 
         $scope.numberMessages = 0;
 
-        var socket = new ChannelService.SocketHandler();
-        socket.onMessage(function (data) {
-            $scope.$apply(function () {
-                switch (data.type) {
-                    case 'org.celstec.arlearn2.beans.notification.MessageNotification':
+        AccountService.myDetails().then(function(data) {
+            var socket = new ChannelService.SocketHandler(data);
+            socket.onMessage(function (data) {
+                $scope.$apply(function () {
+                    switch (data.type) {
+                        case 'org.celstec.arlearn2.beans.notification.MessageNotification':
 
-                        if(data.runId == $stateParams.runId){
-                            $scope.numberMessages += 1;
-                            MessageService.getMessageById(data.messageId).then(function (data) {
-                                console.info("message received");
-                            });
-                        }
+                            if (data.runId == $stateParams.runId) {
+                                $scope.numberMessages += 1;
+                                MessageService.getMessageById(data.messageId).then(function (data) {
+                                    console.info("message received");
+                                });
+                            }
 
-                        break;
-                }
+                            break;
+                    }
+                });
+                //jQuery("time.timeago").timeago();
             });
-            //jQuery("time.timeago").timeago();
         });
 
         $scope.notifications = [];
