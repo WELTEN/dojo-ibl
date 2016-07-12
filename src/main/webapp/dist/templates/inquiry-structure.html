@@ -37,7 +37,7 @@
                         <input id="add-new-message"  ng-enter="sendMessage()" type="text" class="form-control" ng-model="bodyMessage">
                         <!--<text-angular ta-toolbar="[]" ng-enter="sendMessage()" ng-model="bodyMessage"></text-angular>-->
                         <span class="input-group-btn">
-                            <button ng-click="sendMessage()" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>
+                            <button ng-click="sendMessage()" ng-disabled="!bodyMessage" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>
                         </span>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                 <input ng-enter="sendMessage()" type="text" class="form-control" ng-model="bodyMessage">
                 <!--<text-angular ta-toolbar="[]" ng-enter="sendMessage()" ng-model="bodyMessage"></text-angular>-->
             <span class="input-group-btn">
-                <button ng-click="sendMessage()" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>
+                <button ng-click="sendMessage()" ng-disabled="!bodyMessage" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>
             </span>
             </div>
         </div>
