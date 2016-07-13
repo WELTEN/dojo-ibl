@@ -31,7 +31,7 @@
 
         <p ng-if="extension == 'video'">
             <strong>{{ response.user.givenName }}</strong> uploaded a video on <strong>
-            <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}?scrollTo={{ response.responseId }}"> {{ response.activity.name }} </a></strong> activity <br>
+            <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}?scrollTo={{ response.responseId }}">{{ response.activity.name }}</a></strong> activity <br>
         </p>
         <video ng-if="extension == 'video'" width="320" height="240" controls>
             <source src="{{ resource }}" type="{{ type }}">
@@ -40,7 +40,7 @@
 
         <p ng-if="extension == 'audio'">
             <strong>{{ response.user.givenName }}</strong> uploaded an audio on <strong>
-            <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}?scrollTo={{ response.responseId }}"> {{ response.activity.name }} </a></strong> activity <br>
+            <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}?scrollTo={{ response.responseId }}">{{ response.activity.name }}</a></strong> activity <br>
         </p>
         <audio ng-if="extension == 'audio'" controls>
             <source src="{{ resource }}" type="{{ type }}">
