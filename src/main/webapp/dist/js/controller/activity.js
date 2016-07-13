@@ -73,15 +73,15 @@ angular.module('DojoIBL')
             return $sce.trustAsResourceUrl(src);
         };
 
-        AccountService.myDetails().then(function(data) {
+        AccountService.myDetails().then(function(user) {
 
-            var socket = new ChannelService.SocketHandler(data);
+            var socket = new ChannelService.SocketHandler(user);
             socket.onMessage(function (data) {
                 $scope.$apply(function () {
                     switch (data.type) {
 
                         case 'org.celstec.arlearn2.beans.run.Response':
-
+                            console.log(user, data)
                             $scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
 
                             break;
