@@ -8981,3 +8981,25 @@ text-angular > p{
 .message-content a{
   color:blue;
 }
+
+#list_answers > .research-question > .media-body > span{
+  float: left;
+  font-size: 18px;
+  width: 100%;
+  position: relative;
+  bottom: 1em;
+  font-weight: 600;
+  color: #1ab394;
+}
+#list_answers > .research-question > .media-body > span:hover{
+  color: #179d82;
+}
+#list_answers > .research-question > .media-body > a{
+  display: block;
+  position: relative;
+  top: 2em;
+
+}
+#list_answers > .research-question > .media-body > div{
+  display: block;
+}

@@ -18,7 +18,7 @@
                     {{'dibl.inquiry.structure.chat' | translate }}
                 </div>
                 <div class="slimScrollDiv" style="position: relative; width: auto; height: 400px;">
-                    <div class="chat-discussion" scroll-glue="glued" style="width: auto; height: 400px;">
+                    <div class="chat-discussion" scroll-glue style="width: auto; height: 400px;">
                         <!--<a class="btn btn-primary btn-rounded btn-block load-more-messages" ng-show="loadMoreButton" ng-click="loadMessages()"><i class="fa fa-info-circle"></i> Click to load more</a>-->
 
                         <div class="chat-message"
@@ -58,8 +58,8 @@
         </div>
 
         <div class="slimScrollDiv" style="position: relative; width: auto; height: 234px;">
-            <div class="chat-discussion" chat style="width: auto; height: 234px;">
-                <a class="btn btn-primary btn-rounded btn-block load-more-messages" ng-show="loadMoreButton" ng-click="loadMessages()"><i class="fa fa-info-circle"></i> Click to load more</a>
+            <div class="chat-discussion" scroll-glue style="width: auto; height: 234px;">
+                <!--<a class="btn btn-primary btn-rounded btn-block load-more-messages" ng-show="loadMoreButton" ng-click="loadMessages()"><i class="fa fa-info-circle"></i> Click to load more</a>-->
 
                 <div class="chat-message"
                      ng-class="{'left': message.senderId != myAccount.localId,'right': message.senderId == myAccount.localId }"

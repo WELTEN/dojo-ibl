@@ -60,13 +60,9 @@ angular.module('DojoIBL')
 
 
                 if (!dataCache.get(user.accountType+":"+user.localId)) {
-                    console.log("no existia")
-
                     $http({url: "/rest/channelAPI/token", method: 'GET'}).success(this.socketCreationCallback);
                 }else{
-
                     var channelData = dataCache.get(user.accountType+":"+user.localId);
-                    console.log("existia",channelData)
 
                     var channel = new goog.appengine.Channel(channelData.token);
                     context.channelId = channelData.channelId;
@@ -75,24 +71,36 @@ angular.module('DojoIBL')
                     var socket = channel.open();
 
                     socket.onerror = function () {
-                        console.log("Channel error");
+                        console.warn("Channel error");
                     };
 
                     socket.onclose = function () {
-                        console.log("Channel closed, reopening");
+                        //console.log("Channel closed, reopening");
                         //We reopen the channel
                         context.messageCallback = context.channelSocket.onmessage;
                         context.channelSocket = undefined;
                         $.getJSON("chats/channel", context.socketCreationCallback);
                         dataCache.remove(user.accountType+":"+user.localId);
+                        console.warn('Channel closed.');
+
+                        swal({
+                            title: "Timeout!",
+                            text: "The session has timed out. Refresh!",
+                            type: "warning",
+                            showCancelButton: false,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Refresh!!",
+                            closeOnConfirm: false
+                        }, function () {
+                            //window.location.replace(window.location.href);
+                            location.reload();
+                            //swal("Timeout!", "Refresh this page to continue.", "success");
+                        });
                     };
 
                     context.channelSocket = socket;
-                    //console.log("Channel info received");
-                    //console.log(channelData.channelId);
                     context.channelSocket.onmessage = context.messageCallback;
                 }
-                //$.getJSON("/rest/channelAPI/token", this.socketCreationCallback);
             }
         }
     }
