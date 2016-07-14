@@ -74,10 +74,23 @@ angular.module('DojoIBL')
             $scope.selectedCombination = combinationId;
 
             $scope.removeActivity = function(data){
-                var position = $scope.lists[$(".select-activities > li.active").attr('data')].indexOf(data);
-                $scope.lists[$(".select-activities > li.active").attr('data')].splice(position, 1);
-                ActivityService.deleteActivity($scope.activity.gameId, $scope.activity.id);
-                $scope.activity = null;
+
+                swal({
+                    title: "Are you sure?",
+                    text: "You will not be able to recover this activity!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, delete it!",
+                    closeOnConfirm: false
+                }, function () {
+                    swal("Deleted!", "The activity has been removed from the inquiry structure.", "success");
+
+                    var position = $scope.lists[$(".select-activities > li.active").attr('data')].indexOf(data);
+                    $scope.lists[$(".select-activities > li.active").attr('data')].splice(position, 1);
+                    ActivityService.deleteActivity($scope.activity.gameId, $scope.activity.id);
+                    $scope.activity = null;
+                });
             };
         };
 
