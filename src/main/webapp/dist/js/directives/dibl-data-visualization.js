@@ -19,6 +19,24 @@ angular.module('DojoIBL')
                     scope.user = data;
                 });
 
+                scope.removeComment = function(data){
+                    swal({
+                        title: "Are you sure?",
+                        text: "You will not be able to recover it in the future!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, remove it!",
+                        closeOnConfirm: false
+                    }, function () {
+                        swal("Removed!", "Your contribution has been removed from the inquiry", "success");
+
+                        ResponseService.deleteResponse(data.responseId);
+
+                    });
+                };
+
+
                 if(scope.response.responseValue.indexOf("{") == -1){
                     scope.extension = "text";
                     scope.resource = scope.response.responseValue;

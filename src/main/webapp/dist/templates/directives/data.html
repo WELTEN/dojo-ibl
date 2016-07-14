@@ -23,6 +23,9 @@
     </a>
 
     <div class="file-name">
+        <a href="#/profile/">
+            {{ user.name }}
+        </a>
         <br>
         <small>{{ response.lastModificationDate| date:'medium' }}</small> <span ng-show="myAccount.localId == user.localId">-</span>
         <a ng-show="myAccount.localId == user.localId" class="small" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>
