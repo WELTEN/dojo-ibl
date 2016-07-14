@@ -65,15 +65,7 @@
             <div class="col-lg-9 animated fadeInRight m-t-sm" ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
                 <div class="lightBoxGallery">
                     <div class="file-box" ng-repeat="response in responses.responses">
-                        <div class="file">
-                            <data response="response"></data>
-
-                            <div class="file-name">
-                                <!--<p>{{ name }}</p>-->
-                                <br>
-                                <small>{{ response.lastModificationDate| date:'medium' }}</small>
-                            </div>
-                        </div>
+                        <data response="response"></data>
                     </div>
                 </div>
             </div>

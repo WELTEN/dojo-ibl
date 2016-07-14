@@ -11,11 +11,10 @@
         <br>
         <!--<a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> --->
         <a data="{{ response.responseId }}" gItem="{{ response.generalItemId }}" class="small reply" ng-click="hiddenDiv = !hiddenDiv"> <i class="fa fa-mail-reply"></i> Reply</a> |
-        <a class="small" ng-click="share(response)"><i class="fa fa-share"></i> Share in chat</a> |
-        <a class="small" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a> -
+        <a class="small" ng-click="share(response)"><i class="fa fa-share"></i> Share in chat</a> <span ng-show="myAccount.localId == user.localId">|</span>
+        <a class="small" ng-show="myAccount.localId == user.localId" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a> -
         <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small>
     </div>
-
     <div class="social-comment" ng-show="hiddenDiv">
         <a href="" class="pull-left">
             <img src="dist/img/avatar.png" ng-src="{{ myAccount.picture }}" />

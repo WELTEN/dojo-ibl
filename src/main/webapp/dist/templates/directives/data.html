@@ -1,22 +1,30 @@
-<a href="{{ resource }}" title="{{ name }}" data-gallery="">
-    <span class="corner"></span>
+<div class="file">
 
-    <div class="icon" ng-if="extension == 'image'" >
-        <img ng-src="{{ resource }}?thumbnail=200">
+    <a href="{{ resource }}" title="{{ name }}" data-gallery="">
+        <span class="corner"></span>
+
+        <div class="icon" ng-if="extension == 'image'" >
+            <img ng-src="{{ resource }}?thumbnail=200">
+        </div>
+
+        <div class="icon" ng-if="extension == 'pdf'">
+            <i class="fa fa-file"></i>
+        </div>
+
+        <video ng-if="extension == 'video'" width="320" height="240" controls>
+            <source src="{{ resource }}" type="{{ type }}">
+            Your browser does not support the video tag.
+        </video>
+
+        <audio ng-if="extension == 'audio'" controls>
+            <source src="{{ resource }}" type="{{ type }}">
+            Your browser does not support the audio element.
+        </audio>
+    </a>
+
+    <div class="file-name">
+        <br>
+        <small>{{ response.lastModificationDate| date:'medium' }}</small> <span ng-show="myAccount.localId == user.localId">-</span>
+        <a ng-show="myAccount.localId == user.localId" class="small" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>
     </div>
-
-    <div class="icon" ng-if="extension == 'pdf'">
-        <i class="fa fa-file"></i>
-    </div>
-
-    <video ng-if="extension == 'video'" width="320" height="240" controls>
-        <source src="{{ resource }}" type="{{ type }}">
-        Your browser does not support the video tag.
-    </video>
-
-    <audio ng-if="extension == 'audio'" controls>
-        <source src="{{ resource }}" type="{{ type }}">
-        Your browser does not support the audio element.
-    </audio>
-</a>
-
+</div>

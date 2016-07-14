@@ -17,6 +17,7 @@ angular.module('DojoIBL')
 
                 UserService.getUserByAccount(scope.response.runId, scope.response.userEmail.split(':')[1]).then(function(data){
                     scope.user = data;
+                    console.log(data)
                 });
 
                 scope.removeComment = function(data){

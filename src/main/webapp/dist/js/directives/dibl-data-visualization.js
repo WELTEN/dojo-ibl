@@ -9,6 +9,16 @@ angular.module('DojoIBL')
             templateUrl: '/dist/templates/directives/data.html',
             link: function (scope, elem, attr) {
 
+                AccountService.myDetails().then(
+                    function(data){
+                        scope.myAccount = data;
+                    }
+                );
+
+                UserService.getUserByAccount(scope.response.runId, scope.response.userEmail.split(':')[1]).then(function(data){
+                    scope.user = data;
+                });
+
                 if(scope.response.responseValue.indexOf("{") == -1){
                     scope.extension = "text";
                     scope.resource = scope.response.responseValue;
