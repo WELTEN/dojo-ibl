@@ -27,7 +27,22 @@ angular.module('DojoIBL')
             return UserService.getUserFromCache(response.userEmail.split(':')[1]).picture;
         };
         $scope.removeComment = function(data){
-            ResponseService.deleteResponse(data.responseId);
+
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover it in the future!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, remove it!",
+                closeOnConfirm: false
+            }, function () {
+                swal("Removed!", "Your contribution has been removed from the inquiry", "success");
+
+                ResponseService.deleteResponse(data.responseId);
+
+            });
+
         };
 
         $scope.sendComment = function(){
