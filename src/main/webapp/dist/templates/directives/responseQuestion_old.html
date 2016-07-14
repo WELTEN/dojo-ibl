@@ -1,0 +1,77 @@
+<div class="social-comment research-question" id="{{ response.responseId }}">
+    <a href="" class="pull-left">
+        <img src="dist/img/avatar.png" ng-src="{{ user.picture }}" />
+    </a>
+
+    <div class="media-body" data-item="{{ response.responseId }}">
+
+        <a href="#/profile/">
+          {{ user.name }}
+        </a>
+        <span>{{ response.responseValue }}</span>
+        <br>
+        <div>
+        <!--<a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> --->
+            <a data="{{ response.responseId }}" gItem="{{ response.generalItemId }}" class="small reply" ng-click="hiddenDiv = !hiddenDiv"> <i class="fa fa-mail-reply"></i> Reply</a> |
+            <a class="small" ng-click="share(response)"><i class="fa fa-share"></i> Share in chat</a> |
+            <a class="small" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a> -
+            <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small>
+        </div>
+    </div>
+
+    <div class="social-comment" ng-show="hiddenDiv">
+        <a href="" class="pull-left">
+            <img src="dist/img/avatar.png" ng-src="{{ myAccount.picture }}" />
+        </a>
+        <div class="media-body">
+            <textarea class="form-control" ng-model="responseChildren" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>
+            <div class="text-right">
+                <button type="submit" ng-disabled="!responseChildren" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendChildComment(response, responseChildren )"><strong>{{'dibl.inquiry.activity.post-comment' | translate }}</strong></button>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="social-comment" id="{{ response.responseId }}">-->
+    <!--<div class="faq-item">-->
+    <!--<div class="row">-->
+    <!--<div class="col-md-1 text-right">-->
+    <!--<img src="dist/img/avatar.png" ng-src="{{ user.picture }}" />-->
+    <!--</div>-->
+    <!--<div class="col-md-11">-->
+    <!--<a class="faq-question" aria-expanded="true">{{ response.responseValue }}</a>-->
+    <!--<small>Added by <strong>{{ user.name }}</strong> <i class="fa fa-clock-o"></i> {{ response.lastModificationDate | date:'medium' }}</small>-->
+    <!--&lt;!&ndash;- <a data="5680572198289408" gItem="4812805597298688" class="small reply"> Add comment</a>&ndash;&gt;-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="row">-->
+    <!--<div class="col-lg-12 m-t m-b-none">-->
+    <!--<div class="btn-group">-->
+    <!--&lt;!&ndash;<button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like this!</button>&ndash;&gt;-->
+    <!--<button class="btn btn-white btn-xs" ng-click="hiddenDiv = !hiddenDiv"><i class="fa fa-comments"></i> Show comment(s)</button>-->
+    <!--&lt;!&ndash;<button class="btn btn-white btn-xs"><i class="fa fa-share"></i> Share</button>&ndash;&gt;-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="row" >-->
+    <!--<div class="col-lg-12">-->
+    <!--<div class="panel-collapse collapse in" aria-expanded="true">-->
+    <!--<div class="faq-answer" data-item="{{ response.responseId }}">-->
+
+    <!--</div>-->
+    <!--<div class="social-comment reply-box-question" ng-show="hiddenDiv">-->
+    <!--<a href="" class="pull-left">-->
+    <!--<img src="dist/img/avatar.png" ng-src="{{ myAccount.picture }}" />-->
+    <!--</a>-->
+    <!--<div class="media-body">-->
+    <!--<textarea class="form-control" ng-model="responseChildren" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>-->
+    <!--<div class="text-right">-->
+    <!--<button type="submit" ng-disabled="!responseChildren" class="btn btn-sm btn-primary m-t-sm save" ng-click="sendChildComment(response, responseChildren )"><strong>{{'dibl.inquiry.activity.post-comment' | translate }}</strong></button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+</div>

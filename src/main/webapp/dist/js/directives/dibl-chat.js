@@ -34,6 +34,7 @@ angular.module('DojoIBL')
             }
         };
     })
+
     .directive('message', function(UserService) {
         return {
             restrict: "E",

@@ -70,12 +70,22 @@ angular.module('DojoIBL')
 
                     var socket = channel.open();
 
+                    socket.onopen = function(){
+                        console.warn("Channel opened");
+
+                    };
+
+                    socket.onmessage = function(){
+                        console.warn("Channel opened");
+
+                    };
+
                     socket.onerror = function () {
                         console.warn("Channel error");
                     };
 
                     socket.onclose = function () {
-                        //console.log("Channel closed, reopening");
+                        console.warn("Channel closed, reopening");
                         //We reopen the channel
                         context.messageCallback = context.channelSocket.onmessage;
                         context.channelSocket = undefined;

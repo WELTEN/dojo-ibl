@@ -9003,3 +9003,8 @@ text-angular > p{
 #list_answers > .research-question > .media-body > div{
   display: block;
 }
+
+.questions-toolbar{
+  margin: 1em;
+  text-align: right;
+}

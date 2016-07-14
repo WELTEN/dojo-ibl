@@ -108,7 +108,18 @@
 
                 <responses responses="responses.responses" ng-if="activity.type != 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></responses>
 
-                <response-questions responses='responses.responses' ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></response-questions>
+                <!--<div class="m-b-lg" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'">-->
+
+                    <!--<div class="input-group">-->
+                        <!--<input ng-model="searchText.responseValue">-->
+                        <!--&lt;!&ndash;<input type="text" ng-model="search" placeholder="Search issue by name..." class=" form-control">&ndash;&gt;-->
+                        <!--<span class="input-group-btn">-->
+                            <!--<button type="button" class="btn btn-red"> Search</button>-->
+                        <!--</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <response-question ng-repeat="(key, response) in responses.responses | orderByDayNumber:'lastModificationDate':true | filter:searchText" response='response' ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></response-question>
 
                 <div class="social-comment" >
                     <a class="btn btn-primary btn-rounded btn-block" ng-show="resum"  ng-click="loadResponses()"><i class="fa fa-info-circle"></i> Click to load more</a>
