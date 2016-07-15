@@ -5367,7 +5367,9 @@ del {
   padding: 15px 15px 0 15px;
 }
 .social-comment .social-comment {
-  margin-left: 45px;
+  margin-left: 30px;
+  border-left: 2px solid rgba(128, 128, 128, 0.18);
+  padding-left: 6px;
 }
 .social-avatar img {
   height: 40px;
@@ -9007,4 +9009,15 @@ text-angular > p{
 .questions-toolbar{
   margin: 1em;
   text-align: right;
+}
+
+.highlight {
+  transition: all linear 300ms;
+}
+.highlight.ng-enter {
+  opacity: 0;
+  color: firebrick;
+}
+.highlight.ng-enter.ng-enter-active {
+  opacity: 1;
 }

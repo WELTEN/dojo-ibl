@@ -30,15 +30,12 @@ angular.module('DojoIBL')
                         closeOnConfirm: false
                     }, function () {
                         swal("Removed!", "Your contribution has been removed from the inquiry", "success");
-
                         ResponseService.deleteResponse(data.responseId);
 
                     });
                 };
 
                 scope.share = function(data){
-
-                    console.log(data);
 
                     RunService.getRunById(data.runId).then(function (run) {
                         ActivityService.getActivityById(data.generalItemId, run.gameId).then(function(act){
@@ -64,6 +61,7 @@ angular.module('DojoIBL')
                             "lastModificationDate": new Date().getTime()
                         }).then(function(childComment){
                             scope.responseChildren = null;
+                            scope.hiddenDiv = false;
                         });
                     });
                 };

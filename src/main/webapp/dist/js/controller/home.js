@@ -87,7 +87,7 @@ angular.module('DojoIBL')
                         case 'org.celstec.arlearn2.beans.game.Game':
 
                             GameService.refreshGame(data.gameId).then(function (data) {
-                                console.log('refresh complete');
+                                console.info("[Notification][Game]");
                             });
 
                             break;
