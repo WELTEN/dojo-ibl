@@ -37,16 +37,14 @@ angular.module('DojoIBL')
             var socket = new ChannelService.SocketHandler(me);
 
             socket.onMessage(function (data) {
-                console.warn(data);
                 $scope.$apply(function () {
                     switch (data.type) {
                         case 'org.celstec.arlearn2.beans.notification.MessageNotification':
                             if (data.runId == $stateParams.runId) {
                                 $scope.numberMessages += 1;
                                 MessageService.getMessageById(data.messageId).then(function (data) {
-                                    console.info("message received");
+                                    console.info("[Notification][Message]");
                                 });
-                                console.info("[Notification][Response]",$scope.responses.responses);
 
                             }
                             break;
