@@ -7,18 +7,18 @@
     <dibl-toolbar></dibl-toolbar>
 
     <div class="row inquiry">
-        <div id="inquiry-content" class="col-md-8 wrapper wrapper-content animated fadeIn">
+        <div class="col-md-9 wrapper wrapper-content animated fadeIn">
             <div ui-view></div>
         </div>
-        <div class="col-lg-4 wrapper wrapper-content small-chat-float" >
+        <div class="col-lg-3 wrapper wrapper-content small-chat-float" >
             <div class="ibox-chat-content" ng-class="{'fixed-chat':boolChangeClass }">
                 <div class="heading">
                     <small class="chat-date pull-right">
                     </small>
                     {{'dibl.inquiry.structure.chat' | translate }}
                 </div>
-                <div style="position: relative; width: auto; height: 400px;">
-                    <div class="chat-discussion" scroll-glue="glued" style="width: auto; height: 400px;">
+                <div style="position: relative; height: 400px;">
+                    <div class="chat-discussion" scroll-glue="glued" style="height: 400px;">
                         <!--<a class="btn btn-primary btn-rounded btn-block load-more-messages" ng-show="loadMoreButton" ng-click="loadMessages()"><i class="fa fa-info-circle"></i> Click to load more</a>-->
 
                         <div class="chat-message"

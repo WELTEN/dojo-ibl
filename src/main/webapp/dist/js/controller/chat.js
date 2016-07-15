@@ -45,7 +45,6 @@ angular.module('DojoIBL')
                                 MessageService.getMessageById(data.messageId).then(function (data) {
                                     console.info("[Notification][Message]");
                                 });
-
                             }
                             break;
                     }

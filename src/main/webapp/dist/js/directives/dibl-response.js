@@ -38,6 +38,8 @@ angular.module('DojoIBL')
 
                 scope.share = function(data){
 
+                    console.log(data);
+
                     RunService.getRunById(data.runId).then(function (run) {
                         ActivityService.getActivityById(data.generalItemId, run.gameId).then(function(act){
                             var controllerElement = document.querySelector('[ng-controller=InstantMessagingController]');
