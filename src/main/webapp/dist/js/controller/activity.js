@@ -97,7 +97,10 @@ angular.module('DojoIBL')
                 $scope.$apply(function () {
                     switch (data.type) {
                         case 'org.celstec.arlearn2.beans.run.Response':
-                            $scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
+                            //ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId);
+                            //$scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
+                            console.info("[Notification][Response]");
+                            ResponseService.addResponse(data,$stateParams.runId, $stateParams.activityId)
                             break;
                     }
                 });

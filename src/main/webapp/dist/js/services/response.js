@@ -58,7 +58,11 @@ angular.module('DojoIBL')
             getResponsesByInquiryActivity: function(runId, itemId){
                 return responses[runId+"_"+itemId];
             },
-
+            addResponse: function(response, runId, itemId){
+                var dataCache = CacheFactory.get('responsesCache');
+                dataCache.put(response.responseId, response);
+                responses[runId+"_"+itemId][response.responseId] = response;
+            },
             getResponses: function (runId, itemId, from, resumptionToken) {
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('responsesCache');
@@ -115,7 +119,6 @@ angular.module('DojoIBL')
                 return responses[runId+"_"+itemId];
             },
             uploadUrl: function(runId, account, key) {
-                console.log(runId, account, key)
                 return Response.uploadUrl({ runId:runId, account:account, key:key });
             }
         }
