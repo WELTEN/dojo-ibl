@@ -17,7 +17,6 @@ angular.module('DojoIBL')
 
                 UserService.getUserByAccount(scope.response.runId, scope.response.userEmail.split(':')[1]).then(function(data){
                     scope.user = data;
-                    console.log(data)
                 });
 
                 scope.removeComment = function(data){
@@ -38,8 +37,6 @@ angular.module('DojoIBL')
                 };
 
                 scope.share = function(data){
-
-                    console.log(data);
 
                     RunService.getRunById(data.runId).then(function (run) {
                         ActivityService.getActivityById(data.generalItemId, run.gameId).then(function(act){

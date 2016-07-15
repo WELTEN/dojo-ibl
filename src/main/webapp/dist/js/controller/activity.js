@@ -42,8 +42,9 @@ angular.module('DojoIBL')
                 ResponseService.deleteResponse(data.responseId);
 
             });
-
         };
+
+        $scope.isBusy = false;
 
         $scope.sendComment = function(){
             AccountService.myDetails().then(function(data){
@@ -58,6 +59,7 @@ angular.module('DojoIBL')
                     "revoked": false,
                     "lastModificationDate": new Date().getTime()
                 }).then(function(data){
+                    $scope.isBusy = false;
                     $scope.response = null;
                 });
             });
@@ -94,15 +96,11 @@ angular.module('DojoIBL')
             socket.onMessage(function (data) {
                 $scope.$apply(function () {
                     switch (data.type) {
-
                         case 'org.celstec.arlearn2.beans.run.Response':
-                            console.log(user, data)
                             $scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
-
                             break;
                     }
                 });
-                //jQuery("time.timeago").timeago();
             });
         });
 
