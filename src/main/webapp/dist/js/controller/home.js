@@ -16,8 +16,6 @@ angular.module('DojoIBL')
 
                     $scope.games = $scope.games.concat(data_extended);
 
-                    console.log($scope.games)
-
                 });
             });
         });

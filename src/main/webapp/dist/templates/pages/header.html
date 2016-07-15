@@ -23,22 +23,22 @@
 
                 </ul>
             </li>
-            <li class="dropdown">
-                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" >
-                    <i class="fa fa-bell"></i>  <span class="label label-primary" ng-show="notifications.length > 0">{{ notifications.length }}</span>
-                </a>
-                <ul class="dropdown-menu dropdown-alerts">
-                    <li ng-repeat="notification in notifications">
-                        <a href="mailbox.html">
-                            <div>
-                                <i class="fa fa-envelope fa-fw"></i> You have 16 messages
-                                <span class="pull-right text-muted small">4 minutes ago</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li ng-repeat="notification in notifications" class="divider"></li>
-                </ul>
-            </li>
+            <!--<li class="dropdown">-->
+                <!--<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" >-->
+                    <!--<i class="fa fa-bell"></i>  <span class="label label-primary" ng-show="notifications.length > 0">{{ notifications.length }}</span>-->
+                <!--</a>-->
+                <!--<ul class="dropdown-menu dropdown-alerts">-->
+                    <!--<li ng-repeat="notification in notifications">-->
+                        <!--<a href="mailbox.html">-->
+                            <!--<div>-->
+                                <!--<i class="fa fa-envelope fa-fw"></i> You have 16 messages-->
+                                <!--<span class="pull-right text-muted small">4 minutes ago</span>-->
+                            <!--</div>-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <!--<li ng-repeat="notification in notifications" class="divider"></li>-->
+                <!--</ul>-->
+            <!--</li>-->
             <li>
                 <a ng-click="signout()">
                     <i class="fa fa-sign-out"></i> {{'dibl.header.logout' | translate }}

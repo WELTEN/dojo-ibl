@@ -27,90 +27,112 @@ angular.module('DojoIBL')
                     } else {
                         this.channelSocket.onmessage = theCallback;
                     }
-                }
+                };
 
                 var context = this;
                 this.socketCreationCallback = function (channelData) {
-
                     var channel = new goog.appengine.Channel(channelData.token);
-
-                    dataCache.put(user.accountType+":"+user.localId, channelData);
-
                     context.channelId = channelData.channelId;
-
                     var socket = channel.open();
-
                     socket.onerror = function () {
-                        console.log("Channel error");
+                        //console.log("Channel error");
                     };
-
                     socket.onclose = function () {
-                        console.log("Channel closed, reopening");
+                        //console.log("Channel closed, reopening");
                         //We reopen the channel
                         context.messageCallback = context.channelSocket.onmessage;
                         context.channelSocket = undefined;
                         $.getJSON("chats/channel", context.socketCreationCallback);
                     };
-
                     context.channelSocket = socket;
-                    //console.log("Channel info received");
-                    //console.log(channelData.channelId);
+                    //console.info("Channel info received");
                     context.channelSocket.onmessage = context.messageCallback;
                 };
 
+                $http({url: "/rest/channelAPI/token", method: 'GET'}).success(this.socketCreationCallback);
 
-                if (!dataCache.get(user.accountType+":"+user.localId)) {
-                    $http({url: "/rest/channelAPI/token", method: 'GET'}).success(this.socketCreationCallback);
-                }else{
-                    var channelData = dataCache.get(user.accountType+":"+user.localId);
-
-                    var channel = new goog.appengine.Channel(channelData.token);
-                    context.channelId = channelData.channelId;
-
-
-                    var socket = channel.open();
-
-                    socket.onopen = function(){
-                        console.warn("Channel opened");
-
-                    };
-
-                    socket.onmessage = function(){
-                        console.warn("Channel opened");
-
-                    };
-
-                    socket.onerror = function () {
-                        console.warn("Channel error");
-                    };
-
-                    socket.onclose = function () {
-                        console.warn("Channel closed, reopening");
-                        //We reopen the channel
-                        context.messageCallback = context.channelSocket.onmessage;
-                        context.channelSocket = undefined;
-                        $.getJSON("chats/channel", context.socketCreationCallback);
-                        dataCache.remove(user.accountType+":"+user.localId);
-                        console.warn('Channel closed.');
-
-                        swal({
-                            title: "Timeout!",
-                            text: "The session has timed out. Refresh!",
-                            type: "warning",
-                            showCancelButton: false,
-                            confirmButtonColor: "#DD6B55",
-                            confirmButtonText: "Refresh!!",
-                            closeOnConfirm: false
-                        }, function () {
-                            //window.location.replace(window.location.href);
-                            location.reload();
-                            //swal("Timeout!", "Refresh this page to continue.", "success");
-                        });
-                    };
-
-                    context.channelSocket = socket;
-                    context.channelSocket.onmessage = context.messageCallback;
-                }
+                //var context = this;
+                //this.socketCreationCallback = function (channelData) {
+                //
+                //    var channel = new goog.appengine.Channel(channelData.token);
+                //
+                //    dataCache.put(user.accountType+":"+user.localId, channelData);
+                //
+                //    context.channelId = channelData.channelId;
+                //
+                //    var socket = channel.open();
+                //
+                //    socket.onerror = function () {
+                //        console.log("Channel error");
+                //    };
+                //
+                //    socket.onclose = function () {
+                //        console.log("Channel closed, reopening");
+                //        //We reopen the channel
+                //        context.messageCallback = context.channelSocket.onmessage;
+                //        context.channelSocket = undefined;
+                //        $.getJSON("chats/channel", context.socketCreationCallback);
+                //    };
+                //
+                //    context.channelSocket = socket;
+                //    //console.log("Channel info received");
+                //    //console.log(channelData.channelId);
+                //    context.channelSocket.onmessage = context.messageCallback;
+                //};
+                //
+                //
+                //if (!dataCache.get(user.accountType+":"+user.localId)) {
+                //    $http({url: "/rest/channelAPI/token", method: 'GET'}).success(this.socketCreationCallback);
+                //}else{
+                //    var channelData = dataCache.get(user.accountType+":"+user.localId);
+                //
+                //    var channel = new goog.appengine.Channel(channelData.token);
+                //    context.channelId = channelData.channelId;
+                //
+                //
+                //    var socket = channel.open();
+                //
+                //    socket.onopen = function(){
+                //        console.warn("Channel opened");
+                //
+                //    };
+                //
+                //    socket.onmessage = function(){
+                //        console.warn("Channel opened");
+                //
+                //    };
+                //
+                //    socket.onerror = function () {
+                //        console.warn("Channel error");
+                //    };
+                //
+                //    socket.onclose = function () {
+                //        console.warn("Channel closed, reopening");
+                //        //We reopen the channel
+                //        context.messageCallback = context.channelSocket.onmessage;
+                //        context.channelSocket = undefined;
+                //        $.getJSON("chats/channel", context.socketCreationCallback);
+                //        dataCache.remove(user.accountType+":"+user.localId);
+                //        console.warn('Channel closed.');
+                //
+                //        swal({
+                //            title: "Timeout!",
+                //            text: "The session has timed out. Refresh!",
+                //            type: "warning",
+                //            showCancelButton: false,
+                //            confirmButtonColor: "#DD6B55",
+                //            confirmButtonText: "Refresh!!",
+                //            closeOnConfirm: false
+                //        }, function () {
+                //            //window.location.replace(window.location.href);
+                //            location.reload();
+                //            //swal("Timeout!", "Refresh this page to continue.", "success");
+                //        });
+                //    };
+                //
+                //    context.channelSocket = socket;
+                //    context.channelSocket.onmessage = context.messageCallback;
+                //}
             }
         }
     }

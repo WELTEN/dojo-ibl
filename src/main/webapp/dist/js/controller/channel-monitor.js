@@ -42,25 +42,26 @@ angular.module('DojoIBL')
             //$.getJSON("/rest/channelAPI/token", this.socketCreationCallback);
         };
 
-        var socket = new SocketHandler();
-        socket.onMessage(function (data) {
-            $rootScope.$apply(function () {
-                console.log(data);
-                $scope.notifications.push({
-                    sort: new Date(),
-                    time: new Date().toISOString(),
-                    json: JSON.stringify(data, undefined, 2)
-                });
-                switch (data.type) {
-                    //case 'org.celstec.arlearn2.beans.notification.GeneralItemModification':
-                    //    //GeneralItemService.handleNotification(data);
-                    //    console.log("Received ")
-                    //    break;
-                }
-
-            });
-            jQuery("time.timeago").timeago();
-        });
+        //var socket = new SocketHandler();
+        //socket.onMessage(function (data) {
+        //    console.log(data);
+        //
+        //    $rootScope.$apply(function () {
+        //        //$scope.notifications.push({
+        //        //    sort: new Date(),
+        //        //    time: new Date().toISOString(),
+        //        //    json: JSON.stringify(data, undefined, 2)
+        //        //});
+        //        ////switch (data.type) {
+        //        ////    //case 'org.celstec.arlearn2.beans.notification.GeneralItemModification':
+        //        ////    //    //GeneralItemService.handleNotification(data);
+        //        ////    //    console.log("Received ")
+        //        ////    //    break;
+        //        ////}
+        //
+        //    });
+        //    jQuery("time.timeago").timeago();
+        //});
 
         $scope.notifications = [];
         $scope.waitingForData = function () {
