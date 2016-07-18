@@ -120,7 +120,7 @@ angular.module('DojoIBL')
                     console.log(url, url.uploadUrl);
                     Upload.upload({
                         url: url.uploadUrl,
-                        data: {file: file, 'username': $scope.username}
+                        data: {file: file, 'username': $scope.myAccount.accountType+":"+$scope.myAccount.localId}
                     }).then(function (resp) {
 
                         switch (true) {
