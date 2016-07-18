@@ -227,10 +227,11 @@ angular.module('DojoIBL')
                         }
 
                         console.log(resp)
-                        console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+                        console.log('Success ' + resp.config.data.file.name + ' uploaded by: ' + resp.config.data.username);
 
                     }, function (resp) {
                         console.log(resp)
+                        console.log('Error ' + resp.config.data.file.name + ' from: ' + resp.config.data.username);
                         console.log('Error status: ' + resp.status);
                     }, function (evt) {
                         var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
