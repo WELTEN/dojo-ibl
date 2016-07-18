@@ -1,12 +1,13 @@
 angular.module('DojoIBL')
 
-    .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService,
-                                                UserService, AccountService, Response, ResponseService, ChannelService, Upload, config) {
+    .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService, UserService, AccountService,
+                                                Response, ResponseService, RunService, ChannelService, Upload, config) {
 
-        // TODO change this
-        $scope.activity = ActivityService.getItemFromCache($stateParams.activityId);
-
-        console.log($scope.activity);
+        RunService.getRunById($stateParams.runId).then(function(data){
+            ActivityService.getActivityById($stateParams.activityId, data.game.gameId).then(function (data) {
+                $scope.activity = data;
+            });
+        });
 
         AccountService.myDetails().then(
             function(data){
@@ -116,7 +117,7 @@ angular.module('DojoIBL')
             console.log($scope.myAccount, file);
             if(file){
                 ResponseService.uploadUrl($stateParams.runId, $scope.myAccount.accountType+":"+$scope.myAccount.localId, file.name).$promise.then(function(url){
-                    console.log(url);
+                    console.log(url, url.uploadUrl);
                     Upload.upload({
                         url: url.uploadUrl,
                         data: {file: file, 'username': $scope.username}
@@ -229,6 +230,7 @@ angular.module('DojoIBL')
                         console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
 
                     }, function (resp) {
+                        console.log(resp)
                         console.log('Error status: ' + resp.status);
                     }, function (evt) {
                         var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
