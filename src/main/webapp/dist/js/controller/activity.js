@@ -3,6 +3,7 @@ angular.module('DojoIBL')
     .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService,
                                                 UserService, AccountService, Response, ResponseService, ChannelService, Upload, config) {
 
+        // TODO change this
         $scope.activity = ActivityService.getItemFromCache($stateParams.activityId);
 
         console.log($scope.activity);
@@ -46,21 +47,23 @@ angular.module('DojoIBL')
         };
 
         $scope.sendComment = function(){
-            AccountService.myDetails().then(function(data){
-                ResponseService.newResponse({
-                    "type": "org.celstec.arlearn2.beans.run.Response",
-                    "runId": $stateParams.runId,
-                    "deleted": false,
-                    "generalItemId": $stateParams.activityId,
-                    "userEmail": data.accountType+":"+data.localId,
-                    "responseValue": $scope.response,
-                    "parentId": 0,
-                    "revoked": false,
-                    "lastModificationDate": new Date().getTime()
-                }).then(function(data){
-                    $scope.response = null;
+            if($scope.response != null && $scope.response.length > 0){
+                AccountService.myDetails().then(function(data){
+                    ResponseService.newResponse({
+                        "type": "org.celstec.arlearn2.beans.run.Response",
+                        "runId": $stateParams.runId,
+                        "deleted": false,
+                        "generalItemId": $stateParams.activityId,
+                        "userEmail": data.accountType+":"+data.localId,
+                        "responseValue": $scope.response,
+                        "parentId": 0,
+                        "revoked": false,
+                        "lastModificationDate": new Date().getTime()
+                    }).then(function(data){
+                        $scope.response = null;
+                    });
                 });
-            });
+            }
         };
 
         $scope.responseChildren;

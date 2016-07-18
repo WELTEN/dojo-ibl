@@ -23,6 +23,7 @@ angular.module('DojoIBL')
             restrict: 'A',
             link: function(scope, element, attrs) {
                 element.bind("keydown keypress", function(event) {
+                    console.log("key")
                     if(event.which === 13) {
                         scope.$apply(function(){
                             scope.$eval(attrs.ngEnter);
