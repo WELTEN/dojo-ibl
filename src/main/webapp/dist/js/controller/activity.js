@@ -113,128 +113,131 @@ angular.module('DojoIBL')
         // upload on file select or drop
         $scope.upload = function (file) {
             $scope.progressPercentage = 0;
-            console.log($scope.myAccount);
-            ResponseService.uploadUrl($stateParams.runId, $scope.myAccount.accountType+":"+$scope.myAccount.localId, file.name).$promise.then(function(url){
-                console.log(url);
-                Upload.upload({
-                    url: url.uploadUrl,
-                    data: {file: file, 'username': $scope.username}
-                }).then(function (resp) {
+            console.log($scope.myAccount, file);
+            if(file){
+                ResponseService.uploadUrl($stateParams.runId, $scope.myAccount.accountType+":"+$scope.myAccount.localId, file.name).$promise.then(function(url){
+                    console.log(url);
+                    Upload.upload({
+                        url: url.uploadUrl,
+                        data: {file: file, 'username': $scope.username}
+                    }).then(function (resp) {
 
-                    switch (true) {
-                        case /video/.test(resp.config.data.file.type):
-                            ResponseService.newResponse({
-                                "type": "org.celstec.arlearn2.beans.run.Response",
-                                "runId": $stateParams.runId,
-                                "deleted": false,
-                                "generalItemId": $stateParams.activityId,
-                                "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
-                                "responseValue": {
-                                    "videoUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name,
-                                    "fileName": file.name,
-                                    "fileType": resp.config.data.file.type,
-                                    "width": 3264,
-                                    "height": 1840
-                                },
-                                "parentId": 0,
-                                "revoked": false,
-                                "lastModificationDate": new Date().getTime()
-                            }).then(function(data){
+                        switch (true) {
+                            case /video/.test(resp.config.data.file.type):
+                                ResponseService.newResponse({
+                                    "type": "org.celstec.arlearn2.beans.run.Response",
+                                    "runId": $stateParams.runId,
+                                    "deleted": false,
+                                    "generalItemId": $stateParams.activityId,
+                                    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                                    "responseValue": {
+                                        "videoUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name,
+                                        "fileName": file.name,
+                                        "fileType": resp.config.data.file.type,
+                                        "width": 3264,
+                                        "height": 1840
+                                    },
+                                    "parentId": 0,
+                                    "revoked": false,
+                                    "lastModificationDate": new Date().getTime()
+                                }).then(function(data){
 
-                            });
-                            break;
-                        case /image/.test(resp.config.data.file.type):
-                            ResponseService.newResponse({
-                                "type": "org.celstec.arlearn2.beans.run.Response",
-                                "runId": $stateParams.runId,
-                                "deleted": false,
-                                "generalItemId": $stateParams.activityId,
-                                "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
-                                "responseValue": {
-                                    "imageUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name,
-                                    "fileName": file.name,
-                                    "fileType": resp.config.data.file.type,
-                                    "width": 3264,
-                                    "height": 1840
-                                },
-                                "parentId": 0,
-                                "revoked": false,
-                                "lastModificationDate": new Date().getTime()
-                            }).then(function(data){
+                                });
+                                break;
+                            case /image/.test(resp.config.data.file.type):
+                                ResponseService.newResponse({
+                                    "type": "org.celstec.arlearn2.beans.run.Response",
+                                    "runId": $stateParams.runId,
+                                    "deleted": false,
+                                    "generalItemId": $stateParams.activityId,
+                                    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                                    "responseValue": {
+                                        "imageUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name,
+                                        "fileName": file.name,
+                                        "fileType": resp.config.data.file.type,
+                                        "width": 3264,
+                                        "height": 1840
+                                    },
+                                    "parentId": 0,
+                                    "revoked": false,
+                                    "lastModificationDate": new Date().getTime()
+                                }).then(function(data){
 
-                            });
-                            break;
-                        case /pdf/.test(resp.config.data.file.type):
-                            ResponseService.newResponse({
-                                "type": "org.celstec.arlearn2.beans.run.Response",
-                                "runId": $stateParams.runId,
-                                "deleted": false,
-                                "generalItemId": $stateParams.activityId,
-                                "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
-                                "responseValue": {
-                                    "pdfUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name,
-                                    "fileName": file.name,
-                                    "fileType": resp.config.data.file.type,
-                                    "width": 3264,
-                                    "height": 1840
-                                },
-                                "parentId": 0,
-                                "revoked": false,
-                                "lastModificationDate": new Date().getTime()
-                            }).then(function(data){
+                                });
+                                break;
+                            case /pdf/.test(resp.config.data.file.type):
+                                ResponseService.newResponse({
+                                    "type": "org.celstec.arlearn2.beans.run.Response",
+                                    "runId": $stateParams.runId,
+                                    "deleted": false,
+                                    "generalItemId": $stateParams.activityId,
+                                    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                                    "responseValue": {
+                                        "pdfUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name,
+                                        "fileName": file.name,
+                                        "fileType": resp.config.data.file.type,
+                                        "width": 3264,
+                                        "height": 1840
+                                    },
+                                    "parentId": 0,
+                                    "revoked": false,
+                                    "lastModificationDate": new Date().getTime()
+                                }).then(function(data){
 
-                            });
-                            break;
-                        case /audio/.test(resp.config.data.file.type):
-                            ResponseService.newResponse({
-                                "type": "org.celstec.arlearn2.beans.run.Response",
-                                "runId": $stateParams.runId,
-                                "deleted": false,
-                                "generalItemId": $stateParams.activityId,
-                                "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
-                                "responseValue": {
-                                    "audioUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name,
-                                    "fileName": file.name,
-                                    "fileType": resp.config.data.file.type,
-                                    "width": 3264,
-                                    "height": 1840
-                                },
-                                "parentId": 0,
-                                "revoked": false,
-                                "lastModificationDate": new Date().getTime()
-                            }).then(function(data){
+                                });
+                                break;
+                            case /audio/.test(resp.config.data.file.type):
+                                ResponseService.newResponse({
+                                    "type": "org.celstec.arlearn2.beans.run.Response",
+                                    "runId": $stateParams.runId,
+                                    "deleted": false,
+                                    "generalItemId": $stateParams.activityId,
+                                    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                                    "responseValue": {
+                                        "audioUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name,
+                                        "fileName": file.name,
+                                        "fileType": resp.config.data.file.type,
+                                        "width": 3264,
+                                        "height": 1840
+                                    },
+                                    "parentId": 0,
+                                    "revoked": false,
+                                    "lastModificationDate": new Date().getTime()
+                                }).then(function(data){
 
-                            });
-                            break;
-                        default:
-                            ResponseService.newResponse({
-                                "type": "org.celstec.arlearn2.beans.run.Response",
-                                "runId": $stateParams.runId,
-                                "deleted": false,
-                                "generalItemId": $stateParams.activityId,
-                                "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
-                                "responseValue": file.name,
-                                "parentId": 0,
-                                "revoked": false,
-                                "lastModificationDate": new Date().getTime()
-                            }).then(function(data){
+                                });
+                                break;
+                            default:
+                                ResponseService.newResponse({
+                                    "type": "org.celstec.arlearn2.beans.run.Response",
+                                    "runId": $stateParams.runId,
+                                    "deleted": false,
+                                    "generalItemId": $stateParams.activityId,
+                                    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                                    "responseValue": file.name,
+                                    "parentId": 0,
+                                    "revoked": false,
+                                    "lastModificationDate": new Date().getTime()
+                                }).then(function(data){
 
-                            });
-                            break;
+                                });
+                                break;
 
-                    }
+                        }
 
-                    console.log(resp)
-                    console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+                        console.log(resp)
+                        console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
 
-                }, function (resp) {
-                    console.log('Error status: ' + resp.status);
-                }, function (evt) {
-                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    $scope.progressPercentage = progressPercentage;
-                    console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                    }, function (resp) {
+                        console.log('Error status: ' + resp.status);
+                    }, function (evt) {
+                        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                        $scope.progressPercentage = progressPercentage;
+                        console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                    });
                 });
-            });
+
+            }
         };
 
     }
