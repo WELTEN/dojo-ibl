@@ -138,7 +138,7 @@ angular.module('DojoIBL')
                                     "generalItemId": $stateParams.activityId,
                                     "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
                                     "responseValue": {
-                                        "videoUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name,
+                                        "videoUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name.replace(/\s+/g, '_'),
                                         "fileName": file.name,
                                         "fileType": resp.config.data.file.type,
                                         "width": 3264,
@@ -159,7 +159,7 @@ angular.module('DojoIBL')
                                     "generalItemId": $stateParams.activityId,
                                     "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
                                     "responseValue": {
-                                        "imageUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name,
+                                        "imageUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name.replace(/\s+/g, '_'),
                                         "fileName": file.name,
                                         "fileType": resp.config.data.file.type,
                                         "width": 3264,
@@ -180,7 +180,7 @@ angular.module('DojoIBL')
                                     "generalItemId": $stateParams.activityId,
                                     "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
                                     "responseValue": {
-                                        "pdfUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name,
+                                        "pdfUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name.replace(/\s+/g, '_'),
                                         "fileName": file.name,
                                         "fileType": resp.config.data.file.type,
                                         "width": 3264,
@@ -201,7 +201,7 @@ angular.module('DojoIBL')
                                     "generalItemId": $stateParams.activityId,
                                     "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
                                     "responseValue": {
-                                        "audioUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name,
+                                        "audioUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name.replace(/\s+/g, '_'),
                                         "fileName": file.name,
                                         "fileType": resp.config.data.file.type,
                                         "width": 3264,
