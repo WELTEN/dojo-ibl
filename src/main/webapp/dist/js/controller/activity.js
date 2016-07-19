@@ -117,13 +117,11 @@ angular.module('DojoIBL')
             console.log($scope.myAccount, file);
             if(file){
 
-
                 file.name = (file.name).replace(/\s+/g, '_');
-                console.log()
 
                 ResponseService.uploadUrl($stateParams.runId, $scope.myAccount.accountType+":"+$scope.myAccount.localId, file.name.replace(/\s+/g, '_')).$promise.then(function(url){
                     console.log(url, url.uploadUrl);
-                    Upload.rename(file, file.name.replace(/\s+/g, '_'))
+                    Upload.rename(file, file.name.replace(/\s+/g, '_'));
                     Upload.upload({
                         url: url.uploadUrl,
                         data: {file: file, 'username': $scope.myAccount.accountType+":"+$scope.myAccount.localId}
