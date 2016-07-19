@@ -64,7 +64,7 @@
 
             <div class="col-lg-9 animated fadeInRight m-t-sm" ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
                 <div class="lightBoxGallery">
-                    <div class="file-box" ng-repeat="response in responses.responses">
+                    <div class="file-box" ng-repeat="response in responses.responses | orderByDayNumber:'lastModificationDate':true">
                         <data response="response"></data>
                     </div>
                 </div>
