@@ -89,7 +89,11 @@
         "roles-activity": "Roles:",
         "save-activity": "Save",
         "delete-activity": "Delete",
-        "run-inquiries": "4. Inquiry runs"
+        "run-inquiries": "4. Inquiry runs",
+        "run-inquiries-title": "Create new runs for this inquiry structure",
+        "run-inquiries-description": "This panel allows you to create more runs for this inquiry structure. Students can be added later",
+        "run-inquiries-subtitle": "Create a new inquiry run",
+        "activity-order": "Activity order:"
       }
     }
   }

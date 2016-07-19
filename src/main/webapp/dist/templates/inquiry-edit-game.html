@@ -263,7 +263,9 @@
                                                             <!--</div>-->
                                                         <!--</div>-->
                                                         <div class="form-group">
-                                                            <label class="col-sm-3 control-label">Roles</label>
+                                                            <label class="col-sm-3 control-label">{{
+                                                                'dibl.inquiry.new-edit.roles-activity' | translate
+                                                                }}</label>
 
                                                             <div class="col-sm-9">
                                                                 <label class="checkbox-inline" ng-repeat="role in game.config.roles track by $index" >
@@ -278,7 +280,9 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-3 control-label">Order</label>
+                                                            <label class="col-sm-3 control-label">{{
+                                                                'dibl.inquiry.new-edit.activity-order' | translate
+                                                                }}</label>
 
                                                             <div class="col-sm-9">
                                                                 <input type="number"
@@ -380,14 +384,13 @@
 
 
                         <div class="col-md-6">
-                            <h3>Create new runs for this inquiry structure</h3>
+                            <h3>{{'dibl.inquiry.new-edit.run-inquiries-title' | translate}}</h3>
 
-                            <p>This panel allows you to create more runs for this inquiry structure. Students can be
-                                added later.</p>
+                            <p>{{'dibl.inquiry.new-edit.run-inquiries-description' | translate}}</p>
                         </div>
 
                         <div class="col-md-6">
-                            <h3>Create a new inquiry run</h3>
+                            <h3>{{'dibl.inquiry.new-edit.run-inquiries-subtitle' | translate}}</h3>
 
                             <div class="input-group">
 
