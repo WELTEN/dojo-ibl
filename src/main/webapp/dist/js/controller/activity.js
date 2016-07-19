@@ -116,8 +116,14 @@ angular.module('DojoIBL')
             $scope.progressPercentage = 0;
             console.log($scope.myAccount, file);
             if(file){
-                ResponseService.uploadUrl($stateParams.runId, $scope.myAccount.accountType+":"+$scope.myAccount.localId, file.name).$promise.then(function(url){
+
+
+                file.name = (file.name).replace(/\s+/g, '_');
+                console.log()
+
+                ResponseService.uploadUrl($stateParams.runId, $scope.myAccount.accountType+":"+$scope.myAccount.localId, file.name.replace(/\s+/g, '_')).$promise.then(function(url){
                     console.log(url, url.uploadUrl);
+                    Upload.rename(file, file.name.replace(/\s+/g, '_'))
                     Upload.upload({
                         url: url.uploadUrl,
                         data: {file: file, 'username': $scope.myAccount.accountType+":"+$scope.myAccount.localId}
