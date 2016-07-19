@@ -11,7 +11,7 @@
         <div class="col-md-3">
             <div class="wrapper wrapper-content project-manager">
                 <h4>{{ game.title }}</h4>
-                <img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">
+                <!--<img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">-->
 
                 <div ng-bind-html="game.description"></div>
 
@@ -162,7 +162,7 @@
                             <ul class="nav nav-tabs select-activities">
                                 <li ng-repeat="phase in phases track by $index" ng-class="{ active:tab.isSet($index) }"
                                     data="{{$index}}">
-                                    <a data-toggle="tab" ng-click="tab.setTab($index)">
+                                    <a data-toggle="tab" ng-click="tab.setTab($index);renamePhase(tab.isSet($index), $index)">
                                         {{$index}} {{ phase.title | limitTo: 8 }} {{ phase.title.length > 8 ? '...' :
                                         ''}}
                                         <i class="fa fa-remove remove-phase" ng-hide="phases.length == 1" ng-click="removePhase($index)"></i>

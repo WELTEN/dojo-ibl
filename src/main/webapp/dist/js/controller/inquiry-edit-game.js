@@ -94,6 +94,41 @@ angular.module('DojoIBL')
             };
         };
 
+        $scope.currentPhase = 0;
+
+        $scope.renamePhase = function(tab, index){
+            if($scope.currentPhase == index){
+                swal({
+                    title: "Rename phase",
+                    text: "Are you sure you want to rename the phase?",
+                    type: "input",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes, rename it!",
+                    inputPlaceholder: "New phase name",
+                    closeOnConfirm: false
+                }, function (inputValue) {
+
+                    if (inputValue === false)
+                        return false;
+                    if (inputValue === "") {
+                        swal.showInputError("You need to write something!");
+                        return false
+                    }
+
+                    swal("Well done!", "You renamed the phase, now it's called: " + inputValue, "success");
+
+                    $scope.phases[index].title = inputValue;
+
+                    $scope.game.phases = $scope.phases;
+
+                    GameService.newGame($scope.game);
+
+                });
+            }
+            $scope.currentPhase = index;
+        };
+
         $scope.addOne = function(a){
 
             var object = {
@@ -255,7 +290,8 @@ angular.module('DojoIBL')
             });
         };
 
-    }).controller('TabController', function ($scope, $stateParams, GameService, ActivityService) {
+    })
+    .controller('TabController', function ($scope, $stateParams, GameService, ActivityService) {
         this.tab = 0;
 
         GameService.getGameById($stateParams.gameId).then(function (data) {
@@ -268,6 +304,7 @@ angular.module('DojoIBL')
         });
 
         this.setTab = function (tabId) {
+
             this.tab = tabId;
             ActivityService.getActivitiesForPhase($scope.game.gameId, tabId).then(function (data) {
                 $scope.activities = data;
