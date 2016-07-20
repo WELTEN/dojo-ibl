@@ -93,13 +93,17 @@ angular.module('DojoIBL')
                 });
             };
         };
+        $scope.changeTab = function(index){
+            $scope.selectedCombination = 0;
+            $scope.selected = false;
+        };
 
         $scope.currentPhase = 0;
 
         $scope.renamePhase = function(tab, index){
-            if($scope.currentPhase == index){
+            //if($scope.currentPhase == index){
                 swal({
-                    title: "Rename phase",
+                    title: "Rename phase "+index+" '"+$scope.phases[index].title+"'?",
                     text: "Are you sure you want to rename the phase?",
                     type: "input",
                     showCancelButton: true,
@@ -125,8 +129,8 @@ angular.module('DojoIBL')
                     GameService.newGame($scope.game);
 
                 });
-            }
-            $scope.currentPhase = index;
+            //}
+            //$scope.currentPhase = index;
         };
 
         $scope.addOne = function(a){
@@ -180,9 +184,6 @@ angular.module('DojoIBL')
         $scope.saveActivity = function(){
             // Save array of roles into the activity
             $scope.activity.roles = $scope.selection;
-
-            console.log($scope.activity);
-
             ActivityService.newActivity($scope.activity);
         };
 
@@ -306,9 +307,10 @@ angular.module('DojoIBL')
         this.setTab = function (tabId) {
 
             this.tab = tabId;
-            ActivityService.getActivitiesForPhase($scope.game.gameId, tabId).then(function (data) {
-                $scope.activities = data;
-            });
+            //ActivityService.getActivitiesForPhase($scope.game.gameId, tabId).then(function (data) {
+            //    $scope.activities = data;
+            //});
+
         };
 
         this.isSet = function (tabId) {

@@ -151,7 +151,7 @@
                     <div class="col-lg-9">
                         <div class="tabs-container" ng-show="phases == 0" class="tip" style="color: #000; font-size: 18px; text-align: center; padding-top: 200px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
                             {{ 'dibl.inquiry.new-edit.click-first' | translate }}
-                            <button class="btn btn-success dropped" ng-click="addPhase()"
+                            <button class="btn btn-success" ng-click="addPhase()"
                                     style="width: 10em; vertical-align: baseline;"><i class="fa fa-plus"></i> {{
                                 'dibl.inquiry.new-edit.add-phase' | translate }}
                             </button>
@@ -160,13 +160,18 @@
 
                         <div class="tabs-container" ng-controller="TabController as tab">
                             <ul class="nav nav-tabs select-activities">
+
                                 <li ng-repeat="phase in phases track by $index" ng-class="{ active:tab.isSet($index) }"
                                     data="{{$index}}">
-                                    <a data-toggle="tab" ng-click="tab.setTab($index);renamePhase(tab.isSet($index), $index)">
-                                        {{$index}} {{ phase.title | limitTo: 8 }} {{ phase.title.length > 8 ? '...' :
-                                        ''}}
+
+                                    <a data-toggle="tab"
+                                       ng-click="tab.setTab($index);changeTab($index)">
+                                        <i class="fa fa-edit" ng-click="renamePhase(tab.isSet($index), $index)"></i>
+                                        <span >{{$index}} {{ phase.title | limitTo: 8 }} {{ phase.title.length > 8 ? '...' :
+                                        ''}}</span>
                                         <i class="fa fa-remove remove-phase" ng-hide="phases.length == 1" ng-click="removePhase($index)"></i>
                                     </a>
+
                                 </li>
 
                             </ul>
@@ -175,9 +180,7 @@
                                 <div class="tab-pane" ng-repeat="phase in phases track by $index"
                                      ng-class="{true: 'active'}[tab.isSet($index) == true]" ng-show="tab.isSet($index)">
                                     <div class="panel-body">
-                                        <div class="col-lg-3 activities" ng-model="lists[$index]" data="{{$index}}"
-                                             data-drop="true" data-jqyoui-options
-                                             jqyoui-droppable="{onDrop:'dropCallback(item)'}">
+                                        <div class="col-lg-3 activities" ng-model="lists[$index]" data="{{$index}}">
                                             <div ng-hide="lists[$index].length > 0" class="tip"
                                                  style="color: #000; font-size: 18px; text-align: center; padding-top: 200px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
                                                 {{ 'dibl.inquiry.new-edit.adding-activities' | translate }}
@@ -195,9 +198,6 @@
                                             <div class="btn btn-success dropped"
                                                  ng-click="selectActivity(item, item.id)"
                                                  ng-repeat="(key, item) in lists[$index] | orderByDayNumber:'sortKey'"
-                                                 data-drag="true"
-                                                 data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
-                                                 data="{{ item.type }}"
                                                  ng-class="{'btn-warning':selectedCombination==item.id}">
                                                 <span ng-show="item.name.length == 0"> <small>No name provided</small> </span>
                                                 {{ item.sortKey }}. {{ item.name }}
