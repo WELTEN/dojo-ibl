@@ -95,6 +95,11 @@ angular.module('DojoIBL')
             },
             addUserToRun: function(json){
                 Run.addUserToRun(json);
+            },
+            deleteRun: function(runId){
+                var dataCache = CacheFactory.get('runsCache');
+                dataCache.remove(runId);
+                return Run.delete({ id: runId });
             }
         }
     }

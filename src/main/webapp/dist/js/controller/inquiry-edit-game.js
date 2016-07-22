@@ -327,6 +327,13 @@ angular.module('DojoIBL')
             });
         });
 
+        $scope.removeRun = function(run){
+            console.log(run)
+            //$scope.phases.splice(index, 1);
+            //$scope.game.phases = $scope.phases;
+            RunService.deleteRun(run.runId);
+        };
+
         $scope.createInquiryRun = function(){
             // Add the link between run and game
             $scope.run.gameId = $stateParams.gameId;
@@ -334,7 +341,7 @@ angular.module('DojoIBL')
                 // Update run with data from the server
                 $scope.run = run;
 
-                console.log(run);
+                //console.log(run);
 
                 if(angular.isUndefined($scope.gameRuns)){
                     $scope.gameRuns = []

@@ -28,6 +28,11 @@ angular.module('DojoIBL')
                 isArray: false,
                 url: config.server + '/rest/myRuns'
             },
+            'delete': {
+                method: 'DELETE',
+                isArray: false,
+                url: config.server + '/rest/myRuns/runId/:id'
+            },
             giveAccess: {
                 params: { runId: '@runId', accountId: '@accountId', accessRight: '@accessRight' },
                 method: 'GET',
