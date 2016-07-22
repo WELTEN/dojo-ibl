@@ -63,8 +63,52 @@ angular.module('DojoIBL')
         $scope.selected = false;
         $scope.activity = {};
 
+        $scope.compare = function() {
+            return !angular.equals($scope.activity_old, $scope.activity);
+        };
+
+        $scope.saveActivity = function(){
+            //console.log($scope.activity_old.richText, $scope.activity.richText)
+            // Save array of roles into the activity
+            $scope.activity_old = angular.copy($scope.activity);
+            $scope.activity.roles = $scope.selection;
+            ActivityService.newActivity($scope.activity);
+        };
+
         $scope.selectActivity = function(activity, combinationId){
+            if(!angular.isUndefined($scope.activity_old)){
+                if(!angular.equals($scope.activity_old, $scope.activity)){
+                    swal({
+                        title: "Save you changes",
+                        text: "Do you want to save before going on?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, save it!",
+                        closeOnConfirm: false
+                    }, function () {
+                        $scope.saveActivity();
+                        swal("Saved!", "The activity has been saved successfully", "success");
+
+                        $scope.activity = activity;
+
+                        $scope.activity_old = angular.copy(activity);
+
+                        // Save roles into an array
+                        $scope.selection = $scope.activity.roles || [];
+
+                        $scope.selected = true;
+
+                        $scope.selectedCombination = combinationId;
+
+                    });
+                    return;
+                }
+            }
+
             $scope.activity = activity;
+
+            $scope.activity_old = angular.copy(activity);
 
             // Save roles into an array
             $scope.selection = $scope.activity.roles || [];
@@ -89,10 +133,13 @@ angular.module('DojoIBL')
                     var position = $scope.lists[$(".select-activities > li.active").attr('data')].indexOf(data);
                     $scope.lists[$(".select-activities > li.active").attr('data')].splice(position, 1);
                     ActivityService.deleteActivity($scope.activity.gameId, $scope.activity.id);
-                    $scope.activity = null;
+                    $scope.activity = $scope.activity_old;
+                    $scope.selectedCombination = 0;
+                    $scope.selected = false;
                 });
             };
         };
+
         $scope.changeTab = function(index){
             $scope.selectedCombination = 0;
             $scope.selected = false;
@@ -101,36 +148,33 @@ angular.module('DojoIBL')
         $scope.currentPhase = 0;
 
         $scope.renamePhase = function(tab, index){
-            //if($scope.currentPhase == index){
-                swal({
-                    title: "Rename phase "+index+" '"+$scope.phases[index].title+"'?",
-                    text: "Are you sure you want to rename the phase?",
-                    type: "input",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes, rename it!",
-                    inputPlaceholder: "New phase name",
-                    closeOnConfirm: false
-                }, function (inputValue) {
+            swal({
+                title: "Rename phase "+index+" '"+$scope.phases[index].title+"'?",
+                text: "Are you sure you want to rename the phase?",
+                type: "input",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, rename it!",
+                inputPlaceholder: "New phase name",
+                closeOnConfirm: false
+            }, function (inputValue) {
 
-                    if (inputValue === false)
-                        return false;
-                    if (inputValue === "") {
-                        swal.showInputError("You need to write something!");
-                        return false
-                    }
+                if (inputValue === false)
+                    return false;
+                if (inputValue === "") {
+                    swal.showInputError("You need to write something!");
+                    return false
+                }
 
-                    swal("Well done!", "You renamed the phase, now it's called: " + inputValue, "success");
+                swal("Well done!", "You renamed the phase, now it's called: " + inputValue, "success");
 
-                    $scope.phases[index].title = inputValue;
+                $scope.phases[index].title = inputValue;
 
-                    $scope.game.phases = $scope.phases;
+                $scope.game.phases = $scope.phases;
 
-                    GameService.newGame($scope.game);
+                GameService.newGame($scope.game);
 
-                });
-            //}
-            //$scope.currentPhase = index;
+            });
         };
 
         $scope.addOne = function(a){
@@ -179,12 +223,6 @@ angular.module('DojoIBL')
             else {
                 $scope.selection.push(rol);
             }
-        };
-
-        $scope.saveActivity = function(){
-            // Save array of roles into the activity
-            $scope.activity.roles = $scope.selection;
-            ActivityService.newActivity($scope.activity);
         };
 
         ///////////////

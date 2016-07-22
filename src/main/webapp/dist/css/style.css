@@ -9021,3 +9021,7 @@ text-angular > p{
 .highlight.ng-enter.ng-enter-active {
   opacity: 1;
 }
+
+.not_saved{
+  background: rgba(248, 172, 89, 0.15);
+}

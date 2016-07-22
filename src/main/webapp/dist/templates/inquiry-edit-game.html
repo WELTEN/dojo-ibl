@@ -166,7 +166,8 @@
 
                                     <a data-toggle="tab"
                                        ng-click="tab.setTab($index);changeTab($index)">
-                                        <i class="fa fa-edit" ng-click="renamePhase(tab.isSet($index), $index)"></i>
+                                        <i class="fa fa-arrows" title="Reorder phase"></i>
+                                        <i class="fa fa-edit" title="Rename phase" ng-click="renamePhase(tab.isSet($index), $index)"></i>
                                         <span >{{$index}} {{ phase.title | limitTo: 8 }} {{ phase.title.length > 8 ? '...' :
                                         ''}}</span>
                                         <i class="fa fa-remove remove-phase" ng-hide="phases.length == 1" ng-click="removePhase($index)"></i>
@@ -211,8 +212,7 @@
                                             </div>
                                             <div class="mail-box" ng-show="selected">
 
-                                                <div class="mail-body">
-
+                                                <div class="mail-body" ng-class="{ not_saved: compare() }">
                                                     <form class="form-horizontal" method="get">
                                                         <div class="form-group">
                                                             <label class="col-sm-3 control-label">{{
