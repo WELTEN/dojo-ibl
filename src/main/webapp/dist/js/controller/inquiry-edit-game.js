@@ -141,8 +141,40 @@ angular.module('DojoIBL')
         };
 
         $scope.changeTab = function(index){
+
             $scope.selectedCombination = 0;
             $scope.selected = false;
+
+            if(!angular.isUndefined($scope.activity_old)){
+                if(!angular.equals($scope.activity_old, $scope.activity)){
+                    swal({
+                        title: "Save you changes",
+                        text: "Make sure you save your changes before going on",
+                        type: "warning",
+                        //showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Save changes now!",
+                        closeOnConfirm: false
+                    }, function () {
+                        $scope.saveActivity();
+                        swal("Saved!", "The activity has been saved successfully", "success");
+
+                        $scope.activity = activity;
+
+                        $scope.activity_old = angular.copy(activity);
+
+                        // Save roles into an array
+                        $scope.selection = $scope.activity.roles || [];
+
+                        $scope.selected = true;
+
+                        $scope.selectedCombination = combinationId;
+
+                    });
+                    return;
+                }
+            }
+
         };
 
         $scope.currentPhase = 0;
