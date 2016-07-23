@@ -8653,9 +8653,14 @@ text.id {
 
 .select-activities li:not(.new-phase) a {
   /*text-decoration: underline;*/
+  padding-right: 4em;
 }
 
-.select-activities li:not(.new-phase) a:hover {
+.select-activities li:not(.new-phase) a > span{
+  margin: 1em;
+}
+
+.select-activities li:not(.new-phase) a:hover > span{
   text-decoration: underline;
   cursor:pointer;
 }
@@ -8672,9 +8677,27 @@ text.id {
 
 
 i.remove-phase{
-  position: relative;
-  bottom: 9px;
-  left: 20px;
+  /*position: relative;*/
+  /*bottom: 9px;*/
+  /*left: 37px;*/
+  /*cursor: pointer;*/
+
+  position: absolute;
+  bottom: 20px;
+  cursor: pointer;
+  right: 0px;
+}
+
+i.edit-phase{
+  position: absolute;
+  bottom: 19px;
+  cursor: pointer;
+  right: 17px;
+}
+
+.reorder-phase{
+  font-size: 20px;
+  margin: 0 !important;
   cursor: pointer;
 }
 

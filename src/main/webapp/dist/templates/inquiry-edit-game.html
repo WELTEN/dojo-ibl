@@ -159,18 +159,19 @@
                         </div>
 
                         <div class="tabs-container" ng-controller="TabController as tab">
-                            <ul class="nav nav-tabs select-activities">
+                            <ul class="nav nav-tabs select-activities" ui-sortable="sortableOptions" ng-model="phases">
 
                                 <li ng-repeat="phase in phases track by $index" ng-class="{ active:tab.isSet($index) }"
                                     data="{{$index}}">
 
                                     <a data-toggle="tab"
                                        ng-click="tab.setTab($index);changeTab($index)">
-                                        <i class="fa fa-arrows" title="Reorder phase"></i>
-                                        <i class="fa fa-edit" title="Rename phase" ng-click="renamePhase(tab.isSet($index), $index)"></i>
-                                        <span >{{$index}} {{ phase.title | limitTo: 8 }} {{ phase.title.length > 8 ? '...' :
-                                        ''}}</span>
+                                        <i class="fa fa-arrow-left reorder-phase" ng-click="movePhase($index, $index-1)" ng-hide="$index == 0" title="Left"></i>
+                                        <span >{{$index}}. {{ phase.title }}</span>
                                         <i class="fa fa-remove remove-phase" ng-hide="phases.length == 1" ng-click="removePhase($index)"></i>
+                                        <i class="fa fa-edit edit-phase " title="Rename phase" ng-click="renamePhase(tab.isSet($index), $index)"></i>
+                                        <i class="fa fa-arrow-right reorder-phase" ng-click="movePhase($index, $index+1)" ng-hide="$index == phases.length-1" title="Right"></i>
+
                                     </a>
 
                                 </li>

@@ -297,9 +297,65 @@ angular.module('DojoIBL')
         };
 
         $scope.removePhase = function(index){
-            $scope.phases.splice(index, 1);
+
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this phase!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete the phase!",
+                closeOnConfirm: false
+            }, function () {
+                swal("Phase deleted!", "The phase has been removed from the inquiry structure.", "success");
+
+                $scope.phases.splice(index, 1);
+                $scope.game.phases = $scope.phases;
+                GameService.newGame($scope.game);
+            });
+
+        };
+
+        $scope.movePhase = function(x, y){
+            //console.log($scope.phases)
+
+            var b = $scope.phases[y];
+            var acts = $scope.lists[y];
+
+            $scope.phases[y] = $scope.phases[x];
+            $scope.lists[y] = $scope.lists[x];
+
+            $scope.phases[x] = b;
+            $scope.lists[x] = acts;
+
+            angular.forEach($scope.lists[x], function(i,a){
+                console.log(i,a)
+                i.section = x;
+                ActivityService.newActivity(i).then(function(data){
+                    console.log(data);
+                });
+            });
+
+            angular.forEach($scope.lists[y], function(i,a){
+                console.log(i,a)
+                i.section = y;
+                ActivityService.newActivity(i).then(function(data){
+                    console.log(data);
+                });
+            });
+
             $scope.game.phases = $scope.phases;
+
             GameService.newGame($scope.game);
+
+            //angular.forEach($scope.game.phases, function(value, key) {
+            //    $scope.lists[key] = [];
+            //    ActivityService.getActivitiesForPhase($stateParams.gameId, key).then(function(data){
+            //        angular.forEach(data, function(i,a){
+            //            $scope.lists[key].push(i);
+            //        });
+            //    });
+            //});
         };
 
         //////////////////////
@@ -328,7 +384,7 @@ angular.module('DojoIBL')
         });
 
         $scope.removeRun = function(run){
-            console.log(run)
+            //console.log(run);
             //$scope.phases.splice(index, 1);
             //$scope.game.phases = $scope.phases;
             RunService.deleteRun(run.runId);
@@ -340,8 +396,6 @@ angular.module('DojoIBL')
             RunService.newRun($scope.run).then(function(run){
                 // Update run with data from the server
                 $scope.run = run;
-
-                //console.log(run);
 
                 if(angular.isUndefined($scope.gameRuns)){
                     $scope.gameRuns = []
