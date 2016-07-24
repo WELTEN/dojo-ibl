@@ -339,7 +339,6 @@ angular.module('DojoIBL')
                 $scope.lists[x] = acts;
 
                 angular.forEach($scope.lists[x], function(i,a){
-                    console.log(i,a)
                     i.section = x;
                     ActivityService.newActivity(i).then(function(data){
                         console.log(data);
@@ -347,7 +346,6 @@ angular.module('DojoIBL')
                 });
 
                 angular.forEach($scope.lists[y], function(i,a){
-                    console.log(i,a)
                     i.section = y;
                     ActivityService.newActivity(i).then(function(data){
                         console.log(data);
@@ -357,16 +355,6 @@ angular.module('DojoIBL')
                 $scope.game.phases = $scope.phases;
 
                 GameService.newGame($scope.game);
-
-                //angular.forEach($scope.game.phases, function(value, key) {
-                //    $scope.lists[key] = [];
-                //    ActivityService.getActivitiesForPhase($stateParams.gameId, key).then(function(data){
-                //        angular.forEach(data, function(i,a){
-                //            $scope.lists[key].push(i);
-                //        });
-                //    });
-                //});
-
             });
 
         };
