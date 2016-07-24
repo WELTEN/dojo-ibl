@@ -299,7 +299,7 @@ angular.module('DojoIBL')
         $scope.removePhase = function(index){
 
             swal({
-                title: "Are you sure?",
+                title: "Are you sure you want to delete the phase?",
                 text: "You will not be able to recover this phase!",
                 type: "warning",
                 showCancelButton: true,
@@ -317,45 +317,58 @@ angular.module('DojoIBL')
         };
 
         $scope.movePhase = function(x, y){
-            //console.log($scope.phases)
 
-            var b = $scope.phases[y];
-            var acts = $scope.lists[y];
+            swal({
+                title: "Moving phase "+x+" to phase "+y,
+                text: "You will switch phase positions. Current phase "+x+" will be "+y+" and phase "+y+" will be phase "+x,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, move them!",
+                closeOnConfirm: false
+            }, function () {
+                swal("Phase moved!", "Phases have been reordered", "success");
 
-            $scope.phases[y] = $scope.phases[x];
-            $scope.lists[y] = $scope.lists[x];
+                var b = $scope.phases[y];
+                var acts = $scope.lists[y];
 
-            $scope.phases[x] = b;
-            $scope.lists[x] = acts;
+                $scope.phases[y] = $scope.phases[x];
+                $scope.lists[y] = $scope.lists[x];
 
-            angular.forEach($scope.lists[x], function(i,a){
-                console.log(i,a)
-                i.section = x;
-                ActivityService.newActivity(i).then(function(data){
-                    console.log(data);
+                $scope.phases[x] = b;
+                $scope.lists[x] = acts;
+
+                angular.forEach($scope.lists[x], function(i,a){
+                    console.log(i,a)
+                    i.section = x;
+                    ActivityService.newActivity(i).then(function(data){
+                        console.log(data);
+                    });
                 });
+
+                angular.forEach($scope.lists[y], function(i,a){
+                    console.log(i,a)
+                    i.section = y;
+                    ActivityService.newActivity(i).then(function(data){
+                        console.log(data);
+                    });
+                });
+
+                $scope.game.phases = $scope.phases;
+
+                GameService.newGame($scope.game);
+
+                //angular.forEach($scope.game.phases, function(value, key) {
+                //    $scope.lists[key] = [];
+                //    ActivityService.getActivitiesForPhase($stateParams.gameId, key).then(function(data){
+                //        angular.forEach(data, function(i,a){
+                //            $scope.lists[key].push(i);
+                //        });
+                //    });
+                //});
+
             });
 
-            angular.forEach($scope.lists[y], function(i,a){
-                console.log(i,a)
-                i.section = y;
-                ActivityService.newActivity(i).then(function(data){
-                    console.log(data);
-                });
-            });
-
-            $scope.game.phases = $scope.phases;
-
-            GameService.newGame($scope.game);
-
-            //angular.forEach($scope.game.phases, function(value, key) {
-            //    $scope.lists[key] = [];
-            //    ActivityService.getActivitiesForPhase($stateParams.gameId, key).then(function(data){
-            //        angular.forEach(data, function(i,a){
-            //            $scope.lists[key].push(i);
-            //        });
-            //    });
-            //});
         };
 
         //////////////////////
