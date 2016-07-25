@@ -8724,7 +8724,11 @@ ul.sortable-list{
 }
 
 .activities{
-  position: relative;height:35em; border:1px dashed black; background: rgba(211, 211, 211, 0.39); padding: 1em;}
+  position: relative;
+  min-height:35em;
+  border:1px dashed black;
+  background: rgba(211, 211, 211, 0.39);
+  padding: 1em;}
 
 
 .col{float:left;margin:5px;padding:5px;}
