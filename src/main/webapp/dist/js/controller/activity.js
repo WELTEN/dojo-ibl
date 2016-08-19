@@ -96,6 +96,7 @@ angular.module('DojoIBL')
 
             var socket = new ChannelService.SocketHandler(user);
             socket.onMessage(function (data) {
+                console.log("messages received", data);
                 $scope.$apply(function () {
                     switch (data.type) {
 
