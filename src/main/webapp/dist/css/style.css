@@ -1348,7 +1348,11 @@ button.dim:active:before {
 
 .dropped{
   width: 100%;
-  margin: 1em 0 0 0;
+  margin: 0 0 1em 0;
+}
+
+.dropped:last-child{
+  margin: 0 0 0 0;
 }
 
 #remove-drag{
@@ -3584,7 +3588,7 @@ body.body-small .footer.fixed {
 .nav-tabs > li > a {
   color: #A7B1C2;
   font-weight: 600;
-  padding: 10px 20px 10px 25px;
+  padding: 10px;
 }
 .nav-tabs > li > a:hover,
 .nav-tabs > li > a:focus {
@@ -8653,7 +8657,7 @@ text.id {
 
 .select-activities li:not(.new-phase) a {
   /*text-decoration: underline;*/
-  padding-right: 4em;
+  /*padding-right: 40px;*/
 }
 
 .select-activities li:not(.new-phase) a > span{

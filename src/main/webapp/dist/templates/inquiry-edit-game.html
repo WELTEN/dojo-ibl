@@ -149,7 +149,7 @@
                     </div>
 
                     <div class="col-lg-9">
-                        <div class="tabs-container" ng-show="phases == 0" class="tip" style="color: #000; font-size: 18px; text-align: center; padding-top: 200px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
+                        <div class="tabs-container" ng-show="phases == 0" class="tip" style="color: #000; font-size: 18px; text-align: center; padding-top: 53px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
                             {{ 'dibl.inquiry.new-edit.click-first' | translate }}
                             <button class="btn btn-success" ng-click="addPhase()"
                                     style="width: 10em; vertical-align: baseline;"><i class="fa fa-plus"></i> {{
@@ -159,29 +159,39 @@
                         </div>
 
                         <div class="tabs-container" ng-controller="TabController as tab">
-                            <ul class="nav nav-tabs select-activities" ui-sortable="sortableOptions" ng-model="phases">
+                            <ul class="nav nav-tabs select-activities" ng-model="phases">
 
                                 <li ng-repeat="phase in phases track by $index" ng-class="{ active:tab.isSet($index) }"
                                     data="{{$index}}">
 
                                     <a data-toggle="tab"
                                        ng-click="tab.setTab($index);changeTab($index)">
-                                        <i class="fa fa-arrow-left reorder-phase" ng-click="movePhase($index, $index-1)" ng-hide="$index == 0" title="Left"></i>
+                                        <i class="fa fa-arrow-left reorder-phase" ng-click="movePhase($index, $index-1)" ng-hide="$index == 0" title="Move phase {{ $index }} to the left"></i>
                                         <span >{{$index}}. {{ phase.title }}</span>
-                                        <i class="fa fa-remove remove-phase" ng-hide="phases.length == 1" ng-click="removePhase($index)"></i>
-                                        <i class="fa fa-edit edit-phase " title="Rename phase" ng-click="renamePhase(tab.isSet($index), $index)"></i>
-                                        <i class="fa fa-arrow-right reorder-phase" ng-click="movePhase($index, $index+1)" ng-hide="$index == phases.length-1" title="Right"></i>
-
+                                        <!--<i class="fa fa-remove remove-phase" ng-hide="phases.length == 1" ng-click="removePhase($index)"></i>-->
+                                        <!--<i class="fa fa-edit edit-phase " title="Rename phase" ng-click="renamePhase(tab.isSet($index), $index)"></i>-->
+                                        <i class="fa fa-arrow-right reorder-phase" ng-click="movePhase($index, $index+1)" ng-hide="$index == phases.length-1" title="Move phase {{ $index }} to the right"></i>
                                     </a>
-
                                 </li>
-
                             </ul>
 
                             <div class="tab-content">
                                 <div class="tab-pane" ng-repeat="phase in phases track by $index"
                                      ng-class="{true: 'active'}[tab.isSet($index) == true]" ng-show="tab.isSet($index)">
                                     <div class="panel-body">
+                                        <div class="ibox-title no-borders no-padding">
+                                            <h5>List of activities in '{{ phase.title }}' phase</h5>
+                                            <div class="ibox-tools">
+
+                                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                                    <i class="fa fa-edit" title="Rename phase" ng-click="renamePhase(tab.isSet($index), $index)"></i>
+
+                                                </a>
+                                                <a class="close-link">
+                                                    <i class="fa fa-remove" ng-hide="phases.length == 1" ng-click="removePhase($index)"></i>
+                                                </a>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-3 activities" ng-model="lists[$index]" data="{{$index}}">
                                             <div ng-hide="lists[$index].length > 0" class="tip"
                                                  style="color: #000; font-size: 18px; text-align: center; padding-top: 200px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
@@ -208,7 +218,7 @@
 
                                         <div class="col-md-9">
                                             <div ng-show="lists[$index].length > 0 && !selectedCombination" class="tip"
-                                                 style="color: #000; font-size: 18px; text-align: center; padding-top: 200px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
+                                                 style="color: #000; font-size: 18px; text-align: center; padding-top: 53px; width:90%; margin:0 auto; position: absolute;z-index: 1;">
                                                 {{ 'dibl.inquiry.new-edit.editing-activities' | translate }}
                                             </div>
                                             <div class="mail-box" ng-show="selected">
