@@ -92,25 +92,25 @@ angular.module('DojoIBL')
             return $sce.trustAsResourceUrl(src);
         };
 
-        //AccountService.myDetails().then(function(user) {
-        //
-        //    var socket = new ChannelService.SocketHandler(user);
-        //    socket.onMessage(function (data) {
-        //        console.log("messages received", data);
-        //        $scope.$apply(function () {
-        //            switch (data.type) {
-        //
-        //                case 'org.celstec.arlearn2.beans.run.Response':
-        //                    //$scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
-        //                    if(user.localId != data.userEmail.split(':')[1])
-        //                        ResponseService.addResponse(data, $stateParams.runId, $stateParams.activityId);
-        //                    console.info("[Notification][Response]", data, $stateParams.runId, $stateParams.activityId);
-        //                    break;
-        //            }
-        //        });
-        //        //jQuery("time.timeago").timeago();
-        //    });
-        //});
+        AccountService.myDetails().then(function(user) {
+
+            var socket = new ChannelService.SocketHandler(user);
+            socket.onMessage(function (data) {
+                console.log("messages received", data);
+                $scope.$apply(function () {
+                    switch (data.type) {
+
+                        case 'org.celstec.arlearn2.beans.run.Response':
+                            //$scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
+                            if(user.localId != data.userEmail.split(':')[1])
+                                ResponseService.addResponse(data, $stateParams.runId, $stateParams.activityId);
+                            console.info("[Notification][Response]", data, $stateParams.runId, $stateParams.activityId);
+                            break;
+
+                    }
+                });
+            });
+        });
 
         // upload on file select or drop
         $scope.upload = function (file) {

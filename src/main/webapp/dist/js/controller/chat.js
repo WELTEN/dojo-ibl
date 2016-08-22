@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('InstantMessagingController', function ($window, $scope, $stateParams, Message, MessageService, ResponseService, ChannelService, AccountService, UserService) {
+    .controller('InstantMessagingController', function ($window, $scope, $stateParams, Message, MessageService, ChannelService, AccountService, UserService) {
 
         AccountService.myDetails().then(
             function(data){
@@ -74,12 +74,6 @@ angular.module('DojoIBL')
                                     console.info("[Notification][Message]");
                                 });
                             }
-                            break;
-                        case 'org.celstec.arlearn2.beans.run.Response':
-                            //$scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
-                            if(me.localId != data.userEmail.split(':')[1])
-                                ResponseService.addResponse(data, $stateParams.runId, $stateParams.activityId);
-                            console.info("[Notification][Response]", data, $stateParams.runId, $stateParams.activityId);
                             break;
                     }
                 });
