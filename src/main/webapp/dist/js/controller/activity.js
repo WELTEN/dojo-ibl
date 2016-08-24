@@ -102,7 +102,8 @@ angular.module('DojoIBL')
 
                         case 'org.celstec.arlearn2.beans.run.Response':
                             //$scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
-                            if(user.localId != data.userEmail.split(':')[1])
+                            if((user.localId != data.userEmail.split(':')[1]) && data.generalItemId == $stateParams.activityId &&
+                                data.runId == $stateParams.runId)
                                 ResponseService.addResponse(data, $stateParams.runId, $stateParams.activityId);
                             console.info("[Notification][Response]", data, $stateParams.runId, $stateParams.activityId);
                             break;

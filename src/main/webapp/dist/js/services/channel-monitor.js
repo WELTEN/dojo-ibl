@@ -39,6 +39,11 @@ angular.module('DojoIBL')
 
                     context.channelId = channelData.channelId;
                     var socket = channel.open();
+
+                    socket.onopen = function(e) {
+                        console.info("Channel opened");
+                    };
+
                     socket.onerror = function () {
                         //console.log("Channel error");
                     };
