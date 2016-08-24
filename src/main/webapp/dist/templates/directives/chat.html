@@ -2,7 +2,7 @@
     <img class="message-avatar" src="dist/img/avatar.png" ng-src="{{ user.picture }}" alt="">
     <div class="message">
         <a class="message-author" href="#/profile/{{ user.localId}}"> {{ user.name }} </a>
-        <span class="message-date"> {{ message.date | date:'medium' }}</span>
+        <span class="message-date"> {{ message.date | date:'short' }}</span>
         <span class="message-content" ng-bind-html="message.body | emoticons:{linkTarget:'_blank'}">
         {{ message.body }}
         </span>
