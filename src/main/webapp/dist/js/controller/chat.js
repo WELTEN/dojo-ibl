@@ -1,6 +1,7 @@
 angular.module('DojoIBL')
 
-    .controller('InstantMessagingController', function ($window, $scope, $stateParams, Message, MessageService, ChannelService, AccountService, UserService) {
+    .controller('InstantMessagingController', function ($window, $scope, $stateParams, Message, MessageService,
+                                                        ChannelService, AccountService, UserService, ngAudio) {
 
         AccountService.myDetails().then(
             function(data){
@@ -68,10 +69,15 @@ angular.module('DojoIBL')
                 $scope.$apply(function () {
                     switch (data.type) {
                         case 'org.celstec.arlearn2.beans.notification.MessageNotification':
+
                             if (data.runId == $stateParams.runId) {
                                 $scope.numberMessages += 1;
                                 MessageService.getMessageById(data.messageId).then(function (data) {
-                                    console.info("[Notification][Message]");
+                                    console.info("[Notification][Message]", data);
+                                    if(me.localId != data.senderId){
+                                        $scope.sound = ngAudio.load("/dist/assets/beep.m4a");
+                                        $scope.sound.play();
+                                    }
                                 });
                             }
                             break;
