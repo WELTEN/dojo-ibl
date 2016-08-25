@@ -7,7 +7,7 @@
             <small class="chat-date pull-right">
 
             </small>
-            {{ inqTempTitle }} > {{ inqTitle }} 
+            {{ inqTitle }}
             <div class="ibox-tools">
                 <a class="close-link"  ng-click="visualization = !visualization">
                     <i class="fa fa-share-alt" ng-show="visualization"></i>
@@ -17,12 +17,17 @@
         </div>
         <div class="col-sm-6 padding">
             <!--<h2>{{ inqTitle }}</h2>-->
+            <!--<h3>Template: {{ inqTempTitle }}</h3>-->
             <!--<img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">-->
-            <!--<p class="small font-bold">-->
-                <!--<span><i class="fa fa-circle text-warning"></i> High priority</span>-->
-            <!--</p>-->
             <!--<p><b>Description</b>: {{ inqDescription }}</p>-->
             <div ng-bind-html="run.game.description"></div>
+            <p class="small font-bold">
+                <span><i class="fa fa-circle text-success"></i> Inquiry template: <b>{{ inqTempTitle }}</b></span>
+            </p>
+            <p class="small font-bold">
+                <span><i class="fa fa-circle text-warning"></i> Creation date: {{ serverCreationTime | date:'short' }}</span>
+            </p>
+
         </div>
         <div class="col-md-6">
             <div class="padding" ng-show="visualization">

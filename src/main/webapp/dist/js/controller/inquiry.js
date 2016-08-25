@@ -15,6 +15,7 @@ angular.module('DojoIBL')
             $scope.inqId = data.runId;
             $scope.phases = data.game.phases;
             $scope.code = data.code;
+            $scope.serverCreationTime = data.serverCreationTime;
             console.log(data);
             $scope.disableInquiryLoading = true;
         });

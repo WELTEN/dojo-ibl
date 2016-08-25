@@ -25,19 +25,23 @@
                     <!-- <span class="label label-warning pull-right">Current</span> -->
                 </a>
             </li>
+            <!--<li>-->
+                <!--<a href="#/home"><i class="fa fa-home"></i> <span class="nav-label">{{ run.game.title | limitTo: 15 }} {{ run.game.title.length > 15 ? '...' : ''}} [{{ run.code }}]</span></a>-->
+            <!--</li>-->
             <li ng-show="run" class="active inquiry-sidebar">
-                <a href="#inquiry/{{ run.runId }}"><i class="fa fa-asterisk"></i> <span class="nav-label sidebar-inquiry-title">{{ run.title | limitTo: 15 }} {{ run.title.length > 15 ? '...' : ''}} [{{ run.code }}]</span><span
-                        class="fa arrow"></span></a>
-                <ul class="nav nav-second-level ">
-                    <li class="sidebar-inquiry-timeline"><a href="#inquiry/{{ run.runId }}/timeline"><i class="fa fa-clock-o"></i>{{'dibl.sidebar.timeline' | translate}}
+                <a href="#inquiry/{{ run.runId }}"><i class="fa fa-asterisk"></i> <span class="nav-label sidebar-inquiry-title">{{ run.title | limitTo: 11 }} {{ run.title.length > 11 ? '...' : ''}} - [{{ run.code }}]</span></a>
+                <ul class="nav nav-second-level">
+                    <li class="sidebar-inquiry-timeline" ng-class="{ 'active':statePhase == 'inquiry.timeline'  }">
+                        <a href="#inquiry/{{ run.runId }}/timeline"><i class="fa fa-clock-o"></i>{{'dibl.sidebar.timeline' | translate}}
                         <!--<span class="label label-danger pull-right">Unavailable</span>-->
                     </a></li>
-                    <li class="active">
-                        <a href="#inquiry/{{ run.runId }}"><i class="fa fa-share-alt"></i>{{'dibl.sidebar.phases' | translate}} <span class="fa arrow"></span></a>
+                    <li ng-class="{ 'active':statePhase == 'inquiry.home'  }" >
+                        <a href="#inquiry/{{ run.runId }}"><i class="fa fa-share-alt"></i>{{'dibl.sidebar.phases' | translate}} </a>
                         <ul class="nav nav-third-level">
                             <li ng-repeat="phase in run.game.phases" ng-class="{ 'active':phaseNumber == $index  }">
                                 <a href="#inquiry/{{ run.runId }}/phase/{{ $index }}">
-                                    <i class="fa fa-circle"></i> {{ phase.title }}</a>
+                                    <i class="fa fa-circle"></i> {{ phase.title }}
+                                </a>
                             </li>
                         </ul>
                     </li>
