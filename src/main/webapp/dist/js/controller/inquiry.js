@@ -10,10 +10,12 @@ angular.module('DojoIBL')
 
         RunService.getRunById($stateParams.runId).then(function (data) {
             $scope.inqTitle = data.title;
+            $scope.inqTempTitle = data.game.title;
             $scope.inqDescription = data.game.description;
             $scope.inqId = data.runId;
             $scope.phases = data.game.phases;
-            //console.log(data);
+            $scope.code = data.code;
+            console.log(data);
             $scope.disableInquiryLoading = true;
         });
 
