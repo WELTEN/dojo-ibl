@@ -96,7 +96,6 @@ angular.module('DojoIBL')
 
             var socket = new ChannelService.SocketHandler(user);
             socket.onMessage(function (data) {
-                console.log("messages received", data);
                 $scope.$apply(function () {
                     switch (data.type) {
 
@@ -116,7 +115,6 @@ angular.module('DojoIBL')
         // upload on file select or drop
         $scope.upload = function (file) {
             $scope.progressPercentage = 0;
-            console.log($scope.myAccount, file);
             if(file){
 
                 file.name = (file.name).replace(/\s+/g, '_');

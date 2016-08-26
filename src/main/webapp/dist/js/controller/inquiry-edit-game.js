@@ -225,7 +225,7 @@ angular.module('DojoIBL')
             };
 
             if(a.type == "org.celstec.arlearn2.beans.generalItem.VideoObject"){
-                object.videoFeed = "example link";
+                object.videoFeed = "";
             }else if(a.type == "org.celstec.arlearn2.beans.generalItem.AudioObject") {
                 object.audioFeed = "example link";
             }
@@ -422,6 +422,8 @@ angular.module('DojoIBL')
                 });
             });
         };
+
+
 
     })
     .controller('TabController', function ($scope, $stateParams, GameService, ActivityService) {

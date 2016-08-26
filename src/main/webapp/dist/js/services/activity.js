@@ -14,18 +14,7 @@ angular.module('DojoIBL')
             newActivity: function(activityAsJson){
                 var dataCache = CacheFactory.get('activitiesCache');
 
-                ////////////////////////////////////////
-                // Only put in cache when we are editing
-                ////////////////////////////////////////
-                //if(activityAsJson.activity)
-                //    dataCache.put(activityAsJson.gameId, gameAsJson);
-
-                console.log(activityAsJson);
-
                 var newActivity = new Activity(activityAsJson);
-
-                console.log(newActivity);
-
 
                 return newActivity.$save();
             },

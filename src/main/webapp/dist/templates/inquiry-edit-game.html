@@ -247,17 +247,18 @@
                                                                        class="form-control">
                                                             </div>
                                                         </div>
-                                                        <div class="form-group" ng-show="activity.videoFeed">
+                                                        <div class="form-group" ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'">
                                                             <label class="col-sm-3 control-label">{{
                                                                 'dibl.inquiry.new-edit.video-activity' | translate
                                                                 }}</label>
 
-                                                            <div class="col-sm-9">
+                                                            <div class="col-sm-9" >
                                                                 <input ng-disabled="activity == null"
-                                                                       placeholder="Video URL"
+                                                                       placeholder="Ex: https://www.youtube.com/embed/4zZbX_9ru9U"
                                                                        type="text"
                                                                        ng-model="activity.videoFeed"
                                                                        class="form-control">
+                                                                <span class="help-block m-b-none">Use the embed URL</span>
                                                             </div>
                                                         </div>
                                                         <!--<div class="form-group" ng-show="activity.audioFeed">-->
