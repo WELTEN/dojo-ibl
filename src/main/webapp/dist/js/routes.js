@@ -29,7 +29,7 @@ angular.module('DojoIBL')
                 templateUrl: '/dist/templates/inquiry.html',
                 controller: 'InquiryController',
                 ncyBreadcrumb: {
-                    label: "{{'dibl.toolbar.phases' | translate}}"
+                    label: "{{'dibl.toolbar.phases' | translate}} "
                 }
             })
             .state('inquiry.phase', {

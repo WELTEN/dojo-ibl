@@ -81,7 +81,7 @@ a:focus {
   -webkit-animation-name: fadeInDown;
   animation-name: fadeInDown;
   padding: 0!important;
-  background: #0c6a00 !important;
+  background: #497c69 !important;
 }
 .sticky-navigation .row {
   padding: 0;
@@ -504,7 +504,10 @@ a:focus {
   text-align: center;
 }
 #contact {
-  background: #ecf0f1;
+  background-image: url('/dist/img/word_map.png');
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  margin-top: 60px;
 }
 #contact .info {
   padding: 15px 0;
@@ -514,7 +517,7 @@ a:focus {
 }
 #contact .info .icon i {
   font-size: 36px;
-  color: #3f51b5;
+  color: #497c69;
 }
 #contact .info h4 {
   color: #385461;
@@ -534,6 +537,10 @@ a:focus {
 .contact-form .form-control {
   margin-bottom: 28px;
 }
+.contact {
+
+}
+
 #footer {
   position: relative;
   background: #333;

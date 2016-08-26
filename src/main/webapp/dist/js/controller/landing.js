@@ -7,6 +7,9 @@ angular.module('DojoIBL')
             if ($scope.accessToken() && $scope.oauth()) return true;
             return false;
         };
+
+        console.log("hola")
+
         var providers = {};
         Oauth.info().$promise.then(
             function (data) {
