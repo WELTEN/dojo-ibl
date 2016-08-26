@@ -25,10 +25,10 @@
                 <span><i class="fa fa-circle text-success"></i> Inquiry template: <b>{{ inqTempTitle }}</b></span>
             </p>
             <p class="small font-bold">
-                <span><i class="fa fa-circle text-warning"></i> Creation date: {{ serverCreationTime | date:'short' }}</span>
+                <span><i class="fa fa-circle text-warning"></i> Creation date: <b>{{ serverCreationTime | date:'fullDate' }}</b></span>
             </p>
-
         </div>
+
         <div class="col-md-6">
             <div class="padding" ng-show="visualization">
                 <ul class="list-group clear-list m-t">
