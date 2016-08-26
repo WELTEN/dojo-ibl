@@ -5,7 +5,7 @@ angular.module('DojoIBL')
             'accountDetails': {
                 method: 'GET',
                 isArray: false,
-                url: config.server+'/rest/account/accountDetails'
+                url: config.server+'/rest/account/myAccountDetails'
             },
             'accountDetailsById': {
                 method: 'GET',

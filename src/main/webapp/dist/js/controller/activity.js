@@ -6,7 +6,6 @@ angular.module('DojoIBL')
         RunService.getRunById($stateParams.runId).then(function(data){
             ActivityService.getActivityById($stateParams.activityId, data.game.gameId).then(function (data) {
                 $scope.activity = data;
-                console.log(data);
             });
         });
 

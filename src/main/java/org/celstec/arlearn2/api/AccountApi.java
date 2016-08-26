@@ -81,7 +81,7 @@ public class AccountApi extends Service {
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@CacheControlHeader("no-cache")
-	@Path("/accountDetails")
+	@Path("/myAccountDetails")
 	public String getContactDetails(@HeaderParam("Authorization") String token, 
 			@DefaultValue("application/json") @HeaderParam("Accept") String accept,
 			@PathParam("addContactToken") String addContactToken

@@ -26,6 +26,23 @@ angular.module('DojoIBL')
                 }
                 return deferred.promise;
             },
+            accountDetailsById: function(fullId) {
+
+                var deferred = $q.defer();
+                var dataCache = CacheFactory.get('accountCache');
+                if (dataCache.get(fullId)) {
+                    deferred.resolve(dataCache.get(fullId));
+                } else {
+                    Account.accountDetailsById(fullId).$promise.then(
+                        function (accountData) {
+                            console.log(accountData, fullId)
+                            dataCache.put(fullId, accountData);
+                            deferred.resolve(accountData);
+                        }
+                    );
+                }
+                return deferred.promise;
+            },
             uploadUrl: function(account, key) {
                 console.log(account, key)
                 return Account.uploadUrl({ account:account, key:key });
