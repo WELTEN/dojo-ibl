@@ -3,11 +3,11 @@
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <span><a href="#/profile/{{ myAccount.localId }}">
+                    <span><a href="#/profile/{{ myAccount.accountType }}:{{ myAccount.localId }}">
                         <img alt="image" class="img-circle" src="dist/img/avatar.png" ng-src="{{ myAccount.picture }}">
                     </a>
                     </span>
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#/profile/{{ myAccount.localId }}">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#/profile/{{ myAccount.accountType }}:{{ myAccount.localId }}">
                         <span class="clear">
                             <span class="block m-t-xs">
                                 <strong class="font-bold">{{ myAccount.name }}</strong>

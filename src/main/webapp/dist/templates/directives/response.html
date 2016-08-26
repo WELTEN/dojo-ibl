@@ -4,7 +4,7 @@
     </a>
 
     <div class="media-body" data-item="{{ response.responseId }}">
-        <a href="#/profile/">
+        <a href="#/profile/{{ user.accountType }}:{{ user.localId }}">
             {{ user.name }}
         </a>
         {{ response.responseValue }}

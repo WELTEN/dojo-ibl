@@ -1,12 +1,11 @@
 angular.module('DojoIBL')
 
     .controller('ProfileController', function ($scope, $sce, $stateParams, $state, Session, AccountService, Upload) {
-        //AccountService.myDetails().then(function(data){
-        //    $scope.user = data;
-        //});
+        AccountService.myDetails().then(function(data){
+            $scope.myAccount = data;
+        });
 
-        AccountService.accountDetailsById($stateParams.accountId).then(function(data){
-            console.log(data, $stateParams.accountId)
+        AccountService.accountDetailsById($stateParams.fullId).then(function(data){
             $scope.user = data;
         });
 

@@ -12,18 +12,21 @@
             <div class="col-md-6">
 
                 <div class="profile-image">
-                    <img ng-src="{{ user.picture }}" ngf-capture="'camera'" ngf-select="upload($file)" class="img-circle pointer circle-border m-b-md" alt="profile">
+                    <img src="dist/img/avatar.png" ng-src="{{ user.picture }}" ngf-capture="'camera'" ngf-select="upload($file)" class="img-circle pointer circle-border m-b-md" alt="profile">
                 </div>
                 <div class="profile-info">
                     <div class="">
                         <div>
-                            <h2 class="no-margins">
+                            <h2>
                                 {{ user.name }}
+                                <!-- <a ng-show="myAccount.localId == user.localId" class="btn btn-white btn-bitbucket"> <i class="fa fa-pencil"></i> Edit</a>-->
                             </h2>
-                            <h4>Founder of Groupe</h4>
+                            <h4>
+                                Bio
+                                <!--<a ng-show="myAccount.localId == user.localId" class="btn btn-white btn-bitbucket"> <i class="fa fa-pencil"></i> Edit</a>-->
+                            </h4>
                             <small>
-                                There are many variations of passages of Lorem Ipsum available, but the majority
-                                have suffered alteration in some form Ipsum available.
+                                <i> - Bio not available yet</i>
                             </small>
                         </div>
                     </div>

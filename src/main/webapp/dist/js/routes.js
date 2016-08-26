@@ -94,7 +94,7 @@ angular.module('DojoIBL')
                 }
             })
             .state('profileAccount', {
-                url: '/profile/:accountId',
+                url: '/profile/:fullId',
                 templateUrl: '/dist/templates/profile.html',
                 controller: 'ProfileController',
                 ncyBreadcrumb: {
