@@ -80,7 +80,7 @@
                     </span>
                     <!--<span class="text-muted"><i class="fa fa-clock-o"></i> 28th Oct 2015</span>-->
                 </div>
-                <div ng-bind-html="activity.richText || activity.description"></div>
+                <div class="" ng-bind-html="activity.richText || activity.description"></div>
                 <iframe ng-show="activity.videoFeed" style="width: 100%; height: 600px;"  ng-src="{{trustSrc(activity.videoFeed)}}" frameborder="0"></iframe>
                 <p class="small font-bold">
                     <span><i class="fa fa-circle text-warning"></i> Creation date: <b>{{ activity.lastModificationDate | date:'fullDate' }}</b></span>

@@ -4879,6 +4879,7 @@ a.compose-mail {
   padding: 20px;
   clear: both;
 }
+
 .mail-text {
   border-top: 1px solid #e7eaec;
 }
@@ -9055,4 +9056,8 @@ text-angular > p{
 
 .not_saved{
   background: rgba(248, 172, 89, 0.15);
+}
+
+.mail-body img{
+  width: 100%
 }
