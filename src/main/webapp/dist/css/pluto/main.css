@@ -220,7 +220,7 @@ a:focus {
   overflow: hidden;
   padding: 90px 0;
 }
-.hero-area .sticky-navigation {
+.hero-area .sticky-navigation, .no-background .sticky-navigation {
   background: transparent;
 }
 .hero-area .contents h1 {
@@ -274,12 +274,18 @@ a:focus {
   margin: 0;
 }
 #why {
-  background: url(dist/img/pluto/why-bg.jpg);
+  background: url(/dist/img/pluto/why-bg.jpg);
   background-size: cover;
   color: #fff;
 }
-#why .content h2 {
+#why .content h1 {
   font-size: 50px;
+  line-height: 70px;
+  margin-top: 0;
+  font-weight: 100;
+}
+#why .content h2 {
+  font-size: 70px;
   line-height: 70px;
   margin-top: 0;
   font-weight: 100;

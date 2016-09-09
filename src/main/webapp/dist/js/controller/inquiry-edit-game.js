@@ -68,7 +68,7 @@ angular.module('DojoIBL')
         };
 
         $scope.saveActivity = function(){
-            //console.log($scope.activity_old.richText, $scope.activity.richText)
+            console.log($scope.activity)
             // Save array of roles into the activity
             $scope.activity_old = angular.copy($scope.activity);
             $scope.activity.roles = $scope.selection;
@@ -112,6 +112,14 @@ angular.module('DojoIBL')
 
             // Save roles into an array
             $scope.selection = $scope.activity.roles || [];
+            //
+            //
+            //$scope.selection = [];
+            //
+            //angular.forEach($scope.activity.roles, function(value, key) {
+            //    this.push(jQuery.parseJSON(value));
+            //}, $scope.selection);
+            //console.log($scope.selection);
 
             $scope.selected = true;
 
@@ -262,16 +270,24 @@ angular.module('DojoIBL')
         ///////////////
         $scope.addRole = function () {
             $scope.game.config.roles.push({
-                name: $scope.roleName
+                name: $scope.roleName,
+                color: $scope.roleColor
+
             });
             GameService.newGame($scope.game);
             $scope.roleName = "";
+            $scope.roleColor = "";
         };
 
         $scope.selectRole = function(index){
+            $scope.roleName = $scope.game.config.roles[index].name;
+            $scope.roleColor = $scope.game.config.roles[index].color;
+
             $scope.removeRole = function(){
                 $scope.game.config.roles.splice(index, 1);
                 GameService.newGame($scope.game);
+                $scope.roleName = "";
+                $scope.roleColor = "";
             };
         };
 

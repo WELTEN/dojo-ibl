@@ -6,7 +6,6 @@ angular.module('DojoIBL')
                 method: 'GET',
                 isArray: false,
                 url: config.server+'/rest/myRuns/runId/:id'
-
             },
             getRunByCode: {
                 method: 'GET',

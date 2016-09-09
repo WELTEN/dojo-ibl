@@ -12,7 +12,15 @@ angular.module('DojoIBL')
 
                 console.log(data);
             });
-
         });
+
+
+        $scope.getRole = function(roles){
+
+            return jQuery.parseJSON(roles[0]).color;
+
+
+        };
+
     }
 );

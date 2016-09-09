@@ -2,8 +2,18 @@
 
     <div class="panel-body no-padding-no-border-radius">
         <div class="ibox-content">
-            <div class="heading">
-                <small class="chat-date pull-right">
+            <div class="heading" ng-repeat="role in roles track by $index" ng-show="$first" ng-style="{'background-color': role.color }">
+                <small  class="chat-date pull-right" >
+
+                </small>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'"><i class="fa fa-file-video-o"></i> {{ activity.name }} | Video activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"><i class="fa fa-file-text"></i> {{ activity.name }} | Discussion activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'"><i class="fa fa-picture-o"></i> {{ activity.name }} | Data collection activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"><i class="fa fa-question"></i> {{ activity.name }} | Research question activity</span>
+            </div>
+
+            <div class="heading" ng-show="roles.length == 0">
+                <small  class="chat-date pull-right" >
 
                 </small>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'"><i class="fa fa-file-video-o"></i> {{ activity.name }} | Video activity</span>
@@ -73,9 +83,9 @@
             <div class="mail-body">
                 <div class="text-center">
 
-                    <span ng-repeat="role in activity.roles track by $index">
+                    <span ng-repeat="role in roles track by $index">
                         <i class="fa fa-circle text-navy"></i>
-                        <small class="text-muted"> {{ role }} </small>
+                        <small class="text-muted"> {{ role.name }} </small>
                     <br/>
                     </span>
                     <!--<span class="text-muted"><i class="fa fa-clock-o"></i> 28th Oct 2015</span>-->

@@ -1,0 +1,693 @@
+<!------------------------------------------------------------------------------
+/*******************************************************************************
+* Copyright (C) 2015 Open Universiteit Nederland
+*
+* This library is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with this library.  If not, see <http://www.gnu.org/licenses/>.
+*
+* Contributors:
+*    - Angel Suarez
+*    - Stefaan Ternier
+********************************************************************************
+------------------------------------------------------------------------------->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Add Your favicon here -->
+    <!--<link rel="icon" href="img/favicon.ico">-->
+
+    <title>DojoIBL - Landing Page</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Animation CSS -->
+    <link href="dist/css/animate.min.css" rel="stylesheet">
+
+    <link href="dist/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/dist/css/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="dist/js/vendor/ng-emoticons.min.js" rel="stylesheet">
+
+
+    <!-- Custom styles for this template -->
+    <link href="dist/css/landing.css" rel="stylesheet">
+</head>
+<body id="page-top" ng-app="DojoIBL">
+<div class="navbar-wrapper">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">DojoIBL</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a class="page-scroll" href="#page-top">Home</a></li>
+                    <li><a class="page-scroll" href="#teachers">Teachers</a></li>
+                    <li><a class="page-scroll" href="#team">Team</a></li>
+                    <!--<li><a class="page-scroll" href="#students">Students</a></li>-->
+                    <!--<li><a class="page-scroll" href="#testimonials">Testimonials</a></li>-->
+                    <li><a class="page-scroll" href="#plan">Road map</a></li>
+                    <li><a class="page-scroll" href="#contact">Contact</a></li>
+                    <!--<li> <a href="{{ wespotUrl }}" class="btn btn-lg btn-primary"> Login</a></li>-->
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div id="inSlider" class="carousel carousel-fade" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#inSlider" data-slide-to="0" class="active"></li>
+        <!--<li data-target="#inSlider" data-slide-to="1"></li>-->
+    </ol>
+    <div class="carousel-inner" role="listbox" ng-controller="LandingController">
+        <div class="item active">
+            <div class="container">
+                <div class="carousel-caption">
+                    <h1>A smooth way to do <br/>
+                        Inquiry-based Learning<br/></h1>
+                    <p></p>
+                    <p>
+                        <a href="{{ wespotUrl }}" class="btn btn-lg btn-primary"> Login</a>
+                        <a class="caption-link" href="http://wespot-arlearn.appspot.com/Account.jsp" role="button">Register</a>
+                    </p>
+                </div>
+            </div>
+            <!-- Set background for slide in css -->
+            <div class="header-back four"></div>
+
+        </div>
+        <!--<div class="item">-->
+            <!--<div class="container">-->
+                <!--<div class="carousel-caption blank">-->
+                    <!--<h1>We create meaningful <br/> interfaces that inspire.</h1>-->
+                    <!--<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>-->
+                    <!--<p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--&lt;!&ndash; Set background for slide in css &ndash;&gt;-->
+            <!--<div class="header-back two"></div>-->
+        <!--</div>-->
+    </div>
+    <!--<a class="left carousel-control" href="#inSlider" role="button" data-slide="prev">-->
+        <!--<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>-->
+        <!--<span class="sr-only">Previous</span>-->
+    <!--</a>-->
+    <!--<a class="right carousel-control" href="#inSlider" role="button" data-slide="next">-->
+        <!--<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>-->
+        <!--<span class="sr-only">Next</span>-->
+    <!--</a>-->
+</div>
+
+<section id="teachers" class="container ">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <div class="navy-line"></div>
+            <h1> Are you a <span class="navy"> teacher</span> willing to start with <span class="navy"> Inquiry-based Learning</span>?   </h1>
+            <p>Inquiry-based Learning (IBL) is not only a task for students. Teachers' guidance is crucial to design, implement and maintain the IBL process for students. In DojoIBL we
+                offer a variety of resources to teachers that might be beneficial and helpful to begin, understand and grasp the IBL idea.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 text-center wow fadeInLeft">
+            <div>
+                <i class="fa fa-file-text features-icon"></i>
+                <h4>Background</h4>
+                <p><a target="_blank" href="/dist/assets/state_of_art.pdf"><i class="fa fa-file-text"></i> The IBL state of the art</a></p>
+                <p><a target="_blank" href="/dist/assets/briefing.pdf"><i class="fa fa-file-text"></i> Briefing on IBL</a></p>
+                <p><a target="_blank" href="/dist/assets/pedagogical_diagnostic_framework.pdf"><i class="fa fa-file-text"></i> Pedagogical and diagnostic frameworks</a></p>
+
+            </div>
+            <div class="m-t-lg">
+                <i class="fa fa-refresh features-icon"></i>
+                <h4>IBL model</h4>
+                <p><a target="_blank" href="/dist/assets/ibl_model.pdf"><i class="fa fa-file-text"></i> The IBL model</a></p>
+                <p><a target="_blank" href="/dist/assets/inquiry_level.pdf"><i class="fa fa-file-text"></i> Four inquiry levels:</a>
+                    <a target="_blank" href="/dist/assets/confirmation.pdf">1) Confirmation</a>
+                    <a target="_blank" href="/dist/assets/structured.pdf">2) Structured</a>
+                    <a target="_blank" href="/dist/assets/guided.pdf">3) Guided</a>
+                    <a target="_blank" href="/dist/assets/open.pdf">4) Open</a>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-6 text-center  wow zoomIn">
+            <div id="blueimp-video-carousel" class="blueimp-gallery blueimp-gallery-controls blueimp-gallery-carousel">
+                <div class="slides"></div>
+                <h3 class="title"></h3>
+                <a class="prev">‹</a>
+                <a class="next">›</a>
+                <a class="play-pause"></a>
+            </div>
+        </div>
+        <div class="col-md-3 text-center wow fadeInRight">
+            <div class="m-t-lg">
+                <i class="fa fa-film features-icon"></i>
+                <h4>Multimedia</h4>
+                <p><a target="_blank" href="https://www.youtube.com/watch?v=eQiajgwJrKU"><i class="fa fa-file-text"></i> Masterclass about IBL (Angel Suarez)</a></p>
+                <p><a target="_blank" href="https://www.youtube.com/watch?v=4PeQm6vaD0k"><i class="fa fa-file-text"></i> Masterclass about IBL (Fleur Prinsen)</a></p>
+                <p><a target="_blank" href="https://www.youtube.com/watch?v=4v7uf5khkC0"><i class="fa fa-file-text"></i> Google Glass for IBL (Angel Suarez)</a></p>
+            </div>
+        </div>
+        <div class="col-md-3 text-center wow fadeInRight">
+            <div class="m-t-lg">
+                <i class="fa fa-film features-icon"></i>
+                <h4>Interesting resources</h4>
+                <p><a target="_blank" href="https://youtu.be/u84ZsS6niPc"><i class="fa fa-file-text"></i> Inquiry-based Learning</a> <a target="_blank" href="http://www.inspiringscience.eu/">(Inspiring Science Education Project)</a></p>
+                <p><a target="_blank" href="https://youtu.be/2ylmVT5lkck"><i class="fa fa-file-text"></i> Benefits of IBL</a> <a target="_blank" href="http://www.inspiringscience.eu/">(Inspiring Science Education Project)</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="team" class="gray-section team">
+    <div class="container">
+        <div class="row m-b-lg">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>Our Team</h1>
+                <p>Interdisciplinary team that join efforts, technical and pedagogical point of views</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 wow fadeInLeft">
+                <div class="team-member">
+                    <img src="dist/img/stefaan.png" class="img-responsive img-circle img-small" alt="">
+                    <h4>Dr. <span class="navy">Stefaan</span> Ternier</h4>
+                    <p>Dr. Stefaan Ternier is an assistant professor at Welten Institute. He received his degree in Computer Science in 2000 at K.U.Leuven where later in 2008 obtained a PhD. During this period his research topics included metadata, architectures for managing and sharing metadata, learning objects and standards for learning object repositories.</p>
+                    <p>Since 2008, he works for the open university of the Netherland where he joined the mobile media group. From this moment onwards his research interests shifted towards mobile learning and augmented reality. As a result of this research, ARLearn - a toolkit for mobile serious games - was developed. </p>
+                    <p>Technology-wise, Stefaan has experience with developing web services, cloud computing, database management systems and iOS/android developing.</p>
+                    <ul class="list-inline social-icon">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="team-member">
+                    <img src="dist/img/angel.jpg" class="img-responsive img-circle img-small" alt="">
+                    <h4><span class="navy">Angel</span> Suarez</h4>
+                    <p>Angel Suarez is PhD candidate at WELTEN institute of the Open Universiteit of the Netherlands. He received his diploma in IT (Technical Engineering) at Oviedo University in 2010. After that he started to work in a company for two years. On his second year at the company he started his master degree in Web Engineering at Oviedo University in 2011, which was ended in 2013 after present his final project at CELSTEC. Afterwards he joined this group to start his PhD entitled "Mobile Seamless Learning Support in Mixed Realities”.</p>
+                    <ul class="list-inline social-icon">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-4 wow fadeInRight">
+                <div class="team-member">
+                    <img src="dist/img/marcus.png" class="img-responsive img-circle img-small" alt="">
+                    <h4>Prof. Dr. <span class="navy">Marcus</span> Specht</h4>
+                    <p>Prof. Dr. Marcus Specht is Professor for Advanced Learning Technologies at Welten Institute (Research Center for Learning, Teaching and Technology) at the Open University of the Netherlands and director oft the Learning Innovation Labs. He received his Diploma in Psychology in 1995 and a Dissertation from the University of Trier in 1998 on adaptive information technology. From 2001 he headed the department "Mobile Knowledge" at the Fraunhofer Institute for Applied Information Technology (FIT). His research focus is on Mobile and Contextualized Learning Technologies and Social and Immersive Media for Learning. Since 2014 he is Program Chair Technology Enhanced Learning Innovations at the Welten Institute and member of the management team of the Welten Institute. Prof. Specht is a member of ACM, IEEE, the SIKS and ICO research schools in the Netherlands and is an Apple Distinguished Educator and since 2013 President of the International Association of Mobile Learning.</p>
+                    <ul class="list-inline social-icon">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-4 wow fadeInRight">
+                <div class="team-member">
+                    <img src="dist/img/fleur.jpg" class="img-responsive img-circle img-small" alt="">
+                    <h4>Dr. <span class="navy">Fleur</span> Prinsen</h4>
+                    <p>Dr. Fleur R. Prinsen is Assistant professor at Open University the Netherlands, working in the domain of learning technologies and (in)formal learning, with an emphasis on 'Online Social Learning' and Networked Learning. She completed her Master in Educational Psychology at the University of Leiden (2001) and received her PhD on the topic of differences in CSCL at the Vrije Universiteit of Amsterdam (2007). She conducted postdoctoral research at the Institute for Knowledge Innovation Technology at OISE (University of Toronto), at the National Institute of Education in Singapore and at Utrecht University. Her research has been globally concerned with social learning processes, enhanced by (social) media use. Supporting  learner differences has always been a focus therein. In terms of learning domains her research is concerned with science learning and developing attitudes for active, self-directed, exploratory learning.</p>
+                    <p>Specialities: (Interactive) media use for learning, differences in CSCL participation related to learning outcomes, the Collective Nature of Science (learning), networked learning, identity development in (online) social networks, network analysis, practice based research.</p>
+                    <ul class="list-inline social-icon">
+                        <li><a href="#"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>Team goals</h1>
+                <p>Our efforts aim to enhance the pedagogical landscape of the IBL by improving the technology that supports it.</p>
+            </div>
+        </div>
+        <!--<div class="row features-block">-->
+            <!--<div class="col-lg-6 features-text wow fadeInLeft animated" style="visibility: visible;">-->
+                <!--<small>Pedagogical</small>-->
+                <!--<h3>The process is the real product</h3>-->
+                <!--<p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with latest jQuery plugins.</p>-->
+                <!--<h3>Knowledge is not understanding</h3>-->
+                <!--<p>Nowadays, we have access to the vast amount of information ever. However, having all this knowledge handy does not necessarily imply understanding of those concepts. Therefore we are in favour-->
+                <!--of more strategies and techniques to dig deeper.</p>-->
+                <!--<h3>Increase students engagement</h3>-->
+                <!--<p>Schools need to be again attractive for students, but we need an effort from teacher to reach that point. Teachers need to become the facilitator of the learning process, so they must-->
+                <!--adapt and work out the curriculum in advanced. Ideally they would need to frame it down to interesting aligned topics that trigger students curiosity in that particular area. Starting from questions,-->
+                    <!--facts or topics from their interest it will increase their engagement in the IBL process, enabling deeper understanding on the topic. Some examples to this:</p>-->
+                <!--<ul>-->
+                    <!--<li><i class="fa fa-area-chart"></i> <b>Mathematics - sports</b> How many mathematical facts can be found in football for instance? Does anyone of your students wonder how these nice statistics about Cristiano Ronaldo, Messi or Luis-->
+                    <!--Suarez are done? </li>-->
+                    <!--<li><i class="fa fa-futbol-o"></i> <b>Physics - sports</b> Do they know which forces intervene when Messi spins the ball like a boss?</li>-->
+                    <!--<li><i class="fa fa-map-marker"></i> <b>Geography - Historic</b> Do they know why we have cities sharing names and history although they are in different continents?</li>-->
+                <!--</ul>-->
+                <!--<p>There are a lot of facts and curiosities that can be explained in the context of an standard curriculum. Think about it </p>-->
+
+            <!--</div>-->
+            <!--<div class="col-lg-6 features-text wow fadeInRight animated" style="visibility: visible;">-->
+                <!--<small>Technological</small>-->
+                <!--<h2>Perfectly designed </h2>-->
+                <!--<p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with latest jQuery plugins.</p>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+
+        </div>
+    </div>
+</section>
+
+<!--<section id="students" class="features">-->
+    <!--<div class="container">-->
+        <!--<div class="row">-->
+            <!--<div class="col-lg-12 text-center">-->
+                <!--<div class="navy-line"></div>-->
+                <!--<h1>Great features for students</h1>-->
+                <!--<p>Easy interface, notifications, instant messaging, mobile apps...</p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+            <!--<div class="col-lg-5 col-lg-offset-1 features-text">-->
+                <!--<small>INSPINIA</small>-->
+                <!--<h2>Perfectly designed </h2>-->
+                <!--<i class="fa fa-bar-chart big-icon pull-right"></i>-->
+                <!--<p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>-->
+            <!--</div>-->
+            <!--<div class="col-lg-5 features-text">-->
+                <!--<small>INSPINIA</small>-->
+                <!--<h2>Perfectly designed </h2>-->
+                <!--<i class="fa fa-bolt big-icon pull-right"></i>-->
+                <!--<p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+            <!--<div class="col-lg-5 col-lg-offset-1 features-text">-->
+                <!--<small>INSPINIA</small>-->
+                <!--<h2>Perfectly designed </h2>-->
+                <!--<i class="fa fa-clock-o big-icon pull-right"></i>-->
+                <!--<p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>-->
+            <!--</div>-->
+            <!--<div class="col-lg-5 features-text">-->
+                <!--<small>INSPINIA</small>-->
+                <!--<h2>Perfectly designed </h2>-->
+                <!--<i class="fa fa-users big-icon pull-right"></i>-->
+                <!--<p>INSPINIA Admin Theme is a premium admin dashboard template with flat design concept. It is fully responsive admin dashboard template built with Bootstrap 3+ Framework, HTML5 and CSS3, Media query. It has a huge collection of reusable UI components and integrated with.</p>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+<!--</section>-->
+
+<!--<section id="testimonials" class="comments gray-section" style="margin-top: 0">-->
+    <!--<div class="container">-->
+        <!--<div class="row">-->
+            <!--<div class="col-lg-12 text-center">-->
+                <!--<div class="navy-line"></div>-->
+                <!--<h1>What our partners say</h1>-->
+                <!--<p>Donec sed odio dui. Etiam porta sem malesuada. </p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row features-block">-->
+            <!--<div class="col-lg-4">-->
+                <!--<div class="bubble">-->
+                    <!--"Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."-->
+                <!--</div>-->
+                <!--<div class="comments-avatar">-->
+                    <!--<a href="" class="pull-left">-->
+                        <!--<img alt="image" src="dist/img/avatar3.jpg">-->
+                    <!--</a>-->
+                    <!--<div class="media-body">-->
+                        <!--<div class="commens-name">-->
+                            <!--Andrew Williams-->
+                        <!--</div>-->
+                        <!--<small class="text-muted">Company X from California</small>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="col-lg-4">-->
+                <!--<div class="bubble">-->
+                    <!--"Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."-->
+                <!--</div>-->
+                <!--<div class="comments-avatar">-->
+                    <!--<a href="" class="pull-left">-->
+                        <!--<img alt="image" src="dist/img/avatar1.jpg">-->
+                    <!--</a>-->
+                    <!--<div class="media-body">-->
+                        <!--<div class="commens-name">-->
+                            <!--Andrew Williams-->
+                        <!--</div>-->
+                        <!--<small class="text-muted">Company X from California</small>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="col-lg-4">-->
+                <!--<div class="bubble">-->
+                    <!--"Uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."-->
+                <!--</div>-->
+                <!--<div class="comments-avatar">-->
+                    <!--<a href="" class="pull-left">-->
+                        <!--<img alt="image" src="dist/img/avatar2.jpg">-->
+                    <!--</a>-->
+                    <!--<div class="media-body">-->
+                        <!--<div class="commens-name">-->
+                            <!--Andrew Williams-->
+                        <!--</div>-->
+                        <!--<small class="text-muted">Company X from California</small>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+
+
+        <!--</div>-->
+    <!--</div>-->
+
+<!--</section>-->
+
+<section id="plan" class="timeline">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>DojoIBL roadmap</h1>
+                <p>We like transparency and we like to do the right things. With this <i>timeline</i> we want to show you from where we are coming from and to where we are aiming at.
+                    By showing you our our way of working you will be able to tune faster and better with our work.</p>
+            </div>
+        </div>
+        <div class="row features-block">
+
+            <div class="col-lg-12">
+                <div id="vertical-timeline" class="vertical-container center-orientation dark-timeline">
+                    <div class="vertical-timeline-block">
+                        <div class="vertical-timeline-icon navy-bg">
+                            <i class="fa fa-briefcase"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            <h2>Kick-off meeting</h2>
+                            <p>The weSPOT project is ended but we want to continue the work and also we want to put in practice all the lessons learned. Therefore we started the design of DojoIBL as follow up initiative.
+                                In this kick-off meeting the workflow, the architecture and the basic requirements have been discussed.</p>
+                            <span class="vertical-date">
+                                <span class="convert-date-timeago">10/12/2015</span> <br>
+                                <small>Oct 12</small>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="vertical-timeline-block">
+                        <div class="vertical-timeline-icon blue-bg">
+                            <i class="fa fa-briefcase"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            <h2>Meeting with teachers</h2>
+                            <p>Our idea is to develop the platform for teachers and students. Thus we want to involved as much as possible teachers on the process.
+                                With that idea in mind we have started a series of talks with teachers doing Inquiry-based Learning. We are planning to work with them on iterations.
+                                Therefore more teachers and meetings will come to continue improving. The <a href="http://www.agoraroermond.nl/">Agora school</a> in Roermond, represented by one its teachers, agreed on taking part of this process.</p>
+                            <!--<a href="#" class="btn btn-sm btn-success"> Download document </a>-->
+                                    <span class="vertical-date">
+                                        <span class="convert-date-timeago">11/03/2015</span> <br>
+                                        <small class="convert-date">Nov 03</small>
+                                    </span>
+                        </div>
+                    </div>
+
+                    <div class="vertical-timeline-block">
+                        <div class="vertical-timeline-icon lazur-bg">
+                            <i class="fa fa-coffee"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            <h2>Research collaborations</h2>
+                            <p>This project has started in the context of a PhD research program. We firmly believe that research is a collaborative process.
+                                Thus, we are also looking into possible collaborations with other research groups
+                                or PhD students that could benefit from using DojoIBL. In that sense we have had a meeting with a PhD student from the University of Gent who is willing to start
+                                a collaboration in the near future.</p>
+                            <span class="vertical-date">
+                                <span class="convert-date-timeago">11/25/2015</span> <br>
+                                <small class="convert-date">Nov 25</small>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="vertical-timeline-block">
+                        <div class="vertical-timeline-icon yellow-bg">
+                            <i class="fa fa-briefcase"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            <h2>Meeting with teachers</h2>
+                            <p>We continue the round of meetings planned with schools interested in DojoIBL. In this case the </p>
+                            <span class="vertical-date">
+                                <span class="convert-date">12/14/2015</span> <br>
+                                <small class="convert-date">Dec 14</small>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="vertical-timeline-block">
+                        <div class="vertical-timeline-icon yellow-bg">
+                            <i class="fa fa-star"></i>
+                        </div>
+
+                        <div class="vertical-timeline-content">
+                            <h2>Alpha version of DojoIBL</h2>
+                            <p>The alpha version of the DojoIBL will be release on the 17th of December. The alpha version will offer the possibility the following possiblity:</p>
+                            <ul>
+                                <li>Basic management of an inquiry</li>
+                                <li>Chat messaging</li>
+                                <li>4 new types of activities</li>
+                                <li>flexible management of an inquiry</li>
+                                <li>HTML widgets and multimedia activities</li>
+                                <li>Thread discussion around the activities</li>
+                            </ul>
+                            <span class="vertical-date">
+                                <span class="convert-date">12/17/2015</span> <br>
+                                <small class="convert-date">Dec 17</small>
+                            </span>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+
+<section id="contact" class="gray-section contact">
+    <div class="container">
+        <div class="row m-b-lg">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>Contact Us</h1>
+                <p></p>
+            </div>
+        </div>
+        <div class="row m-b-lg">
+            <div class="col-lg-3 col-lg-offset-3">
+                <address>
+                    <strong>Open <span class="navy">Universiteit </span></strong><br/>
+                    Valkenburgerweg 177<br/>
+                    6419 AT Heerlen<br/><br/>
+                    Postbus 2960<br/>
+                    6401 DL Heerlen<br/>
+                    <abbr title="Phone">P:</abbr> 045-576 28 88
+                </address>
+            </div>
+            <div class="col-lg-4">
+                <p class="text-color">
+                    If you are interested in the project in any kind of form, or you are thinking that it might be interesting for you please <b>contact us</b> and we will
+                    find a win-win collaboration <i class="fa fa-smile-o"></i>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <a href="mailto:angel.suarez@ou.nl" class="btn btn-primary">Send us mail</a>
+                <!--<p class="m-t-sm">-->
+                    <!--Or follow us on social platform-->
+                <!--</p>-->
+                <!--<ul class="list-inline social-icon">-->
+                    <!--<li><a href="#"><i class="fa fa-twitter"></i></a>-->
+                    <!--</li>-->
+                    <!--<li><a href="#"><i class="fa fa-facebook"></i></a>-->
+                    <!--</li>-->
+                    <!--<li><a href="#"><i class="fa fa-linkedin"></i></a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg m-b-lg">
+                <p><strong>&copy; 2015-2016 Open Universiteit</strong><br/> Acknowledgements: weSPOT project</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mainly scripts -->
+<script src="dist/js/vendor/jquery.min.js"></script>
+<script src="dist/js/vendor/jquery-ui.min.js"></script>
+<script src="dist/js/vendor/bootstrap.js"></script>
+<script src="dist/js/vendor/summernote.min.js"></script>
+
+<script src="dist/js/vendor/angular.js"></script>
+<script src="dist/js/vendor/angular-route.js"></script>
+<script src="dist/js/vendor/angular-ui-router.js"></script>
+<script src="dist/js/vendor/angular-resource.js"></script>
+<script src="dist/js/vendor/angular-cookies.js"></script>
+<script src="dist/js/vendor/angular-translate.js"></script>
+<script src="dist/js/vendor/angular-cache.js"></script>
+<script src="dist/js/vendor/angular-summernote.js"></script>
+<script src="dist/js/vendor/angular-sanitize.js"></script>
+<script src="dist/js/vendor/angular-chosen.min.js"></script>
+<script src="dist/js/vendor/angular-dragdrop.min.js"></script>
+<script src="dist/js/vendor/angular-translate-loader-static-files.js"></script>
+<script src="dist/js/vendor/select.min.js"></script>
+<script src="dist/js/vendor/sortable.js"></script>
+
+<script src="dist/js/vendor/textAngular-sanitize.min.js"></script>
+<script src="dist/js/vendor/textAngular-rangy.min.js"></script>
+<script src="dist/js/vendor/textAngularSetup.js"></script>
+<script src="dist/js/vendor/textAngular.min.js"></script>
+<script src="dist/js/vendor/ng-file-upload-shim.js"></script>
+<script src="dist/js/vendor/ng-file-upload.js"></script>
+<script src="dist/js/vendor/jquery.blueimp-gallery.min.js"></script>
+<script src="dist/js/vendor/angular-breadcrumb.min.js"></script>
+<script src="dist/js/vendor/angular-table.min.js"></script>
+<script src="dist/js/vendor/scrollglue.js"></script>
+<script src="dist/js/vendor/ng-emoticons.min.js"></script>
+<script src="dist/js/vendor/v-button.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-loader-static-files/2.11.0/angular-translate-loader-static-files.min.js"></script>-->
+
+<script type="text/javascript" src="/_ah/channel/jsapi"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="dist/js/vendor/inspinia.js"></script>
+<script src="dist/js/vendor/pace.min.js"></script>
+<script src="dist/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="dist/js/vendor/ng-infinite-scroll.min.js"></script>
+<script src="dist/js/vendor/chosen.jquery.js"></script>
+
+<script src="dist/js/app.js"></script>
+<script src="dist/js/routes.js"></script>
+
+<!-- Directives -->
+<script src="dist/js/directives/dibl-sidebar.js"></script>
+<script src="dist/js/directives/dibl-header.js"></script>
+<script src="dist/js/directives/dibl-toolbar.js"></script>
+<script src="dist/js/directives/dibl-footer.js"></script>
+<script src="dist/js/directives/dibl-chat.js"></script>
+<script src="dist/js/directives/dibl-comment.js"></script>
+<script src="dist/js/directives/dibl-responses.js"></script>
+<script src="dist/js/directives/dibl-originalimage.js"></script>
+<script src="dist/js/directives/dibl-scroll.js"></script>
+<!--<script src="dist/js/directives/dibl-dragdrop.js"></script>-->
+
+<!-- Services -->
+<script src="dist/js/services/game.js"></script>
+<script src="dist/js/services/run.js"></script>
+<script src="dist/js/services/session.js"></script>
+<script src="dist/js/services/property.js"></script>
+<script src="dist/js/services/activity.js"></script>
+<script src="dist/js/services/account.js"></script>
+<script src="dist/js/services/response.js"></script>
+<script src="dist/js/services/users.js"></script>
+<script src="dist/js/services/channel-monitor.js"></script>
+<script src="dist/js/services/message.js"></script>
+
+<!-- Resources -->
+<script src="dist/js/resources/game.js"></script>
+<script src="dist/js/resources/run.js"></script>
+<script src="dist/js/resources/activity.js"></script>
+<script src="dist/js/resources/account.js"></script>
+<script src="dist/js/resources/oauth.js"></script>
+<script src="dist/js/resources/response.js"></script>
+<script src="dist/js/resources/users.js"></script>
+<script src="dist/js/resources/message.js"></script>
+
+<!-- Controller -->
+<script src="dist/js/controller/home.js"></script>
+<script src="dist/js/controller/footer.js"></script>
+<script src="dist/js/controller/inquiry.js"></script>
+<script src="dist/js/controller/phase.js"></script>
+<script src="dist/js/controller/activity.js"></script>
+<!--<script src="dist/js/controller/channel-monitor.js"></script>-->
+<script src="dist/js/controller/inquiry-edit-game.js"></script>
+<script src="dist/js/controller/inquiry-edit-run.js"></script>
+<script src="dist/js/controller/profile.js"></script>
+<script src="dist/js/controller/sidebar.js"></script>
+<script src="dist/js/controller/header.js"></script>
+<script src="dist/js/controller/toolbar.js"></script>
+<script src="dist/js/controller/timeline.js"></script>
+<script src="dist/js/controller/oauth.js"></script>
+<script src="dist/js/controller/inquiry-new.js"></script>
+<script src="dist/js/controller/chat.js"></script>
+<script src="dist/js/controller/landing.js"></script>
+<script src="dist/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+
+
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-75878329-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</body>
+</html>

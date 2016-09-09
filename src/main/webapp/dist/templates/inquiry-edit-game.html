@@ -69,22 +69,31 @@
                 </div>
                 <div class="padding">
                     <div class="ibox-content profile-content">
-                        <h4><strong>{{ 'dibl.inquiry.new-edit.roles-title' | translate }} </strong></h4>
+                        <!--<h4><strong>{{ 'dibl.inquiry.new-edit.roles-title' | translate }} </strong></h4>-->
 
                         <p>{{ 'dibl.inquiry.new-edit.p-available-roles' | translate }} <b>{{ game.title }}</b></p>
 
                         <ul class="tag-list" style="padding: 0; display: inline-block;">
-                            <li ng-repeat="role in game.config.roles track by $index"><a href="" ng-click="selectRole($index)"><i
-                                    class="fa fa-tag"></i> {{ role.name }}</a></li>
+                            <li ng-repeat="role in game.config.roles track by $index"><a href=""  ng-click="selectRole($index)">
+                                <i class="fa fa-circle" ng-style="{ 'color': role.color }"></i> {{ role.name }}</a></li>
                             <li ng-show="game.config.roles == 0"><a href=""><i class="fa fa-tag"></i> {{
                                 'dibl.inquiry.new-edit.no-roles' | translate }}</a></li>
                         </ul>
                         <br/>
+
+
+
                         <input required type="name" class="form-control" id="roleName"
-                               placeholder="Enter a role"
-                               ng-model="roleName">
+                                   placeholder="Enter a role"
+                                   ng-model="roleName">
                         <br/>
 
+                        <input required type="color" class="form-control" id="roleColor"
+                                   placeholder="Enter a role"
+                                   ng-model="roleColor">
+
+
+                        <br/>
                         <!--<p>{{ game.config.roles }}</p>-->
 
                         <div class="user-button">
@@ -284,8 +293,8 @@
                                                                     <input type="checkbox"
                                                                            name="selectedFruits[]"
                                                                            value="{{role.name}}"
-                                                                           ng-checked="selection.indexOf(role.name) > -1"
-                                                                           ng-click="toggleSelection(role.name)"
+                                                                           ng-checked="selection.indexOf(role) > -1"
+                                                                           ng-click="toggleSelection(role)"
                                                                             > {{role.name}}
                                                                 </label>
 
