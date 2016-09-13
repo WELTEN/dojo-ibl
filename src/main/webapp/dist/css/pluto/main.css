@@ -285,11 +285,16 @@ a:focus {
   font-weight: 100;
 }
 #why .content h2 {
-  font-size: 70px;
+  font-size: 75px;
   line-height: 70px;
   margin-top: 0;
   font-weight: 100;
 }
+
+#why .content h2 a{
+  color: #ffeb3b;
+}
+
 #why .content .list-item li {
   color: #fff;
   line-height: 50px;
