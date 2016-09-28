@@ -2,6 +2,12 @@ angular.module('DojoIBL')
 
     .controller('InquiryEditGameController', function ($scope, $sce, $stateParams, $state, $modal, Session, RunService, ActivityService,
                                                        AccountService, GameService, UserService ) {
+
+
+        AccountService.myDetails().then(function(data) {
+            $scope.myAccount = data;
+        });
+
         // Managing different tabs activities
         $scope.lists = [];
 
@@ -420,6 +426,7 @@ angular.module('DojoIBL')
 
                 //$scope.gameRuns.push(run);
                 AccountService.myDetails().then(function(data){
+
                     // Grant me access to the run
                     RunService.giveAccess($scope.run.runId, data.accountType+":"+data.localId,1);
                     // Add me as a user to the run
@@ -463,6 +470,17 @@ angular.module('DojoIBL')
                 console.log($scope.usersRun[$scope.runVar]);
             });
 
+        };
+
+
+        $scope.gameModel = {
+            value : $scope.game
+        };
+        $scope.editorOptions2 = {
+            mode: 'javascript',
+            lineNumbers: true,
+            matchBrackets: true,
+            styleActiveLine: true
         };
     })
 

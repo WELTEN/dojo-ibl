@@ -480,6 +480,22 @@
             </div>
         </div>
 
+        <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body" ng-show="myAccount.accountLevel == 1">
+            <div class="ibox-content">
+                <div class="heading ng-binding">
+                    {{'dibl.inquiry.new-edit.export-import' | translate}}
+                </div>
+                <div class="padding">
+                    <div class="ibox-content profile-content">
+
+                        <textarea ui-codemirror ui-codemirror-opts="editorOptions2" ng-model="gameModel.value">
+
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!--<div ng-repeat="list in lists">-->
         <!--<span>{{ list }}</span>-->
         <!--</div>-->
@@ -487,3 +503,4 @@
         <dibl-footer></dibl-footer>
 
     </div>
+</div>
