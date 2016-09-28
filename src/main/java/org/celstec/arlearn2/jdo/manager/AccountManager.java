@@ -35,14 +35,6 @@ public class AccountManager {
 				account.setLastModificationDate(System.currentTimeMillis());
                 account.setAllowTrackLocation(allowTrackLocation);
 
-				////////////////////////////////////////////
-				// Added index for new accounts
-				// Enables full search of accounts in DojoIBL
-				// Date: 08/06/2016
-				// Author: Angel
-				////////////////////////////////////////////
-//				new AccountSearchIndex(account.getName(), account.getLocalId(), account.getAccountType()).scheduleTask();
-
 				return account;
 			} catch (Exception e) {
 

@@ -88,8 +88,7 @@ public class AccountDelegator extends GoogleDelegator {
                 Account ac = new Account();
                 ac.setLocalId(document.getFields("localId").iterator().next().getText());
                 ac.setName(document.getFields("accountName").iterator().next().getText());
-                ac.setAccountType(Integer.parseInt(document.getFields("accountType").iterator().next().getText()));
-
+                ac.setAccountType((int)document.getFields("accountType").iterator().next().getNumber().doubleValue());
                 resultsList.addAccount(ac);
             }
             return resultsList;
@@ -101,4 +100,25 @@ public class AccountDelegator extends GoogleDelegator {
         return null;
     }
 
+
+    public Account createAccountAndIndex(Account account) {
+        if (account.getAccountType() == null) {
+            account.setError("accountType attribute is missing");
+            return account;
+        }
+        if (account.getLocalId() == null) {
+            account.setError("localID attribute is missing");
+            return account;
+        }
+        if (account.getEmail() == null) {
+            account.setError("email attribute is missing");
+            return account;
+        }
+        if (account.getName() == null) {
+            account.setError("name attribute is missing");
+            return account;
+        }
+
+        return AccountManager.addAccount(account);
+    }
 }

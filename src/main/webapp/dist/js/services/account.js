@@ -43,6 +43,14 @@ angular.module('DojoIBL')
             },
             uploadUrl: function(account, key) {
                 return Account.uploadUrl({ account:account, key:key });
+            },
+            searchAccount: function(query) {
+                var deferred = $q.defer();
+                Account.search(query).$promise.then(function (accountData) {
+                    deferred.resolve(accountData);
+                });
+                return deferred.promise;
+
             }
         }
 

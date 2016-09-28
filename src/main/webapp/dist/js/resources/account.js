@@ -14,6 +14,11 @@ angular.module('DojoIBL')
             },
             'uploadUrl': {
                 url: config.server + '/rest/account/url/account/:account/:key'
+            },
+            'search': {
+                method: 'POST',
+                isArray: false,
+                url: config.server + '/rest/account/search'
             }
         });
     })

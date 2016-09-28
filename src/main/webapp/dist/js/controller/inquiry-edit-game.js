@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('InquiryEditGameController', function ($scope, $sce, $stateParams, $state, Session, RunService, ActivityService,
+    .controller('InquiryEditGameController', function ($scope, $sce, $stateParams, $state, $modal, Session, RunService, ActivityService,
                                                        AccountService, GameService, UserService ) {
         // Managing different tabs activities
         $scope.lists = [];
@@ -439,9 +439,73 @@ angular.module('DojoIBL')
             });
         };
 
+        $scope.addUsersToRun = function (run, game) {
 
+            $scope.runVar = run;
+            $scope.gameVar = game;
+
+            var modalInstance = $modal.open({
+                templateUrl: '/dist/templates/directives/modal_add_user.html',
+                controller: 'AddUserCtrl',
+                resolve: {
+                    run: function () {
+                        return $scope.runVar;
+                    },
+                    game: function () {
+                        return $scope.gameVar;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (result){
+                console.log($scope.usersRun[$scope.runVar]);
+                angular.extend($scope.usersRun[$scope.runVar], result);
+                console.log($scope.usersRun[$scope.runVar]);
+            });
+
+        };
+    })
+
+    .controller('AddUserCtrl', function ($scope, $modalInstance, AccountService, RunService, run, game) {
+
+        $scope.refreshAccounts = function(query) {
+
+            AccountService.searchAccount(query).then(function(data){
+                $scope.availableColors = data.accountList;
+            });
+        };
+
+        $scope.multipleDemo = {};
+        $scope.multipleDemo.colors = [];
+
+        $scope.ok = function () {
+
+            var newUsers = [];
+
+            angular.forEach($scope.multipleDemo.colors, function(value, key) {
+
+                // Grant me access to the run
+                RunService.giveAccess(run, value.accountType+":"+value.localId,1);
+                // Add me as a user to the run
+                var a = RunService.addUserToRun({
+                    runId: run,
+                    email: value.accountType+":"+value.localId,
+                    accountType: value.accountType,
+                    localId: value.localId,
+                    gameId: game
+                });
+               newUsers.push(a);
+            });
+
+            $modalInstance.close(newUsers);
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
 
     })
+
     .controller('TabController', function ($scope, $stateParams, GameService, ActivityService) {
         this.tab = 0;
 

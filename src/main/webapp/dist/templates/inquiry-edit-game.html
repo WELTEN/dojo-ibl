@@ -461,13 +461,13 @@
                                                 ng-src="{{ user.picture }}"></a>
                                     </td>
                                     <td class="project-actions">
-                                        <a href="#inquiry/{{ run.runId }}" ng-disabled="true"
+                                        <a ng-click="addUsersToRun(run.runId, run.gameId)"
                                            class="btn btn-white btn-sm"><i class="fa fa-user"></i> Add users </a>
                                         <a href="#inquiry/{{ run.runId }}" class="btn btn-white btn-sm"><i
-                                                class="fa fa-folder"></i> View </a>
+                                                class="fa fa-eye"></i> View </a>
                                         <a href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit" class="btn btn-white btn-sm"><i
                                                 class="fa fa-pencil"></i> Edit </a>
-                                        <a ng-click="removeRun(run)" class="btn btn-white btn-sm"><i
+                                        <a ng-click="removeRun(run)" class="btn btn-default btn-sm"><i
                                                 class="fa fa-times"></i> Delete </a>
                                     </td>
                                 </tr>
