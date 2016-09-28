@@ -94,7 +94,7 @@ angular.module('DojoIBL')
                 Run.giveAccess({ runId: runId, accountId: accountId, accessRight: accessRight});
             },
             addUserToRun: function(json){
-                Run.addUserToRun(json);
+                return Run.addUserToRun(json);
             },
             deleteRun: function(runId){
                 var dataCache = CacheFactory.get('runsCache');
