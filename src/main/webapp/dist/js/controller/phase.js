@@ -14,13 +14,13 @@ angular.module('DojoIBL')
             });
         });
 
-
-        $scope.getRole = function(roles){
-
-            return jQuery.parseJSON(roles[0]).color;
-
-
+        $scope.sortableOptions = {
+            connectWith: ".connectList"
         };
 
+        $scope.getRole = function(roles){
+            console.log(angular.fromJson(roles[0]).color);
+            return angular.fromJson(roles[0]);
+        };
     }
 );

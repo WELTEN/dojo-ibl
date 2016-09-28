@@ -5249,6 +5249,12 @@ table.issue-tracker tbody tr td {
   margin-top: 5px;
   font-size: 12px;
 }
+
+.separator{
+  border-right: solid 1px #cfced2;
+  margin: 5px 0px 13px 0px;
+}
+
 /* DIFF */
 ins {
   background-color: #c6ffc6;
