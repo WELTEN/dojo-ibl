@@ -1,15 +1,13 @@
 package org.celstec.arlearn2.oauth;
 
+import org.celstec.arlearn2.beans.account.Account;
+import org.celstec.arlearn2.delegators.AccountDelegator;
 import org.celstec.arlearn2.jdo.classes.AccountJDO;
 import org.celstec.arlearn2.jdo.classes.OauthConfigurationJDO;
-import org.celstec.arlearn2.jdo.manager.AccountManager;
 import org.celstec.arlearn2.jdo.manager.OauthKeyManager;
-import org.celstec.arlearn2.tasks.beans.migrate.MigrateGamesTask;
-import org.celstec.arlearn2.tasks.beans.migrate.MigrateRunsTask;
-import org.celstec.arlearn2.tasks.beans.migrate.MigrateUserTask;
+import org.celstec.arlearn2.tasks.beans.AccountSearchIndex;
 import org.codehaus.jettison.json.JSONObject;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Logger;
 
@@ -87,8 +85,29 @@ public class OauthWespotWorker extends OauthWorker {
             if (profileJson.has("given_name")) given_name = profileJson.getString("given_name");
             if (profileJson.has("family_name")) family_name = profileJson.getString("family_name");
             if (profileJson.has("name")) name = profileJson.getString("name");
-            AccountJDO account = AccountManager.addAccount(id, AccountJDO.WESPOTCLIENT, email, given_name, family_name, name, picture, false);
-            saveAccessToken(account.getUniqueId(), accessToken);
+
+            ////////////////////////////////////////////
+            // Added index for new accounts
+            // Enables full search of accounts in DojoIBL
+            // Date: 08/06/2016
+            // Author: Angel
+            ////////////////////////////////////////////
+            AccountDelegator accountDelegator = new AccountDelegator(accessToken);
+
+            Account accountObject = new Account();
+            accountObject.setLocalId(id);
+            accountObject.setAccountType(AccountJDO.WESPOTCLIENT);
+            accountObject.setEmail(email);
+            accountObject.setGivenName(given_name);
+            accountObject.setFamilyName(family_name);
+            accountObject.setName(name);
+            accountObject.setPicture(picture);
+            accountObject.setAllowTrackLocation(false);
+
+            Account account = accountDelegator.createAccountAndIndex(accountObject);
+            new AccountSearchIndex(account.getName(), account.getLocalId(), account.getAccountType()).scheduleTask();
+
+            saveAccessToken(AccountJDO.WESPOTCLIENT+":"+id, accessToken);
 
         } catch (Throwable ex) {
             throw new RuntimeException("failed login", ex);
