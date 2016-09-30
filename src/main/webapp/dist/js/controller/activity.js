@@ -7,11 +7,31 @@ angular.module('DojoIBL')
             ActivityService.getActivityById($stateParams.activityId, data.game.gameId).then(function (data) {
                 $scope.activity = data;
 
-                $scope.roles = [];
+                //data.roles;
+
+                var roles = [];
 
                 angular.forEach(data.roles, function(value, key) {
-                    this.push(jQuery.parseJSON(value));
-                }, $scope.roles);
+                    if(!angular.isUndefined(value)) {
+                        try{
+                            if (!angular.isUndefined(angular.fromJson(value))) {
+                                if (!angular.isObject(value)) {
+                                    roles.push(angular.fromJson(value));
+                                }
+                            }
+                        }catch(e){
+                        }
+                    }
+                });
+
+
+                $scope.roles = roles;
+                console.log(roles)
+
+                //
+                //angular.forEach(data.roles, function(value, key) {
+                //    this.push(jQuery.parseJSON(value));
+                //}, $scope.roles);
             });
         });
 
@@ -52,18 +72,39 @@ angular.module('DojoIBL')
             });
 
         };
+        //
+        //$scope.colorRole = function(posRole){
+        //    switch(posRole){
+        //        case 0: return "#f85959";
+        //        case 1: return "#b73434";
+        //        case 2: return "#85b734";
+        //        case 3: return "#3634b7";
+        //        case 4: return "#b7ad34";
+        //        default: return "#2f4050";
+        //    }
+        //};
 
-        $scope.colorRole = function(posRole){
-            switch(posRole){
-                case 0: return "#f85959";
-                case 1: return "#b73434";
-                case 2: return "#85b734";
-                case 3: return "#3634b7";
-                case 4: return "#b7ad34";
-                default: return "#2f4050";
+
+        $scope.getRoleColor = function(roles){
+            if(!angular.isUndefined(roles)) {
+                try{
+                    if (!angular.isUndefined(angular.fromJson(roles[0]))) {
+                        if (!angular.isObject(roles[0])) {
+                            return {
+                                "color": angular.fromJson(roles[0]).color
+                            };
+                        }
+                    }
+                }catch(e){
+                    return {
+                        "color": "#f8ac59"
+                    };
+                }
             }
+            return {
+                "color": "#f8ac59"
+            };
         };
-
 
 
         $scope.sendComment = function(){

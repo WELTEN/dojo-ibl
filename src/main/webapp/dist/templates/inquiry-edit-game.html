@@ -221,7 +221,7 @@
                                                  ng-repeat="(key, item) in lists[$index] | orderByDayNumber:'sortKey'"
                                                  ng-class="{'btn-warning':selectedCombination==item.id}">
                                                 <span ng-show="item.name.length == 0"> <small>No name provided</small> </span>
-                                                {{ item.sortKey }}. {{ item.name }}
+                                                {{ item.sortKey }}. {{ item.name | limitTo: 15 }}
                                             </div>
                                         </div>
 
@@ -290,12 +290,7 @@
 
                                                             <div class="col-sm-9">
                                                                 <label class="checkbox-inline" ng-repeat="role in game.config.roles track by $index" >
-                                                                    <input type="checkbox"
-                                                                           name="selectedFruits[]"
-                                                                           value="{{role.name}}"
-                                                                           ng-checked="selection.indexOf(role) > -1"
-                                                                           ng-click="toggleSelection(role)"
-                                                                            > {{role.name}}
+                                                                    <input type="checkbox" ng-change="sync(bool, role)" ng-model="bool" ng-checked="isChecked(role.name)">{{role.name}}
                                                                 </label>
 
                                                             </div>

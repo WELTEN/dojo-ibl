@@ -45,8 +45,13 @@ angular.module('DojoIBL')
                     };
 
                     socket.onerror = function () {
-                        //console.log("Channel error");
+                        console.error("Channel error");
                     };
+
+                    socket.onmessage = function(message) {
+                        console.log(message);
+                    };
+
                     socket.onclose = function () {
 
                         //We reopen the channel
@@ -72,6 +77,9 @@ angular.module('DojoIBL')
                             //swal("Timeout!", "Refresh this page to continue.", "success");
                         });
                     };
+
+                    socket.onmessage('test');
+
                     context.channelSocket = socket;
                     //console.info("Channel info received");
                     context.channelSocket.onmessage = context.messageCallback;

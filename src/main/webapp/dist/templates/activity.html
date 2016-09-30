@@ -2,7 +2,7 @@
 
     <div class="panel-body no-padding-no-border-radius">
         <div class="ibox-content">
-            <div class="heading" ng-repeat="role in roles track by $index" ng-show="$first" ng-style="{'background-color': role.color }">
+            <div class="heading" ng-repeat="role in roles track by $index" ng-show="$first"  ng-style="{'background-color': role.color }">
                 <small  class="chat-date pull-right" >
 
                 </small>
@@ -84,7 +84,7 @@
                 <div class="text-center">
 
                     <span ng-repeat="role in roles track by $index">
-                        <i class="fa fa-circle text-navy"></i>
+                        <i class="fa fa-circle text-navy" ng-style="getRoleColor(activity.roles)"></i>
                         <small class="text-muted"> {{ role.name }} </small>
                     <br/>
                     </span>

@@ -32,6 +32,14 @@ angular.module('DojoIBL')
                         generalItems[gameId] = generalItems[gameId] || {};
                         for (i = 0; i < data.generalItems.length; i++) {
                             if (!data.generalItems[i].deleted) {
+
+                                //var rol = [];
+                                //angular.forEach(data.generalItems[i].roles, function(d){
+                                //    rol.push(JSON.parse(d));
+                                //});
+
+                                //data.generalItems[i].roles = rol;
+
                                 dataCache.put(data.generalItems[i].id, data.generalItems[i]);
                                 generalItems[gameId][data.generalItems[i].id] = data.generalItems[i];
                                 // returnElements.push(data.generalItems[i])
