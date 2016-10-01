@@ -49,12 +49,7 @@ angular.module('DojoIBL')
                 swal("Deleted!", "Your inquiry has been deleted.", "success");
 
 
-                function arrayObjectIndexOf(myArray, searchTerm, property) {
-                    for(var i = 0, len = myArray.length; i < len; i++) {
-                        if (myArray[i][property] === searchTerm) return i;
-                    }
-                    return -1;
-                }
+
                 var idx = arrayObjectIndexOf($scope.games, GameService.getGameFromCache(id).gameId, "gameId");
 
                 // is currently selected
@@ -85,9 +80,23 @@ angular.module('DojoIBL')
                     console.log(data)
                     switch (data.type) {
                         case 'org.celstec.arlearn2.beans.game.Game':
+                            Game.access({ }).$promise.then(function (gameAccesses) {
 
-                            GameService.refreshGame(data.gameId).then(function (data) {
-                                console.info("[Notification][Game]");
+                                angular.forEach(gameAccesses.gamesAccess, function (gameAccess) {
+                                    if(data.gameId == gameAccess.gameId){
+                                        GameService.refreshGame(data.gameId).then(function (data) {
+                                            var idx = arrayObjectIndexOf($scope.games, data.gameId, "gameId");
+
+                                            // is currently selected
+                                            if (idx == -1) {
+
+                                                var data_extended = angular.extend({}, data, gameAccess);
+                                                $scope.games.push(data_extended)
+                                            }
+                                            console.info("[Notification][Game]");
+                                        });
+                                    }
+                                });
                             });
 
                             break;
@@ -96,5 +105,11 @@ angular.module('DojoIBL')
             });
         });
 
+        function arrayObjectIndexOf(myArray, searchTerm, property) {
+            for(var i = 0, len = myArray.length; i < len; i++) {
+                if (myArray[i][property] === searchTerm) return i;
+            }
+            return -1;
+        }
     }
 );
