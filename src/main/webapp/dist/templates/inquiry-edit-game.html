@@ -8,17 +8,8 @@
 
     <div class="row inquiry">
 
-        <div class="col-md-3">
-            <div class="wrapper wrapper-content project-manager">
-                <h4>{{ game.title }}</h4>
-                <!--<img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">-->
-
-                <div ng-bind-html="game.description"></div>
-
-            </div>
-        </div>
-
-        <div class="col-md-5 wrapper wrapper-content animated fadeInpanel-body">
+        <!-- Module 1-->
+        <div class="col-md-7 wrapper wrapper-content animated fadeInpanel-body">
             <div class="ibox-content">
                 <div class="heading ng-binding">
                     {{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}
@@ -62,7 +53,7 @@
             </div>
         </div>
 
-        <div class="col-md-4 wrapper wrapper-content animated fadeInpanel-body">
+        <div class="col-md-5 wrapper wrapper-content animated fadeInpanel-body">
             <div class="ibox-content">
                 <div class="heading ng-binding">
                     {{ 'dibl.inquiry.new-edit.inquiry-roles' | translate }}
@@ -424,7 +415,7 @@
                         <div class="project-list">
                             <table class="table table-hover">
                                 <tbody>
-                                <tr ng-repeat="run in gameRuns track by $index">
+                                <tr ng-repeat="(key, run) in gameRuns | orderByDayNumber:'serverCreationTime'">
                                     <td class="project-status">
                                         <span ng-show="!deleted" class="label label-primary">Active</span>
                                         <span ng-show="deleted" class="label label-danger">Deleted</span>
@@ -450,7 +441,7 @@
                                         <!--</div>-->
                                     <!--</td>-->
                                     <td class="project-people">
-                                        <a href="" ng-repeat="user in usersRun[run.runId] track by $index"><img
+                                        <a href="#/profile/{{user.accountType}}:{{user.localId}}" ng-repeat="user in usersRun[run.runId]"><img
                                                 alt="{{ user.name }}" title="{{ user.name }}" class="img-circle"
                                                 src="dist/img/avatar3.png"
                                                 ng-src="{{ user.picture }}"></a>
@@ -475,7 +466,7 @@
             </div>
         </div>
 
-        <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body" ng-show="myAccount.accountLevel == 1">
+        <div class="col-md-5 wrapper wrapper-content animated fadeInpanel-body" ng-show="myAccount.accountLevel == 1">
             <div class="ibox-content">
                 <div class="heading ng-binding">
                     {{'dibl.inquiry.new-edit.export-import' | translate}}
@@ -490,10 +481,6 @@
                 </div>
             </div>
         </div>
-
-        <!--<div ng-repeat="list in lists">-->
-        <!--<span>{{ list }}</span>-->
-        <!--</div>-->
 
         <dibl-footer></dibl-footer>
 

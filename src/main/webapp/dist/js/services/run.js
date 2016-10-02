@@ -20,11 +20,16 @@ angular.module('DojoIBL')
 
                     Run.getRun({id: id}).$promise.then(
                         function (data) {
-                            var roles = [];
-                            for (var i=0; i < data.game.config.roles.length; i++){
-                                roles.push(JSON.parse(data.game.config.roles[i]))
+
+                            if(!angular.isUndefined(data.game.config.roles)){
+                                var roles = [];
+
+                                for (var i=0; i < data.game.config.roles.length; i++){
+                                    roles.push(JSON.parse(data.game.config.roles[i]))
+                                }
+                                data.game.config.roles = roles;
                             }
-                            data.game.config.roles = roles;
+
 
                             dataCache.put(id, data);
                             deferred.resolve(data);
@@ -100,6 +105,13 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('runsCache');
                 dataCache.remove(runId);
                 return Run.delete({ id: runId });
+            },
+            storeInCache:function(run){
+                var dataCache = CacheFactory.get('runsCache');
+                if (dataCache.get(run.runId)) {
+                    dataCache.remove(run.runId);
+                }
+                dataCache.put(run.runId, run);
             }
         }
     }

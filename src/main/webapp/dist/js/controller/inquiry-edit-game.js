@@ -332,7 +332,19 @@ angular.module('DojoIBL')
 
             $scope.game.phases = $scope.phases;
 
-            GameService.newGame($scope.game);
+            GameService.newGame($scope.game).then(function(updatedGame){
+
+                angular.forEach($scope.gameRuns, function(value, key) {
+                    console.log(value, key);
+
+                    value.game = updatedGame;
+
+                    RunService.storeInCache(value);
+                });
+
+            });
+
+
         };
 
         $scope.removePhase = function(index){
@@ -350,7 +362,17 @@ angular.module('DojoIBL')
 
                 $scope.phases.splice(index, 1);
                 $scope.game.phases = $scope.phases;
-                GameService.newGame($scope.game);
+                GameService.newGame($scope.game).then(function(updatedGame){
+
+                    angular.forEach($scope.gameRuns, function(value, key) {
+                        console.log(value, key);
+
+                        value.game = updatedGame;
+
+                        RunService.storeInCache(value);
+                    });
+
+                });
             });
 
         };
@@ -433,6 +455,8 @@ angular.module('DojoIBL')
         $scope.createInquiryRun = function(){
             // Add the link between run and game
             $scope.run.gameId = $stateParams.gameId;
+            $scope.run.game = $scope.game;
+
             RunService.newRun($scope.run).then(function(run){
                 // Update run with data from the server
                 $scope.run = run;
@@ -440,13 +464,23 @@ angular.module('DojoIBL')
                 if(angular.isUndefined($scope.gameRuns)){
                     $scope.gameRuns = []
                 }
+                if(angular.isUndefined($scope.usersRun)){
+                    $scope.usersRun = []
+                }
 
                 //$scope.gameRuns.push(run);
                 AccountService.myDetails().then(function(data){
                     // Grant me access to the run
                     RunService.giveAccess($scope.run.runId, data.accountType+":"+data.localId,1);
+
+                    if(angular.isUndefined($scope.usersRun[$scope.run.runId])){
+                        $scope.usersRun[$scope.run.runId] = []
+                    }
+
+                    var newUsers = [];
+
                     // Add me as a user to the run
-                    RunService.addUserToRun({
+                    var user = RunService.addUserToRun({
                         runId: $scope.run.runId,
                         email: data.accountType+":"+data.localId,
                         accountType: data.accountType,
@@ -454,7 +488,10 @@ angular.module('DojoIBL')
                         gameId: $stateParams.gameId
                     });
 
+                    newUsers.push(user);
+
                     $scope.gameRuns[$scope.run.runId] = $scope.run;
+                    angular.extend($scope.usersRun[$scope.run.runId], newUsers);
 
                     // Reset the run variable to create new ones
                     $scope.run = null;

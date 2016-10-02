@@ -8,19 +8,19 @@
 
     <div class="row inquiry">
 
-        <div class="col-lg-3">
-            <div class="wrapper wrapper-content project-manager">
-                <h4><b>{{'dibl.inquiry.new-edit.inquiry-title' |
-                    translate}}</b>: {{ run.title }}</h4>
-                <br/>
-                <img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">
-                <br/>
-                <b>{{ 'dibl.inquiry.new-edit.inquiry-description' | translate }}</b> <div ng-bind-html="run.game.description | unsafe"></div>
+        <!--<div class="col-lg-3">-->
+            <!--<div class="wrapper wrapper-content project-manager">-->
+                <!--<h4><b>{{'dibl.inquiry.new-edit.inquiry-title' |-->
+                    <!--translate}}</b>: {{ run.title }}</h4>-->
+                <!--<br/>-->
+                <!--&lt;!&ndash;<img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">&ndash;&gt;-->
+                <!--<br/>-->
+                <!--<b>{{ 'dibl.inquiry.new-edit.inquiry-description' | translate }}</b> <div ng-bind-html="run.game.description | unsafe"></div>-->
 
-            </div>
-        </div>
-        <div class="col-md-9" id="inquiry-content">
-            <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="col-md-6 wrapper wrapper-content animated fadeInpanel-body">
                 <div class="ibox-content">
                     <div class="heading ng-binding">
                         {{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}
@@ -71,8 +71,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
+        <div class="col-md-6 wrapper wrapper-content animated fadeInpanel-body">
             <div class="ibox-content">
                 <div class="heading ng-binding">
                     2. Inquiry run's participants
