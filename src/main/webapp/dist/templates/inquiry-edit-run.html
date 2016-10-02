@@ -108,29 +108,31 @@
                                 <table class="table table-hover">
                                     <tbody>
                                     <tr ng-repeat="user in usersRun track by $index">
-                                        <td class="client-avatar"><img alt="image" src="dist/img/avatar04.png"
-                                                                       ng-src="{{ user.picture }}"></td>
+                                        <td class="client-avatar">
+                                            <ng-letter-avatar ng-if="user.picture == ''" data="{{ user.name }}"></ng-letter-avatar>
+                                            <img alt="image" ng-if="user.picture != ''" ng-src="{{ user.picture }}">
+                                        </td>
                                         <td><a data-toggle="tab" href="#/profile/{{ user.localId }}"
                                                class="client-link">{{ user.name }}</a></td>
-                                        <td> ROLE</td>
-                                        <td class="contact-type"><i class="fa fa-envelope"> </i></td>
+                                        <!--<td> ROLE</td>-->
+                                        <!--<td class="contact-type"><i class="fa fa-envelope"> </i></td>-->
                                         <td> {{ user.email }}</td>
-                                        <td ng-show="!user.deleted" class="client-status"><span
-                                                class="label label-primary">Active</span></td>
-                                        <td ng-show="user.deleted" class="client-status"><span
-                                                class="label label-danger">Deleted</span></td>
-                                        <td>
-                                            <div class="pull-right">
+                                        <!--<td ng-show="!user.deleted" class="client-status"><span-->
+                                                <!--class="label label-primary">Active</span></td>-->
+                                        <!--<td ng-show="user.deleted" class="client-status"><span-->
+                                                <!--class="label label-danger">Deleted</span></td>-->
+                                        <!--<td ng-show="run.game.accessRights == 1">-->
+                                           <!--<div class="pull-right">-->
                                                 <!--<button type="button" class="btn btn-sm btn-white"><i-->
                                                         <!--class="fa fa-times"></i> Remove-->
                                                 <!--</button>-->
-                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-user"></i> </button>-->
-                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-list"></i> </button>-->
-                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-pencil"></i> </button>-->
-                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-print"></i> </button>-->
-                                                <!--<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-cogs"></i> </button>-->
-                                            </div>
-                                        </td>
+                                                <!--&lt;!&ndash;<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-user"></i> </button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-list"></i> </button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-pencil"></i> </button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-print"></i> </button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<button type="button" class="btn btn-sm btn-white"> <i class="fa fa-cogs"></i> </button>&ndash;&gt;-->
+                                            <!--</div>-->
+                                        <!--</td>-->
                                     </tr>
 
                                     </tbody>

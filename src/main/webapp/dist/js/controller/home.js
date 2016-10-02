@@ -8,11 +8,18 @@ angular.module('DojoIBL')
 
             angular.forEach(data.gamesAccess, function (gameAccess) {
 
-                //console.log(gameAccess);
-
                 GameService.getGameById(gameAccess.gameId).then(function (data) {
 
                     var data_extended = angular.extend({}, data, gameAccess);
+
+                    console.log(data.description);
+
+                    //data.description = $sce.trustAsHtml(data.description);
+                    //
+                    //$scope.des = data.description
+                    //$scope.deliberatelyTrustDangerousSnippet = function() {
+                    //    return $sce.trustAsHtml($scope.des);
+                    //};
 
                     $scope.games = $scope.games.concat(data_extended);
 
@@ -36,7 +43,6 @@ angular.module('DojoIBL')
 
         $scope.deleteInquiry = function (id) {
 
-
             swal({
                 title: "Are you sure?",
                 text: "You will not be able to recover this inquiry!",
@@ -47,8 +53,6 @@ angular.module('DojoIBL')
                 closeOnConfirm: false
             }, function () {
                 swal("Deleted!", "Your inquiry has been deleted.", "success");
-
-
 
                 var idx = arrayObjectIndexOf($scope.games, GameService.getGameFromCache(id).gameId, "gameId");
 
@@ -66,7 +70,7 @@ angular.module('DojoIBL')
         $scope.config = {
             itemsPerPage: 5,
             fillLastPage: true
-        }
+        };
 
         $scope.isLoggedIn = function () {
             if (Session.getAccessToken() ) return true;

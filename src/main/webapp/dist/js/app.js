@@ -1,7 +1,7 @@
 angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache', 'ngDragDrop', 'localytics.directives',
     'summernote', 'ui.select', 'ngSanitize', 'ui.select', 'infinite-scroll', 'textAngular', 'pascalprecht.translate', 'ngFileUpload',
     'ncy-angular-breadcrumb', 'angular-table', 'luegg.directives', 'ngEmoticons', 'vButton', 'ui.sortable', 'ngAudio', 'ui.bootstrap',
-    'ui.codemirror'])
+    'ui.codemirror', 'ngLetterAvatar'])
 
     .config(function ($translateProvider) {
 

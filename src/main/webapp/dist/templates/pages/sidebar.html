@@ -3,9 +3,11 @@
         <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <span><a href="#/profile/{{ myAccount.accountType }}:{{ myAccount.localId }}">
-                        <img alt="image" class="img-circle" src="dist/img/avatar.png" ng-src="{{ myAccount.picture }}">
-                    </a>
+                    <span>
+                        <a href="#/profile/{{ myAccount.accountType }}:{{ myAccount.localId }}">
+                            <ng-letter-avatar shape="round" ng-if="myAccount.picture == ''" data="{{ myAccount.name }}"></ng-letter-avatar>
+                            <img alt="image" class="img-circle" ng-if="myAccount.picture != ''" ng-src="{{ myAccount.picture }}">
+                        </a>
                     </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#/profile/{{ myAccount.accountType }}:{{ myAccount.localId }}">
                         <span class="clear">

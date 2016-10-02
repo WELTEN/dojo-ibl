@@ -417,8 +417,8 @@
                                 <tbody>
                                 <tr ng-repeat="(key, run) in gameRuns | orderByDayNumber:'serverCreationTime'">
                                     <td class="project-status">
-                                        <span ng-show="!deleted" class="label label-primary">Active</span>
-                                        <span ng-show="deleted" class="label label-danger">Deleted</span>
+                                        <span ng-show="run.deleted" class="label label-danger">Deleted</span>
+                                        <span ng-hide="run.deleted" class="label label-primary">Active</span>
                                     </td>
                                     <td class="project-completion">
                                         <p><b>Code</b></p>
@@ -440,17 +440,19 @@
                                             <!--<div style="width: 48%;" class="progress-bar"></div>-->
                                         <!--</div>-->
                                     <!--</td>-->
-                                    <td class="project-people">
-                                        <a href="#/profile/{{user.accountType}}:{{user.localId}}" ng-repeat="user in usersRun[run.runId]"><img
+                                    <td class="project-people" data-toggle="tooltip" data-placement="left" title="Tooltip on left">
+                                        <a href="#/profile/{{user.accountType}}:{{user.localId}}" ng-repeat="user in usersRun[run.runId]">
+                                            <ng-letter-avatar shape="round" ng-if="user.picture == ''" data="{{ user.name }}"></ng-letter-avatar>
+                                            <img
                                                 alt="{{ user.name }}" title="{{ user.name }}" class="img-circle"
-                                                src="dist/img/avatar3.png"
+                                                ng-if="user.picture != ''"
                                                 ng-src="{{ user.picture }}"></a>
                                     </td>
                                     <td class="project-actions">
-                                        <a ng-click="addUsersToRun(run.runId, run.gameId)"
-                                           class="btn btn-white btn-sm"><i class="fa fa-user"></i> Add users </a>
                                         <a href="#inquiry/{{ run.runId }}" class="btn btn-white btn-sm"><i
                                                 class="fa fa-eye"></i> View </a>
+                                        <a ng-click="addUsersToRun(run.runId, run.gameId)"
+                                           class="btn btn-white btn-sm"><i class="fa fa-user"></i> Add users </a>
                                         <a href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit" class="btn btn-white btn-sm"><i
                                                 class="fa fa-pencil"></i> Edit </a>
                                         <a ng-click="removeRun(run)" class="btn btn-default btn-sm"><i

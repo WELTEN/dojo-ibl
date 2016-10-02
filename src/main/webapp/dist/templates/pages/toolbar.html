@@ -1,5 +1,5 @@
 <div class="row wrapper border-bottom white-bg page-heading p-sm">
-    <div class="col-md-7">
+    <div class="col-md-9">
         <h2>
             <span ncy-breadcrumb-last></span>
         </h2>
@@ -9,12 +9,12 @@
             </li>
         </ol>
     </div>
-    <div class="col-md-5">
+    <div class="col-md-3">
         <div class="title-action">
             <a ng-show="state.current.name == 'editrun' && game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"  class="btn btn-danger m-md"><i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-structure' | translate }} <b>{{ run.game.title }}</b></a>
             <a ng-show="state.current.name == 'inquiry.home' || state.current.name == 'inquiry.phase' || state.current.name == 'inquiry.activity' || state.current.name == 'inquiry.timeline'" href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit"  class="btn btn-danger m-md"><i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-run' | translate }} <b>{{ run.title }}</b></a>
 
-            <div class="col-md-6 m-md" ng-show="state.current.name == 'home'">
+            <div class="m-md" ng-show="state.current.name == 'home'">
                 <div class="input-group" >
                     <input type="text" class="form-control ng-pristine ng-untouched ng-valid" ng-model="inquiryCode">
                 <span class="input-group-btn">
@@ -24,9 +24,9 @@
                 </div>
             </div>
 
-            <div class="col-md-2" ng-show="state.current.name == 'home'">
-                <a  href="#create/inquiry"  class="btn btn-success m-md"><i class="fa fa-plus"></i> {{'dibl.toolbar.new' | translate }} </a>
-            </div>
+            <!--<div class="col-md-2" ng-show="state.current.name == 'home'">-->
+                <!--<a  href="#create/inquiry"  class="btn btn-success m-md"><i class="fa fa-plus"></i> {{'dibl.toolbar.new' | translate }} </a>-->
+            <!--</div>-->
 
 
             <!--<a  href="" ng-show="state.current.name == 'home'" class="btn btn-warning  m-md" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in"></i> </a>-->

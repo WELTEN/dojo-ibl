@@ -1,5 +1,8 @@
 <div>
-    <img class="message-avatar" src="dist/img/avatar.png" ng-src="{{ user.picture }}" alt="">
+    <div class="message-avatar-left">
+        <ng-letter-avatar avatarcustomborder="border-radius: 4px" ng-if="user.picture == ''" data="{{ user.name }}"></ng-letter-avatar>
+    </div>
+    <img class="message-avatar" ng-if="user.picture != ''" ng-src="{{ user.picture }}" alt="">
     <div class="message">
         <a class="message-author" href="#/profile/{{ user.accountType }}:{{ user.localId}}"> {{ user.name }} </a>
         <span class="message-date"> {{ message.date | date:'short' }}</span>

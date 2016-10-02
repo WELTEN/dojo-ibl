@@ -466,10 +466,27 @@ angular.module('DojoIBL')
         });
 
         $scope.removeRun = function(run){
-            //console.log(run);
-            //$scope.phases.splice(index, 1);
-            //$scope.game.phases = $scope.phases;
-            RunService.deleteRun(run.runId);
+
+            swal({
+                title: "Are you sure you want to delete the inquiry run?",
+                text: "You will not be able to recover this inquiry run!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete the run!",
+                closeOnConfirm: false
+            }, function () {
+                swal("Inquiry run deleted!", "The Inquiry Run has been removed from the list of inquiry runs.", "success");
+
+                var idx = arrayObjectIndexOf($scope.gameRuns, run.runId, "runId");
+
+                // is currently selected
+                if (idx > -1) {
+                    $scope.gameRuns.splice(idx, 1);
+                }
+
+                var updatedRun = RunService.deleteRun(run.runId);
+            });
         };
 
         $scope.createInquiryRun = function(){
@@ -543,6 +560,13 @@ angular.module('DojoIBL')
             });
 
         };
+
+        function arrayObjectIndexOf(myArray, searchTerm, property) {
+            for(var i = 0, len = myArray.length; i < len; i++) {
+                if (myArray[i][property] === searchTerm) return i;
+            }
+            return -1;
+        }
     })
 
     .controller('AddUserCtrl', function ($scope, $modalInstance, AccountService, RunService, run, game) {

@@ -36,11 +36,9 @@
 
                     <div ng-show="showRunsValue" class="front">
                         <div class="m-b-sm">
-                            <!--<object class="img-circle" data="http://icons.iconarchive.com/icons/blackvariant/button-ui-system-apps/1024/LaunchPad-Rocket-icon.png" type="image/png">-->
-                            <!--<img src="/game/4913623780556800/gameThumbnail" class="img-circle circle-border m-b-md" alt="inquiry icon">-->
-                            <!--</object>-->
                             <i class="fa fa-mortar-board icon-game"></i>
                         </div>
+
                         <div ng-bind-html="game.description | limitTo: 150 "></div>
 
                         <p>{{ game.lastModificationDate | date:'medium' }} </p>
@@ -50,7 +48,7 @@
                             <a ng-click="deleteInquiry(game.gameId)" ng-show="game.accessRights == 1" class="btn btn-xs btn-danger delete-inquiry"><i class="fa fa-trash"></i> Delete </a>
                         </div>
                     </div>
-                    <div ng-hide="showRunsValue" style="overflow: scroll; height: 15em;">
+                    <div ng-hide="showRunsValue" style="overflow-y: scroll; height: 15em;">
                         <table  class="widget-text-box table table-striped table-hover">
                             <thead>
                             <tr>

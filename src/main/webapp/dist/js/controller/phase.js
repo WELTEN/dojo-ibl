@@ -44,12 +44,12 @@ angular.module('DojoIBL')
                     }
                 }catch(e){
                     return {
-                        "border-left": "3px solid #f8ac59"
+                        "border-left": "3px solid #2f4050"
                     };
                 }
             }
             return {
-                "border-left": "3px solid #f8ac59"
+                "border-left": "3px solid #2f4050"
             };
         };
     }
