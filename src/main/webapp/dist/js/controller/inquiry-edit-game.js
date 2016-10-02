@@ -363,16 +363,18 @@ angular.module('DojoIBL')
                 $scope.phases.splice(index, 1);
                 $scope.game.phases = $scope.phases;
                 GameService.newGame($scope.game).then(function(updatedGame){
-
                     angular.forEach($scope.gameRuns, function(value, key) {
-                        console.log(value, key);
-
                         value.game = updatedGame;
-
                         RunService.storeInCache(value);
                     });
-
                 });
+
+                ActivityService.getActivitiesForPhase($scope.game.gameId, index).then(function(data){
+                    angular.forEach(data, function(i, a){
+                        ActivityService.deleteActivity(i.gameId, i.id);
+                    });
+                });
+
             });
 
         };
