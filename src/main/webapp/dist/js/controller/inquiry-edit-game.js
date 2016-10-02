@@ -210,38 +210,6 @@ angular.module('DojoIBL')
             }
         };
 
-        $scope.currentPhase = 0;
-
-        $scope.renamePhase = function(tab, index){
-            swal({
-                title: "Rename phase "+index+" '"+$scope.phases[index].title+"'?",
-                text: "Are you sure you want to rename the phase?",
-                type: "input",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, rename it!",
-                inputPlaceholder: "New phase name",
-                closeOnConfirm: false
-            }, function (inputValue) {
-
-                if (inputValue === false)
-                    return false;
-                if (inputValue === "") {
-                    swal.showInputError("You need to write something!");
-                    return false
-                }
-
-                swal("Well done!", "You renamed the phase, now it's called: " + inputValue, "success");
-
-                $scope.phases[index].title = inputValue;
-
-                $scope.game.phases = $scope.phases;
-
-                GameService.newGame($scope.game);
-
-            });
-        };
-
         $scope.addOne = function(a){
 
             var object = {
@@ -317,6 +285,8 @@ angular.module('DojoIBL')
         ////////////////
         // Manage phases
         ////////////////
+        $scope.currentPhase = 0;
+
         $scope.addPhase = function(){
 
             $scope.phases.push({
@@ -430,6 +400,44 @@ angular.module('DojoIBL')
                 });
             });
 
+        };
+
+        $scope.renamePhase = function(tab, index){
+            swal({
+                title: "Rename phase "+index+" '"+$scope.phases[index].title+"'?",
+                text: "Are you sure you want to rename the phase?",
+                type: "input",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, rename it!",
+                inputPlaceholder: "New phase name",
+                closeOnConfirm: false
+            }, function (inputValue) {
+
+                if (inputValue === false)
+                    return false;
+                if (inputValue === "") {
+                    swal.showInputError("You need to write something!");
+                    return false
+                }
+
+                swal("Well done!", "You renamed the phase, now it's called: " + inputValue, "success");
+
+                $scope.phases[index].title = inputValue;
+
+                $scope.game.phases = $scope.phases;
+
+                GameService.newGame($scope.game).then(function(updatedGame){
+
+                    angular.forEach($scope.gameRuns, function(value, key) {
+                        value.game = updatedGame;
+
+                        RunService.storeInCache(value);
+                    });
+
+                });
+
+            });
         };
 
         //////////////////////

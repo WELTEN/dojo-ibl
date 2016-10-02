@@ -5,7 +5,6 @@ angular.module('DojoIBL')
         $scope.$on("$stateChangeSuccess", function updatePage() {
             $scope.phaseNumber = $state.params.phase;
             $scope.statePhase = $state.current.name;
-            console.log($state.current.name);
         });
 
         if ($stateParams.runId) {
