@@ -63,16 +63,29 @@ angular.module('DojoIBL')
         ////////////////////
         $scope.selected = false;
         $scope.activity = {};
+        $scope.data = {
+            model: null
+        };
+        $scope.data_old = {
+            model: null
+        };
 
         $scope.compare = function() {
-            return !angular.equals($scope.activity_old, $scope.activity);
+            var bool_activity = !angular.equals($scope.activity_old, $scope.activity);
+            var bool_roles = !angular.equals($scope.data_old, $scope.data);
+
+            return (bool_roles) || (bool_activity);
         };
 
         $scope.saveActivity = function(){
-            console.log($scope.activity)
+
             // Save array of roles into the activity
             $scope.activity_old = angular.copy($scope.activity);
-            $scope.activity.roles = $scope.selection;
+            $scope.data_old.model = angular.copy($scope.data.model);
+
+            $scope.activity.roles = [];
+            $scope.activity.roles.push($scope.data.model);
+
             ActivityService.newActivity($scope.activity);
         };
 
@@ -108,19 +121,17 @@ angular.module('DojoIBL')
             }
 
             $scope.activity = activity;
-
             $scope.activity_old = angular.copy(activity);
 
             // Save roles into an array
             $scope.selection = $scope.activity.roles || [];
-            //
-            //
-            //$scope.selection = [];
-            //
-            //angular.forEach($scope.activity.roles, function(value, key) {
-            //    this.push(jQuery.parseJSON(value));
-            //}, $scope.selection);
-            //console.log($scope.selection);
+
+            if(!angular.isUndefined($scope.activity.roles)){
+
+                $scope.data.model = $scope.activity.roles[0];
+            }
+
+            $scope.data_old.model = angular.copy($scope.data.model);
 
             $scope.selected = true;
 
@@ -561,6 +572,9 @@ angular.module('DojoIBL')
 
         };
 
+        //////////////////
+        // Extra functions
+        //////////////////
         function arrayObjectIndexOf(myArray, searchTerm, property) {
             for(var i = 0, len = myArray.length; i < len; i++) {
                 if (myArray[i][property] === searchTerm) return i;

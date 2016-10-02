@@ -279,10 +279,14 @@
                                                                 'dibl.inquiry.new-edit.roles-activity' | translate
                                                                 }}</label>
 
+                                                            <!-- Roles -->
                                                             <div class="col-sm-9">
-                                                                <label class="checkbox-inline" ng-repeat="role in game.config.roles track by $index" >
-                                                                    <input type="checkbox" ng-change="sync(bool, role)" ng-model="bool" ng-checked="isChecked(role.name)">{{role.name}}
-                                                                </label>
+                                                                <!--<label class="checkbox-inline" ng-repeat="role in game.config.roles track by $index" >-->
+                                                                    <!--<input type="checkbox" ng-change="sync(bool, role)" ng-model="bool" ng-checked="isChecked(role.name)">{{role.name}}-->
+                                                                <!--</label>-->
+                                                                <select name="repeatSelect" id="repeatSelect" class="form-control" ng-model="data.model">
+                                                                    <option ng-repeat="option in game.config.roles track by $index" value="{{option}}">{{option.name}}</option>
+                                                                </select>
 
                                                             </div>
                                                         </div>

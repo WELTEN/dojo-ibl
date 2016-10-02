@@ -14,8 +14,8 @@
                         <!--<h3>ToDo</h3>-->
                         <!--<p class="small"><i class="fa fa-hand-o-up"></i> Drag task between list as their status change</p>-->
                         <p class="small"><i class="fa fa-list"></i> List of activities that belong to this phase</p>
-
-                        <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable">
+                    <!--ui-sortable="sortableOptions"-->
+                        <ul  class="sortable-list connectList agile-list ui-sortable">
                             <li ng-style="getRoleColor(activity.roles)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities | orderByDayNumber:'sortKey'">
                                 <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-question"></i>
                                 <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
