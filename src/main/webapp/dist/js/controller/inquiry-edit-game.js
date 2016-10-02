@@ -415,7 +415,17 @@ angular.module('DojoIBL')
 
                 $scope.game.phases = $scope.phases;
 
-                GameService.newGame($scope.game);
+                GameService.newGame($scope.game).then(function(updatedGame){
+
+                    angular.forEach($scope.gameRuns, function(value, key) {
+                        console.log(value, key);
+
+                        value.game = updatedGame;
+
+                        RunService.storeInCache(value);
+                    });
+
+                });
             });
 
         };
