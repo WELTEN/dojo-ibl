@@ -5,7 +5,6 @@ import org.celstec.arlearn2.delegators.AccountDelegator;
 import org.celstec.arlearn2.jdo.classes.AccountJDO;
 import org.celstec.arlearn2.jdo.classes.OauthConfigurationJDO;
 import org.celstec.arlearn2.jdo.manager.OauthKeyManager;
-import org.celstec.arlearn2.tasks.beans.AccountSearchIndex;
 import org.codehaus.jettison.json.JSONObject;
 
 import java.net.URL;
@@ -105,7 +104,7 @@ public class OauthWespotWorker extends OauthWorker {
             accountObject.setAllowTrackLocation(false);
 
             Account account = accountDelegator.createAccountAndIndex(accountObject);
-            new AccountSearchIndex(account.getName(), account.getLocalId(), account.getAccountType()).scheduleTask();
+//            new AccountSearchIndex(account.getName(), account.getLocalId(), account.getAccountType()).scheduleTask();
 
             saveAccessToken(AccountJDO.WESPOTCLIENT+":"+id, accessToken);
 

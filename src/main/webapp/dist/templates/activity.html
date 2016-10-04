@@ -100,7 +100,7 @@
             <div ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="input-group create-question">
                 <input responseid="0" ng-enter="sendComment()" class="form-control response" ng-model="response" placeholder="Type your question here...">
                 <span class="input-group-btn">
-                    <button type="submit" v-busy="isBusy" v-pressable class="btn btn-primary save" ng-disabled="!response" ng-click="sendComment()" responseid="0">Add question</button>
+                    <button type="submit" class="btn btn-primary save" ng-disabled="!response" ng-click="sendComment()" responseid="0">Add question</button>
                 </span>
             </div>
 
@@ -135,7 +135,7 @@
                     <div class="media-body">
                         <textarea class="form-control" ng-model="response" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>
                         <div class="text-right">
-                            <button type="submit" ng-disabled="!response" class="btn btn-sm btn-primary m-t-sm save" responseid="0" v-busy="isBusy" v-pressable ng-click="sendComment()"><strong>Post comment</strong></button>
+                            <button type="submit" ng-disabled="!response" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendComment()"><strong>Post comment</strong></button>
                         </div>
                     </div>
                 </div>

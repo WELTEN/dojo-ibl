@@ -165,7 +165,8 @@ public class AccountApi extends Service {
 						 @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
 						 @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
 		AccountDelegator ad = new AccountDelegator(token);
-		return serialise(ad.search(searchQuery), accept);
+		return null;
+//		return serialise(ad.search(searchQuery), accept);
 	}
 
 	@GET

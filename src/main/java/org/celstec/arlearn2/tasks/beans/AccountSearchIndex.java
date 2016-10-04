@@ -18,13 +18,8 @@
  ******************************************************************************/
 package org.celstec.arlearn2.tasks.beans;
 
-import com.google.appengine.api.search.*;
-import org.celstec.arlearn2.beans.account.Account;
-import org.celstec.arlearn2.delegators.AccountDelegator;
 import org.celstec.arlearn2.delegators.NotificationDelegator;
 
-import java.util.ArrayList;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AccountSearchIndex extends GenericBean {
@@ -39,88 +34,88 @@ public class AccountSearchIndex extends GenericBean {
 		super();
 	}
 
-	public static void scheduleAccountTask(Account account) {
-		new AccountSearchIndex(account.getName(), account.getLocalId(), account.getAccountType()).scheduleTask();
-	}
-
-	public AccountSearchIndex(String accountName, String localId, Integer accountType) {
-		super();
-		this.accountName = accountName;
-		this.localId = localId;
-		this.accountType = accountType;
-	}
-
-	@Override
-	public void run() {
-		try {
-			if (localId != null) {
-				log.log(Level.WARNING, "adding account to index");
-				addToIndex();
-			} else {
-				removeFromIndex();
-			}
-			addAccountToIndex();
-		} catch (PutException e) {
-			if (StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
-				// retry putting the document
-				throw e;
-			}
-		} catch (Exception e) {
-			log.log(Level.SEVERE, "error", e);
-			e.printStackTrace();
-		}
-	}
-
-	private void addAccountToIndex() {
-		AccountDelegator ac = new AccountDelegator("auth=" + getToken());
-		AccountSearchIndex.scheduleAccountTask(ac.getContactDetails(getLocalId()));
-	}
-
-	private void removeFromIndex() {
-		ArrayList<String> docIds = new ArrayList<String>();
-		docIds.add("account:"+getLocalId());
-		getIndex().delete(docIds);
-	}
-
-	private void addToIndex() throws PutException {
-		Document.Builder builder = Document.newBuilder()
-				.setId("account:" + getLocalId())
-				.addField(Field.newBuilder().setName("localId").setText("" + getLocalId()))
-				.addField(Field.newBuilder().setName("accountType").setNumber(getAccountType()))
-				.addField(Field.newBuilder().setName("accountName").setText(getAccountName()));
-
-		Document doc = builder.build();
-		log.log(Level.WARNING, "doc is "+doc);
-		getIndex().put(doc);
-		log.log(Level.WARNING, "index is  "+getIndex());
-	}
-
-	public Index getIndex() {
-		IndexSpec indexSpec = IndexSpec.newBuilder().setName("account_index").build();
-		return SearchServiceFactory.getSearchService().getIndex(indexSpec);
-	}
-
-	public String getAccountName() {
-		return accountName;
-	}
-
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
-
-	public String getLocalId() {
-		return localId;
-	}
-
-	public void setLocalId(String localId) {
-		this.localId = localId;
-	}
-
-	public Integer getAccountType() {
-		return accountType;
-	}
-
-	public void setAccountType(Integer accountType) {
-		this.accountType = accountType;
-	}
+//	public static void scheduleAccountTask(Account account) {
+//		new AccountSearchIndex(account.getName(), account.getLocalId(), account.getAccountType()).scheduleTask();
+//	}
+//
+//	public AccountSearchIndex(String accountName, String localId, Integer accountType) {
+//		super();
+//		this.accountName = accountName;
+//		this.localId = localId;
+//		this.accountType = accountType;
+//	}
+//
+//	@Override
+//	public void run() {
+//		try {
+//			if (localId != null) {
+//				log.log(Level.WARNING, "adding account to index");
+//				addToIndex();
+//			} else {
+//				removeFromIndex();
+//			}
+//			addAccountToIndex();
+//		} catch (PutException e) {
+//			if (StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult().getCode())) {
+//				// retry putting the document
+//				throw e;
+//			}
+//		} catch (Exception e) {
+//			log.log(Level.SEVERE, "error", e);
+//			e.printStackTrace();
+//		}
+//	}
+//
+//	private void addAccountToIndex() {
+//		AccountDelegator ac = new AccountDelegator("auth=" + getToken());
+//		AccountSearchIndex.scheduleAccountTask(ac.getContactDetails(getLocalId()));
+//	}
+//
+//	private void removeFromIndex() {
+//		ArrayList<String> docIds = new ArrayList<String>();
+//		docIds.add("account:"+getLocalId());
+//		getIndex().delete(docIds);
+//	}
+//
+//	private void addToIndex() throws PutException {
+//		Document.Builder builder = Document.newBuilder()
+//				.setId("account:" + getLocalId())
+//				.addField(Field.newBuilder().setName("localId").setText("" + getLocalId()))
+//				.addField(Field.newBuilder().setName("accountType").setNumber(getAccountType()))
+//				.addField(Field.newBuilder().setName("accountName").setText(getAccountName()));
+//
+//		Document doc = builder.build();
+//		log.log(Level.WARNING, "doc is "+doc);
+//		getIndex().put(doc);
+//		log.log(Level.WARNING, "index is  "+getIndex());
+//	}
+//
+//	public Index getIndex() {
+//		IndexSpec indexSpec = IndexSpec.newBuilder().setName("account_index").build();
+//		return SearchServiceFactory.getSearchService().getIndex(indexSpec);
+//	}
+//
+//	public String getAccountName() {
+//		return accountName;
+//	}
+//
+//	public void setAccountName(String accountName) {
+//		this.accountName = accountName;
+//	}
+//
+//	public String getLocalId() {
+//		return localId;
+//	}
+//
+//	public void setLocalId(String localId) {
+//		this.localId = localId;
+//	}
+//
+//	public Integer getAccountType() {
+//		return accountType;
+//	}
+//
+//	public void setAccountType(Integer accountType) {
+//		this.accountType = accountType;
+//	}
 }
