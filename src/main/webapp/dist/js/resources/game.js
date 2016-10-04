@@ -39,6 +39,12 @@ angular.module('DojoIBL')
                 isArray: false,
                 url: config.server+'/rest/myGames/access/gameId/:gameId/account/:accountId/accessRight/:accessRight'
             },
+            getGameAccesses: {
+                params: { gameId: '@gameId'},
+                method: 'GET',
+                isArray: false,
+                url: config.server+'/rest/myGames/access/gameId/:gameId'
+            },
             deleteGame: {
                 params: { gameId: '@gameId' },
                 method: 'DELETE',

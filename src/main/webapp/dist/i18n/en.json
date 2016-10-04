@@ -98,7 +98,8 @@
         "run-inquiries-description": "This panel allows you to create more runs for this inquiry structure. Students can be added later",
         "run-inquiries-subtitle": "Create a new inquiry run",
         "activity-order": "Activity order:",
-        "export-import": "5. Export/import [Just for the admin]"
+        "export-import": "5. Export/import [Just for the admin]",
+        "editor-management": "5. Editors management"
 
       }
     }

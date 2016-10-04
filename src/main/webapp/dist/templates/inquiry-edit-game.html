@@ -472,6 +472,49 @@
             </div>
         </div>
 
+        <div class="col-md-7 wrapper wrapper-content animated fadeInpanel-body">
+            <div class="ibox-content">
+                <div class="heading ng-binding">
+                    {{'dibl.inquiry.new-edit.editor-management' | translate}}
+                </div>
+                <div class="padding">
+                    <div class="ibox-content profile-content">
+                        <div class="project-list">
+                            <table class="table table-hover">
+                                <tbody>
+
+                                    <tr ng-repeat="(key, account) in accountsAccesGame">
+                                        <td class="project-status">
+                                            <span ng-show="account.accessRights == 2" class="label label-primary">User</span>
+                                            <span ng-show="account.accessRights == 1" class="label label-danger">Editor</span>
+                                        </td>
+                                        <td class="client-avatar">
+                                            <ng-letter-avatar shape="round" ng-if="account.picture == ''" data="{{ account.name }}"></ng-letter-avatar>
+                                            <img alt="{{ account.name }}" title="{{ account.name }}" class="img-circle"
+                                                ng-if="account.picture != ''"
+                                                ng-src="{{ account.picture }}"></a>
+                                        </td>
+                                        <td><a data-toggle="tab" href="#contact-1" class="client-link">{{ account.name }}</a></td>
+                                        <td class="contact-type"><i class="fa fa-envelope"> </i></td>
+                                        <td> {{ account.email }}</td>
+                                        <td class="project-actions">
+                                            <a ng-show="account.accessRights == 2 && me.localId != account.localId" ng-click="grantEditorAccess(game, account)"
+                                               class="btn btn-white btn-sm"><i class="fa fa-arrow-up"></i> Promote to editor </a>
+                                            <a ng-show="account.accessRights == 1 && me.localId != account.localId" ng-click="revokeEditorAccess(game, account)"
+                                               class="btn btn-white btn-sm"><i class="fa fa-arrow-down"></i> Relegate to user </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
         <div class="col-md-5 wrapper wrapper-content animated fadeInpanel-body" ng-show="myAccount.accountLevel == 1">
             <div class="ibox-content">
                 <div class="heading ng-binding">

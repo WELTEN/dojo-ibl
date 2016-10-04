@@ -84,6 +84,13 @@ angular.module('DojoIBL')
             giveAccess: function(id, accountId, accessRight){
                 Game.giveAccess({ gameId: id, accountId: accountId, accessRight: accessRight});
             },
+            getGameAccesses: function(gameId){
+                var deferred = $q.defer();
+                Game.getGameAccesses({ gameId: gameId }).$promise.then(function(data){
+                    deferred.resolve(data);
+                });
+                return deferred.promise;
+            },
             getGames: function(){
                 return games;
             },
