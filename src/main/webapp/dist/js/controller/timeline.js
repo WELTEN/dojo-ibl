@@ -107,5 +107,27 @@ angular.module('DojoIBL')
                     }
                 });
         };
+
+
+        UserService.getUsersForRun($stateParams.runId).then(function(data){
+
+            $scope.usersRun = data;
+
+
+        });
+
+        $scope.filter = {};
+
+        // Functions - Definitions
+        $scope.filterByCategory = function(response) {
+            return $scope.filter[response.user.localId] || noFilter($scope.filter);
+        };
+
+        function noFilter(filterObj) {
+            return Object.
+                keys(filterObj).
+                every(function (key) { return !filterObj[key]; });
+        }
+
     }
 );

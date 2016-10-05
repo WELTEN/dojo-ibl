@@ -5,12 +5,40 @@
         </small>
         Timeline
     </div>
+
+    <!--<div class="mail-body">-->
+        <!--<div class="form-horizontal">-->
+            <!--<div class="form-group">-->
+
+                <!--<label class="checkbox-inline" ng-repeat="users in usersRun">-->
+                    <!--<input class="form-control" type="checkbox" value="{{ users.localId }}" ng-model="filter[users.localId]" id="inlineCheckbox1"> {{ users.name }}-->
+                <!--</label>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="mail-body">
+        <div class="text-center">
+
+            <div class="form-group">
+                <p class="small font-bold">
+                    <span><i class="fa fa-filter text-warning"></i> Filters: </span>
+                </p>
+                    <label class="checkbox-inline" ng-repeat="users in usersRun">
+                        <input type="checkbox" value="{{ users.localId }}" ng-model="filter[users.localId]" id="inlineCheckbox1"> {{ users.name }}
+                    </label>
+            </div>
+            <!--<span class="text-muted"><i class="fa fa-clock-o"></i> 28th Oct 2015</span>-->
+        </div>
+    </div>
+
+
     <div id="vertical-timeline" class="vertical-container dark-timeline center-orientation"
          infinite-scroll='loadMoreGames()'
          infinite-scroll-distance='1'
          infinite-scroll-immediate-check="true" infinite-scroll-disabled="disableGameLoading">
 
-        <div class="feed-element" ng-repeat="response in games.games">
+
+        <div class="feed-element" ng-repeat="response in games.games | filter:filterByCategory">
             <div class="vertical-timeline-block ">
 
                 <item response="response"></item>
