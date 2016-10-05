@@ -34,13 +34,13 @@ angular.module('DojoIBL')
             // Original list of activities
             $scope.list_original = [
                 //{'name': 'Google Resources', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-file-text'},
-                {'name': 'Text activity', 'type': 'org.celstec.arlearn2.beans.generalItem.NarratorItem', 'icon': 'fa-file-text'},
-                {'name': 'Youtube video', 'type': 'org.celstec.arlearn2.beans.generalItem.VideoObject', 'icon': 'fa-external-link'},
+                {'name': 'Add text activity', 'type': 'org.celstec.arlearn2.beans.generalItem.NarratorItem', 'icon': 'fa-file-text'},
+                {'name': 'Add external resource', 'type': 'org.celstec.arlearn2.beans.generalItem.VideoObject', 'icon': 'fa-external-link'},
                 //{'name': 'Concept map', 'type': 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest', 'icon': 'fa-sitemap'},
                 //{'name': 'External widget', 'type': 'org.celstec.arlearn2.beans.generalItem.OpenBadge', 'icon': 'fa-link'},
                 //{'name': 'Research question', 'type': 'org.celstec.arlearn2.beans.generalItem.ResearchQuestion', 'icon': 'fa-question'}
-                {'name': 'Research question', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-question'},
-                {'name': 'Data collection', 'type': 'org.celstec.arlearn2.beans.generalItem.ScanTag', 'icon': 'fa-picture-o'}
+                {'name': 'Add list activity', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-tasks'},
+                {'name': 'Add data collection', 'type': 'org.celstec.arlearn2.beans.generalItem.ScanTag', 'icon': 'fa-picture-o'}
             ];
 
             angular.forEach($scope.game.phases, function(value, key) {
