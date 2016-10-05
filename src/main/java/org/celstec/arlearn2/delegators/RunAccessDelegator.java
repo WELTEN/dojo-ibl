@@ -101,7 +101,18 @@ public class RunAccessDelegator extends GoogleDelegator {
         for (RunAccess ra : RunAccessManager.getRunAccessList(run.getRunId())) {
             new NotificationDelegator(this).broadcast(run, ra.getAccount());
         }
+    }
 
-
+    public void removeAccessWithCheck(Long runIdentifier, String account) {
+        StringTokenizer st = new StringTokenizer(account, ":");
+        int accountType = 0;
+        String localID = null;
+        if (st.hasMoreTokens()) {
+            accountType = Integer.parseInt(st.nextToken());
+        }
+        if (st.hasMoreTokens()) {
+            localID = st.nextToken();
+        }
+        RunAccessManager.removeRunAccess(localID, accountType, runIdentifier);
     }
 }

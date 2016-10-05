@@ -98,6 +98,9 @@ angular.module('DojoIBL')
             giveAccess: function(runId, accountId, accessRight){
                 Run.giveAccess({ runId: runId, accountId: accountId, accessRight: accessRight});
             },
+            removeAccess: function(runId, accountId){
+                Run.removeAccess({ runId: runId, accountId: accountId });
+            },
             addUserToRun: function(json){
                 return Run.addUserToRun(json);
             },

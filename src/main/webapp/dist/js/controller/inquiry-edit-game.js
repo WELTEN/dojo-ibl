@@ -516,6 +516,21 @@ angular.module('DojoIBL')
                     $scope.usersRun = []
                 }
 
+                console.log($scope.accountsAccesGame);
+
+                angular.forEach($scope.accountsAccesGame, function (gameAccess) {
+                    if(gameAccess.accessRights == 1){
+                        RunService.giveAccess(run.runId, gameAccess.account, 2);
+
+                        RunService.addUserToRun({
+                            runId: run.runId,
+                            email: gameAccess.account,
+                            accountType: gameAccess.accountType,
+                            localId: gameAccess.localId,
+                            gameId: run.game.gameId });
+                    }
+                });
+
                 //$scope.gameRuns.push(run);
                 AccountService.myDetails().then(function(data){
 
@@ -595,12 +610,22 @@ angular.module('DojoIBL')
         $scope.grantEditorAccess = function (game, user){
             GameService.giveAccess(game.gameId, user.accountType+":"+user.localId,1);
             $scope.accountsAccesGame[user.account].accessRights = 1;
+
+            angular.forEach($scope.gameRuns, function(run){
+                RunService.giveAccess(run.runId, user.account, 2);
+
+                RunService.addUserToRun({
+                    runId: run.runId,
+                    email: user.account,
+                    accountType: user.accountType,
+                    localId: user.localId,
+                    gameId: run.game.gameId });
+            });
         };
 
         $scope.revokeEditorAccess = function (game, user){
             GameService.giveAccess(game.gameId, user.accountType+":"+user.localId,2);
             $scope.accountsAccesGame[user.account].accessRights = 2;
-
         };
 
         //////////////////

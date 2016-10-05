@@ -38,6 +38,12 @@ angular.module('DojoIBL')
                 isArray: false,
                 url: config.server+'/rest/myRuns/access/runId/:runId/account/:accountId/accessRight/:accessRight'
             },
+            removeAccess: {
+                params: { runId: '@runId', accountId: '@accountId' },
+                method: 'GET',
+                isArray: false,
+                url: config.server+'/rest/myRuns/removeAccess/runId/:runId/account/:accountId'
+            },
             addUserToRun: {
                 method: 'POST',
                 isArray: false,
