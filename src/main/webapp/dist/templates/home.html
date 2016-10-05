@@ -45,6 +45,7 @@
 
                         <div class="text-center">
                             <a href="#inquiry/{{ game.gameId }}/edit" ng-show="game.accessRights == 1" class="btn btn-xs btn-warning"><i class="fa fa-pencil-square"></i> Edit </a>
+                            <a ng-click="cloneInquiry(game.gameId)" class="btn btn-xs btn-success"><i class="fa fa-copy"></i> Clone </a>
                             <a ng-click="deleteInquiry(game.gameId)" ng-show="game.accessRights == 1" class="btn btn-xs btn-danger delete-inquiry"><i class="fa fa-trash"></i> Delete </a>
                         </div>
                     </div>

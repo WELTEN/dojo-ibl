@@ -2,6 +2,11 @@ angular.module('DojoIBL')
 
     .factory('Activity', function ActivityFactory($resource, $http, config) {
         return $resource(config.server+'/rest/generalItems', {}, {
+            getActivities: {
+                method: 'GET',
+                isArray: false,
+                url: config.server+'/rest/generalItems/gameId/:gameId'
+            },
             getActivitiesForPhase: {
                 method: 'GET',
                 isArray: false,

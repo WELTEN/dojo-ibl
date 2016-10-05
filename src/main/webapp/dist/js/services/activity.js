@@ -51,6 +51,26 @@ angular.module('DojoIBL')
 
                 return deferred.promise;
             },
+            getActivities: function (gameId) {
+                var service = this;
+                var dataCache = CacheFactory.get('activitiesCache');
+                var deferred = $q.defer();
+                Activity.getActivities({ gameId: gameId }).$promise.then(
+                    function (data) {
+                        var generalItems={};
+                        generalItems[gameId] = generalItems[gameId] || {};
+                        for (i = 0; i < data.generalItems.length; i++) {
+                            if (!data.generalItems[i].deleted) {
+                                dataCache.put(data.generalItems[i].id, data.generalItems[i]);
+                                generalItems[gameId][data.generalItems[i].id] = data.generalItems[i];
+                            }
+                        }
+                        deferred.resolve(generalItems[gameId]);
+                    }
+                );
+
+                return deferred.promise;
+            },
             getActivityById: function(itemId, gameId) {
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('activitiesCache');

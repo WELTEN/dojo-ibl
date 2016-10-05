@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('HomeController', function ($scope, $sce, Game, GameService, config, Session, RunService, ChannelService, AccountService) {
+    .controller('HomeController', function ($scope, $sce, Game, GameService, ActivityService, config, Session, RunService, ChannelService, AccountService) {
 
         $scope.games = [];
 
@@ -38,6 +38,47 @@ angular.module('DojoIBL')
 
             RunService.getParticipateRunsForGame(id).then(function(data){
                 $scope.runs = data;
+            });
+        };
+
+        $scope.cloneInquiry = function(id){
+            GameService.getGameById(id).then(function (data) {
+                var cloned_inquiry = {};
+                cloned_inquiry.title = "Copy of "+data.title;
+                cloned_inquiry.phases = data.phases;
+                cloned_inquiry.description = data.description;
+                GameService.newGame(cloned_inquiry).then(function(new_inq){
+                    ActivityService.getActivities(data.gameId).then(function (activities) {
+                        console.log(activities);
+
+                        angular.forEach(activities, function(activity){
+                            var object = {
+                                type: activity.type,
+                                section: activity.section,
+                                gameId: new_inq.gameId,
+                                deleted: activity.deleted,
+                                name: activity.name,
+                                description: activity.description,
+                                autoLaunch: activity.autoLaunch,
+                                fileReferences: activity.fileReferences,
+                                sortKey: activity.sortKey,
+                                richText: activity.richText
+                            };
+
+                            if(activity.type == "org.celstec.arlearn2.beans.generalItem.VideoObject"){
+                                object.videoFeed = activity.videoFeed;
+                            }else if(activity.type == "org.celstec.arlearn2.beans.generalItem.AudioObject") {
+                                object.audioFeed = activity.audioFeed;
+                            }
+
+                            ActivityService.newActivity(object);
+
+                        });
+
+
+
+                    });
+                });
             });
         };
 
