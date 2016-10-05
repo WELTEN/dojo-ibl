@@ -71,6 +71,9 @@ angular.module('DojoIBL')
             newGame: function(gameAsJson){
                 var dataCache = CacheFactory.get('gamesCache');
 
+                console.log(gameAsJson);
+                gameAsJson.lastModificationDate = new Date();
+
                 ////////////////////////////////////////
                 // Only put in cache when we are editing
                 ////////////////////////////////////////

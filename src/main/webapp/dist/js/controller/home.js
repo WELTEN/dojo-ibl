@@ -12,8 +12,6 @@ angular.module('DojoIBL')
 
                     var data_extended = angular.extend({}, data, gameAccess);
 
-                    console.log(data.description);
-
                     //data.description = $sce.trustAsHtml(data.description);
                     //
                     //$scope.des = data.description
@@ -74,9 +72,6 @@ angular.module('DojoIBL')
                             ActivityService.newActivity(object);
 
                         });
-
-
-
                     });
                 });
             });

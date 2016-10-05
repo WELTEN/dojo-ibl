@@ -54,8 +54,8 @@ angular.module('DojoIBL')
         });
 
         $scope.ok = function(){
+            $scope.game.lastModificationDate = new Date();
             GameService.newGame($scope.game);
-            //$window.history.back();
         };
 
         ////////////////////
@@ -87,6 +87,7 @@ angular.module('DojoIBL')
             $scope.activity.roles.push($scope.data.model);
 
             ActivityService.newActivity($scope.activity);
+            $scope.game.lastModificationDate = new Date();
         };
 
         $scope.selectActivity = function(activity, combinationId){
@@ -316,7 +317,6 @@ angular.module('DojoIBL')
             GameService.newGame($scope.game).then(function(updatedGame){
 
                 angular.forEach($scope.gameRuns, function(value, key) {
-                    console.log(value, key);
 
                     value.game = updatedGame;
 
