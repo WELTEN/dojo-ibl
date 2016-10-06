@@ -54,7 +54,6 @@ angular.module('DojoIBL')
         });
 
         $scope.ok = function(){
-            $scope.game.lastModificationDate = new Date();
             GameService.newGame($scope.game);
         };
 

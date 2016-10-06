@@ -27,6 +27,12 @@ angular.module('DojoIBL')
                 isArray: false,
                 url: config.server + '/rest/myRuns'
             },
+            'update': {
+                params: { runId: '@runId' },
+                method: 'PUT',
+                isArray: false,
+                url: config.server + '/rest/myRuns/runId/:runId'
+            },
             'delete': {
                 method: 'DELETE',
                 isArray: false,

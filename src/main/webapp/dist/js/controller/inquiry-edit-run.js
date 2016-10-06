@@ -40,8 +40,11 @@ angular.module('DojoIBL')
         });
 
         $scope.ok = function(){
-            RunService.newRun($scope.run);
-            //$window.history.back();
+            if($scope.run.runId){
+                RunService.updateRun($scope.run);
+            }else{
+                RunService.newRun($scope.run);
+            }
         };
 
         $scope.friends = [];

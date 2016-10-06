@@ -95,6 +95,9 @@ angular.module('DojoIBL')
                     dataCache.put(runAsJson.runId, runAsJson);
                 return newrun.$save();
             },
+            updateRun: function(runAsJson){
+                Run.update({ runId: runAsJson.runId }, runAsJson);
+            },
             giveAccess: function(runId, accountId, accessRight){
                 Run.giveAccess({ runId: runId, accountId: accountId, accessRight: accessRight});
             },
