@@ -63,27 +63,21 @@ angular.module('DojoIBL')
         $scope.numberMessages = 0;
 
         AccountService.myDetails().then(function(me) {
-            var socket = new ChannelService.SocketHandler(me);
 
-            socket.onMessage(function (data) {
-                $scope.$apply(function () {
-                    switch (data.type) {
-                        case 'org.celstec.arlearn2.beans.notification.MessageNotification':
+            ChannelService.register('org.celstec.arlearn2.beans.notification.MessageNotification', function (notification) {
 
-                            if (data.runId == $stateParams.runId) {
-                                $scope.numberMessages += 1;
-                                MessageService.getMessageById(data.messageId).then(function (data) {
-                                    console.info("[Notification][Message]", data);
-                                    if(me.localId != data.senderId){
-                                        $scope.sound = ngAudio.load("/dist/assets/beep.m4a");
-                                        $scope.sound.play();
-                                    }
-                                });
-                            }
-                            break;
-                    }
-                });
+                if (notification.runId == $stateParams.runId) {
+                    $scope.numberMessages += 1;
+                    MessageService.getMessageById(notification.messageId).then(function (data) {
+                        console.info("[Notification][Message]", data);
+                        //if(me.localId != data.senderId){
+                        //    $scope.sound = ngAudio.load("/dist/assets/beep.m4a");
+                        //    $scope.sound.play();
+                        //}
+                    });
+                }
             });
+
         });
 
         $scope.notifications = [];

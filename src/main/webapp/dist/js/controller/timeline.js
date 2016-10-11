@@ -12,53 +12,49 @@ angular.module('DojoIBL')
         var old_item_id = 0;
         var old_side_left = true;
 
-        AccountService.myDetails().then(function(user) {
+        ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
+            if(data.runId == $stateParams.runId){
+                $scope.$apply(function () {
+                    switch (data.type) {
 
-            var socket = new ChannelService.SocketHandler(user);
-            socket.onMessage(function (data) {
+                        case 'org.celstec.arlearn2.beans.run.Response':
+                            var responses = [];
 
-                if(data.runId == $stateParams.runId){
-                    $scope.$apply(function () {
-                        switch (data.type) {
-
-                            case 'org.celstec.arlearn2.beans.run.Response':
-                                var responses = [];
-
-                                if(data.generalItemId != old_item_id){
-                                    if(old_side_left){
-                                        data.move_right = false;
-                                    }else{
-                                        data.move_right = true;
-                                    }
+                            if(data.generalItemId != old_item_id){
+                                if(old_side_left){
+                                    data.move_right = false;
+                                }else{
+                                    data.move_right = true;
                                 }
+                            }
 
-                                old_item_id = data.generalItemId;
-                                old_side_left = data.move_right;
+                            old_item_id = data.generalItemId;
+                            old_side_left = data.move_right;
 
-                                RunService.getRunById($stateParams.runId).then(function (run) {
-                                    ActivityService.getActivityById(data.generalItemId, run.gameId).then(function(act){
-                                        data.activity = act;
-                                    });
+                            RunService.getRunById($stateParams.runId).then(function (run) {
+                                ActivityService.getActivityById(data.generalItemId, run.gameId).then(function(act){
+                                    data.activity = act;
                                 });
+                            });
 
-                                UserService.getUserByAccount($stateParams.runId, data.userEmail.split(':')[1]).then(function(user){
-                                    data.user = user;
-                                });
+                            UserService.getUserByAccount($stateParams.runId, data.userEmail.split(':')[1]).then(function(user){
+                                data.user = user;
+                            });
 
 
-                                responses.push(data);
-                                $scope.games.games = responses.concat($scope.games.games)
-                                //$scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
-                                //if((user.localId != data.userEmail.split(':')[1]) && data.generalItemId == $stateParams.activityId && data.runId == $stateParams.runId)
-                                //    //ResponseService.addResponse(data, $stateParams.runId, $stateParams.activityId);
-                                //console.info("[Notification][Response]", data, $stateParams.runId, $stateParams.activityId);
-                                break;
+                            responses.push(data);
+                            $scope.games.games = responses.concat($scope.games.games)
+                            //$scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
+                            //if((user.localId != data.userEmail.split(':')[1]) && data.generalItemId == $stateParams.activityId && data.runId == $stateParams.runId)
+                            //    //ResponseService.addResponse(data, $stateParams.runId, $stateParams.activityId);
+                            //console.info("[Notification][Response]", data, $stateParams.runId, $stateParams.activityId);
+                            break;
 
-                        }
-                    });
-                }
-            });
+                    }
+                });
+            }
         });
+
 
         $scope.loadMoreGames = function () {
 

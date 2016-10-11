@@ -154,22 +154,12 @@ angular.module('DojoIBL')
 
         AccountService.myDetails().then(function(user) {
 
-            var socket = new ChannelService.SocketHandler(user);
-            socket.onMessage(function (data) {
-                $scope.$apply(function () {
-                    switch (data.type) {
-
-                        case 'org.celstec.arlearn2.beans.run.Response':
-                            //$scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
-                            if((user.localId != data.userEmail.split(':')[1]) && data.generalItemId == $stateParams.activityId &&
-                                data.runId == $stateParams.runId)
-                                ResponseService.addResponse(data, $stateParams.runId, $stateParams.activityId);
-                            console.info("[Notification][Response]", data, $stateParams.runId, $stateParams.activityId);
-                            break;
-
-                    }
-                });
+            ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
+                if((user.localId != data.userEmail.split(':')[1]) && data.generalItemId == $stateParams.activityId &&
+                    data.runId == $stateParams.runId)
+                    ResponseService.addResponse(data, $stateParams.runId, $stateParams.activityId);
             });
+
         });
 
         // upload on file select or drop
