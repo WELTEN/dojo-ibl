@@ -2,7 +2,7 @@ angular.module('DojoIBL')
 
     .controller('InstantMessagingController', function ($window, $scope, $stateParams, Message, MessageService,
                                                         ChannelService, AccountService, UserService, ngAudio) {
-
+        $scope.scroll = 0;
         AccountService.myDetails().then(
             function(data){
                 $scope.myAccount = data;
