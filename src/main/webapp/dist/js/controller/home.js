@@ -114,6 +114,8 @@ angular.module('DojoIBL')
         };
 
         ChannelService.register('org.celstec.arlearn2.beans.game.Game', function (notification) {
+            console.info("[Notification][Game]", notification);
+
             GameService.refreshGame(notification.gameId).then(function (data) {
             });
         });

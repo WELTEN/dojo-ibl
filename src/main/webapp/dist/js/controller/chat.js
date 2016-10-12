@@ -62,22 +62,18 @@ angular.module('DojoIBL')
 
         $scope.numberMessages = 0;
 
-        AccountService.myDetails().then(function(me) {
-
-            ChannelService.register('org.celstec.arlearn2.beans.notification.MessageNotification', function (notification) {
-
-                if (notification.runId == $stateParams.runId) {
-                    $scope.numberMessages += 1;
-                    MessageService.getMessageById(notification.messageId).then(function (data) {
-                        console.info("[Notification][Message]", data);
-                        //if(me.localId != data.senderId){
-                        //    $scope.sound = ngAudio.load("/dist/assets/beep.m4a");
-                        //    $scope.sound.play();
-                        //}
-                    });
-                }
-            });
-
+        ChannelService.register('org.celstec.arlearn2.beans.run.Message', function (notification) {
+            console.info("[Notification][Message]", notification);
+            if (notification.runId == $stateParams.runId) {
+                $scope.numberMessages += 1;
+                MessageService.getMessageById(notification.messageId).then(function (data) {
+                    console.info("[Notification][Message]", data);
+                    //if(me.localId != data.senderId){
+                    //    $scope.sound = ngAudio.load("/dist/assets/beep.m4a");
+                    //    $scope.sound.play();
+                    //}
+                });
+            }
         });
 
         $scope.notifications = [];

@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('InquiryController', function ($scope, $sce, $stateParams, $state, Session, RunService) {
+    .controller('InquiryController', function ($scope, $sce, $stateParams, $state, Session, MessageService, ChannelService, RunService) {
 
         $scope.chat = true;
         $scope.visualization = true;
@@ -19,6 +19,20 @@ angular.module('DojoIBL')
             console.log(data);
             $scope.disableInquiryLoading = true;
         });
+
+        //ChannelService.register('org.celstec.arlearn2.beans.run.Message', function (notification) {
+        //    console.info("[Notification][Message]", notification);
+        //    if (notification.runId == $stateParams.runId) {
+        //        $scope.numberMessages += 1;
+        //        MessageService.getMessageById(notification.messageId).then(function (data) {
+        //            console.info("[Notification][Message]", data);
+        //            //if(me.localId != data.senderId){
+        //            //    $scope.sound = ngAudio.load("/dist/assets/beep.m4a");
+        //            //    $scope.sound.play();
+        //            //}
+        //        });
+        //    }
+        //});
 
         var fields = $(this.el).find('#circlemenu li'),
             container = $('#circlemenu'),

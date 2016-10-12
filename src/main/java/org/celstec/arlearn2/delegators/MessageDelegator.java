@@ -3,9 +3,9 @@ package org.celstec.arlearn2.delegators;
 import org.celstec.arlearn2.api.Service;
 import org.celstec.arlearn2.beans.run.Message;
 import org.celstec.arlearn2.beans.run.MessageList;
+import org.celstec.arlearn2.beans.run.RunAccess;
 import org.celstec.arlearn2.jdo.manager.MessageManager;
 import org.celstec.arlearn2.jdo.manager.ThreadManager;
-import org.celstec.arlearn2.tasks.beans.NotifyUsersForMessage;
 
 public class MessageDelegator extends GoogleDelegator {
 
@@ -25,7 +25,14 @@ public class MessageDelegator extends GoogleDelegator {
             message.setThreadId(new ThreadDelegator(this).getDefaultThread(message.getRunId()).getThreadId());
         }
         Message returnMessage = MessageManager.createMessage(message);
-        (new NotifyUsersForMessage(authToken, returnMessage)).scheduleTask();
+
+        RunAccessDelegator rad = new RunAccessDelegator(this);
+        NotificationDelegator nd = new NotificationDelegator(this);
+        for (RunAccess ra : rad.getRunAccess(message.getRunId()).getRunAccess()) {
+            nd.broadcast(returnMessage, ra.getAccount());
+        }
+
+//        (new NotifyUsersForMessage(authToken, returnMessage)).scheduleTask();
 
         return returnMessage;
     }

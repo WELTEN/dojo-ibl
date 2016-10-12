@@ -152,14 +152,13 @@ angular.module('DojoIBL')
             return $sce.trustAsResourceUrl(src);
         };
 
-        AccountService.myDetails().then(function(user) {
 
-            ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
-                if((user.localId != data.userEmail.split(':')[1]) && data.generalItemId == $stateParams.activityId &&
-                    data.runId == $stateParams.runId)
-                    ResponseService.addResponse(data, $stateParams.runId, $stateParams.activityId);
-            });
+        ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
+            console.info("[Notification][Response]", data);
 
+            if(($scope.myAccount.localId != data.userEmail.split(':')[1]) && data.generalItemId == $stateParams.activityId &&
+                data.runId == $stateParams.runId)
+                ResponseService.addResponse(data, $stateParams.runId, $stateParams.activityId);
         });
 
         // upload on file select or drop

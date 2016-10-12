@@ -5018,11 +5018,14 @@ dd.project-people {
 .message-avatar {
   height: 48px;
   width: 48px;
-  border: 1px solid #e7eaec;
+  /*border: 1px solid #e7eaec;*/
   border-radius: 4px;
   /*margin-top: 1px;*/
 }
 .message-avatar-left{
+  float: left;
+}
+.message-avatar-right{
   float: left;
 }
 .chat-discussion .chat-message.left .message-avatar {
