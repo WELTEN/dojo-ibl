@@ -101,7 +101,7 @@ public class Messages extends Service implements Serializable{
         if (!validCredentials(token))
             return serialise(getInvalidCredentialsBean(), accept);
 
-        Object inMessage = deserialise(message, org.celstec.arlearn2.beans.run.Message.class, contentType);
+        Object inMessage = deserialise(message, Message.class, contentType);
         if (inMessage instanceof java.lang.String)
             return serialise(getBeanDoesNotParseException((String) inMessage), accept);
 
