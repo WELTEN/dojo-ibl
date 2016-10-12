@@ -7,8 +7,6 @@ angular.module('DojoIBL')
             ActivityService.getActivityById($stateParams.activityId, data.game.gameId).then(function (data) {
                 $scope.activity = data;
 
-                //data.roles;
-
                 var roles = [];
 
                 angular.forEach(data.roles, function(value, key) {
@@ -24,14 +22,8 @@ angular.module('DojoIBL')
                     }
                 });
 
-
                 $scope.roles = roles;
-                console.log(roles)
-
-                //
-                //angular.forEach(data.roles, function(value, key) {
-                //    this.push(jQuery.parseJSON(value));
-                //}, $scope.roles);
+                console.log(roles);
             });
         });
 
@@ -72,18 +64,6 @@ angular.module('DojoIBL')
             });
 
         };
-        //
-        //$scope.colorRole = function(posRole){
-        //    switch(posRole){
-        //        case 0: return "#f85959";
-        //        case 1: return "#b73434";
-        //        case 2: return "#85b734";
-        //        case 3: return "#3634b7";
-        //        case 4: return "#b7ad34";
-        //        default: return "#2f4050";
-        //    }
-        //};
-
 
         $scope.getRoleColor = function(roles){
             if(!angular.isUndefined(roles)) {
