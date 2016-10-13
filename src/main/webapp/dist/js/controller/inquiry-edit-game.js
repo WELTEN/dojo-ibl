@@ -596,6 +596,7 @@ angular.module('DojoIBL')
            $scope.me = data;
         });
 
+
         GameService.getGameAccesses($stateParams.gameId).then(function(data){
             $scope.accountsAccesGame = {};
             angular.forEach(data.gamesAccess, function (gameAccess) {

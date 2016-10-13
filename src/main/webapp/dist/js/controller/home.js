@@ -23,6 +23,7 @@ angular.module('DojoIBL')
         //}
 
         $scope.games = GameService.getGames();
+        console.log($scope.games);
 
         $scope.thumbnailUrl = function(gameId) {
 
@@ -38,6 +39,13 @@ angular.module('DojoIBL')
                 $scope.runs[id] = data;
             });
         };
+
+        AccountService.myDetails().then(
+            function(data){
+                $scope.myAccount = data;
+                console.log(data);
+            }
+        );
 
         $scope.cloneInquiry = function(id){
             GameService.getGameById(id).then(function (data) {
@@ -76,6 +84,8 @@ angular.module('DojoIBL')
                 });
             });
         };
+
+
 
         $scope.deleteInquiry = function (id) {
 

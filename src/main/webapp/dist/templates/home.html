@@ -43,10 +43,11 @@
 
                         <p>{{ game.lastModificationDate | date:'medium' }} </p>
 
+                        {{ game.accessRights }}
                         <div class="text-center">
-                            <a href="#inquiry/{{ game.gameId }}/edit" ng-show="game.accessRights == 1" class="btn btn-xs btn-warning"><i class="fa fa-pencil-square"></i> Edit </a>
-                            <a ng-click="cloneInquiry(game.gameId)" class="btn btn-xs btn-success"><i class="fa fa-copy"></i> Clone </a>
-                            <a ng-click="deleteInquiry(game.gameId)" ng-show="game.accessRights == 1" class="btn btn-xs btn-danger delete-inquiry"><i class="fa fa-trash"></i> Delete </a>
+                            <a href="#inquiry/{{ game.gameId }}/edit" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1" class="btn btn-xs btn-warning"><i class="fa fa-pencil-square"></i> Edit </a>
+                            <!--<a ng-click="cloneInquiry(game.gameId)" class="btn btn-xs btn-success"><i class="fa fa-copy"></i> Clone </a>-->
+                            <a ng-click="deleteInquiry(game.gameId)" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1" class="btn btn-xs btn-danger delete-inquiry"><i class="fa fa-trash"></i> Delete </a>
                         </div>
                     </div>
                     <div ng-hide="showRunsValue" style="overflow-y: scroll; height: 15em;">
@@ -59,7 +60,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="run in runs">
+                            <tr ng-repeat="run in runs[game.gameId]">
                                 <td><span class="client-link">{{ run.title | limitTo: 20 }} {{ run.title.length > 20 ? '...' : ''}}</span>
                                 </td>
                                 <td>{{ run.code }}</td>

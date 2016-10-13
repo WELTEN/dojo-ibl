@@ -25,7 +25,7 @@ angular.module('DojoIBL')
             resumeLoadingGames: function(){
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('gamesCache');
-
+                var service = this;
                 Game.resume({resumptionToken: resumptionToken, from:serverTime})
                     .$promise.then(function (data) {
                         if (data.error) {
@@ -40,9 +40,10 @@ angular.module('DojoIBL')
                                     games[data.games[i].gameId] = data.games[i];
                                     games[data.games[i].gameId].description = $sce.trustAsHtml(data.games[i].description);
 
-                                    Game.getGameAccesses({ gameId: data.games[i].gameId }).$promise.then(function(data){
-                                        angular.forEach(data.gamesAccess, function(gameAccess){
-                                            games[gameAccess.gameId].accessRights = gameAccess.accessRights;
+                                    games[data.games[i].gameId]["access"] = {};
+                                    service.getGameAccesses(data.games[i].gameId).then(function(data){
+                                        angular.forEach(data.gamesAccess, function(gameAccess) {
+                                            games[gameAccess.gameId]["access"][gameAccess.account] = gameAccess;
                                         });
                                     });
                                 }
@@ -62,6 +63,8 @@ angular.module('DojoIBL')
             },
             getGameById: function (id) {
                 var deferred = $q.defer();
+                var service = this;
+
                 var dataCache = CacheFactory.get('gamesCache');
                 if (dataCache.get(id)) {
                     deferred.resolve(dataCache.get(id));
@@ -85,9 +88,10 @@ angular.module('DojoIBL')
                                     dataCache.put(id, data);
                                     games[id] = data;
 
-                                    Game.getGameAccesses({ gameId: data.gameId }).$promise.then(function(data){
-                                        angular.forEach(data.gamesAccess, function(gameAccess){
-                                            games[gameAccess.gameId].accessRights = gameAccess.accessRights;
+                                    games[id]["access"] = {};
+                                    service.getGameAccesses(id).then(function(data){
+                                        angular.forEach(data.gamesAccess, function(gameAccess) {
+                                            games[gameAccess.gameId]["access"][gameAccess.account] = gameAccess;
                                         });
                                     });
                                 }
