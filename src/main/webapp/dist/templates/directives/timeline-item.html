@@ -5,6 +5,8 @@
         <i ng-if="extension == 'video'" class="fa fa-video-camera"></i>
         <i ng-if="extension == 'audio'" class="fa fa-volume-up"></i>
         <i ng-if="extension == 'pdf'" class="fa fa-file"></i>
+        <i ng-if="extension == 'document'" class="fa fa-file-word-o"></i>
+        <i ng-if="extension == 'excel'" class="fa fa-file-excel-o"></i>
     </div>
     <div class="vertical-timeline-content" ng-class="{ 'put-item-timeline-right': response.move_right }" >
         <p ng-if="extension == 'text'">
@@ -14,11 +16,27 @@
         <p ng-if="extension == 'text'" class="well">{{ response.responseValue }}</p>
 
         <p ng-if="extension == 'pdf'">
-            <strong>{{ response.user.givenName }}</strong> uploaded a file on <strong>
+            <strong>{{ response.user.givenName }}</strong> uploaded a PDF file on <strong>
             <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}?scrollTo={{ response.responseId }}">{{ response.activity.name }}</a></strong> activity <br>
         </p>
         <p ng-if="extension == 'pdf'" class="well">
-            <a href="{{ resource }}"> It is a {{ type }} </a>
+            <a target="_blank" href="{{ resource }}"> PDF file </a>
+        </p>
+
+        <p ng-if="extension == 'document'">
+            <strong>{{ response.user.givenName }}</strong> uploaded a word file on <strong>
+            <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}?scrollTo={{ response.responseId }}">{{ response.activity.name }}</a></strong> activity <br>
+        </p>
+        <p ng-if="extension == 'document'" class="well">
+            <a target="_blank" href="{{ resource }}"> Word document </a>
+        </p>
+
+        <p ng-if="extension == 'excel'">
+            <strong>{{ response.user.givenName }}</strong> uploaded an excel file on <strong>
+            <a href="#inquiry/{{ response.runId }}/phase/{{ response.activity.section }}/activity/{{ response.generalItemId }}?scrollTo={{ response.responseId }}">{{ response.activity.name }}</a></strong> activity <br>
+        </p>
+        <p ng-if="extension == 'excel'" class="well">
+            <a target="_blank" href="{{ resource }}"> Excel document </a>
         </p>
 
         <p ng-if="extension == 'image'">

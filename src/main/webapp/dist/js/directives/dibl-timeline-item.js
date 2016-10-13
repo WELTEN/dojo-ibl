@@ -14,6 +14,18 @@ angular.module('DojoIBL')
                 }else{
                     var json = JSON.parse(scope.response.responseValue);
 
+                    if (json.documentUrl){
+                        scope.type = json.fileType;
+                        scope.name = json.fileName;
+                        scope.extension = "document"
+                        scope.resource = json.documentUrl;
+                    }
+                    if (json.excelUrl){
+                        scope.type = json.fileType;
+                        scope.name = json.fileName;
+                        scope.extension = "excel"
+                        scope.resource = json.excelUrl;
+                    }
                     if (json.pdfUrl){
                         scope.type = json.fileType;
                         scope.name = json.fileName;

@@ -30,6 +30,7 @@ angular.module('DojoIBL')
             var context = this;
             this.socketCreationCallback = function (channelData) {
                 var channel = new goog.appengine.Channel(channelData.token);
+                dataCache.put("tokenChannelApi", channelData);
                 context.channelId = channelData.channelId;
                 var socket = channel.open();
                 socket.onerror = function () {
@@ -41,7 +42,7 @@ angular.module('DojoIBL')
                     context.messageCallback = context.channelSocket.onmessage;
                     context.channelSocket = undefined;
                     $.getJSON("chats/channel", context.socketCreationCallback);
-
+                    dataCache.remove("tokenChannelApi");
                     swal({
                         title: "Timeout!",
                         text: "The session has timed out. Refresh!",
@@ -62,21 +63,14 @@ angular.module('DojoIBL')
                 context.channelSocket.onmessage = context.messageCallback;
             };
 
-            //$http({url: "/rest/channelAPI/token", method: 'GET'}).success(this.socketCreationCallback);
-
             //if (!dataCache.get("tokenChannelApi")) {
-            //    $http({url: "/rest/channelAPI/token", method: 'GET'}).success(function(channelData){
-            //        context.setSocketChannel(channelData);
-            //    });
+                ChannelApi.getToken().$promise.then(
+                    this.socketCreationCallback
+                );
+                //console.log("Invoke tokenChannelApi")
             //}else {
-            //    var channelData = dataCache.get("tokenChannelApi");
-            //    context.setSocketChannel(channelData);
+            //    console.log("Hit cache tokenChannelApi");
             //}
-
-            ChannelApi.getToken().$promise.then(
-                this.socketCreationCallback
-            );
-            //$.getJSON("/rest/channelAPI/token", this.socketCreationCallback);
         };
 
         var callBackFunctions = {};

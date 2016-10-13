@@ -241,6 +241,50 @@ angular.module('DojoIBL')
 
                                 });
                                 break;
+                            case /wordprocessingml|msword/.test(resp.config.data.file.type):
+                                console.log(resp.config.data.file.type);
+                                ResponseService.newResponse({
+                                    "type": "org.celstec.arlearn2.beans.run.Response",
+                                    "runId": $stateParams.runId,
+                                    "deleted": false,
+                                    "generalItemId": $stateParams.activityId,
+                                    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                                    "responseValue": {
+                                        "documentUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name.replace(/\s+/g, '_'),
+                                        "fileName": file.name,
+                                        "fileType": resp.config.data.file.type,
+                                        "width": 3264,
+                                        "height": 1840
+                                    },
+                                    "parentId": 0,
+                                    "revoked": false,
+                                    "lastModificationDate": new Date().getTime()
+                                }).then(function(data){
+
+                                });
+                                break;
+                            case /vnd.ms-excel|spreadsheetml/.test(resp.config.data.file.type):
+                                console.log(resp.config.data.file.type);
+                                ResponseService.newResponse({
+                                    "type": "org.celstec.arlearn2.beans.run.Response",
+                                    "runId": $stateParams.runId,
+                                    "deleted": false,
+                                    "generalItemId": $stateParams.activityId,
+                                    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                                    "responseValue": {
+                                        "excelUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name.replace(/\s+/g, '_'),
+                                        "fileName": file.name,
+                                        "fileType": resp.config.data.file.type,
+                                        "width": 3264,
+                                        "height": 1840
+                                    },
+                                    "parentId": 0,
+                                    "revoked": false,
+                                    "lastModificationDate": new Date().getTime()
+                                }).then(function(data){
+
+                                });
+                                break;
                             default:
                                 ResponseService.newResponse({
                                     "type": "org.celstec.arlearn2.beans.run.Response",
