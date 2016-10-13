@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('ToolbarController', function ($scope, $state, $stateParams,RunService, ActivityService, Session, Game, GameService, AccountService, config) {
+    .controller('ToolbarController', function ($scope, $state, $stateParams,RunService, ActivityService, Session, Game, GameService, AccountService, config, ChannelService, UserService) {
         $scope.test = "foo";
 
         $scope.name = "your name";
@@ -76,6 +76,13 @@ angular.module('DojoIBL')
 
             $scope.inquiryCode = null;
         }
+
+        ChannelService.register('org.celstec.arlearn2.beans.run.User', function (notification) {
+            console.info("[Notification][User]", notification);
+            UserService.getUserByAccount(notification.runId, notification.accountType+":"+notification.localId);
+        });
+
+
 
     }
 );

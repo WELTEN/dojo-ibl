@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .service('ResponseService', function ($q, Response, CacheFactory) {
+    .service('ResponseService', function ($q, Response, CacheFactory, UserService) {
 
         CacheFactory('responsesCache', {
             maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day
@@ -39,6 +39,7 @@ angular.module('DojoIBL')
 
                 return newResponse.$save(function(data){
                     responses[data.runId+"_"+data.generalItemId][data.responseId] = data;
+                    responses[data.runId+"_"+data.generalItemId][data.responseId].user = UserService.getUser(data.userEmail);
                 });
             },
             deleteResponse: function(responseId){
@@ -62,6 +63,7 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('responsesCache');
                 dataCache.put(response.responseId, response);
                 responses[runId+"_"+itemId][response.responseId] = response;
+                responses[runId+"_"+itemId][response.responseId].user = UserService.getUser(response.userEmail);
             },
             getResponses: function (runId, itemId, from, resumptionToken) {
                 var deferred = $q.defer();
@@ -84,6 +86,7 @@ angular.module('DojoIBL')
                                 if (!data.responses[i].deleted) {
                                     dataCache.put(data.responses[i].responseId, data.responses[i]);
                                     responses[runId+"_"+itemId][data.responses[i].responseId] = data.responses[i];
+                                    responses[runId+"_"+itemId][data.responses[i].responseId].user = UserService.getUser(data.responses[i].userEmail);
                                 }else{
                                     delete [runId+"_"+itemId][data.responses[i].responseId];
                                 }
@@ -104,6 +107,8 @@ angular.module('DojoIBL')
                                 if (!data.responses[i].deleted) {
                                     dataCache.put(data.responses[i].responseId, data.responses[i]);
                                     responses[runId+"_"+itemId][data.responses[i].responseId] = data.responses[i];
+                                    //console.log(data.responses[i]);
+                                    responses[runId+"_"+itemId][data.responses[i].responseId].user = UserService.getUser(data.responses[i].userEmail);
                                 }else{
                                     delete [runId+"_"+itemId][data.responses[i].responseId];
                                 }

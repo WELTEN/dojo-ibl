@@ -120,38 +120,6 @@ angular.module('DojoIBL')
             });
         });
 
-        //AccountService.myDetails().then(function(data){
-        //    var socket = new ChannelService.SocketHandler(data);
-        //    socket.onMessage(function (data) {
-        //        $scope.$apply(function () {
-        //            console.log(data)
-        //            switch (data.type) {
-        //                case 'org.celstec.arlearn2.beans.game.Game':
-        //                    Game.access({ }).$promise.then(function (gameAccesses) {
-        //
-        //                        angular.forEach(gameAccesses.gamesAccess, function (gameAccess) {
-        //                            if(data.gameId == gameAccess.gameId){
-        //                                GameService.refreshGame(data.gameId).then(function (data) {
-        //                                    var idx = arrayObjectIndexOf($scope.games, data.gameId, "gameId");
-        //
-        //                                    // is currently selected
-        //                                    if (idx == -1) {
-        //
-        //                                        var data_extended = angular.extend({}, data, gameAccess);
-        //                                        $scope.games.push(data_extended)
-        //                                    }
-        //                                    console.info("[Notification][Game]");
-        //                                });
-        //                            }
-        //                        });
-        //                    });
-        //
-        //                    break;
-        //            }
-        //        });
-        //    });
-        //});
-
         function arrayObjectIndexOf(myArray, searchTerm, property) {
             for(var i = 0, len = myArray.length; i < len; i++) {
                 if (myArray[i][property] === searchTerm) return i;

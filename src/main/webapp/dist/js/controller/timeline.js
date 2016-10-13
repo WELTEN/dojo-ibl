@@ -77,9 +77,11 @@ angular.module('DojoIBL')
                             });
                         });
 
-                        UserService.getUserByAccount($stateParams.runId, resp.userEmail.split(':')[1]).then(function(data){
-                            resp.user = data;
-                        });
+                        //UserService.getUserByAccount($stateParams.runId, resp.userEmail.split(':')[1]).then(function(data){
+                        //    resp.user = data;
+                        //});
+
+                        resp.user = UserService.getUser(resp.userEmail);
 
                         responses.push(resp);
                     });

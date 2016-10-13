@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .service('MessageService', function ($q, Message, CacheFactory) {
+    .service('MessageService', function ($q, Message, CacheFactory, UserService) {
 
         CacheFactory('messagesCache', {
             maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day
@@ -32,6 +32,14 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('messagesCache');
                 return newMessage.$save();
             },
+            refreshMessage: function(runId, messageId){
+                var dataCache = CacheFactory.get('messagesCache');
+                if(dataCache.get(messageId)){
+                    delete messages[runId][messageId];
+                    dataCache.remove(messageId);
+                }
+                return this.getMessageById(messageId);
+            },
             getMessages: function (runId, from, resumptionToken) {
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('messagesCache');
@@ -53,6 +61,10 @@ angular.module('DojoIBL')
                                 if (!data.messages[i].deleted) {
                                     dataCache.put(data.messages[i].messageId, data.messages[i]);
                                     messages[runId][data.messages[i].messageId] = data.messages[i];
+
+                                    var message = data.messages[i];
+
+                                    messages[runId][message.messageId].user = UserService.getUser(data.messages[i].senderProviderId+":"+data.messages[i].senderId);
                                 }else{
                                     delete messages[runId][data.messages[i].messageId];
                                 }
@@ -69,10 +81,14 @@ angular.module('DojoIBL')
                             deferred.resolve(data);
                         } else {
 
-                            for (i = 0; i < data.messages.length; i++) {
+                            for (var i = 0; i < data.messages.length; i++) {
                                 if (!data.messages[i].deleted) {
                                     dataCache.put(data.messages[i].messageId, data.messages[i]);
                                     messages[runId][data.messages[i].messageId] = data.messages[i];
+
+                                    var message = data.messages[i];
+
+                                    messages[runId][message.messageId].user = UserService.getUser(data.messages[i].senderProviderId+":"+data.messages[i].senderId);
                                 }else{
                                     delete messages[runId][data.messages[i].messageId];
                                 }
@@ -98,7 +114,7 @@ angular.module('DojoIBL')
                         function(data){
                             dataCache.put(messageId, data);
                             messages[data.runId][data.messageId] = data;
-                            //console.log(data);
+                            messages[data.runId][data.messageId].user = UserService.getUser(data.senderProviderId+":"+data.senderId);
                             deferred.resolve(data);
                         }
                     );

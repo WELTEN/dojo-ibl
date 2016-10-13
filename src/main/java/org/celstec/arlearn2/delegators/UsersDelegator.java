@@ -69,7 +69,14 @@ public class UsersDelegator extends GoogleDelegator {
 //		NotificationEngine.getInstance().notify(u.getEmail(), rm);
         new NotificationDelegator(this).broadcast(run, u.getFullId());
         if (this.account != null) {
-            new NotificationDelegator(this).broadcast(u, u.getFullId());
+//            new NotificationDelegator(this).broadcast(u, u.getFullId());
+
+            RunAccessDelegator rad = new RunAccessDelegator(this);
+            NotificationDelegator nd = new NotificationDelegator(this);
+            for (RunAccess ra : rad.getRunAccess(u.getRunId()).getRunAccess()) {
+                nd.broadcast(u, ra.getAccount());
+            }
+
         }
         (new UpdateGeneralItemsVisibility(authToken, this.account, u.getRunId(), u.getEmail(), 1)).scheduleTask();
         (new UpdateVariableInstancesForUser(authToken, this.account, u.getFullId(), u.getRunId(), run.getGameId(), 1)).scheduleTask();

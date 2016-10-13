@@ -62,9 +62,9 @@ angular.module('DojoIBL')
             templateUrl: '/dist/templates/directives/chat.html',
             link: function (scope, elem, attr) {
 
-                UserService.getUserByAccount(scope.message.runId, scope.message.senderId).then(function(data){
-                    scope.user = data;
-                });
+                //UserService.getUserByAccount(scope.message.runId, scope.message.senderId).then(function(data){
+                //    scope.user = data;
+                //});
             }
         };
     })

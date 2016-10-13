@@ -9,6 +9,46 @@ angular.module('DojoIBL')
             }
         );
 
+        UserService.getUsersForRun($stateParams.runId).then(function(data){
+            $scope.usersRun = data;
+        }).then(function(){
+            console.info("Loading messages after we have collected the users");
+            $scope.messages = {};
+            $scope.messages.messages = [];
+
+            $scope.loadMoreButton = false;
+            $scope.disableMessagesLoading = false;
+
+            // Option 1
+            $scope.messages.messages = MessageService.getMessages($stateParams.runId);
+
+            // Option 2 - new
+            //$scope.loadMoreMessages = function () {
+            //
+            //    $scope.disableMessagesLoading = true;
+            //
+            //    Message.resume({resumptionToken: $scope.messages.resumptionToken, runId: $stateParams.runId, from: 0 })
+            //        .$promise.then(function (data) {
+            //
+            //            var messages = [];
+            //
+            //            angular.forEach(data.messages, function(message){
+            //                messages.push(message);
+            //            });
+            //
+            //            $scope.messages.messages = $scope.messages.messages.concat(messages);
+            //            $scope.messages.resumptionToken = data.resumptionToken;
+            //            $scope.messages.serverTime = data.serverTime;
+            //
+            //            if (data.resumptionToken) {
+            //                $scope.disableMessagesLoading = false
+            //            } else {
+            //                $scope.disableMessagesLoading = true
+            //            }
+            //        });
+            //};
+        });
+
         $scope.bodyMessage;
         $scope.glued = true;
 
@@ -25,49 +65,15 @@ angular.module('DojoIBL')
             });
         };
 
-        $scope.messages = {};
-        $scope.messages.messages = [];
-
-        $scope.loadMoreButton = false;
-        $scope.disableMessagesLoading = false;
-
-        // Option 1
-        $scope.messages.messages = MessageService.getMessages($stateParams.runId);
-
-        // Option 2 - new
-        //$scope.loadMoreMessages = function () {
-        //
-        //    $scope.disableMessagesLoading = true;
-        //
-        //    Message.resume({resumptionToken: $scope.messages.resumptionToken, runId: $stateParams.runId, from: 0 })
-        //        .$promise.then(function (data) {
-        //
-        //            var messages = [];
-        //
-        //            angular.forEach(data.messages, function(message){
-        //                messages.push(message);
-        //            });
-        //
-        //            $scope.messages.messages = $scope.messages.messages.concat(messages);
-        //            $scope.messages.resumptionToken = data.resumptionToken;
-        //            $scope.messages.serverTime = data.serverTime;
-        //
-        //            if (data.resumptionToken) {
-        //                $scope.disableMessagesLoading = false
-        //            } else {
-        //                $scope.disableMessagesLoading = true
-        //            }
-        //        });
-        //};
-
         $scope.numberMessages = 0;
 
         ChannelService.register('org.celstec.arlearn2.beans.run.Message', function (notification) {
             console.info("[Notification][Message]", notification);
             if (notification.runId == $stateParams.runId) {
                 $scope.numberMessages += 1;
+
+                console.log(notification);
                 MessageService.getMessageById(notification.messageId).then(function (data) {
-                    console.info("[Notification][Message]", data);
                     //if(me.localId != data.senderId){
                     //    $scope.sound = ngAudio.load("/dist/assets/beep.m4a");
                     //    $scope.sound.play();
@@ -80,9 +86,5 @@ angular.module('DojoIBL')
         $scope.waitingForData = function () {
             $scope.notifications.length == 0;
         };
-
-        UserService.getUsersForRun($stateParams.runId).then(function(data){
-            $scope.usersRun = data;
-        });
     }
 );
