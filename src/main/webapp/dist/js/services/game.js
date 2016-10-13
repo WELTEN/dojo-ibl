@@ -1,10 +1,10 @@
 angular.module('DojoIBL')
 
-    .service('GameService', function ($q, Game, CacheFactory) {
+    .service('GameService', function ($q, $sce, Game, CacheFactory) {
 
         CacheFactory('gamesCache', {
             maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day
-            cacheFlushInterval: 60 * 60 * 1000, // This cache will clear itself every hour
+            cacheFlushInterval: 12 * 60 * 60 * 1000, // This cache will clear itself every hour
             deleteOnExpire: 'aggressive', // Items will be deleted from this cache when they expire
             storageMode: 'localStorage' // This cache will use `localStorage`.
 
@@ -22,31 +22,79 @@ angular.module('DojoIBL')
         var serverTimeFirstInvocation;
 
         return {
-            getGameById: function(id) {
+            resumeLoadingGames: function(){
+                var deferred = $q.defer();
+                var dataCache = CacheFactory.get('gamesCache');
+
+                Game.resume({resumptionToken: resumptionToken, from:serverTime})
+                    .$promise.then(function (data) {
+                        if (data.error) {
+                            deferred.resolve(data);
+
+                        } else {
+                            for (i = 0; i < data.games.length; i++) {
+                                if (data.games[i].deleted) {
+                                    delete games[data.games[i].gameId];
+                                } else {
+                                    dataCache.put(data.games[i].gameId, data.games[i]);
+                                    games[data.games[i].gameId] = data.games[i];
+                                    games[data.games[i].gameId].description = $sce.trustAsHtml(data.games[i].description);
+
+                                    Game.getGameAccesses({ gameId: data.games[i].gameId }).$promise.then(function(data){
+                                        angular.forEach(data.gamesAccess, function(gameAccess){
+                                            games[gameAccess.gameId].accessRights = gameAccess.accessRights;
+                                        });
+                                    });
+                                }
+                            }
+                            resumptionToken = data.resumptionToken;
+                            serverTimeFirstInvocation = serverTimeFirstInvocation || data.serverTime;
+                            if (!data.resumptionToken){
+                                serverTime = serverTimeFirstInvocation;
+                                serverTimeFirstInvocation = undefined;
+                            }
+
+                            deferred.resolve(data);
+                        }
+                    });
+                return deferred.promise;
+
+            },
+            getGameById: function (id) {
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('gamesCache');
                 if (dataCache.get(id)) {
                     deferred.resolve(dataCache.get(id));
                 } else {
 
-                    Game.getGameById({id:id}).$promise.then(
-                        function(data){
+                    Game.getGameById({id: id}).$promise.then(
+                        function (data) {
+                            if (!data.error){
+                                if (data.deleted) {
+                                    delete games[id];
+                                    dataCache.remove(id);
 
-                            if (data.deleted) {
-                                delete games[id];
-                                dataCache.remove(id);
+                                } else {
+                                    var rol = [];
+                                    angular.forEach(data.config.roles, function(d){
+                                        rol.push(JSON.parse(d));
+                                    });
 
-                            } else {
-                                var rol = [];
-                                angular.forEach(data.config.roles, function(d){
-                                    rol.push(JSON.parse(d));
-                                });
+                                    data.config.roles = rol;
 
-                                data.config.roles = rol;
-                                dataCache.put(id, data);
-                                games[id] = data;
-                                deferred.resolve(data);
+                                    dataCache.put(id, data);
+                                    games[id] = data;
+
+                                    Game.getGameAccesses({ gameId: data.gameId }).$promise.then(function(data){
+                                        angular.forEach(data.gamesAccess, function(gameAccess){
+                                            games[gameAccess.gameId].accessRights = gameAccess.accessRights;
+                                        });
+                                    });
+                                }
+
                             }
+
+                            deferred.resolve(data);
                         }
                     );
                 }
@@ -97,6 +145,7 @@ angular.module('DojoIBL')
             deleteGame: function(gameId){
                 var dataCache = CacheFactory.get('gamesCache');
                 dataCache.remove(gameId);
+                delete games[gameId];
                 return Game.deleteGame({ gameId: gameId });
             }
         }

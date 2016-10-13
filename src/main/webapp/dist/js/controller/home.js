@@ -2,28 +2,27 @@ angular.module('DojoIBL')
 
     .controller('HomeController', function ($scope, $sce, Game, GameService, ActivityService, config, Session, RunService, ChannelService, AccountService) {
 
-        $scope.games = [];
+        $scope.games = {};
+        $scope.runs = {};
 
-        Game.access({ }).$promise.then(function (data) {
-
-            angular.forEach(data.gamesAccess, function (gameAccess) {
-
-                GameService.getGameById(gameAccess.gameId).then(function (data) {
-
-                    var data_extended = angular.extend({}, data, gameAccess);
-
-                    //data.description = $sce.trustAsHtml(data.description);
-                    //
-                    //$scope.des = data.description
-                    //$scope.deliberatelyTrustDangerousSnippet = function() {
-                    //    return $sce.trustAsHtml($scope.des);
-                    //};
-
-                    $scope.games = $scope.games.concat(data_extended);
-
-                });
+        function loadGames() {
+            GameService.resumeLoadingGames().then(function (data) {
+                if (data.error) {
+                    $scope.showNoAccess = true;
+                } else {
+                    $scope.show = true;
+                    if (data.resumptionToken) {
+                        loadGames();
+                    }
+                }
             });
-        });
+        }
+
+        //if(isEmpty($scope.games)){
+        loadGames();
+        //}
+
+        $scope.games = GameService.getGames();
 
         $scope.thumbnailUrl = function(gameId) {
 
@@ -35,7 +34,8 @@ angular.module('DojoIBL')
         $scope.showRuns = function (id) {
 
             RunService.getParticipateRunsForGame(id).then(function(data){
-                $scope.runs = data;
+                $scope.runs[id] = {};
+                $scope.runs[id] = data;
             });
         };
 

@@ -43,6 +43,17 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
             return filtered;
         };
     })
+    .filter('isEmpty', function () {
+        var bar;
+        return function (obj) {
+            for (bar in obj) {
+                if (obj.hasOwnProperty(bar)) {
+                    return false;
+                }
+            }
+            return true;
+        };
+    })
     .filter('timeago', function(){
         return function(date){
             return moment(date).fromNow();

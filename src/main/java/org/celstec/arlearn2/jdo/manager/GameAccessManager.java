@@ -1,15 +1,15 @@
 package org.celstec.arlearn2.jdo.manager;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import com.google.appengine.api.datastore.Cursor;
+import com.google.appengine.datanucleus.query.JDOCursorHelper;
+import org.celstec.arlearn2.beans.game.GameAccess;
+import org.celstec.arlearn2.beans.game.GameAccessList;
+import org.celstec.arlearn2.jdo.PMF;
+import org.celstec.arlearn2.jdo.classes.GameAccessJDO;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-
-import org.celstec.arlearn2.beans.game.GameAccess;
-import org.celstec.arlearn2.jdo.PMF;
-import org.celstec.arlearn2.jdo.classes.GameAccessJDO;
+import java.util.*;
 
 public class GameAccessManager {
 
@@ -44,6 +44,54 @@ public class GameAccessManager {
 			pm.close();
 		}
 	}
+
+	public static GameAccessList getGameList(int accountType, String localId, String cursorString, long from) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		GameAccessList returnList = new GameAccessList();
+		try {
+			Query query = pm.newQuery(GameAccessJDO.class);
+			if (cursorString != null) {
+				Cursor c = Cursor.fromWebSafeString(cursorString);
+
+				Map<String, Object> extensionMap = new HashMap<String, Object>();
+				extensionMap.put(JDOCursorHelper.CURSOR_EXTENSION, c);
+				query.setExtensions(extensionMap);
+			}
+			query.setRange(0, 5);
+			String filter = null;
+			String params = null;
+			Object args[] = null;
+			filter = "localId == localIdParam && accountType == accountTypeParam && lastModificationDateGame >= lastModificationDateGameParam";
+			params = "String localIdParam, Integer accountTypeParam, Long lastModificationDateGameParam";
+			args = new Object[] { localId, accountType, from };
+
+			query.setFilter(filter);
+			query.setOrdering("lastModificationDateGame desc");
+			query.declareParameters(params);
+			List<GameAccessJDO> results = (List<GameAccessJDO>) query.executeWithArray(args);
+			Iterator<GameAccessJDO> it = (results).iterator();
+			int i = 0;
+			while (it.hasNext()) {
+				i++;
+				GameAccessJDO object = it.next();
+				returnList.addGameAccess(toBean(object));
+
+			}
+			Cursor c = JDOCursorHelper.getCursor(results);
+			cursorString = c.toWebSafeString();
+			if (returnList.getGameAccess().size() == 5) {
+				returnList.setResumptionToken(cursorString);
+			}
+			returnList.setServerTime(System.currentTimeMillis());
+
+
+		}finally {
+			pm.close();
+		}
+		return returnList;
+
+	}
+
 
 	public static List<GameAccess> getGameList(int accountType, String localId, Long from, Long until) {
 		ArrayList<GameAccess> accessDefinitions = new ArrayList<GameAccess>();

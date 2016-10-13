@@ -15,7 +15,7 @@ angular.module('DojoIBL')
             'resume': {
                 method: 'GET',
                 isArray: false,
-                url: config.server+'/rest/myGames?resumptionToken=:resumptionToken'
+                url: config.server + '/rest/myGames?resumptionToken=:resumptionToken&from=:from'
             },
             'getGameById': {
                 method: 'GET',
