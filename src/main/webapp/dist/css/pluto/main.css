@@ -219,6 +219,8 @@ a:focus {
   color: #fff;
   overflow: hidden;
   padding: 90px 0;
+  top: -20px;
+  position: relative;
 }
 .hero-area .sticky-navigation, .no-background .sticky-navigation {
   background: transparent;
@@ -238,6 +240,8 @@ a:focus {
 @media (min-width: 1200px) {
   .hero-area {
     padding: 280px 0;
+    top: -20px;
+    position: relative;
   }
   .hero-area h1 {
     font-size: 50px !important;
@@ -642,4 +646,7 @@ a:focus {
 }
 .social .fa-linkedin:hover {
   background: #007BB6;
+}
+.ta-hidden-input{
+  display: none;
 }
