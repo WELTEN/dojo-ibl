@@ -650,3 +650,7 @@ a:focus {
 .ta-hidden-input{
   display: none;
 }
+
+.myClass{
+  display: none;
+}

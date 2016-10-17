@@ -8,7 +8,7 @@ angular.module('DojoIBL')
             return false;
         };
 
-        console.log("hola")
+        $scope.loading = true;
 
         var providers = {};
         Oauth.info().$promise.then(
@@ -20,10 +20,8 @@ angular.module('DojoIBL')
                         $scope.wespotUrl = "https://wespot-arlearn.appspot.com/Login.html?client_id="+providers.prov5.clientId
                         +"&redirect_uri="+providers.prov5.redirectUri+"&response_type=code&scope=profile+email"
                     }
-
-
                 }
-
+                $scope.loading = false;
                 console.log(providers);
             }
         );

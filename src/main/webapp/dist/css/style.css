@@ -5046,6 +5046,7 @@ dd.project-people {
 }
 .message {
   background-color: #1ab394;
+/*rgba(179, 125, 26, 0.7);*/
   /* border: 1px solid #e7eaec; */
   text-align: left;
   display: block;
