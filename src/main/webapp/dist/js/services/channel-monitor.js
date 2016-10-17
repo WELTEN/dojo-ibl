@@ -58,8 +58,6 @@ angular.module('DojoIBL')
                     });
                 };
                 context.channelSocket = socket;
-                console.log("Channel info received");
-                console.log(channelData.channelId);
                 context.channelSocket.onmessage = context.messageCallback;
             };
 

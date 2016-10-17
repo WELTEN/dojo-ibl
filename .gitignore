@@ -3,6 +3,7 @@
 /.idea/*
 /lib
 /libs
+/node_modules
 /out
 /src/main/resources/apns/*
 *.iml

@@ -67,6 +67,18 @@ public class GameDelegator extends GoogleDelegator {
         super(account, token);
     }
 
+    public GamesList getGames(String resumptionToken, long from) {
+        GameAccessDelegator gad = new GameAccessDelegator(this);
+        GamesList gl = new GamesList();
+        GameAccessList gameAccessList = gad.getGamesAccess(resumptionToken, from);
+        gl.setServerTime(gameAccessList.getServerTime());
+        gl.setResumptionToken(gameAccessList.getResumptionToken());
+        for(GameAccess ga: gameAccessList.getGameAccess()){
+            gl.addGame(getGame(ga.getGameId()));
+        }
+        return gl;
+    }
+
     public GamesList getGames(Long from, Long until) {
         GamesList gl = new GamesList();
         String myAccount = null;
@@ -328,6 +340,9 @@ public class GameDelegator extends GoogleDelegator {
         GameModification gm = new GameModification();
         gm.setModificationType(GameModification.DELETED);
         gm.setGame(g);
+
+
+
         if (this.account != null) {
             new NotificationDelegator(this).broadcast(g, account.getFullId());
         }
