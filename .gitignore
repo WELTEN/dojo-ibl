@@ -18,7 +18,7 @@ src/main/webapp/authToken.html
 src/main/webapp/channeltest.html
 src/main/webapp/contact.html
 src/main/webapp/debug.html
-src/main/webapp/dist/js/pages/
+src/main/webapp/src/js/pages/
 src/main/webapp/filesBlobOverview.jsp
 src/main/webapp/filesOverview.jsp
 src/main/webapp/gameItemOverview.jsp
