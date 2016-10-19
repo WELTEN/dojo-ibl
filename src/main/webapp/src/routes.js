@@ -9,7 +9,7 @@ angular.module('DojoIBL')
             })
             .state('home', {
                 url: '/home',
-                templateUrl: '/src/templates/home.html',
+                templateUrl: '/src/components/home/home.template.html',
                 controller: 'HomeController',
                 ncyBreadcrumb: {
                     label: "{{'dibl.toolbar.home' | translate}}"
@@ -43,7 +43,7 @@ angular.module('DojoIBL')
             })
             .state('inquiry.activity', {
                 url: '/:runId/phase/:phase/activity/:activityId',
-                templateUrl: '/src/templates/activity.html',
+                templateUrl: '/src/components/activity/activity.template.html',
                 controller: 'ActivityController',
                 ncyBreadcrumb: {
                     label: "{{'dibl.toolbar.activity' | translate}}",
