@@ -33,7 +33,7 @@ angular.module('DojoIBL')
         $scope.createNewInquiry = function () {
 
             var modalInstance = $modal.open({
-                templateUrl: '/src/templates/directives/modal_new_inquiry.html',
+                templateUrl: '/src/components/common/new.inquiry.modal.html',
                 controller: 'NewInqCtrl'
             });
 

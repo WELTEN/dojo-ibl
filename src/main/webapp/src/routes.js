@@ -2,11 +2,6 @@ angular.module('DojoIBL')
     .config(['$stateProvider','$routeProvider', function ($stateProvider, $urlRouterProvider) {
 
         $stateProvider
-            .state('landing', {
-                url: '/landing',
-                templateUrl: '/src/templates/landing.html',
-                controller: 'LandingController'
-            })
             .state('home', {
                 url: '/home',
                 templateUrl: '/src/components/home/home.template.html',
@@ -20,13 +15,13 @@ angular.module('DojoIBL')
                 abstract: true,
                 views: {
                     '': {
-                        templateUrl: '/src/templates/inquiry-structure.html'
+                        templateUrl: '/src/components/run/inquiry.structure.template.html'
                     }
                 }
             })
             .state('inquiry.home', {
                 url: '/:runId',
-                templateUrl: '/src/templates/inquiry.html',
+                templateUrl: '/src/components/run/inquiry.template.html',
                 controller: 'InquiryController',
                 ncyBreadcrumb: {
                     label: "{{'dibl.toolbar.phases' | translate}} "
@@ -34,7 +29,7 @@ angular.module('DojoIBL')
             })
             .state('inquiry.phase', {
                 url: '/:runId/phase/:phase',
-                templateUrl: '/src/templates/phase.html',
+                templateUrl: '/src/components/activity/phase.template.html',
                 controller: 'PhaseController',
                 ncyBreadcrumb: {
                     label: "{{'dibl.toolbar.phase' | translate}}",
@@ -53,7 +48,7 @@ angular.module('DojoIBL')
             })
             .state('inquiry.timeline', {
                 url: '/:runId/timeline',
-                templateUrl: '/src/templates/timeline.html',
+                templateUrl: '/src/components/run/timeline.template.html',
                 controller: 'TimelineController',
                 ncyBreadcrumb: {
                     label: "{{'dibl.toolbar.timeline' | translate}}",
@@ -62,7 +57,7 @@ angular.module('DojoIBL')
             })
             .state('editgame', {
                 url: '/inquiry/:gameId/edit',
-                templateUrl: '/src/templates/inquiry-edit-game.html',
+                templateUrl: '/src/components/home/game.edit.template.html',
                 controller: 'InquiryEditGameController',
                 ncyBreadcrumb: {
                     label: "{{'dibl.toolbar.editstructure' | translate}}"
@@ -70,24 +65,16 @@ angular.module('DojoIBL')
             })
             .state('editrun', {
                 url: '/inquiry/:gameId/run/:runId/edit',
-                templateUrl: '/src/templates/inquiry-edit-run.html',
+                templateUrl: '/src/components/run/inquiry.edit.template.html',
                 controller: 'InquiryEditRunController',
                 ncyBreadcrumb: {
                     label: "{{'dibl.toolbar.editrun' | translate}}",
                     parent: 'inquiry.home' // Override the parent state (only for the breadcrumb).
                 }
             })
-            .state('news', {
-                url: '/create/inquiry',
-                templateUrl: '/src/templates/inquiry-new.html',
-                controller: 'InquiryNewGameController',
-                ncyBreadcrumb: {
-                    label: "{{'dibl.toolbar.newinquiry' | translate}}"
-                }
-            })
             .state('profiles', {
                 url: '/profiles',
-                templateUrl: '/src/templates/profiles.html',
+                templateUrl: '/src/components/account/profiles.template.html',
                 controller: 'ProfilesController',
                 ncyBreadcrumb: {
                     label: 'Profiles'
@@ -95,7 +82,7 @@ angular.module('DojoIBL')
             })
             .state('profileAccount', {
                 url: '/profile/:fullId',
-                templateUrl: '/src/templates/profile.html',
+                templateUrl: '/src/components/account/profile.template.html',
                 controller: 'ProfileController',
                 ncyBreadcrumb: {
                     label: "{{'dibl.toolbar.profile' | translate}}"
@@ -107,14 +94,8 @@ angular.module('DojoIBL')
             })
             .state('error', {
                 url: '/error',
-                templateUrl: '/src/templates/error.html'
-            })
-            .state('channelmonitor', {
-                url: '/channelmonitor',
-                templateUrl: '/src/templates/monitor.html',
-                controller: 'ChannelMonitorController'
-            })
-        ;
+                templateUrl: '/src/components/common/error.template.html'
+            });
 
         $urlRouterProvider.otherwise('/error');
 

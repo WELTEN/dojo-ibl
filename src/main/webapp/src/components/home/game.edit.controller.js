@@ -570,7 +570,7 @@ angular.module('DojoIBL')
             $scope.gameVar = game;
 
             var modalInstance = $modal.open({
-                templateUrl: '/src/templates/directives/modal_add_user.html',
+                templateUrl: '/src/components/home/add.user.modal.html',
                 controller: 'AddUserCtrl',
                 resolve: {
                     run: function () {

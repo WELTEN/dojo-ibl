@@ -3,7 +3,7 @@ angular.module('DojoIBL')
     .directive('diblHeader', function() {
         return  {
             restrict: 'E',
-            templateUrl: '/src/templates/pages/header.html',
+            templateUrl: '/src/components/common/header.directive.html',
             controller: 'HeaderController'
         };
     }

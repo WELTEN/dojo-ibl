@@ -6,7 +6,7 @@ angular.module('DojoIBL')
             scope: {
                 response: '='
             },
-            templateUrl: '/src/templates/directives/responseQuestion.html',
+            templateUrl: '/src/components/response/response.question.template.html',
             link: function (scope, element, attrs) {
 
                 AccountService.myDetails().then(

@@ -32,7 +32,7 @@ angular.module("DojoIBL")
             replace: true,
             scope: {},
             templateUrl: function (el, attrs) {
-                return (angular.isDefined(attrs.template)) ? attrs.template : '/src/templates/directives/draggable-default.html';
+                return (angular.isDefined(attrs.template)) ? attrs.template : '/src/components/common/draggable.template.html';
                 //return "";
             },
             link: function (scope, el, attrs, ctrlr, transFn) {
@@ -111,7 +111,7 @@ angular.module("DojoIBL")
             replace: true,
             scope: {},
             templateUrl: function (el, attrs) {
-                return (angular.isDefined(attrs.template)) ? attrs.template : '/src/templates/directives/droppable-default.html';
+                return (angular.isDefined(attrs.template)) ? attrs.template : '/src/components/common/droppable.template.html';
                 //return "";
             },
             link: function (scope, el, attrs, ctrlr, transFn) {
