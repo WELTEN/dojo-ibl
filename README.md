@@ -10,13 +10,13 @@ Features
 - Instant messaging to connect teachers and peers
 - Flexible support for phases and activities
 - 4 activity types
- - Rich text activity
- - Video activity
+ - Discussion forum
+ - Multimedia activity
  - Data collection activity
- - Questions based activity
+ - List & items based activity
 - Collaborative discussions around topics
 - Data collection processes integrated
-- Activity timeline for process and activity awareness
+- Activity time-line for process and activity awareness
 
 Support
 -------
