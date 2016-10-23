@@ -1,7 +1,7 @@
 angular.module('DojoIBL')
 
     .controller('InquiryEditGameController', function ($scope, $sce, $stateParams, $state, $modal, Session, RunService, ActivityService,
-                                                       AccountService, GameService, UserService ) {
+                                                       AccountService, GameService, UserService, toaster ) {
         // Managing different tabs activities
         $scope.lists = [];
         $scope.selection = [];
@@ -55,7 +55,14 @@ angular.module('DojoIBL')
 
         $scope.ok = function(){
             GameService.newGame($scope.game);
+
+            toaster.success({
+                title: 'Inquiry template modified',
+                body: 'The inquiry "'+$scope.game.title+'" has been modified.'
+            });
         };
+
+
 
         ////////////////////
         // Manage activities
@@ -251,6 +258,11 @@ angular.module('DojoIBL')
                     $scope.lists[$(".select-activities > li.active").attr('data')].push(data);
                 });
             });
+
+            toaster.success({
+                title: 'Activity added',
+                body: 'The activity "'+a.name+'" has been added to the phase.'
+            });
         };
 
         $scope.toggleSelection = function toggleSelection(rol) {
@@ -277,8 +289,15 @@ angular.module('DojoIBL')
 
             });
             GameService.newGame($scope.game);
+
+            toaster.success({
+                title: 'Role added',
+                body: 'The role "'+$scope.roleName+'" has been added to the inquiry template.'
+            });
+
             $scope.roleName = "";
             $scope.roleColor = "";
+
         };
 
         $scope.selectRole = function(index){
@@ -309,6 +328,11 @@ angular.module('DojoIBL')
             //$scope.lists.push($scope.phases.length);
             //$scope.lists = [];
 
+            toaster.success({
+                title: 'Phase added',
+                body: 'The phase "'+$scope.phaseName+'" has been added to the inquiry template.'
+            });
+
             $scope.phaseName = "";
 
             $scope.game.phases = $scope.phases;
@@ -321,11 +345,29 @@ angular.module('DojoIBL')
 
                     RunService.storeInCache(value);
                 });
-
             });
-
-
         };
+
+        //$scope.removePhase = function(index){
+        //    swal({
+        //        title: "Are you sure you want to delete the phase?",
+        //        text: "You will not be able to recover this phase!",
+        //        type: "warning",
+        //        showCancelButton: true,
+        //        confirmButtonColor: "#DD6B55",
+        //        confirmButtonText: "Yes, delete the phase!",
+        //        closeOnConfirm: false
+        //    }, function () {
+        //        swal("Phase deleted!", "The phase has been removed from the inquiry structure.", "success");
+        //
+        //        GameService.removePhase($scope.game, index);
+        //
+        //        toaster.warning({
+        //            title: 'Phase deleted',
+        //            body: 'The phase has been removed from the inquiry template.'
+        //        });
+        //    });
+        //};
 
         $scope.removePhase = function(index){
 
@@ -339,6 +381,11 @@ angular.module('DojoIBL')
                 closeOnConfirm: false
             }, function () {
                 swal("Phase deleted!", "The phase has been removed from the inquiry structure.", "success");
+
+                toaster.warning({
+                    title: 'Phase removed',
+                    body: 'The phase "'+$scope.phases[index].title+'" has been removed from the inquiry template.'
+                });
 
                 $scope.phases.splice(index, 1);
                 $scope.game.phases = $scope.phases;
@@ -354,7 +401,6 @@ angular.module('DojoIBL')
                         ActivityService.deleteActivity(i.gameId, i.id);
                     });
                 });
-
             });
 
         };

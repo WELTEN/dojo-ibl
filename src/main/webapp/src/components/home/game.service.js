@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .service('GameService', function ($q, $sce, Game, CacheFactory) {
+    .service('GameService', function ($q, $sce, Game, CacheFactory, RunService, ActivityService) {
 
         CacheFactory('gamesCache', {
             maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day
@@ -151,6 +151,24 @@ angular.module('DojoIBL')
                 dataCache.remove(gameId);
                 delete games[gameId];
                 return Game.deleteGame({ gameId: gameId });
+            },
+            removePhase: function(game, index){
+                game.phases.splice(index, 1);
+
+                this.newGame(game).then(function(updatedGame){
+                    RunService.getParticipateRunsForGame(game.gameId).then(function(gameRuns){
+                        angular.forEach(gameRuns, function(value, key) {
+                            value.game = updatedGame;
+                            RunService.storeInCache(value);
+                        });
+                    });
+                });
+
+                ActivityService.getActivitiesForPhase(game.gameId, index).then(function(data){
+                    angular.forEach(data, function(i, a){
+                        ActivityService.deleteActivity(i.gameId, i.id);
+                    });
+                });
             }
         }
     }

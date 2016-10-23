@@ -6,15 +6,15 @@ angular.module('DojoIBL')
         $scope.name = "your name";
 
         $scope.flags = [{
-            icon: 'src/img/i18n/Spain.png',
+            icon: 'src/assets/img/i18n/Spain.png',
             name: 'Spanish',
             id: 'es'
         }, {
-            icon: 'src/img/i18n/United-States.png',
+            icon: 'src/assets/img/i18n/United-States.png',
             name: 'English',
             id: 'en'
         }, {
-            icon: 'src/img/i18n/Netherlands.png',
+            icon: 'src/assets/img/i18n/Netherlands.png',
             name: 'Dutch',
             id: 'nl'
         }];

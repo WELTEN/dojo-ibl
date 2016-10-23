@@ -213,7 +213,7 @@ a:focus {
   }
 }
 .hero-area {
-  background: url(/src/img/pluto/hero-area.jpg) no-repeat;
+  background: url(/src/assets/img/pluto/hero-area.jpg) no-repeat;
   background-size: cover;
   background-position: center bottom;
   color: #fff;
@@ -278,7 +278,7 @@ a:focus {
   margin: 0;
 }
 #why {
-  background: url(/src/img/pluto/why-bg.jpg);
+  background: url(/src/assets/img/pluto/why-bg.jpg);
   background-size: cover;
   color: #fff;
 }
@@ -519,7 +519,7 @@ a:focus {
   text-align: center;
 }
 #contact {
-  background-image: url('/src/img/word_map.png');
+  background-image: url('/src/assets/img/word_map.png');
   background-position: 50% 50%;
   background-repeat: no-repeat;
   margin-top: 60px;
