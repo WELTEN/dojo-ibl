@@ -34,3 +34,5 @@ src/main/webapp/search.html
 src/main/webapp/htmlDisplay.html
 src/main/webapp/oauth copy.html
 npm-debug.log
+src/main/webapp/src/assets/plugins/
+src/main/webapp/src/assets/plugins/*
