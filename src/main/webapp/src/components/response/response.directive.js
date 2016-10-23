@@ -31,7 +31,6 @@ angular.module('DojoIBL')
                     }, function () {
                         swal("Removed!", "Your contribution has been removed from the inquiry", "success");
                         ResponseService.deleteResponse(data.responseId);
-
                     });
                 };
 
