@@ -36,3 +36,5 @@ src/main/webapp/oauth copy.html
 npm-debug.log
 src/main/webapp/src/assets/plugins/
 src/main/webapp/src/assets/plugins/*
+my.conf.js
+pom.xml
