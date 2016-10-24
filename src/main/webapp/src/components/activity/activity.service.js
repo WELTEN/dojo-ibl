@@ -9,6 +9,12 @@ angular.module('DojoIBL')
             storageMode: 'localStorage' // This cache will use `localStorage`.
         });
 
+        CacheFactory('activitiesStatusCache', {
+            maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day
+            cacheFlushInterval: 60 * 60 * 1000, // This cache will clear itself every hour
+            deleteOnExpire: 'aggressive', // Items will be deleted from this cache when they expire
+            storageMode: 'localStorage' // This cache will use `localStorage`.
+        });
 
         return {
             newActivity: function(activityAsJson){
@@ -91,6 +97,33 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('activitiesCache');
                 dataCache.remove(itemId);
                 return Activity.delete({ gameId: gameId, itemId: itemId});
+            },
+            changeActivityStatus: function(runId, gItemId, status){
+                var deferred = $q.defer();
+                var dataCache = CacheFactory.get('activitiesStatusCache');
+
+                Activity.changeActivityStatus({ runId:runId, generalItemId: gItemId, status: status}).$promise.then(function(data){
+                        dataCache.put(runId+"_"+gItemId, data);
+                        deferred.resolve(data);
+                    }
+                );
+                return deferred.promise;
+            },
+            getActivityStatus: function(runId, gItemId){
+                var deferred = $q.defer();
+                var dataCache = CacheFactory.get('activitiesStatusCache');
+
+                if (dataCache.get(runId+"_"+gItemId)) {
+                    deferred.resolve(dataCache.get(runId+"_"+gItemId));
+                } else {
+                    Activity.getActivityStatus({ runId:runId, generalItemId: gItemId, status: status}).$promise.then(function(data){
+                            dataCache.put(runId+"_"+gItemId, data);
+                            deferred.resolve(data);
+                        }
+                    );
+                }
+
+                return deferred.promise;
             }
         }
     }

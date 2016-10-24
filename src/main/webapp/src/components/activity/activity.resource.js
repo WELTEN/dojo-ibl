@@ -28,6 +28,18 @@ angular.module('DojoIBL')
                 method: 'GET',
                 isArray: false,
                 url: config.server + '/rest/generalItems/gameId/:gameId/generalItem/:itemId'
+            },
+            changeActivityStatus: {
+                params: { runId: '@runId', generalItemId: '@generalItemId', status: '@status' },
+                method: 'POST',
+                isArray: false,
+                url: config.server+'/rest/myRuns/runId/:runId/generalItem/:generalItemId/status/:status'
+            },
+            getActivityStatus: {
+                params: { runId: '@runId', generalItemId: '@generalItemId' },
+                method: 'GET',
+                isArray: false,
+                url: config.server+'/rest/myRuns/runId/:runId/generalItem/:generalItemId/status'
             }
         });
     }

@@ -24,9 +24,11 @@ import org.celstec.arlearn2.beans.generalItem.GeneralItem;
 import org.celstec.arlearn2.beans.generalItem.GeneralItemList;
 import org.celstec.arlearn2.beans.generalItem.OpenBadge;
 import org.celstec.arlearn2.beans.generalItem.OpenBadgeAssertion;
+import org.celstec.arlearn2.beans.run.GeneralItemsStatus;
 import org.celstec.arlearn2.beans.run.Run;
 import org.celstec.arlearn2.cache.GeneralitemsCache;
 import org.celstec.arlearn2.delegators.AccountDelegator;
+import org.celstec.arlearn2.delegators.GeneralItemStatusDelegator;
 import org.celstec.arlearn2.delegators.RunAccessDelegator;
 import org.celstec.arlearn2.delegators.RunDelegator;
 import org.celstec.arlearn2.jdo.manager.GeneralItemManager;
@@ -339,5 +341,38 @@ public class MyRuns extends Service {
 		ou.setBadge_issuer_origin(ob.getBadgeUrl());
 		ou.setBadge_issuer_name("celstec");
 		return serialise(ou, "application/json").replace("\\/", "/");
+	}
+
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Path("/runId/{runId}/generalItem/{generalItemId}/status/{status}")
+	public String setStatusGiItem(@HeaderParam("Authorization") String token, String generalItemStatusString,
+								  @PathParam("generalItemId") Long generalItemId,
+								  @PathParam("runId") Long runId,
+								  @PathParam("status") Integer status,
+								  @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+								  @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+		if (!validCredentials(token))
+			return serialise(getInvalidCredentialsBean(), accept);
+
+		GeneralItemStatusDelegator gisd = new GeneralItemStatusDelegator(token);
+		return serialise(gisd.changeItemStatus(runId, generalItemId, status), accept);
+	}
+
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Path("/runId/{runId}/generalItem/{generalItemId}/status")
+	public String getStatusGiItem(@HeaderParam("Authorization") String token,
+								  @PathParam("generalItemId") Long generalItemId,
+								  @PathParam("runId") Long runId,
+								  @DefaultValue("application/json") @HeaderParam("Accept") String accept)  {
+
+		if (!validCredentials(token))
+			return serialise(getInvalidCredentialsBean(), accept);
+
+		GeneralItemStatusDelegator gisd = new GeneralItemStatusDelegator(token);
+
+		GeneralItemsStatus generalItemsStatus = gisd.getItemStatus(runId, generalItemId);
+		return serialise(generalItemsStatus, accept);
 	}
 }

@@ -1,92 +1,90 @@
-    <div class="animated fadeIn"><!--<div class="tabs-container">-->
+<div class="animated fadeIn"><!--<div class="tabs-container">-->
 
-        <div class="panel-body no-padding-no-border-radius">
-            <div class="ibox-content">
-                <div class="heading">
-                    <small class="chat-date pull-right">
+    <div class="panel-body no-padding-no-border-radius">
+        <div class="ibox-content">
+            <div class="heading">
+                <small class="chat-date pull-right">
 
-                    </small>
-                    {{ phase.title }} phase
+                </small>
+                {{ phase.title }} phase
+            </div>
+            <div class="m">
+                <p class="small"><i class="fa fa-hand-o-up"></i> Drag activities between list to change their status</p>
+                <div class="col-lg-4 separator">
+                    <h3>ToDo</h3>
+                    <p class="small"><i class="fa fa-list"></i> List of activities to be done</p>
+                    <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="0">
+                        <li ng-style="getRoleColor(activity.roles)" data="{{ activity.id }}" ng-repeat="(key, activity) in activitiesTodo | orderByDayNumber:'sortKey'">
+                            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
+                            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
+                            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
+                            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+
+                            <a href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}">{{ activity.name }}</a>
+                            <br/>
+                            <p class="small">{{ activity.description | limitTo: 20 }}</p>
+                            <div class="agile-detail">
+                                <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles) }}</a>
+                                <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'medium' }}
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <div class="m">
 
-                    <!--<div class="col-lg-4 separator">-->
-                        <!--<h3>ToDo</h3>-->
-                        <!--<p class="small"><i class="fa fa-hand-o-up"></i> Drag task between list as their status change</p>-->
-                        <p class="small"><i class="fa fa-list"></i> List of activities that belong to this phase</p>
-                    <!--ui-sortable="sortableOptions"-->
-                        <ul  class="sortable-list connectList agile-list ui-sortable">
-                            <li ng-style="getRoleColor(activity.roles)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities | orderByDayNumber:'sortKey'">
-                                <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
-                                <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
-                                <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
-                                <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+                <div class="col-lg-4 separator">
+                    <h3>In progress</h3>
+                    <p class="small"><i class="fa fa-list"></i> List of activities in progress</p>
+                    <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="1">
+                        <li ng-style="getRoleColor(activity.roles)" data="{{ activity.id }}" ng-repeat="(key, activity) in activitiesInProgress | orderByDayNumber:'sortKey'">
+                            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
+                            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
+                            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
+                            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
 
-                                <a href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}">{{ activity.name }}</a>
-                                <br/>
-                                <p class="small">{{ activity.description | limitTo: 20 }}</p>
-                                <div class="agile-detail">
-                                    <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles) }}</a>
-                                    <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'medium' }}
-                                </div>
-                            </li>
-                        </ul>
-                    <!--</div>-->
-
-                    <!--<div class="col-lg-4 separator">-->
-                        <!--<h3>In progress</h3>-->
-                        <!--<p class="small"><i class="fa fa-hand-o-up"></i> Drag task between list as their status change</p>-->
-                        <!--<ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable">-->
-                            <!--<li class="warning-element" data="{{ activity.id }}" ng-repeat="(key, activity) in activities | orderByDayNumber:'sortKey'">-->
-                                <!--<i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-question"></i>-->
-                                <!--<i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>-->
-                                <!--<i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>-->
-                                <!--<i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>-->
-
-                                <!--<a href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}">{{ activity.name }}</a>-->
-                                <!--<br/>-->
-                                <!--<p class="small">{{ activity.description | limitTo: 20 }}</p>-->
-                                <!--<div class="agile-detail">-->
-                                    <!--&lt;!&ndash;<a href="#" class="pull-right btn btn-xs btn-white">Tag</a>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<i class="fa fa-clock-o"></i> 12.10.2015&ndash;&gt;-->
-                                <!--</div>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                    <!--</div>-->
-
-                    <!--<div class="col-lg-4">-->
-                        <!--<h3>Completed</h3>-->
-                        <!--<p class="small"><i class="fa fa-hand-o-up"></i> Drag task between list as their status change</p>-->
-                        <!--<ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable">-->
-                            <!--<li class="warning-element" data="{{ activity.id }}" ng-repeat="(key, activity) in activities | orderByDayNumber:'sortKey'">-->
-                                <!--<i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-question"></i>-->
-                                <!--<i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>-->
-                                <!--<i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>-->
-                                <!--<i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>-->
-
-                                <!--<a href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}">{{ activity.name }}</a>-->
-                                <!--<br/>-->
-                                <!--<p class="small">{{ activity.description | limitTo: 20 }}</p>-->
-                                <!--<div class="agile-detail">-->
-                                    <!--&lt;!&ndash;<a href="#" class="pull-right btn btn-xs btn-white">Tag</a>&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<i class="fa fa-clock-o"></i> 12.10.2015&ndash;&gt;-->
-                                <!--</div>-->
-                            <!--</li>-->
-                        <!--</ul>-->
-                    <!--</div>-->
-
-                    <!--<div class="list_activities">-->
-                        <!--<li data="{{ activity.id }}" ng-repeat="(key, activity) in activities | orderByDayNumber:'sortKey'" ng-style="{ 'background-color': getRole(activity.roles) }">-->
-
-                            <!--<div class="knob-label">-->
-                                <!--<a ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}"><i class="fa fa-question"></i> {{ activity.name }}</a>-->
-                                <!--<a ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}"><i class="fa fa-file-text"></i> {{ activity.name }}</a>-->
-                                <!--<a ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}"><i class="fa fa-file-movie-o"></i> {{ activity.name }}</a>-->
-                                <!--<a ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}"><i class="fa fa-folder"></i> {{ activity.name }}</a>-->
-                            <!--</div>-->
-                        <!--</li>-->
-                    <!--</div>-->
+                            <a href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}">{{ activity.name }}</a>
+                            <br/>
+                            <p class="small">{{ activity.description | limitTo: 20 }}</p>
+                            <div class="agile-detail">
+                                <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles) }}</a>
+                                <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'medium' }}
+                            </div>
+                        </li>
+                    </ul>
                 </div>
+
+                <div class="col-lg-4">
+                    <h3>Completed</h3>
+                    <p class="small"><i class="fa fa-list"></i> List of activities completed</p>
+                    <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="2">
+                        <li ng-style="getRoleColor(activity.roles)" data="{{ activity.id }}" ng-repeat="(key, activity) in activitiesCompleted | orderByDayNumber:'sortKey'">
+                            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
+                            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
+                            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
+                            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+
+                            <a href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}">{{ activity.name }}</a>
+                            <br/>
+                            <p class="small">{{ activity.description | limitTo: 20 }}</p>
+                            <div class="agile-detail">
+                                <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles) }}</a>
+                                <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'medium' }}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!--<div class="list_activities">-->
+                <!--<li data="{{ activity.id }}" ng-repeat="(key, activity) in activities | orderByDayNumber:'sortKey'" ng-style="{ 'background-color': getRole(activity.roles) }">-->
+
+                <!--<div class="knob-label">-->
+                <!--<a ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}"><i class="fa fa-question"></i> {{ activity.name }}</a>-->
+                <!--<a ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}"><i class="fa fa-file-text"></i> {{ activity.name }}</a>-->
+                <!--<a ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}"><i class="fa fa-file-movie-o"></i> {{ activity.name }}</a>-->
+                <!--<a ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" href="#inquiry/{{ runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}"><i class="fa fa-folder"></i> {{ activity.name }}</a>-->
+                <!--</div>-->
+                <!--</li>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
+</div>
