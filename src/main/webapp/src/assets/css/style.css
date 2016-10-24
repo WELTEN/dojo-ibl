@@ -9093,3 +9093,27 @@ text-angular > p{
   cursor: pointer;
   color: #ccc;
 }
+
+.list_phase{
+  width: 300px;
+  float: left;
+  border-radius: 3px;
+  margin: 0px 0 0 5px;
+  border: 1px solid transparent;
+}
+
+.list_activities{
+  min-height: 50px;
+  margin: 0 15px;
+  padding: 0;
+  border-radius: 2px;
+  background: rgba(48,59,77,.05);
+}
+
+.new_activity_button{
+  margin: 8px 45%;
+  outline: none;
+}
+.new_activity_button:focus{
+  outline: none;
+}
