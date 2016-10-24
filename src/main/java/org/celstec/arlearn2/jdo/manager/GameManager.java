@@ -84,6 +84,10 @@ public class GameManager {
 			gameJdo.setConfig(game.getConfig().toString());
 		}
 
+		if(game.getPhases() != null){
+			gameJdo.setPhases(game.getPhases().toString());
+		}
+
 		try {
 			GameJDO persistentGame = pm.makePersistent(gameJdo);
 			return persistentGame.getGameId();
