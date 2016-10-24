@@ -65,23 +65,28 @@
                         <p>{{ 'dibl.inquiry.new-edit.p-available-roles' | translate }} <b>{{ game.title }}</b></p>
 
                         <ul class="tag-list" style="padding: 0; display: inline-block;">
-                            <li ng-repeat="role in game.config.roles track by $index"><a href=""  ng-click="selectRole($index)">
+                            <li ng-repeat="role in game.config.roles2 track by $index"><a href=""  ng-click="selectRole($index)">
                                 <i class="fa fa-circle" ng-style="{ 'color': role.color }"></i> {{ role.name }}</a></li>
-                            <li ng-show="game.config.roles == 0"><a href=""><i class="fa fa-tag"></i> {{
+                            <li ng-show="game.config.roles2 == 0"><a href=""><i class="fa fa-tag"></i> {{
                                 'dibl.inquiry.new-edit.no-roles' | translate }}</a></li>
                         </ul>
                         <br/>
 
+                        <div class="btn-group" style="width: 100%">
+                            <input required type="name" class="form-control" id="roleName"
+                                   placeholder="{{ 'dibl.inquiry.new-edit.placeholder-role' | translate }}"
+                                   ng-keyup="$event.keyCode == 13 && addRole()"
+                                   ng-model="role.name">
+                            <span  ng-click="clearRole()" id="roleclear" class="glyphicon glyphicon-remove-circle"></span>
+                        </div>
 
 
-                        <input required type="name" class="form-control" id="roleName"
-                                   placeholder="Enter a role"
-                                   ng-model="roleName">
+                        <br/>
                         <br/>
 
                         <input required type="color" class="form-control" id="roleColor"
-                                   placeholder="Enter a role"
-                                   ng-model="roleColor">
+                                   placeholder="{{ 'dibl.inquiry.new-edit.placeholder-role' | translate }}"
+                                   ng-model="role.color">
 
 
                         <br/>
@@ -90,15 +95,20 @@
                         <div class="user-button">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="button" ng-disabled="!roleName" ng-click="addRole()"
+                                    <button type="button" ng-show="!role.type && role.name" ng-click="addRole()"
                                             class="btn btn-primary btn-sm btn-block"><i
                                             class="fa fa-envelope"></i> {{ 'dibl.inquiry.new-edit.add-role' |
                                         translate }}
                                     </button>
+                                    <button type="button" ng-show="role.type && role.name" style="margin-top: 0px;" ng-click="editRole()"
+                                            class="btn btn-success btn-sm btn-block"><i
+                                            class="fa fa-envelope"></i> {{ 'dibl.inquiry.new-edit.edit-role' |
+                                        translate }}
+                                    </button>
                                 </div>
                                 <div class="col-md-6">
-                                    <button type="button" ng-click="removeRole()"
-                                            class="btn btn-default btn-sm btn-block"><i
+                                    <button type="button" ng-show="role.type && role.name" ng-click="removeRole()"
+                                            class="btn btn-danger btn-sm btn-block"><i
                                             class="fa fa-coffee"></i> {{ 'dibl.inquiry.new-edit.remove-role' |
                                         translate }}
                                     </button>
@@ -123,12 +133,14 @@
                         <h3>{{ 'dibl.inquiry.new-edit.phases' | translate }}</h3>
 
                         <div class="input-group">
-                            <input type="text" class="form-control" ng-model="phaseName">
-                            <span class="input-group-btn">
+                            <input type="text" class="form-control" ng-model="phaseName" placeholder="{{
+                                    'dibl.inquiry.new-edit.add-phase-placeholder' | translate }}"
+                                   ng-keyup="$event.keyCode == 13 && addPhase()">
+                            <span class="input-group-btn" ng-show="phaseName">
                                 <button
                                         type="button" ng-disabled="phaseName.length < 4 || !phaseName"
                                         ng-click="addPhase()" class="btn btn-success"><i class="fa fa-plus"></i> {{
-                                    'dibl.inquiry.new-edit.add-phase' | translate }}
+                                    'dibl.inquiry.new-edit.add-phase-button' | translate }}
                                 </button>
                             </span>
                         </div>
@@ -285,7 +297,7 @@
                                                                     <!--<input type="checkbox" ng-change="sync(bool, role)" ng-model="bool" ng-checked="isChecked(role.name)">{{role.name}}-->
                                                                 <!--</label>-->
                                                                 <select name="repeatSelect" id="repeatSelect" class="form-control" ng-model="data.model">
-                                                                    <option ng-repeat="option in game.config.roles track by $index" value="{{option}}">{{option.name}}</option>
+                                                                    <option ng-repeat="option in game.config.roles2 track by $index" value="{{option}}">{{option.name}}</option>
                                                                 </select>
 
                                                             </div>
@@ -404,15 +416,14 @@
                             <h3>{{'dibl.inquiry.new-edit.run-inquiries-subtitle' | translate}}</h3>
 
                             <div class="input-group">
-
-                                <input type="text" class="form-control" ng-model="run.title">
-                            <span class="input-group-btn">
-                                <button
-                                        type="button" ng-disabled="run.title.length < 4 || !run.title"
-                                        ng-click="createInquiryRun()" class="btn btn-success"><i class="fa fa-plus"></i>
-                                    Add new inquiry run
-                                </button>
-                            </span>
+                                <input type="text" class="form-control" ng-keyup="$event.keyCode == 13 && createInquiryRun()" ng-model="run.title" placeholder="{{'dibl.inquiry.new-edit.add-run-placeholder' | translate}}">
+                                <span class="input-group-btn" >
+                                    <button
+                                            type="button"  ng-disabled="run.title.length < 4 || !run.title"
+                                            ng-click="createInquiryRun()" class="btn btn-success"><i class="fa fa-plus"></i>
+                                        {{'dibl.inquiry.new-edit.add-run-button' | translate}}
+                                    </button>
+                                </span>
                             </div>
                         </div>
 
@@ -515,7 +526,7 @@
 
 
 
-        <div class="col-md-5 wrapper wrapper-content animated fadeInpanel-body" ng-show="myAccount.accountLevel == 1">
+        <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
             <div class="ibox-content">
                 <div class="heading ng-binding">
                     {{'dibl.inquiry.new-edit.export-import' | translate}}
@@ -523,9 +534,11 @@
                 <div class="padding">
                     <div class="ibox-content profile-content">
 
-                        <textarea ui-codemirror ui-codemirror-opts="editorOptions2" ng-model="gameModel.value">
+                        <!--<textarea ui-codemirror ui-codemirror-opts="editorOptions2" ng-model="gameModel">-->
 
-                        </textarea>
+                        <!--</textarea>-->
+
+                        {{ game }}
                     </div>
                 </div>
             </div>

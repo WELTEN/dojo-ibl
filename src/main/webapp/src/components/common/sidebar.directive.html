@@ -55,7 +55,7 @@
                         <ul class="nav nav-third-level">
                             <li ng-repeat="phase in run.game.phases" ng-class="{ 'active':phaseNumber == $index  }">
                                 <a href="#inquiry/{{ run.runId }}/phase/{{ $index }}">
-                                    <i class="fa fa-circle"></i> {{ phase.title }}
+                                    <i class="fa fa-circle"></i> {{ phase.title | limitTo: 15 }}
                                 </a>
                             </li>
                         </ul>

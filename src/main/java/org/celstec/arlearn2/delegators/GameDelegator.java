@@ -366,6 +366,20 @@ public class GameDelegator extends GoogleDelegator {
 
     }
 
+    public Game createRole(Long gameIdentifier, Role role) {
+        Game g = getGame(gameIdentifier);
+        if (g.getError() != null)
+            return g;
+        if (g.getConfig() == null)
+            g.setConfig(new Config());
+        Config c = g.getConfig();
+        if (c.getRoles2() == null)
+            c.setRoles2(new ArrayList<Role>());
+        c.getRoles2().add(role);
+        createGame(g, GameModification.ALTERED);
+        return g;
+    }
+
     public Game removeRole(Long gameIdentifier, String roleString) {
         Game g = getGame(gameIdentifier);
         if (g.getError() != null)
@@ -380,8 +394,59 @@ public class GameDelegator extends GoogleDelegator {
 
         createGame(g, GameModification.ALTERED);
         return g;
+    }
+
+    public Game removeRole(Long gameIdentifier, Role role) {
+        Game g = getGame(gameIdentifier);
+        if (g.getError() != null)
+            return g;
+        if (g.getConfig() == null)
+            g.setConfig(new Config());
+        Config c = g.getConfig();
+        if (c.getRoles2() == null)
+            c.setRoles2(new ArrayList<Role>());
+
+
+        Iterator<Role> it =  c.getRoles2().iterator();
+        while (it.hasNext()) {
+            Role itRole = it.next();
+            if (itRole.equals(role)) {
+                it.remove();
+            }
+        }
+
+        createGame(g, GameModification.ALTERED);
+        return g;
+    }
+
+    public Game editRole(Long gameIdentifier, Role role, Integer index) {
+        Game g = getGame(gameIdentifier);
+        if (g.getError() != null)
+            return g;
+        if (g.getConfig() == null)
+            g.setConfig(new Config());
+        Config c = g.getConfig();
+        if (c.getRoles2() == null)
+            c.setRoles2(new ArrayList<Role>());
+
+        Iterator<Role> it =  c.getRoles2().iterator();
+
+        int a = 0;
+
+        while (it.hasNext()) {
+            Role itRole = it.next();
+            if(a == index){
+                itRole.setName(role.getName());
+                itRole.setColor(role.getColor());
+            }
+            a++;
+        }
+
+        createGame(g, GameModification.ALTERED);
+        return g;
 
     }
+
 
     public Game setWithMap(Long gameIdentifier, boolean value) {
         Game g = getGame(gameIdentifier);

@@ -25,6 +25,7 @@ import org.celstec.arlearn2.beans.Bean;
 import org.celstec.arlearn2.beans.deserializer.json.ListDeserializer;
 import org.celstec.arlearn2.beans.game.Game;
 import org.celstec.arlearn2.beans.game.MapRegion;
+import org.celstec.arlearn2.beans.game.Role;
 import org.celstec.arlearn2.beans.notification.GameModification;
 import org.celstec.arlearn2.delegators.GameAccessDelegator;
 import org.celstec.arlearn2.delegators.GameDelegator;
@@ -338,18 +339,50 @@ public class MyGames extends Service {
 
 	}
 	
+//	@POST
+//	@Consumes({ MediaType.APPLICATION_JSON })
+//	@Path("/config/gameId/{gameIdentifier}/role")
+//	public String createRole(@HeaderParam("Authorization") String token, String roleString,
+//			@PathParam("gameIdentifier") Long gameIdentifier,
+//			@DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+//			@DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+//		if (!validCredentials(token))
+//			return serialise(getInvalidCredentialsBean(), accept);
+//		GameDelegator qg = new GameDelegator(token);
+//		return serialise(qg.createRole(gameIdentifier, roleString), accept);
+//	}
+
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Path("/config/gameId/{gameIdentifier}/role")
-	public String createRole(@HeaderParam("Authorization") String token, String roleString, 
-			@PathParam("gameIdentifier") Long gameIdentifier,
-			@DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
-			@DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+	public String createRole(@HeaderParam("Authorization") String token, String roleString,
+							 @PathParam("gameIdentifier") Long gameIdentifier,
+							 @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+							 @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
 		if (!validCredentials(token))
 			return serialise(getInvalidCredentialsBean(), accept);
+
+		Object inRole = deserialise(roleString, Role.class, contentType);
+		if (inRole instanceof java.lang.String)
+			return serialise(getBeanDoesNotParseException((String) inRole), accept);
+
+		Role role = (Role) inRole;
+
 		GameDelegator qg = new GameDelegator(token);
-		return serialise(qg.createRole(gameIdentifier, roleString), accept);
+		return serialise(qg.createRole(gameIdentifier, role), accept);
 	}
+
+//	@POST
+//	@Path("/config/gameId/{gameIdentifier}/role/remove")
+//	public String removeRole(@HeaderParam("Authorization") String token, String roleString,
+//							 @PathParam("gameIdentifier") Long gameIdentifier,
+//							 @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+//							 @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+//		if (!validCredentials(token))
+//			return serialise(getInvalidCredentialsBean(), accept);
+//		GameDelegator qg = new GameDelegator(token);
+//		return serialise(qg.removeRole(gameIdentifier, roleString), accept);
+//	}
 
 	@POST
 	@Path("/config/gameId/{gameIdentifier}/role/remove")
@@ -359,8 +392,38 @@ public class MyGames extends Service {
 							 @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
 		if (!validCredentials(token))
 			return serialise(getInvalidCredentialsBean(), accept);
+
+		Object inRole = deserialise(roleString, Role.class, contentType);
+		if (inRole instanceof java.lang.String)
+			return serialise(getBeanDoesNotParseException((String) inRole), accept);
+
+		Role role = (Role) inRole;
+
 		GameDelegator qg = new GameDelegator(token);
-		return serialise(qg.removeRole(gameIdentifier, roleString), accept);
+		return serialise(qg.removeRole(gameIdentifier, role), accept);
+	}
+
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Path("/config/gameId/{gameIdentifier}/role/{index}/edit")
+	public String editRole(@HeaderParam("Authorization") String token, String roleAsString,
+						   @PathParam("gameIdentifier") Long gameIdentifier,
+						   @PathParam("index") Integer index,
+						   @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+						   @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+		if (!validCredentials(token))
+			return serialise(getInvalidCredentialsBean(), accept);
+
+
+
+		Object inRole = deserialise(roleAsString, Role.class, contentType);
+		if (inRole instanceof java.lang.String)
+			return serialise(getBeanDoesNotParseException((String) inRole), accept);
+
+		Role role = (Role) inRole;
+
+		GameDelegator qg = new GameDelegator(token);
+		return serialise(qg.editRole(gameIdentifier, role, index), accept);
 	}
 	
 	@POST

@@ -87,4 +87,24 @@ public class Role extends Bean{
         }
     };
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Role role = (Role) o;
+
+        if (color != null ? !color.equals(role.color) : role.color != null) return false;
+        if (name != null ? !name.equals(role.name) : role.name != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (color != null ? color.hashCode() : 0);
+        return result;
+    }
 }

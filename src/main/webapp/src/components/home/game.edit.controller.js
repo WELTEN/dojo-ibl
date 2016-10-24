@@ -14,9 +14,16 @@ angular.module('DojoIBL')
             }
 
             $scope.game = data;
+            console.log(data);
 
             if(!$scope.game.config.roles)
                 $scope.game.config.roles = [];
+            else{
+                //$scope.game.config.roles = new JSONObject(data.config.roles);
+            }
+
+            if(!$scope.game.config.roles2)
+                $scope.game.config.roles2 = [];
             else{
                 //$scope.game.config.roles = new JSONObject(data.config.roles);
             }
@@ -62,8 +69,6 @@ angular.module('DojoIBL')
             });
         };
 
-
-
         ////////////////////
         // Manage activities
         ////////////////////
@@ -98,7 +103,7 @@ angular.module('DojoIBL')
 
         $scope.selectActivity = function(activity, combinationId){
             if(!angular.isUndefined($scope.activity_old)){
-                if(!angular.equals($scope.activity_old, $scope.activity)){
+                if(!angular.equals($scope.activity_old, $scope.activity) || !angular.equals($scope.data_old.model, $scope.data.model)){
                     swal({
                         title: "Save you changes",
                         text: "Do you want to save before going on?",
@@ -173,7 +178,8 @@ angular.module('DojoIBL')
             $scope.selected = false;
 
             if(!angular.isUndefined($scope.activity_old)){
-                if(!angular.equals($scope.activity_old, $scope.activity)){
+                //if(!angular.equals($scope.activity_old, $scope.activity)){
+                if(!angular.equals($scope.activity_old, $scope.activity) || !angular.equals($scope.data_old.model, $scope.data.model)){
                     swal({
                         title: "Save you changes",
                         text: "Make sure you save your changes before going on",
@@ -186,16 +192,16 @@ angular.module('DojoIBL')
                         $scope.saveActivity();
                         swal("Saved!", "The activity has been saved successfully", "success");
 
-                        $scope.activity = activity;
-
-                        $scope.activity_old = angular.copy(activity);
-
-                        // Save roles into an array
-                        $scope.selection = $scope.activity.roles || [];
-
-                        $scope.selected = true;
-
-                        $scope.selectedCombination = combinationId;
+                        //$scope.activity = activity;
+                        //
+                        //$scope.activity_old = angular.copy(activity);
+                        //
+                        //// Save roles into an array
+                        //$scope.selection = $scope.activity.roles || [];
+                        //
+                        //$scope.selected = true;
+                        //
+                        //$scope.selectedCombination = combinationId;
 
                     });
                     return;
@@ -283,32 +289,53 @@ angular.module('DojoIBL')
         // Manage roles
         ///////////////
         $scope.addRole = function () {
-            $scope.game.config.roles.push({
-                name: $scope.roleName,
-                color: $scope.roleColor
-
+            $scope.game.config.roles.push($scope.role);
+            GameService.addRole($scope.game.gameId, $scope.role).then(function(data){
+                console.log(data);
+                $scope.game = data;
             });
-            GameService.newGame($scope.game);
 
             toaster.success({
-                title: 'Role added',
-                body: 'The role "'+$scope.roleName+'" has been added to the inquiry template.'
+                title: 'Role added to inquiry',
+                body: 'The role "'+$scope.role.name+'" has been added.'
             });
 
-            $scope.roleName = "";
-            $scope.roleColor = "";
+            $scope.role = null;
+        };
 
+        $scope.editRole = function (index) {
+
+            GameService.editRole($scope.game.gameId, $scope.role, $scope.index).then(function(data){
+                $scope.game = data;
+            });
+
+            toaster.success({
+                title: 'Role modified',
+                body: 'The role "'+$scope.role.name+'" has been edited.'
+            });
+
+            $scope.role = null;
+        };
+
+        $scope.clearRole = function (index) {
+            $scope.role = null;
         };
 
         $scope.selectRole = function(index){
-            $scope.roleName = $scope.game.config.roles[index].name;
-            $scope.roleColor = $scope.game.config.roles[index].color;
+            $scope.index = index;
+            $scope.role = $scope.game.config.roles2[index];
 
             $scope.removeRole = function(){
-                $scope.game.config.roles.splice(index, 1);
-                GameService.newGame($scope.game);
-                $scope.roleName = "";
-                $scope.roleColor = "";
+                GameService.removeRole($scope.game.gameId, $scope.role).then(function(data){
+                    $scope.game = data;
+                });
+
+                toaster.warning({
+                    title: 'Role deleted',
+                    body: 'The role "'+$scope.role.name+'" has been removed.'
+                });
+
+                $scope.role = null;
             };
         };
 
@@ -427,7 +454,7 @@ angular.module('DojoIBL')
                 $scope.phases[x] = b;
                 $scope.lists[x] = acts;
 
-                angular.forEach($scope.lists[x], function(i,a){
+                angular.forEach($scope.lists[x], function(i, a){
                     i.section = x;
                     ActivityService.newActivity(i).then(function(data){
                         console.log(data);
@@ -452,10 +479,13 @@ angular.module('DojoIBL')
 
                         RunService.storeInCache(value);
                     });
+                });
 
+                toaster.success({
+                    title: 'Phase moved',
+                    body: 'The phase has been moved successfully.'
                 });
             });
-
         };
 
         $scope.renamePhase = function(tab, index){
@@ -490,7 +520,11 @@ angular.module('DojoIBL')
 
                         RunService.storeInCache(value);
                     });
+                });
 
+                toaster.success({
+                    title: 'Phase renamed',
+                    body: 'The phase has been renamed successfully.'
                 });
 
             });
@@ -641,7 +675,6 @@ angular.module('DojoIBL')
         AccountService.myDetails().then(function(data){
            $scope.me = data;
         });
-
 
         GameService.getGameAccesses($stateParams.gameId).then(function(data){
             $scope.accountsAccesGame = {};

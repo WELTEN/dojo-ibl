@@ -69,9 +69,9 @@ angular.module('DojoIBL')
                 if (dataCache.get(id)) {
                     deferred.resolve(dataCache.get(id));
                 } else {
-
                     Game.getGameById({id: id}).$promise.then(
                         function (data) {
+                            console.log(data)
                             if (!data.error){
                                 if (data.deleted) {
                                     delete games[id];
@@ -169,6 +169,39 @@ angular.module('DojoIBL')
                         ActivityService.deleteActivity(i.gameId, i.id);
                     });
                 });
+            },
+            addRole: function(gameId, roleAsJson, roleAsJsonOld){
+                var deferred = $q.defer();
+                var dataCache = CacheFactory.get('gamesCache');
+
+                Game.addRole({ gameId: gameId }, roleAsJson, roleAsJsonOld).$promise.then(function(data){
+                        dataCache.put(gameId, data);
+                        deferred.resolve(data);
+                    }
+                );
+                return deferred.promise;
+            },
+            removeRole: function(gameId, roleAsJson){
+                var deferred = $q.defer();
+                var dataCache = CacheFactory.get('gamesCache');
+
+                Game.removeRole({ gameId: gameId }, roleAsJson).$promise.then(function(data){
+                        dataCache.put(gameId, data);
+                        deferred.resolve(data);
+                    }
+                );
+                return deferred.promise;
+            },
+            editRole: function(gameId, roleAsJson, index){
+                var deferred = $q.defer();
+                var dataCache = CacheFactory.get('gamesCache');
+
+                Game.editRole({ gameId: gameId, index: index }, roleAsJson).$promise.then(function(data){
+                        dataCache.put(gameId, data);
+                        deferred.resolve(data);
+                    }
+                );
+                return deferred.promise;
             }
         }
     }

@@ -33,6 +33,18 @@ angular.module('DojoIBL')
                 isArray: false,
                 url: config.server + '/rest/myGames/config/gameId/:gameId/role'
             },
+            'removeRole': {
+                params: { gameId: '@gameId' },
+                method: 'POST',
+                isArray: false,
+                url: config.server + '/rest/myGames/config/gameId/:gameId/role/remove'
+            },
+            'editRole': {
+                params: { gameId: '@gameId', index: '@index' },
+                method: 'POST',
+                isArray: false,
+                url: config.server + '/rest/myGames/config/gameId/:gameId/role/:index/edit'
+            },
             giveAccess: {
                 params: { gameId: '@gameId', accountId: '@accountId', accessRight: '@accessRight' },
                 method: 'GET',
