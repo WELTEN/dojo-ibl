@@ -49,10 +49,8 @@ angular.module('DojoIBL')
                 } else {
                     User.getUserByAccount({ runId: runId, accountId:accountId }).$promise.then(
                         function(data){
-
                             dataCache.put(accountId, data);
                             users[data.accountType+":"+data.localId] = data;
-                            console.log(users);
                             deferred.resolve(data);
                         }
                     );
