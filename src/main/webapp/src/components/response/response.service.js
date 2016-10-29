@@ -7,7 +7,6 @@ angular.module('DojoIBL')
             cacheFlushInterval: 60 * 60 * 1000, // This cache will clear itself every hour
             deleteOnExpire: 'aggressive', // Items will be deleted from this cache when they expire
             storageMode: 'localStorage' // This cache will use `localStorage`.
-
         });
 
         var responses = {};
@@ -18,8 +17,6 @@ angular.module('DojoIBL')
             responses[response.runId+"_"+response.generalItemId] = responses[response.runId] || {};
             responses[response.runId+"_"+response.generalItemId][response.responseId] = response;
         }
-
-        //console.log(responses);
 
         var resumptionToken;
         var serverTime= 0;
@@ -38,6 +35,9 @@ angular.module('DojoIBL')
                 var newResponse = new Response(responseAsJson);
 
                 return newResponse.$save(function(data){
+                    if(angular.isUndefined(responses[data.runId+"_"+data.generalItemId])){
+                        responses[data.runId+"_"+data.generalItemId] = {};
+                    }
                     responses[data.runId+"_"+data.generalItemId][data.responseId] = data;
                     responses[data.runId+"_"+data.generalItemId][data.responseId].user = UserService.getUser(data.userEmail);
                 });
@@ -125,6 +125,38 @@ angular.module('DojoIBL')
             },
             uploadUrl: function(runId, account, key) {
                 return Response.uploadUrl({ runId:runId, account:account, key:key });
+            },
+            resumeLoadingResponses: function(runId, itemId){
+                var deferred = $q.defer();
+                var dataCache = CacheFactory.get('responsesCache');
+
+                Response.getResponsesInquiryActivity({runId:runId, itemId:itemId, resumptionToken: resumptionToken, from:serverTime})
+                    .$promise.then(function (data) {
+                        if (data.error) {
+                            deferred.resolve(data);
+
+                        } else {
+                            for (i = 0; i < data.responses.length; i++) {
+                                if (!data.responses[i].deleted) {
+                                    dataCache.put(data.responses[i].responseId, data.responses[i]);
+                                    responses[runId+"_"+itemId][data.responses[i].responseId] = data.responses[i];
+                                    responses[runId+"_"+itemId][data.responses[i].responseId].user = UserService.getUser(data.responses[i].userEmail);
+                                }else{
+                                    delete [runId+"_"+itemId][data.responses[i].responseId];
+                                }
+                            }
+
+                            resumptionToken = data.resumptionToken;
+                            serverTimeFirstInvocation = serverTimeFirstInvocation || data.serverTime;
+                            if (!data.resumptionToken){
+                                serverTime = serverTimeFirstInvocation;
+                                serverTimeFirstInvocation = undefined;
+                            }
+
+                            deferred.resolve(data);
+                        }
+                    });
+                return deferred.promise;
             }
         }
     }

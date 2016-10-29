@@ -74,27 +74,37 @@
 
             <div class="col-lg-9 animated fadeInRight m-t-sm" ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
                 <div class="lightBoxGallery">
-                    <div class="file-box" ng-repeat="response in responses.responses | orderByDayNumber:'lastModificationDate':true">
+                    <div class="file-box" ng-repeat="response in responses | orderByDayNumber:'lastModificationDate':true">
                         <data response="response"></data>
                     </div>
                 </div>
             </div>
 
+            <div class="social-avatar">
+
+                <div class="media-body">
+                    <p class="small font-bold">
+                        <span><i class="fa fa-circle text-warning"></i>
+                            Creation date: <b>{{ activity.lastModificationDate | date:'fullDate' }}</b></span>
+                            <br/>
+                        <span ng-repeat="role in roles track by $index">
+                            <i class="fa fa-circle text-navy" ng-style="getRoleColor(activity.roles)"></i>
+                            Role: <b>{{ role.name }}</b>
+                        <br/>
+                        </span>
+                    </p>
+                    <!--<a href="#">-->
+                        <!--Andrew Williams-->
+                    <!--</a>-->
+                    <!--<small class="text-muted">Today 4:21 pm - 12.06.2014</small>-->
+                </div>
+            </div>
+
             <div class="mail-body">
                 <div class="text-center">
-
-                    <span ng-repeat="role in roles track by $index">
-                        <i class="fa fa-circle text-navy" ng-style="getRoleColor(activity.roles)"></i>
-                        <small class="text-muted"> {{ role.name }} </small>
-                    <br/>
-                    </span>
-                    <!--<span class="text-muted"><i class="fa fa-clock-o"></i> 28th Oct 2015</span>-->
                 </div>
                 <div class="" ng-bind-html="activity.richText || activity.description"></div>
                 <iframe ng-show="activity.videoFeed" style="width: 100%; height: 600px;"  ng-src="{{trustSrc(activity.videoFeed)}}" frameborder="0"></iframe>
-                <p class="small font-bold">
-                    <span><i class="fa fa-circle text-warning"></i> Creation date: <b>{{ activity.lastModificationDate | date:'fullDate' }}</b></span>
-                </p>
             </div>
 
             <div ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="input-group create-question">
@@ -106,11 +116,11 @@
 
             <div id="list_answers" class="row m-t-sm social-footer" ng-hide="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
 
-                <div class="alert alert-warning" ng-show="responses.responses.length == 0">
+                <div class="alert alert-warning" ng-show="responses.length == 0">
                     No comments so far. <a class="alert-link"> Be the first one {{ myAccount.givenName }}</a>.
                 </div>
 
-                <responses responses="responses.responses" ng-if="activity.type != 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></responses>
+                <responses responses="responses" ng-if="activity.type != 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></responses>
 
                 <!--<div class="m-b-lg" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'">-->
 
@@ -123,7 +133,7 @@
                     <!--</div>-->
                 <!--</div>-->
 
-                <response-question ng-repeat="(key, response) in responses.responses | orderByDayNumber:'lastModificationDate':true | filter:searchText" response='response' ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></response-question>
+                <response-question ng-repeat="(key, response) in responses | orderByDayNumber:'lastModificationDate':true | filter:searchText" response='response' ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></response-question>
 
                 <div class="social-comment" >
                     <a class="btn btn-primary btn-rounded btn-block" ng-show="resum"  ng-click="loadResponses()"><i class="fa fa-info-circle"></i> Click to load more</a>

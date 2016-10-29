@@ -34,11 +34,27 @@ angular.module('DojoIBL')
         );
 
         $scope.responses = {};
-        $scope.responses.responses = [];
 
         $scope.loadMoreButton = false;
 
-        $scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
+        function loadResponses() {
+            ResponseService.resumeLoadingResponses($stateParams.runId, $stateParams.activityId).then(function (data) {
+                if (data.error) {
+                    $scope.showNoAccess = true;
+                } else {
+                    $scope.show = true;
+                    if (data.resumptionToken) {
+                        loadResponses();
+                    }
+                }
+            });
+        }
+
+        loadResponses();
+
+        $scope.responses = ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId);
+
+        //$scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
 
         $scope.getUser = function (response){
             return UserService.getUserFromCache(response.userEmail.split(':')[1]).name;
