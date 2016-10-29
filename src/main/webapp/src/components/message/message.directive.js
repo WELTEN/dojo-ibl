@@ -39,7 +39,6 @@ angular.module('DojoIBL')
             restrict: 'A',
             link: function(scope, element, attrs) {
                 element.bind("keydown keypress", function(event) {
-                    console.log("key")
                     if(event.which === 13) {
                         scope.$apply(function(){
                             scope.$eval(attrs.ngEnter);
@@ -52,19 +51,27 @@ angular.module('DojoIBL')
         };
     })
 
-    .directive('message', function(UserService) {
+    .directive('messageL', function() {
         return {
             restrict: "E",
             replace: true,
             scope: {
                 message: '='
             },
-            templateUrl: '/src/components/message/message.directive.template.html',
+            templateUrl: '/src/components/message/messagel.directive.template.html',
             link: function (scope, elem, attr) {
-
-                //UserService.getUserByAccount(scope.message.runId, scope.message.senderId).then(function(data){
-                //    scope.user = data;
-                //});
+            }
+        };
+    })
+    .directive('messageR', function() {
+        return {
+            restrict: "E",
+            replace: true,
+            scope: {
+                message: '='
+            },
+            templateUrl: '/src/components/message/messager.directive.template.html',
+            link: function (scope, elem, attr) {
             }
         };
     })

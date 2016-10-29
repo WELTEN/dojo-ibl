@@ -9,6 +9,8 @@ angular.module('DojoIBL')
             }
         );
 
+        $scope.account = AccountService.myDetailsCache();
+
         UserService.getUsersForRun($stateParams.runId).then(function(data){
             $scope.usersRun = data;
         }).then(function(){
@@ -54,14 +56,17 @@ angular.module('DojoIBL')
 
         $scope.sendMessage = function() {
             AccountService.myDetails().then(function(data){
-                MessageService.newMessage({
-                    runId: $stateParams.runId,
-                    threadId: data.accountType + ":" + data.localId,
-                    subject: "empty",
-                    body: $scope.bodyMessage
-                }).then(function(data){
-                    $scope.bodyMessage = null;
-                });
+                if($scope.bodyMessage){
+                    MessageService.newMessage({
+                        runId: $stateParams.runId,
+                        threadId: data.accountType + ":" + data.localId,
+                        subject: "empty",
+                        body: $scope.bodyMessage
+                    }).then(function(data){
+                        $scope.bodyMessage = null;
+                    });
+                }
+
             });
         };
 
@@ -72,7 +77,6 @@ angular.module('DojoIBL')
             if (notification.runId == $stateParams.runId) {
                 $scope.numberMessages += 1;
 
-                console.log(notification);
                 MessageService.getMessageById(notification.messageId).then(function (data) {
                     //if(me.localId != data.senderId){
                     //    $scope.sound = ngAudio.load("/src/assets/beep.m4a");

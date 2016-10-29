@@ -21,26 +21,28 @@
                     <div class="chat-discussion" scroll-glue="glued" style="height: 400px;">
                         <!--<a class="btn btn-primary btn-rounded btn-block load-more-messages" ng-show="loadMoreButton" ng-click="loadMessages()"><i class="fa fa-info-circle"></i> Click to load more</a>-->
 
-                        <div class="chat-message"
-                             ng-class="{'left': message.senderId != myAccount.localId,'right': message.senderId == myAccount.localId }"
-                             ng-repeat="message in messages.messages"
-                             >
+                        <!--<div class="chat-message"-->
+                             <!--ng-class="{'left': message.senderId != myAccount.localId,'right': message.senderId == myAccount.localId }"-->
+                             <!---->
+                             <!-->
 
-                            <message message="message"></message>
-
+                        <div ng-repeat="message in messages.messages">
+                            <message-l  message="message" ng-if="message.senderId != account.localId"></message-l>
+                            <message-r  message="message" ng-if="message.senderId == account.localId"></message-r>
                         </div>
-                        <div class="spiner-example" ng-show="!messages.messages">
-                            <div class="sk-spinner sk-spinner-three-bounce" ng-show="disableGameLoading">
-                                <div class="sk-bounce1"></div>
-                                <div class="sk-bounce2"></div>
-                                <div class="sk-bounce3"></div>
-                            </div>
-                        </div>
+                        <!--</div>-->
+                        <!--<div class="spiner-example" ng-show="!messages.messages">-->
+                            <!--<div class="sk-spinner sk-spinner-three-bounce" ng-show="disableGameLoading">-->
+                                <!--<div class="sk-bounce1"></div>-->
+                                <!--<div class="sk-bounce2"></div>-->
+                                <!--<div class="sk-bounce3"></div>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </div>
                 <div class="form-chat">
                     <div class="input-group input-group-sm">
-                        <input id="add-new-message" ng-enter="sendMessage()" type="text" class="form-control" ng-model="bodyMessage">
+                        <input id="add-new-message" ng-keyup="$event.keyCode == 13 && sendMessage()" type="text" class="form-control" ng-model="bodyMessage">
                         <!--<text-angular ta-toolbar="[]" ng-enter="sendMessage()" ng-model="bodyMessage"></text-angular>-->
                         <span class="input-group-btn">
                             <button ng-click="sendMessage()" ng-disabled="!bodyMessage" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>

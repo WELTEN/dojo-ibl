@@ -1,0 +1,14 @@
+<div class="chat-message left">
+    <div class="message-avatar">
+        <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="message.user.picture == ''" data="{{ message.user.name }}"></ng-letter-avatar>
+        <img class="message-avatar" ng-if="message.user.picture != ''" ng-src="{{ message.user.picture }}" alt="">
+
+    </div>
+    <div class="message">
+        <a class="message-author" href="#/profile/{{ message.user.accountType }}:{{ message.user.localId}}"> {{ message.user.name }} </a>
+        <span class="message-date"> {{ message.date | date:'short' }}</span>
+        <span class="message-content" ng-bind-html="message.body | emoticons:{linkTarget:'_blank'}">
+        {{ message.body }}
+        </span>
+    </div>
+</div>

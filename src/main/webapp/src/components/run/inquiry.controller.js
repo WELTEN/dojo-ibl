@@ -1,12 +1,14 @@
 angular.module('DojoIBL')
 
-    .controller('InquiryController', function ($scope, $sce, $stateParams, $state, Session, MessageService, ChannelService, RunService) {
+    .controller('InquiryController', function ($scope, $sce, $stateParams, $state, Session, MessageService, AccountService, ChannelService, RunService) {
 
         $scope.chat = true;
         $scope.visualization = true;
         $scope.state = $state.current.name;
 
         $scope.disableInquiryLoading = false;
+
+
 
         RunService.getRunById($stateParams.runId).then(function (data) {
             $scope.inqTitle = data.title;

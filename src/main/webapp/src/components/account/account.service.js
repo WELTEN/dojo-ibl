@@ -10,6 +10,10 @@ angular.module('DojoIBL')
 
         });
 
+        var dataCache = CacheFactory.get('accountCache');
+        var usersId = dataCache.keys();
+        var me = dataCache.get("me");
+
         return {
             myDetails: function () {
                 var deferred = $q.defer();
@@ -20,11 +24,15 @@ angular.module('DojoIBL')
                     Account.accountDetails().$promise.then(
                         function (accountData) {
                             dataCache.put('me', accountData);
+                            me = accountData;
                             deferred.resolve(accountData);
                         }
                     );
                 }
                 return deferred.promise;
+            },
+            myDetailsCache: function(){
+                return me;
             },
             accountDetailsById: function(fullId) {
                 var deferred = $q.defer();
