@@ -3397,6 +3397,10 @@ video {
 }
 .inmodal .modal-body {
   background: #f8fafb;
+  overflow: hidden;
+}
+.modal-dialog {
+  width: 900px !important;
 }
 .inmodal .modal-header {
   padding: 30px 15px;
@@ -9095,7 +9099,7 @@ text-angular > p{
 }
 
 .list_phase{
-  width: 300px;
+  width: 200px;
   float: left;
   border-radius: 3px;
   margin: 0px 0 0 5px;
@@ -9116,4 +9120,13 @@ text-angular > p{
 }
 .new_activity_button:focus{
   outline: none;
+}
+
+.title-phase{
+  text-decoration: underline;
+}
+
+.title-phase:hover{
+  color: #0000cc;
+  cursor: hand;
 }
