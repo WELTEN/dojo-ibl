@@ -128,39 +128,53 @@
                 <div class="padding">
                     <p>{{ 'dibl.inquiry.new-edit.configuration-dashboard' | translate }}</p>
                 </div>
-                <div class="padding">
+                <div class="padding row show-grid">
 
-                    <section class="list_phase" ng-repeat="phase in phases track by $index">
-                        <h3 style="margin-top: 0px;"><span class="title-phase" ng-click="renamePhase($index)">{{ $index }}. {{ phase.title }}</span>
-                            <button class="btn btn-danger dim" ng-click="removePhase($index)" type="button">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                        </h3>
-                        <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable">
-                            <li ng-style="getRoleColor(activity.roles)" data="{{ activity.id }}" ng-repeat="(key, activity) in lists[$index] | orderByDayNumber:'sortKey'">
-                                <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
-                                <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
-                                <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
-                                <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+                    <!--<div class="row show-grid">-->
+                        <!--<div class="col-xs-6 col-sm-3">-->
+                            <!--.col-xs-6 .col-sm-3-->
+                            <!--<br>Resize your viewport or check it out on your phone for an example.-->
+                        <!--</div>-->
+                        <!--<div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>-->
 
-                                <a ng-click="editActivity(activity, game)">{{ activity.name }}</a>
-                                <br/>
-                                <p class="small">{{ activity.description | limitTo: 20 }}</p>
-                                <div class="agile-detail">
-                                    <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles) }}</a>
-                                    <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'medium' }}
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="new_activity">
-                            <button class="btn btn-warning btn-circle new_activity_button"  ng-click="addNewActivity($index, game)" type="button">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                            <!--<input class="new_activity_body" type="text" placeholder="Type then hit to enter an activity"/>-->
-                        </div>
+                        <!--&lt;!&ndash; Add the extra clearfix for only the required viewport &ndash;&gt;-->
+                        <!--<div class="clearfix visible-xs"></div>-->
 
-                    </section>
+                        <!--<div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>-->
+                        <!--<div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>-->
+                    <!--</div>-->
 
+                    <div ng-repeat="phase in phases track by $index ">
+                        <section class="col-xs-3" >
+                            <h3 style="margin-top: 0px;"><span class="title-phase" ng-click="renamePhase($index)">{{ $index }}. {{ phase.title }}</span>
+                                <button class="btn btn-danger dim" ng-click="removePhase($index)" type="button">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </h3>
+                            <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable">
+                                <li ng-style="getRoleColor(activity.roles)" data="{{ activity.id }}" ng-repeat="(key, activity) in lists[$index] | orderByDayNumber:'sortKey'">
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+
+                                    <a ng-click="editActivity(activity, game)">{{ activity.name }}</a>
+                                    <br/>
+                                    <p class="small">{{ activity.description | limitTo: 20 }}</p>
+                                    <div class="agile-detail">
+                                        <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles) }}</a>
+                                        <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'medium' }}
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="new_activity">
+                                <button class="btn btn-warning btn-circle new_activity_button"  ng-click="addNewActivity($index, game)" type="button">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                                <!--<input class="new_activity_body" type="text" placeholder="Type then hit to enter an activity"/>-->
+                            </div>
+                        </section>
+                    </div>
                     <button class="btn btn-primary dim" ng-click="addPhase()" type="button">
                         <i class="fa fa-plus"></i>
                     </button>
