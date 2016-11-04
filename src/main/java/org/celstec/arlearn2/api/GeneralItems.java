@@ -21,6 +21,7 @@ package org.celstec.arlearn2.api;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import org.celstec.arlearn2.beans.game.Game;
+import org.celstec.arlearn2.beans.game.Role;
 import org.celstec.arlearn2.beans.generalItem.GeneralItem;
 import org.celstec.arlearn2.beans.generalItem.GeneralItemList;
 import org.celstec.arlearn2.beans.generalItem.OpenBadge;
@@ -370,5 +371,25 @@ public class GeneralItems extends Service {
         String url = blobstoreService.createUploadUrl("/uploadGameContent/generalItems/"+itemId+"/"+key + "?gameId=" + gameId);
         return "{ 'uploadUrl': '"+url+"'}";
     }
+
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Path("/generalItem/{generalItemId}/role")
+	public String createRole(@HeaderParam("Authorization") String token, String roleString,
+							 @PathParam("generalItemId") Long generalItemId,
+							 @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+							 @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
+		if (!validCredentials(token))
+			return serialise(getInvalidCredentialsBean(), accept);
+
+		Object inRole = deserialise(roleString, Role.class, contentType);
+		if (inRole instanceof java.lang.String)
+			return serialise(getBeanDoesNotParseException((String) inRole), accept);
+
+		Role role = (Role) inRole;
+
+		GeneralItemDelegator gid = new GeneralItemDelegator(token);
+		return serialise(gid.createRole(generalItemId, role), accept);
+	}
 
 }

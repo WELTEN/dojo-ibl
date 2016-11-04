@@ -294,7 +294,6 @@ angular.module('DojoIBL')
             $scope.activity = {};
             $scope.activity.section = phase;
 
-
             var modalInstance = $modal.open({
                 templateUrl: '/src/components/home/new.activity.modal.html',
                 controller: 'NewActivityController',
@@ -312,7 +311,9 @@ angular.module('DojoIBL')
 
                 ActivityService.newActivity(result).then(function(data){
                     ActivityService.getActivityById(data.id, $stateParams.gameId).then(function(data){
-                        $scope.lists[result.section].push(data);
+                        ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
+                            $scope.lists[result.section].push(data);
+                        });
                     });
                 });
             });
@@ -329,8 +330,11 @@ angular.module('DojoIBL')
             });
 
             modalInstance.result.then(function (result){
-                ActivityService.newActivity(result).then(function(data){
 
+                ActivityService.newActivity(result).then(function(data){
+                    ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
+
+                    });
                 });
             });
         };
@@ -426,10 +430,8 @@ angular.module('DojoIBL')
         $scope.getRoleName = function(roles){
             if(!angular.isUndefined(roles)) {
                 try{
-                    if (!angular.isUndefined(angular.fromJson(roles[0]))) {
-                        if (!angular.isObject(roles[0])) {
-                            return angular.fromJson(roles[0]).name;
-                        }
+                    if (!angular.isUndefined(roles[0])) {
+                        return roles[0].name;
                     }
                 }catch(e){
                     return "-";
@@ -439,14 +441,13 @@ angular.module('DojoIBL')
         };
 
         $scope.getRoleColor = function(roles){
+
             if(!angular.isUndefined(roles)) {
                 try{
-                    if (!angular.isUndefined(angular.fromJson(roles[0]))) {
-                        if (!angular.isObject(roles[0])) {
-                            return {
-                                "border-left": "3px solid "+angular.fromJson(roles[0]).color
-                            };
-                        }
+                    if (!angular.isUndefined(roles[0])) {
+                        return {
+                            "border-left": "3px solid "+roles[0].color
+                        };
                     }
                 }catch(e){
                     return {
@@ -942,7 +943,6 @@ angular.module('DojoIBL')
         $scope.activity.audioFeed = "example link";
         $scope.activity.fileReferences = [];
         $scope.activity.gameId = $stateParams.gameId;
-        //$scope.activity.roles2 = [];
 
         $scope.ok = function () {
             //console.log($scope.data.model)

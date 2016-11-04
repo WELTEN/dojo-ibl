@@ -41,11 +41,9 @@
 
                     <!-- Roles -->
                     <div class="col-sm-9">
-
-                        <select name="repeatSelect" id="repeatSelect" class="form-control">
+                        <select name="repeatSelect" id="repeatSelect" class="form-control" ng-model="activity.roles2[0]">
                             <option ng-repeat="option in game.config.roles2 track by $index" value="{{option}}">{{option.name}}</option>
                         </select>
-
                     </div>
                 </div>
                 <div class="form-group">

@@ -7,23 +7,23 @@ angular.module('DojoIBL')
             ActivityService.getActivityById($stateParams.activityId, data.game.gameId).then(function (data) {
                 $scope.activity = data;
 
-                var roles = [];
-
-                angular.forEach(data.roles, function(value, key) {
-                    if(!angular.isUndefined(value)) {
-                        try{
-                            if (!angular.isUndefined(angular.fromJson(value))) {
-                                if (!angular.isObject(value)) {
-                                    roles.push(angular.fromJson(value));
-                                }
-                            }
-                        }catch(e){
-                        }
-                    }
-                });
-
-                $scope.roles = roles;
-                console.log(roles);
+                //var roles = [];
+                //
+                //angular.forEach(data.roles, function(value, key) {
+                //    if(!angular.isUndefined(value)) {
+                //        try{
+                //            if (!angular.isUndefined(angular.fromJson(value))) {
+                //                if (!angular.isObject(value)) {
+                //                    roles.push(angular.fromJson(value));
+                //                }
+                //            }
+                //        }catch(e){
+                //        }
+                //    }
+                //});
+                //
+                //$scope.roles = roles;
+                //console.log(roles);
             });
         });
 

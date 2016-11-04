@@ -121,7 +121,7 @@
         </div>
 
         <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
-            <div class="ibox-content padding">
+            <div class="ibox-content">
                 <div class="heading ng-binding">
                     {{ 'dibl.inquiry.new-edit.inquiry-phases-activities' | translate }}
                 </div>
@@ -152,7 +152,7 @@
                                 <span class="title-phase" ng-click="renamePhase($index)">{{ $index }}. {{ phase.title }}</span>
                             </h3>
                             <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable">
-                                <li ng-style="getRoleColor(activity.roles)" data="{{ activity.id }}" ng-repeat="(key, activity) in lists[$index] | orderByDayNumber:'sortKey'">
+                                <li ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in lists[$index] | orderByDayNumber:'sortKey'">
                                     <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
                                     <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
                                     <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
@@ -162,7 +162,7 @@
                                     <br/>
                                     <p class="small">{{ activity.description | limitTo: 20 }}</p>
                                     <div class="agile-detail">
-                                        <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles) }}</a>
+                                        <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
                                         <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'medium' }}
                                     </div>
                                 </li>

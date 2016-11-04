@@ -124,6 +124,17 @@ angular.module('DojoIBL')
                 }
 
                 return deferred.promise;
+            },
+            addRole: function(generalItemId, roleAsJson, roleAsJsonOld){
+                var deferred = $q.defer();
+                var dataCache = CacheFactory.get('activitiesCache');
+
+                Activity.addRole({ generalItemId: generalItemId }, roleAsJson, roleAsJsonOld).$promise.then(function(data){
+                        dataCache.put(generalItemId, data);
+                        deferred.resolve(data);
+                    }
+                );
+                return deferred.promise;
             }
         }
     }
