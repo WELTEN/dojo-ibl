@@ -14,7 +14,6 @@ angular.module('DojoIBL')
         UserService.getUsersForRun($stateParams.runId).then(function(data){
             $scope.usersRun = data;
         }).then(function(){
-            console.info("Loading messages after we have collected the users");
             $scope.messages = {};
             $scope.messages.messages = [];
 
@@ -55,18 +54,18 @@ angular.module('DojoIBL')
         $scope.glued = true;
 
         $scope.sendMessage = function() {
+            var m = $scope.bodyMessage;
+            $scope.bodyMessage = null;
             AccountService.myDetails().then(function(data){
-                if($scope.bodyMessage){
+                if(m){
                     MessageService.newMessage({
                         runId: $stateParams.runId,
                         threadId: data.accountType + ":" + data.localId,
                         subject: "empty",
-                        body: $scope.bodyMessage
+                        body: m
                     }).then(function(data){
-                        $scope.bodyMessage = null;
                     });
                 }
-
             });
         };
 
