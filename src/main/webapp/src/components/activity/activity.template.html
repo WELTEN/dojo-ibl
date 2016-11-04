@@ -116,11 +116,12 @@
 
             <div id="list_answers" class="row m-t-sm social-footer" ng-hide="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
 
-                <div class="alert alert-warning" ng-show="responses.length == 0">
+                <div class="alert alert-warning" ng-show="responses | isEmpty">
                     No comments so far. <a class="alert-link"> Be the first one {{ myAccount.givenName }}</a>.
                 </div>
 
-                <responses responses="responses" ng-if="activity.type != 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></responses>
+                <!--<responses responses="responses" ng-if="activity.type != 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></responses>-->
+                <response ng-repeat='response in responses | orderByDayNumber:"lastModificationDate"' response='response' ng-if="activity.type != 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></response>
 
                 <!--<div class="m-b-lg" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'">-->
 

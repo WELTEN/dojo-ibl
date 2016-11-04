@@ -3,36 +3,6 @@ angular.module('DojoIBL')
     .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService, UserService, AccountService,
                                                 Response, ResponseService, RunService, ChannelService, Upload, config) {
 
-        RunService.getRunById($stateParams.runId).then(function(data){
-            ActivityService.getActivityById($stateParams.activityId, data.game.gameId).then(function (data) {
-                $scope.activity = data;
-
-                var roles = [];
-
-                angular.forEach(data.roles, function(value, key) {
-                    if(!angular.isUndefined(value)) {
-                        try{
-                            if (!angular.isUndefined(angular.fromJson(value))) {
-                                if (!angular.isObject(value)) {
-                                    roles.push(angular.fromJson(value));
-                                }
-                            }
-                        }catch(e){
-                        }
-                    }
-                });
-
-                $scope.roles = roles;
-                console.log(roles);
-            });
-        });
-
-        AccountService.myDetails().then(
-            function(data){
-                $scope.myAccount = data;
-            }
-        );
-
         $scope.responses = {};
 
         $scope.loadMoreButton = false;
@@ -53,8 +23,39 @@ angular.module('DojoIBL')
         loadResponses();
 
         $scope.responses = ResponseService.getResponsesByInquiryActivity($stateParams.runId, $stateParams.activityId);
+        //console.log($scope.responses);
+        //$scope.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
 
-        //$scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
+
+        RunService.getRunById($stateParams.runId).then(function(data){
+            ActivityService.getActivityById($stateParams.activityId, data.game.gameId).then(function (data) {
+                $scope.activity = data;
+
+                var roles = [];
+
+                angular.forEach(data.roles, function(value, key) {
+                    if(!angular.isUndefined(value)) {
+                        try{
+                            if (!angular.isUndefined(angular.fromJson(value))) {
+                                if (!angular.isObject(value)) {
+                                    roles.push(angular.fromJson(value));
+                                }
+                            }
+                        }catch(e){
+                        }
+                    }
+                });
+
+                $scope.roles = roles;
+            });
+        });
+
+        AccountService.myDetails().then(
+            function(data){
+                $scope.myAccount = data;
+            }
+        );
+
 
         $scope.getUser = function (response){
             return UserService.getUserFromCache(response.userEmail.split(':')[1]).name;
@@ -78,7 +79,6 @@ angular.module('DojoIBL')
                 ResponseService.deleteResponse(data.responseId);
 
             });
-
         };
 
         $scope.getRoleColor = function(roles){
@@ -151,10 +151,7 @@ angular.module('DojoIBL')
 
         ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
             console.info("[Notification][Response]", data);
-
-            if(($scope.myAccount.localId != data.userEmail.split(':')[1]) && data.generalItemId == $stateParams.activityId &&
-                data.runId == $stateParams.runId)
-                ResponseService.addResponse(data, $stateParams.runId, $stateParams.activityId);
+            ResponseService.refreshResponse(data, $stateParams.runId, $stateParams.activityId);
         });
 
         // upload on file select or drop

@@ -52,7 +52,6 @@ angular.module('DojoIBL')
 
                             dataCache.put(accountId, data);
                             users[data.accountType+":"+data.localId] = data;
-                            console.log(users);
                             deferred.resolve(data);
                         }
                     );

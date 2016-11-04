@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .service('ResponseService', function ($q, Response, CacheFactory, UserService) {
+    .service('ResponseService', function ($q, Response, CacheFactory, UserService, $filter) {
 
         CacheFactory('responsesCache', {
             maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day
@@ -14,9 +14,14 @@ angular.module('DojoIBL')
         var responsesId = dataCache.keys();
         for (var i=0; i < responsesId.length; i++) {
             var response = dataCache.get(responsesId[i]);
-            responses[response.runId+"_"+response.generalItemId] = responses[response.runId] || {};
+            responses[response.runId+"_"+response.generalItemId] = responses[response.runId+"_"+response.generalItemId] || {};
             responses[response.runId+"_"+response.generalItemId][response.responseId] = response;
+
+            //console.log("Num resul antes:",response.generalItemId,responses[response.runId+"_"+response.generalItemId]);
+
         }
+
+
 
         var resumptionToken;
         var serverTime= 0;
@@ -24,23 +29,8 @@ angular.module('DojoIBL')
 
         return {
             newResponse: function(responseAsJson){
-                var dataCache = CacheFactory.get('responsesCache');
-
-                ////////////////////////////////////////
-                // Only put in cache when we are editing
-                ////////////////////////////////////////
-                if(responseAsJson.responseId)
-                    dataCache.put(responseAsJson.responseId, responseAsJson);
-
                 var newResponse = new Response(responseAsJson);
-
-                return newResponse.$save(function(data){
-                    if(angular.isUndefined(responses[data.runId+"_"+data.generalItemId])){
-                        responses[data.runId+"_"+data.generalItemId] = {};
-                    }
-                    responses[data.runId+"_"+data.generalItemId][data.responseId] = data;
-                    responses[data.runId+"_"+data.generalItemId][data.responseId].user = UserService.getUser(data.userEmail);
-                });
+                return newResponse.$save();
             },
             deleteResponse: function(responseId){
                 var deferred = $q.defer();
@@ -61,23 +51,70 @@ angular.module('DojoIBL')
             },
             addResponse: function(response, runId, itemId){
                 var dataCache = CacheFactory.get('responsesCache');
-                dataCache.put(response.responseId, response);
+                if(angular.isUndefined(responses[runId+"_"+itemId])){
+                    responses[runId+"_"+itemId] = {};
+                }
                 responses[runId+"_"+itemId][response.responseId] = response;
                 responses[runId+"_"+itemId][response.responseId].user = UserService.getUser(response.userEmail);
+                dataCache.put(response.responseId, responses[runId+"_"+itemId][response.responseId]);
             },
-            getResponses: function (runId, itemId, from, resumptionToken) {
+            refreshResponse: function(response, runId, itemId) {
+                var dataCache = CacheFactory.get('responsesCache');
+                if (dataCache.get(response.responseId)) {
+                    delete responses[runId+"_"+itemId][response.responseId];
+                    dataCache.remove(response.responseId);
+                }
+                return this.getResponseById(response.responseId, runId, itemId);
+            },
+            getResponseById: function (id, runId, itemId) {
+                var deferred = $q.defer();
+                var service = this;
+
+                var dataCache = CacheFactory.get('responsesCache');
+                if (dataCache.get(id)) {
+                    deferred.resolve(dataCache.get(id));
+                } else {
+                    Response.getResponse({id: id}).$promise.then(
+                        function (data) {
+                            console.log(data)
+                            if (!data.error){
+                                if (data.deleted) {
+                                    delete responses[runId+"_"+itemId][id];
+                                    dataCache.remove(id);
+
+                                } else {
+                                    if(angular.isUndefined(responses[runId+"_"+itemId])){
+                                        responses[runId+"_"+itemId] = {};
+                                    }
+                                    if(angular.isUndefined(responses[runId+"_"+itemId][id])){
+                                        responses[runId+"_"+itemId][id] = {};
+                                    }
+                                    responses[runId+"_"+itemId][id] = data;
+                                    responses[runId+"_"+itemId][id].user = UserService.getUser(data.userEmail);
+                                    dataCache.put(id, responses[runId+"_"+itemId][id]);
+                                }
+
+                            }
+
+                            deferred.resolve(data);
+                        }
+                    );
+                }
+                return deferred.promise;
+            },
+            getResponses: function (runId, itemId) {
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('responsesCache');
 
                 responses[runId+"_"+itemId] = responses[runId+"_"+itemId] || {};
-                if (!from) {
-                    from = 0;
+                if (!serverTime) {
+                    serverTime = 0;
                 }
 
                 var service = this;
 
                 if(resumptionToken){
-                    Response.getResponsesInquiryActivity({ runId:runId, itemId:itemId, resumptionToken: resumptionToken, from: from }).$promise.then(function (data) {
+                    Response.getResponsesInquiryActivity({ runId:runId, itemId:itemId, resumptionToken: resumptionToken, from: serverTime }).$promise.then(function (data) {
                         if (data.error) {
                             deferred.resolve(data);
                         } else {
@@ -93,12 +130,12 @@ angular.module('DojoIBL')
                             }
 
                             if(data.resumptionToken){
-                                service.getResponses(runId, itemId, from, data.resumptionToken);
+                                service.getResponses(runId, itemId, serverTime, data.resumptionToken);
                             }
                         }
                     });
                 }else{
-                    Response.getResponsesInquiryActivity({ runId:runId, itemId:itemId, from: 0 }).$promise.then(function (data) {
+                    Response.getResponsesInquiryActivity({ runId:runId, itemId:itemId, serverTime: 0 }).$promise.then(function (data) {
                         if (data.error) {
                             deferred.resolve(data);
                         } else {
@@ -115,7 +152,7 @@ angular.module('DojoIBL')
                             }
 
                             if(data.resumptionToken){
-                                service.getResponses(runId, itemId, from, data.resumptionToken);
+                                service.getResponses(runId, itemId, serverTime , data.resumptionToken);
                             }
                         }
                     });
@@ -130,6 +167,18 @@ angular.module('DojoIBL')
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('responsesCache');
 
+                responses[runId+"_"+itemId] = responses[runId+"_"+itemId] || {};
+                //console.log("Num resul antes:", responses[runId+"_"+itemId])
+
+                if(dataCache.get(runId+"_"+itemId)){
+                    serverTime = dataCache.get(runId+"_"+itemId);
+                    //console.log("Si habia comprobado antes y hay valor en Cache: ",$filter('date')(serverTime, "medium"));
+
+                }else{
+                    serverTime = 0;
+                    //console.log("No se habia comprobado antes: ",$filter('date')(serverTime, "medium"));
+                }
+
                 Response.getResponsesInquiryActivity({runId:runId, itemId:itemId, resumptionToken: resumptionToken, from:serverTime})
                     .$promise.then(function (data) {
                         if (data.error) {
@@ -138,9 +187,17 @@ angular.module('DojoIBL')
                         } else {
                             for (i = 0; i < data.responses.length; i++) {
                                 if (!data.responses[i].deleted) {
-                                    dataCache.put(data.responses[i].responseId, data.responses[i]);
+                                    if(angular.isUndefined(responses[runId+"_"+itemId])){
+                                        responses[runId+"_"+itemId] = {};
+                                    }
                                     responses[runId+"_"+itemId][data.responses[i].responseId] = data.responses[i];
+
+                                    if(data.responses[i].parentId){
+                                        console.log("Es hijo de: ",data.responses[i].parentId)
+                                    }
+
                                     responses[runId+"_"+itemId][data.responses[i].responseId].user = UserService.getUser(data.responses[i].userEmail);
+                                    dataCache.put(data.responses[i].responseId, responses[runId+"_"+itemId][data.responses[i].responseId]);
                                 }else{
                                     delete [runId+"_"+itemId][data.responses[i].responseId];
                                 }
@@ -148,6 +205,12 @@ angular.module('DojoIBL')
 
                             resumptionToken = data.resumptionToken;
                             serverTimeFirstInvocation = serverTimeFirstInvocation || data.serverTime;
+                            dataCache.put(runId+"_"+itemId, serverTimeFirstInvocation);
+
+                            //console.log("Comprobado server hasta "+$filter('date')(serverTime, "medium")+" hora para Run:"+runId+" y Act:"+itemId);
+                            //console.log("Num resul despues:",responses[runId+"_"+itemId]);
+
+
                             if (!data.resumptionToken){
                                 serverTime = serverTimeFirstInvocation;
                                 serverTimeFirstInvocation = undefined;

@@ -2,6 +2,11 @@ angular.module('DojoIBL')
 
     .factory('Response', function ResponseFactory($resource, $http, config) {
         return $resource(config.server + '/rest/response', {}, {
+            'getResponse': {
+                method: 'GET',
+                isArray: false,
+                url: config.server+'/rest/response/responseId/:id'
+            },
             getResponsesForActivity: {
                 method: 'GET',
                 isArray: false,
