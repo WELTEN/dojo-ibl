@@ -38,6 +38,25 @@ public class ResponseAPI extends Service {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Path("/responseId/{responseId}")
+	public String getGame(@HeaderParam("Authorization") String token, @PathParam("responseId") Long responseId, @DefaultValue("application/json") @HeaderParam("Accept") String accept)
+	{
+		if (!validCredentials(token))
+			return serialise(getInvalidCredentialsBean(), accept);
+
+		ResponseDelegator responseDelegator = new ResponseDelegator(this);
+		Response response = responseDelegator.getResponse(responseId);
+
+		if (response.getError() != null) {
+			return serialise(response, accept);
+		}
+
+		return serialise(response, accept);
+	}
+
+
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Path("/runId/{runIdentifier}")
 	public String getAnswers(@HeaderParam("Authorization") String token, 
 			@QueryParam("from") Long from,

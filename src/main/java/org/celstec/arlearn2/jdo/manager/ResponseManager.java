@@ -96,7 +96,22 @@ public class ResponseManager {
         }
 
     }
-	
+
+	public static Response getResponse(Long responseId) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			ResponseJDO response = pm.getObjectById(ResponseJDO.class, KeyFactory.createKey(ResponseJDO.class.getSimpleName(), responseId));
+//			response.setLastModificationDate(System.currentTimeMillis());
+//			response.setRevoked(true);
+//			pm.makePersistent(response);
+			return toBean(response);
+		} finally {
+			pm.close();
+		}
+	}
+
+
+
 	public static List<Response> getResponse(Long runId, Long generalItemId, String userEmail, Long timestamp, Boolean revoked) {
 		ArrayList<Response> returnProgressDefinitions = new ArrayList<Response>();
 
