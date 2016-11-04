@@ -423,6 +423,42 @@ angular.module('DojoIBL')
             };
         };
 
+        $scope.getRoleName = function(roles){
+            if(!angular.isUndefined(roles)) {
+                try{
+                    if (!angular.isUndefined(angular.fromJson(roles[0]))) {
+                        if (!angular.isObject(roles[0])) {
+                            return angular.fromJson(roles[0]).name;
+                        }
+                    }
+                }catch(e){
+                    return "-";
+                }
+            }
+            return "-";
+        };
+
+        $scope.getRoleColor = function(roles){
+            if(!angular.isUndefined(roles)) {
+                try{
+                    if (!angular.isUndefined(angular.fromJson(roles[0]))) {
+                        if (!angular.isObject(roles[0])) {
+                            return {
+                                "border-left": "3px solid "+angular.fromJson(roles[0]).color
+                            };
+                        }
+                    }
+                }catch(e){
+                    return {
+                        "border-left": "3px solid #2f4050"
+                    };
+                }
+            }
+            return {
+                "border-left": "3px solid #2f4050"
+            };
+        };
+
         ////////////////
         // Manage phases
         ////////////////

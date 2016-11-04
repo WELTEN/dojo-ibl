@@ -121,7 +121,7 @@
         </div>
 
         <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
-            <div class="ibox-content">
+            <div class="ibox-content padding">
                 <div class="heading ng-binding">
                     {{ 'dibl.inquiry.new-edit.inquiry-phases-activities' | translate }}
                 </div>
@@ -144,12 +144,12 @@
                         <!--<div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>-->
                     <!--</div>-->
 
-                    <div ng-repeat="phase in phases track by $index ">
-                        <section class="col-xs-3" >
-                            <h3 style="margin-top: 0px;"><span class="title-phase" ng-click="renamePhase($index)">{{ $index }}. {{ phase.title }}</span>
+                        <section ng-repeat="phase in phases track by $index"  >
+                            <h3 style="margin-top: 0px;">
                                 <button class="btn btn-danger dim" ng-click="removePhase($index)" type="button">
                                     <i class="fa fa-minus"></i>
                                 </button>
+                                <span class="title-phase" ng-click="renamePhase($index)">{{ $index }}. {{ phase.title }}</span>
                             </h3>
                             <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable">
                                 <li ng-style="getRoleColor(activity.roles)" data="{{ activity.id }}" ng-repeat="(key, activity) in lists[$index] | orderByDayNumber:'sortKey'">
@@ -174,11 +174,13 @@
                                 <!--<input class="new_activity_body" type="text" placeholder="Type then hit to enter an activity"/>-->
                             </div>
                         </section>
+                        <aside>
+                            <button class="btn btn-primary dim" ng-click="addPhase()" type="button">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </aside>
                     </div>
-                    <button class="btn btn-primary dim" ng-click="addPhase()" type="button">
-                        <i class="fa fa-plus"></i>
-                    </button>
-                </div>
+
             </div>
         </div>
 

@@ -1685,9 +1685,30 @@ a.DTTT_button:hover:not(.DTTT_disabled) {
   padding-bottom: 10px;
   border: 1px solid #ddd;
   background-color: #eee !important;
+  margin: 0px 14px 0px 0px;
+}
+.show-grid section {
+  border: 1px solid #ddd;
+  background-color: #eee !important;
+  margin: 5px;
+  width: 23%;
+  padding: 10px;
+}
+.show-grid aside {
+  border: 1px solid #ddd;
+  margin: 5px;
+  width: 23%;
+  padding: 10px;
 }
 .show-grid {
   margin: 15px 0;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 /* ANIMATION */
 .css-animation-box h1 {
