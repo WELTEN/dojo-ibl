@@ -17,6 +17,8 @@ Features
 - Collaborative discussions around topics
 - Data collection processes integrated
 - Activity time-line for process and activity awareness
+- NEW: inquiry dashboard
+- NEW: broadcast modifications on inquiry (pulling)
 
 Support
 -------
