@@ -311,9 +311,14 @@ angular.module('DojoIBL')
 
                 ActivityService.newActivity(result).then(function(data){
                     ActivityService.getActivityById(data.id, $stateParams.gameId).then(function(data){
-                        ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
+                        if(!angular.isUndefined(result.roles2)){
+                            ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
+
+                            });
+                        }else{
                             $scope.lists[result.section].push(data);
-                        });
+                        }
+
                     });
                 });
             });
@@ -330,11 +335,17 @@ angular.module('DojoIBL')
             });
 
             modalInstance.result.then(function (result){
+                console.log(result);
 
                 ActivityService.newActivity(result).then(function(data){
-                    ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
 
-                    });
+                    console.log(data);
+
+                    if(!angular.isUndefined(result.roles2)){
+                        ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
+
+                        });
+                    }
                 });
             });
         };
@@ -941,6 +952,7 @@ angular.module('DojoIBL')
         $scope.game = game;
         $scope.activity = activity;
         $scope.activity.audioFeed = "example link";
+        $scope.activity.videoFeed = "example link";
         $scope.activity.fileReferences = [];
         $scope.activity.gameId = $stateParams.gameId;
 
