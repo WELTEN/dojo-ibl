@@ -1685,9 +1685,30 @@ a.DTTT_button:hover:not(.DTTT_disabled) {
   padding-bottom: 10px;
   border: 1px solid #ddd;
   background-color: #eee !important;
+  margin: 0px 14px 0px 0px;
+}
+.show-grid section {
+  border: 1px solid #ddd;
+  background-color: #eee !important;
+  margin: 5px;
+  width: 23%;
+  padding: 10px;
+}
+.show-grid aside {
+  border: 1px solid #ddd;
+  margin: 5px;
+  width: 23%;
+  padding: 10px;
 }
 .show-grid {
   margin: 15px 0;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
 }
 /* ANIMATION */
 .css-animation-box h1 {
@@ -3397,6 +3418,10 @@ video {
 }
 .inmodal .modal-body {
   background: #f8fafb;
+  overflow: hidden;
+}
+.modal-dialog {
+  width: 900px !important;
 }
 .inmodal .modal-header {
   padding: 30px 15px;
@@ -9092,4 +9117,37 @@ text-angular > p{
   font-size: 14px;
   cursor: pointer;
   color: #ccc;
+}
+
+.list_phase{
+  width: 200px;
+  float: left;
+  border-radius: 3px;
+  margin: 0px 0 0 5px;
+  border: 1px solid transparent;
+}
+
+.list_activities{
+  min-height: 50px;
+  margin: 0 15px;
+  padding: 0;
+  border-radius: 2px;
+  background: rgba(48,59,77,.05);
+}
+
+.new_activity_button{
+  margin: 8px 45%;
+  outline: none;
+}
+.new_activity_button:focus{
+  outline: none;
+}
+
+.title-phase{
+  text-decoration: underline;
+}
+
+.title-phase:hover{
+  color: #0000cc;
+  cursor: hand;
 }

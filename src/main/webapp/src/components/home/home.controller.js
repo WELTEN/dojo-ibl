@@ -23,7 +23,6 @@ angular.module('DojoIBL')
         //}
 
         $scope.games = GameService.getGames();
-        console.log($scope.games);
 
         $scope.thumbnailUrl = function(gameId) {
 
@@ -43,7 +42,6 @@ angular.module('DojoIBL')
         AccountService.myDetails().then(
             function(data){
                 $scope.myAccount = data;
-                console.log(data);
             }
         );
 

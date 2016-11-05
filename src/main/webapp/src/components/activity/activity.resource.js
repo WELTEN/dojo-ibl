@@ -40,6 +40,12 @@ angular.module('DojoIBL')
                 method: 'GET',
                 isArray: false,
                 url: config.server+'/rest/myRuns/runId/:runId/generalItem/:generalItemId/status'
+            },
+            'addRole': {
+                params: { generalItemId: '@generalItemId' },
+                method: 'POST',
+                isArray: false,
+                url: config.server + '/rest/generalItems/generalItem/:generalItemId/role'
             }
         });
     }

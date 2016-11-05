@@ -1,0 +1,93 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <i class="fa fa-laptop modal-icon"></i>
+        <h4 class="modal-title">Create activity</h4>
+    </div>
+    <div class="modal-body form-horizontal" >
+        <form class="form-horizontal" method="get">
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{
+                        'dibl.inquiry.new-edit.title-activity' | translate
+                        }}</label>
+
+                    <div class="col-sm-9">
+                        <input type="text" ng-model="activity.name" ng-keyup="$event.keyCode == 13 && ok()" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{ 'dibl.inquiry.new-edit.type-activity' | translate }}</label>
+                    <div class="col-sm-9">
+                        <select id="type_activity" class="form-control" ng-model="activity.type">
+                            <option ng-repeat="option in list_original" value="{{option.type}}">{{option.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'">
+                    <label class="col-sm-3 control-label">{{ 'dibl.inquiry.new-edit.video-activity' | translate }}</label>
+                    <div class="col-sm-9" >
+                        <input placeholder="Ex: https://www.youtube.com/embed/4zZbX_9ru9U"
+                               type="url"
+                               ng-model="activity.videoFeed"
+                               class="form-control">
+                        <span class="help-block m-b-none">Use the embed URL</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{
+                        'dibl.inquiry.new-edit.roles-activity' | translate
+                        }}</label>
+
+                    <!-- Roles -->
+                    <div class="col-sm-9">
+                        <select name="repeatSelect" id="repeatSelect" class="form-control" ng-model="activity.roles2[0]">
+                            <option ng-repeat="option in game.config.roles2 track by $index" value="{{option}}">{{option.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{
+                        'dibl.inquiry.new-edit.activity-order' | translate
+                        }}</label>
+
+                    <div class="col-sm-9">
+                        <input type="number"
+                               placeholder="Order"
+                               ng-model="activity.sortKey"
+                               class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Phase</label>
+
+                    <div class="col-sm-9">
+                        <input type="text"
+                               ng-disabled="true"
+                               placeholder="Phase"
+                               ng-model="activity.section"
+                               class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <text-angular  ta-toolbar="[
+                                                                ['bold','italics'],
+                                                                ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
+                                                                ['insertImage', 'insertLink','insertVideo']]
+                                                                "ng-model="activity.richText"></text-angular>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button id="inquiry-new-close" type="button" class="btn btn-white" ng-click="cancel()">Close</button>
+        <button id="inquiry-new-create" type="button" class="btn btn-primary" ng-click="ok()">Save changes</button>
+    </div>
+</div>

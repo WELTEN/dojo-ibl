@@ -1,7 +1,22 @@
 angular.module('DojoIBL')
 
     .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService, UserService, AccountService,
-                                                Response, ResponseService, RunService, ChannelService, Upload, config) {
+                                                Response, ResponseService, RunService, ChannelService, Upload, config, toaster) {
+
+
+        ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
+            ResponseService.refreshResponse(data, $stateParams.runId, $stateParams.activityId);
+        });
+
+        ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
+            ActivityService.refreshActivity(notification.itemId, notification.gameId).then(function (data) {
+                $scope.activity = data;
+            });
+            toaster.success({
+                title: 'Activity modified',
+                body: 'The structure of the activity has been modified.'
+            });
+        });
 
         $scope.responses = {};
 
@@ -27,26 +42,12 @@ angular.module('DojoIBL')
         //$scope.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
 
 
+
+
+
         RunService.getRunById($stateParams.runId).then(function(data){
             ActivityService.getActivityById($stateParams.activityId, data.game.gameId).then(function (data) {
                 $scope.activity = data;
-
-                var roles = [];
-
-                angular.forEach(data.roles, function(value, key) {
-                    if(!angular.isUndefined(value)) {
-                        try{
-                            if (!angular.isUndefined(angular.fromJson(value))) {
-                                if (!angular.isObject(value)) {
-                                    roles.push(angular.fromJson(value));
-                                }
-                            }
-                        }catch(e){
-                        }
-                    }
-                });
-
-                $scope.roles = roles;
             });
         });
 
@@ -147,12 +148,6 @@ angular.module('DojoIBL')
         $scope.trustSrc = function(src) {
             return $sce.trustAsResourceUrl(src);
         };
-
-
-        ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
-            console.info("[Notification][Response]", data);
-            ResponseService.refreshResponse(data, $stateParams.runId, $stateParams.activityId);
-        });
 
         // upload on file select or drop
         $scope.upload = function (file) {

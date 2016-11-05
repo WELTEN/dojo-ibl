@@ -65,7 +65,7 @@ angular.module('DojoIBL')
                     });
                 };
 
-                console.log(scope.response);
+                //console.log(scope.response);
 
                 $("div[data-item='"+scope.response.parentId+"']").parent().append(element);
             }

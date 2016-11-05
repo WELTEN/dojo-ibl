@@ -75,6 +75,8 @@ angular.module('DojoIBL')
         var socket = new SocketHandler();
         socket.onMessage(function (data) {
             $rootScope.$apply(function () {
+                console.info(data.type);
+
                 if (callBackFunctions[data.type]) callBackFunctions[data.type](data);
 
             });

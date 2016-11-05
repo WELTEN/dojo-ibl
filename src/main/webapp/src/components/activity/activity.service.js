@@ -21,7 +21,6 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('activitiesCache');
 
                 var newActivity = new Activity(activityAsJson);
-
                 return newActivity.$save();
             },
             getItemFromCache: function(id) {
@@ -93,6 +92,14 @@ angular.module('DojoIBL')
                 }
                 return deferred.promise;
             },
+            refreshActivity: function(id, gameId) {
+                var dataCache = CacheFactory.get('activitiesCache');
+                if (dataCache.get(id)) {
+                    //delete games[id];
+                    dataCache.remove(id);
+                }
+                return this.getActivityById(id, gameId);
+            },
             deleteActivity: function(gameId, itemId){
                 var dataCache = CacheFactory.get('activitiesCache');
                 dataCache.remove(itemId);
@@ -123,6 +130,17 @@ angular.module('DojoIBL')
                     );
                 }
 
+                return deferred.promise;
+            },
+            addRole: function(generalItemId, roleAsJson, roleAsJsonOld){
+                var deferred = $q.defer();
+                var dataCache = CacheFactory.get('activitiesCache');
+
+                Activity.addRole({ generalItemId: generalItemId }, roleAsJson, roleAsJsonOld).$promise.then(function(data){
+                        dataCache.put(generalItemId, data);
+                        deferred.resolve(data);
+                    }
+                );
                 return deferred.promise;
             }
         }

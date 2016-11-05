@@ -72,7 +72,7 @@ angular.module('DojoIBL')
         $scope.numberMessages = 0;
 
         ChannelService.register('org.celstec.arlearn2.beans.run.Message', function (notification) {
-            console.info("[Notification][Message]", notification);
+            //console.info("[Notification][Message]", notification);
             if (notification.runId == $stateParams.runId) {
                 $scope.numberMessages += 1;
 

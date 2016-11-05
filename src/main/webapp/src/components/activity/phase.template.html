@@ -14,7 +14,7 @@
                     <h3>ToDo</h3>
                     <p class="small"><i class="fa fa-list"></i> List of activities to be done</p>
                     <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="0">
-                        <li ng-style="getRoleColor(activity.roles)" data="{{ activity.id }}" ng-repeat="(key, activity) in activitiesTodo | orderByDayNumber:'sortKey'">
+                        <li ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activitiesTodo | orderByDayNumber:'sortKey'">
                             <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
                             <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
                             <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
@@ -24,7 +24,7 @@
                             <br/>
                             <p class="small">{{ activity.description | limitTo: 20 }}</p>
                             <div class="agile-detail">
-                                <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles) }}</a>
+                                <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
                                 <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'medium' }}
                             </div>
                         </li>
@@ -35,7 +35,7 @@
                     <h3>In progress</h3>
                     <p class="small"><i class="fa fa-list"></i> List of activities in progress</p>
                     <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="1">
-                        <li ng-style="getRoleColor(activity.roles)" data="{{ activity.id }}" ng-repeat="(key, activity) in activitiesInProgress | orderByDayNumber:'sortKey'">
+                        <li ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activitiesInProgress | orderByDayNumber:'sortKey'">
                             <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
                             <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
                             <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
@@ -45,7 +45,7 @@
                             <br/>
                             <p class="small">{{ activity.description | limitTo: 20 }}</p>
                             <div class="agile-detail">
-                                <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles) }}</a>
+                                <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
                                 <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'medium' }}
                             </div>
                         </li>
@@ -56,7 +56,7 @@
                     <h3>Completed</h3>
                     <p class="small"><i class="fa fa-list"></i> List of activities completed</p>
                     <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="2">
-                        <li ng-style="getRoleColor(activity.roles)" data="{{ activity.id }}" ng-repeat="(key, activity) in activitiesCompleted | orderByDayNumber:'sortKey'">
+                        <li ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activitiesCompleted | orderByDayNumber:'sortKey'">
                             <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
                             <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
                             <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
@@ -66,7 +66,7 @@
                             <br/>
                             <p class="small">{{ activity.description | limitTo: 20 }}</p>
                             <div class="agile-detail">
-                                <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles) }}</a>
+                                <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
                                 <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'medium' }}
                             </div>
                         </li>

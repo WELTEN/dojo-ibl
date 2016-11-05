@@ -1,7 +1,34 @@
 angular.module('DojoIBL')
 
     .controller('InquiryEditGameController', function ($scope, $sce, $stateParams, $state, $modal, Session, RunService, ActivityService,
-                                                       AccountService, GameService, UserService, toaster ) {
+                                                       AccountService, ChannelService, GameService, UserService, toaster ) {
+
+        ChannelService.register('org.celstec.arlearn2.beans.game.Game', function (notification) {
+            GameService.refreshGame(notification.gameId).then(function (data) {
+                $scope.game = data;
+                $scope.phases = data.phases;
+            });
+            toaster.success({
+                title: 'Inquiry template modified',
+                body: 'The inquiry "'+$scope.game.title+'" has been modified.'
+            });
+        });
+
+        //ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
+        //    ActivityService.refreshActivity(notification.itemId, notification.gameId).then(function (data) {
+        //        console.log(data)
+        //        //ActivityService.getActivitiesForPhase($stateParams.gameId, data.section).then(function(data){
+        //        //    angular.forEach(data, function(i,a){
+        //        //        $scope.lists[data.section].push(i);
+        //        //    });
+        //        //});
+        //    });
+        //    toaster.success({
+        //        title: 'Activity modified',
+        //        body: 'The actividad has been modified.'
+        //    });
+        //});
+
         // Managing different tabs activities
         $scope.lists = [];
         $scope.selection = [];
@@ -14,7 +41,6 @@ angular.module('DojoIBL')
             }
 
             $scope.game = data;
-            console.log(data);
 
             if(!$scope.game.config.roles)
                 $scope.game.config.roles = [];
@@ -81,6 +107,7 @@ angular.module('DojoIBL')
             model: null
         };
 
+        // Deprecated
         $scope.compare = function() {
             var bool_activity = !angular.equals($scope.activity_old, $scope.activity);
             var bool_roles = !angular.equals($scope.data_old, $scope.data);
@@ -88,6 +115,7 @@ angular.module('DojoIBL')
             return (bool_roles) || (bool_activity);
         };
 
+        // Deprecated
         $scope.saveActivity = function(){
 
             // Save array of roles into the activity
@@ -101,6 +129,7 @@ angular.module('DojoIBL')
             $scope.game.lastModificationDate = new Date();
         };
 
+        // Deprecated
         $scope.selectActivity = function(activity, combinationId){
             if(!angular.isUndefined($scope.activity_old)){
                 if(!angular.equals($scope.activity_old, $scope.activity) || !angular.equals($scope.data_old.model, $scope.data.model)){
@@ -234,6 +263,7 @@ angular.module('DojoIBL')
             }
         };
 
+        // Deprecated
         $scope.addOne = function(a){
 
             var object = {
@@ -284,6 +314,96 @@ angular.module('DojoIBL')
                 $scope.selection.push(rol);
             }
         };
+
+        $scope.addNewActivity = function (phase, game) {
+
+            $scope.activity = {};
+            $scope.activity.section = phase;
+
+            var modalInstance = $modal.open({
+                templateUrl: '/src/components/home/new.activity.modal.html',
+                controller: 'NewActivityController',
+                resolve: {
+                    activity: function () { return $scope.activity; },
+                    game: function () { return game; }
+                }
+            });
+
+            modalInstance.result.then(function (result){
+
+                if(angular.isUndefined($scope.lists[result.section])){
+                    $scope.lists[result.section] = []
+                }
+
+                ActivityService.newActivity(result).then(function(data){
+                    ActivityService.getActivityById(data.id, $stateParams.gameId).then(function(data){
+                        if(!angular.isUndefined(result.roles2)){
+                            ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
+
+                            });
+                        }else{
+                            $scope.lists[result.section].push(data);
+                        }
+
+                    });
+                });
+            });
+        };
+
+        $scope.editActivity = function (activity, game) {
+            var modalInstance = $modal.open({
+                templateUrl: '/src/components/home/new.activity.modal.html',
+                controller: 'NewActivityController',
+                resolve: {
+                    activity: function () { return activity; },
+                    game: function () { return game; }
+                }
+            });
+
+            modalInstance.result.then(function (result){
+                ActivityService.newActivity(result).then(function(data){
+                    if(!angular.isUndefined(result.roles2)){
+                        ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
+
+                        });
+                    }
+                });
+            });
+        };
+
+        //$scope.sortableOptions = {
+        //    connectWith: ".connectList",
+        //    axis: 'x'
+        //    //receive: function(event, ui) {
+        //    //    var item = ui.item.scope().activity;
+        //    //    var group = event.target;
+        //    //    ActivityService.changeActivityStatus($stateParams.runId, item.id,group.id).then(function (data) {
+        //    //        console.log(data);
+        //    //        switch(data.status){
+        //    //            case 0:
+        //    //                toaster.success({
+        //    //                    title: 'Moved to ToDo list',
+        //    //                    body: 'The activity has been successfully moved to the ToDo list.'
+        //    //                });
+        //    //                break;
+        //    //            case 1:
+        //    //                toaster.success({
+        //    //                    title: 'Moved to In Progress list',
+        //    //                    body: 'The activity has been successfully moved to the In Progress list.'
+        //    //                });
+        //    //                break;
+        //    //            case 2:
+        //    //                toaster.success({
+        //    //                    title: 'Moved to Completed list',
+        //    //                    body: 'The activity has been successfully moved to the Completed list.'
+        //    //                });
+        //    //                break;
+        //    //        }
+        //    //
+        //    //    });
+        //    //}
+        //};
+
 
         ///////////////
         // Manage roles
@@ -339,38 +459,92 @@ angular.module('DojoIBL')
             };
         };
 
+        $scope.getRoleName = function(roles){
+            if(!angular.isUndefined(roles)) {
+                try{
+                    if (!angular.isUndefined(roles[0])) {
+                        return roles[0].name;
+                    }
+                }catch(e){
+                    return "-";
+                }
+            }
+            return "-";
+        };
+
+        $scope.getRoleColor = function(roles){
+
+            if(!angular.isUndefined(roles)) {
+                try{
+                    if (!angular.isUndefined(roles[0])) {
+                        return {
+                            "border-left": "3px solid "+roles[0].color
+                        };
+                    }
+                }catch(e){
+                    return {
+                        "border-left": "3px solid #2f4050"
+                    };
+                }
+            }
+            return {
+                "border-left": "3px solid #2f4050"
+            };
+        };
+
         ////////////////
         // Manage phases
         ////////////////
         $scope.currentPhase = 0;
 
         $scope.addPhase = function(){
+            swal({
+                title: "New phase",
+                text: "Are you sure you want to rename the phase?",
+                type: "input",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, rename it!",
+                inputPlaceholder: "New phase name",
+                closeOnConfirm: false
+            }, function (inputValue) {
 
-            $scope.phases.push({
-                //phaseId: $scope.phases.length,
-                title: $scope.phaseName,
-                type: "org.celstec.arlearn2.beans.game.Phase"
-            });
+                if (inputValue === false)
+                    return false;
+                if (inputValue === "") {
+                    swal.showInputError("You need to write something!");
+                    return false
+                }
 
-            //$scope.lists.push($scope.phases.length);
-            //$scope.lists = [];
+                swal("Well done!", "New phase created", "success");
 
-            toaster.success({
-                title: 'Phase added',
-                body: 'The phase "'+$scope.phaseName+'" has been added to the inquiry template.'
-            });
 
-            $scope.phaseName = "";
+                $scope.phases.push({
+                    //phaseId: $scope.phases.length,
+                    title: inputValue,
+                    type: "org.celstec.arlearn2.beans.game.Phase"
+                });
 
-            $scope.game.phases = $scope.phases;
+                //$scope.lists.push($scope.phases.length);
+                //$scope.lists = [];
 
-            GameService.newGame($scope.game).then(function(updatedGame){
+                toaster.success({
+                    title: 'Phase added',
+                    body: 'The phase "' + $scope.phaseName + '" has been added to the inquiry template.'
+                });
 
-                angular.forEach($scope.gameRuns, function(value, key) {
+                $scope.phaseName = "";
 
-                    value.game = updatedGame;
+                $scope.game.phases = $scope.phases;
 
-                    RunService.storeInCache(value);
+                GameService.newGame($scope.game).then(function (updatedGame) {
+
+                    angular.forEach($scope.gameRuns, function (value, key) {
+
+                        value.game = updatedGame;
+
+                        RunService.storeInCache(value);
+                    });
                 });
             });
         };
@@ -488,7 +662,7 @@ angular.module('DojoIBL')
             });
         };
 
-        $scope.renamePhase = function(tab, index){
+        $scope.renamePhase = function(index){
             swal({
                 title: "Rename phase "+index+" '"+$scope.phases[index].title+"'?",
                 text: "Are you sure you want to rename the phase?",
@@ -664,7 +838,6 @@ angular.module('DojoIBL')
 
             modalInstance.result.then(function (result){
                 angular.extend($scope.usersRun[$scope.runVar], result);
-
             });
 
         };
@@ -782,5 +955,37 @@ angular.module('DojoIBL')
         this.isSet = function (tabId) {
             return this.tab === tabId;
         };
+    })
+
+    .controller('NewActivityController', function ($scope, $stateParams, $modalInstance, GameService, ActivityService, activity, game) {
+
+        $scope.list_original = [
+            //{'name': 'Google Resources', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-file-text'},
+            {'name': 'Discussion activity', 'type': 'org.celstec.arlearn2.beans.generalItem.NarratorItem', 'icon': 'fa-file-text'},
+            {'name': 'External resource', 'type': 'org.celstec.arlearn2.beans.generalItem.VideoObject', 'icon': 'fa-external-link'},
+            //{'name': 'Concept map', 'type': 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest', 'icon': 'fa-sitemap'},
+            //{'name': 'External widget', 'type': 'org.celstec.arlearn2.beans.generalItem.OpenBadge', 'icon': 'fa-link'},
+            //{'name': 'Research question', 'type': 'org.celstec.arlearn2.beans.generalItem.ResearchQuestion', 'icon': 'fa-question'}
+            {'name': 'List activity', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-tasks'},
+            {'name': 'Data collection', 'type': 'org.celstec.arlearn2.beans.generalItem.ScanTag', 'icon': 'fa-picture-o'}
+        ];
+
+        $scope.game = game;
+        $scope.activity = activity;
+        $scope.activity.audioFeed = "example link";
+        $scope.activity.videoFeed = "example link";
+        $scope.activity.fileReferences = [];
+        $scope.activity.gameId = $stateParams.gameId;
+
+        $scope.ok = function () {
+            //console.log($scope.data.model)
+            //$scope.activity.roles2.push(angular.fromJson($scope.data.model))
+            $modalInstance.close($scope.activity);
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
     })
 ;

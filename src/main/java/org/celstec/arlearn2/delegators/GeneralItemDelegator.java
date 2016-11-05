@@ -25,6 +25,7 @@ import org.celstec.arlearn2.beans.Bean;
 import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.beans.dependencies.Dependency;
 import org.celstec.arlearn2.beans.game.Game;
+import org.celstec.arlearn2.beans.game.Role;
 import org.celstec.arlearn2.beans.generalItem.*;
 import org.celstec.arlearn2.beans.notification.GeneralItemModification;
 import org.celstec.arlearn2.beans.run.Action;
@@ -500,5 +501,20 @@ public class GeneralItemDelegator extends DependencyDelegator {
             }
         }
         return list;
+    }
+
+    public GeneralItem createRole(Long generalItemId, Role role) {
+        GeneralItem g = getGeneralItem(generalItemId);
+        if (g.getError() != null)
+            return g;
+
+        if (g.getRoles2() == null)
+            g.setRoles2(new ArrayList<Role>());
+
+        g.getRoles2().add(role);
+
+        createGeneralItem(g);
+
+        return g;
     }
 }

@@ -72,10 +72,8 @@ angular.module('DojoIBL')
         $scope.getRoleName = function(roles){
             if(!angular.isUndefined(roles)) {
                 try{
-                    if (!angular.isUndefined(angular.fromJson(roles[0]))) {
-                        if (!angular.isObject(roles[0])) {
-                            return angular.fromJson(roles[0]).name;
-                        }
+                    if (!angular.isUndefined(roles[0])) {
+                        return roles[0].name;
                     }
                 }catch(e){
                     return "-";
@@ -86,14 +84,13 @@ angular.module('DojoIBL')
 
 
         $scope.getRoleColor = function(roles){
+
             if(!angular.isUndefined(roles)) {
                 try{
-                    if (!angular.isUndefined(angular.fromJson(roles[0]))) {
-                        if (!angular.isObject(roles[0])) {
-                            return {
-                                "border-left": "3px solid "+angular.fromJson(roles[0]).color
-                            };
-                        }
+                    if (!angular.isUndefined(roles[0])) {
+                        return {
+                            "border-left": "3px solid "+roles[0].color
+                        };
                     }
                 }catch(e){
                     return {
