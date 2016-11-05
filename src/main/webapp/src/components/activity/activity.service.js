@@ -21,11 +21,7 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('activitiesCache');
 
                 var newActivity = new Activity(activityAsJson);
-                console.log(activityAsJson);
-                console.log(newActivity);
-                return newActivity.$save(function(data){
-
-                });
+                return newActivity.$save();
             },
             getItemFromCache: function(id) {
                 var dataCache = CacheFactory.get('activitiesCache');
@@ -95,6 +91,14 @@ angular.module('DojoIBL')
                     );
                 }
                 return deferred.promise;
+            },
+            refreshActivity: function(id, gameId) {
+                var dataCache = CacheFactory.get('activitiesCache');
+                if (dataCache.get(id)) {
+                    //delete games[id];
+                    dataCache.remove(id);
+                }
+                return this.getActivityById(id, gameId);
             },
             deleteActivity: function(gameId, itemId){
                 var dataCache = CacheFactory.get('activitiesCache');

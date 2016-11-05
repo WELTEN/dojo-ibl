@@ -1,7 +1,34 @@
 angular.module('DojoIBL')
 
     .controller('InquiryEditGameController', function ($scope, $sce, $stateParams, $state, $modal, Session, RunService, ActivityService,
-                                                       AccountService, GameService, UserService, toaster ) {
+                                                       AccountService, ChannelService, GameService, UserService, toaster ) {
+
+        ChannelService.register('org.celstec.arlearn2.beans.game.Game', function (notification) {
+            GameService.refreshGame(notification.gameId).then(function (data) {
+                $scope.game = data;
+                $scope.phases = data.phases;
+            });
+            toaster.success({
+                title: 'Inquiry template modified',
+                body: 'The inquiry "'+$scope.game.title+'" has been modified.'
+            });
+        });
+
+        //ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
+        //    ActivityService.refreshActivity(notification.itemId, notification.gameId).then(function (data) {
+        //        console.log(data)
+        //        //ActivityService.getActivitiesForPhase($stateParams.gameId, data.section).then(function(data){
+        //        //    angular.forEach(data, function(i,a){
+        //        //        $scope.lists[data.section].push(i);
+        //        //    });
+        //        //});
+        //    });
+        //    toaster.success({
+        //        title: 'Activity modified',
+        //        body: 'The actividad has been modified.'
+        //    });
+        //});
+
         // Managing different tabs activities
         $scope.lists = [];
         $scope.selection = [];
@@ -14,7 +41,6 @@ angular.module('DojoIBL')
             }
 
             $scope.game = data;
-            console.log(data);
 
             if(!$scope.game.config.roles)
                 $scope.game.config.roles = [];
@@ -335,12 +361,7 @@ angular.module('DojoIBL')
             });
 
             modalInstance.result.then(function (result){
-                console.log(result);
-
                 ActivityService.newActivity(result).then(function(data){
-
-                    console.log(data);
-
                     if(!angular.isUndefined(result.roles2)){
                         ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
 

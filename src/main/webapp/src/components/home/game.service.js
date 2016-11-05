@@ -71,7 +71,6 @@ angular.module('DojoIBL')
                 } else {
                     Game.getGameById({id: id}).$promise.then(
                         function (data) {
-                            console.log(data)
                             if (!data.error){
                                 if (data.deleted) {
                                     delete games[id];

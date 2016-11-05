@@ -68,11 +68,11 @@ angular.module('DojoIBL')
         $scope.numberMessages = 0;
 
         ChannelService.register('org.celstec.arlearn2.beans.run.Message', function (notification) {
-            console.info("[Notification][Message]", notification);
+            //console.info("[Notification][Message]", notification);
             if (notification.runId == $stateParams.runId) {
                 $scope.numberMessages += 1;
 
-                console.log(notification);
+                //console.log(notification);
                 MessageService.getMessageById(notification.messageId).then(function (data) {
                     //if(me.localId != data.senderId){
                     //    $scope.sound = ngAudio.load("/src/assets/beep.m4a");
