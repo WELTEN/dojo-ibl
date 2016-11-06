@@ -153,6 +153,8 @@
                             </h3>
                             <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable">
                                 <li ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in lists[$index] | orderByDayNumber:'sortKey'">
+                                    <!--<button aria-hidden="true" data-dismiss="alert" class="close" ng-click="removeActivity(activity, game)" type="button">×</button>-->
+
                                     <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
                                     <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
                                     <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>

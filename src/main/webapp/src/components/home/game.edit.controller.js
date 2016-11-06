@@ -18,9 +18,12 @@ angular.module('DojoIBL')
         //    ActivityService.refreshActivity(notification.itemId, notification.gameId).then(function (data) {
         //        console.log(data)
         //        //ActivityService.getActivitiesForPhase($stateParams.gameId, data.section).then(function(data){
-        //        //    angular.forEach(data, function(i,a){
-        //        //        $scope.lists[data.section].push(i);
-        //        //    });
+        //        //
+        //        //    $scope.lists[data.section].push(data);
+        //        //
+        //        //    //angular.forEach(data, function(i,a){
+        //        //    //    $scope.lists[data.section].push(i);
+        //        //    //});
         //        //});
         //    });
         //    toaster.success({
@@ -201,6 +204,8 @@ angular.module('DojoIBL')
             };
         };
 
+
+
         $scope.changeTab = function(index){
 
             $scope.selectedCombination = 0;
@@ -368,6 +373,34 @@ angular.module('DojoIBL')
                         });
                     }
                 });
+            });
+        };
+
+
+        $scope.removeActivity = function(data, index){
+
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this activity!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            }, function () {
+                swal("Deleted!", "The activity has been removed from the inquiry structure.", "success");
+
+                ActivityService.deleteActivity(data.gameId, data    .id);
+
+
+                //console.log(index, $scope.lists[index][data]);
+
+                //$scope.lists[index].indexOf(data);
+                //$scope.lists[$(".select-activities > li.active").attr('data')].splice(position, 1);
+                //ActivityService.deleteActivity($scope.activity.gameId, $scope.activity.id);
+                //$scope.activity = $scope.activity_old;
+                //$scope.selectedCombination = 0;
+                //$scope.selected = false;
             });
         };
 
