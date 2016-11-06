@@ -3,9 +3,27 @@ angular.module('DojoIBL')
     .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService, UserService, AccountService,
                                                 Response, ResponseService, RunService, ChannelService, Upload, config, toaster) {
 
-
         ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
-            ResponseService.refreshResponse(data, $stateParams.runId, $stateParams.activityId);
+            if($stateParams.activityId == data.generalItemId && $stateParams.runId == data.runId){
+                ResponseService.refreshResponse(data, $stateParams.runId, $stateParams.activityId);
+            }
+            if($stateParams.runId == data.runId){
+                console.log(data.userEmail, AccountService.myDetailsCache().fullId);
+                //
+                //if(data.userEmail == AccountService.myDetailsCache().fullId){
+                //    toaster.success({
+                //        title: 'You added a response',
+                //        body: 'You have contributed to an activity.'
+                //    });
+                //}else{
+
+                    toaster.success({
+                        title: UserService.getUser(data.userEmail).name+' added a response',
+                        body: UserService.getUser(data.userEmail).name+' has contributed to an activity.'
+                    });
+                //}
+
+            }
         });
 
         ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
@@ -41,22 +59,15 @@ angular.module('DojoIBL')
         //console.log($scope.responses);
         //$scope.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
 
-
-
-
-
         RunService.getRunById($stateParams.runId).then(function(data){
             ActivityService.getActivityById($stateParams.activityId, data.game.gameId).then(function (data) {
                 $scope.activity = data;
             });
         });
 
-        AccountService.myDetails().then(
-            function(data){
-                $scope.myAccount = data;
-            }
-        );
-
+        AccountService.myDetails().then(function(data){
+            $scope.myAccount = data;
+        });
 
         $scope.getUser = function (response){
             return UserService.getUserFromCache(response.userEmail.split(':')[1]).name;
@@ -102,7 +113,6 @@ angular.module('DojoIBL')
                 "color": "#f8ac59"
             };
         };
-
 
         $scope.sendComment = function(){
             if($scope.response != null && $scope.response.length > 0){

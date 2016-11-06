@@ -2,6 +2,7 @@ package org.celstec.arlearn2.delegators;
 
 import org.celstec.arlearn2.api.Service;
 import org.celstec.arlearn2.beans.run.GeneralItemsStatus;
+import org.celstec.arlearn2.beans.run.RunAccess;
 import org.celstec.arlearn2.jdo.manager.GeneralItemStatusManager;
 
 import java.util.List;
@@ -43,7 +44,16 @@ public class GeneralItemStatusDelegator extends GoogleDelegator {
     }
 
     public GeneralItemsStatus changeItemStatus(Long runId, Long generalItemId, Integer status) {
-        return GeneralItemStatusManager.addGeneralItemStatus(runId, generalItemId, status);
+
+        GeneralItemsStatus generalItemsStatus = GeneralItemStatusManager.addGeneralItemStatus(runId, generalItemId, status);
+
+        RunAccessDelegator rad = new RunAccessDelegator(this);
+        NotificationDelegator nd = new NotificationDelegator(this);
+        for (RunAccess ra : rad.getRunAccess(runId).getRunAccess()) {
+            nd.broadcast(generalItemsStatus, ra.getAccount());
+        }
+
+        return generalItemsStatus;
     }
 
     public GeneralItemsStatus getItemStatus(Long runId, Long generalItemId) {

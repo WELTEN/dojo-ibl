@@ -21,8 +21,6 @@ angular.module('DojoIBL')
 
         }
 
-
-
         var resumptionToken;
         var serverTime= 0;
         var serverTimeFirstInvocation;
@@ -93,7 +91,6 @@ angular.module('DojoIBL')
                                     responses[runId+"_"+itemId][id].user = UserService.getUser(data.userEmail);
                                     dataCache.put(id, responses[runId+"_"+itemId][id]);
                                 }
-
                             }
 
                             deferred.resolve(data);

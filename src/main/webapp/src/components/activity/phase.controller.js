@@ -1,7 +1,46 @@
 angular.module('DojoIBL')
 
-    .controller('PhaseController', function ($scope, $sce, $stateParams, $state, toaster, Session, ActivityService, RunService) {
+    .controller('PhaseController', function ($scope, $sce, $stateParams, $state, toaster, Session, ActivityService, RunService, ChannelService) {
         $scope.runId = $stateParams.runId;
+
+
+        //ChannelService.register('org.celstec.arlearn2.beans.run.GeneralItemsStatus', function (notification) {
+
+            //console.log(notification);
+            //
+            //
+            //
+            //ActivityService.getActivityById(notification.generalItemId, $scope.gameId).then(function (data) {
+            //    ActivityService.refreshActivity(notification.generalItemId, $scope.gameId).then(function (data) {
+            //        switch(data.status){
+            //            case 0:
+            //                $scope.activitiesTodo.push(data);
+            //                break;
+            //            case 1:
+            //                $scope.activitiesInProgress.push(data);
+            //                break;
+            //            case 2:
+            //                $scope.activitiesCompleted.push(data);
+            //                break;
+            //            default:
+            //                $scope.activitiesTodo.push(data);
+            //        }
+            //    });
+            //});
+            //toaster.success({
+            //    title: 'Activity modified',
+            //    body: 'The structure of the activity has been modified.'
+            //});
+
+            //ActivityService.refreshActivity(notification.itemId, notification.gameId).then(function (data) {
+            //    $scope.activity = data;
+            //});
+            //toaster.success({
+            //    title: 'Activity modified',
+            //    body: 'The structure of the activity has been modified.'
+            //});
+        //});
+
 
         RunService.getRunById($stateParams.runId).then(function(data){
 
@@ -14,6 +53,8 @@ angular.module('DojoIBL')
             $scope.activitiesTodo = [];
             $scope.activitiesInProgress = [];
             $scope.activitiesCompleted = [];
+
+            $scope.gameId = data.game.gameId;
 
             ActivityService.getActivitiesForPhase(data.game.gameId, $stateParams.phase).then(function (data) {
                 angular.forEach(data, function(activity){
