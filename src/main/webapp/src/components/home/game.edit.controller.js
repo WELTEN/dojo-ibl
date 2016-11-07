@@ -533,11 +533,11 @@ angular.module('DojoIBL')
         $scope.addPhase = function(){
             swal({
                 title: "New phase",
-                text: "Are you sure you want to rename the phase?",
+                text: "Are you sure you want to add a phase?",
                 type: "input",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, rename it!",
+                confirmButtonText: "Yes, create it!",
                 inputPlaceholder: "New phase name",
                 closeOnConfirm: false
             }, function (inputValue) {
