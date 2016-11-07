@@ -408,7 +408,7 @@ angular.module('DojoIBL')
         $scope.sortableFirst = false;
 
         $scope.sortableOptions = {
-            connectWith: ".connectList",
+            //connectWith: ".connectList",
             'scroll': false,
             'ui-floating': 'auto',
             'start': function (event, ui) {
@@ -419,6 +419,22 @@ angular.module('DojoIBL')
             },
             'sort': function (event, ui) {
                 ui.helper.css({'top': ui.position.top + $scope.wscrolltop + 'px'});
+            },
+            stop: function(e, ui) {
+                var item = ui.item.scope().activity;
+                var group = event.target;
+                //console.log(e.target.id);
+                $.map($(this).find('li'), function(el) {
+                    var sortKey = $(el).index();
+                    el = angular.fromJson(el.id);
+
+                    //console.log(e.target.id, el.section);
+
+                    el.sortKey = sortKey;
+                    ActivityService.newActivity(el).then(function(data){
+                        //console.log(data);
+                    });
+                });
             }
         };
 
