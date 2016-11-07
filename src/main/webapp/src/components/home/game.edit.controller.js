@@ -404,6 +404,24 @@ angular.module('DojoIBL')
             });
         };
 
+        $scope.wscrolltop = '';
+        $scope.sortableFirst = false;
+
+        $scope.sortableOptions = {
+            connectWith: ".connectList",
+            'scroll': false,
+            'ui-floating': 'auto',
+            'start': function (event, ui) {
+                if($scope.sortableFirst){
+                    $scope.wscrolltop = $(window).scrollTop();
+                }
+                $scope.sortableFirst = true;
+            },
+            'sort': function (event, ui) {
+                ui.helper.css({'top': ui.position.top + $scope.wscrolltop + 'px'});
+            }
+        };
+
         //$scope.sortableOptions = {
         //    connectWith: ".connectList",
         //    axis: 'x'
