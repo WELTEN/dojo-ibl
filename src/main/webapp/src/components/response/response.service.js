@@ -189,9 +189,9 @@ angular.module('DojoIBL')
                                     }
                                     responses[runId+"_"+itemId][data.responses[i].responseId] = data.responses[i];
 
-                                    if(data.responses[i].parentId){
-                                        console.log("Es hijo de: ",data.responses[i].parentId)
-                                    }
+                                    //if(data.responses[i].parentId){
+                                    //    console.log("Es hijo de: ",data.responses[i].parentId)
+                                    //}
 
                                     responses[runId+"_"+itemId][data.responses[i].responseId].user = UserService.getUser(data.responses[i].userEmail);
                                     dataCache.put(data.responses[i].responseId, responses[runId+"_"+itemId][data.responses[i].responseId]);

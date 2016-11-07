@@ -151,7 +151,7 @@
                                 </button>
                                 <span class="title-phase" ng-click="renamePhase($index)">{{ $index }}. {{ phase.title }}</span>
                             </h3>
-                            <ul id="{{$index}}" ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable">
+                            <ul id="{{$index}}" ui-sortable="sortableOptions" ng-model="lists[$index]" class="sortable-list connectList agile-list ui-sortable">
                                 <li id="{{ activity }}" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in lists[$index] | orderByDayNumber:'sortKey'">
                                     <!--<button aria-hidden="true" data-dismiss="alert" class="close" ng-click="removeActivity(activity, game)" type="button">×</button>-->
 

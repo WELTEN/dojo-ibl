@@ -84,7 +84,6 @@ angular.module('DojoIBL')
                 var item = ui.item.scope().activity;
                 var group = event.target;
                 ActivityService.changeActivityStatus($stateParams.runId, item.id,group.id).then(function (data) {
-                    console.log(data);
                     switch(data.status){
                         case 0:
                             toaster.success({
