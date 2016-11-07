@@ -1,7 +1,8 @@
 <div class="inmodal">
     <div class="modal-header">
-        <i class="fa fa-laptop modal-icon"></i>
-        <h4 class="modal-title">Create activity</h4>
+        <!--<i class="fa fa-laptop modal-icon"></i>-->
+        <h4 ng-if="activity.id" class="modal-title">Edit activity</h4>
+        <h4 ng-if="!activity.id" class="modal-title">Create activity</h4>
     </div>
     <div class="modal-body form-horizontal" >
         <form class="form-horizontal" method="get">

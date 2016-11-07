@@ -356,10 +356,6 @@ angular.module('DojoIBL')
         };
 
         $scope.editActivity = function (activity, game) {
-
-
-            console.log(activity.videoFeed);
-
             var modalInstance = $modal.open({
                 templateUrl: '/src/components/home/new.activity.modal.html',
                 controller: 'NewActivityController',
@@ -482,7 +478,6 @@ angular.module('DojoIBL')
         $scope.addRole = function () {
             $scope.game.config.roles.push($scope.role);
             GameService.addRole($scope.game.gameId, $scope.role).then(function(data){
-                console.log(data);
                 $scope.game = data;
             });
 
@@ -702,14 +697,12 @@ angular.module('DojoIBL')
                 angular.forEach($scope.lists[x], function(i, a){
                     i.section = x;
                     ActivityService.newActivity(i).then(function(data){
-                        console.log(data);
                     });
                 });
 
                 angular.forEach($scope.lists[y], function(i,a){
                     i.section = y;
                     ActivityService.newActivity(i).then(function(data){
-                        console.log(data);
                     });
                 });
 
@@ -718,7 +711,6 @@ angular.module('DojoIBL')
                 GameService.newGame($scope.game).then(function(updatedGame){
 
                     angular.forEach($scope.gameRuns, function(value, key) {
-                        console.log(value, key);
 
                         value.game = updatedGame;
 
@@ -840,7 +832,6 @@ angular.module('DojoIBL')
                     $scope.usersRun = []
                 }
 
-                console.log($scope.accountsAccesGame);
 
                 angular.forEach($scope.accountsAccesGame, function (gameAccess) {
                     if(gameAccess.accessRights == 1){
