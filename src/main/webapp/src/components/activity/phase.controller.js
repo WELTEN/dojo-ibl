@@ -79,7 +79,7 @@ angular.module('DojoIBL')
 
         $scope.sortableOptions = {
             connectWith: ".connectList",
-            axis: 'x',
+            scroll: false,
             receive: function(event, ui) {
                 var item = ui.item.scope().activity;
                 var group = event.target;
@@ -107,6 +107,16 @@ angular.module('DojoIBL')
                     }
 
                 });
+            },
+            'ui-floating': 'auto',
+            'start': function (event, ui) {
+                if($scope.sortableFirst){
+                    $scope.wscrolltop = $(window).scrollTop();
+                }
+                $scope.sortableFirst = true;
+            },
+            'sort': function (event, ui) {
+                ui.helper.css({'top': ui.position.top + $scope.wscrolltop + 'px'});
             }
         };
 
