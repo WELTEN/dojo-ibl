@@ -356,6 +356,10 @@ angular.module('DojoIBL')
         };
 
         $scope.editActivity = function (activity, game) {
+
+
+            console.log(activity.videoFeed);
+
             var modalInstance = $modal.open({
                 templateUrl: '/src/components/home/new.activity.modal.html',
                 controller: 'NewActivityController',
@@ -1039,8 +1043,14 @@ angular.module('DojoIBL')
 
         $scope.game = game;
         $scope.activity = activity;
-        $scope.activity.audioFeed = "example link";
-        $scope.activity.videoFeed = "example link";
+
+        if(activity.videoFeed == "example link"){
+            $scope.activity.videoFeed = "example link";
+        }
+        if(activity.audioFeed == "example link"){
+            $scope.activity.audioFeed = "example link";
+        }
+
         $scope.activity.fileReferences = [];
         $scope.activity.gameId = $stateParams.gameId;
 
