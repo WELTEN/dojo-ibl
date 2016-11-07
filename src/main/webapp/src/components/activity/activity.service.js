@@ -16,94 +16,52 @@ angular.module('DojoIBL')
             storageMode: 'localStorage' // This cache will use `localStorage`.
         });
 
+        var generalItems = {};
+        var dataCache = CacheFactory.get('activitiesCache');
+        var generalItemsId = dataCache.keys();
+        for (var i=0; i < generalItemsId.length; i++) {
+            var generalItem = dataCache.get(generalItemsId[i]);
+            generalItems[generalItem.gameId] = generalItems[generalItem.gameId] || {};
+            generalItems[generalItem.gameId][generalItem.section] = generalItems[generalItem.gameId][generalItem.section] || {};
+            generalItems[generalItem.gameId][generalItem.section][generalItem.id] = generalItem;
+        }
+
         return {
-            newActivity: function(activityAsJson){
-                var dataCache = CacheFactory.get('activitiesCache');
-
-                var newActivity = new Activity(activityAsJson);
-                return newActivity.$save();
-            },
-            getItemFromCache: function(id) {
-                var dataCache = CacheFactory.get('activitiesCache');
-                return dataCache.get(id);
-            },
-            getActivitiesForPhase: function (gameId, phaseId) {
-                var service = this;
-                var dataCache = CacheFactory.get('activitiesCache');
-                var deferred = $q.defer();
-                Activity.getActivitiesForPhase({ gameId: gameId, phase: phaseId }).$promise.then(
-                    function (data) {
-                        var generalItems={};
-                        generalItems[gameId] = generalItems[gameId] || {};
-                        for (i = 0; i < data.generalItems.length; i++) {
-                            if (!data.generalItems[i].deleted) {
-
-                                //var rol = [];
-                                //angular.forEach(data.generalItems[i].roles, function(d){
-                                //    rol.push(JSON.parse(d));
-                                //});
-
-                                //data.generalItems[i].roles = rol;
-
-                                dataCache.put(data.generalItems[i].id, data.generalItems[i]);
-                                generalItems[gameId][data.generalItems[i].id] = data.generalItems[i];
-                                // returnElements.push(data.generalItems[i])
-                            }
-                        }
-                        deferred.resolve(generalItems[gameId]);
-                    }
-                );
-
-                return deferred.promise;
-            },
-            getActivities: function (gameId) {
-                var service = this;
+            getActivitiesServer: function(gameId){
                 var dataCache = CacheFactory.get('activitiesCache');
                 var deferred = $q.defer();
                 Activity.getActivities({ gameId: gameId }).$promise.then(
                     function (data) {
-                        var generalItems={};
-                        generalItems[gameId] = generalItems[gameId] || {};
                         for (i = 0; i < data.generalItems.length; i++) {
+
                             if (!data.generalItems[i].deleted) {
+
                                 dataCache.put(data.generalItems[i].id, data.generalItems[i]);
-                                generalItems[gameId][data.generalItems[i].id] = data.generalItems[i];
+
+                                if(angular.isUndefined(generalItems[gameId])){
+                                    generalItems[gameId] = {};
+                                }
+
+                                if(angular.isUndefined(generalItems[gameId][data.generalItems[i].section])){
+                                    generalItems[gameId][data.generalItems[i].section] = {};
+                                }
+
+                                generalItems[gameId][data.generalItems[i].section][data.generalItems[i].id] = data.generalItems[i];
                             }
                         }
-                        deferred.resolve(generalItems[gameId]);
+                        deferred.resolve(data);
                     }
                 );
-
                 return deferred.promise;
             },
-            getActivityById: function(itemId, gameId) {
-                var deferred = $q.defer();
-                var dataCache = CacheFactory.get('activitiesCache');
-                if (dataCache.get(itemId)) {
-                    deferred.resolve(dataCache.get(itemId));
-                } else {
-
-                    Activity.getActivity({ itemId:itemId, gameId: gameId}).$promise.then(
-                        function(data){
-                            dataCache.put(itemId, data);
-                            deferred.resolve(data);
-                        }
-                    );
-                }
-                return deferred.promise;
+            getActivities: function () {
+                return generalItems;
             },
-            refreshActivity: function(id, gameId) {
+            deleteActivity: function(gameId, item){
                 var dataCache = CacheFactory.get('activitiesCache');
-                if (dataCache.get(id)) {
-                    //delete games[id];
-                    dataCache.remove(id);
-                }
-                return this.getActivityById(id, gameId);
-            },
-            deleteActivity: function(gameId, itemId){
-                var dataCache = CacheFactory.get('activitiesCache');
-                dataCache.remove(itemId);
-                return Activity.delete({ gameId: gameId, itemId: itemId});
+                dataCache.remove(item.id);
+                delete generalItems[gameId][item.section][item.id];
+                return Activity.delete({ gameId: gameId, itemId: item.id});
             },
             changeActivityStatus: function(runId, gItemId, status){
                 var deferred = $q.defer();
@@ -142,6 +100,95 @@ angular.module('DojoIBL')
                     }
                 );
                 return deferred.promise;
+            },
+
+            newActivity: function(activityAsJson){
+                var dataCache = CacheFactory.get('activitiesCache');
+
+                var newActivity = new Activity(activityAsJson);
+                return newActivity.$save();
+            },
+            getItemFromCache: function(id) {
+                var dataCache = CacheFactory.get('activitiesCache');
+                return dataCache.get(id);
+            },
+            //getActivitiesForPhase: function (gameId, phaseId) {
+            //    var service = this;
+            //    var dataCache = CacheFactory.get('activitiesCache');
+            //    var deferred = $q.defer();
+            //    Activity.getActivitiesForPhase({ gameId: gameId, phase: phaseId }).$promise.then(
+            //        function (data) {
+            //            //var generalItems={};
+            //            //generalItems[gameId] = generalItems[gameId] || {};
+            //            for (i = 0; i < data.generalItems.length; i++) {
+            //                if (!data.generalItems[i].deleted) {
+            //
+            //                    dataCache.put(data.generalItems[i].id, data.generalItems[i]);
+            //                    generalItems[gameId][data.generalItems[i].id] = data.generalItems[i];
+            //                    // returnElements.push(data.generalItems[i])
+            //                }
+            //            }
+            //            deferred.resolve(generalItems[gameId]);
+            //        }
+            //    );
+            //
+            //    return deferred.promise;
+            //},
+            //getActivities: function (gameId) {
+            //    var dataCache = CacheFactory.get('activitiesCache');
+            //    var deferred = $q.defer();
+            //    Activity.getActivities({ gameId: gameId }).$promise.then(
+            //        function (data) {
+            //            for (i = 0; i < data.generalItems.length; i++) {
+            //                if (!data.generalItems[i].deleted) {
+            //                    dataCache.put(data.generalItems[i].id, data.generalItems[i]);
+            //                    generalItems[gameId][data.generalItems[i].id] = data.generalItems[i];
+            //                }
+            //            }
+            //            deferred.resolve(generalItems[gameId]);
+            //        }
+            //    );
+            //    return deferred.promise;
+            //},
+            getActivityById: function(itemId, gameId) {
+                var deferred = $q.defer();
+                var dataCache = CacheFactory.get('activitiesCache');
+                if (dataCache.get(itemId)) {
+                    deferred.resolve(dataCache.get(itemId));
+                } else {
+
+                    Activity.getActivity({ itemId:itemId, gameId: gameId}).$promise.then(
+                        function(data){
+
+                            if (!data.error){
+                                if (data.deleted) {
+                                    delete generalItems[gameId][itemId];
+                                    dataCache.remove(itemId);
+
+                                } else {
+                                    if(angular.isUndefined(generalItems[gameId])){
+                                        generalItems[gameId] = {};
+                                    }
+                                    if(angular.isUndefined(generalItems[gameId][itemId])){
+                                        generalItems[gameId][itemId] = {};
+                                    }
+                                    generalItems[gameId][itemId] = data;
+                                    dataCache.put(itemId, data);
+                                    deferred.resolve(data);
+                                }
+                            }
+                        }
+                    );
+                }
+                return deferred.promise;
+            },
+            refreshActivity: function(id, gameId) {
+                var dataCache = CacheFactory.get('activitiesCache');
+                if (dataCache.get(id)) {
+                    delete generalItems[gameId][id];
+                    dataCache.remove(id);
+                }
+                return this.getActivityById(id, gameId);
             }
         }
     }

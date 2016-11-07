@@ -74,7 +74,6 @@ angular.module('DojoIBL')
                 } else {
                     Response.getResponse({id: id}).$promise.then(
                         function (data) {
-                            console.log(data)
                             if (!data.error){
                                 if (data.deleted) {
                                     delete responses[runId+"_"+itemId][id];

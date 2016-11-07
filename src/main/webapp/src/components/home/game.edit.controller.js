@@ -14,24 +14,6 @@ angular.module('DojoIBL')
             });
         });
 
-        //ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
-        //    ActivityService.refreshActivity(notification.itemId, notification.gameId).then(function (data) {
-        //        console.log(data)
-        //        //ActivityService.getActivitiesForPhase($stateParams.gameId, data.section).then(function(data){
-        //        //
-        //        //    $scope.lists[data.section].push(data);
-        //        //
-        //        //    //angular.forEach(data, function(i,a){
-        //        //    //    $scope.lists[data.section].push(i);
-        //        //    //});
-        //        //});
-        //    });
-        //    toaster.success({
-        //        title: 'Activity modified',
-        //        body: 'The actividad has been modified.'
-        //    });
-        //});
-
         // Managing different tabs activities
         $scope.lists = [];
         $scope.selection = [];
@@ -79,15 +61,20 @@ angular.module('DojoIBL')
                 {'name': 'Add data collection', 'type': 'org.celstec.arlearn2.beans.generalItem.ScanTag', 'icon': 'fa-picture-o'}
             ];
 
-            angular.forEach($scope.game.phases, function(value, key) {
-                $scope.lists[key] = [];
-                ActivityService.getActivitiesForPhase($stateParams.gameId, key).then(function(data){
-                    angular.forEach(data, function(i,a){
-                        $scope.lists[key].push(i);
-                    });
-                });
+            ActivityService.getActivitiesServer($stateParams.gameId).then(function(value) {
             });
+
+            //angular.forEach($scope.game.phases, function(value, key) {
+            //    $scope.lists[key] = [];
+            //    ActivityService.getActivitiesForPhase($stateParams.gameId, key).then(function(data){
+            //        angular.forEach(data, function(i,a){
+            //            $scope.lists[key].push(i);
+            //        });
+            //    });
+            //});
         });
+
+        $scope.activities = ActivityService.getActivities();
 
         $scope.ok = function(){
             GameService.newGame($scope.game);
@@ -203,8 +190,6 @@ angular.module('DojoIBL')
                 });
             };
         };
-
-
 
         $scope.changeTab = function(index){
 
@@ -373,34 +358,6 @@ angular.module('DojoIBL')
                         });
                     }
                 });
-            });
-        };
-
-
-        $scope.removeActivity = function(data, index){
-
-            swal({
-                title: "Are you sure?",
-                text: "You will not be able to recover this activity!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, delete it!",
-                closeOnConfirm: false
-            }, function () {
-                swal("Deleted!", "The activity has been removed from the inquiry structure.", "success");
-
-                ActivityService.deleteActivity(data.gameId, data    .id);
-
-
-                //console.log(index, $scope.lists[index][data]);
-
-                //$scope.lists[index].indexOf(data);
-                //$scope.lists[$(".select-activities > li.active").attr('data')].splice(position, 1);
-                //ActivityService.deleteActivity($scope.activity.gameId, $scope.activity.id);
-                //$scope.activity = $scope.activity_old;
-                //$scope.selectedCombination = 0;
-                //$scope.selected = false;
             });
         };
 
@@ -614,27 +571,6 @@ angular.module('DojoIBL')
                 });
             });
         };
-
-        //$scope.removePhase = function(index){
-        //    swal({
-        //        title: "Are you sure you want to delete the phase?",
-        //        text: "You will not be able to recover this phase!",
-        //        type: "warning",
-        //        showCancelButton: true,
-        //        confirmButtonColor: "#DD6B55",
-        //        confirmButtonText: "Yes, delete the phase!",
-        //        closeOnConfirm: false
-        //    }, function () {
-        //        swal("Phase deleted!", "The phase has been removed from the inquiry structure.", "success");
-        //
-        //        GameService.removePhase($scope.game, index);
-        //
-        //        toaster.warning({
-        //            title: 'Phase deleted',
-        //            body: 'The phase has been removed from the inquiry template.'
-        //        });
-        //    });
-        //};
 
         $scope.removePhase = function(index){
 
@@ -1008,9 +944,6 @@ angular.module('DojoIBL')
         this.setTab = function (tabId) {
 
             this.tab = tabId;
-            //ActivityService.getActivitiesForPhase($scope.game.gameId, tabId).then(function (data) {
-            //    $scope.activities = data;
-            //});
 
         };
 
@@ -1046,9 +979,24 @@ angular.module('DojoIBL')
         $scope.activity.gameId = $stateParams.gameId;
 
         $scope.ok = function () {
-            //console.log($scope.data.model)
-            //$scope.activity.roles2.push(angular.fromJson($scope.data.model))
             $modalInstance.close($scope.activity);
+        };
+
+
+        $scope.removeActivity = function(data){
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this activity!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            }, function () {
+                swal("Deleted!", "The activity has been removed from the inquiry structure.", "success");
+                ActivityService.deleteActivity(data.gameId, data);
+                $modalInstance.dismiss('cancel');
+            });
         };
 
         $scope.cancel = function () {
