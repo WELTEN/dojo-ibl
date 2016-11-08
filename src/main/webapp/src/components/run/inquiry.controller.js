@@ -18,23 +18,8 @@ angular.module('DojoIBL')
             $scope.phases = data.game.phases;
             $scope.code = data.code;
             $scope.serverCreationTime = data.serverCreationTime;
-            console.log(data);
             $scope.disableInquiryLoading = true;
         });
-
-        //ChannelService.register('org.celstec.arlearn2.beans.run.Message', function (notification) {
-        //    console.info("[Notification][Message]", notification);
-        //    if (notification.runId == $stateParams.runId) {
-        //        $scope.numberMessages += 1;
-        //        MessageService.getMessageById(notification.messageId).then(function (data) {
-        //            console.info("[Notification][Message]", data);
-        //            //if(me.localId != data.senderId){
-        //            //    $scope.sound = ngAudio.load("/src/assets/beep.m4a");
-        //            //    $scope.sound.play();
-        //            //}
-        //        });
-        //    }
-        //});
 
         var fields = $(this.el).find('#circlemenu li'),
             container = $('#circlemenu'),
@@ -42,16 +27,6 @@ angular.module('DojoIBL')
             height = 200,
             angle = 300,
             radius = 100;
-
-
-        //$scope.getTotal = function(){
-        //    var total = 0;
-        //    for(var i = 0; i < $scope.cart.products.length; i++){
-        //        var product = $scope.cart.products[i];
-        //        total += (product.price * product.quantity);
-        //    }
-        //    return total;
-        //}
 
         $scope.calculateLeft = function(i) {
 

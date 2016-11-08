@@ -14,6 +14,14 @@ angular.module('DojoIBL')
             });
         });
 
+        ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
+            ActivityService.refreshActivity(notification.itemId, notification.gameId);
+            toaster.success({
+                title: 'Activity modified',
+                body: 'The structure of the activity has been modified.'
+            });
+        });
+
         // Managing different tabs activities
         $scope.lists = [];
         $scope.selection = [];
@@ -61,8 +69,7 @@ angular.module('DojoIBL')
                 {'name': 'Add data collection', 'type': 'org.celstec.arlearn2.beans.generalItem.ScanTag', 'icon': 'fa-picture-o'}
             ];
 
-            ActivityService.getActivitiesServer($stateParams.gameId).then(function(value) {
-            });
+            ActivityService.getActivitiesServer($stateParams.gameId);
 
             //angular.forEach($scope.game.phases, function(value, key) {
             //    $scope.lists[key] = [];

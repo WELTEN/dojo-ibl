@@ -26,6 +26,19 @@ angular.module('DojoIBL')
             generalItems[generalItem.gameId][generalItem.section][generalItem.id] = generalItem;
         }
 
+        var generalItemsStatus = {};
+        var statusCache = CacheFactory.get('activitiesStatusCache');
+        var generalItemsStatusId = statusCache.keys();
+        for (var i=0; i < generalItemsStatusId.length; i++) {
+
+            var giStatus = statusCache.get(generalItemsStatusId[i]);
+
+            generalItemsStatus[giStatus.runId] = generalItemsStatus[giStatus.runId] || {};
+            generalItemsStatus[giStatus.runId][giStatus.section] = generalItemsStatus[giStatus.runId][giStatus.section] || {};
+            //generalItemsStatus[generalItemStatus.runId][generalItemStatus.section][generalItemStatus.status] = generalItemsStatus[generalItemStatus.gameId][generalItemStatus.section] || {};
+            generalItemsStatus[giStatus.runId][giStatus.section][giStatus.id] = giStatus;
+        }
+
         return {
             getActivitiesServer: function(gameId){
                 var dataCache = CacheFactory.get('activitiesCache');
@@ -55,45 +68,12 @@ angular.module('DojoIBL')
                 );
                 return deferred.promise;
             },
-            getActivitiesServerStatus: function(gameId, runId){
-                var dataCache = CacheFactory.get('activitiesCache');
-                var deferred = $q.defer();
-                var service = this;
-                Activity.getActivities({ gameId: gameId }).$promise.then(
-                    function (data) {
-                        for (i = 0; i < data.generalItems.length; i++) {
-
-                            if (!data.generalItems[i].deleted) {
-
-                                if(angular.isUndefined(generalItems[gameId])){
-                                    generalItems[gameId] = {};
-                                }
-
-                                if(angular.isUndefined(generalItems[gameId][data.generalItems[i].section])){
-                                    generalItems[gameId][data.generalItems[i].section] = {};
-                                }
-
-                                generalItems[gameId][data.generalItems[i].section][data.generalItems[i].id] = data.generalItems[i];
-                                generalItems[gameId][data.generalItems[i].section][data.generalItems[i].id].status = 0;
-
-                                service.getActivityStatus(runId, data.generalItems[i].id).then(function(status){
-                                    //console.log(data, i)
-                                    //generalItems[gameId][data.generalItems[i].section][data.generalItems[i].id].status = status.status;
-                                });
-                                //
-                                //console.log(generalItems);
-
-                                dataCache.put(data.generalItems[i].id, generalItems[gameId][data.generalItems[i].section][data.generalItems[i].id]);
-
-                            }
-                        }
-                        deferred.resolve(data);
-                    }
-                );
-                return deferred.promise;
-            },
             getActivities: function () {
                 return generalItems;
+            },
+            getActivitiesStatus: function (runId) {
+                console.log(generalItemsStatus, runId)
+                return generalItemsStatus[runId];
             },
             deleteActivity: function(gameId, item){
                 var dataCache = CacheFactory.get('activitiesCache');
@@ -139,58 +119,16 @@ angular.module('DojoIBL')
                 );
                 return deferred.promise;
             },
-
             newActivity: function(activityAsJson){
                 var dataCache = CacheFactory.get('activitiesCache');
 
                 var newActivity = new Activity(activityAsJson);
                 return newActivity.$save();
             },
-            getItemFromCache: function(id) {
-                var dataCache = CacheFactory.get('activitiesCache');
-                return dataCache.get(id);
-            },
-            //getActivitiesForPhase: function (gameId, phaseId) {
-            //    var service = this;
-            //    var dataCache = CacheFactory.get('activitiesCache');
-            //    var deferred = $q.defer();
-            //    Activity.getActivitiesForPhase({ gameId: gameId, phase: phaseId }).$promise.then(
-            //        function (data) {
-            //            //var generalItems={};
-            //            //generalItems[gameId] = generalItems[gameId] || {};
-            //            for (i = 0; i < data.generalItems.length; i++) {
-            //                if (!data.generalItems[i].deleted) {
-            //
-            //                    dataCache.put(data.generalItems[i].id, data.generalItems[i]);
-            //                    generalItems[gameId][data.generalItems[i].id] = data.generalItems[i];
-            //                    // returnElements.push(data.generalItems[i])
-            //                }
-            //            }
-            //            deferred.resolve(generalItems[gameId]);
-            //        }
-            //    );
-            //
-            //    return deferred.promise;
-            //},
-            //getActivities: function (gameId) {
-            //    var dataCache = CacheFactory.get('activitiesCache');
-            //    var deferred = $q.defer();
-            //    Activity.getActivities({ gameId: gameId }).$promise.then(
-            //        function (data) {
-            //            for (i = 0; i < data.generalItems.length; i++) {
-            //                if (!data.generalItems[i].deleted) {
-            //                    dataCache.put(data.generalItems[i].id, data.generalItems[i]);
-            //                    generalItems[gameId][data.generalItems[i].id] = data.generalItems[i];
-            //                }
-            //            }
-            //            deferred.resolve(generalItems[gameId]);
-            //        }
-            //    );
-            //    return deferred.promise;
-            //},
-
             getActivityById: function(itemId, gameId) {
                 var deferred = $q.defer();
+                var service = this;
+
                 var dataCache = CacheFactory.get('activitiesCache');
                 if (dataCache.get(itemId)) {
                     deferred.resolve(dataCache.get(itemId));
@@ -212,6 +150,52 @@ angular.module('DojoIBL')
                                         generalItems[gameId][data.section] = {};
                                     }
                                     generalItems[gameId][data.section][itemId] = data;
+
+                                    dataCache.put(itemId, data);
+                                    deferred.resolve(data);
+                                }
+                            }
+                        }
+                    );
+                }
+                return deferred.promise;
+            },
+            getActivityByIdRun: function(itemId, gameId, runId) {
+                var deferred = $q.defer();
+                var service = this;
+
+                var dataCache = CacheFactory.get('activitiesCache');
+                if (dataCache.get(itemId)) {
+                    deferred.resolve(dataCache.get(itemId));
+                } else {
+
+                    Activity.getActivity({ itemId:itemId, gameId: gameId}).$promise.then(
+                        function(data){
+
+                            if (!data.error){
+                                if (data.deleted) {
+                                    delete generalItems[gameId][data.section][itemId];
+                                    dataCache.remove(itemId);
+
+                                } else {
+                                    if(angular.isUndefined(generalItems[gameId])){
+                                        generalItems[gameId] = {};
+                                    }
+                                    if(angular.isUndefined(generalItems[gameId][data.section])){
+                                        generalItems[gameId][data.section] = {};
+                                    }
+                                    generalItems[gameId][data.section][itemId] = data;
+                                    //generalItems[gameId][data.section][itemId].status = 0;
+                                    console.log(generalItems[gameId]);
+                                    service.getActivityStatus(runId, data.id).then(function(status){
+
+                                        if(Object.keys(status).length != 0){
+                                            service.getActivityById(status.generalItemId, gameId).then(function(activity){
+                                                generalItems[gameId][activity.section][activity.id].status = status;
+                                            });
+                                        }
+                                    });
+
                                     dataCache.put(itemId, data);
                                     deferred.resolve(data);
                                 }
@@ -229,6 +213,51 @@ angular.module('DojoIBL')
                     dataCache.remove(id);
                 }
                 return this.getActivityById(id, gameId);
+            },
+            refreshActivityStatus: function(id, gameId, runId) {
+                var dataCache = CacheFactory.get('activitiesCache');
+                var act = dataCache.get(id);
+                if (act) {
+                    delete generalItems[gameId][act.section][id];
+                    dataCache.remove(id);
+                }
+                return this.getActivityByIdRun(id, gameId, runId);
+            },
+            getActivitiesServerStatus: function(gameId, runId){
+                var dataCache = CacheFactory.get('activitiesStatusCache');
+                var deferred = $q.defer();
+                var service = this;
+                Activity.getActivities({ gameId: gameId }).$promise.then(
+                    function (data) {
+                        for (var i = 0; i < data.generalItems.length; i++) {
+
+                            var activity = data.generalItems[i];
+
+
+                            if (!activity.deleted) {
+
+                                if(angular.isUndefined(generalItemsStatus[runId])){
+                                    generalItemsStatus[runId] = {};
+                                }
+
+                                if(angular.isUndefined(generalItemsStatus[runId][activity.section])){
+                                    generalItemsStatus[runId][activity.section] = {};
+                                }
+
+                                activity.status = {};
+
+                                activity.status = service.getActivityStatus(runId, activity.id);
+                                generalItemsStatus[runId][activity.section][activity.id] = activity;
+                                dataCache.put(activity.id, activity);
+                            }
+                        }
+
+                        console.log(generalItemsStatus);
+
+                        deferred.resolve(data);
+                    }
+                );
+                return deferred.promise;
             }
         }
     }
