@@ -41,14 +41,14 @@ angular.module('DojoIBL')
             //});
         //});
 
+        $scope.activities = ActivityService.getActivities();
 
         RunService.getRunById($stateParams.runId).then(function(data){
 
             $scope.phase = data.game.phases[$stateParams.phase];
+            $scope.phase.num = $stateParams.phase;
 
-            //ActivityService.getActivitiesForPhase(data.game.gameId, $stateParams.phase).then(function (data) {
-            //    $scope.activities = data;
-            //});
+            ActivityService.getActivitiesServerStatus(data.game.gameId, $stateParams.runId);
 
             $scope.activitiesTodo = [];
             $scope.activitiesInProgress = [];
@@ -56,25 +56,27 @@ angular.module('DojoIBL')
 
             $scope.gameId = data.game.gameId;
 
-            ActivityService.getActivitiesForPhase(data.game.gameId, $stateParams.phase).then(function (data) {
-                angular.forEach(data, function(activity){
-                    ActivityService.getActivityStatus($stateParams.runId, activity.id).then(function(status){
-                        switch(status.status){
-                            case 0:
-                                $scope.activitiesTodo.push(activity);
-                                break;
-                            case 1:
-                                $scope.activitiesInProgress.push(activity);
-                                break;
-                            case 2:
-                                $scope.activitiesCompleted.push(activity);
-                                break;
-                            default:
-                                $scope.activitiesTodo.push(activity);
-                        }
-                    });
-                });
-            });
+            //ActivityService.getActivitiesForPhase(data.game.gameId, $stateParams.phase).then(function (data) {
+            //    angular.forEach(data, function(activity){
+            //        ActivityService.getActivityStatus($stateParams.runId, activity.id).then(function(status){
+            //            switch(status.status){
+            //                case 0:
+            //                    $scope.activitiesTodo.push(activity);
+            //                    break;
+            //                case 1:
+            //                    $scope.activitiesInProgress.push(activity);
+            //                    break;
+            //                case 2:
+            //                    $scope.activitiesCompleted.push(activity);
+            //                    break;
+            //                default:
+            //                    $scope.activitiesTodo.push(activity);
+            //            }
+            //        });
+            //    });
+            //});
+
+
         });
 
         $scope.sortableOptions = {
