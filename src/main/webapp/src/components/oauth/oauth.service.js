@@ -32,16 +32,21 @@ angular.module('DojoIBL')
             reset: function(){
                 var accounts = CacheFactory.get('accountCache');
                 var activities = CacheFactory.get('activitiesCache');
+                var activitiesStatus = CacheFactory.get('activitiesStatusCache');
                 var games = CacheFactory.get('gamesCache');
                 var responses = CacheFactory.get('responsesCache');
                 var runs = CacheFactory.get('runsCache');
                 var users = CacheFactory.get('usersCache');
+                var messages = CacheFactory.get('messagesCache');
+
                 if(accounts) accounts.removeAll();
                 if(activities) activities.removeAll();
+                if(activitiesStatus) activitiesStatus.removeAll();
                 if(games) games.removeAll();
                 if(responses) responses.removeAll();
                 if(runs) runs.removeAll();
                 if(users) users.removeAll();
+                if(messages) messages.removeAll();
                 localStorage.removeItem('oauth');
                 localStorage.removeItem('accessToken');
             }

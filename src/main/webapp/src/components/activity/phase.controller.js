@@ -1,58 +1,28 @@
 angular.module('DojoIBL')
 
-    .controller('PhaseController', function ($scope, $sce, $stateParams, $state, toaster, Session, ActivityService, RunService, ChannelService) {
+    .controller('PhaseController', function ($scope, $sce, $stateParams, $state, toaster, Session, ActivityStatusService, RunService, ChannelService) {
         $scope.runId = $stateParams.runId;
 
-
-
         ChannelService.register('org.celstec.arlearn2.beans.run.GeneralItemsStatus', function (notification) {
-
-            console.log(notification)
-
-            ActivityService.refreshActivityStatus(notification.generalItemId, $scope.gameId, $stateParams.runId);
+            //
+            //console.log(notification)
+            //
+            //ActivityStatusService.refreshActivityStatus(notification.generalItemId, $scope.gameId, $stateParams.runId);
             //toaster.success({
             //    title: 'Activity modified',
             //    body: 'The structure of the activity has been modified.'
             //});
         });
 
-        $scope.activities = ActivityService.getActivitiesStatus($stateParams.runId);
-        console.log($scope.activities)
+        $scope.activities = ActivityStatusService.getActivitiesStatus();
+
 
         RunService.getRunById($stateParams.runId).then(function(data){
 
             $scope.phase = data.game.phases[$stateParams.phase];
             $scope.phase.num = $stateParams.phase;
-
-            ActivityService.getActivitiesServerStatus(data.game.gameId, $stateParams.runId);
-
-            $scope.activitiesTodo = [];
-            $scope.activitiesInProgress = [];
-            $scope.activitiesCompleted = [];
-
             $scope.gameId = data.game.gameId;
-
-            //ActivityService.getActivitiesForPhase(data.game.gameId, $stateParams.phase).then(function (data) {
-            //    angular.forEach(data, function(activity){
-            //        ActivityService.getActivityStatus($stateParams.runId, activity.id).then(function(status){
-            //            switch(status.status){
-            //                case 0:
-            //                    $scope.activitiesTodo.push(activity);
-            //                    break;
-            //                case 1:
-            //                    $scope.activitiesInProgress.push(activity);
-            //                    break;
-            //                case 2:
-            //                    $scope.activitiesCompleted.push(activity);
-            //                    break;
-            //                default:
-            //                    $scope.activitiesTodo.push(activity);
-            //            }
-            //        });
-            //    });
-            //});
-
-
+            ActivityStatusService.getActivitiesServerStatus(data.game.gameId, $stateParams.runId, $stateParams.phase);
         });
 
         $scope.sortableOptions = {
@@ -61,29 +31,29 @@ angular.module('DojoIBL')
             receive: function(event, ui) {
                 var item = ui.item.scope().activity;
                 var group = event.target;
-                //ActivityService.changeActivityStatus($stateParams.runId, item.id,group.id).then(function (data) {
-                //    switch(data.status){
-                //        case 0:
-                //            toaster.success({
-                //                title: 'Moved to ToDo list',
-                //                body: 'The activity has been successfully moved to the ToDo list.'
-                //            });
-                //            break;
-                //        case 1:
-                //            toaster.success({
-                //                title: 'Moved to In Progress list',
-                //                body: 'The activity has been successfully moved to the In Progress list.'
-                //            });
-                //            break;
-                //        case 2:
-                //            toaster.success({
-                //                title: 'Moved to Completed list',
-                //                body: 'The activity has been successfully moved to the Completed list.'
-                //            });
-                //            break;
-                //    }
-                //
-                //});
+                ActivityStatusService.changeActivityStatus($stateParams.runId, item.id,group.id, $stateParams.phase).then(function (data) {
+                    switch(data.status){
+                        case 0:
+                            toaster.success({
+                                title: 'Moved to ToDo list',
+                                body: 'The activity has been successfully moved to the ToDo list.'
+                            });
+                            break;
+                        case 1:
+                            toaster.success({
+                                title: 'Moved to In Progress list',
+                                body: 'The activity has been successfully moved to the In Progress list.'
+                            });
+                            break;
+                        case 2:
+                            toaster.success({
+                                title: 'Moved to Completed list',
+                                body: 'The activity has been successfully moved to the Completed list.'
+                            });
+                            break;
+                    }
+
+                });
             },
             'ui-floating': 'auto',
             'start': function (event, ui) {
