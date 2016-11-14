@@ -15,34 +15,19 @@
                 </a>
             </div>
         </div>
-        <div class="col-sm-6 padding">
-            <!--<h2>{{ inqTitle }}</h2>-->
-            <!--<h3>Template: {{ inqTempTitle }}</h3>-->
-            <!--<img src="http://webapplayers.com/inspinia_admin-v2.5/img/zender_logo.png" class="img-responsive">-->
-            <!--<p><b>Description</b>: {{ inqDescription }}</p>-->
-            <div ng-bind-html="run.game.description"></div>
-            <p class="small font-bold">
-                <span><i class="fa fa-circle text-success"></i> Inquiry template: <b>{{ inqTempTitle }}</b></span>
-            </p>
-            <p class="small font-bold">
-                <span><i class="fa fa-circle text-warning"></i> Creation date: <b>{{ serverCreationTime | date:'fullDate' }}</b></span>
-            </p>
-        </div>
 
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="padding" ng-show="visualization">
-                <ul class="list-group clear-list m-t">
-                    <li ng-repeat="phase in phases"
-                        class="list-group-item">
-                        <span class="pull-right">
+                <p><span class="badge badge-info">Important</span> <i class="fa fa-info"></i> These are the phases in which the project is structured </p>
+                <ul class="sortable-list connectList agile-list ui-sortable" id="0">
+                    <li ng-repeat="phase in phases">
+                        <i class="fa fa-th-list"></i>
 
-                        </span>
-                        <span class="label label-success">{{$index}}</span>
-                        <a href="#inquiry/{{ inqId }}/phase/{{$index}}"> {{ phase.title }}</a>
+                        <a href="#inquiry/{{ inqId }}/phase/{{$index}}">{{$index}}. {{ phase.title }}</a>
+                        <br/>
                     </li>
-                    <li class="animate-repeat" ng-if="phases.length == 0">
-                        <strong>No phases found...</strong>
-                    </li>
+                    <li ng-if="phases.length == 0">{{'dibl.inquiry.structure.no-phases' |
+                        translate}}</li>
                 </ul>
             </div>
 
