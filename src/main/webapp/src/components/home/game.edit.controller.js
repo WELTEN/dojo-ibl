@@ -975,20 +975,35 @@ angular.module('DojoIBL')
         $scope.game = game;
         $scope.activity = activity;
 
-        if(activity.videoFeed == "example link"){
-            $scope.activity.videoFeed = "example link";
-        }
-        if(activity.audioFeed == "example link"){
-            $scope.activity.audioFeed = "example link";
-        }
+
 
         $scope.activity.fileReferences = [];
         $scope.activity.gameId = $stateParams.gameId;
 
         $scope.ok = function () {
+
+            if($scope.activity.type == "org.celstec.arlearn2.beans.generalItem.AudioObject"){
+                if($scope.activity.audioFeed == ""){
+                    $scope.activity.audioFeed = "-";
+                }else if(angular.isUndefined($scope.activity.audioFeed)){
+                    $scope.activity.audioFeed = "-";
+                }else{
+                    // nothing
+                }
+            }
+
+            if($scope.activity.type == "org.celstec.arlearn2.beans.generalItem.VideoObject"){
+                if($scope.activity.videoFeed == ""){
+                    $scope.activity.videoFeed = "-";
+                }else if(angular.isUndefined($scope.activity.videoFeed)){
+                    $scope.activity.videoFeed = "-";
+                }else{
+                    // nothing
+                }
+            }
+
             $modalInstance.close($scope.activity);
         };
-
 
         $scope.removeActivity = function(data){
             swal({
