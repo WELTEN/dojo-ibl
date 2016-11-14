@@ -975,8 +975,6 @@ angular.module('DojoIBL')
         $scope.game = game;
         $scope.activity = activity;
 
-
-
         $scope.activity.fileReferences = [];
         $scope.activity.gameId = $stateParams.gameId;
 

@@ -11,8 +11,10 @@
     </div>
     <div class="col-md-3">
         <div class="title-action">
-            <a ng-show="state.current.name == 'editrun' && game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"  class="btn btn-danger m-md"><i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-structure' | translate }} <b>{{ run.game.title }}</b></a>
-            <a ng-show="state.current.name == 'inquiry.home' || state.current.name == 'inquiry.phase' || state.current.name == 'inquiry.activity' || state.current.name == 'inquiry.timeline'" href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit"  class="btn btn-danger m-md"><i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-run' | translate }} <b>{{ run.title }}</b></a>
+            <a ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"
+               class="btn btn-danger m-md"><i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-structure' | translate }} <b>{{ run.game.title }}</b></a>
+            <!--<a ng-show="game.accessRights == 1 && (state.current.name == 'inquiry.home' || state.current.name == 'inquiry.phase' || state.current.name == 'inquiry.activity' || state.current.name == 'inquiry.timeline')"-->
+               <!--href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit"  class="btn btn-danger m-md"><i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-run' | translate }} <b>{{ run.title }}</b></a>-->
 
             <div class="m-md" ng-show="state.current.name == 'home'">
                 <div class="input-group" >

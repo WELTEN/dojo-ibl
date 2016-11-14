@@ -13,7 +13,9 @@
       "inquiries": "Investigaciones",
       "profile": "Tu perfil",
       "timeline": "Linea de tiempo",
-      "phases": "Fases"
+      "phases": "Lista de fases",
+      "createinquiry": "Crear investigación",
+      "joininquiry": "Acceder invest."
     },
     "header": {
       "logout": "Salir",
@@ -24,23 +26,87 @@
       "back": "Volver a",
       "new": "Nueva investigación",
       "join": "Buscar y usar",
-      "edit": "Editar investigación"
+      "edit-structure": "Modificar estructura ",
+      "edit-run": "Modificar ",
+      "edit-inquiry-structure": "Esta editando la estructura de ",
+      "edit-inquiry-run": "Editando la investigación ",
+      "home": "Inicio",
+      "backend": "Backend",
+      "phases": "Investigacion",
+      "phase": "Fase",
+      "activity": "Actividad",
+      "timeline": "Linea del tiempo",
+      "editstructure": "Modificar estructura ",
+      "editrun": "Modificar ",
+      "newinquiry": "Nueva investigacion",
+      "profile": "Perfil"
     },
     "inquiry": {
       "structure": {
-        "chat": "Mensajes",
-        "send": "Enviar"
+        "chat": "Chat",
+        "send": "Enviar",
+        "no-phases": "No hay fases todavia..."
       },
       "home": {
-
+        "click-first": "Primero haz click",
+        "click-first-1": "o pega aqui",
+        "click-first-2": "un codigo de investigacion ",
+        "join-inquiry": "unir a una investigacion",
+        "new-inquiry": "crear una investigacion",
+        "to-start": "para organizar tu investigacion",
+        "to-use": "para utilizar una que ya existe."
       },
       "phase": {
-
+        "instruction": "Please read and do all the activities. As soon as you change something on them move to the correct list."
       },
       "activity": {
-        "post-comment": "Enviar comentario",
-        "placeholder-comment": "Escribe tu comentario...",
-        "reply-comment": "Responder"
+        "post-comment": "Post comment",
+        "placeholder-comment": "Write your comment...",
+        "add-list-item-placeholder": "Add new item to the list...",
+        "reply-comment": "Reply"
+      },
+      "new-edit": {
+        "inquiry-metadata": "1. Inquiry metadata",
+        "inquiry-title": "Inquiry title",
+        "inquiry-title-placeholder": "Enter an inquiry title",
+        "inquiry-description": "Inquiry description",
+        "inquiry-save": "Save",
+        "inquiry-roles": "2. Roles",
+        "roles-title": "Roles",
+        "p-available-roles": "List of available roles in",
+        "no-roles": "No roles yet",
+        "add-role": "Add role",
+        "edit-role": "Edit role",
+        "placeholder-role": "Type the name of the role",
+        "remove-role": "Remove",
+        "inquiry-phases-activities": "3. Phases & activities",
+        "configuration-dashboard": "Configuration dashboard for activities and phases.",
+        "phases": "Add phases",
+        "add-phase-button": "Add",
+        "add-phase-placeholder": "Type the name phase",
+        "activities": "Add activities",
+        "add-run-button": "Add",
+        "add-run-placeholder": "Type the name of the inquiry run",
+        "click-first": "Click first on",
+        "adding-phases": "to start adding phases to the inquiry.",
+        "adding-activities": "Now click on the green buttons to start adding activities to the phase.",
+        "editing-activities": "Now click on one of the blue activities to edit it here.",
+        "title-activity": "Title:",
+        "type-activity": "Type:",
+        "video-activity": "Video link:",
+        "google-activity": "Google resource link:",
+        "description-activity": "Description:",
+        "roles-activity": "Roles:",
+        "save-activity": "Save",
+        "delete-activity": "Delete",
+        "run-inquiries": "4. Inquiry runs",
+        "run-inquiries-title": "Create new runs for this inquiry structure",
+        "run-inquiries-description": "This panel allows you to create more runs for this inquiry structure. Students can be added later",
+        "run-inquiries-subtitle": "Create a new inquiry run",
+        "activity-order": "Activity order:",
+        "export-import": "5. Export/import [Just for the admin]",
+        "editor-management": "5. Editors management"
+
       }
     }
   }

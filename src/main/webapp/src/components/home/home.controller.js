@@ -34,6 +34,7 @@ angular.module('DojoIBL')
         $scope.showRuns = function (id) {
 
             RunService.getParticipateRunsForGame(id).then(function(data){
+                console.log(data);
                 $scope.runs[id] = {};
                 $scope.runs[id] = data;
             });

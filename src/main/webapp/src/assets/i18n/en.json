@@ -14,7 +14,7 @@
       "backend": "Backend",
       "profile": "Your profile",
       "timeline": "Timeline",
-      "phases": "Phases",
+      "phases": "List of phases",
       "createinquiry": "Create inquiry",
       "joininquiry": "Join inquiry"
     },
@@ -45,7 +45,8 @@
     "inquiry": {
       "structure": {
         "chat": "Chat",
-        "send": "Send"
+        "send": "Send",
+        "no-phases": "No phases found..."
       },
       "home": {
         "click-first": "Click first",
@@ -57,11 +58,12 @@
         "to-use": "to use an existing one."
       },
       "phase": {
-
+        "instruction": "Please read and do all the activities. As soon as you change something on them move to the correct list."
       },
       "activity": {
         "post-comment": "Post comment",
         "placeholder-comment": "Write your comment...",
+        "add-list-item-placeholder": "Add new item to the list...",
         "reply-comment": "Reply"
       },
       "new-edit": {

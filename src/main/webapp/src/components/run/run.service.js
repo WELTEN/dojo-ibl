@@ -73,10 +73,13 @@ angular.module('DojoIBL')
                 var deferred = $q.defer();
                 Run.getParticipateRunsForGame({id: gameId}).$promise.then(
                     function (data) {
+
                         var runAccess={};
                         for (var i = 0; i < data.runs.length; i++) {
-                            dataCache.put(data.runs[i].runId, data.runs[i]);
-                            runAccess['id'+data.runs[i].runId] = data.runs[i];
+                            if(!data.runs[i].deleted){
+                                dataCache.put(data.runs[i].runId, data.runs[i]);
+                                runAccess['id'+data.runs[i].runId] = data.runs[i];
+                            }
                         }
                         deferred.resolve(runAccess);
                     }
@@ -101,8 +104,15 @@ angular.module('DojoIBL')
             giveAccess: function(runId, accountId, accessRight){
                 Run.giveAccess({ runId: runId, accountId: accountId, accessRight: accessRight});
             },
-            removeAccess: function(runId, accountId){
-                Run.removeAccess({ runId: runId, accountId: accountId });
+            removeAccessToInquiryRun: function(runId, account){
+
+                Run.removeAccess({ runId: runId, accountId: account.accountType+":"+account.localId });
+
+                Run.removeUserRun({
+                    runId: runId,
+                    email: account.accountType+":"+account.localId
+                });
+
             },
             addUserToRun: function(json){
                 return Run.addUserToRun(json);

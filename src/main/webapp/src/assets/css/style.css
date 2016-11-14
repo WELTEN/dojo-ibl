@@ -9151,3 +9151,8 @@ text-angular > p{
   color: #0000cc;
   cursor: hand;
 }
+
+.ta-editor{
+  height: 100px !important;
+  min-height: 100px !important;
+}

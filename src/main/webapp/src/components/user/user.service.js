@@ -25,11 +25,18 @@ angular.module('DojoIBL')
                 User.getUsersRun({id: runId}).$promise.then(
                     function (data) {
 
+                        console.log(data);
+
+                        var filtered_users =[];
+
                         angular.forEach(data.users, function(user){
-                            users[user.accountType+":"+user.localId] = user;
+                            if(!user.deleted){
+                                users[user.accountType+":"+user.localId] = user;
+                                filtered_users.push(user)
+                            }
                         });
 
-                        deferred.resolve(data.users);
+                        deferred.resolve(filtered_users);
                     }
                 );
                 return deferred.promise;
