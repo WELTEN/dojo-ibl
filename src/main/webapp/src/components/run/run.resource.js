@@ -54,6 +54,12 @@ angular.module('DojoIBL')
                 method: 'POST',
                 isArray: false,
                 url: config.server+'/rest/users'
+            },
+            removeUserRun: {
+                method: 'DELETE',
+                params: { runId: '@runId', email: '@email' },
+                isArray: false,
+                url: config.server+'/rest/users/runId/:runId/email/:email'
             }
         });
     }

@@ -2,8 +2,6 @@ angular.module('DojoIBL')
 
     .controller('InquiryEditRunController', function ($scope, $sce, $stateParams, $state, Session, RunService, UserService, Contacts ) {
 
-        console.log($stateParams.runId);
-
         $scope.roles = [];
 
         RunService.getRunById($stateParams.runId).then(function(data){
@@ -14,8 +12,6 @@ angular.module('DojoIBL')
             }
 
             $scope.game = data.game;
-
-            console.log($scope.game);
 
             if(!$scope.game.config.roles)
                 $scope.game.config.roles = [];
@@ -32,11 +28,7 @@ angular.module('DojoIBL')
         });
 
         UserService.getUsersForRun($stateParams.runId).then(function(data){
-
-            //$scope.usersRun[value.runId] = data;
             $scope.usersRun = data;
-            console.log(data);
-
         });
 
         $scope.ok = function(){
@@ -45,6 +37,31 @@ angular.module('DojoIBL')
             }else{
                 RunService.newRun($scope.run);
             }
+        };
+
+        $scope.removeAccess = function(runId, account){
+            swal({
+                title: "Remove user from inquiry",
+                text: "Are you sure you want to remove this student from the inquiry?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, remove the student!",
+                closeOnConfirm: false
+            }, function () {
+                swal("Student removed!", "The student has been removed from the list of participants in this inquiry.", "success");
+
+                console.log($scope.usersRun, runId, account.email);
+
+                var idx = arrayObjectIndexOf($scope.usersRun, account.email, "email");
+
+                if (idx > -1) {
+                    $scope.usersRun.splice(idx, 1);
+                }
+
+                RunService.removeAccessToInquiryRun(runId, account)
+
+            });
         };
 
         $scope.friends = [];
@@ -56,4 +73,14 @@ angular.module('DojoIBL')
                 }
             }
         );
+
+        //////////////////
+        // Extra functions
+        //////////////////
+        function arrayObjectIndexOf(myArray, searchTerm, property) {
+            for(var i = 0, len = myArray.length; i < len; i++) {
+                if (myArray[i][property] === searchTerm) return i;
+            }
+            return -1;
+        }
     });
