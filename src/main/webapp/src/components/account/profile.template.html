@@ -12,7 +12,10 @@
             <div class="col-md-6">
 
                 <div class="profile-image">
-                    <img src="src/img/avatar.png" ng-src="{{ user.picture }}" ngf-capture="'camera'" ngf-select="upload($file)" class="img-circle pointer circle-border m-b-md" alt="profile">
+                    <ng-letter-avatar class="img-circle pointer circle-border m-b-md" ng-if="user.picture == ''" data="{{ user.name }}"></ng-letter-avatar>
+                    <img alt="image"  class="img-circle pointer circle-border m-b-md" ng-if="user.picture != ''" ng-src="{{ user.picture }}">
+
+                    <!--<img src="src/img/avatar.png" ng-src="{{ user.picture }}" ngf-capture="'camera'" ngf-select="upload($file)" class="img-circle pointer circle-border m-b-md" alt="profile">-->
                 </div>
                 <div class="profile-info">
                     <div class="">
