@@ -43,11 +43,10 @@
 
                         <p>{{ game.lastModificationDate | date:'medium' }} </p>
 
-                        {{ game.accessRights }}
                         <div class="text-center">
                             <a href="#inquiry/{{ game.gameId }}/edit" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1" class="btn btn-xs btn-warning"><i class="fa fa-pencil-square"></i> Edit </a>
-                            <!--<a ng-click="cloneInquiry(game.gameId)" class="btn btn-xs btn-success"><i class="fa fa-copy"></i> Clone </a>-->
-                            <a ng-click="deleteInquiry(game.gameId)" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1" class="btn btn-xs btn-danger delete-inquiry"><i class="fa fa-trash"></i> Delete </a>
+                            <a ng-click="cloneInquiry(game.gameId)"   ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1" class="btn btn-xs btn-success"><i class="fa fa-copy"></i> Clone </a>
+                            <a ng-click="deleteInquiry(game.gameId)"  ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1" class="btn btn-xs btn-danger delete-inquiry"><i class="fa fa-trash"></i> Delete </a>
                         </div>
                     </div>
                     <div ng-hide="showRunsValue" style="overflow-y: scroll; height: 15em;">

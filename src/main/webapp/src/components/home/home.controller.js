@@ -46,40 +46,28 @@ angular.module('DojoIBL')
         );
 
         $scope.cloneInquiry = function(id){
-            GameService.getGameById(id).then(function (data) {
-                var cloned_inquiry = {};
-                cloned_inquiry.title = "Copy of "+data.title;
-                cloned_inquiry.phases = data.phases;
-                cloned_inquiry.description = data.description;
-                GameService.newGame(cloned_inquiry).then(function(new_inq){
-                    ActivityService.getActivities(data.gameId).then(function (activities) {
-                        console.log(activities);
+            swal({
+                title: "Clone inquiry",
+                text: "Are you sure you want to clone the inquiry?",
+                type: "input",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, clone it!",
+                inputPlaceholder: "Title of the cloned inquiry",
+                closeOnConfirm: false
+            }, function (inputValue) {
 
-                        angular.forEach(activities, function(activity){
-                            var object = {
-                                type: activity.type,
-                                section: activity.section,
-                                gameId: new_inq.gameId,
-                                deleted: activity.deleted,
-                                name: activity.name,
-                                description: activity.description,
-                                autoLaunch: activity.autoLaunch,
-                                fileReferences: activity.fileReferences,
-                                sortKey: activity.sortKey,
-                                richText: activity.richText
-                            };
+                if (inputValue === false)
+                    return false;
+                if (inputValue === "") {
+                    swal.showInputError("You need to write something!");
+                    return false
+                }
 
-                            if(activity.type == "org.celstec.arlearn2.beans.generalItem.VideoObject"){
-                                object.videoFeed = activity.videoFeed;
-                            }else if(activity.type == "org.celstec.arlearn2.beans.generalItem.AudioObject") {
-                                object.audioFeed = activity.audioFeed;
-                            }
+                swal("Well done!", "You have cloned the inquiry", "success");
 
-                            ActivityService.newActivity(object);
+                GameService.cloneInquiry(id, inputValue);
 
-                        });
-                    });
-                });
             });
         };
 

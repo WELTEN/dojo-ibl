@@ -40,11 +40,11 @@
                         </form>
 
                         <div class="pull-right tooltip-demo">
-                            <a class="btn btn-white btn-sm" data-toggle="tooltip"
+                            <a ng-hide="game.gameId == 4913623780556800" class="btn btn-white btn-sm" data-toggle="tooltip"
                                data-placement="top" title="Move to draft folder"><i class="fa fa-times"></i>
                                 Discard</a>
 
-                            <a class="btn btn-primary btn-sm" data-toggle="tooltip"
+                            <a ng-hide="game.gameId == 4913623780556800" class="btn btn-primary btn-sm" data-toggle="tooltip"
                                data-placement="top" ng-click="ok()" title="Save inquiry"><i class="fa fa-check"></i>
                                 {{ 'dibl.inquiry.new-edit.inquiry-save' | translate }}</a>
                         </div>
@@ -76,8 +76,9 @@
                             <input required type="name" class="form-control" id="roleName"
                                    placeholder="{{ 'dibl.inquiry.new-edit.placeholder-role' | translate }}"
                                    ng-keyup="$event.keyCode == 13 && addRole()"
+                                   ng-hide="game.gameId == 4913623780556800"
                                    ng-model="role.name">
-                            <span  ng-click="clearRole()" id="roleclear" class="glyphicon glyphicon-remove-circle"></span>
+                            <span ng-hide="game.gameId == 4913623780556800" ng-click="clearRole()" id="roleclear" class="glyphicon glyphicon-remove-circle"></span>
                         </div>
 
 
@@ -130,30 +131,15 @@
                 </div>
                 <div class="padding row show-grid">
 
-                    <!--<div class="row show-grid">-->
-                        <!--<div class="col-xs-6 col-sm-3">-->
-                            <!--.col-xs-6 .col-sm-3-->
-                            <!--<br>Resize your viewport or check it out on your phone for an example.-->
-                        <!--</div>-->
-                        <!--<div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>-->
-
-                        <!--&lt;!&ndash; Add the extra clearfix for only the required viewport &ndash;&gt;-->
-                        <!--<div class="clearfix visible-xs"></div>-->
-
-                        <!--<div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>-->
-                        <!--<div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>-->
-                    <!--</div>-->
-
                         <section ng-repeat="phase in phases track by $index"  >
                             <h3 style="margin-top: 0px;">
-                                <button class="btn btn-danger dim" ng-click="removePhase($index)" type="button">
+                                <button class="btn btn-danger dim" ng-hide="game.gameId == 4913623780556800" ng-click="removePhase($index)" type="button">
                                     <i class="fa fa-minus"></i>
                                 </button>
                                 <span class="title-phase" ng-click="renamePhase($index)">{{ $index }}. {{ phase.title }}</span>
                             </h3>
                             <ul id="{{$index}}" ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable">
                                 <li id="{{ activity }}" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[game.gameId][$index] | orderByDayNumber:'sortKey'">
-                                    <!--<button aria-hidden="true" data-dismiss="alert" class="close" ng-click="removeActivity(activity, game)" type="button">×</button>-->
 
                                     <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
                                     <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
@@ -170,14 +156,13 @@
                                 </li>
                             </ul>
                             <div class="new_activity">
-                                <button class="btn btn-warning btn-circle new_activity_button"  ng-click="addNewActivity($index, game)" type="button">
+                                <button ng-hide="game.gameId == 4913623780556800" class="btn btn-warning btn-circle new_activity_button"  ng-click="addNewActivity($index, game)" type="button">
                                     <i class="fa fa-plus"></i>
                                 </button>
-                                <!--<input class="new_activity_body" type="text" placeholder="Type then hit to enter an activity"/>-->
                             </div>
                         </section>
                         <aside>
-                            <button class="btn btn-primary dim" ng-click="addPhase()" type="button">
+                            <button ng-hide="game.gameId == 4913623780556800" class="btn btn-primary dim" ng-click="addPhase()" type="button">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </aside>

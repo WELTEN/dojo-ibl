@@ -201,6 +201,51 @@ angular.module('DojoIBL')
                     }
                 );
                 return deferred.promise;
+            },
+            cloneInquiry: function(gameId, title){
+
+                var service = this;
+
+                this.getGameById(gameId).then(function (data) {
+                    var cloned_inquiry = {};
+                    cloned_inquiry.title = title;
+                    cloned_inquiry.phases = data.phases;
+                    cloned_inquiry.description = data.description;
+                    service.newGame(cloned_inquiry).then(function(new_inq){
+
+                        ActivityService.getActivitiesServer(gameId).then(function (activities) {
+
+                            angular.forEach(activities.generalItems, function(activity){
+
+                                if(!activity.deleted){
+                                    var object = {
+                                        type: activity.type,
+                                        section: activity.section,
+                                        gameId: new_inq.gameId,
+                                        deleted: activity.deleted,
+                                        name: activity.name,
+                                        description: activity.description,
+                                        autoLaunch: activity.autoLaunch,
+                                        fileReferences: activity.fileReferences,
+                                        sortKey: activity.sortKey,
+                                        richText: activity.richText
+                                    };
+
+                                    if(activity.type == "org.celstec.arlearn2.beans.generalItem.VideoObject"){
+                                        object.videoFeed = activity.videoFeed;
+                                    }else if(activity.type == "org.celstec.arlearn2.beans.generalItem.AudioObject") {
+                                        object.audioFeed = activity.audioFeed;
+                                    }
+
+                                    ActivityService.newActivity(object);
+                                }
+
+
+
+                            });
+                        });
+                    });
+                });
             }
         }
     }
