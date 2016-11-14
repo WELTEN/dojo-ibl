@@ -108,7 +108,7 @@
             </div>
 
             <div ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="input-group create-question">
-                <input responseid="0" ng-enter="sendComment()" class="form-control response" ng-model="response" placeholder="Type your question here...">
+                <input responseid="0" ng-enter="sendComment()" class="form-control response" ng-model="response" placeholder="{{'dibl.inquiry.activity.add-list-item-placeholder' | translate }}">
                 <span class="input-group-btn">
                     <button type="submit" class="btn btn-primary save" ng-disabled="!response" ng-click="sendComment()" responseid="0">Add </button>
                 </span>

@@ -62,6 +62,7 @@
       "activity": {
         "post-comment": "Post comment",
         "placeholder-comment": "Write your comment...",
+        "add-list-item-placeholder": "Add new item to the list...",
         "reply-comment": "Reply"
       },
       "new-edit": {
