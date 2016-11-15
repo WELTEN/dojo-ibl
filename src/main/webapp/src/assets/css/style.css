@@ -9158,6 +9158,11 @@ text-angular > p{
   min-height: 100px !important;
 }
 
+.edit-game-desc .ta-editor{
+  height: 102px !important;
+  min-height: 100px !important;
+}
+
 .pruebas .ta-editor{
   height: 305px !important;
   min-height: 300px !important;

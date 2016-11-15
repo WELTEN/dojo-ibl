@@ -123,7 +123,7 @@ angular.module('DojoIBL')
         };
 
         ChannelService.register('org.celstec.arlearn2.beans.game.Game', function (notification) {
-            console.info("[Notification][Game]", notification);
+            //console.info("[Notification][Game]", notification);
 
             if(!angular.isUndefined(notification.gameId)){
                 GameService.refreshGame(notification.gameId);
