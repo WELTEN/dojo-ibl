@@ -9152,7 +9152,13 @@ text-angular > p{
   cursor: hand;
 }
 
+
 .ta-editor{
   height: 100px !important;
   min-height: 100px !important;
+}
+
+.pruebas .ta-editor{
+  height: 305px !important;
+  min-height: 300px !important;
 }
