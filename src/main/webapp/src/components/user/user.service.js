@@ -25,8 +25,6 @@ angular.module('DojoIBL')
                 User.getUsersRun({id: runId}).$promise.then(
                     function (data) {
 
-                        console.log(data);
-
                         var filtered_users =[];
 
                         angular.forEach(data.users, function(user){

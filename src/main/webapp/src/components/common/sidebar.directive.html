@@ -44,7 +44,7 @@
                 <!--<a href="#/home"><i class="fa fa-home"></i> <span class="nav-label">{{ run.game.title | limitTo: 15 }} {{ run.game.title.length > 15 ? '...' : ''}} [{{ run.code }}]</span></a>-->
             <!--</li>-->
             <li ng-show="run" class="active inquiry-sidebar">
-                <a href="#inquiry/{{ run.runId }}"><i class="fa fa-asterisk"></i> <span class="nav-label sidebar-inquiry-title">{{ run.title | limitTo: 11 }} {{ run.title.length > 11 ? '...' : ''}} - [{{ run.code }}]</span></a>
+                <a href="#inquiry/{{ run.runId }}"><i class="fa fa-asterisk"></i> <span class="nav-label sidebar-inquiry-title">{{ run.title | limitTo: 15 }} {{ run.title.length > 15 ? '...' : ''}}</span></a>
                 <ul class="nav nav-second-level">
                     <li class="sidebar-inquiry-timeline" ng-class="{ 'active':statePhase == 'inquiry.timeline'  }">
                         <a href="#inquiry/{{ run.runId }}/timeline"><i class="fa fa-clock-o"></i>{{'dibl.sidebar.timeline' | translate}}

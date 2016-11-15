@@ -59,6 +59,8 @@ angular.module('DojoIBL')
                     // 1: Editor
                     // 2: User
 
+                    console.log(user);
+
                     GameService.giveAccess(run.game.gameId, user.accountType+":"+user.localId,2);
 
                     RunService.giveAccess(run.runId, user.accountType+":"+user.localId,2);
