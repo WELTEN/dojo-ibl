@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('ToolbarController', function ($scope, $state, $stateParams,RunService, ActivityService, Session, Game, GameService, AccountService, config, ChannelService, UserService) {
+    .controller('ToolbarController', function ($scope, $state, $location, $stateParams,RunService, ActivityService, Session, Game, GameService, AccountService, config, ChannelService, UserService) {
         $scope.test = "foo";
 
         $scope.name = "your name";
@@ -36,7 +36,37 @@ angular.module('DojoIBL')
                     });
                 });
 
+                RunService.getParticipateRunsForGame(run.gameId).then(function(data){
+                    var aux = []
+                    $scope.itemArray = aux;
+                    angular.forEach(data, function(_b){
+                        aux.push(_b)
+                    });
+                    $scope.selected = { value: $scope.itemArray[0] };
+                });
 
+                $scope.selectChange = function(run) {
+
+                    console.log($state.current.name);
+                    console.log($state);
+
+                    switch($state.current.name){
+                        case "inquiry.home":
+                            $state.go('inquiry.home', { 'runId':run.runId });
+                            break;
+                        case "inquiry.timeline":
+                            $state.go('inquiry.timeline', { 'runId':run.runId });
+                            break;
+                        case "inquiry.phase":
+                            $state.go('inquiry.phase', { 'runId':run.runId, phase: $state.params.phase });
+                            break;
+                        case "inquiry.activity":
+                            $state.go('inquiry.activity', { 'runId':run.runId, phase: $state.params.phase, activityId: $state.params.activityId  });
+                            break;
+                    }
+
+
+                };
 
                 if ($stateParams.activityId) {
 
@@ -77,7 +107,8 @@ angular.module('DojoIBL')
             });
 
             $scope.inquiryCode = null;
-        }
+        };
+
 
         ChannelService.register('org.celstec.arlearn2.beans.run.User', function (notification) {
             console.info("[Notification][User]", notification);

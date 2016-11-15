@@ -1,5 +1,5 @@
 <div class="row wrapper border-bottom white-bg page-heading p-sm">
-    <div class="col-md-9">
+    <div class="col-md-6">
         <h2>
             {{ run.title }} - <small>{{ run.code }}</small>
         </h2>
@@ -9,12 +9,27 @@
             </li>
         </ol>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-6">
         <div class="title-action">
-            <a ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"
-               class="btn btn-danger m-md"><i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-structure' | translate }} <b>{{ run.game.title }}</b></a>
-            <!--<a ng-show="game.accessRights == 1 && (state.current.name == 'inquiry.home' || state.current.name == 'inquiry.phase' || state.current.name == 'inquiry.activity' || state.current.name == 'inquiry.timeline')"-->
-               <!--href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit"  class="btn btn-danger m-md"><i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-run' | translate }} <b>{{ run.title }}</b></a>-->
+            <div class="col-md-7">
+                <ui-select class="m-md" ng-show="game.accessRights == 1" ng-change="selectChange(selected.value)" theme="bootstrap" ng-model="selected.value">
+                    <ui-select-match>
+                        <span ng-bind="$select.selected.title"></span>
+                    </ui-select-match>
+                    <ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.runId">
+                        <span ng-bind="item.title"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="col-md-5">
+                <a ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"class="btn btn-danger m-md">
+                    <i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-structure' | translate }} <b>{{ run.game.title }}</b>
+                </a>
+            </div>
+
+            <!--<a ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"class="btn btn-danger m-md">-->
+                <!--<i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-structure' | translate }} <b>{{ run.game.title }}</b>-->
+            <!--</a>-->
 
             <div class="m-md" ng-show="state.current.name == 'home'">
                 <div class="input-group" >
