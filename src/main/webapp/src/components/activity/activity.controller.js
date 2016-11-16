@@ -4,11 +4,14 @@ angular.module('DojoIBL')
                                                 Response, ResponseService, RunService, ChannelService, Upload, config, toaster) {
 
         ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
+
+            console.log($stateParams.runId,data.runId)
+
             if($stateParams.activityId == data.generalItemId && $stateParams.runId == data.runId){
                 ResponseService.refreshResponse(data, $stateParams.runId, $stateParams.activityId);
             }
             if($stateParams.runId == data.runId){
-                console.log(data.userEmail, AccountService.myDetailsCache().fullId);
+                //console.log(data.userEmail, AccountService.myDetailsCache().fullId);
                 //
                 //if(data.userEmail == AccountService.myDetailsCache().fullId){
                 //    toaster.success({
