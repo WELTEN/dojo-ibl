@@ -146,7 +146,7 @@
                                     <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
                                     <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
 
-                                    <a ng-click="editActivity(activity, game)">{{ activity.name }}</a>
+                                    <a ng-click="editActivity(activity, game)">{{ activity.sortKey }}. {{ activity.name }}</a>
                                     <br/>
                                     <p class="small">{{ activity.description | limitTo: 20 }}</p>
                                     <div class="agile-detail">
