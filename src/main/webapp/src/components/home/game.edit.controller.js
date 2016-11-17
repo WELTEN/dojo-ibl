@@ -328,16 +328,25 @@ angular.module('DojoIBL')
 
             modalInstance.result.then(function (result){
 
+                //console.log(result)
+
+
+
                 if(angular.isUndefined($scope.lists[result.section])){
                     $scope.lists[result.section] = []
                 }
 
                 ActivityService.newActivity(result).then(function(data){
+                    //console.log(data)
+
                     ActivityService.getActivityById(data.id, $stateParams.gameId).then(function(data){
                         if(!angular.isUndefined(result.roles2)){
-                            ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
 
-                            });
+                            //console.log(data);
+
+                            //ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
+                            //
+                            //});
                         }else{
                             $scope.lists[result.section].push(data);
                         }
@@ -358,12 +367,16 @@ angular.module('DojoIBL')
             });
 
             modalInstance.result.then(function (result){
+                //console.log(result)
                 ActivityService.newActivity(result).then(function(data){
-                    if(!angular.isUndefined(result.roles2)){
-                        ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
 
-                        });
-                    }
+
+                    //if(!angular.isUndefined(result.roles2)){
+                    //    //console.log(data, result)
+                    //    ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
+                    //
+                    //    });
+                    //}
                 });
             });
         };
@@ -959,7 +972,7 @@ angular.module('DojoIBL')
         };
     })
 
-    .controller('NewActivityController', function ($scope, $stateParams, $modalInstance, GameService, ActivityService, activity, game) {
+    .controller('NewActivityController', function ($scope, $stateParams, $modalInstance, GameService, ActivityService, Upload, activity, game, config) {
 
         $scope.list_original = [
             //{'name': 'Google Resources', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-file-text'},
@@ -978,7 +991,212 @@ angular.module('DojoIBL')
         $scope.activity.fileReferences = [];
         $scope.activity.gameId = $stateParams.gameId;
 
+        console.log(activity)
+
+        GameService.getGameAssets($stateParams.gameId).then(function(data){
+            $scope.assets = data;
+        });
+
+        // upload on file select or drop
+        $scope.upload = function (file) {
+            $scope.progressPercentage = 0;
+            if(file){
+
+                file.name = (file.name).replace(/\s+/g, '_');
+
+                console.log(activity, file);
+
+                ActivityService.uploadUrl($stateParams.gameId, activity.id, file.name.replace(/\s+/g, '_')).$promise
+                    .then(function(url){
+
+                        Upload.rename(file, file.name.replace(/\s+/g, '_'));
+                        Upload.upload({
+                            url: url.uploadUrl,
+                            data: {file: file}
+                        }).then(function (resp) {
+
+                            switch (true) {
+                                case /video/.test(resp.config.data.file.type):
+                                    //ResponseService.newResponse({
+                                    //    "type": "org.celstec.arlearn2.beans.run.Response",
+                                    //    "runId": $stateParams.runId,
+                                    //    "deleted": false,
+                                    //    "generalItemId": $stateParams.activityId,
+                                    //    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                                    //    "responseValue": {
+                                    //        "videoUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name.replace(/\s+/g, '_'),
+                                    //        "fileName": file.name,
+                                    //        "fileType": resp.config.data.file.type,
+                                    //        "width": 3264,
+                                    //        "height": 1840
+                                    //    },
+                                    //    "parentId": 0,
+                                    //    "revoked": false,
+                                    //    "lastModificationDate": new Date().getTime()
+                                    //}).then(function(data){
+                                    //
+                                    //});
+                                    break;
+                                case /image/.test(resp.config.data.file.type):
+
+                                    console.log(resp)
+                                    console.log(config)
+                                    console.log(config.server +"/generalItems/"+activity.gameId+"/"+file.name.replace(/\s+/g, '_'))
+                                    ///generalItems/5784321700921344/requst-a-demo.jpg
+
+                                    //ResponseService.newResponse({
+                                    //    "type": "org.celstec.arlearn2.beans.run.Response",
+                                    //    "runId": $stateParams.runId,
+                                    //    "deleted": false,
+                                    //    "generalItemId": $stateParams.activityId,
+                                    //    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                                    //    "responseValue": {
+                                    //        "imageUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name.replace(/\s+/g, '_'),
+                                    //        "fileName": file.name,
+                                    //        "fileType": resp.config.data.file.type,
+                                    //        "width": 3264,
+                                    //        "height": 1840
+                                    //    },
+                                    //    "parentId": 0,
+                                    //    "revoked": false,
+                                    //    "lastModificationDate": new Date().getTime()
+                                    //}).then(function(data){
+                                    //
+                                    //});
+                                    break;
+                                case /pdf/.test(resp.config.data.file.type):
+                                    //ResponseService.newResponse({
+                                    //    "type": "org.celstec.arlearn2.beans.run.Response",
+                                    //    "runId": $stateParams.runId,
+                                    //    "deleted": false,
+                                    //    "generalItemId": $stateParams.activityId,
+                                    //    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                                    //    "responseValue": {
+                                    //        "pdfUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name.replace(/\s+/g, '_'),
+                                    //        "fileName": file.name,
+                                    //        "fileType": resp.config.data.file.type,
+                                    //        "width": 3264,
+                                    //        "height": 1840
+                                    //    },
+                                    //    "parentId": 0,
+                                    //    "revoked": false,
+                                    //    "lastModificationDate": new Date().getTime()
+                                    //}).then(function(data){
+                                    //
+                                    //});
+                                    break;
+                                case /audio/.test(resp.config.data.file.type):
+                                    //ResponseService.newResponse({
+                                    //    "type": "org.celstec.arlearn2.beans.run.Response",
+                                    //    "runId": $stateParams.runId,
+                                    //    "deleted": false,
+                                    //    "generalItemId": $stateParams.activityId,
+                                    //    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                                    //    "responseValue": {
+                                    //        "audioUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name.replace(/\s+/g, '_'),
+                                    //        "fileName": file.name,
+                                    //        "fileType": resp.config.data.file.type,
+                                    //        "width": 3264,
+                                    //        "height": 1840
+                                    //    },
+                                    //    "parentId": 0,
+                                    //    "revoked": false,
+                                    //    "lastModificationDate": new Date().getTime()
+                                    //}).then(function(data){
+                                    //
+                                    //});
+                                    break;
+                                case /wordprocessingml|msword/.test(resp.config.data.file.type):
+                                    console.log(resp.config.data.file.type);
+                                    //ResponseService.newResponse({
+                                    //    "type": "org.celstec.arlearn2.beans.run.Response",
+                                    //    "runId": $stateParams.runId,
+                                    //    "deleted": false,
+                                    //    "generalItemId": $stateParams.activityId,
+                                    //    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                                    //    "responseValue": {
+                                    //        "documentUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name.replace(/\s+/g, '_'),
+                                    //        "fileName": file.name,
+                                    //        "fileType": resp.config.data.file.type,
+                                    //        "width": 3264,
+                                    //        "height": 1840
+                                    //    },
+                                    //    "parentId": 0,
+                                    //    "revoked": false,
+                                    //    "lastModificationDate": new Date().getTime()
+                                    //}).then(function(data){
+                                    //
+                                    //});
+                                    break;
+                                case /vnd.ms-excel|spreadsheetml/.test(resp.config.data.file.type):
+                                    console.log(resp.config.data.file.type);
+                                    //ResponseService.newResponse({
+                                    //    "type": "org.celstec.arlearn2.beans.run.Response",
+                                    //    "runId": $stateParams.runId,
+                                    //    "deleted": false,
+                                    //    "generalItemId": $stateParams.activityId,
+                                    //    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                                    //    "responseValue": {
+                                    //        "excelUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name.replace(/\s+/g, '_'),
+                                    //        "fileName": file.name,
+                                    //        "fileType": resp.config.data.file.type,
+                                    //        "width": 3264,
+                                    //        "height": 1840
+                                    //    },
+                                    //    "parentId": 0,
+                                    //    "revoked": false,
+                                    //    "lastModificationDate": new Date().getTime()
+                                    //}).then(function(data){
+                                    //
+                                    //});
+                                    break;
+                                default:
+                                    //ResponseService.newResponse({
+                                    //    "type": "org.celstec.arlearn2.beans.run.Response",
+                                    //    "runId": $stateParams.runId,
+                                    //    "deleted": false,
+                                    //    "generalItemId": $stateParams.activityId,
+                                    //    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                                    //    "responseValue": file.name,
+                                    //    "parentId": 0,
+                                    //    "revoked": false,
+                                    //    "lastModificationDate": new Date().getTime()
+                                    //}).then(function(data){
+                                    //
+                                    //});
+                                    break;
+                            }
+
+
+                            GameService.getGameAssets($stateParams.gameId).then(function(data){
+                                $scope.assets = data;
+                            });
+
+                            console.log(resp)
+                            console.log('Success ' + resp.config.data.file.name + ' uploaded by: ' + resp.config.data);
+
+                        }, function (resp) {
+                            console.log(resp)
+                            console.log('Error ' + resp.config.data.file.name + ' from: ' + resp.config.data.username);
+                            console.log('Error status: ' + resp.status);
+                        }, function (evt) {
+                            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                            $scope.progressPercentage = progressPercentage;
+                            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                        });
+                });
+
+            }
+        };
+
         $scope.ok = function () {
+
+            var _aux = [];
+
+            angular.forEach($scope.activity.roles2, function(role){
+                _aux.push(angular.fromJson(role));
+            });
+            $scope.activity.roles2 = _aux;
 
             if($scope.activity.type == "org.celstec.arlearn2.beans.generalItem.AudioObject"){
                 if($scope.activity.audioFeed == ""){

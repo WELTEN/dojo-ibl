@@ -1,6 +1,9 @@
 package org.celstec.arlearn2.upload;
 
 import com.google.appengine.api.blobstore.*;
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.ServingUrlOptions;
 import org.celstec.arlearn2.jdo.manager.FilePathManager;
 
 import javax.servlet.ServletException;
@@ -18,19 +21,70 @@ public class UploadGameContentServlet extends HttpServlet {
 
     private BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 
-    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
-        String path = req.getPathInfo();
-        Long gameId = Long.parseLong(req.getParameter("gameId"));
-        String newPath = "/uploadGameContent" + path+"?gameId="+gameId;
-        String uploadUrl = blobstoreService.createUploadUrl(newPath);
-        String page = "<body>";
-        page += "Example invocation: uploadGameContent/filePath?gameId=&lt;gameId&gt; + <br>";
-        page += "<form action=\"" + uploadUrl + "\" method=\"post\" enctype=\"multipart/form-data\">";
-        page += "<input type=\"file\" name=\"myFile\">";
-        page += "<input type=\"submit\" value=\"Submit\">";
-        page += "</form></body>";
-        res.getWriter().write(page);
+//    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
+//        String path = req.getPathInfo();
+//        Long gameId = Long.parseLong(req.getParameter("gameId"));
+//        String newPath = "/uploadGameContent" + path+"?gameId="+gameId;
+//        String uploadUrl = blobstoreService.createUploadUrl(newPath);
+//        String page = "<body>";
+//        page += "Example invocation: uploadGameContent/filePath?gameId=&lt;gameId&gt; + <br>";
+//        page += "<form action=\"" + uploadUrl + "\" method=\"post\" enctype=\"multipart/form-data\">";
+//        page += "<input type=\"file\" name=\"myFile\">";
+//        page += "<input type=\"submit\" value=\"Submit\">";
+//        page += "</form></body>";
+//        res.getWriter().write(page);
+//
+//    }
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setHeader("Cache-Control", "max-age=2592000");
+
+        String path = req.getPathInfo();
+//        long gameIdString = Long.parseLong(path.split("/", -1)[2]);
+        Long gameIdString = Long.parseLong(req.getParameter("gameId"));
+//        String fileName = path.split("/", -1)[3];
+        BlobKey bk = FilePathManager.getBlobKey(null, null, gameIdString, path);
+        if (bk != null) {
+            if (req.getParameter("thumbnail") == null) {
+                blobstoreService.serve(bk, resp);
+            }  else {
+                ImagesService imagesService = ImagesServiceFactory.getImagesService();
+                ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(bk);
+                options.imageSize(Integer.parseInt(req.getParameter("thumbnail")));
+                boolean crop = false;
+                if (req.getParameter("crop")!=null) {
+                    crop = Boolean.parseBoolean(req.getParameter("crop"));
+                }
+                options.crop(req.getParameter("crop")!=null);
+                String thumbnailUrl =imagesService.getServingUrl(options);
+
+                resp.sendRedirect(thumbnailUrl);
+            }
+
+        } else {
+            resp.setStatus(404);
+        }
+    }
+
+    private String getFirstPath(String path) {
+        if (path == null)
+            return null;
+        if (path.startsWith("/"))
+            return getFirstPath(path.substring(1));
+        if (path.contains("/"))
+            return path.substring(0, path.indexOf("/"));
+        return path;
+    }
+
+    private String getReminder(String path) {
+        if (path == null)
+            return null;
+        if (path.startsWith("/"))
+            return getReminder(path.substring(1));
+        if (path.contains("/"))
+            return path.substring(path.indexOf("/") + 1);
+        return null;
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {

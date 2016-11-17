@@ -1,7 +1,7 @@
 angular.module('DojoIBL')
 
     .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService, UserService, AccountService,
-                                                Response, ResponseService, RunService, ChannelService, Upload, config, toaster) {
+                                                Response, ResponseService, RunService, ChannelService, Upload, config, toaster, GameService) {
 
         ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
 
@@ -63,8 +63,13 @@ angular.module('DojoIBL')
         //$scope.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
 
         RunService.getRunById($stateParams.runId).then(function(data){
+
             ActivityService.getActivityById($stateParams.activityId, data.game.gameId).then(function (data) {
                 $scope.activity = data;
+            });
+
+            GameService.getGameAssets(data.game.gameId).then(function(data){
+                $scope.assets = data;
             });
         });
 

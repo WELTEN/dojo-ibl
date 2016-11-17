@@ -62,6 +62,11 @@ angular.module('DojoIBL')
                 method: 'DELETE',
                 isArray: false,
                 url: config.server + '/rest/myGames/gameId/:gameId'
+            },
+            'gameAssets': {
+                method: 'GET',
+                isArray: false,
+                url: config.server + '/rest/myGames/gameContent/gameId/:gameId'
             }
         });
     }
