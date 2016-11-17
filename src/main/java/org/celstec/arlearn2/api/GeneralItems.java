@@ -369,7 +369,7 @@ public class GeneralItems extends Service {
             return serialise(getInvalidCredentialsBean(), accept);
         BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
         String url = blobstoreService.createUploadUrl("/uploadGameContent/generalItems/"+itemId+"/"+key + "?gameId=" + gameId);
-        return "{ 'uploadUrl': '"+url+"'}";
+        return "{ \"uploadUrl\": \""+url+"\"}";
     }
 
 	@POST

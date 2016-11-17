@@ -246,6 +246,15 @@ angular.module('DojoIBL')
                         });
                     });
                 });
+            },
+            getGameAssets: function(gameId) {
+                var deferred = $q.defer();
+                Game.gameAssets({gameId:gameId}).$promise.then(
+                    function (data) {
+                        deferred.resolve(data.gameFiles);
+                    }
+                );
+                return deferred.promise;
             }
         }
     }

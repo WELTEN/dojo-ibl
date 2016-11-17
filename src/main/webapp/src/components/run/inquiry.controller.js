@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('InquiryController', function ($scope, $sce, $stateParams, $state, Session, MessageService, AccountService, ChannelService, RunService) {
+    .controller('InquiryController', function ($scope, $sce, $location, $stateParams, $state, Session, MessageService, AccountService, ChannelService, RunService) {
 
         $scope.chat = true;
         $scope.visualization = true;
@@ -21,6 +21,10 @@ angular.module('DojoIBL')
             $scope.serverCreationTime = data.serverCreationTime;
             $scope.disableInquiryLoading = true;
         });
+
+        $scope.goToPhase = function(inqId, index) {
+            $location.path('inquiry/'+inqId+'/phase/'+ index);
+        };
 
         var fields = $(this.el).find('#circlemenu li'),
             container = $('#circlemenu'),

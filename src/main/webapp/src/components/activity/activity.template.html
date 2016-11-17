@@ -80,31 +80,64 @@
                 </div>
             </div>
 
-            <div class="social-avatar">
+            <!--<div class="social-avatar">-->
 
-                <div class="media-body">
-                    <p class="small font-bold">
-                        <span><i class="fa fa-circle text-warning"></i>
-                            Creation date: <b>{{ activity.lastModificationDate | date:'fullDate' }}</b></span>
-                            <br/>
-                        <span ng-repeat="role in roles track by $index">
-                            <i class="fa fa-circle text-navy" ng-style="getRoleColor(activity.roles)"></i>
-                            Role: <b>{{ role.name }}</b>
-                        <br/>
-                        </span>
-                    </p>
-                    <!--<a href="#">-->
-                        <!--Andrew Williams-->
-                    <!--</a>-->
-                    <!--<small class="text-muted">Today 4:21 pm - 12.06.2014</small>-->
-                </div>
-            </div>
+                <!--<div class="media-body">-->
+                    <!--<div class="small text-muted">-->
+                        <!--<i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'fullDate' }}-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;<p class="small font-bold">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span><i class="fa fa-circle text-warning"></i>&ndash;&gt;-->
+                            <!--&lt;!&ndash;Creation date: <b>{{ activity.lastModificationDate | date:'fullDate' }}</b></span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<br/>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span ng-repeat="role in roles track by $index">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<i class="fa fa-circle text-navy" ng-style="getRoleColor(activity.roles)"></i>&ndash;&gt;-->
+                            <!--&lt;!&ndash;Role: <b>{{ role.name }}</b>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<br/>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</p>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a href="#">&ndash;&gt;-->
+                        <!--&lt;!&ndash;Andrew Williams&ndash;&gt;-->
+                    <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<small class="text-muted">Today 4:21 pm - 12.06.2014</small>&ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
 
             <div class="mail-body">
                 <div class="text-center">
+                    <div class="small text-muted">
+                        <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'fullDate' }}
+                    </div>
                 </div>
+                <h1>
+                    {{ activity.name }}
+                </h1>
                 <div class="" ng-bind-html="activity.richText || activity.description"></div>
                 <iframe ng-show="activity.videoFeed" style="width: 100%; height: 600px;"  ng-src="{{trustSrc(activity.videoFeed)}}" frameborder="0"></iframe>
+                <div class="m-t-lg">
+                    <p>
+                        <span><i class="fa fa-paperclip"></i> {{ (assets|filter:'/generalItems/'+activity.id).length }} attachments </span>
+                        <!--<a href="#">Download all</a>-->
+                    </p>
+
+                    <div class="attachment">
+                        <div class="file-box" ng-repeat="asset in assets|filter:'/generalItems/'+activity.id">
+                            <div class="file">
+                                <a target="_self" href="uploadGameContent{{ asset.path }}?gameId={{activity.gameId}}" download="{{ asset.path | limitTo : 15:asset.path.length-15 }}">
+                                    <span class="corner"></span>
+
+                                    <div class="icon">
+                                        <i class="fa fa-file"></i>
+                                    </div>
+                                    <div class="file-name">
+                                        ...{{ asset.path | limitTo : 15:asset.path.length-15 }}
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
             </div>
 
             <div ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="input-group create-question">
@@ -144,7 +177,14 @@
                         <img src="src/assets/img/avatar.png" ng-src="{{ myAccount.picture }}" />
                     </a>
                     <div class="media-body">
-                        <textarea class="form-control" ng-model="response" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>
+                        <!--<textarea class="form-control" ng-model="response" -->
+                                  <!--placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>-->
+
+                        <text-angular class="pruebas" ta-toolbar="[
+                                                                ['bold','italics'],
+                                                                ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
+                                                                ['insertImage', 'insertLink']]
+                                                                "ng-model="response"></text-angular>
                         <div class="text-right">
                             <button type="submit" ng-disabled="!response" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendComment()"><strong>Post comment</strong></button>
                         </div>

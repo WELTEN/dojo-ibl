@@ -1,14 +1,17 @@
 angular.module('DojoIBL')
 
     .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService, UserService, AccountService,
-                                                Response, ResponseService, RunService, ChannelService, Upload, config, toaster) {
+                                                Response, ResponseService, RunService, ChannelService, Upload, config, toaster, GameService) {
 
         ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
+
+            console.log($stateParams.runId,data.runId)
+
             if($stateParams.activityId == data.generalItemId && $stateParams.runId == data.runId){
                 ResponseService.refreshResponse(data, $stateParams.runId, $stateParams.activityId);
             }
             if($stateParams.runId == data.runId){
-                console.log(data.userEmail, AccountService.myDetailsCache().fullId);
+                //console.log(data.userEmail, AccountService.myDetailsCache().fullId);
                 //
                 //if(data.userEmail == AccountService.myDetailsCache().fullId){
                 //    toaster.success({
@@ -60,8 +63,13 @@ angular.module('DojoIBL')
         //$scope.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
 
         RunService.getRunById($stateParams.runId).then(function(data){
+
             ActivityService.getActivityById($stateParams.activityId, data.game.gameId).then(function (data) {
                 $scope.activity = data;
+            });
+
+            GameService.getGameAssets(data.game.gameId).then(function(data){
+                $scope.assets = data;
             });
         });
 

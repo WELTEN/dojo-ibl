@@ -106,7 +106,8 @@
         "run-inquiries-subtitle": "Create a new inquiry run",
         "activity-order": "Activity order:",
         "export-import": "5. Export/import [Just for the admin]",
-        "editor-management": "5. Editors management"
+        "editor-management": "5. Editors management",
+        "run-participants": "2. Inquiry run's participants"
 
       }
     }

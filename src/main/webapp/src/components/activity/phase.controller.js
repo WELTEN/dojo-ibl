@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('PhaseController', function ($scope, $sce, $stateParams, $state, toaster, Session, ActivityStatusService, RunService, ChannelService) {
+    .controller('PhaseController', function ($scope, $sce, $location, $stateParams, $state, toaster, Session, ActivityStatusService, RunService, ChannelService) {
         $scope.runId = $stateParams.runId;
 
         ChannelService.register('org.celstec.arlearn2.beans.run.GeneralItemsStatus', function (notification) {
@@ -65,6 +65,10 @@ angular.module('DojoIBL')
             'sort': function (event, ui) {
                 ui.helper.css({'top': ui.position.top + $scope.wscrolltop + 'px'});
             }
+        };
+
+        $scope.goToActivity = function(runId, section, id) {
+            $location.path('inquiry/'+runId+'/phase/'+section+'/activity/'+id);
         };
 
         $scope.getRoleName = function(roles){
