@@ -177,7 +177,14 @@
                         <img src="src/assets/img/avatar.png" ng-src="{{ myAccount.picture }}" />
                     </a>
                     <div class="media-body">
-                        <textarea class="form-control" ng-model="response" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>
+                        <!--<textarea class="form-control" ng-model="response" -->
+                                  <!--placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>-->
+
+                        <text-angular class="pruebas" ta-toolbar="[
+                                                                ['bold','italics'],
+                                                                ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
+                                                                ['insertImage', 'insertLink']]
+                                                                "ng-model="response"></text-angular>
                         <div class="text-right">
                             <button type="submit" ng-disabled="!response" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendComment()"><strong>Post comment</strong></button>
                         </div>

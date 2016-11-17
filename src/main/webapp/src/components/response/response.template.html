@@ -7,9 +7,14 @@
         <a href="#/profile/{{ response.user.accountType }}:{{ response.user.localId }}">
             {{ response.user.name }}
         </a> - <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small>
-        <p class="m-xs">
-            {{ response.responseValue }}
-        </p>
+        <!--<p class="m-xs">-->
+            <!--{{ response.responseValue }}-->
+        <!--</p>-->
+
+        <div ng-bind-html="response.responseValue">
+
+        </div>
+
         <a data="{{ response.responseId }}" gItem="{{ response.generalItemId }}" class="small reply" ng-click="hiddenDiv = !hiddenDiv"> <i class="fa fa-mail-reply"></i> Reply</a> •
         <a class="small" ng-click="share(response)"><i class="fa fa-share"></i> Share in chat</a> <span ng-show="myAccount.localId == response.user.localId"> • </span>
         <a class="small" ng-show="myAccount.localId == response.user.localId" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>
@@ -19,7 +24,12 @@
             <img src="src/assets/img/avatar.png" ng-src="{{ myAccount.picture }}" />
         </a>
         <div class="media-body">
-            <textarea class="form-control" ng-model="responseChildren" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>
+            <text-angular class="pruebas" ta-toolbar="[
+                                                                ['bold','italics'],
+                                                                ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
+                                                                ['insertImage', 'insertLink']]
+                                                                "ng-model="responseChildren"></text-angular>
+            <!--<textarea class="form-control" ng-model="responseChildren" placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>-->
             <div class="text-right">
                 <button type="submit" ng-disabled="!responseChildren" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendChildComment(response, responseChildren )"><strong>{{'dibl.inquiry.activity.post-comment' | translate }}</strong></button>
             </div>
