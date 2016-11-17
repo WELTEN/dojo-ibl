@@ -46,6 +46,11 @@ angular.module('DojoIBL')
                 method: 'POST',
                 isArray: false,
                 url: config.server + '/rest/generalItems/generalItem/:generalItemId/role'
+            },
+            'uploadUrl': {
+                method: 'GET',
+                isArray: false,
+                url: config.server + '/rest/generalItems/pictureUrl/gameId/:gameId/generalItem/:itemId/:key'
             }
         });
     }

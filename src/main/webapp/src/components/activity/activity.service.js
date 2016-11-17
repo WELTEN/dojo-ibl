@@ -71,6 +71,13 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('activitiesCache');
 
                 var newActivity = new Activity(activityAsJson);
+
+                console.log(newActivity, activityAsJson);
+
+                //ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
+                //
+                //});
+
                 return newActivity.$save();
             },
             getActivityById: function(itemId, gameId) {
@@ -116,6 +123,9 @@ angular.module('DojoIBL')
                     dataCache.remove(id);
                 }
                 return this.getActivityById(id, gameId);
+            },
+            uploadUrl: function(gameId, itemId, key) {
+                return Activity.uploadUrl({ gameId:gameId, itemId:itemId, key:key });
             }
         }
     })
@@ -199,7 +209,6 @@ angular.module('DojoIBL')
                     });
                 return deferred.promise;
             },
-
             getActivitiesStatus: function () {
                 return generalItemsStatus;
             },
