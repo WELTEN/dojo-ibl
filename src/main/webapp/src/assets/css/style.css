@@ -9167,3 +9167,15 @@ text-angular > p{
   height: 305px !important;
   min-height: 300px !important;
 }
+
+.table>tbody+tbody{
+  border: none !important;
+}
+
+.table>tbody+tbody .footable-even{
+  background-color: #f7f7f7;
+}
+
+.table>tbody+tbody .footable-visible{
+  vertical-align: middle !important;
+}

@@ -18,63 +18,193 @@
                 {{ 'dibl.inquiry.home.to-use' | translate }}
             </div>
 
-            <!--<div ng-show="games | isEmpty" class="tip" style="color: #000; font-size: 18px; text-align: center; padding-top: 60px; width:90%; margin:0 auto; z-index: 1;">-->
-                <!--{{ 'dibl.inquiry.home.click-first' | translate }}-->
-                <!--<a class="btn btn-success dropped" href="#create/inquiry"-->
-                   <!--style="width: 10em; vertical-align: baseline;"><i class="fa fa-plus"></i> {{-->
-                    <!--'dibl.inquiry.home.new-inquiry' | translate }}-->
-                <!--</a>-->
-                <!--{{ 'dibl.inquiry.home.to-start' | translate }}-->
-            <!--</div>-->
+            <div class="col-md-12 wrapper wrapper-content animated fadeIn">
+                <div class="panel-body no-padding-no-border-radius ng-scope">
+                    <div class="ibox-content">
+                        <div class="heading ng-binding">
+                            <small class="chat-date pull-right">
 
-
-            <tr ng-repeat="">
-
-            <div class="col-lg-3 game animated fadeIn" ng-repeat="(key, game) in games | orderByDayNumber:'lastModificationDate':true">
-                <div class="ibox-content game text-center">
-                    <h1><a class="show-runs" ng-click="showRuns(game.gameId); showRunsValue = !showRunsValue;">{{ game.title | limitTo: 20 }} {{
-                        game.title.length > 20 ? '...' : ''}}</a></h1>
-
-                    <div ng-show="showRunsValue" class="front">
-                        <div class="m-b-sm">
-                            <i class="fa fa-mortar-board icon-game"></i>
+                            </small>
+                            Inquiry where you participate
                         </div>
 
-                        <!--<div ng-bind-html="game.description | limitTo: 80 "></div>-->
+                        <div class="row m-sm">
+                            <div class="col-md-12">
+                                <table class="footable table table-stripped toggle-arrow-tiny default breakpoint footable-loaded" data-page-size="8">
+                                    <thead>
+                                    <tr>
+                                        <th class="footable-visible footable-first-column footable-sortable">Inquiry</th>
+                                        <th class="footable-sortable">Date</th>
+                                        <th class="footable-sortable"></th>
+                                        <th class="footable-visible footable-last-column footable-sortable">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody ng-repeat="(key, game) in games | orderByDayNumber:'lastModificationDate':true">
+                                        <tr ng-class-even="'footable-even'" ng-click="showRuns(game.gameId);">
+                                            <td class="footable-visible"><a class="btn btn-primary btn-sm"><i class="fa fa-mortar-board"></i>  {{ game.title | limitTo: 20 }}</a></td>
+                                            <td class="footable-visible">{{ game.lastModificationDate | timeago }}</td>
+                                            <td></td>
+                                            <td class="project-actions footable-visible footable-last-column">
+                                                <a class="btn btn-danger btn-sm" ng-click="deleteInquiry(game.gameId)"  ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-trash"></i> Delete </a>
+                                                <a class="btn btn-success btn-sm" ng-click="cloneInquiry(game.gameId)"   ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-copy"></i> Clone </a>
+                                                <a class="btn btn-warning btn-sm" href="#inquiry/{{ game.gameId }}/edit" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-pencil-square"></i> Teacher view</a>
+                                            </td>
+                                        </tr>
+                                        <tr ng-if="game.gameId == run.gameId" ng-repeat="run in runs[gameSelected]">
 
-                        <p>{{ game.lastModificationDate | date:'medium' }} </p>
+                                            <td>&nbsp;</td>
+                                            <td class="project-title">
+                                                <a>{{ run.title | limitTo: 20 }}</a>
+                                            </td>
+                                            <td>{{ run.code }}</td>
+                                            <td class="project-actions footable-visible">
+                                                <a href="#inquiry/{{ run.runId }}" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square"></i> Student access</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <!--<tbody>-->
+                                    <!--<tr ng-click="showRuns(game.gameId);" class="footable-even footable-detail-show" style="display: table-row;" ng-repeat="(key, game) in games | orderByDayNumber:'lastModificationDate':true">-->
+                                        <!--<td class="footable-visible footable-first-column"><span class="footable-toggle"></span>{{ game.title | limitTo: 20 }}</td>-->
+                                        <!--<td class="footable-visible">Patrick Smith-->
+                                            <!--<table>-->
+                                                <!--<tr ng-click="showRuns(game.gameId);" class="footable-even footable-detail-show" style="display: table-row;" ng-repeat="run in runs[gameSelected]">-->
+                                                    <!--<td class="footable-visible footable-first-column"><span class="footable-toggle"></span>{{ game.title | limitTo: 20 }}</td>-->
+                                                    <!--<td class="footable-visible">{{ run.name }}</td>-->
+                                                    <!--<td class="footable-visible">{{ run.code }}</td>-->
+                                                    <!--<td>Inceptos Hymenaeos Ltd</td>-->
+                                                    <!--<td><span class="pie">0.52/1.561</span></td>-->
+                                                    <!--<td>20%</td>-->
+                                                    <!--<td>Jul 14, 2013</td>-->
+                                                    <!--<td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>-->
+                                                <!--</tr>-->
+                                            <!--</table>-->
+                                        <!--</td>-->
+                                        <!--<td class="footable-visible">0800 051213</td>-->
+                                        <!--<td style="display: none;">Inceptos Hymenaeos Ltd</td>-->
+                                        <!--<td style="display: none;"><span class="pie">0.52/1.561</span></td>-->
+                                        <!--<td style="display: none;">20%</td>-->
+                                        <!--<td style="display: none;">Jul 14, 2013</td>-->
+                                        <!--<td class="footable-visible footable-last-column"><a href="#"><i class="fa fa-check text-navy"></i></a></td>-->
+                                    <!--</tr>-->
+                                    <!--<tr class="footable-row-detail" collapse="runs[gameSelected]">-->
 
-                        <div class="text-center">
-                            <a href="#inquiry/{{ game.gameId }}/edit" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1" class="btn btn-xs btn-warning"><i class="fa fa-pencil-square"></i> Edit </a>
-                            <a ng-click="cloneInquiry(game.gameId)"   ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1" class="btn btn-xs btn-success"><i class="fa fa-copy"></i> Clone </a>
-                            <a ng-click="deleteInquiry(game.gameId)"  ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1" class="btn btn-xs btn-danger delete-inquiry"><i class="fa fa-trash"></i> Delete </a>
+                                    <!--</tr>-->
+
+                                    <!--</tbody>-->
+                                    <!--<tfoot>-->
+                                    <!--<tr>-->
+                                        <!--<td colspan="5" class="footable-visible">-->
+                                            <!--<ul class="pagination pull-right"><li class="footable-page-arrow disabled"><a data-page="first" href="#first">«</a></li><li class="footable-page-arrow disabled"><a data-page="prev" href="#prev">‹</a></li><li class="footable-page active"><a data-page="0" href="#">1</a></li><li class="footable-page"><a data-page="1" href="#">2</a></li><li class="footable-page-arrow"><a data-page="next" href="#next">›</a></li><li class="footable-page-arrow"><a data-page="last" href="#last">»</a></li></ul>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--</tfoot>-->
+                                </table>
+
+                                <!--<div class="project-list ">-->
+                                    <!--<table class="table table-hover">-->
+                                        <!--<tbody>-->
+                                        <!--<tr ng-click="showRuns(game.gameId);" class="game animated fadeIn" ng-repeat="(key, game) in games | orderByDayNumber:'lastModificationDate':true">-->
+                                            <!--<td class="project-title">-->
+                                                <!--<a ng-click="showRuns(game.gameId); showRunsValue = !showRunsValue;">{{ game.title | limitTo: 20 }}</a>-->
+                                                <!--<br>-->
+                                                <!--<small>Modified {{ game.lastModificationDate | timeago }}</small>-->
+                                            <!--</td>-->
+                                            <!--&lt;!&ndash;<td class="project-status">&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<span ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1" class="label label-danger">Facilitator</span>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<span ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 2" class="label label-primary">Student</span>&ndash;&gt;-->
+                                            <!--&lt;!&ndash;</td>&ndash;&gt;-->
+                                            <!--<td class="project-actions">-->
+                                                <!--<a class="btn btn-warning btn-sm" href="#inquiry/{{ game.gameId }}/edit" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-pencil-square"></i> Teacher view</a>-->
+                                                <!--<a class="btn btn-success btn-sm" ng-click="cloneInquiry(game.gameId)"   ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-copy"></i> Clone </a>-->
+                                                <!--<a class="btn btn-danger btn-sm" ng-click="deleteInquiry(game.gameId)"  ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-trash"></i> Delete </a>-->
+                                            <!--</td>-->
+                                        <!--</tr>-->
+                                        <!--</tbody>-->
+                                    <!--</table>-->
+                                <!--</div>-->
+
+                            </div>
+                            <!--<div ng-if="!gameSelected" class="col-md-6">-->
+                                <!--<h1>Inquiry groups for [inquiry structure]</h1>-->
+                                <!--<div class="tip" style="color: #000; font-size: 18px; text-align: center; padding-top: 100px; width:90%; margin:0 auto; z-index: 1;">-->
+                                    <!--<div class="alert alert-success">-->
+                                        <!--Select one structure on the left.-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div ng-if="gameSelected"  class="col-md-6">-->
+                                <!--<h1>Inquiry groups for [inquiry structure]</h1>-->
+
+                                <!--<div class="project-list ">-->
+                                    <!--<table class="table table-hover">-->
+                                        <!--<tbody>-->
+                                        <!--<tr class="game" ng-repeat="run in runs[gameSelected]">-->
+                                            <!--<td class="project-title">-->
+                                                <!--<a>{{ run.title | limitTo: 20 }}</a>-->
+                                                <!--<br>-->
+                                                <!--<small>{{ run.code }}</small>-->
+                                            <!--</td>-->
+                                            <!--<td class="project-actions">-->
+                                                <!--<a class="btn btn-primary btn-sm"><i class="fa fa-pencil-square"></i> Access</a>-->
+                                            <!--</td>-->
+                                        <!--</tr>-->
+                                        <!--</tbody>-->
+                                    <!--</table>-->
+                                <!--</div>-->
+                            <!--</div>-->
                         </div>
-                    </div>
-                    <div ng-hide="showRunsValue" style="overflow-y: scroll; height: 15em;">
-                        <table  class="widget-text-box table table-striped table-hover">
-                            <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Code</th>
-                                <th>Access</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="run in runs[game.gameId]">
-                                <td><span class="client-link">{{ run.title | limitTo: 20 }} {{ run.title.length > 20 ? '...' : ''}}</span>
-                                </td>
-                                <td>{{ run.code }}</td>
-                                <td class="client-status">
-                                <span class="label label-primary">
-                                <a href="#inquiry/{{ run.runId }}" class="client-link">Access</a>
-                                </span>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+
                     </div>
                 </div>
+
+
             </div>
+
+            <!--<div class="col-lg-3 game animated fadeIn" ng-repeat="(key, game) in games | orderByDayNumber:'lastModificationDate':true">-->
+                <!--<div class="ibox-content game text-center">-->
+                    <!--<h1><a class="show-runs" ng-click="showRuns(game.gameId); showRunsValue = !showRunsValue;">{{ game.title | limitTo: 20 }} {{-->
+                        <!--game.title.length > 20 ? '...' : ''}}</a></h1>-->
+
+                    <!--<div ng-show="showRunsValue" class="front">-->
+                        <!--<div class="m-b-sm">-->
+                            <!--<i class="fa fa-mortar-board icon-game"></i>-->
+                        <!--</div>-->
+
+                        <!--&lt;!&ndash;<div ng-bind-html="game.description | limitTo: 80 "></div>&ndash;&gt;-->
+
+                        <!--<p>{{ game.lastModificationDate | date:'medium' }} </p>-->
+
+                        <!--<div class="text-center">-->
+                            <!--<a href="#inquiry/{{ game.gameId }}/edit" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1" class="btn btn-xs btn-warning"><i class="fa fa-pencil-square"></i> Edit </a>-->
+                            <!--<a ng-click="cloneInquiry(game.gameId)"   ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1" class="btn btn-xs btn-success"><i class="fa fa-copy"></i> Clone </a>-->
+                            <!--<a ng-click="deleteInquiry(game.gameId)"  ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1" class="btn btn-xs btn-danger delete-inquiry"><i class="fa fa-trash"></i> Delete </a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div ng-hide="showRunsValue" style="overflow-y: scroll; height: 15em;">-->
+                        <!--<table  class="widget-text-box table table-striped table-hover">-->
+                            <!--<thead>-->
+                            <!--<tr>-->
+                                <!--<th>Title</th>-->
+                                <!--<th>Code</th>-->
+                                <!--<th>Access</th>-->
+                            <!--</tr>-->
+                            <!--</thead>-->
+                            <!--<tbody>-->
+                            <!--<tr ng-repeat="run in runs[game.gameId]">-->
+                                <!--<td><span class="client-link">{{ run.title | limitTo: 20 }} {{ run.title.length > 20 ? '...' : ''}}</span>-->
+                                <!--</td>-->
+                                <!--<td>{{ run.code }}</td>-->
+                                <!--<td class="client-status">-->
+                                <!--<span class="label label-primary">-->
+                                <!--<a href="#inquiry/{{ run.runId }}" class="client-link">Access</a>-->
+                                <!--</span>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--</tbody>-->
+                        <!--</table>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
 
         <dibl-footer></dibl-footer>

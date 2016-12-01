@@ -32,9 +32,8 @@ angular.module('DojoIBL')
         $scope.showRunsValue = true;
 
         $scope.showRuns = function (id) {
-
+            $scope.gameSelected = id;
             RunService.getParticipateRunsForGame(id).then(function(data){
-                console.log(data);
                 $scope.runs[id] = {};
                 $scope.runs[id] = data;
             });
@@ -148,6 +147,10 @@ angular.module('DojoIBL')
 
             $scope.inquiryCode = null;
         }
+
+
+        // New home page
+        $scope.gameSelected;
 
         function arrayObjectIndexOf(myArray, searchTerm, property) {
             for(var i = 0, len = myArray.length; i < len; i++) {
