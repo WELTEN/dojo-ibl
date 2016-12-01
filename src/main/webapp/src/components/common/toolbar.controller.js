@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('ToolbarController', function ($scope, $state, $location, $stateParams,RunService, ActivityService, Session, Game, GameService, AccountService, config, ChannelService, UserService) {
+    .controller('ToolbarController', function ($scope, $rootScope, $state, $location, $stateParams,RunService, ActivityService, Session, Game, GameService, AccountService, config, ChannelService, UserService) {
         $scope.test = "foo";
 
         $scope.name = "your name";
@@ -9,6 +9,13 @@ angular.module('DojoIBL')
         $scope.state = $state;
 
         if ($stateParams.runId) {
+            $scope.$on('inquiry-run', function(event, args) {
+                RunService.getRunById(args.runId).then(function(run) {
+                    $scope.run = run;
+                });
+            });
+
+
             RunService.getRunById($stateParams.runId).then(function(run){
                 $scope.run = run;
 
@@ -47,8 +54,7 @@ angular.module('DojoIBL')
 
                 $scope.selectChange = function(run) {
 
-                    console.log($state.current.name);
-                    console.log($state);
+                    $rootScope.$broadcast('inquiry-run', { 'runId':run.runId });
 
                     switch($state.current.name){
                         case "inquiry.home":
@@ -64,8 +70,6 @@ angular.module('DojoIBL')
                             $state.go('inquiry.activity', { 'runId':run.runId, phase: $state.params.phase, activityId: $state.params.activityId  });
                             break;
                     }
-
-
                 };
 
                 if ($stateParams.activityId) {
@@ -77,6 +81,8 @@ angular.module('DojoIBL')
 
             });
         }
+
+
 
         $scope.findAndJoin = function(){
 

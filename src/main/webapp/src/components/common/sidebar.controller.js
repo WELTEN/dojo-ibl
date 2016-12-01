@@ -7,6 +7,21 @@ angular.module('DojoIBL')
             $scope.statePhase = $state.current.name;
         });
 
+        $scope.$on('inquiry-run', function(event, args) {
+            RunService.getRunById(args.runId).then(function(data){
+                $scope.run = data;
+                AccountService.myDetails().then(
+                    function(data){
+                        $scope.myAccount = data;
+                        //console.log(data)
+                        //loadAccessRules();
+                    }
+                );
+
+            });
+        });
+
+
         if ($stateParams.runId) {
 
             RunService.getRunById($stateParams.runId).then(function(data){
