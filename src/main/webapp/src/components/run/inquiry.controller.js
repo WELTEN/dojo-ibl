@@ -1,6 +1,7 @@
 angular.module('DojoIBL')
 
-    .controller('InquiryController', function ($scope, $sce, $location, $stateParams, $state, Session, MessageService, AccountService, ChannelService, RunService) {
+    .controller('InquiryController', function ($scope, $sce, $location, $stateParams, $state, Session, MessageService,
+                                               ActivityService, AccountService, ChannelService, RunService) {
 
         $scope.chat = true;
         $scope.visualization = true;
@@ -20,10 +21,52 @@ angular.module('DojoIBL')
             $scope.code = data.code;
             $scope.serverCreationTime = data.serverCreationTime;
             $scope.disableInquiryLoading = true;
+
+            ActivityService.getActivitiesServer(data.gameId);
         });
+
+        $scope.activities = ActivityService.getActivities();
 
         $scope.goToPhase = function(inqId, index) {
             $location.path('inquiry/'+inqId+'/phase/'+ index);
+        };
+
+        $scope.goToActivity = function(inqId, index, activity) {
+            $location.path('inquiry/'+inqId+'/phase/'+ index + '/activity/' +activity);
+        };
+
+
+        $scope.getRoleName = function(roles){
+            if(!angular.isUndefined(roles)) {
+                try{
+                    if (!angular.isUndefined(roles[0])) {
+                        return roles[0].name;
+                    }
+                }catch(e){
+                    return "-";
+                }
+            }
+            return "-";
+        };
+
+        $scope.getRoleColor = function(roles){
+
+            if(!angular.isUndefined(roles)) {
+                try{
+                    if (!angular.isUndefined(roles[0])) {
+                        return {
+                            "border-left": "3px solid "+roles[0].color
+                        };
+                    }
+                }catch(e){
+                    return {
+                        "border-left": "3px solid #2f4050"
+                    };
+                }
+            }
+            return {
+                "border-left": "3px solid #2f4050"
+            };
         };
 
         var fields = $(this.el).find('#circlemenu li'),

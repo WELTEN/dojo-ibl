@@ -1691,7 +1691,8 @@ a.DTTT_button:hover:not(.DTTT_disabled) {
   border: 1px solid #ddd;
   background-color: #eee !important;
   margin: 5px;
-  width: 23%;
+  /*width: 23%;*/
+  min-width: 20em;
   padding: 10px;
 }
 .show-grid aside {
@@ -5437,7 +5438,6 @@ del {
   margin: 0;
 }
 .social-footer .social-comment img, .social-footer .social-comment i.profile-response {
-  width: 32px;
   font-size: 40px;
   margin-right: 10px;
 }

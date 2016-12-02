@@ -174,7 +174,8 @@
                 </div>
                 <div class="social-comment" ng-hide="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'">
                     <a href="" class="pull-left">
-                        <img src="src/assets/img/avatar.png" ng-src="{{ myAccount.picture }}" />
+                        <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="myAccount.picture == ''" data="{{ myAccount.name }}"></ng-letter-avatar>
+                        <img class="message-avatar" ng-if="myAccount.picture != ''" ng-src="{{ myAccount.picture }}" alt="">
                     </a>
                     <div class="media-body">
                         <!--<textarea class="form-control" ng-model="response" -->

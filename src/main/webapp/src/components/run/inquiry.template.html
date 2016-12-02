@@ -1,42 +1,76 @@
 
 <!--<div class="tabs-container">-->
 
-<div class="panel-body no-padding-no-border-radius">
+<!--<div class="panel-body no-padding-no-border-radius">-->
+    <!--<div class="ibox-content">-->
+        <!--<div class="heading">-->
+            <!--<small class="chat-date pull-right">-->
+
+            <!--</small>-->
+            <!--{{ inqTitle }}-->
+            <!--<div class="ibox-tools">-->
+                <!--<a class="close-link"  ng-click="visualization = !visualization">-->
+                    <!--<i class="fa fa-share-alt" ng-show="visualization"></i>-->
+                    <!--<i class="fa fa-bars"  ng-hide="visualization"></i>-->
+                <!--</a>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--&lt;!&ndash;<div class="col-md-12">&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="padding" ng-show="visualization">&ndash;&gt;-->
+                <!--&lt;!&ndash;<p><span class="badge badge-info">Important</span> <i class="fa fa-info"></i> These are the phases in which the project is structured </p>&ndash;&gt;-->
+                <!--&lt;!&ndash;<ul class="sortable-list connectList agile-list ui-sortable" id="0">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li ng-click="goToPhase(inqId, $index)" ng-repeat="phase in phases">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<i class="fa fa-th-list"></i>&ndash;&gt;-->
+
+                        <!--&lt;!&ndash;<a href="#inquiry/{{ inqId }}/phase/{{$index}}">{{$index}}. {{ phase.title }}</a>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<br/>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li ng-if="phases.length == 0">{{'dibl.inquiry.structure.no-phases' |&ndash;&gt;-->
+                        <!--&lt;!&ndash;translate}}</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+            <!--&lt;!&ndash;<ul id="circlemenu" class="list" ng-hide="visualization">&ndash;&gt;-->
+                <!--&lt;!&ndash;<li href="#inquiry/{{ inqId }}/phase/{{ phase.phaseId }}" ng-style="{'left': '{{ calculateLeft($index + 1) }}px','top': '{{ calculateTop(phases, $index) }}px'}" ng-repeat="phase in phases">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="knob-label"><a href="#inquiry/{{ inqId }}/phase/{{$index + 1}}"> {{ phase.title }}</a></div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</li>&ndash;&gt;-->
+            <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+    <!--</div>-->
+<!--</div>-->
+
+<div class="panel-body no-padding-no-border-radius col-md-12 wrapper wrapper-content animated fadeInpanel-body">
     <div class="ibox-content">
-        <div class="heading">
-            <small class="chat-date pull-right">
-
-            </small>
-            {{ inqTitle }}
-            <div class="ibox-tools">
-                <a class="close-link"  ng-click="visualization = !visualization">
-                    <i class="fa fa-share-alt" ng-show="visualization"></i>
-                    <i class="fa fa-bars"  ng-hide="visualization"></i>
-                </a>
-            </div>
+        <div class="heading ng-binding">
+            Phases and activities of <b>{{ inqTitle }}</b>
         </div>
 
-        <div class="col-md-12">
-            <div class="padding" ng-show="visualization">
-                <p><span class="badge badge-info">Important</span> <i class="fa fa-info"></i> These are the phases in which the project is structured </p>
-                <ul class="sortable-list connectList agile-list ui-sortable" id="0">
-                    <li ng-click="goToPhase(inqId, $index)" ng-repeat="phase in phases">
-                        <i class="fa fa-th-list"></i>
+        <div class="padding row top-buffer show-grid">
+            <section ng-repeat="phase in phases track by $index"  >
+                <h3 style="margin-top: 0px;">
+                    <span><a ng-click="goToPhase(inqId, $index)">{{ $index }}. {{ phase.title }}</a></span>
+                </h3>
+                <ul id="{{$index}}" class="sortable-list connectList agile-list ui-sortable">
+                    <li ng-click="goToActivity(inqId, $index, activity.id)" id="{{ activity }}" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[game.gameId][$index] | orderByDayNumber:'sortKey'">
 
-                        <a href="#inquiry/{{ inqId }}/phase/{{$index}}">{{$index}}. {{ phase.title }}</a>
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+
+                        <a ng-click="goToActivity(inqId, $index, activity.id)">{{ activity.sortKey }}. {{ activity.name }}</a>
                         <br/>
+                        <p class="small">{{ activity.description | limitTo: 20 }}</p>
+                        <div class="agile-detail">
+                            <a class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
+                            <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | timeago }}
+                        </div>
                     </li>
-                    <li ng-if="phases.length == 0">{{'dibl.inquiry.structure.no-phases' |
-                        translate}}</li>
                 </ul>
-            </div>
-
-            <ul id="circlemenu" class="list" ng-hide="visualization">
-                <li href="#inquiry/{{ inqId }}/phase/{{ phase.phaseId }}" ng-style="{'left': '{{ calculateLeft($index + 1) }}px','top': '{{ calculateTop(phases, $index) }}px'}" ng-repeat="phase in phases">
-                    <div class="knob-label"><a href="#inquiry/{{ inqId }}/phase/{{$index + 1}}"> {{ phase.title }}</a></div>
-                </li>
-            </ul>
+            </section>
         </div>
+
     </div>
 </div>
 
