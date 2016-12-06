@@ -1,7 +1,7 @@
 angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache', 'ngDragDrop', 'localytics.directives',
     'summernote', 'ui.select', 'ngSanitize',  'infinite-scroll', 'textAngular', 'pascalprecht.translate', 'ngFileUpload',
     'ncy-angular-breadcrumb', 'angular-table', 'luegg.directives', 'ngEmoticons', 'vButton', 'ui.sortable', 'ngAudio', 'ui.bootstrap',
-    'ui.codemirror', 'ngLetterAvatar', 'toaster', 'ngAnimate', 'ui.footable'])
+    'ui.codemirror', 'ngLetterAvatar', 'toaster', 'ngAnimate', 'ui.footable', 'ui.calendar'])
 
     .config(function ($translateProvider) {
 
@@ -67,5 +67,16 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
                 });
             }
         };
-    });
+    }).run(run);
+
+    run.$inject = ['$rootScope', '$location', '$window'];
+    function run($rootScope, $location, $window) {
+        // initialise google analytics
+        $window.ga('create', 'UA-75878329-2', 'auto');
+
+        // track pageview on state change
+        $rootScope.$on('$stateChangeSuccess', function (event) {
+            $window.ga('send', 'pageview', $location.path());
+        });
+    }
 ;
