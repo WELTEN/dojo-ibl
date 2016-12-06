@@ -55,6 +55,15 @@ angular.module('DojoIBL')
                     parent: 'inquiry.home' // Override the parent state (only for the breadcrumb).
                 }
             })
+            .state('inquiry.calendar', {
+                url: '/:runId/calendar',
+                templateUrl: '/src/components/run/calendar.template.html',
+                controller: 'CalendarController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.calendar' | translate}}",
+                    parent: 'inquiry.home' // Override the parent state (only for the breadcrumb).
+                }
+            })
             .state('editgame', {
                 url: '/inquiry/:gameId/edit',
                 templateUrl: '/src/components/home/game.edit.template.html',

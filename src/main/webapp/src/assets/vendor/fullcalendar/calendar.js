@@ -1,4 +1,4 @@
-0/*
+/*
  *  AngularJs Fullcalendar Wrapper for the JQuery FullCalendar
  *  API @ http://arshaw.com/fullcalendar/
  *
