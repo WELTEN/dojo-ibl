@@ -1691,7 +1691,7 @@ a.DTTT_button:hover:not(.DTTT_disabled) {
   border: 1px solid #ddd;
   background-color: #eee !important;
   margin: 5px;
-  /*width: 23%;*/
+  width: 23%;
   min-width: 20em;
   padding: 10px;
 }
@@ -9178,4 +9178,9 @@ text-angular > p{
 
 .table>tbody+tbody .footable-visible{
   vertical-align: middle !important;
+}
+
+.loading-switch{
+  height: 21px !important;
+  float: right;
 }

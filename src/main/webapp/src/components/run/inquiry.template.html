@@ -44,6 +44,13 @@
     <div class="ibox-content">
         <div class="heading ng-binding">
             Phases and activities of <b>{{ inqTitle }}</b>
+            <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
+                <div class="sk-rect1"></div>
+                <div class="sk-rect2"></div>
+                <div class="sk-rect3"></div>
+                <div class="sk-rect4"></div>
+                <div class="sk-rect5"></div>
+            </div>
         </div>
 
         <div class="padding row top-buffer show-grid">
@@ -59,7 +66,7 @@
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
 
-                        <a ng-click="goToActivity(inqId, $index, activity.id)">{{ activity.sortKey }}. {{ activity.name }}</a>
+                        <a ng-click="goToActivity(inqId, $index, activity.id)">{{ activity.sortKey }}. {{ activity.name | limitTo: 20 }}</a>
                         <br/>
                         <p class="small">{{ activity.description | limitTo: 20 }}</p>
                         <div class="agile-detail">

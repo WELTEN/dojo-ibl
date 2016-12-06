@@ -50,7 +50,10 @@ angular.module('DojoIBL')
             }
         );
 
+
+
         $scope.$on('inquiry-run', function(event, args) {
+            $scope.disableMessagesLoading = true;
             loadMessages(args.runId)
         });
 

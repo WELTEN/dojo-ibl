@@ -15,6 +15,7 @@
                 <ui-select class="m-md" ng-show="game.accessRights == 1" ng-change="selectChange(selected.value)" theme="bootstrap" ng-model="selected.value">
                     <ui-select-match>
                         <span ng-bind="$select.selected.title"></span>
+
                     </ui-select-match>
                     <ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.runId">
                         <span ng-bind="item.title"></span>
