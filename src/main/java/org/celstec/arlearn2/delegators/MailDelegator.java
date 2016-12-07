@@ -26,6 +26,9 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -108,4 +111,53 @@ public class MailDelegator extends GoogleDelegator {
         }
     }
 
+    public void sendReminders() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
+        logger.log(Level.SEVERE, dateFormat.format(date));
+
+        Properties props = new Properties();
+        Session session = Session.getDefaultInstance(props, null);
+
+        String from = "suarezfdz86@gmail.com";
+        String fromName = "The DojoIBL team";
+        String toMail = "titogelo@gmail.com";
+
+        String msgBody = "<html><body>";
+        msgBody += "Hi,<br>";
+        msgBody += "<p>";
+        msgBody += "Welcome to ARLearn. We hope you'll find this a useful tool.";
+        msgBody += "</p>";
+        msgBody += "<p>";
+        msgBody += "ARLearn content is organized in games and runs. Both can be created and managed with the <a href=\"http://streetlearn.appspot.com/\">ARLearn authoring tool</a>.";
+        msgBody += "</p>";
+        msgBody += "<p>";
+        msgBody += "For more information on using ARLearn, visit our <a href=\"http://ou.nl/arlearn\">get started page</a>.";
+        msgBody += "</p>";
+        msgBody += "<p>";
+        msgBody += "Have fun<br>";
+        msgBody += "The ARLearn team.";
+        msgBody += "</p>";
+        msgBody += "</body></html>";
+
+        try {
+            Message msg = new MimeMessage(session);
+            msg.setFrom(new InternetAddress(from, fromName));
+            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(toMail));
+            msg.addRecipient(Message.RecipientType.BCC, new InternetAddress(from));
+            msg.setSubject("Instructions for using ARLearn");
+
+            final MimeBodyPart htmlPart = new MimeBodyPart();
+            htmlPart.setContent(msgBody, "text/html");
+            final Multipart mp = new MimeMultipart();
+            mp.addBodyPart(htmlPart);
+
+            msg.setContent(mp);
+            Transport.send(msg);
+
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+        }
+    }
 }

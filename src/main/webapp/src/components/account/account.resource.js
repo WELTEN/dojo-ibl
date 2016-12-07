@@ -19,6 +19,11 @@ angular.module('DojoIBL')
                 method: 'POST',
                 isArray: false,
                 url: config.server + '/rest/account/search'
+            },
+            'reminder': {
+                method: 'POST',
+                isArray: false,
+                url: config.server + '/rest/notifications/reminder/:account'
             }
         });
     })

@@ -59,6 +59,9 @@ angular.module('DojoIBL')
                 });
                 return deferred.promise;
 
+            },
+            sendReminder: function(account) {
+                Account.reminder({ account:account });
             }
         }
 

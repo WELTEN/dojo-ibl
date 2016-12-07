@@ -1,26 +1,16 @@
 package org.celstec.arlearn2.api;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
 import apns.*;
 import apns.keystore.ClassPathResourceKeyStoreProvider;
 import apns.keystore.KeyStoreProvider;
 import apns.keystore.KeyStoreType;
-import org.celstec.arlearn2.beans.game.Game;
 import org.celstec.arlearn2.beans.notification.APNDeviceDescription;
 import org.celstec.arlearn2.beans.notification.GCMDeviceDescription;
+import org.celstec.arlearn2.delegators.MailDelegator;
 import org.celstec.arlearn2.delegators.NotificationDelegator;
-import org.celstec.arlearn2.delegators.GameDelegator;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 
@@ -149,4 +139,15 @@ public class NotificationAPI extends Service {
         }
         return "{}";
     }
+
+	@POST
+	@Path("/sendReminders")
+	public String sendReminder(@HeaderParam("Authorization") String token,
+							 @PathParam("account") String account, @DefaultValue("application/json") @HeaderParam("Accept") String accept) {
+		if (!validCredentials(token))
+			return serialise(getInvalidCredentialsBean(), accept);
+		MailDelegator md = new MailDelegator(token);
+		md.sendReminders();
+		return null;
+	}
 }
