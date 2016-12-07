@@ -5,11 +5,16 @@ DojoIBL will help young students to carry on their inquiry activities in a colla
 simple and clear way. Based on phases and activities, the students will DojoIBL as a mentor to 
 structure their own process.
 
+Version 28
+----------
+- **NEW** Email remainders every day
+- **NEW** Calendar view for students
+
 Version 27
 ----------
-- **NEW** Switching between inquiry runs
-- **NEW** Added profile image in comments
-- **NEW** New main view for students. Inquiry overview as in dashboard
+- Switching between inquiry runs
+- Added profile image in comments
+- New main view for students. Inquiry overview as in dashboard
 
 Version 26
 ----------

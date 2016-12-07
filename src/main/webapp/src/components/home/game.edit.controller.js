@@ -991,7 +991,7 @@ angular.module('DojoIBL')
         $scope.activity.fileReferences = [];
         $scope.activity.gameId = $stateParams.gameId;
 
-        console.log(activity)
+        $scope.dateOptions = {format: 'dd/mm/yyyy'}
 
         GameService.getGameAssets($stateParams.gameId).then(function(data){
             $scope.assets = data;
@@ -1197,6 +1197,9 @@ angular.module('DojoIBL')
                 _aux.push(angular.fromJson(role));
             });
             $scope.activity.roles2 = _aux;
+            $scope.activity.timestamp = Date.parse($scope.activity.timestamp);
+
+
 
             if($scope.activity.type == "org.celstec.arlearn2.beans.generalItem.AudioObject"){
                 if($scope.activity.audioFeed == ""){

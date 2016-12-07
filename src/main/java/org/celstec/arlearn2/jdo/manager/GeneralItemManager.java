@@ -57,10 +57,16 @@ public class GeneralItemManager {
 		gi.setRadius(bean.getRadius());
 		if (bean.getSection() != null) gi.setSection(bean.getSection());
 //		gi.setShowAtTimeStamp(bean.getShowAtTimeStamp());
+
 		gi.setType(bean.getType());
 		gi.setIconUrl(bean.getIconUrl());
 		gi.setDeleted(false);
         if (bean.getDeleted() != null) gi.setDeleted(bean.getDeleted());
+        if (bean.getTimeStamp() != null){
+			gi.setTimeStamp(bean.getTimestamp());
+		}else{
+			gi.setTimeStamp(System.currentTimeMillis());
+		}
 		gi.setLastModificationDate(System.currentTimeMillis());
 		jbs = new JsonBeanSerialiser(bean);
 		gi.setPayload(new Text(jbs.serialiseToJson().toString()));
@@ -170,6 +176,7 @@ public class GeneralItemManager {
 		gi.setScope(jdo.getScope());
 		gi.setSection(jdo.getSection());
 //		gi.setShowAtTimeStamp(jdo.getShowAtTimeStamp());
+		gi.setTimestamp(jdo.getTimeStamp());
 		gi.setType(jdo.getType());
 		gi.setIconUrl(jdo.getIconUrl());
 		gi.setDeleted(jdo.getDeleted());
