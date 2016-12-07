@@ -1,6 +1,7 @@
 <div class="social-comment" id="{{ response.responseId }}" class="highlight">
     <a href="" class="pull-left">
-        <img src="src/assets/img/avatar.png" ng-src="{{ response.user.picture }}" />
+        <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="response.user.picture == ''" data="{{ response.user.name }}"></ng-letter-avatar>
+        <img class="message-avatar" ng-if="response.user.picture != ''" ng-src="{{ response.user.picture }}" alt="">
     </a>
 
     <div class="media-body" data-item="{{ response.responseId }}">
@@ -21,7 +22,8 @@
     </div>
     <div class="social-comment" ng-show="hiddenDiv">
         <a href="" class="pull-left">
-            <img src="src/assets/img/avatar.png" ng-src="{{ myAccount.picture }}" />
+            <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="myAccount.picture == ''" data="{{ myAccount.name }}"></ng-letter-avatar>
+            <img class="message-avatar" ng-if="myAccount.picture != ''" ng-src="{{ myAccount.picture }}" alt="">
         </a>
         <div class="media-body">
             <text-angular class="pruebas" ta-toolbar="[

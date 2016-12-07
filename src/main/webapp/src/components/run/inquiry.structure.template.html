@@ -16,6 +16,13 @@
                     <small class="chat-date pull-right">
                     </small>
                     {{'dibl.inquiry.structure.chat' | translate }}
+                    <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
+                        <div class="sk-rect1"></div>
+                        <div class="sk-rect2"></div>
+                        <div class="sk-rect3"></div>
+                        <div class="sk-rect4"></div>
+                        <div class="sk-rect5"></div>
+                    </div>
                 </div>
                 <div style="position: relative; height: 400px;">
                     <div class="chat-discussion" scroll-glue="glued" style="height: 400px;">

@@ -10,9 +10,15 @@
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"><i class="fa fa-file-text"></i> {{ activity.name }} | Discussion activity</span>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'"><i class="fa fa-picture-o"></i> {{ activity.name }} | Data collection activity</span>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"><i class="fa fa-tasks"></i> {{ activity.name }} | List activity</span>
+                <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
+                    <div class="sk-rect1"></div>
+                    <div class="sk-rect2"></div>
+                    <div class="sk-rect3"></div>
+                    <div class="sk-rect4"></div>
+                    <div class="sk-rect5"></div>
+                </div>
             </div>
-
-            <div class="heading" ng-show="!activity.roles2">
+            <div class="heading" ng-show="activity.roles2 == ''">
                 <small  class="chat-date pull-right" >
 
                 </small>
@@ -20,6 +26,13 @@
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"><i class="fa fa-file-text"></i> {{ activity.name }} | Discussion activity</span>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'"><i class="fa fa-picture-o"></i> {{ activity.name }} | Data collection activity</span>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"><i class="fa fa-tasks"></i> {{ activity.name }} | List activity</span>
+                <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
+                    <div class="sk-rect1"></div>
+                    <div class="sk-rect2"></div>
+                    <div class="sk-rect3"></div>
+                    <div class="sk-rect4"></div>
+                    <div class="sk-rect5"></div>
+                </div>
             </div>
 
             <div class="col-lg-3 m-t-sm" ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
@@ -174,7 +187,8 @@
                 </div>
                 <div class="social-comment" ng-hide="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'">
                     <a href="" class="pull-left">
-                        <img src="src/assets/img/avatar.png" ng-src="{{ myAccount.picture }}" />
+                        <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="myAccount.picture == ''" data="{{ myAccount.name }}"></ng-letter-avatar>
+                        <img class="message-avatar" ng-if="myAccount.picture != ''" ng-src="{{ myAccount.picture }}" alt="">
                     </a>
                     <div class="media-body">
                         <!--<textarea class="form-control" ng-model="response" -->

@@ -19,8 +19,6 @@ angular.module('DojoIBL')
             RunService.getRunById($stateParams.runId).then(function(run){
                 $scope.run = run;
 
-                //console.log(run);
-
                 Game.access({ }).$promise.then(function (data) {
 
                     angular.forEach(data.gamesAccess, function (gameAccess) {
