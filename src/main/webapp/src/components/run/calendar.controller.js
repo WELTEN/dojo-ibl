@@ -2,7 +2,7 @@ angular.module('DojoIBL')
 
     .controller('CalendarController', function ($scope, $sce, $stateParams, $state, Response,
                                                 ActivityService, UserService, GameService, RunService, AccountService,
-                                                ChannelService) {
+                                                ChannelService, $location) {
 
 
         ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
@@ -17,45 +17,48 @@ angular.module('DojoIBL')
 
         RunService.getRunById($stateParams.runId).then(function (run) {
             ActivityService.getActivitiesServer(run.gameId);
-
-
         });
+
         $scope.events = ActivityService.getCalendarActivities()[$stateParams.gameId]
         $scope.eventSources = [$scope.events];
         //console.log($scope.events)
 
         /* message on eventClick */
         $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
-            $scope.alertMessage = (event.title + ': Clicked ');
-        };
-        /* message on Drop */
-        $scope.alertOnDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
-            $scope.alertMessage = (event.title +': Droped to make dayDelta ' + dayDelta);
-            console.log(event.title +': Droped to make dayDelta ' + dayDelta);
-        };
-        /* message on Resize */
-        $scope.alertOnResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
-            $scope.alertMessage = (event.title +': Resized to make dayDelta ' + minuteDelta);
+            $scope.goToActivity($stateParams.runId, event.activity.section, event.activity.id)
         };
 
         /* config object */
         $scope.uiConfig = {
             calendar:{
                 height: 450,
-                editable: false,
+                editable: true,
                 header: {
                     left: 'prev,next,today',
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay'
                 },
                 eventClick: $scope.alertOnEventClick,
-                eventDrop: $scope.alertOnDrop,
-                eventResize: $scope.alertOnResize
+                disableDragging :true,
+                views: {
+                    basic: {
+                        // options apply to basicWeek and basicDay views
+                    },
+                    agenda: {
+                        // options apply to agendaWeek and agendaDay views
+                    },
+                    week: {
+                        // options apply to basicWeek and agendaWeek views
+                    },
+                    day: {
+                        // options apply to basicDay and agendaDay views
+                    }
+                }
             }
         };
 
-        /* Event sources array */
-        //$scope.eventSources = [$scope.events];
-        //console.log($scope.eventSources)
+        $scope.goToActivity = function(inqId, index, activity) {
+            $location.path('inquiry/'+inqId+'/phase/'+ index + '/activity/' +activity);
+        };
     }
 );

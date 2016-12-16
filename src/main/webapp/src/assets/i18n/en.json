@@ -41,7 +41,8 @@
       "editstructure": "Editing inquiry structure",
       "editrun": "Editing inquiry run",
       "newinquiry": "New inquiry",
-      "profile": "Profile"
+      "profile": "Profile",
+      "calendar": "Calendar"
     },
     "inquiry": {
       "structure": {
@@ -101,16 +102,15 @@
         "roles-activity": "Roles:",
         "save-activity": "Save",
         "delete-activity": "Delete",
-        "run-inquiries": "5. Inquiry runs",
+        "run-inquiries": "5. Inquiry groups",
         "run-inquiries-title": "Create new runs for this inquiry structure",
         "run-inquiries-description": "This panel allows you to create more runs for this inquiry structure. Students can be added later",
         "run-inquiries-subtitle": "Create a new inquiry run",
         "activity-order": "Activity order:",
         "export-import": "5. Export/import [Just for the admin]",
         "editor-management": "6. Editors management",
-        "run-participants": "2. Inquiry run's participants",
+        "run-participants": "2. Inquiry group's participants",
         "calendar": "4. Calendar"
-
       }
     }
   }

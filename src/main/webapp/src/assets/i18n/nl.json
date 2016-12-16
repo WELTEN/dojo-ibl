@@ -11,9 +11,13 @@
     },
     "sidebar": {
       "inquiries": "Inquiries",
+      "backend": "Backend",
       "profile": "Your profile",
       "timeline": "Timeline",
-      "phases": "Phases view"
+      "calendar": "Calendar",
+      "phases": "Overview",
+      "createinquiry": "Create inquiry",
+      "joininquiry": "Join inquiry"
     },
     "header": {
       "logout": "Logout",
@@ -21,20 +25,92 @@
       "version": "Alpha version"
     },
     "toolbar": {
-      "back": "Terug naar"
+      "back": "Back to the",
+      "new": "Create inquiry",
+      "join": "Join",
+      "edit-structure": "Edit structure of ",
+      "edit-run": "Edit ",
+      "edit-inquiry-structure": "You are editing the structure of",
+      "edit-inquiry-run": "You are editing ",
+      "home": "Home page",
+      "backend": "Backend",
+      "phases": "Inquiry",
+      "phase": "Phase",
+      "activity": "Activity",
+      "timeline": "Timeline",
+      "editstructure": "Editing inquiry structure",
+      "editrun": "Editing inquiry run",
+      "newinquiry": "New inquiry",
+      "profile": "Profile",
+      "calendar": "Calendar"
     },
     "inquiry": {
       "structure": {
         "chat": "Chat",
-        "send": "Send"
+        "send": "Send",
+        "no-phases": "No phases found..."
       },
       "home": {
-
+        "click-first": "Click",
+        "click-first-1": "Insert the inquiry code provided ",
+        "click-first-2": "and click ",
+        "join-inquiry": "join inquiry",
+        "new-inquiry": "create inquiry",
+        "to-start": "to setup your own inquiry structure",
+        "to-use": "to get access to an existing inquiry."
       },
       "phase": {
-
+        "instruction": "Please read and do all the activities. As soon as you change something on them move to the correct list."
       },
       "activity": {
+        "post-comment": "Post comment",
+        "placeholder-comment": "Write your comment...",
+        "add-list-item-placeholder": "Add new item to the list...",
+        "reply-comment": "Reply"
+      },
+      "new-edit": {
+        "inquiry-metadata": "1. Inquiry metadata",
+        "inquiry-title": "Inquiry title",
+        "inquiry-title-placeholder": "Enter an inquiry title",
+        "inquiry-description": "Inquiry description",
+        "inquiry-save": "Save",
+        "inquiry-roles": "2. Roles",
+        "roles-title": "Roles",
+        "p-available-roles": "List of available roles in",
+        "no-roles": "No roles yet",
+        "add-role": "Add role",
+        "edit-role": "Edit role",
+        "placeholder-role": "Type the name of the role",
+        "remove-role": "Remove",
+        "inquiry-phases-activities": "3. Phases & activities",
+        "configuration-dashboard": "Configuration dashboard for activities and phases.",
+        "phases": "Add phases",
+        "add-phase-button": "Add",
+        "add-phase-placeholder": "Type the name phase",
+        "activities": "Add activities",
+        "add-run-button": "Add",
+        "add-run-placeholder": "Type the name of the inquiry run",
+        "click-first": "Click first on",
+        "adding-phases": "to start adding phases to the inquiry.",
+        "adding-activities": "Now click on the green buttons to start adding activities to the phase.",
+        "editing-activities": "Now click on one of the blue activities to edit it here.",
+        "title-activity": "Title:",
+        "type-activity": "Type:",
+        "video-activity": "Video link:",
+        "google-activity": "Google resource link:",
+        "description-activity": "Description:",
+        "roles-activity": "Roles:",
+        "save-activity": "Save",
+        "delete-activity": "Delete",
+        "run-inquiries": "5. Inquiry runs",
+        "run-inquiries-title": "Create new runs for this inquiry structure",
+        "run-inquiries-description": "This panel allows you to create more runs for this inquiry structure. Students can be added later",
+        "run-inquiries-subtitle": "Create a new inquiry run",
+        "activity-order": "Activity order:",
+        "export-import": "5. Export/import [Just for the admin]",
+        "editor-management": "6. Editors management",
+        "run-participants": "2. Inquiry run's participants",
+        "calendar": "4. Calendar"
 
       }
     }

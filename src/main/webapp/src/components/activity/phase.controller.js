@@ -7,23 +7,23 @@ angular.module('DojoIBL')
             //
             //console.log(notification)
             //
-            //ActivityStatusService.refreshActivityStatus(notification.generalItemId, $scope.gameId, $stateParams.runId);
-            //toaster.success({
-            //    title: 'Activity modified',
-            //    body: 'The structure of the activity has been modified.'
-            //});
+            ActivityStatusService.refreshActivityStatus(notification.generalItemId, $scope.gameId, $stateParams.runId, $stateParams.phase);
+            toaster.success({
+                title: 'Activity modified',
+                body: 'The structure of the activity has been modified.'
+            });
         });
-
-        $scope.activities = ActivityStatusService.getActivitiesStatus();
 
 
         RunService.getRunById($stateParams.runId).then(function(data){
-
             $scope.phase = data.game.phases[$stateParams.phase];
             $scope.phase.num = $stateParams.phase;
             $scope.gameId = data.game.gameId;
             ActivityStatusService.getActivitiesServerStatus(data.game.gameId, $stateParams.runId, $stateParams.phase);
         });
+
+        $scope.activities = ActivityStatusService.getActivitiesStatus();
+
 
         $scope.sortableOptions = {
             connectWith: ".connectList",

@@ -235,7 +235,7 @@ angular.module('DojoIBL')
                                             angular.isUndefined(generalItemsStatus[runId][activity.section])){
                                         delete generalItemsStatus[runId][activity.section][activity.id];
                                     }
-                                    dataCache.remove(activity.id);
+                                    dataCache.remove(runId+"_"+activity.id);
 
                                 } else {
                                     if(angular.isUndefined(generalItemsStatus[runId])){
@@ -270,10 +270,11 @@ angular.module('DojoIBL')
             getActivitiesStatus: function () {
                 return generalItemsStatus;
             },
-            refreshActivityStatus: function(id, gameId, runId) {
+            refreshActivityStatus: function(id, gameId, runId, phase) {
                 var dataCache = CacheFactory.get('activitiesStatusCache');
                 if (dataCache.get(runId+"_"+id)) {
-                    dataCache.remove(id);
+                    delete generalItemsStatus[runId][phase][id];
+                    dataCache.remove(runId+"_"+id);
                 }
                 return this.getActivityByIdRun(id, gameId, runId);
             },
@@ -324,7 +325,7 @@ angular.module('DojoIBL')
                                             angular.isUndefined(generalItemsStatus[runId][data.section])){
                                         delete generalItemsStatus[runId][data.section][itemId];
                                     }
-                                    dataCache.remove(itemId);
+                                    dataCache.remove(runId+"_"+itemId);
 
                                 } else {
                                     if(angular.isUndefined(generalItemsStatus[runId])){

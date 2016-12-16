@@ -15,6 +15,7 @@
       "timeline": "Linea de tiempo",
       "phases": "Lista de fases",
       "createinquiry": "Crear investigación",
+      "calendar": "Calendario",
       "joininquiry": "Acceder invest."
     },
     "header": {
@@ -91,9 +92,9 @@
         "adding-phases": "to start adding phases to the inquiry.",
         "adding-activities": "Now click on the green buttons to start adding activities to the phase.",
         "editing-activities": "Now click on one of the blue activities to edit it here.",
-        "title-activity": "Title:",
-        "type-activity": "Type:",
-        "video-activity": "Video link:",
+        "title-activity": "Titulo:",
+        "type-activity": "Tipo:",
+        "video-activity": "Enlace a video:",
         "google-activity": "Google resource link:",
         "description-activity": "Description:",
         "roles-activity": "Roles:",
