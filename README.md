@@ -7,7 +7,6 @@ structure their own process.
 
 Version 28
 ----------
-- **NEW** Email remainders every day
 - **NEW** Calendar view for students
 
 Version 27
