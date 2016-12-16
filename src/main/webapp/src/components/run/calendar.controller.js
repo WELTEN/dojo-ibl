@@ -5,52 +5,24 @@ angular.module('DojoIBL')
                                                 ChannelService) {
 
 
-        RunService.getRunById($stateParams.runId).then(function (run) {
-            var act = ActivityService.getActivitiesServer(run.gameId);
-
-            console.log(act);
-
-
-//            var fahrenheit = [0, 32, 45, 50, 75, 80, 99, 120];
-//
-//            var celcius = fahrenheit.map(function(elem) {
-//                return Math.round((elem - 32) * 5 / 9);
-//            });
-//
-//// ES6
-//// fahrenheit.map(elem => Math.round((elem - 32) * 5 / 9));
-//
-//            celcius //  [-18, 0, 7, 10, 24, 27, 37, 49]
-
+        ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
+            ActivityService.refreshActivity(notification.itemId, notification.gameId);
+            toaster.success({
+                title: 'Activity modified',
+                body: 'The structure of the activity has been modified.'
+            });
         });
 
+        $scope.events = [];
 
-        console.log(ActivityService.getActivities());
-
-        var date = new Date();
-        var d = date.getDate();
-        var m = date.getMonth();
-        var y = date.getFullYear();
+        RunService.getRunById($stateParams.runId).then(function (run) {
+            ActivityService.getActivitiesServer(run.gameId);
 
 
-        // Events
-        $scope.events = [
-            //{title: 'All Day Event',start: new Date(y, m, 1)},
-            //{title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
-            //{id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
-            //{id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
-            //{title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false},
-            //{title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
-        ];
-
-        for ( var run in ActivityService.getActivities() ) {
-            for ( var section in ActivityService.getActivities()[run] ) {
-                for ( var activity in ActivityService.getActivities()[run][section] ) {
-                    var act = ActivityService.getActivities()[run][section][activity]
-                    $scope.events.push({ title: act.name, start: new Date(act.timestamp) })
-                }
-            }
-        }
+        });
+        $scope.events = ActivityService.getCalendarActivities()[$stateParams.gameId]
+        $scope.eventSources = [$scope.events];
+        //console.log($scope.events)
 
         /* message on eventClick */
         $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
@@ -70,7 +42,7 @@ angular.module('DojoIBL')
         $scope.uiConfig = {
             calendar:{
                 height: 450,
-                editable: true,
+                editable: false,
                 header: {
                     left: 'prev,next,today',
                     center: 'title',
@@ -83,8 +55,7 @@ angular.module('DojoIBL')
         };
 
         /* Event sources array */
-        $scope.eventSources = [$scope.events];
-
-
+        //$scope.eventSources = [$scope.events];
+        //console.log($scope.eventSources)
     }
 );

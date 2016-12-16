@@ -56,7 +56,7 @@ angular.module('DojoIBL')
                 }
             })
             .state('inquiry.calendar', {
-                url: '/:runId/calendar',
+                url: '/:gameId/:runId/calendar',
                 templateUrl: '/src/components/run/calendar.template.html',
                 controller: 'CalendarController',
                 ncyBreadcrumb: {

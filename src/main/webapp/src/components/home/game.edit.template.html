@@ -151,7 +151,7 @@
                                     <p class="small">{{ activity.description | limitTo: 20 }}</p>
                                     <div class="agile-detail">
                                         <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
-                                        <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | timeago }}
+                                        <i class="fa fa-clock-o"></i> {{ activity.timestamp | timeago }}
                                     </div>
                                 </li>
                             </ul>
@@ -168,6 +168,17 @@
                         </aside>
                     </div>
 
+            </div>
+        </div>
+        <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
+            <div class="ibox-content">
+                <div class="heading ng-binding">
+                    {{'dibl.inquiry.new-edit.calendar' | translate}}
+                </div>
+
+                <div class="ibox-content ui-calendar mail-body">
+                    <div ui-calendar="uiConfig.calendar" calendar="myCalendar1" class="calendar" ng-model="eventSources"></div>
+                </div>
             </div>
         </div>
 

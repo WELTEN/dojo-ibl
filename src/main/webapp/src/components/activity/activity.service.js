@@ -10,6 +10,7 @@ angular.module('DojoIBL')
         });
 
         var generalItems = {};
+        var calendarItems = {};
         var dataCache = CacheFactory.get('activitiesCache');
         var generalItemsId = dataCache.keys();
         for (var i=0; i < generalItemsId.length; i++) {
@@ -17,6 +18,7 @@ angular.module('DojoIBL')
             generalItems[generalItem.gameId] = generalItems[generalItem.gameId] || {};
             generalItems[generalItem.gameId][generalItem.section] = generalItems[generalItem.gameId][generalItem.section] || {};
             generalItems[generalItem.gameId][generalItem.section][generalItem.id] = generalItem;
+            calendarItems[generalItem.gameId] = calendarItems[generalItem.gameId] || [];
         }
 
         return {
@@ -26,12 +28,14 @@ angular.module('DojoIBL')
                 var service = this;
                 Activity.getActivities({ gameId: gameId }).$promise.then(
                     function (data) {
+
                         for (i = 0; i < data.generalItems.length; i++) {
 
                             if (!data.generalItems[i].deleted) {
 
                                 if(angular.isUndefined(generalItems[gameId])){
                                     generalItems[gameId] = {};
+                                    calendarItems[gameId] = [];
                                 }
 
                                 if(angular.isUndefined(generalItems[gameId][data.generalItems[i].section])){
@@ -39,6 +43,19 @@ angular.module('DojoIBL')
                                 }
 
                                 generalItems[gameId][data.generalItems[i].section][data.generalItems[i].id] = data.generalItems[i];
+
+                                var obj ={
+                                    _id: data.generalItems[i].id,
+                                    title: data.generalItems[i].section+") "+data.generalItems[i].name,
+                                    start: new Date(data.generalItems[i].timestamp),
+                                    activity: data.generalItems[i]
+                                }
+
+                                var index = service.arrayObjectIndexOf(calendarItems[gameId], data.generalItems[i].id, "_id");
+                                if (index == -1) {
+                                    calendarItems[gameId].push(obj);
+                                }
+
                                 dataCache.put(data.generalItems[i].id, data.generalItems[i]);
                             }
                         }
@@ -50,10 +67,27 @@ angular.module('DojoIBL')
             getActivities: function () {
                 return generalItems;
             },
+            getCalendarActivities: function () {
+                return calendarItems;
+            },
             deleteActivity: function(gameId, item){
                 var dataCache = CacheFactory.get('activitiesCache');
                 dataCache.remove(item.id);
+                var service = this;
+
                 delete generalItems[gameId][item.section][item.id];
+
+                var obj ={
+                    _id: item.id,
+                    title: item.section+") "+item.name,
+                    start: new Date(item.timestamp),
+                    activity: item
+                };
+
+                var index = service.arrayObjectIndexOf(calendarItems[gameId], item.id, "_id");
+                if (index > -1) {
+                    calendarItems[gameId].splice(index, 1);
+                }
                 return Activity.delete({ gameId: gameId, itemId: item.id});
             },
             addRole: function(generalItemId, roleAsJson, roleAsJsonOld){
@@ -68,15 +102,13 @@ angular.module('DojoIBL')
                 return deferred.promise;
             },
             newActivity: function(activityAsJson){
-                var dataCache = CacheFactory.get('activitiesCache');
+                if(Date.parse(activityAsJson.timestamp)){
+                    activityAsJson.timestamp = Date.parse(activityAsJson.timestamp);
+                }
+
+                activityAsJson.timeStamp = activityAsJson.timestamp;
 
                 var newActivity = new Activity(activityAsJson);
-
-                console.log(newActivity, activityAsJson);
-
-                //ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
-                //
-                //});
 
                 return newActivity.$save();
             },
@@ -93,22 +125,29 @@ angular.module('DojoIBL')
                         function(data){
 
                             if (!data.error){
-                                //if (data.deleted) {
-                                //    delete generalItems[gameId][data.section][itemId];
-                                //    dataCache.remove(itemId);
-                                //
-                                //} else {
-                                    if(angular.isUndefined(generalItems[gameId])){
-                                        generalItems[gameId] = {};
-                                    }
-                                    if(angular.isUndefined(generalItems[gameId][data.section])){
-                                        generalItems[gameId][data.section] = {};
-                                    }
-                                    generalItems[gameId][data.section][itemId] = data;
+                                if(angular.isUndefined(generalItems[gameId])){
+                                    generalItems[gameId] = {};
+                                    calendarItems[gameId] = {};
+                                }
+                                if(angular.isUndefined(generalItems[gameId][data.section])){
+                                    generalItems[gameId][data.section] = {};
+                                }
+                                generalItems[gameId][data.section][itemId] = data;
 
-                                    dataCache.put(itemId, data);
-                                    deferred.resolve(data);
-                                //}
+                                var obj ={
+                                    _id: data.id,
+                                    title: data.section+") "+data.name,
+                                    start: new Date(data.timestamp),
+                                    activity: data
+                                };
+
+                                var index = service.arrayObjectIndexOf(calendarItems[gameId], data.id, "_id");
+                                if (index == -1) {
+                                    calendarItems[gameId].push(obj);
+                                }
+
+                                dataCache.put(itemId, data);
+                                deferred.resolve(data);
                             }
                         }
                     );
@@ -117,15 +156,34 @@ angular.module('DojoIBL')
             },
             refreshActivity: function(id, gameId) {
                 var dataCache = CacheFactory.get('activitiesCache');
+                var service = this;
                 var act = dataCache.get(id);
                 if (act) {
                     delete generalItems[gameId][act.section][id];
+
+                    var obj ={
+                        id: act.id,
+                        title: act.section+") "+act.name,
+                        start: new Date(act.timestamp),
+                        activity: act
+                    };
+
+                    var index = service.arrayObjectIndexOf(calendarItems[gameId], act.id, "_id");
+                    if (index > -1) {
+                        calendarItems[gameId].splice(index, 1);
+                    }
                     dataCache.remove(id);
                 }
                 return this.getActivityById(id, gameId);
             },
             uploadUrl: function(gameId, itemId, key) {
                 return Activity.uploadUrl({ gameId:gameId, itemId:itemId, key:key });
+            },
+            arrayObjectIndexOf: function (myArray, searchTerm, property) {
+                for(var i = 0, len = myArray.length; i < len; i++) {
+                    if (myArray[i][property] === searchTerm) return i;
+                }
+                return -1;
             }
         }
     })

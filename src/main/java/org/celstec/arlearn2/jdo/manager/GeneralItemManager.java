@@ -62,7 +62,7 @@ public class GeneralItemManager {
 		gi.setIconUrl(bean.getIconUrl());
 		gi.setDeleted(false);
         if (bean.getDeleted() != null) gi.setDeleted(bean.getDeleted());
-        if (bean.getTimeStamp() != null){
+        if (bean.getTimestamp() != null){
 			gi.setTimeStamp(bean.getTimestamp());
 		}else{
 			gi.setTimeStamp(System.currentTimeMillis());

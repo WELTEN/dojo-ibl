@@ -70,18 +70,51 @@ angular.module('DojoIBL')
             ];
 
             ActivityService.getActivitiesServer($stateParams.gameId);
-
-            //angular.forEach($scope.game.phases, function(value, key) {
-            //    $scope.lists[key] = [];
-            //    ActivityService.getActivitiesForPhase($stateParams.gameId, key).then(function(data){
-            //        angular.forEach(data, function(i,a){
-            //            $scope.lists[key].push(i);
-            //        });
-            //    });
-            //});
         });
 
         $scope.activities = ActivityService.getActivities();
+
+        /********
+         Calendar
+         *******/
+        $scope.events = [];
+
+        $scope.events = ActivityService.getCalendarActivities()[$stateParams.gameId];
+
+        $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
+            $scope.editActivity(event.activity, event.activity.gameId)
+        };
+
+        $scope.alertOnDrop = function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
+            event.activity.timestamp += (60*60*24*dayDelta*1000);
+            event.activity.timestamp = new Date(event.activity.timestamp)
+            ActivityService.newActivity(event.activity).then(function(data){
+                ActivityService.refreshActivity(data.id, data.gameId);
+            });
+        };
+
+        $scope.alertOnResize = function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
+            $scope.alertMessage = (event.title +': Resized to make dayDelta ' + minuteDelta);
+        };
+
+        /* config object */
+        $scope.uiConfig = {
+            calendar:{
+                height: 450,
+                editable: true,
+                header: {
+                    left: 'prev,next,today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                eventClick: $scope.alertOnEventClick,
+                eventDrop: $scope.alertOnDrop,
+                eventResize: $scope.alertOnResize
+            }
+        };
+
+        /* Event sources array */
+        $scope.eventSources = [$scope.events];
 
         $scope.ok = function(){
             GameService.newGame($scope.game);
@@ -367,16 +400,8 @@ angular.module('DojoIBL')
             });
 
             modalInstance.result.then(function (result){
-                //console.log(result)
                 ActivityService.newActivity(result).then(function(data){
-
-
-                    //if(!angular.isUndefined(result.roles2)){
-                    //    //console.log(data, result)
-                    //    ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
-                    //
-                    //    });
-                    //}
+                    ActivityService.refreshActivity(data.id, data.gameId);
                 });
             });
         };
@@ -414,40 +439,6 @@ angular.module('DojoIBL')
                 });
             }
         };
-
-        //$scope.sortableOptions = {
-        //    connectWith: ".connectList",
-        //    axis: 'x'
-        //    //receive: function(event, ui) {
-        //    //    var item = ui.item.scope().activity;
-        //    //    var group = event.target;
-        //    //    ActivityService.changeActivityStatus($stateParams.runId, item.id,group.id).then(function (data) {
-        //    //        console.log(data);
-        //    //        switch(data.status){
-        //    //            case 0:
-        //    //                toaster.success({
-        //    //                    title: 'Moved to ToDo list',
-        //    //                    body: 'The activity has been successfully moved to the ToDo list.'
-        //    //                });
-        //    //                break;
-        //    //            case 1:
-        //    //                toaster.success({
-        //    //                    title: 'Moved to In Progress list',
-        //    //                    body: 'The activity has been successfully moved to the In Progress list.'
-        //    //                });
-        //    //                break;
-        //    //            case 2:
-        //    //                toaster.success({
-        //    //                    title: 'Moved to Completed list',
-        //    //                    body: 'The activity has been successfully moved to the Completed list.'
-        //    //                });
-        //    //                break;
-        //    //        }
-        //    //
-        //    //    });
-        //    //}
-        //};
-
 
         ///////////////
         // Manage roles
@@ -1197,9 +1188,6 @@ angular.module('DojoIBL')
                 _aux.push(angular.fromJson(role));
             });
             $scope.activity.roles2 = _aux;
-            $scope.activity.timestamp = Date.parse($scope.activity.timestamp);
-
-
 
             if($scope.activity.type == "org.celstec.arlearn2.beans.generalItem.AudioObject"){
                 if($scope.activity.audioFeed == ""){

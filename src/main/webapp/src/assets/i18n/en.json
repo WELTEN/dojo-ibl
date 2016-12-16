@@ -101,14 +101,15 @@
         "roles-activity": "Roles:",
         "save-activity": "Save",
         "delete-activity": "Delete",
-        "run-inquiries": "4. Inquiry runs",
+        "run-inquiries": "5. Inquiry runs",
         "run-inquiries-title": "Create new runs for this inquiry structure",
         "run-inquiries-description": "This panel allows you to create more runs for this inquiry structure. Students can be added later",
         "run-inquiries-subtitle": "Create a new inquiry run",
         "activity-order": "Activity order:",
         "export-import": "5. Export/import [Just for the admin]",
-        "editor-management": "5. Editors management",
-        "run-participants": "2. Inquiry run's participants"
+        "editor-management": "6. Editors management",
+        "run-participants": "2. Inquiry run's participants",
+        "calendar": "4. Calendar"
 
       }
     }
