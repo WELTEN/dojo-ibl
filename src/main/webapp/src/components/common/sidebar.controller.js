@@ -33,9 +33,20 @@ angular.module('DojoIBL')
                         //loadAccessRules();
                     }
                 );
-
             });
-        }else{
+
+        }else if($stateParams.gameId){
+            GameService.getGameById($stateParams.gameId).then(function(data){
+                if (data.error) {
+                    $scope.showNoAccess = true;
+                } else {
+                    $scope.show = true;
+                }
+
+                $scope.game = data;
+            });
+        }
+        else{
             AccountService.myDetails().then(
                 function(data){
                     $scope.myAccount = data;

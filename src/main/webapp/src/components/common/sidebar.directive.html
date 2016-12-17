@@ -66,6 +66,29 @@
                     </li>
                 </ul>
             </li>
+            <li ng-show="game" class="active inquiry-sidebar">
+                <a><i class="fa fa-asterisk"></i> <span class="nav-label sidebar-inquiry-title">{{ game.title | limitTo: 15 }} {{ game.title.length > 15 ? '...' : ''}}</span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a><i class="fa fa-edit"></i>{{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}</a>
+                    </li>
+                    <li>
+                        <a><i class="fa fa-user"></i>{{ 'dibl.inquiry.new-edit.inquiry-roles' | translate }}</a>
+                    </li>
+                    <li>
+                        <a><i class="fa fa-circle"></i>{{ 'dibl.inquiry.new-edit.inquiry-phases-activities' | translate }}</a>
+                    </li>
+                    <li>
+                        <a><i class="fa fa-calendar"></i>{{'dibl.inquiry.new-edit.calendar' | translate}}</a>
+                    </li>
+                    <li>
+                        <a><i class="fa fa-sitemap"></i>{{'dibl.inquiry.new-edit.run-inquiries' | translate}}</a>
+                    </li>
+                    <li>
+                        <a><i class="fa fa-key"></i>{{'dibl.inquiry.new-edit.editor-management' | translate}}</a>
+                    </li>
+                </ul>
+            </li>
             <li>
                 <a href="#/profile/{{ myAccount.accountType }}:{{ myAccount.localId }}"><i class="fa fa-user"></i> <span class="nav-label">{{'dibl.sidebar.profile' | translate}}</span>
                     <!-- <span class="label label-warning pull-right">Current</span> --></a>
