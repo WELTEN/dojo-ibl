@@ -29,11 +29,11 @@ public class AccountDelegator extends GoogleDelegator {
 
     public Account getContactDetails(String accountId) {
         Account account = AccountCache.getInstance().getAccount(accountId);
-        if (account == null) {
+//        if (account == null) {
             account = AccountManager.getAccount(accountId);
             if (account.getError() != null) return account;
             AccountCache.getInstance().storeAccountValue(account.getFullId(), account);
-        }
+//        }
         return account;
     }
 

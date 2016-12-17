@@ -18,38 +18,70 @@
  ******************************************************************************/
 package org.celstec.arlearn2.upload;
 
-import java.io.IOException;
-import java.util.logging.Logger;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.ServingUrlOptions;
+import org.celstec.arlearn2.jdo.manager.FilePathManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.celstec.arlearn2.jdo.manager.FilePathManager;
-
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreService;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 public class UploadUserContentServlet extends HttpServlet {
 	private static final Logger log = Logger.getLogger(BlobStoreServletWithExternalUrl.class.getName());
 
 	private BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 
-	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		String account = req.getParameter("account");
+//	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
+//		String account = req.getParameter("account");
+//		String path = req.getPathInfo();
+//		System.out.println(path);
+//		System.out.println(account);
+//		if (account != null) {
+//			String uploadUrl = blobstoreService.createUploadUrl("/uploadUserContent" + path + "?account=" + account);
+//			String page = "<body>";
+//			page += "<form action=\"" + uploadUrl + "\" method=\"post\" enctype=\"multipart/form-data\">";
+//			page += "<input type=\"file\" name=\"myFile\">";
+//			page += "<input type=\"submit\" value=\"Submit\">";
+//			page += "</form></body>";
+//			res.getWriter().write(page);
+//		}
+//	}
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setHeader("Cache-Control", "max-age=2592000");
+
 		String path = req.getPathInfo();
-		System.out.println(path);
-		System.out.println(account);
-		if (account != null) {
-			String uploadUrl = blobstoreService.createUploadUrl("/uploadUserContent" + path + "?account=" + account);
-			String page = "<body>";
-			page += "<form action=\"" + uploadUrl + "\" method=\"post\" enctype=\"multipart/form-data\">";
-			page += "<input type=\"file\" name=\"myFile\">";
-			page += "<input type=\"submit\" value=\"Submit\">";
-			page += "</form></body>";
-			res.getWriter().write(page);
+//        long gameIdString = Long.parseLong(path.split("/", -1)[2]);
+		String account = req.getParameter("account");
+//        String fileName = path.split("/", -1)[3];
+		BlobKey bk = FilePathManager.getBlobKey(account, null, null, path);
+		if (bk != null) {
+			if (req.getParameter("thumbnail") == null) {
+				blobstoreService.serve(bk, resp);
+			}  else {
+				ImagesService imagesService = ImagesServiceFactory.getImagesService();
+				ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(bk);
+				options.imageSize(Integer.parseInt(req.getParameter("thumbnail")));
+				boolean crop = false;
+				if (req.getParameter("crop")!=null) {
+					crop = Boolean.parseBoolean(req.getParameter("crop"));
+				}
+				options.crop(req.getParameter("crop")!=null);
+				String thumbnailUrl =imagesService.getServingUrl(options);
+
+				resp.sendRedirect(thumbnailUrl);
+			}
+
+		} else {
+			resp.setStatus(404);
 		}
 	}
 

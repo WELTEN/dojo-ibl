@@ -12,25 +12,31 @@
             <div class="col-md-6">
 
                 <div class="profile-image">
-                    <ng-letter-avatar class="img-circle pointer circle-border m-b-md" ng-if="user.picture == ''" data="{{ user.name }}"></ng-letter-avatar>
-                    <img alt="image"  class="img-circle pointer circle-border m-b-md" ng-if="user.picture != ''" ng-src="{{ user.picture }}">
-
-                    <!--<img src="src/img/avatar.png" ng-src="{{ user.picture }}" ngf-capture="'camera'" ngf-select="upload($file)" class="img-circle pointer circle-border m-b-md" alt="profile">-->
+                    <ng-letter-avatar class="img-circle pointer circle-border m-b-md" ng-if="user.picture == ''" data="{{ user.name }}" ngf-capture="'camera'" ngf-select="upload($file)"> </ng-letter-avatar>
+                    <img alt="image"  class="img-circle pointer circle-border m-b-md" ng-if="user.picture != ''" ng-src="{{ user.picture }}" ngf-capture="'camera'" ngf-select="upload($file)">
+                    <!--<img src="src/img/avatar.png" ng-src="{{ user.picture }}"  class="img-circle pointer circle-border m-b-md" alt="profile">-->
                 </div>
                 <div class="profile-info">
                     <div class="">
                         <div>
                             <h2>
-                                {{ user.name }}
+                                a<input type="text" ng-model="user.localId" ng-keyup="$event.keyCode == 13 && ok()"/>
+                                <br/>
+                                b<input type="text" ng-model="user.accountType" ng-keyup="$event.keyCode == 13 && ok()"/>
+                                <br/>
+                                c<input type="text" ng-model="user.name" ng-keyup="$event.keyCode == 13 && ok()"/>
+                                <br/>
+                                d<input type="text" ng-model="user.email" ng-keyup="$event.keyCode == 13 && ok()"/>
+                                <b>{{ user.name }}</b>
                                 <!-- <a ng-show="myAccount.localId == user.localId" class="btn btn-white btn-bitbucket"> <i class="fa fa-pencil"></i> Edit</a>-->
                             </h2>
-                            <h4>
-                                Bio
-                                <!--<a ng-show="myAccount.localId == user.localId" class="btn btn-white btn-bitbucket"> <i class="fa fa-pencil"></i> Edit</a>-->
-                            </h4>
-                            <small>
-                                <i> - Bio not available yet</i>
-                            </small>
+                            <!--<h4>-->
+                                <!--Bio-->
+                                <!--&lt;!&ndash;<a ng-show="myAccount.localId == user.localId" class="btn btn-white btn-bitbucket"> <i class="fa fa-pencil"></i> Edit</a>&ndash;&gt;-->
+                            <!--</h4>-->
+                            <!--<small>-->
+                                <!--<i> - Bio not available yet</i>-->
+                            <!--</small>-->
                         </div>
                     </div>
                 </div>

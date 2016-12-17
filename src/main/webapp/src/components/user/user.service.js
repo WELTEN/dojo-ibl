@@ -61,6 +61,13 @@ angular.module('DojoIBL')
                     );
                 }
                 return deferred.promise;
+            },
+            refreshAccount: function(data) {
+                var userOld = users[data.accountType+":"+data.localId];
+                console.log(data, userOld, users)
+                userOld.name = data.name;
+                userOld.picture = data.picture;
+                users[data.accountType+":"+data.localId] = userOld;
             }
         }
     }

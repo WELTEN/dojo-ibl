@@ -12,7 +12,6 @@ import org.celstec.arlearn2.jdo.manager.AccountManager;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Path("/account")
@@ -148,13 +147,16 @@ public class AccountApi extends Service {
                                       String contact
     ) {
 
-        Object inContact = deserialise(contact, Account.class, contentType);
-        log.log(Level.SEVERE, "registering account"+contact);
+		if (!validCredentials(token))
+			return serialise(getInvalidCredentialsBean(), accept);
 
+		AccountDelegator ad = new AccountDelegator(this);
+
+        Object inContact = deserialise(contact, Account.class, contentType);
         if (inContact instanceof java.lang.String)
             return serialise(getBeanDoesNotParseException((String) inContact), accept);
-        AccountDelegator ad = new AccountDelegator(this);
-        return serialise(ad.createAccount((Account) inContact, token), accept);
+
+        return serialise(ad.createAccountAndIndex((Account) inContact), accept);
     }
 
 	@POST

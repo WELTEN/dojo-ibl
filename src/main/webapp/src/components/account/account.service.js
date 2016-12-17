@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .service('AccountService', function ($q, Account, CacheFactory) {
+    .service('AccountService', function ($q, Account, CacheFactory,UserService) {
 
         CacheFactory('accountCache', {
             maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day
@@ -42,7 +42,9 @@ angular.module('DojoIBL')
                 } else {
                     Account.accountDetailsById({ fullId:fullId }).$promise.then(
                         function (accountData) {
+                            console.log(accountData)
                             dataCache.put(fullId, accountData);
+                            dataCache.put("me", accountData);
                             deferred.resolve(accountData);
                         }
                     );
@@ -51,6 +53,14 @@ angular.module('DojoIBL')
             },
             uploadUrl: function(account, key) {
                 return Account.uploadUrl({ account:account, key:key });
+            },
+            update: function(accountAsJson){
+                var service = this;
+                Account.update(accountAsJson).$promise.then(function(data){
+                    console.log(data)
+                    service.refreshAccount(data.email);
+                    UserService.refreshAccount(data);
+                });
             },
             searchAccount: function(query) {
                 var deferred = $q.defer();
@@ -62,6 +72,14 @@ angular.module('DojoIBL')
             },
             sendReminder: function(account) {
                 Account.reminder({ account:account });
+            },
+            refreshAccount: function(id) {
+                var dataCache = CacheFactory.get('accountCache');
+                if (dataCache.get(id)) {
+                    dataCache.remove(id);
+                    dataCache.remove("me");
+                }
+                return this.accountDetailsById(id);
             }
         }
 

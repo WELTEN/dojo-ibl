@@ -1,7 +1,7 @@
 angular.module('DojoIBL')
 
     .factory('Account', function AccountFactory($resource, $http, config) {
-        return $resource(config.server+'/rest/account', {}, {
+        return $resource(config.server+'/rest/account/createAccount', {}, {
             'accountDetails': {
                 method: 'GET',
                 isArray: false,
@@ -24,6 +24,11 @@ angular.module('DojoIBL')
                 method: 'POST',
                 isArray: false,
                 url: config.server + '/rest/notifications/reminder/:account'
+            },
+            'update': {
+                method: 'POST',
+                isArray: false,
+                url: config.server + '/rest/account/createAccount'
             }
         });
     })

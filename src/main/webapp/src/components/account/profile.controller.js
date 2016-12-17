@@ -1,13 +1,28 @@
 angular.module('DojoIBL')
 
-    .controller('ProfileController', function ($scope, $sce, $stateParams, $state, Session, AccountService, Upload) {
+    .controller('ProfileController', function ($scope, $sce, $stateParams, $state, Session, AccountService, Upload, config) {
         AccountService.myDetails().then(function(data){
             $scope.myAccount = data;
+            $scope.nameValue = $scope.myAccount.familyName+" "+$scope.myAccount.givenName;
         });
 
         AccountService.accountDetailsById($stateParams.fullId).then(function(data){
             $scope.user = data;
         });
+
+
+
+        $scope.ok = function(){
+            console.log($scope.user)
+            AccountService.update({
+                "type": "org.celstec.arlearn2.beans.account.Account",
+                "accountType": $scope.myAccount.accountType,
+                "localId": $scope.myAccount.localId,
+                "email": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                "picture": $scope.myAccount.picture,
+                "name": $scope.user.name
+            });
+        };
 
         $scope.upload = function (file) {
             $scope.progressPercentage = 0;
@@ -18,28 +33,14 @@ angular.module('DojoIBL')
                     url: url.uploadUrl,
                     data: {file: file, 'username': $scope.username}
                 }).then(function (resp) {
-
-                    //ResponseService.newResponse({
-                    //    "type": "org.celstec.arlearn2.beans.run.Response",
-                    //    "runId": $stateParams.runId,
-                    //    "deleted": false,
-                    //    "generalItemId": $stateParams.activityId,
-                    //    "userEmail": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
-                    //    "responseValue": {
-                    //        "videoUrl": config.server +"/uploadService/"+$stateParams.runId+"/"+$scope.myAccount.accountType+":"+$scope.myAccount.localId+"/"+file.name,
-                    //        "fileName": file.name,
-                    //        "fileType": resp.config.data.file.type,
-                    //        "width": 3264,
-                    //        "height": 1840
-                    //    },
-                    //    "parentId": 0,
-                    //    "revoked": false,
-                    //    "lastModificationDate": new Date().getTime()
-                    //}).then(function(data){
-                    //
-                    //});
-
-                    //TODO modify the account
+                    AccountService.update({
+                        "type": "org.celstec.arlearn2.beans.account.Account",
+                        "accountType": $scope.myAccount.accountType,
+                        "localId": $scope.myAccount.localId,
+                        "email": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
+                        "name": $scope.myAccount.familyName+" "+$scope.myAccount.givenName,
+                        "picture": config.server+"/uploadUserContent/"+resp.config.data.file.name+"?account="+$scope.myAccount.accountType+":"+$scope.myAccount.localId
+                    });
 
                     console.log(resp)
                     console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
