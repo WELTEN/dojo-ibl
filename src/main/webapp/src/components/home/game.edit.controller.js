@@ -79,7 +79,7 @@ angular.module('DojoIBL')
          *******/
         $scope.events = [];
 
-        $scope.events = ActivityService.getCalendarActivities()[$stateParams.gameId];
+        $scope.events = ActivityService.getCalendarActivities();
 
         $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
             $scope.editActivity(event.activity, event.activity.gameId)
@@ -114,7 +114,7 @@ angular.module('DojoIBL')
         };
 
         /* Event sources array */
-        $scope.eventSources = [$scope.events];
+        $scope.eventSources = [$scope.events[$stateParams.gameId]];
 
         $scope.ok = function(){
             GameService.newGame($scope.game);
