@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cronentries>
-    <cron>
-        <url>/rest/notifications/reminders</url>
-        <target>beta</target>
-        <description>daily summary contributions</description>
-        <schedule>every 2 minutes</schedule>
-    </cron>
+    <!--<cron>-->
+        <!--<url>/rest/notifications/reminders</url>-->
+        <!--<target>beta</target>-->
+        <!--<description>daily summary contributions</description>-->
+        <!--<schedule>every 2 minutes</schedule>-->
+    <!--</cron>-->
 </cronentries>
