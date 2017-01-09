@@ -29,6 +29,7 @@ angular.module('DojoIBL')
 
                         angular.forEach(data.users, function(user){
                             if(!user.deleted){
+                                console.log(user)
                                 users[user.accountType+":"+user.localId] = user;
                                 filtered_users.push(user)
                             }
@@ -61,14 +62,16 @@ angular.module('DojoIBL')
                     );
                 }
                 return deferred.promise;
-            },
-            refreshAccount: function(data) {
-                var userOld = users[data.accountType+":"+data.localId];
-                console.log(data, userOld, users)
-                userOld.name = data.name;
-                userOld.picture = data.picture;
-                users[data.accountType+":"+data.localId] = userOld;
             }
+            //refreshAccount: function(account) {
+            //    console.log(account)
+            //    var dataCache = CacheFactory.get('usersCache');
+            //    if (dataCache.get(account.email)) {
+            //        console.log(dataCache.get(account.email));
+            //        dataCache.remove(account.email);
+            //    }
+            //    //return this.getUserByAccount(account.email);
+            //}
         }
     }
 );

@@ -10,29 +10,15 @@ angular.module('DojoIBL')
         $scope.$on('inquiry-run', function(event, args) {
             RunService.getRunById(args.runId).then(function(data){
                 $scope.run = data;
-                AccountService.myDetails().then(
-                    function(data){
-                        $scope.myAccount = data;
-                        //console.log(data)
-                        //loadAccessRules();
-                    }
-                );
-
+                AccountService.myDetails();
             });
         });
-
 
         if ($stateParams.runId) {
 
             RunService.getRunById($stateParams.runId).then(function(data){
                 $scope.run = data;
-                AccountService.myDetails().then(
-                    function(data){
-                        $scope.myAccount = data;
-                        //console.log(data)
-                        //loadAccessRules();
-                    }
-                );
+                AccountService.myDetails();
             });
 
         }else if($stateParams.gameId){
@@ -47,14 +33,10 @@ angular.module('DojoIBL')
             });
         }
         else{
-            AccountService.myDetails().then(
-                function(data){
-                    $scope.myAccount = data;
-                    //console.log(data)
-                    //loadAccessRules();
-                }
-            );
+            AccountService.myDetails();
         }
+
+        $scope.myAccount = AccountService.myDetailsCache();
 
         $scope.createNewInquiry = function () {
 

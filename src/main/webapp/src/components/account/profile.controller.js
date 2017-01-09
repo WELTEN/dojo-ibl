@@ -10,8 +10,6 @@ angular.module('DojoIBL')
             $scope.user = data;
         });
 
-
-
         $scope.ok = function(){
             console.log($scope.user)
             AccountService.update({

@@ -45,6 +45,7 @@ angular.module('DojoIBL')
                             console.log(accountData)
                             dataCache.put(fullId, accountData);
                             dataCache.put("me", accountData);
+                            me = accountData;
                             deferred.resolve(accountData);
                         }
                     );
@@ -57,9 +58,7 @@ angular.module('DojoIBL')
             update: function(accountAsJson){
                 var service = this;
                 Account.update(accountAsJson).$promise.then(function(data){
-                    console.log(data)
                     service.refreshAccount(data.email);
-                    UserService.refreshAccount(data);
                 });
             },
             searchAccount: function(query) {
@@ -77,6 +76,7 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('accountCache');
                 if (dataCache.get(id)) {
                     dataCache.remove(id);
+                    delete me;
                     dataCache.remove("me");
                 }
                 return this.accountDetailsById(id);
