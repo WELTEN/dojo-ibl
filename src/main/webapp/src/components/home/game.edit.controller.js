@@ -79,8 +79,6 @@ angular.module('DojoIBL')
          *******/
         $scope.events = [];
 
-        $scope.events = ActivityService.getCalendarActivities();
-
         $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
             $scope.editActivity(event.activity, event.activity.gameId)
         };
@@ -97,7 +95,6 @@ angular.module('DojoIBL')
             $scope.alertMessage = (event.title +': Resized to make dayDelta ' + minuteDelta);
         };
 
-        /* config object */
         $scope.uiConfig = {
             calendar:{
                 height: 450,
@@ -113,8 +110,28 @@ angular.module('DojoIBL')
             }
         };
 
-        /* Event sources array */
-        $scope.eventSources = [$scope.events[$stateParams.gameId]];
+        $scope.events = ActivityService.getCalendarActivities();
+        //$scope.eventSources = [$scope.events[$stateParams.gameId]];
+        $scope.eventSources = [];
+
+        $scope.$watch('events', function(newValue, oldValue) {
+
+            if(newValue){
+                console.log(newValue, oldValue);
+                console.log("new")
+            }
+
+            if(oldValue){
+                console.log("old");
+            }
+
+            if(newValue){
+                $scope.eventSources = [newValue[$stateParams.gameId]];
+                console.log($scope.eventSources)
+            }
+        });
+
+
 
         $scope.ok = function(){
             GameService.newGame($scope.game);

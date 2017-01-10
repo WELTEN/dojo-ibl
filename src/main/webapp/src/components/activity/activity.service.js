@@ -52,7 +52,10 @@ angular.module('DojoIBL')
                                 }
 
                                 var index = service.arrayObjectIndexOf(calendarItems[gameId], data.generalItems[i].id, "_id");
+                                console.log(calendarItems[gameId], index);
+
                                 if (index == -1) {
+                                    console.log(obj);
                                     calendarItems[gameId].push(obj);
                                 }
 
