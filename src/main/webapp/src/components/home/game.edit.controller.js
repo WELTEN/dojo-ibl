@@ -993,6 +993,10 @@ angular.module('DojoIBL')
 
         console.log(activity)
 
+        if(activity.type == null){
+            activity.type = $scope.list_original[0].type;
+        }
+
         GameService.getGameAssets($stateParams.gameId).then(function(data){
             $scope.assets = data;
         });
