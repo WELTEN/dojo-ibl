@@ -71,15 +71,15 @@
         "inquiry-title": "Inquiry title",
         "inquiry-title-placeholder": "Enter an inquiry title",
         "inquiry-description": "Inquiry description",
-        "inquiry-save": "Save",
+        "inquiry-save": "Save changes",
         "inquiry-roles": "2. Roles",
         "roles-title": "Roles",
         "p-available-roles": "List of available roles in",
         "no-roles": "No roles yet",
         "add-role": "Add role",
-        "edit-role": "Edit role",
+        "edit-role": "Save changes",
         "placeholder-role": "Type the name of the role",
-        "remove-role": "Remove",
+        "remove-role": "Remove role",
         "inquiry-phases-activities": "3. Phases & activities",
         "configuration-dashboard": "Configuration dashboard for activities and phases.",
         "phases": "Add phases",
@@ -108,7 +108,6 @@
         "export-import": "5. Export/import [Just for the admin]",
         "editor-management": "5. Editors management",
         "run-participants": "2. Inquiry run's participants"
-
       }
     }
   }
