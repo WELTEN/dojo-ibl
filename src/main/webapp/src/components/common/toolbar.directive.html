@@ -11,7 +11,7 @@
     </div>
     <div class="col-md-6">
         <div class="title-action">
-            <div class="col-md-7">
+            <div class="col-md-12">
                 <ui-select class="m-md" ng-show="game.accessRights == 1" ng-change="selectChange(selected.value)" theme="bootstrap" ng-model="selected.value">
                     <ui-select-match>
                         <span ng-bind="$select.selected.title"></span>
@@ -22,11 +22,11 @@
                     </ui-select-choices>
                 </ui-select>
             </div>
-            <div class="col-md-5">
-                <a ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"class="btn btn-danger m-md">
-                    <i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-structure' | translate }} <b>{{ run.game.title }}</b>
-                </a>
-            </div>
+            <!--<div class="col-md-5">-->
+                <!--<a ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"class="btn btn-danger m-md">-->
+                    <!--<i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-structure' | translate }} <b>{{ run.game.title }}</b>-->
+                <!--</a>-->
+            <!--</div>-->
 
             <!--<a ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"class="btn btn-danger m-md">-->
                 <!--<i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-structure' | translate }} <b>{{ run.game.title }}</b>-->

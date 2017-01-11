@@ -3,8 +3,13 @@
     <div class="panel-body no-padding-no-border-radius">
         <div class="ibox-content">
             <div class="heading">
-                <small class="chat-date pull-right">
-
+                <small  class="chat-date pull-right" >
+                    <div class="ibox-tools">
+                        <a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"
+                           title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </div>
                 </small>
                 {{ phase.num }}. {{ phase.title }} phase
                 <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
