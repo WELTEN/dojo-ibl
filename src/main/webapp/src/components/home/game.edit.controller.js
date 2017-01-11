@@ -453,7 +453,7 @@ angular.module('DojoIBL')
         // Manage roles
         ///////////////
         $scope.addRole = function () {
-            $scope.game.config.roles.push($scope.role);
+            //$scope.game.config.roles.push($scope.role);
             GameService.addRole($scope.game.gameId, $scope.role).then(function(data){
                 $scope.game = data;
             });

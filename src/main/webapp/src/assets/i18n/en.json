@@ -66,6 +66,12 @@
         "add-list-item-placeholder": "Add new item to the list...",
         "reply-comment": "Reply"
       },
+      "create": {
+        "modal":{
+          "create": "Create",
+          "cancel": "Cancel"
+        }
+      },
       "new-edit": {
         "inquiry-metadata": "1. Inquiry metadata",
         "inquiry-title": "Inquiry title",
