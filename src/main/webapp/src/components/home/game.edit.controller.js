@@ -461,7 +461,7 @@ angular.module('DojoIBL')
         // Manage roles
         ///////////////
         $scope.addRole = function () {
-            $scope.game.config.roles.push($scope.role);
+            //$scope.game.config.roles.push($scope.role);
             GameService.addRole($scope.game.gameId, $scope.role).then(function(data){
                 $scope.game = data;
             });
@@ -1000,6 +1000,10 @@ angular.module('DojoIBL')
         $scope.activity.gameId = $stateParams.gameId;
 
         $scope.dateOptions = {format: 'dd/mm/yyyy'}
+
+        if(activity.type == null){
+            activity.type = $scope.list_original[0].type;
+        }
 
         GameService.getGameAssets($stateParams.gameId).then(function(data){
             $scope.assets = data;
