@@ -85,16 +85,23 @@ angular.module('DojoIBL')
         $scope.numberMessages = 0;
 
         ChannelService.register('org.celstec.arlearn2.beans.run.Message', function (notification) {
-            //console.info("[Notification][Message]", notification);
             if (notification.runId == $stateParams.runId) {
                 $scope.numberMessages += 1;
 
                 MessageService.getMessageById(notification.messageId).then(function (data) {
-                    //if(me.localId != data.senderId){
-                    //    $scope.sound = ngAudio.load("/src/assets/beep.m4a");
-                    //    $scope.sound.play();
-                    //}
+                    if($scope.account.localId != data.senderId){
+                        console.info("[Notification][Message]", notification, $scope.account.localId, data.senderId);
+
+                        notifyMe(notification);
+                        //$scope.sound = ngAudio.load("/src/assets/beep.m4a");
+                        //$scope.sound.play();
+                    }
+
+
                 });
+
+
+
             }
         });
 
@@ -102,5 +109,43 @@ angular.module('DojoIBL')
         $scope.waitingForData = function () {
             $scope.notifications.length == 0;
         };
+
+        function notifyMe(message) {
+
+            var not = {};
+            not.body = message.body;
+            not.icon = $scope.account.picture;
+            not.title = $scope.account.name;
+
+            // Let's check if the browser supports notifications
+            if (!("Notification" in window)) {
+                alert("This browser does not support desktop notification");
+            }
+
+            // Let's check whether notification permissions have already been granted
+            else if (Notification.permission === "granted") {
+                // If it's okay let's create a notification
+                var notification = new Notification(not.title, {
+                    body: not.body,
+                    icon:not.icon
+                });
+            }
+
+            // Otherwise, we need to ask the user for permission
+            else if (Notification.permission !== 'denied') {
+                Notification.requestPermission(function (permission) {
+                    // If the user accepts, let's create a notification
+                    if (permission === "granted") {
+                        var notification = new Notification(not.title, {
+                            body: not.body,
+                            icon:not.icon
+                        });
+                    }
+                });
+            }
+
+            // At last, if the user has denied notifications, and you
+            // want to be respectful there is no need to bother them any more.
+        }
     }
 );
