@@ -22,6 +22,7 @@ angular.module('DojoIBL')
         $scope.events = ActivityService.getCalendarActivities()[$stateParams.gameId]
         $scope.eventSources = [$scope.events];
 
+
         /* message on eventClick */
         $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
             $scope.goToActivity($stateParams.runId, event.activity.section, event.activity.id)

@@ -1,7 +1,10 @@
 angular.module('DojoIBL')
 
     .controller('InquiryEditGameController', function ($scope, $sce, $stateParams, $state, $modal, Session, RunService, ActivityService,
-                                                       AccountService, ChannelService, GameService, UserService, toaster ) {
+                                                       AccountService, ChannelService, GameService, UserService, toaster, $interval, uiCalendarConfig) {
+
+
+        var stop;
 
         ChannelService.register('org.celstec.arlearn2.beans.game.Game', function (notification) {
             GameService.refreshGame(notification.gameId).then(function (data) {
@@ -79,6 +82,21 @@ angular.module('DojoIBL')
          *******/
         $scope.events = [];
 
+        $scope.events = ActivityService.getCalendarActivities()[$stateParams.gameId];
+
+        if(angular.isUndefined($scope.events)){
+            $scope.events = ActivityService.getCalendarActivities();
+            console.log("ENTRA UNDE", $scope.events)
+
+        }
+
+        $scope.updateCalendar = function(){
+        };
+
+        console.log($scope.eventSources, $scope.events);
+
+        $scope.eventSources = [$scope.events];
+
         $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
             $scope.editActivity(event.activity, event.activity.gameId)
         };
@@ -110,29 +128,6 @@ angular.module('DojoIBL')
             }
         };
 
-        $scope.events = ActivityService.getCalendarActivities();
-        //$scope.eventSources = [$scope.events[$stateParams.gameId]];
-        $scope.eventSources = [];
-
-        $scope.$watch('events', function(newValue, oldValue) {
-
-            if(newValue){
-                console.log(newValue, oldValue);
-                console.log("new")
-            }
-
-            if(oldValue){
-                console.log("old");
-            }
-
-            if(newValue){
-                $scope.eventSources = [newValue[$stateParams.gameId]];
-                console.log($scope.eventSources)
-            }
-        });
-
-
-
         $scope.ok = function(){
             GameService.newGame($scope.game);
 
@@ -145,6 +140,113 @@ angular.module('DojoIBL')
         ////////////////////
         // Manage activities
         ////////////////////
+
+        var updateCache = function(a){
+            console.log($scope.activity.richText, a);
+        };
+
+        $scope.addNewActivity = function (phase, game) {
+
+            stop = $interval(updateCache, 1000);
+
+            $scope.activity = {};
+            $scope.activity.section = phase;
+
+            var modalInstance = $modal.open({
+                templateUrl: '/src/components/home/new.activity.modal.html',
+                controller: 'NewActivityController',
+                resolve: {
+                    activity: function () { return $scope.activity; },
+                    game: function () { return game; }
+                }
+            });
+
+            modalInstance.result.then(function (result){
+
+                if(angular.isUndefined($scope.lists[result.section])){
+                    $scope.lists[result.section] = []
+                }
+
+                ActivityService.newActivity(result).then(function(data){
+                    //console.log(data)
+
+                    ActivityService.getActivityById(data.id, $stateParams.gameId).then(function(data){
+                        if(!angular.isUndefined(result.roles2)){
+
+                            //console.log(data);
+
+                            //ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
+                            //
+                            //});
+                        }else{
+                            $scope.lists[result.section].push(data);
+                        }
+
+                    });
+                });
+            }, function(){
+                console.log("Modal Dismissed!!!");
+                if (angular.isDefined(stop)) {
+                    $interval.cancel(stop);
+                    stop = undefined;
+                }
+            });
+        };
+
+        $scope.editActivity = function (activity, game) {
+            var modalInstance = $modal.open({
+                templateUrl: '/src/components/home/new.activity.modal.html',
+                controller: 'NewActivityController',
+                resolve: {
+                    activity: function () { return activity; },
+                    game: function () { return game; }
+                }
+            });
+
+            modalInstance.result.then(function (result){
+                ActivityService.newActivity(result).then(function(data){
+                    ActivityService.refreshActivity(data.id, data.gameId);
+                });
+            });
+        };
+
+        $scope.wscrolltop = '';
+        $scope.sortableFirst = false;
+
+        $scope.sortableOptions = {
+            //connectWith: ".connectList",
+            'scroll': false,
+            'ui-floating': 'auto',
+            'start': function (event, ui) {
+                if($scope.sortableFirst){
+                    $scope.wscrolltop = $(window).scrollTop();
+                }
+                $scope.sortableFirst = true;
+            },
+            'sort': function (event, ui) {
+                ui.helper.css({'top': ui.position.top + $scope.wscrolltop + 'px'});
+            },
+            stop: function(e, ui) {
+                var item = ui.item.scope().activity;
+                var group = event.target;
+                //console.log(e.target.id);
+                $.map($(this).find('li'), function(el) {
+                    var sortKey = $(el).index();
+                    el = angular.fromJson(el.id);
+
+                    //console.log(e.target.id, el.section);
+
+                    el.sortKey = sortKey;
+                    ActivityService.newActivity(el).then(function(data){
+                        //console.log(data);
+                    });
+                });
+            }
+        };
+
+        /////////////
+        // DEPRECATED
+        /////////////
         $scope.selected = false;
         $scope.activity = {};
         $scope.data = {
@@ -361,101 +463,9 @@ angular.module('DojoIBL')
                 $scope.selection.push(rol);
             }
         };
-
-        $scope.addNewActivity = function (phase, game) {
-
-            $scope.activity = {};
-            $scope.activity.section = phase;
-
-            var modalInstance = $modal.open({
-                templateUrl: '/src/components/home/new.activity.modal.html',
-                controller: 'NewActivityController',
-                resolve: {
-                    activity: function () { return $scope.activity; },
-                    game: function () { return game; }
-                }
-            });
-
-            modalInstance.result.then(function (result){
-
-                //console.log(result)
-
-
-
-                if(angular.isUndefined($scope.lists[result.section])){
-                    $scope.lists[result.section] = []
-                }
-
-                ActivityService.newActivity(result).then(function(data){
-                    //console.log(data)
-
-                    ActivityService.getActivityById(data.id, $stateParams.gameId).then(function(data){
-                        if(!angular.isUndefined(result.roles2)){
-
-                            //console.log(data);
-
-                            //ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
-                            //
-                            //});
-                        }else{
-                            $scope.lists[result.section].push(data);
-                        }
-
-                    });
-                });
-            });
-        };
-
-        $scope.editActivity = function (activity, game) {
-            var modalInstance = $modal.open({
-                templateUrl: '/src/components/home/new.activity.modal.html',
-                controller: 'NewActivityController',
-                resolve: {
-                    activity: function () { return activity; },
-                    game: function () { return game; }
-                }
-            });
-
-            modalInstance.result.then(function (result){
-                ActivityService.newActivity(result).then(function(data){
-                    ActivityService.refreshActivity(data.id, data.gameId);
-                });
-            });
-        };
-
-        $scope.wscrolltop = '';
-        $scope.sortableFirst = false;
-
-        $scope.sortableOptions = {
-            //connectWith: ".connectList",
-            'scroll': false,
-            'ui-floating': 'auto',
-            'start': function (event, ui) {
-                if($scope.sortableFirst){
-                    $scope.wscrolltop = $(window).scrollTop();
-                }
-                $scope.sortableFirst = true;
-            },
-            'sort': function (event, ui) {
-                ui.helper.css({'top': ui.position.top + $scope.wscrolltop + 'px'});
-            },
-            stop: function(e, ui) {
-                var item = ui.item.scope().activity;
-                var group = event.target;
-                //console.log(e.target.id);
-                $.map($(this).find('li'), function(el) {
-                    var sortKey = $(el).index();
-                    el = angular.fromJson(el.id);
-
-                    //console.log(e.target.id, el.section);
-
-                    el.sortKey = sortKey;
-                    ActivityService.newActivity(el).then(function(data){
-                        //console.log(data);
-                    });
-                });
-            }
-        };
+        /////////////
+        // DEPRECATED
+        /////////////
 
         ///////////////
         // Manage roles
@@ -980,7 +990,7 @@ angular.module('DojoIBL')
         };
     })
 
-    .controller('NewActivityController', function ($scope, $stateParams, $modalInstance, GameService, ActivityService, Upload, activity, game, config) {
+    .controller('NewActivityController', function ($scope, $stateParams, $modalInstance, GameService, ActivityService, Upload, activity, game, config, $interval) {
 
         $scope.list_original = [
             //{'name': 'Google Resources', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-file-text'},

@@ -6,8 +6,11 @@ angular.module('DojoIBL')
         $scope.chat = true;
         $scope.visualization = true;
         $scope.state = $state.current.name;
+        $scope.inqTitle = "";
 
         $scope.disableInquiryLoading = false;
+
+
 
         RunService.getRunById($stateParams.runId).then(function (data) {
             $scope.inqTitle = data.title;

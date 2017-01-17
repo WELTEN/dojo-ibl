@@ -14,6 +14,8 @@ angular.module('DojoIBL')
             });
         });
 
+        $scope.phase = "holaaaaaaa";
+
 
         RunService.getRunById($stateParams.runId).then(function(data){
             $scope.phase = data.game.phases[$stateParams.phase];

@@ -3849,7 +3849,7 @@ table.table-mail tr td {
   padding: 0;
   text-align: right;
 }
-.ibox-tools a {
+.ibox-tools a, .ibox-tools-left a {
   cursor: pointer;
   margin-left: 5px;
   color: #c4c4c4;
@@ -3860,6 +3860,10 @@ table.table-mail tr td {
 .ibox-tools .dropdown-menu > li > a {
   padding: 4px 10px;
   font-size: 12px;
+  color: #c4c4c4;
+}
+.ibox-tools .dropdown-menu > li > a:hover {
+  color: black;
 }
 .ibox .ibox-tools.open > .dropdown-menu {
   left: auto;
@@ -9183,4 +9187,27 @@ text-angular > p{
 .loading-switch{
   height: 21px !important;
   float: right;
+}
+
+.ui-select-match, .ui-select-bootstrap{
+  outline: none;
+}
+
+.media-body img, .feed-element img{
+  max-width: 300px;
+}
+
+.ibox-tools-left {
+  display: block;
+  float: left;
+  margin-top: 0;
+  position: relative;
+  padding: 0;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.ibox-tools.open > .dropdown-menu {
+  left: auto;
+  right: 0;
 }
