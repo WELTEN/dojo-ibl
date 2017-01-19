@@ -5,10 +5,15 @@ DojoIBL will help young students to carry on their inquiry activities in a colla
 simple and clear way. Based on phases and activities, the students will DojoIBL as a mentor to 
 structure their own process.
 
+Version 29
+----------
+- **NEW** New toolbar in student view
+- **NEW** Auto save in Editor view
+
 Version 28
 ----------
-- **NEW** Calendar view for students
-- **NEW** Browser notifications for the chat
+- Calendar view for students
+- Browser notifications for the chat
 
 Version 27
 ----------
