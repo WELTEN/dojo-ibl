@@ -31,6 +31,7 @@ angular.module('DojoIBL')
         /* config object */
         $scope.uiConfig = {
             calendar:{
+                firstDay:1,
                 height: 450,
                 editable: true,
                 header: {

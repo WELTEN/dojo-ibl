@@ -8,6 +8,7 @@ structure their own process.
 Version 28
 ----------
 - **NEW** Calendar view for students
+- **NEW** Browser notifications for the chat
 
 Version 27
 ----------
