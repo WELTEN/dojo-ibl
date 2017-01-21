@@ -66,14 +66,14 @@
                     <span><a ng-click="goToPhase(inqId, $index)">{{ $index }}. {{ phase.title }}</a></span>
                 </h3>
                 <ul id="{{$index}}" class="sortable-list connectList agile-list ui-sortable">
-                    <li ng-click="goToActivity(inqId, $index, activity.id)" id="{{ activity }}" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[game.gameId][$index] | orderByDayNumber:'sortKey'">
+                    <li ng-click="goToActivity(inqId, activity.section, activity.id)" id="{{ activity }}" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[game.gameId][$index] | orderByDayNumber:'sortKey'">
 
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
 
-                        <a ng-click="goToActivity(inqId, $index, activity.id)">{{ activity.sortKey }}. {{ activity.name | limitTo: 20 }}</a>
+                        <a ng-click="goToActivity(inqId, activity.section, activity.id)">{{ activity.sortKey }}. {{ activity.name | limitTo: 20 }}</a>
                         <br/>
                         <p class="small">{{ activity.description | limitTo: 20 }}</p>
                         <div class="agile-detail">

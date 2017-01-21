@@ -6,6 +6,8 @@ angular.module('DojoIBL')
         $scope.name = "your name";
         $scope.inquiryCode;
 
+        $scope.leftDisabled = false;
+
         $scope.state = $state;
 
         if ($stateParams.runId) {
@@ -13,8 +15,8 @@ angular.module('DojoIBL')
                 RunService.getRunById(args.runId).then(function(run) {
                     $scope.run = run;
                 });
+                console.log("hola");
             });
-
 
             RunService.getRunById($stateParams.runId).then(function(run){
                 $scope.run = run;
@@ -25,7 +27,6 @@ angular.module('DojoIBL')
 
                         if(run.gameId == gameAccess.gameId){
                             GameService.getGameById(gameAccess.gameId).then(function (aux) {
-
 
                                 var data_extended = angular.extend({}, aux, gameAccess);
 
@@ -77,10 +78,67 @@ angular.module('DojoIBL')
                     });
                 }
 
+                $scope.goLeft = function(){
+                    switch($state.current.name){
+                        case "inquiry.home":
+
+                            break;
+                        case "inquiry.phase":
+
+                            if($state.params.phase > 0){
+                                var prevPhase = $state.params.phase - 1;
+                                $state.go('inquiry.phase', { 'runId':run.runId, phase: prevPhase });
+                            }
+                            break;
+                        case "inquiry.activity":
+                            var prevActivity = ActivityService.getPrevActivity($stateParams.activityId, run.gameId, $state.params.phase);
+                            if(!angular.isUndefined(prevActivity)){
+                                $state.go('inquiry.activity', { 'runId':run.runId, phase: $state.params.phase, activityId: prevActivity.id  });
+                            }
+                            break;
+                    }
+                };
+
+                $scope.goUp = function(){
+                    switch($state.current.name){
+                        case "inquiry.home":
+                            $state.go('home', { });
+                            break;
+                        case "inquiry.phase":
+                            $state.go('inquiry.home', { 'runId':run.runId });
+                            break;
+                        case "inquiry.activity":
+                            $state.go('inquiry.phase', { 'runId':run.runId, phase: $state.params.phase });
+                            break;
+                    }
+                };
+
+                $scope.goRight = function(){
+                    switch($state.current.name){
+                        case "inquiry.home":
+
+                            break;
+                        case "inquiry.phase":
+                            if($state.params.phase < ActivityService.getLengthPhase($stateParams.activityId, run.gameId) - 1){
+                                var prevPhase = parseInt($state.params.phase) + 1;
+                                $state.go('inquiry.phase', { 'runId':run.runId, phase: prevPhase });
+                            }
+                            break;
+                        case "inquiry.activity":
+                            var nextActivity = ActivityService.getNextActivity($stateParams.activityId, run.gameId, $state.params.phase);
+                            if(!angular.isUndefined(nextActivity)){
+                                $state.go('inquiry.activity', { 'runId':run.runId, phase: $state.params.phase, activityId: nextActivity.id  });
+                            }
+                            break;
+                    }
+                };
+
+
+
             });
+
+
         }
-
-
 
         $scope.findAndJoin = function(){
 
@@ -113,13 +171,9 @@ angular.module('DojoIBL')
             $scope.inquiryCode = null;
         };
 
-
         ChannelService.register('org.celstec.arlearn2.beans.run.User', function (notification) {
             console.info("[Notification][User]", notification);
             UserService.getUserByAccount(notification.runId, notification.accountType+":"+notification.localId);
         });
-
-
-
     }
 );

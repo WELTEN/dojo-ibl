@@ -1004,6 +1004,9 @@ button.dim {
 button.dim:active {
   top: 3px;
 }
+button.dim:focus {
+  outline: none;
+}
 button.btn-primary.dim {
   box-shadow: inset 0px 0px 0px #16987e, 0px 5px 0px 0px #16987e, 0px 10px 5px #999999;
 }

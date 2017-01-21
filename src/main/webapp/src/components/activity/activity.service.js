@@ -52,10 +52,8 @@ angular.module('DojoIBL')
                                 }
 
                                 var index = service.arrayObjectIndexOf(calendarItems[gameId], data.generalItems[i].id, "_id");
-                                console.log(calendarItems[gameId], index);
 
                                 if (index == -1) {
-                                    console.log(obj);
                                     calendarItems[gameId].push(obj);
                                 }
 
@@ -187,6 +185,27 @@ angular.module('DojoIBL')
                     if (myArray[i][property] === searchTerm) return i;
                 }
                 return -1;
+            },
+            getNextActivity: function(itemId, gameId, phase) {
+                if(this.getLengthActivity(itemId, gameId, phase) + 1 != this.getCurrentPositionActivity(itemId, gameId, phase)){
+                    var aux = 1 + this.getCurrentPositionActivity(itemId, gameId, phase);
+                    return generalItems[gameId][phase][Object.keys(generalItems[gameId][phase])[aux]];
+                }
+            },
+            getPrevActivity: function(itemId, gameId, phase) {
+                if(this.getCurrentPositionActivity(itemId, gameId, phase) > 0){
+                    var aux = this.getCurrentPositionActivity(itemId, gameId, phase) - 1;
+                    return generalItems[gameId][phase][Object.keys(generalItems[gameId][phase])[aux]];
+                }
+            },
+            getCurrentPositionActivity: function(itemId, gameId, phase){
+                return Object.keys(generalItems[gameId][phase]).indexOf(itemId);
+            },
+            getLengthActivity: function(itemId, gameId, phase){
+                return Object.keys(generalItems[gameId][phase]).length;
+            },
+            getLengthPhase: function(itemId, gameId){
+                return Object.keys(generalItems[gameId]).length;
             }
         }
     })
