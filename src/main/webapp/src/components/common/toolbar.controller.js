@@ -15,7 +15,6 @@ angular.module('DojoIBL')
                 RunService.getRunById(args.runId).then(function(run) {
                     $scope.run = run;
                 });
-                console.log("hola");
             });
 
             RunService.getRunById($stateParams.runId).then(function(run){

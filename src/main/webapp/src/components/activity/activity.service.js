@@ -76,14 +76,9 @@ angular.module('DojoIBL')
                 dataCache.remove(item.id);
                 var service = this;
 
-                delete generalItems[gameId][item.section][item.id];
+                console.log(generalItems[gameId][item.section][item.id]);
 
-                var obj ={
-                    _id: item.id,
-                    title: item.section+") "+item.name,
-                    start: new Date(item.timestamp),
-                    activity: item
-                };
+                delete generalItems[gameId][item.section][item.id];
 
                 var index = service.arrayObjectIndexOf(calendarItems[gameId], item.id, "_id");
                 if (index > -1) {
@@ -125,30 +120,34 @@ angular.module('DojoIBL')
                     Activity.getActivity({ itemId:itemId, gameId: gameId}).$promise.then(
                         function(data){
 
-                            if (!data.error){
-                                if(angular.isUndefined(generalItems[gameId])){
-                                    generalItems[gameId] = {};
-                                    calendarItems[gameId] = {};
-                                }
-                                if(angular.isUndefined(generalItems[gameId][data.section])){
-                                    generalItems[gameId][data.section] = {};
-                                }
-                                generalItems[gameId][data.section][itemId] = data;
+                            if (!data.deleted) {
 
-                                var obj ={
-                                    _id: data.id,
-                                    title: data.section+") "+data.name,
-                                    start: new Date(data.timestamp),
-                                    activity: data
-                                };
+                                if (!data.error) {
+                                    if (angular.isUndefined(generalItems[gameId])) {
+                                        generalItems[gameId] = {};
+                                        calendarItems[gameId] = {};
+                                    }
+                                    if (angular.isUndefined(generalItems[gameId][data.section])) {
+                                        generalItems[gameId][data.section] = {};
+                                    }
+                                    generalItems[gameId][data.section][itemId] = data;
 
-                                var index = service.arrayObjectIndexOf(calendarItems[gameId], data.id, "_id");
-                                if (index == -1) {
-                                    calendarItems[gameId].push(obj);
+                                    var obj = {
+                                        _id: data.id,
+                                        title: data.section + ") " + data.name,
+                                        start: new Date(data.timestamp),
+                                        activity: data
+                                    };
+
+                                    var index = service.arrayObjectIndexOf(calendarItems[gameId], data.id, "_id");
+                                    if (index == -1) {
+                                        calendarItems[gameId].push(obj);
+                                    }
+
+                                    dataCache.put(itemId, data);
+                                    deferred.resolve(data);
                                 }
 
-                                dataCache.put(itemId, data);
-                                deferred.resolve(data);
                             }
                         }
                     );
@@ -182,7 +181,9 @@ angular.module('DojoIBL')
             },
             arrayObjectIndexOf: function (myArray, searchTerm, property) {
                 for(var i = 0, len = myArray.length; i < len; i++) {
-                    if (myArray[i][property] === searchTerm) return i;
+                    if (myArray[i][property] === searchTerm){
+                        return i;
+                    }
                 }
                 return -1;
             },
