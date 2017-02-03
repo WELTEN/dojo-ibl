@@ -12,9 +12,9 @@
 
     <div class="col-md-8">
         <div class="col-md-4">
-            <button ng-show="state.current.name != 'home'" class="btn btn-primary dim" ng-click="goLeft()"  type="button"><i class="fa fa-chevron-left">  </i></button>
-            <button ng-show="state.current.name != 'home'" class="btn btn-primary dim" ng-click="goUp()"    type="button"><i class="fa fa-chevron-up">    </i></button>
-            <button ng-show="state.current.name != 'home'" class="btn btn-primary dim" ng-click="goRight()" type="button"><i class="fa fa-chevron-right"> </i></button>
+            <button ng-show="state.current.name == 'inquiry.activity' || state.current.name == 'inquiry.phase'" class="btn btn-primary dim" ng-click="goLeft()"  type="button"><i class="fa fa-chevron-left">  </i></button>
+            <button ng-show="state.current.name == 'inquiry.activity' || state.current.name == 'inquiry.phase'" class="btn btn-primary dim" ng-click="goUp()"    type="button"><i class="fa fa-chevron-up">    </i></button>
+            <button ng-show="state.current.name == 'inquiry.activity' || state.current.name == 'inquiry.phase'" class="btn btn-primary dim" ng-click="goRight()" type="button"><i class="fa fa-chevron-right"> </i></button>
         </div>
         <div class="col-md-8">
             <ui-select ng-show="game.accessRights == 1" ng-change="selectChange(selected.value)" theme="bootstrap" ng-model="selected.value">
