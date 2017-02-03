@@ -1,4 +1,4 @@
-angular.module('DojoIBL')
+    angular.module('DojoIBL')
 
     .factory('Session', function SessionFactory($http, CacheFactory) {
         function getCookie(name) {

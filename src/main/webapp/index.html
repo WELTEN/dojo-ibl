@@ -27,7 +27,7 @@
 
 <body ng-app="DojoIBL">
 
-<div class="content-wrap">
+<div class="content-wrap" ng-controller="LandingController">
     <header class="hero-area" id="home">
 
         <div class="container">
@@ -46,7 +46,7 @@
                     </div>
                 </div>
             </div>
-            <div class="contents text-right" ng-controller="LandingController">
+            <div class="contents text-right">
                 <h1 class="wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="300ms">DojoIBL - Structuring collaborative processes</h1>
                 <p class="wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="400ms">Finding the optimal support for collaborative inquiry-based learning processes</p>
                 <a analytics-on="click" analytics-event="Login" ng-class="{'myClass': loading}" href="{{ wespotUrl }}" class="myClass btn btn-lg btn-primary wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="400ms">Login</a>

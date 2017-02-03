@@ -2,10 +2,16 @@ angular.module('DojoIBL')
 
     .controller('LandingController', function ($scope, Session, Oauth) {
         $scope.oauth = Session.getOauthType;
-        $scope.accessToken = Session.getAccessToken;
+        $scope.accessToken = Session.getAccessToken();
         $scope.isLoggedIn = function () {
-            if ($scope.accessToken() && $scope.oauth()) return true;
-            return false;
+            if ($scope.accessToken() && $scope.oauth()) {
+
+                return true;
+            }
+            else {
+
+                return false;
+            }
         };
 
         $scope.loading = true;

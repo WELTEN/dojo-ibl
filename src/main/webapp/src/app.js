@@ -20,12 +20,33 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
             template: 'bootstrap2'
         });
     })
-    .run(function ($http) {
-        //$http.defaults.headers.common['Authorization'] = 'GoogleLogin auth=5f108bd43fbb44457b2a8862ac2df65';
-        $http.defaults.headers.common['Authorization'] = 'GoogleLogin auth='+localStorage.getItem('accessToken');
-        // 22f99033db5925d66b524ff23346a5fd
-        //console.log(localStorage.getItem('accessToken'));
+    .run(function ($http, $location, $window) {
+        var absUrl = $location.absUrl();
 
+        console.log(location.protocol)
+
+        if(localStorage.getItem('accessToken')){
+            if(location.host == "localhost:8080"){
+                //if(/absUrl/.test("8080(\/)?(index.html)?"))
+                if(location.protocol+"//"+location.host+"/" == absUrl ||
+                    location.protocol+"//"+location.host+"/index.html" == absUrl)
+                    window.location = location.protocol+"//"+location.host+"/main.html#/home";
+            }else{
+                if("http://dojo-ibl.appspot.com/" == absUrl || "http://dojo-ibl.appspot.com/index.html" == absUrl
+                || "https://dojo-ibl.appspot.com/" == absUrl || "https://dojo-ibl.appspot.com/index.html" == absUrl)
+                    window.location = "https://dojo-ibl.appspot.com/main.html#/home";
+            }
+        }else{
+            if(location.host == "localhost:8080"){
+                if(absUrl.indexOf("localhost:8080/main.html#/oauth/") == -1 && absUrl.indexOf("localhost:8080/main.html#/") !== -1  )
+                    window.location = "http://localhost:8080";
+            }else{
+                if(absUrl.indexOf("dojo-ibl.appspot.com/main.html#/oauth/") == -1 && absUrl.indexOf("dojo-ibl.appspot.com/main.html#/") !== -1)
+                    window.location = "http://dojo-ibl.appspot.com";
+            }
+        }
+
+        $http.defaults.headers.common['Authorization'] = 'GoogleLogin auth='+localStorage.getItem('accessToken');
     })
     .filter('unsafe', function($sce) {
         return $sce.trustAsHtml;
