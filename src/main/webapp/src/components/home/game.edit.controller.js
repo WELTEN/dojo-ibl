@@ -1,10 +1,10 @@
 angular.module('DojoIBL')
 
     .controller('InquiryEditGameController', function ($scope, $sce, $stateParams, $state, $modal, Session, RunService, ActivityService,
-                                                       AccountService, ChannelService, GameService, UserService, toaster, $interval, uiCalendarConfig) {
+                                                       AccountService, ChannelService, GameService, UserService, toaster, $interval,
+                                                       uiCalendarConfig, $anchorScroll, $location) {
 
 
-        var stop;
 
         ChannelService.register('org.celstec.arlearn2.beans.game.Game', function (notification) {
             GameService.refreshGame(notification.gameId).then(function (data) {
@@ -86,8 +86,6 @@ angular.module('DojoIBL')
 
         if(angular.isUndefined($scope.events)){
             $scope.events = ActivityService.getCalendarActivities();
-            console.log("ENTRA UNDE", $scope.events)
-
         }
 
         $scope.updateCalendar = function(){
@@ -136,17 +134,27 @@ angular.module('DojoIBL')
             });
         };
 
+        //////////////////////
+        // Scrolling functions
+        //////////////////////
+        $scope.gotoAnchor = function(x) {
+            var newHash = 'anchor' + x;
+            if ($location.hash() !== newHash) {
+                // set the $location.hash to `newHash` and
+                // $anchorScroll will automatically scroll to it
+                $location.hash(x);
+            } else {
+                // call $anchorScroll() explicitly,
+                // since $location.hash hasn't changed
+                $anchorScroll();
+            }
+        };
+
         ////////////////////
         // Manage activities
         ////////////////////
 
-        //var updateCache = function(a){
-        //    ActivityService.saveActivityInCache($scope.activity);
-        //};
-
         $scope.addNewActivity = function (phase, game) {
-            //stop = $interval(updateCache, 3000);
-
             $scope.activity = {};
 
             if(ActivityService.getActivityInCached()){
@@ -219,8 +227,6 @@ angular.module('DojoIBL')
             });
         };
 
-
-
         $scope.wscrolltop = '';
         $scope.sortableFirst = false;
 
@@ -254,229 +260,6 @@ angular.module('DojoIBL')
                 });
             }
         };
-
-        /////////////
-        // DEPRECATED
-        /////////////
-        $scope.selected = false;
-        $scope.activity = {};
-        $scope.data = {
-            model: null
-        };
-        $scope.data_old = {
-            model: null
-        };
-
-        // Deprecated
-        $scope.compare = function() {
-            var bool_activity = !angular.equals($scope.activity_old, $scope.activity);
-            var bool_roles = !angular.equals($scope.data_old, $scope.data);
-
-            return (bool_roles) || (bool_activity);
-        };
-
-        // Deprecated
-        //$scope.saveActivity = function(){
-        //
-        //    // Save array of roles into the activity
-        //    $scope.activity_old = angular.copy($scope.activity);
-        //    $scope.data_old.model = angular.copy($scope.data.model);
-        //
-        //    $scope.activity.roles = [];
-        //    $scope.activity.roles.push($scope.data.model);
-        //
-        //    ActivityService.newActivity($scope.activity);
-        //    $scope.game.lastModificationDate = new Date();
-        //};
-
-        // Deprecated
-        $scope.selectActivity = function(activity, combinationId){
-            if(!angular.isUndefined($scope.activity_old)){
-                if(!angular.equals($scope.activity_old, $scope.activity) || !angular.equals($scope.data_old.model, $scope.data.model)){
-                    swal({
-                        title: "Save you changes",
-                        text: "Do you want to save before going on?",
-                        type: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Yes, save it!",
-                        closeOnConfirm: false
-                    }, function () {
-                        $scope.saveActivity();
-                        swal("Saved!", "The activity has been saved successfully", "success");
-
-                        $scope.activity = activity;
-
-                        $scope.activity_old = angular.copy(activity);
-
-                        // Save roles into an array
-                        $scope.selection = $scope.activity.roles || [];
-
-                        $scope.selected = true;
-
-                        $scope.selectedCombination = combinationId;
-
-                    });
-                    return;
-                }
-            }
-
-            $scope.activity = activity;
-            $scope.activity_old = angular.copy(activity);
-
-            // Save roles into an array
-            $scope.selection = $scope.activity.roles || [];
-
-            if(!angular.isUndefined($scope.activity.roles)){
-
-                $scope.data.model = $scope.activity.roles[0];
-            }
-
-            $scope.data_old.model = angular.copy($scope.data.model);
-
-            $scope.selected = true;
-
-            $scope.selectedCombination = combinationId;
-
-            $scope.removeActivity = function(data){
-
-                swal({
-                    title: "Are you sure?",
-                    text: "You will not be able to recover this activity!",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes, delete it!",
-                    closeOnConfirm: false
-                }, function () {
-                    swal("Deleted!", "The activity has been removed from the inquiry structure.", "success");
-
-                    var position = $scope.lists[$(".select-activities > li.active").attr('data')].indexOf(data);
-                    $scope.lists[$(".select-activities > li.active").attr('data')].splice(position, 1);
-                    ActivityService.deleteActivity($scope.activity.gameId, $scope.activity.id);
-                    $scope.activity = $scope.activity_old;
-                    $scope.selectedCombination = 0;
-                    $scope.selected = false;
-                });
-            };
-        };
-
-        $scope.changeTab = function(index){
-
-            $scope.selectedCombination = 0;
-            $scope.selected = false;
-
-            if(!angular.isUndefined($scope.activity_old)){
-                //if(!angular.equals($scope.activity_old, $scope.activity)){
-                if(!angular.equals($scope.activity_old, $scope.activity) || !angular.equals($scope.data_old.model, $scope.data.model)){
-                    swal({
-                        title: "Save you changes",
-                        text: "Make sure you save your changes before going on",
-                        type: "warning",
-                        //showCancelButton: true,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Save changes now!",
-                        closeOnConfirm: false
-                    }, function () {
-                        $scope.saveActivity();
-                        swal("Saved!", "The activity has been saved successfully", "success");
-
-                        //$scope.activity = activity;
-                        //
-                        //$scope.activity_old = angular.copy(activity);
-                        //
-                        //// Save roles into an array
-                        //$scope.selection = $scope.activity.roles || [];
-                        //
-                        //$scope.selected = true;
-                        //
-                        //$scope.selectedCombination = combinationId;
-
-                    });
-                    return;
-                }
-            }
-        };
-
-        $scope.isChecked = function(id){
-
-            var match = false;
-            for(var i=0 ; i < $scope.selection.length; i++) {
-                if($scope.selection[i].name == id){
-                    match = true;
-                }
-            }
-            return match;
-        };
-
-        $scope.sync = function(bool, item){
-            if(bool){
-                // add item
-                $scope.selection.push(item);
-            } else {
-                // remove item
-                for(var i=0 ; i < $scope.selection.length; i++) {
-                    if($scope.selection[i].name == item.name){
-                        $scope.selection.splice(i,1);
-                    }
-                }
-            }
-        };
-
-        // Deprecated
-        $scope.addOne = function(a){
-
-            var object = {
-                type: a.type,
-                section: $(".select-activities > li.active").attr('data'),
-                gameId: $stateParams.gameId,
-                deleted: true,
-                name: a.name,
-                description: "",
-                autoLaunch: false,
-                fileReferences: [],
-                sortKey: 1,
-                richText: ""
-            };
-
-            if(a.type == "org.celstec.arlearn2.beans.generalItem.VideoObject"){
-                object.videoFeed = "";
-            }else if(a.type == "org.celstec.arlearn2.beans.generalItem.AudioObject") {
-                object.audioFeed = "example link";
-            }
-
-            if(angular.isUndefined($scope.lists[$(".select-activities > li.active").attr('data')])){
-                $scope.lists[$(".select-activities > li.active").attr('data')] = []
-            }
-
-            ActivityService.newActivity(object).then(function(data){
-                ActivityService.getActivityById(data.id, $stateParams.gameId).then(function(data){
-                    $scope.lists[$(".select-activities > li.active").attr('data')].push(data);
-                });
-            });
-
-            toaster.success({
-                title: 'Activity added',
-                body: 'The activity "'+a.name+'" has been added to the phase.'
-            });
-        };
-
-        $scope.toggleSelection = function toggleSelection(rol) {
-            var idx = $scope.selection.indexOf(rol.name);
-
-            // is currently selected
-            if (idx > -1) {
-                $scope.selection.splice(idx, 1);
-            }
-
-            // is newly selected
-            else {
-                $scope.selection.push(rol);
-            }
-        };
-        /////////////
-        // DEPRECATED
-        /////////////
 
         ///////////////
         // Manage roles

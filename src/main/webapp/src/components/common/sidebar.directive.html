@@ -71,22 +71,22 @@
                 <a><i class="fa fa-asterisk"></i> <span class="nav-label sidebar-inquiry-title">{{ game.title | limitTo: 15 }} {{ game.title.length > 15 ? '...' : ''}}</span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a><i class="fa fa-edit"></i>{{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}</a>
+                        <a ng-click="gotoAnchor('metadata')"><i class="fa fa-edit"></i>{{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}</a>
                     </li>
                     <li>
-                        <a><i class="fa fa-user"></i>{{ 'dibl.inquiry.new-edit.inquiry-roles' | translate }}</a>
+                        <a ng-click="gotoAnchor('roles')"><i class="fa fa-user"></i>{{ 'dibl.inquiry.new-edit.inquiry-roles' | translate }}</a>
                     </li>
                     <li>
-                        <a><i class="fa fa-circle"></i>{{ 'dibl.inquiry.new-edit.inquiry-phases-activities' | translate }}</a>
+                        <a ng-click="gotoAnchor('phase-activity')"><i class="fa fa-circle"></i>{{ 'dibl.inquiry.new-edit.inquiry-phases-activities' | translate }}</a>
                     </li>
                     <li>
-                        <a><i class="fa fa-calendar"></i>{{'dibl.inquiry.new-edit.calendar' | translate}}</a>
+                        <a ng-click="gotoAnchor('calendar')"><i class="fa fa-calendar"></i>{{'dibl.inquiry.new-edit.calendar' | translate}}</a>
                     </li>
                     <li>
-                        <a><i class="fa fa-sitemap"></i>{{'dibl.inquiry.new-edit.run-inquiries' | translate}}</a>
+                        <a ng-click="gotoAnchor('inquiry-group')"><i class="fa fa-sitemap"></i>{{'dibl.inquiry.new-edit.run-inquiries' | translate}}</a>
                     </li>
                     <li>
-                        <a><i class="fa fa-key"></i>{{'dibl.inquiry.new-edit.editor-management' | translate}}</a>
+                        <a ng-click="gotoAnchor('editor')"><i class="fa fa-key"></i>{{'dibl.inquiry.new-edit.editor-management' | translate}}</a>
                     </li>
                 </ul>
             </li>
