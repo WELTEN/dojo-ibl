@@ -9,6 +9,13 @@ angular.module('DojoIBL')
             storageMode: 'localStorage' // This cache will use `localStorage`.
         });
 
+        CacheFactory('activitiesTempCache', {
+            maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day
+            cacheFlushInterval: 60 * 60 * 1000, // This cache will clear itself every hour
+            deleteOnExpire: 'aggressive', // Items will be deleted from this cache when they expire
+            storageMode: 'localStorage' // This cache will use `localStorage`.
+        });
+
         var generalItems = {};
         var calendarItems = {};
         var dataCache = CacheFactory.get('activitiesCache');
@@ -66,6 +73,7 @@ angular.module('DojoIBL')
                 return deferred.promise;
             },
             getActivities: function () {
+                console.log(generalItems)
                 return generalItems;
             },
             getCalendarActivities: function () {
@@ -209,15 +217,15 @@ angular.module('DojoIBL')
                 return Object.keys(generalItems[gameId]).length;
             },
             saveActivityInCache: function(activityAsJson){
-                var dataCache = CacheFactory.get('activitiesCache');
+                var dataCache = CacheFactory.get('activitiesTempCache');
                 dataCache.put("cachedActivity", activityAsJson);
             },
             getActivityInCached: function(){
-                var dataCache = CacheFactory.get('activitiesCache');
+                var dataCache = CacheFactory.get('activitiesTempCache');
                 return dataCache.get("cachedActivity");
             },
             removeCachedActivity: function(){
-                var dataCache = CacheFactory.get('activitiesCache');
+                var dataCache = CacheFactory.get('activitiesTempCache');
                 dataCache.remove("cachedActivity");
             }
         }

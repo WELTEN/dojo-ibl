@@ -150,117 +150,6 @@ angular.module('DojoIBL')
             }
         };
 
-        ////////////////////
-        // Manage activities
-        ////////////////////
-
-        $scope.addNewActivity = function (phase, game) {
-            $scope.activity = {};
-
-            if(ActivityService.getActivityInCached()){
-                $scope.activity = ActivityService.getActivityInCached();
-            }
-
-            $scope.activity.section = phase;
-
-            var modalInstance = $modal.open({
-                templateUrl: '/src/components/home/new.activity.modal.html',
-                controller: 'NewActivityController',
-                resolve: {
-                    activity: function () { return $scope.activity; },
-                    game: function () { return game; }
-                }
-            });
-
-            modalInstance.result.then(function (result){
-
-                if(angular.isUndefined($scope.lists[result.section])){
-                    $scope.lists[result.section] = []
-                }
-
-                ActivityService.newActivity(result).then(function(data){
-                    //console.log(data)
-
-                    ActivityService.getActivityById(data.id, $stateParams.gameId).then(function(data){
-                        if(!angular.isUndefined(result.roles2)){
-
-                            //console.log(data);
-
-                            //ActivityService.addRole(data.id, result.roles2[0]).then(function(data){
-                            //
-                            //});
-                        }else{
-                            $scope.lists[result.section].push(data);
-                        }
-
-                    });
-                });
-                console.log("Modal Accepted!!!");
-                //if (angular.isDefined(stop)) {
-                //    $interval.cancel(stop);
-                //    stop = undefined;
-                //}
-            }, function(){
-                console.log("Modal Dismissed!!!");
-                //if (angular.isDefined(stop)) {
-                //    $interval.cancel(stop);
-                //    stop = undefined;
-                //}
-                ActivityService.saveActivityInCache($scope.activity);
-            });
-        };
-
-        $scope.editActivity = function (activity, game) {
-            var modalInstance = $modal.open({
-                templateUrl: '/src/components/home/new.activity.modal.html',
-                controller: 'NewActivityController',
-                resolve: {
-                    activity: function () { return activity; },
-                    game: function () { return game; }
-                }
-            });
-
-            modalInstance.result.then(function (result){
-                ActivityService.newActivity(result).then(function(data){
-                    ActivityService.refreshActivity(data.id, data.gameId);
-                });
-            });
-        };
-
-        $scope.wscrolltop = '';
-        $scope.sortableFirst = false;
-
-        $scope.sortableOptions = {
-            //connectWith: ".connectList",
-            'scroll': false,
-            'ui-floating': 'auto',
-            'start': function (event, ui) {
-                if($scope.sortableFirst){
-                    $scope.wscrolltop = $(window).scrollTop();
-                }
-                $scope.sortableFirst = true;
-            },
-            'sort': function (event, ui) {
-                ui.helper.css({'top': ui.position.top + $scope.wscrolltop + 'px'});
-            },
-            stop: function(e, ui) {
-                var item = ui.item.scope().activity;
-                var group = event.target;
-                //console.log(e.target.id);
-                $.map($(this).find('li'), function(el) {
-                    var sortKey = $(el).index();
-                    el = angular.fromJson(el.id);
-
-                    //console.log(e.target.id, el.section);
-
-                    el.sortKey = sortKey;
-                    ActivityService.newActivity(el).then(function(data){
-                        //console.log(data);
-                    });
-                });
-            }
-        };
-
         ///////////////
         // Manage roles
         ///////////////
@@ -719,75 +608,125 @@ angular.module('DojoIBL')
             }
             return -1;
         }
-    })
 
-    .controller('AddUserCtrl', function ($scope, $modalInstance, AccountService, RunService, run, game) {
 
-        $scope.refreshAccounts = function(query) {
+        ////////////////////
+        // Manage activities
+        ////////////////////
+        $scope.addNewActivity = function (phase, game) {
+            $scope.activity = {};
 
-            AccountService.searchAccount(query).then(function(data){
-                $scope.availableColors = data.accountList;
+            if(ActivityService.getActivityInCached()){
+                $scope.activity = ActivityService.getActivityInCached();
+            }
+
+            $scope.activity.section = phase;
+
+            var modalInstance = $modal.open({
+                templateUrl: '/src/components/home/new.activity.modal.html',
+                controller: 'NewActivityController',
+                resolve: {
+                    activity: function () { return $scope.activity; },
+                    game: function () { return game; }
+                }
             });
-        };
 
-        $scope.multipleDemo = {};
-        $scope.multipleDemo.colors = [];
+            modalInstance.result.then(function (result){
 
-        $scope.ok = function () {
+                if(angular.isUndefined($scope.lists[result.section])){
+                    $scope.lists[result.section] = []
+                }
 
-            var newUsers = [];
+                ActivityService.newActivity(result).then(function(data){
+                     ActivityService.getActivityById(data.id, $stateParams.gameId).then(function(data){
+                        if(!angular.isUndefined(result.roles2)){
+                        }else{
+                            $scope.lists[result.section].push(data);
+                        }
 
-            angular.forEach($scope.multipleDemo.colors, function(value, key) {
-
-                // Grant me access to the run
-                RunService.giveAccess(run, value.accountType+":"+value.localId,1);
-                // Add me as a user to the run
-                var a = RunService.addUserToRun({
-                    runId: run,
-                    email: value.accountType+":"+value.localId,
-                    accountType: value.accountType,
-                    localId: value.localId,
-                    gameId: game
+                    });
                 });
-               newUsers.push(a);
+                console.log("Modal Accepted!!!");
+                //if (angular.isDefined(stop)) {
+                //    $interval.cancel(stop);
+                //    stop = undefined;
+                //}
+            }, function(){
+                console.log("Modal Dismissed!!!");
+                //if (angular.isDefined(stop)) {
+                //    $interval.cancel(stop);
+                //    stop = undefined;
+                //}
+                ActivityService.saveActivityInCache($scope.activity);
+            });
+        };
+
+        $scope.editActivity = function (activity, game) {
+            var modalInstance = $modal.open({
+                templateUrl: '/src/components/home/new.activity.modal.html',
+                controller: 'NewActivityController',
+                resolve: {
+                    activity: function () { return activity; },
+                    game: function () { return game; }
+                }
             });
 
-            $modalInstance.close(newUsers);
+            modalInstance.result.then(function (result){
+
+                console.log(result);
+
+                ActivityService.newActivity(result).then(function(data){
+                    ActivityService.refreshActivity(data.id, data.gameId);
+                });
+            });
         };
 
-        $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
-        };
+        $scope.wscrolltop = '';
+        $scope.sortableFirst = false;
 
+        $scope.sortableOptions = {
+            //connectWith: ".connectList",
+            'scroll': false,
+            'ui-floating': 'auto',
+            'start': function (event, ui) {
+                if($scope.sortableFirst){
+                    $scope.wscrolltop = $(window).scrollTop();
+                }
+                $scope.sortableFirst = true;
+            },
+            'sort': function (event, ui) {
+                ui.helper.css({'top': ui.position.top + $scope.wscrolltop + 'px'});
+            },
+            stop: function(e, ui) {
+                var item = ui.item.scope().activity;
+                var group = event.target;
+                //console.log(e.target.id);
+                $.map($(this).find('li'), function(el) {
+                    var sortKey = $(el).index();
+                    el = angular.fromJson(el.id);
+
+                    //console.log(e.target.id, el.section);
+
+                    el.sortKey = sortKey;
+                    ActivityService.newActivity(el).then(function(data){
+                        //console.log(data);
+                    });
+                });
+            }
+        };
     })
-
-    .controller('TabController', function ($scope, $stateParams, GameService, ActivityService) {
-        this.tab = 0;
-
-        GameService.getGameById($stateParams.gameId).then(function (data) {
-
-            if (data.config.roles)
-                $scope.roles = data.config.roles;
-
-            $scope.game = data;
-
-        });
-
-        this.setTab = function (tabId) {
-
-            this.tab = tabId;
-
-        };
-
-        this.isSet = function (tabId) {
-            return this.tab === tabId;
-        };
-    })
-
-    .controller('NewActivityController', function ($scope, $stateParams, $modalInstance, GameService, ActivityService, Upload, activity, game, config, $interval) {
+    .controller('NewActivityController', function ($scope, $stateParams, $modalInstance,
+                                                   GameService, ActivityService, Upload,
+                                                   activity, game, config, $interval) {
 
         $scope.saveActivity = function (){
-            ActivityService.saveActivityInCache($scope.activity);
+            if(angular.isUndefined($scope.activity.id)){
+                ActivityService.saveActivityInCache($scope.activity);
+            }else{
+                ActivityService.newActivity($scope.activity).then(function(data){
+                    ActivityService.refreshActivity(data.id, data.gameId);
+                });
+            }
         };
 
         $scope.list_original = [
@@ -1066,4 +1005,68 @@ angular.module('DojoIBL')
         };
 
     })
+
+    .controller('AddUserCtrl', function ($scope, $modalInstance, AccountService, RunService, run, game) {
+
+        $scope.refreshAccounts = function(query) {
+
+            AccountService.searchAccount(query).then(function(data){
+                $scope.availableColors = data.accountList;
+            });
+        };
+
+        $scope.multipleDemo = {};
+        $scope.multipleDemo.colors = [];
+
+        $scope.ok = function () {
+
+            var newUsers = [];
+
+            angular.forEach($scope.multipleDemo.colors, function(value, key) {
+
+                // Grant me access to the run
+                RunService.giveAccess(run, value.accountType+":"+value.localId,1);
+                // Add me as a user to the run
+                var a = RunService.addUserToRun({
+                    runId: run,
+                    email: value.accountType+":"+value.localId,
+                    accountType: value.accountType,
+                    localId: value.localId,
+                    gameId: game
+                });
+                newUsers.push(a);
+            });
+
+            $modalInstance.close(newUsers);
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+    })
+
+    .controller('TabController', function ($scope, $stateParams, GameService, ActivityService) {
+        this.tab = 0;
+
+        GameService.getGameById($stateParams.gameId).then(function (data) {
+
+            if (data.config.roles)
+                $scope.roles = data.config.roles;
+
+            $scope.game = data;
+
+        });
+
+        this.setTab = function (tabId) {
+
+            this.tab = tabId;
+
+        };
+
+        this.isSet = function (tabId) {
+            return this.tab === tabId;
+        };
+    })
+
 ;

@@ -93,7 +93,8 @@
                                                                 ['bold','italics'],
                                                                 ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
                                                                 ['insertImage', 'insertLink']]
-                                                                "ng-model="activity.richText" ng-keyup="saveActivity()"></text-angular>
+                                                                "ng-model="activity.richText" ng-change="saveActivity()"
+                                      ng-model-options="{debounce: 750}"></text-angular>
                     </div>
                 </div>
             </div>
