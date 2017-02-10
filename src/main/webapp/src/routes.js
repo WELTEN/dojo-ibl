@@ -1,5 +1,5 @@
 angular.module('DojoIBL')
-    .config(['$stateProvider','$routeProvider', function ($stateProvider, $urlRouterProvider) {
+    .config(['$stateProvider','$routeProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
         $stateProvider
             .state('home', {
@@ -105,7 +105,4 @@ angular.module('DojoIBL')
                 url: '/error',
                 templateUrl: '/src/components/common/error.template.html'
             });
-
-        $urlRouterProvider.otherwise('/error');
-
     }]);

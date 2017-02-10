@@ -25,7 +25,6 @@
                 return localStorage.getItem('accessToken')
             },
             setAccessToken: function(value) {
-                console.log(value);
                 $http.defaults.headers.common['Authorization'] = 'GoogleLogin auth='+value;
                 return localStorage.setItem('accessToken', value)
             },

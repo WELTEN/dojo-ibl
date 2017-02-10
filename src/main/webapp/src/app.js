@@ -3,7 +3,9 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
     'ncy-angular-breadcrumb', 'angular-table', 'luegg.directives', 'ngEmoticons', 'vButton', 'ui.sortable', 'ngAudio', 'ui.bootstrap',
     'ui.codemirror', 'ngLetterAvatar', 'toaster', 'ngAnimate', 'ui.footable', 'ui.calendar', 'datePicker'])
 
-    .config(function ($translateProvider) {
+    .config(function ($translateProvider, $urlRouterProvider) {
+
+        $urlRouterProvider.otherwise('/error');
 
         $translateProvider.useStaticFilesLoader({
             files: [{
@@ -22,8 +24,6 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
     })
     .run(function ($http, $location, $window) {
         var absUrl = $location.absUrl();
-
-        console.log(location.protocol)
 
         if(localStorage.getItem('accessToken')){
             if(location.host == "localhost:8080"){
