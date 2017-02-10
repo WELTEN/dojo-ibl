@@ -76,7 +76,7 @@ angular.module('DojoIBL')
                 dataCache.remove(item.id);
                 var service = this;
 
-                console.log(generalItems[gameId][item.section][item.id]);
+                //console.log(generalItems[gameId][item.section][item.id]);
 
                 delete generalItems[gameId][item.section][item.id];
 
@@ -207,6 +207,18 @@ angular.module('DojoIBL')
             },
             getLengthPhase: function(itemId, gameId){
                 return Object.keys(generalItems[gameId]).length;
+            },
+            saveActivityInCache: function(activityAsJson){
+                var dataCache = CacheFactory.get('activitiesCache');
+                dataCache.put("cachedActivity", activityAsJson);
+            },
+            getActivityInCached: function(){
+                var dataCache = CacheFactory.get('activitiesCache');
+                return dataCache.get("cachedActivity");
+            },
+            removeCachedActivity: function(){
+                var dataCache = CacheFactory.get('activitiesCache');
+                dataCache.remove("cachedActivity");
             }
         }
     })

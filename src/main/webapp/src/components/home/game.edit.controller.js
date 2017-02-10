@@ -93,8 +93,6 @@ angular.module('DojoIBL')
         $scope.updateCalendar = function(){
         };
 
-        console.log($scope.eventSources, $scope.events);
-
         $scope.eventSources = [$scope.events];
 
         $scope.alertOnEventClick = function( event, allDay, jsEvent, view ){
@@ -142,15 +140,19 @@ angular.module('DojoIBL')
         // Manage activities
         ////////////////////
 
-        var updateCache = function(a){
-            console.log($scope.activity.richText, a);
-        };
+        //var updateCache = function(a){
+        //    ActivityService.saveActivityInCache($scope.activity);
+        //};
 
         $scope.addNewActivity = function (phase, game) {
-
-            stop = $interval(updateCache, 1000);
+            //stop = $interval(updateCache, 3000);
 
             $scope.activity = {};
+
+            if(ActivityService.getActivityInCached()){
+                $scope.activity = ActivityService.getActivityInCached();
+            }
+
             $scope.activity.section = phase;
 
             var modalInstance = $modal.open({
@@ -185,12 +187,18 @@ angular.module('DojoIBL')
 
                     });
                 });
+                console.log("Modal Accepted!!!");
+                //if (angular.isDefined(stop)) {
+                //    $interval.cancel(stop);
+                //    stop = undefined;
+                //}
             }, function(){
                 console.log("Modal Dismissed!!!");
-                if (angular.isDefined(stop)) {
-                    $interval.cancel(stop);
-                    stop = undefined;
-                }
+                //if (angular.isDefined(stop)) {
+                //    $interval.cancel(stop);
+                //    stop = undefined;
+                //}
+                ActivityService.saveActivityInCache($scope.activity);
             });
         };
 
@@ -210,6 +218,8 @@ angular.module('DojoIBL')
                 });
             });
         };
+
+
 
         $scope.wscrolltop = '';
         $scope.sortableFirst = false;
@@ -266,18 +276,18 @@ angular.module('DojoIBL')
         };
 
         // Deprecated
-        $scope.saveActivity = function(){
-
-            // Save array of roles into the activity
-            $scope.activity_old = angular.copy($scope.activity);
-            $scope.data_old.model = angular.copy($scope.data.model);
-
-            $scope.activity.roles = [];
-            $scope.activity.roles.push($scope.data.model);
-
-            ActivityService.newActivity($scope.activity);
-            $scope.game.lastModificationDate = new Date();
-        };
+        //$scope.saveActivity = function(){
+        //
+        //    // Save array of roles into the activity
+        //    $scope.activity_old = angular.copy($scope.activity);
+        //    $scope.data_old.model = angular.copy($scope.data.model);
+        //
+        //    $scope.activity.roles = [];
+        //    $scope.activity.roles.push($scope.data.model);
+        //
+        //    ActivityService.newActivity($scope.activity);
+        //    $scope.game.lastModificationDate = new Date();
+        //};
 
         // Deprecated
         $scope.selectActivity = function(activity, combinationId){
@@ -993,6 +1003,10 @@ angular.module('DojoIBL')
 
     .controller('NewActivityController', function ($scope, $stateParams, $modalInstance, GameService, ActivityService, Upload, activity, game, config, $interval) {
 
+        $scope.saveActivity = function (){
+            ActivityService.saveActivityInCache($scope.activity);
+        };
+
         $scope.list_original = [
             //{'name': 'Google Resources', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-file-text'},
             {'name': 'Discussion activity', 'type': 'org.celstec.arlearn2.beans.generalItem.NarratorItem', 'icon': 'fa-file-text'},
@@ -1213,6 +1227,10 @@ angular.module('DojoIBL')
         };
 
         $scope.ok = function () {
+
+            if(angular.isUndefined($scope.activity.id)){
+                ActivityService.removeCachedActivity();
+            }
 
             var _aux = [];
 

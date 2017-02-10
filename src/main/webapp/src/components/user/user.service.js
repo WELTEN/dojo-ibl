@@ -29,7 +29,6 @@ angular.module('DojoIBL')
 
                         angular.forEach(data.users, function(user){
                             if(!user.deleted){
-                                console.log(user)
                                 users[user.accountType+":"+user.localId] = user;
                                 filtered_users.push(user)
                             }
