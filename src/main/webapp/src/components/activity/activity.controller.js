@@ -152,9 +152,6 @@ angular.module('DojoIBL')
         }
 
         $scope.saveResponse = function (){
-
-            console.log("auto save after 750 ms", $scope.response);
-
             if($scope.response != null && $scope.response.length > 0){
                 if(angular.isUndefined($scope.response.id)){
                     ResponseService.saveResponseInCache($scope.response, $stateParams.activityId);
