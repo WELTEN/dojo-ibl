@@ -205,7 +205,7 @@
                                                                 ['bold','italics'],
                                                                 ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
                                                                 ['insertImage', 'insertLink']]
-                                                                "ng-model="response"></text-angular>
+                                                                "ng-model="response" ng-change="saveResponse()" ng-model-options="{debounce: 750}"></text-angular>
                         <div class="text-right">
                             <button type="submit" ng-disabled="!response" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendComment()"><strong>Post comment</strong></button>
                         </div>

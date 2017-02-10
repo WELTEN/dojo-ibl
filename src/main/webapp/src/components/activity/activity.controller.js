@@ -77,53 +77,13 @@ angular.module('DojoIBL')
             $scope.myAccount = data;
         });
 
-        $scope.getUser = function (response){
-            return UserService.getUserFromCache(response.userEmail.split(':')[1]).name;
-        };
-        $scope.getAvatar = function (response){
-            return UserService.getUserFromCache(response.userEmail.split(':')[1]).picture;
-        };
-        $scope.removeComment = function(data){
-
-            swal({
-                title: "Are you sure?",
-                text: "You will not be able to recover it in the future!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, remove it!",
-                closeOnConfirm: false
-            }, function () {
-                swal("Removed!", "Your contribution has been removed from the inquiry", "success");
-
-                ResponseService.deleteResponse(data.responseId);
-
-            });
-        };
-
-        $scope.getRoleColor = function(roles){
-            if(!angular.isUndefined(roles)) {
-                try{
-                    if (!angular.isUndefined(angular.fromJson(roles[0]))) {
-                        if (!angular.isObject(roles[0])) {
-                            return {
-                                "color": angular.fromJson(roles[0]).color
-                            };
-                        }
-                    }
-                }catch(e){
-                    return {
-                        "color": "#f8ac59"
-                    };
-                }
-            }
-            return {
-                "color": "#f8ac59"
-            };
-        };
-
         $scope.sendComment = function(){
             if($scope.response != null && $scope.response.length > 0){
+
+                if(angular.isUndefined($scope.response.id)){
+                    ResponseService.removeCachedResponse($stateParams.activityId);
+                }
+
                 AccountService.myDetails().then(function(data){
                     ResponseService.newResponse({
                         "type": "org.celstec.arlearn2.beans.run.Response",
@@ -141,8 +101,6 @@ angular.module('DojoIBL')
                 });
             }
         };
-
-        $scope.responseChildren;
 
         $scope.sendChildComment = function(responseParent, responseChildren) {
 
@@ -163,8 +121,59 @@ angular.module('DojoIBL')
             });
         };
 
+        $scope.removeComment = function(data){
+
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover it in the future!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, remove it!",
+                closeOnConfirm: false
+            }, function () {
+                swal("Removed!", "Your contribution has been removed from the inquiry", "success");
+
+                ResponseService.deleteResponse(data.responseId);
+
+            });
+        };
+
         $scope.trustSrc = function(src) {
             return $sce.trustAsResourceUrl(src);
+        };
+
+        ////////////////////////////
+        // Response cache management
+        ////////////////////////////
+
+        if(ResponseService.getResponseInCached($stateParams.activityId)){
+            $scope.response = ResponseService.getResponseInCached($stateParams.activityId);
+        }
+
+        $scope.saveResponse = function (){
+
+            console.log("auto save after 750 ms", $scope.response);
+
+            if($scope.response != null && $scope.response.length > 0){
+                if(angular.isUndefined($scope.response.id)){
+                    ResponseService.saveResponseInCache($scope.response, $stateParams.activityId);
+                }else{
+                    ResponseService.newResponse({
+                        "type": "org.celstec.arlearn2.beans.run.Response",
+                        "runId": $stateParams.runId,
+                        "deleted": false,
+                        "generalItemId": $stateParams.activityId,
+                        "userEmail": data.accountType+":"+data.localId,
+                        "responseValue": $scope.response,
+                        "parentId": 0,
+                        "revoked": false,
+                        "lastModificationDate": new Date().getTime()
+                    }).then(function(data){
+                        $scope.response = null;
+                    });
+                }
+            }
         };
 
         // upload on file select or drop
@@ -344,6 +353,38 @@ angular.module('DojoIBL')
                 });
 
             }
+        };
+
+        $scope.getUser = function (response){
+            return UserService.getUserFromCache(response.userEmail.split(':')[1]).name;
+        };
+        $scope.getAvatar = function (response){
+            return UserService.getUserFromCache(response.userEmail.split(':')[1]).picture;
+        };
+
+        $scope.getRoleColor = function(roles){
+            if(!angular.isUndefined(roles)) {
+                try{
+                    if (!angular.isUndefined(angular.fromJson(roles[0]))) {
+                        if (!angular.isObject(roles[0])) {
+                            return {
+                                "color": angular.fromJson(roles[0]).color
+                            };
+                        }
+                    }
+                }catch(e){
+                    return {
+                        "color": "#f8ac59"
+                    };
+                }
+            }
+            return {
+                "color": "#f8ac59"
+            };
+        };
+
+        $scope.trustSrc = function(src) {
+            return $sce.trustAsResourceUrl(src);
         };
 
     }

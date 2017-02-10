@@ -9,6 +9,13 @@ angular.module('DojoIBL')
             storageMode: 'localStorage' // This cache will use `localStorage`.
         });
 
+        CacheFactory('responsesTempCache', {
+            maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day
+            cacheFlushInterval: 60 * 60 * 1000, // This cache will clear itself every hour
+            deleteOnExpire: 'aggressive', // Items will be deleted from this cache when they expire
+            storageMode: 'localStorage' // This cache will use `localStorage`.
+        });
+
         var responses = {};
         var dataCache = CacheFactory.get('responsesCache');
         var responsesId = dataCache.keys();
@@ -216,6 +223,18 @@ angular.module('DojoIBL')
                         }
                     });
                 return deferred.promise;
+            },
+            saveResponseInCache: function(responseAsJson, activityId){
+                var dataCache = CacheFactory.get('responsesTempCache');
+                dataCache.put("cachedResponse"+activityId, responseAsJson);
+            },
+            getResponseInCached: function(activityId){
+                var dataCache = CacheFactory.get('responsesTempCache');
+                return dataCache.get("cachedResponse"+activityId);
+            },
+            removeCachedResponse: function(activityId){
+                var dataCache = CacheFactory.get('responsesTempCache');
+                dataCache.remove("cachedResponse"+activityId);
             }
         }
     }
