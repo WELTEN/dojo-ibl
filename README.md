@@ -9,6 +9,7 @@ Version 29
 ----------
 - **NEW** New toolbar in student view
 - **NEW** Auto save in Editor view
+- **NEW** Fixed empty layout in home view
 
 Version 28
 ----------
