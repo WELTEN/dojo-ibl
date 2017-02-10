@@ -10,6 +10,7 @@ Version 29
 - **NEW** New toolbar in student view
 - **NEW** Auto save in Editor view
 - **NEW** Fixed empty layout in home view
+- **NEW** Automated scrolling from the edit game screen sidebar
 
 Version 28
 ----------
