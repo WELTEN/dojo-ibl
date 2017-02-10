@@ -11,6 +11,7 @@ Version 29
 - **NEW** Auto save in Editor view
 - **NEW** Fixed empty layout in home view
 - **NEW** Automated scrolling from the edit game screen sidebar
+- **NEW** Individual response cache for each activity
 
 Version 28
 ----------
