@@ -42,7 +42,9 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 m-t-sm" ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
+
+
+            <div class="col-lg-3 m-t-xl" ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
                         <div class="file-manager">
@@ -92,38 +94,8 @@
                 </div>
             </div>
 
-            <div class="col-lg-9 animated fadeInRight m-t-sm" ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
-                <div class="lightBoxGallery">
-                    <div class="file-box" ng-repeat="response in responses | orderByDayNumber:'lastModificationDate':true">
-                        <data response="response"></data>
-                    </div>
-                </div>
-            </div>
-
-            <!--<div class="social-avatar">-->
-
-                <!--<div class="media-body">-->
-                    <!--<div class="small text-muted">-->
-                        <!--<i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'fullDate' }}-->
-                    <!--</div>-->
-                    <!--&lt;!&ndash;<p class="small font-bold">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<span><i class="fa fa-circle text-warning"></i>&ndash;&gt;-->
-                            <!--&lt;!&ndash;Creation date: <b>{{ activity.lastModificationDate | date:'fullDate' }}</b></span>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<br/>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<span ng-repeat="role in roles track by $index">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<i class="fa fa-circle text-navy" ng-style="getRoleColor(activity.roles)"></i>&ndash;&gt;-->
-                            <!--&lt;!&ndash;Role: <b>{{ role.name }}</b>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<br/>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a href="#">&ndash;&gt;-->
-                        <!--&lt;!&ndash;Andrew Williams&ndash;&gt;-->
-                    <!--&lt;!&ndash;</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<small class="text-muted">Today 4:21 pm - 12.06.2014</small>&ndash;&gt;-->
-                <!--</div>-->
-            <!--</div>-->
-
-            <div class="mail-body">
+            <div ng-class="{ 'col-lg-9 m-t-sm p-m':  activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag',
+             'mail-body':  activity.type != 'org.celstec.arlearn2.beans.generalItem.ScanTag'  }">
                 <div class="text-center">
                     <div class="small text-muted">
                         <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'fullDate' }}
@@ -159,6 +131,39 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-lg-9 animated fadeInRight m-t-sm" ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
+                <div class="lightBoxGallery">
+                    <div class="file-box" ng-repeat="response in responses | orderByDayNumber:'lastModificationDate':true">
+                        <data response="response"></data>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="social-avatar">-->
+
+                <!--<div class="media-body">-->
+                    <!--<div class="small text-muted">-->
+                        <!--<i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'fullDate' }}-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;<p class="small font-bold">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span><i class="fa fa-circle text-warning"></i>&ndash;&gt;-->
+                            <!--&lt;!&ndash;Creation date: <b>{{ activity.lastModificationDate | date:'fullDate' }}</b></span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<br/>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span ng-repeat="role in roles track by $index">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<i class="fa fa-circle text-navy" ng-style="getRoleColor(activity.roles)"></i>&ndash;&gt;-->
+                            <!--&lt;!&ndash;Role: <b>{{ role.name }}</b>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<br/>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</p>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a href="#">&ndash;&gt;-->
+                        <!--&lt;!&ndash;Andrew Williams&ndash;&gt;-->
+                    <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<small class="text-muted">Today 4:21 pm - 12.06.2014</small>&ndash;&gt;-->
+                <!--</div>-->
+            <!--</div>-->
+
+
 
             <div ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="input-group create-question">
                 <input responseid="0" ng-enter="sendComment()" class="form-control response" ng-model="response" placeholder="{{'dibl.inquiry.activity.add-list-item-placeholder' | translate }}">
