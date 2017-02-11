@@ -10,7 +10,7 @@ Version 29
 - **NEW** Enhanced layout for the toolbar in students view
 - **NEW** Auto save in Editor view
 - **NEW** Fixed empty layout in home view
-- **NEW** Fixed notifications issue #274
+- **NEW** Fixed notifications issue [#274](https://github.com/WELTEN/dojo-ibl/issues/274)
 - **NEW** Automated scrolling from the edit game screen sidebar
 - **NEW** Individual response cache for each activity
 - **NEW** Enhanced data collection activity view in students view
