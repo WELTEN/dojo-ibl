@@ -7,11 +7,13 @@ structure their own process.
 
 Version 29
 ----------
-- **NEW** New toolbar in student view
+- **NEW** Enhanced layout for the toolbar in students view
 - **NEW** Auto save in Editor view
 - **NEW** Fixed empty layout in home view
+- **NEW** Fixed notifications issue #274
 - **NEW** Automated scrolling from the edit game screen sidebar
 - **NEW** Individual response cache for each activity
+- **NEW** Enhanced data collection activity view in students view
 
 Version 28
 ----------
