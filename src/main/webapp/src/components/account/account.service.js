@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .service('AccountService', function ($q, Account, CacheFactory,UserService) {
+    .service('AccountService', function ($q, Account, CacheFactory) {
 
         CacheFactory('accountCache', {
             maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day

@@ -64,7 +64,7 @@ angular.module('DojoIBL')
 
                                     var message = data.messages[i];
 
-                                    messages[runId][message.messageId].user = UserService.getUser(data.messages[i].senderProviderId+":"+data.messages[i].senderId);
+                                    messages[runId][message.messageId].user = UserService.getUser(runId, data.messages[i].senderProviderId+":"+data.messages[i].senderId);
                                 }else{
                                     delete messages[runId][data.messages[i].messageId];
                                 }
@@ -88,7 +88,7 @@ angular.module('DojoIBL')
 
                                     var message = data.messages[i];
 
-                                    messages[runId][message.messageId].user = UserService.getUser(data.messages[i].senderProviderId+":"+data.messages[i].senderId);
+                                    messages[runId][message.messageId].user = UserService.getUser(runId, data.messages[i].senderProviderId+":"+data.messages[i].senderId);
                                 }else{
                                     delete messages[runId][data.messages[i].messageId];
                                 }
@@ -114,7 +114,7 @@ angular.module('DojoIBL')
                         function(data){
                             dataCache.put(messageId, data);
                             messages[data.runId][data.messageId] = data;
-                            messages[data.runId][data.messageId].user = UserService.getUser(data.senderProviderId+":"+data.senderId);
+                            messages[data.runId][data.messageId].user = UserService.getUser(data.runId, data.senderProviderId+":"+data.senderId);
                             deferred.resolve(data);
                         }
                     );

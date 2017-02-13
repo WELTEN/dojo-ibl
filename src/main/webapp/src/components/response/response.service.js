@@ -60,7 +60,7 @@ angular.module('DojoIBL')
                     responses[runId+"_"+itemId] = {};
                 }
                 responses[runId+"_"+itemId][response.responseId] = response;
-                responses[runId+"_"+itemId][response.responseId].user = UserService.getUser(response.userEmail);
+                responses[runId+"_"+itemId][response.responseId].user = UserService.getUser(runId, response.userEmail);
                 dataCache.put(response.responseId, responses[runId+"_"+itemId][response.responseId]);
             },
             refreshResponse: function(response, runId, itemId) {
@@ -94,7 +94,7 @@ angular.module('DojoIBL')
                                         responses[runId+"_"+itemId][id] = {};
                                     }
                                     responses[runId+"_"+itemId][id] = data;
-                                    responses[runId+"_"+itemId][id].user = UserService.getUser(data.userEmail);
+                                    responses[runId+"_"+itemId][id].user = UserService.getUser(runId, data.userEmail);
                                     dataCache.put(id, responses[runId+"_"+itemId][id]);
                                 }
                             }
@@ -126,7 +126,7 @@ angular.module('DojoIBL')
                                 if (!data.responses[i].deleted) {
                                     dataCache.put(data.responses[i].responseId, data.responses[i]);
                                     responses[runId+"_"+itemId][data.responses[i].responseId] = data.responses[i];
-                                    responses[runId+"_"+itemId][data.responses[i].responseId].user = UserService.getUser(data.responses[i].userEmail);
+                                    responses[runId+"_"+itemId][data.responses[i].responseId].user = UserService.getUser(runId, data.responses[i].userEmail);
                                 }else{
                                     delete [runId+"_"+itemId][data.responses[i].responseId];
                                 }
@@ -148,7 +148,7 @@ angular.module('DojoIBL')
                                     dataCache.put(data.responses[i].responseId, data.responses[i]);
                                     responses[runId+"_"+itemId][data.responses[i].responseId] = data.responses[i];
                                     //console.log(data.responses[i]);
-                                    responses[runId+"_"+itemId][data.responses[i].responseId].user = UserService.getUser(data.responses[i].userEmail);
+                                    responses[runId+"_"+itemId][data.responses[i].responseId].user = UserService.getUser(runId, data.responses[i].userEmail);
                                 }else{
                                     delete [runId+"_"+itemId][data.responses[i].responseId];
                                 }
@@ -199,7 +199,7 @@ angular.module('DojoIBL')
                                     //    console.log("Es hijo de: ",data.responses[i].parentId)
                                     //}
 
-                                    responses[runId+"_"+itemId][data.responses[i].responseId].user = UserService.getUser(data.responses[i].userEmail);
+                                    responses[runId+"_"+itemId][data.responses[i].responseId].user = UserService.getUser(runId, data.responses[i].userEmail);
                                     dataCache.put(data.responses[i].responseId, responses[runId+"_"+itemId][data.responses[i].responseId]);
                                 }else{
                                     delete [runId+"_"+itemId][data.responses[i].responseId];

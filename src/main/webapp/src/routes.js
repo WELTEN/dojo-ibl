@@ -25,6 +25,38 @@ angular.module('DojoIBL')
                 controller: 'InquiryController',
                 ncyBreadcrumb: {
                     label: "{{'dibl.toolbar.phases' | translate}} "
+                },
+                resolve: {
+                    security: ['$q', '$stateParams', 'AccountService', 'UserService', 'toaster', '$location'
+                        , function($q, $stateParams, AccountService, UserService, toaster,$location){
+
+                            UserService.checkAccess();
+
+                        //AccountService.myDetails().then(function(me){
+                        //    console.log($stateParams.runId, me);
+                        //    UserService.getUsersForRun($stateParams.runId).then(function(data){
+                        //        console.log(arrayObjectIndexOf(data, me.localId, "localId"));
+                        //        if(arrayObjectIndexOf(data, me.localId, "localId") == -1){
+                        //            $location.path('home');
+                        //            toaster.error({
+                        //                title: 'No access ',
+                        //                body: 'You do not have access to this inquiry.'
+                        //            });
+                        //        }
+                        //    });
+                        //});
+                        //
+                        //function arrayObjectIndexOf(myArray, searchTerm, property) {
+                        //    for(var i = 0, len = myArray.length; i < len; i++) {
+                        //        if (myArray[i][property] === searchTerm) return i;
+                        //    }
+                        //    return -1;
+                        //}
+
+                        //if(){
+                        //    return $q.reject("Not Authorized");
+                        //}
+                    }]
                 }
             })
             .state('inquiry.phase', {

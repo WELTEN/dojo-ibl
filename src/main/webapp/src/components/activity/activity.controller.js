@@ -21,8 +21,8 @@ angular.module('DojoIBL')
                 //}else{
 
                     toaster.success({
-                        title: UserService.getUser(data.userEmail).name+' added a response',
-                        body: UserService.getUser(data.userEmail).name+' has contributed to an activity.'
+                        title: UserService.getUser($stateParams.runId, data.userEmail).name+' added a response',
+                        body: UserService.getUser($stateParams.runId, data.userEmail).name+' has contributed to an activity.'
                     });
                 //}
 
