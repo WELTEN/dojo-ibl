@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .service('ActivityService', function ($q, Activity, CacheFactory) {
+    .service('ActivityService', function ($q, Activity, CacheFactory, ML4WUser, ML4WScenario) {
 
         CacheFactory('activitiesCache', {
             maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day
@@ -227,6 +227,43 @@ angular.module('DojoIBL')
             removeCachedActivity: function(){
                 var dataCache = CacheFactory.get('activitiesTempCache');
                 dataCache.remove("cachedActivity");
+            },
+            createML4WScenario: function(title, token){
+                var scenario = {
+                    title: title,
+                    description: "Angel",
+                    token: token,
+                    screenData: [{}]
+                };
+
+                var newScenario = new ML4WScenario(scenario);
+                return newScenario.$save();
+            },
+            registerML4WUser: function(user, pass){
+                var user = {
+                    firstname: "Angel",
+                    lastname: "Angel",
+                    email: "angel.suarez@ou.nl",
+                    username: user,
+                    password: pass
+                };
+
+                var newUser = new ML4WUser(user);
+                return newUser.$save();
+            },
+            loginML4WUser: function(user, pass){
+                var deferred = $q.defer();
+
+                var user = {
+                    username: user,
+                    password: pass
+                };
+
+                ML4WUser.login(user).$promise.then(function (data) {
+                    deferred.resolve(data);
+                });
+
+                return deferred.promise;
             }
         }
     })

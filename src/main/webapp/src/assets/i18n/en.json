@@ -103,6 +103,7 @@
         "title-activity": "Title:",
         "type-activity": "Type:",
         "video-activity": "Video link:",
+        "mobile-data-collection": "Mobile?",
         "google-activity": "Google resource link:",
         "description-activity": "Description:",
         "roles-activity": "Roles:",

@@ -1,5 +1,4 @@
 angular.module('DojoIBL')
-
     .factory('Activity', function ActivityFactory($resource, $http, config) {
         return $resource(config.server+'/rest/generalItems', {}, {
             getActivities: {
@@ -52,6 +51,26 @@ angular.module('DojoIBL')
                 isArray: false,
                 url: config.server + '/rest/generalItems/pictureUrl/gameId/:gameId/generalItem/:itemId/:key'
             }
+
+        })
+            ;
+    })
+    .factory('ML4WUser', function ScenarioFactory($resource, $http, config) {
+        return $resource(config.mobile_data_collection+'/users/register/', {}, {
+            'login': {
+                method: 'POST',
+                isArray: false,
+                url: config.mobile_data_collection + '/users/login'
+            }
         });
-    }
-);
+    })
+    .factory('ML4WScenario', function ScenarioFactory($resource, $http, config) {
+        return $resource(config.mobile_data_collection+'/scenarios/', {}, {
+            'create': {
+                method: 'POST',
+                isArray: false,
+                url: config.mobile_data_collection + '/scenarios/'
+            }
+        });
+    })
+;

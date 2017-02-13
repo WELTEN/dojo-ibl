@@ -646,6 +646,16 @@ angular.module('DojoIBL')
 
                     });
                 });
+
+                if(result.mobile){
+                    ActivityService.registerML4WUser($scope.me.localId, $scope.me.localId+"password");
+                    ActivityService.loginML4WUser($scope.me.localId, $scope.me.localId+"password").then(function(data){
+
+                        ActivityService.createML4WScenario("pruebas", data.token);
+                    });
+                }
+
+
                 console.log("Modal Accepted!!!");
                 //if (angular.isDefined(stop)) {
                 //    $interval.cancel(stop);
@@ -674,6 +684,14 @@ angular.module('DojoIBL')
             modalInstance.result.then(function (result){
 
                 console.log(result);
+
+                if(result.mobile){
+                    ActivityService.registerML4WUser(angular.lowercase($scope.me.localId), $scope.me.localId+"password");
+                    ActivityService.loginML4WUser(angular.lowercase($scope.me.localId), $scope.me.localId+"password").then(function(data){
+
+                        ActivityService.createML4WScenario("pruebas", data.token);
+                    });
+                }
 
                 ActivityService.newActivity(result).then(function(data){
                     ActivityService.refreshActivity(data.id, data.gameId);
