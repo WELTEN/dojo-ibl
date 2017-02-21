@@ -68,6 +68,9 @@ public class GeneralItemJDO extends GameClass {
 	@Persistent
 	private String section;
 
+	@Persistent
+	private Text scenario;
+
 	public String getSection() {
 		return section;
 	}
@@ -185,5 +188,12 @@ public class GeneralItemJDO extends GameClass {
 	public void setIconUrl(String iconUrl) {
 		this.iconUrl = iconUrl;
 	}
-	
+
+	public String getScenario() {
+		return (scenario != null ? scenario.getValue() : "");
+	}
+
+	public void setScenario(String scenario) {
+		this.scenario = new Text(scenario);
+	}
 }

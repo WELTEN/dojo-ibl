@@ -55,6 +55,10 @@ public class GeneralItemManager {
 		gi.setLng(bean.getLng());
 		gi.setName(bean.getName());
 		gi.setRadius(bean.getRadius());
+
+		if(bean.getScenario() != null)
+			gi.setScenario(bean.getScenario().toString());
+
 		if (bean.getSection() != null) gi.setSection(bean.getSection());
 //		gi.setShowAtTimeStamp(bean.getShowAtTimeStamp());
 

@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .service('ActivityService', function ($q, Activity, CacheFactory, ML4WUser, ML4WScenario) {
+    .service('ActivityService', function ($q, Activity, CacheFactory, ML4WUser, ML4WScenario, AccountService) {
 
         CacheFactory('activitiesCache', {
             maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day
@@ -110,7 +110,11 @@ angular.module('DojoIBL')
                     activityAsJson.timestamp = Date.parse(activityAsJson.timestamp);
                 }
 
+                var self = this;
+
                 activityAsJson.timeStamp = activityAsJson.timestamp;
+
+                console.log(activityAsJson);
 
                 var newActivity = new Activity(activityAsJson);
 
@@ -258,8 +262,9 @@ angular.module('DojoIBL')
                     username: user,
                     password: pass
                 };
-
+                console.log("Login1");
                 ML4WUser.login(user).$promise.then(function (data) {
+                    console.log("Login2");
                     deferred.resolve(data);
                 });
 

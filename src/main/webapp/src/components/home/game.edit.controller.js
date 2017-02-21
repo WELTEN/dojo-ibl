@@ -637,24 +637,45 @@ angular.module('DojoIBL')
                     $scope.lists[result.section] = []
                 }
 
-                ActivityService.newActivity(result).then(function(data){
-                     ActivityService.getActivityById(data.id, $stateParams.gameId).then(function(data){
-                        if(!angular.isUndefined(result.roles2)){
-                        }else{
-                            $scope.lists[result.section].push(data);
-                        }
-
-                    });
-                });
-
                 if(result.mobile){
                     ActivityService.registerML4WUser($scope.me.localId, $scope.me.localId+"password");
                     ActivityService.loginML4WUser($scope.me.localId, $scope.me.localId+"password").then(function(data){
+                        console.log("Login");
+                        ActivityService.createML4WScenario("pruebas", data.token).then(function(scenario){
+                            console.log(scenario)
 
-                        ActivityService.createML4WScenario("pruebas", data.token);
+                            var obj = {
+                                _id: scenario._id,
+                                title: scenario.title,
+                                description: scenario.description,
+                                createdAt: scenario.createdAt,
+                                updatedAt: scenario.updatedAt
+                            };
+
+                            result.scenario = obj;
+
+                            ActivityService.newActivity(result).then(function(data){
+                                ActivityService.getActivityById(data.id, $stateParams.gameId).then(function(data){
+                                    if(!angular.isUndefined(result.roles2)){
+                                    }else{
+                                        $scope.lists[result.section].push(data);
+                                    }
+
+                                });
+                            });
+                        });
+                    });
+                }else{
+                    ActivityService.newActivity(result).then(function(data){
+                        ActivityService.getActivityById(data.id, $stateParams.gameId).then(function(data){
+                            if(!angular.isUndefined(result.roles2)){
+                            }else{
+                                $scope.lists[result.section].push(data);
+                            }
+
+                        });
                     });
                 }
-
 
                 console.log("Modal Accepted!!!");
                 //if (angular.isDefined(stop)) {
