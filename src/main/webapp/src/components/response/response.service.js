@@ -182,7 +182,7 @@ angular.module('DojoIBL')
                     //console.log("No se habia comprobado antes: ",$filter('date')(serverTime, "medium"));
                 }
 
-                Response.getResponsesInquiryActivity({runId:runId, itemId:itemId, resumptionToken: resumptionToken, from:serverTime})
+                Response.getResponsesInquiryActivity({runId:runId, itemId:itemId, resumptionToken: resumptionToken, from:0})
                     .$promise.then(function (data) {
                         if (data.error) {
                             deferred.resolve(data);
