@@ -9171,8 +9171,8 @@ text-angular > p{
 }
 
 .pruebas .ta-editor{
-  height: 305px !important;
-  min-height: 300px !important;
+  height: 150px !important;
+  min-height: 150px !important;
 }
 
 .table>tbody+tbody{
