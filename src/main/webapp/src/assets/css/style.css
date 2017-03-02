@@ -9214,3 +9214,8 @@ text-angular > p{
   left: auto;
   right: 0;
 }
+
+.navigationalLink{
+  float: left;
+  margin-right: 4px;
+}

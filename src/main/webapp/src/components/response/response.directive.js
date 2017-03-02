@@ -1,5 +1,5 @@
 angular.module('DojoIBL')
-    .directive('response', function ($compile, ResponseService, AccountService, $stateParams, UserService, ActivityService,RunService) {
+    .directive('response', function ($compile, ResponseService, AccountService, $stateParams, UserService, ActivityService,RunService, $sce) {
         return {
             restrict: "E",
             replace: true,
@@ -8,6 +8,11 @@ angular.module('DojoIBL')
             },
             templateUrl: '/src/components/response/response.template.html',
             link: function (scope, element, attrs) {
+
+
+                if(scope.response.parentId != 0){
+                    scope.response.responseValue = '<a class="navigationalLink" title="'+$sce.trustAsHtml(ResponseService.getResponsesClosureById(scope.response.parentId, scope.response.runId, $stateParams.activityId).responseValue)+'" href="#'+scope.response.parentId+'">#'+scope.response.parentId+'</a>'+" "+scope.response.responseValue;
+                }
 
                 AccountService.myDetails().then(
                     function(data){
@@ -67,7 +72,7 @@ angular.module('DojoIBL')
 
                 //console.log(scope.response);
 
-                $("div[data-item='"+scope.response.parentId+"']").parent().append(element);
+                //$("div[data-item='"+scope.response.parentId+"']").parent().append(element);
             }
         };
     }

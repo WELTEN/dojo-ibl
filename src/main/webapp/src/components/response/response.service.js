@@ -54,6 +54,9 @@ angular.module('DojoIBL')
             getResponsesByInquiryActivity: function(runId, itemId){
                 return responses[runId+"_"+itemId];
             },
+            getResponsesClosureById: function(id, runId, itemId){
+                return responses[runId+"_"+itemId][id];
+            },
             addResponse: function(response, runId, itemId){
                 var dataCache = CacheFactory.get('responsesCache');
                 if(angular.isUndefined(responses[runId+"_"+itemId])){
