@@ -9246,6 +9246,6 @@ text-angular > p{
   content: ')';
 }
 
-p > span:first-child > p {
+p > span:first-child > p:last-child {
   display: inline;
 }
