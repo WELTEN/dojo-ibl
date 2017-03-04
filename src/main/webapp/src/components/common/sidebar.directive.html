@@ -28,17 +28,14 @@
                 <!--</a>-->
             <!--</li>-->
             <li>
-                <a href="#/home"><i class="fa fa-home"></i> <span class="nav-label">{{'dibl.sidebar.inquiries' | translate}}</span>
+                <a href="#/home">
+                    <i class="fa fa-home"></i> <span class="nav-label">{{'dibl.sidebar.inquiries' | translate}}</span>
                     <!-- <span class="label label-warning pull-right">Current</span> -->
                 </a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a id="add-inquiry-new" ng-click="createNewInquiry()"><i class="fa fa-plus"></i>{{'dibl.sidebar.createinquiry' | translate}}</a>
-                    </li>
-                    <!--<li>-->
-                        <!--&lt;!&ndash;<a><i class="fa fa-key"></i>{{'dibl.sidebar.joininquiry' | translate}}</a>&ndash;&gt;-->
-                    <!--</li>-->
-                </ul>
+            </li>
+            <li>
+                <a id="add-inquiry-new" ng-click="createNewInquiry()">
+                    <i class="fa fa-plus"></i>{{'dibl.sidebar.createinquiry' | translate}}</a>
             </li>
             <!--<li>-->
                 <!--<a href="#/home"><i class="fa fa-home"></i> <span class="nav-label">{{ run.game.title | limitTo: 15 }} {{ run.game.title.length > 15 ? '...' : ''}} [{{ run.code }}]</span></a>-->
