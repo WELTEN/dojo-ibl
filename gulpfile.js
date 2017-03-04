@@ -27,10 +27,10 @@ gulp.task('app', function() {
     return gulp.src([
         'src/main/webapp/src/app.js',
         'src/main/webapp/src/routes.js',
-        //'src/main/webapp/src/components/*/*.directive.js',
-        //'src/main/webapp/src/components/*/*.service.js',
-        //'src/main/webapp/src/components/*/*.resources.js',
-        //'src/main/webapp/src/components/*/*.controller.js'
+        'src/main/webapp/src/components/*/*.directive.js',
+        'src/main/webapp/src/components/*/*.service.js',
+        'src/main/webapp/src/components/*/*.resources.js',
+        'src/main/webapp/src/components/*/*.controller.js'
     ])
         .pipe(plumber())
         .pipe(concat('app.js', {newLine: ';'}))
@@ -148,7 +148,7 @@ gulp.task('vendor', function() {
         .pipe(gulp.dest('src/main/webapp/public/src/'));
 });
 
-gulp.task('prod', ['app' ], function() {
+gulp.task('prod', ['app', 'directives', 'services', 'resources', 'controllers'], function() {
     return gulp.src([
         'src/main/webapp/public/src/app.js',
         //'src/main/webapp/public/src/directives.js',
@@ -188,4 +188,4 @@ gulp.task('watch', ['prod', 'prod-vendor'], function () {
     ], ['prod']);
 });
 
-gulp.task('default', [ 'vendor', 'app', 'directives', 'services', 'resources', 'controllers']);
+gulp.task('default', [ 'watch', 'vendor', 'app', 'directives', 'services', 'resources', 'controllers']);

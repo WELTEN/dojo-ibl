@@ -73,7 +73,6 @@ angular.module('DojoIBL')
                 return deferred.promise;
             },
             getActivities: function () {
-                console.log(generalItems)
                 return generalItems;
             },
             getCalendarActivities: function () {
