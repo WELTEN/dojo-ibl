@@ -38,9 +38,9 @@ src/main/webapp/src/assets/plugins/
 src/main/webapp/src/assets/plugins/*
 my.conf.js
 pom.xml
-src/main/webapp/public/src/app.js
-src/main/webapp/public/src/app.min.js
-src/main/webapp/public/src/controllers.js
-src/main/webapp/public/src/directives.js
-src/main/webapp/public/src/resources.js
-src/main/webapp/public/src/services.js
+src/main/webapp/public
+src/main/webapp/public
+src/main/webapp/public
+src/main/webapp/public
+src/main/webapp/public
+src/main/webapp/public
