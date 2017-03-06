@@ -710,8 +710,6 @@ angular.module('DojoIBL')
 
             modalInstance.result.then(function (result){
 
-
-
                 if(result.mobile){
                     ActivityService.registerML4WUser(angular.lowercase($scope.me.localId), $scope.me.localId+"password");
                     ActivityService.loginML4WUser(angular.lowercase($scope.me.localId), $scope.me.localId+"password").then(function(data){
