@@ -141,7 +141,7 @@ public class NotificationAPI extends Service {
     }
 
 	@POST
-	@Path("/sendReminders")
+	@Path("/reminders")
 	public String sendReminder(@HeaderParam("Authorization") String token,
 							 @PathParam("account") String account, @DefaultValue("application/json") @HeaderParam("Accept") String accept) {
 		if (!validCredentials(token))
