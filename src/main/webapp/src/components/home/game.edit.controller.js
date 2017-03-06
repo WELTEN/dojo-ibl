@@ -640,15 +640,14 @@ angular.module('DojoIBL')
                 if(result.mobile){
                     ActivityService.registerML4WUser($scope.me.localId, $scope.me.localId+"password");
                     ActivityService.loginML4WUser($scope.me.localId, $scope.me.localId+"password").then(function(data){
-                        console.log("Login");
-                        ActivityService.createML4WScenario("pruebas", data.token).then(function(scenario){
-                            console.log(scenario)
 
+                        ActivityService.createML4WScenario(result.name, data.token).then(function(scenario){
                             var obj = {
+                                type: 'org.celstec.arlearn2.beans.game.Scenario',
                                 _id: scenario._id,
-                                title: scenario.title,
+                                title: result.name,
                                 description: scenario.description,
-                                createdAt: scenario.createdAt,
+                                creationAt: scenario.createdAt,
                                 updatedAt: scenario.updatedAt
                             };
 
@@ -693,6 +692,13 @@ angular.module('DojoIBL')
         };
 
         $scope.editActivity = function (activity, game) {
+
+            if(angular.isDefined(activity.scenario)){
+                activity.mobile = true;
+            }else{
+                activity.mobile = false;
+            }
+
             var modalInstance = $modal.open({
                 templateUrl: '/src/components/home/new.activity.modal.html',
                 controller: 'NewActivityController',
@@ -704,19 +710,22 @@ angular.module('DojoIBL')
 
             modalInstance.result.then(function (result){
 
-                console.log(result);
+
 
                 if(result.mobile){
                     ActivityService.registerML4WUser(angular.lowercase($scope.me.localId), $scope.me.localId+"password");
                     ActivityService.loginML4WUser(angular.lowercase($scope.me.localId), $scope.me.localId+"password").then(function(data){
 
-                        ActivityService.createML4WScenario("pruebas", data.token);
+                        ActivityService.createML4WScenario(result.scenario.title, data.token).then(function(scenario){
+
+                            result.scenario.title = result.name;
+
+                            ActivityService.newActivity(result).then(function(data){
+                                ActivityService.refreshActivity(data.id, data.gameId);
+                            });
+                        });
                     });
                 }
-
-                ActivityService.newActivity(result).then(function(data){
-                    ActivityService.refreshActivity(data.id, data.gameId);
-                });
             });
         };
 
