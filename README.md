@@ -8,7 +8,10 @@ structure their own process.
 Version 30
 ----------
 - Security access to inquiries [#275](https://github.com/WELTEN/dojo-ibl/issues/275)
-
+- New version of responses [#282](https://github.com/WELTEN/dojo-ibl/issues/282)
+- Fixed issue with resumption token [#286](https://github.com/WELTEN/dojo-ibl/issues/286)
+- Changes in sidebar [#278](https://github.com/WELTEN/dojo-ibl/issues/278)
+- Added feedback to user when there are no inquiry groups [#279](https://github.com/WELTEN/dojo-ibl/issues/279)
 
 Version 29
 ----------

@@ -6,6 +6,11 @@
  *   version 2.3
  *
 */
+p{
+  color: black;
+  line-height: 21px;
+  font-size: 14px;
+}
 h1,
 h2,
 h3,
@@ -2813,7 +2818,7 @@ a.forum-item-title:hover {
   font-weight: 400;
   margin-top: 4px;
 }
-.vertical-timeline-content p {
+.vertical-timeline-content p, .vertical-timeline-content span {
   margin: 1em 0;
   line-height: 1.6;
 }
@@ -2839,7 +2844,7 @@ a.forum-item-title:hover {
   .vertical-timeline-content h2 {
     font-size: 18px;
   }
-  .vertical-timeline-content p {
+  .vertical-timeline-content p, .vertical-timeline-content span {
     font-size: 13px;
   }
 }
@@ -3350,8 +3355,12 @@ body.boxed-layout #wrapper {
 }
 a {
   cursor: pointer;
+  color: #000000;
+  font-weight: bold;
 }
-a:hover,
+a:hover {
+  text-decoration: underline;
+}
 a:focus {
   text-decoration: none;
   -webkit-user-select: none;
@@ -5452,7 +5461,7 @@ del {
   margin-top: 0;
 }
 .social-comment {
-  margin-top: 15px;
+  margin-top: 25px;
 }
 .social-comment textarea {
   font-size: 12px;
@@ -9171,8 +9180,8 @@ text-angular > p{
 }
 
 .pruebas .ta-editor{
-  height: 305px !important;
-  min-height: 300px !important;
+  height: 150px !important;
+  min-height: 150px !important;
 }
 
 .table>tbody+tbody{
@@ -9213,4 +9222,30 @@ text-angular > p{
 .ibox-tools.open > .dropdown-menu {
   left: auto;
   right: 0;
+}
+
+.navigationalLink{
+  float: left;
+  margin-right: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.collapse-text-toggle {
+  font-size: 0.9em;
+  color: #666666;
+  cursor: pointer;
+}
+.collapse-text-toggle:hover {
+  color: #222222;
+}
+.collapse-text-toggle:before {
+  content: '\00a0(';
+}
+.collapse-text-toggle:after {
+  content: ')';
+}
+
+p > span:first-child > p:last-child {
+  display: inline;
 }

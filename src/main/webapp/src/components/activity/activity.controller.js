@@ -5,7 +5,7 @@ angular.module('DojoIBL')
 
         ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
 
-            console.log($stateParams.runId,data.runId)
+            console.log(data);
 
             if($stateParams.activityId == data.generalItemId && $stateParams.runId == data.runId){
                 ResponseService.refreshResponse(data, $stateParams.runId, $stateParams.activityId);

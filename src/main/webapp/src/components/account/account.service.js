@@ -42,7 +42,7 @@ angular.module('DojoIBL')
                 } else {
                     Account.accountDetailsById({ fullId:fullId }).$promise.then(
                         function (accountData) {
-                            console.log(accountData)
+                            //console.log(accountData)
                             dataCache.put(fullId, accountData);
                             //dataCache.put("me", accountData);
                             //me = accountData;

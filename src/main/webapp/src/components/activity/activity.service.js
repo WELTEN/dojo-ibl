@@ -73,7 +73,6 @@ angular.module('DojoIBL')
                 return deferred.promise;
             },
             getActivities: function () {
-                console.log(generalItems)
                 return generalItems;
             },
             getCalendarActivities: function () {
@@ -135,10 +134,14 @@ angular.module('DojoIBL')
                             if (!data.deleted) {
 
                                 if (!data.error) {
+
                                     if (angular.isUndefined(generalItems[gameId])) {
                                         generalItems[gameId] = {};
-                                        calendarItems[gameId] = {};
                                     }
+                                    if (angular.isUndefined(calendarItems[gameId])) {
+                                        calendarItems[gameId] = [];
+                                    }
+
                                     if (angular.isUndefined(generalItems[gameId][data.section])) {
                                         generalItems[gameId][data.section] = {};
                                     }

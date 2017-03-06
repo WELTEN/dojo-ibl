@@ -1,6 +1,7 @@
 angular.module('DojoIBL')
 
-    .controller('HomeController', function ($scope, $sce, Game, GameService, ActivityService, config, Session, RunService, ChannelService, AccountService) {
+    .controller('HomeController', function ($scope, $sce, Game, GameService, ActivityService, config, Session, RunService, ChannelService,
+                                            toaster, AccountService) {
 
         $scope.games = {};
         $scope.runs = {};
@@ -36,6 +37,14 @@ angular.module('DojoIBL')
             RunService.getParticipateRunsForGame(id).then(function(data){
                 $scope.runs[id] = {};
                 $scope.runs[id] = data;
+
+                if(Object.keys(data).length == 0){
+                    toaster.warning({
+                        title: 'No inquiry groups',
+                        body: 'Inquiry without inquiry group. Go to Teacher View > step 5 to add one.'
+                    });
+                }
+
             });
         };
 

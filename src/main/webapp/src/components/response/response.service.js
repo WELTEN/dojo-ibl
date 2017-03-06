@@ -54,6 +54,9 @@ angular.module('DojoIBL')
             getResponsesByInquiryActivity: function(runId, itemId){
                 return responses[runId+"_"+itemId];
             },
+            getResponsesClosureById: function(id, runId, itemId){
+                return responses[runId+"_"+itemId][id];
+            },
             addResponse: function(response, runId, itemId){
                 var dataCache = CacheFactory.get('responsesCache');
                 if(angular.isUndefined(responses[runId+"_"+itemId])){
@@ -182,7 +185,7 @@ angular.module('DojoIBL')
                     //console.log("No se habia comprobado antes: ",$filter('date')(serverTime, "medium"));
                 }
 
-                Response.getResponsesInquiryActivity({runId:runId, itemId:itemId, resumptionToken: resumptionToken, from:serverTime})
+                Response.getResponsesInquiryActivity({runId:runId, itemId:itemId, resumptionToken: resumptionToken, from:0})
                     .$promise.then(function (data) {
                         if (data.error) {
                             deferred.resolve(data);
