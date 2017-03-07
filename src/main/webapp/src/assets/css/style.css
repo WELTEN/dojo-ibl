@@ -5453,6 +5453,12 @@ del {
   position: relative;
   margin: 0;
 }
+.social-footer-question {
+  border-top: 1px solid #e7eaec;
+  background: #f9f9f9;
+  position: relative;
+  margin: 0;
+}
 .social-footer .social-comment img, .social-footer .social-comment i.profile-response {
   font-size: 40px;
   margin-right: 10px;

@@ -48,17 +48,6 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
                         <div class="file-manager">
-                            <!--<h5>Show:</h5>-->
-                            <!--<a href="#" class="file-control active">All</a>-->
-                            <!--<a href="#" class="file-control">Documents</a>-->
-                            <!--<a href="#" class="file-control">Audio</a>-->
-                            <!--<a href="#" class="file-control">Images</a>-->
-                            <!--<div class="hr-line-dashed"></div>-->
-
-                            <!--<button ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"-->
-                                    <!--ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"-->
-                                    <!--ngf-resize="{width: 100, height: 100}">Upload Files</button>-->
-
 
                             <div class="btn btn-primary btn-block" ngf-capture="'camera'" ngf-select="upload($file)">Upload Files</div>
                             <div class="progress  progress-striped">
@@ -67,27 +56,6 @@
                                 </div>
                             </div>
 
-                            <!--<div class="hr-line-dashed"></div>-->
-                            <!--<h5>Folders</h5>-->
-                            <!--<ul class="folder-list" style="padding: 0">-->
-                                <!--<li><a href=""><i class="fa fa-folder"></i> Files</a></li>-->
-                                <!--<li><a href=""><i class="fa fa-folder"></i> Pictures</a></li>-->
-                                <!--<li><a href=""><i class="fa fa-folder"></i> Web pages</a></li>-->
-                                <!--<li><a href=""><i class="fa fa-folder"></i> Illustrations</a></li>-->
-                                <!--<li><a href=""><i class="fa fa-folder"></i> Films</a></li>-->
-                                <!--<li><a href=""><i class="fa fa-folder"></i> Books</a></li>-->
-                            <!--</ul>-->
-                            <!--<h5 class="tag-title">Tags</h5>-->
-                            <!--<ul class="tag-list" style="padding: 0">-->
-                                <!--<li><a href="">Family</a></li>-->
-                                <!--<li><a href="">Work</a></li>-->
-                                <!--<li><a href="">Home</a></li>-->
-                                <!--<li><a href="">Children</a></li>-->
-                                <!--<li><a href="">Holidays</a></li>-->
-                                <!--<li><a href="">Music</a></li>-->
-                                <!--<li><a href="">Photography</a></li>-->
-                                <!--<li><a href="">Film</a></li>-->
-                            <!--</ul>-->
                             <div class="clearfix"></div>
                         </div>
                     </div>
@@ -109,7 +77,6 @@
                 <div class="m-t-lg">
                     <p>
                         <span><i class="fa fa-paperclip"></i> {{ (assets|filter:'/generalItems/'+activity.id).length }} attachments </span>
-                        <!--<a href="#">Download all</a>-->
                     </p>
 
                     <div class="attachment">
@@ -140,31 +107,6 @@
                 </div>
             </div>
 
-            <!--<div class="social-avatar">-->
-
-                <!--<div class="media-body">-->
-                    <!--<div class="small text-muted">-->
-                        <!--<i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'fullDate' }}-->
-                    <!--</div>-->
-                    <!--&lt;!&ndash;<p class="small font-bold">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<span><i class="fa fa-circle text-warning"></i>&ndash;&gt;-->
-                            <!--&lt;!&ndash;Creation date: <b>{{ activity.lastModificationDate | date:'fullDate' }}</b></span>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<br/>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<span ng-repeat="role in roles track by $index">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<i class="fa fa-circle text-navy" ng-style="getRoleColor(activity.roles)"></i>&ndash;&gt;-->
-                            <!--&lt;!&ndash;Role: <b>{{ role.name }}</b>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<br/>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a href="#">&ndash;&gt;-->
-                        <!--&lt;!&ndash;Andrew Williams&ndash;&gt;-->
-                    <!--&lt;!&ndash;</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<small class="text-muted">Today 4:21 pm - 12.06.2014</small>&ndash;&gt;-->
-                <!--</div>-->
-            <!--</div>-->
-
-
-
             <div ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="input-group create-question">
                 <input responseid="0" ng-enter="sendComment()" class="form-control response" ng-model="response" placeholder="{{'dibl.inquiry.activity.add-list-item-placeholder' | translate }}">
                 <span class="input-group-btn">
@@ -172,29 +114,17 @@
                 </span>
             </div>
 
-            <div id="list_answers" class="row m-t-sm social-footer" ng-hide="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
+            <div id="list_answers" ng-class="activity.type != 'org.celstec.arlearn2.beans.generalItem.AudioObject' ? 'social-footer' : 'social-footer-question'" class="row m-t-sm" ng-hide="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
 
                 <div class="alert alert-warning" ng-show="responses | isEmpty">
                     No comments so far. <a class="alert-link"> Be the first one {{ myAccount.givenName }}</a>.
                 </div>
 
-                <!--<responses responses="responses" ng-if="activity.type != 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></responses>-->
                 <response ng-repeat='response in responses | orderByDayNumber:"lastModificationDate"' response='response' ng-if="activity.type != 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></response>
-
-                <!--<div class="m-b-lg" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'">-->
-
-                    <!--<div class="input-group">-->
-                        <!--<input ng-model="searchText.responseValue">-->
-                        <!--&lt;!&ndash;<input type="text" ng-model="search" placeholder="Search issue by name..." class=" form-control">&ndash;&gt;-->
-                        <!--<span class="input-group-btn">-->
-                            <!--<button type="button" class="btn btn-red"> Search</button>-->
-                        <!--</span>-->
-                    <!--</div>-->
-                <!--</div>-->
 
                 <response-question ng-repeat="(key, response) in responses | orderByDayNumber:'lastModificationDate':true | filter:searchText" response='response' ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></response-question>
 
-                <div class="social-comment" >
+                <div class="social-comment" ng-if="activity.type != 'org.celstec.arlearn2.beans.generalItem.AudioObject'">
                     <a class="btn btn-primary btn-rounded btn-block" ng-show="resum"  ng-click="loadResponses()"><i class="fa fa-info-circle"></i> Click to load more</a>
                 </div>
                 <div class="social-comment" ng-hide="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'">
@@ -203,9 +133,6 @@
                         <img class="message-avatar" ng-if="myAccount.picture != ''" ng-src="{{ myAccount.picture }}" alt="">
                     </a>
                     <div class="media-body">
-                        <!--<textarea class="form-control" ng-model="response" -->
-                                  <!--placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>-->
-
                         <text-angular class="pruebas" ta-toolbar="[
                                                                 ['bold','italics'],
                                                                 ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
