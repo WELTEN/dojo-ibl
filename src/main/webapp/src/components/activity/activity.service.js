@@ -324,7 +324,7 @@ angular.module('DojoIBL')
                 }
                 return this.getActivityByIdRun(id, gameId, runId);
             },
-            changeActivityStatus: function(runId, gItemId, status, phase){
+            changeActivityStatus: function(runId, gItemId, status, phase, id){
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('activitiesStatusCache');
 
@@ -332,11 +332,12 @@ angular.module('DojoIBL')
                     type: "org.celstec.arlearn2.beans.run.GeneralItemsStatus",
                     runId: runId,
                     generalItemId: gItemId,
-                    status: status
+                    status: status,
+                    id: id
                 };
 
                 Activity.changeActivityStatus({ runId:runId, generalItemId: gItemId, status: status, generalItemStatusString: object }).$promise.then(function(data){
-                        generalItemsStatus[runId][phase][gItemId]["status"] = data.status;
+                        generalItemsStatus[runId][phase][gItemId]["status"] = data;
 
                         dataCache.put(runId+"_"+generalItemsStatus[runId][phase][gItemId].id, generalItemsStatus[runId][phase][gItemId]);
 
@@ -350,10 +351,10 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('activitiesStatusCache');
 
                 if (dataCache.get(runId+"_"+gItemId)) {
-                    deferred.resolve(dataCache.get(runId+"_"+gItemId).status);
+                    deferred.resolve(dataCache.get(runId+"_"+gItemId));
                 } else {
                     Activity.getActivityStatus({ runId:runId, generalItemId: gItemId}).$promise.then(function(data){
-                            deferred.resolve(data.status);
+                            deferred.resolve(data);
                         }
                     );
                 }

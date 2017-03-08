@@ -36,7 +36,7 @@ angular.module('DojoIBL')
 
 
                 var group = event.target;
-                ActivityStatusService.changeActivityStatus($stateParams.runId, item.id,group.id, $stateParams.phase).then(function (data) {
+                ActivityStatusService.changeActivityStatus($stateParams.runId, item.id,group.id, $stateParams.phase, item.status.id).then(function (data) {
 
                     switch(data.status){
                         case 0:
