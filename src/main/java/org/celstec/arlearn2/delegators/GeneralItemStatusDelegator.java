@@ -43,13 +43,17 @@ public class GeneralItemStatusDelegator extends GoogleDelegator {
         super(gd);
     }
 
-    public GeneralItemsStatus changeItemStatus(Long runId, Long generalItemId, Integer status) {
+    public GeneralItemsStatus changeItemStatus(GeneralItemsStatus generalItemsStatus) {
 
-        GeneralItemsStatus generalItemsStatus = GeneralItemStatusManager.addGeneralItemStatus(runId, generalItemId, status);
+        if(GeneralItemStatusManager.getGeneralItemStatus(generalItemsStatus.getId()) == null ){
+            generalItemsStatus.setId(GeneralItemStatusManager.addGeneralItemStatus(generalItemsStatus).getId());
+        }else{
+            generalItemsStatus.setId(GeneralItemStatusManager.updateGeneralItemStatus(generalItemsStatus).getId());
+        }
 
         RunAccessDelegator rad = new RunAccessDelegator(this);
         NotificationDelegator nd = new NotificationDelegator(this);
-        for (RunAccess ra : rad.getRunAccess(runId).getRunAccess()) {
+        for (RunAccess ra : rad.getRunAccess(generalItemsStatus.getRunId()).getRunAccess()) {
             nd.broadcast(generalItemsStatus, ra.getAccount());
         }
 

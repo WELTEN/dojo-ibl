@@ -328,9 +328,18 @@ angular.module('DojoIBL')
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('activitiesStatusCache');
 
-                Activity.changeActivityStatus({ runId:runId, generalItemId: gItemId, status: status}).$promise.then(function(data){
+                var object = {
+                    type: "org.celstec.arlearn2.beans.run.GeneralItemsStatus",
+                    runId: runId,
+                    generalItemId: gItemId,
+                    status: status
+                };
+
+                Activity.changeActivityStatus({ runId:runId, generalItemId: gItemId, status: status, generalItemStatusString: object }).$promise.then(function(data){
                         generalItemsStatus[runId][phase][gItemId]["status"] = data.status;
-                        dataCache.put(runId+"_"+generalItemsStatus[runId][phase][gItemId].id, generalItemsStatus[runId][phase][gItemId])
+
+                        dataCache.put(runId+"_"+generalItemsStatus[runId][phase][gItemId].id, generalItemsStatus[runId][phase][gItemId]);
+
                         deferred.resolve(data);
                     }
                 );

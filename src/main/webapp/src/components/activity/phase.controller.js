@@ -26,14 +26,18 @@ angular.module('DojoIBL')
 
         $scope.activities = ActivityStatusService.getActivitiesStatus();
 
-
         $scope.sortableOptions = {
             connectWith: ".connectList",
             scroll: false,
             receive: function(event, ui) {
                 var item = ui.item.scope().activity;
+
+                console.log(item.status);
+
+
                 var group = event.target;
                 ActivityStatusService.changeActivityStatus($stateParams.runId, item.id,group.id, $stateParams.phase).then(function (data) {
+
                     switch(data.status){
                         case 0:
                             toaster.success({

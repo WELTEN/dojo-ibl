@@ -38,13 +38,14 @@ public class GeneralItemStatusManager {
     private static final String types[] = new String[]{"Long", "Long", "Integer"};
 
 
-    public static GeneralItemsStatus addGeneralItemStatus(Long runId, Long generalItemId, Integer status) {
+    public static GeneralItemsStatus addGeneralItemStatus(GeneralItemsStatus generalItemsStatus ) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
 
         GeneralItemStatusJDO gis = new GeneralItemStatusJDO();
-        gis.setRunId(runId);
-        gis.setGeneralItemId(generalItemId);
-        gis.setStatus(status);
+
+        gis.setRunId(generalItemsStatus.getRunId());
+        gis.setGeneralItemId(generalItemsStatus.getGeneralItemId());
+        gis.setStatus(generalItemsStatus.getStatus());
         gis.setServerCreationTime(System.currentTimeMillis());
 
         try {
@@ -54,6 +55,24 @@ public class GeneralItemStatusManager {
             pm.close();
         }
     }
+
+    public static GeneralItemsStatus updateGeneralItemStatus(GeneralItemsStatus generalItemsStatus ) {
+        PersistenceManager pm = PMF.get().getPersistenceManager();
+
+        GeneralItemStatusJDO gis;
+//        gis = getGeneralitemsStatusFromUntil(generalItemsStatus.getRunId(), generalItemsStatus.getGeneralItemId(), 0l, 0l).get(0);
+        gis = pm.getObjectById(GeneralItemStatusJDO.class, KeyFactory.createKey(GeneralItemStatusJDO.class.getSimpleName(), generalItemsStatus.getId()));
+        gis.setStatus(generalItemsStatus.getStatus());
+        gis.setServerCreationTime(System.currentTimeMillis());
+
+        try {
+            gis.setIdentifier(pm.makePersistent(gis).getGeneralItemStatusId());
+            return toBean(gis);
+        } finally {
+            pm.close();
+        }
+    }
+
 
     public static GeneralItemsStatus getGeneralItemStatus(Long itemStatusId) {
         PersistenceManager pm = PMF.get().getPersistenceManager();

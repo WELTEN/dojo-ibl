@@ -355,8 +355,12 @@ public class MyRuns extends Service {
 		if (!validCredentials(token))
 			return serialise(getInvalidCredentialsBean(), accept);
 
+		Object ingeneralItemStatusString = deserialise(generalItemStatusString, GeneralItemsStatus.class, contentType);
+		if (ingeneralItemStatusString instanceof java.lang.String)
+			return serialise(getBeanDoesNotParseException((String) ingeneralItemStatusString), accept);
+
 		GeneralItemStatusDelegator gisd = new GeneralItemStatusDelegator(token);
-		return serialise(gisd.changeItemStatus(runId, generalItemId, status), accept);
+		return serialise(gisd.changeItemStatus((GeneralItemsStatus) ingeneralItemStatusString), accept);
 	}
 
 	@GET
