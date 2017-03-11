@@ -45,11 +45,7 @@ public class GeneralItemStatusDelegator extends GoogleDelegator {
 
     public GeneralItemsStatus changeItemStatus(GeneralItemsStatus generalItemsStatus) {
 
-        if(GeneralItemStatusManager.getGeneralItemStatus(generalItemsStatus.getId()) == null ){
-            generalItemsStatus.setId(GeneralItemStatusManager.addGeneralItemStatus(generalItemsStatus).getId());
-        }else{
-            generalItemsStatus.setId(GeneralItemStatusManager.updateGeneralItemStatus(generalItemsStatus).getId());
-        }
+        generalItemsStatus.setId(GeneralItemStatusManager.addGeneralItemStatus(generalItemsStatus));
 
         RunAccessDelegator rad = new RunAccessDelegator(this);
         NotificationDelegator nd = new NotificationDelegator(this);
@@ -59,6 +55,8 @@ public class GeneralItemStatusDelegator extends GoogleDelegator {
 
         return generalItemsStatus;
     }
+
+
 
     public GeneralItemsStatus getItemStatus(Long runId, Long generalItemId) {
         GeneralItemsStatus generalItemsStatus = null;

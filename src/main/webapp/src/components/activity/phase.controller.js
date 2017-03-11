@@ -8,10 +8,10 @@ angular.module('DojoIBL')
             //console.log(notification)
             //
             ActivityStatusService.refreshActivityStatus(notification.generalItemId, $scope.gameId, $stateParams.runId, $stateParams.phase);
-            toaster.success({
-                title: 'Activity modified',
-                body: 'The structure of the activity has been modified.'
-            });
+            //toaster.success({
+            //    title: 'Activity modified',
+            //    body: 'The structure of the activity has been modified.'
+            //});
         });
 
         $scope.phase = "holaaaaaaa";
@@ -42,19 +42,19 @@ angular.module('DojoIBL')
                         case 0:
                             toaster.success({
                                 title: 'Moved to ToDo list',
-                                body: 'The activity has been successfully moved to the ToDo list.'
+                                body: 'The activity has been successfully moved to ToDo list.'
                             });
                             break;
                         case 1:
                             toaster.success({
                                 title: 'Moved to In Progress list',
-                                body: 'The activity has been successfully moved to the In Progress list.'
+                                body: 'The activity has been successfully moved to In Progress list.'
                             });
                             break;
                         case 2:
                             toaster.success({
                                 title: 'Moved to Completed list',
-                                body: 'The activity has been successfully moved to the Completed list.'
+                                body: 'The activity has been successfully moved to Completed list.'
                             });
                             break;
                     }

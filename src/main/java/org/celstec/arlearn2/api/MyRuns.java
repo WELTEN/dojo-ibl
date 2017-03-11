@@ -345,11 +345,8 @@ public class MyRuns extends Service {
 
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON })
-	@Path("/runId/{runId}/generalItem/{generalItemId}/status/{status}")
+	@Path("/runId/gItemStatus")
 	public String setStatusGiItem(@HeaderParam("Authorization") String token, String generalItemStatusString,
-								  @PathParam("generalItemId") Long generalItemId,
-								  @PathParam("runId") Long runId,
-								  @PathParam("status") Integer status,
 								  @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
 								  @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
 		if (!validCredentials(token))

@@ -30,10 +30,9 @@ angular.module('DojoIBL')
                 url: config.server + '/rest/generalItems/gameId/:gameId/generalItem/:itemId'
             },
             changeActivityStatus: {
-                params: { runId: '@runId', generalItemId: '@generalItemId', status: '@status' },
                 method: 'POST',
                 isArray: false,
-                url: config.server+'/rest/myRuns/runId/:runId/generalItem/:generalItemId/status/:status'
+                url: config.server+'/rest/myRuns/runId/gItemStatus'
             },
             getActivityStatus: {
                 params: { runId: '@runId', generalItemId: '@generalItemId' },

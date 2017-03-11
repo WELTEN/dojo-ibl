@@ -303,11 +303,25 @@ angular.module('DojoIBL')
                         angular.forEach(generalItemsStatus[runId][phase], function(gi){
                             service.getActivityStatus(runId, gi.id).then(function(status) {
                                 if(angular.isUndefined(status)){
-                                    generalItemsStatus[runId][gi.section][gi.id]["status"] = 0;
+                                    var object = {
+                                        type: "org.celstec.arlearn2.beans.run.GeneralItemsStatus",
+                                        runId: runId,
+                                        generalItemId: gi.id,
+                                        status: 0
+                                    };
+
+                                    Activity.changeActivityStatus(object).$promise.then(function(data){
+                                            generalItemsStatus[runId][phase][gi.id]["status"] = data;
+
+                                            dataCache.put(runId+"_"+gi.id, generalItemsStatus[runId][phase][gi.id]);
+
+                                            deferred.resolve(data);
+                                        }
+                                    );
                                 }else{
                                     generalItemsStatus[runId][gi.section][gi.id]["status"] = status;
                                 }
-                                dataCache.put(runId+"_"+generalItemsStatus[runId][gi.section][gi.id].id, generalItemsStatus[runId][gi.section][gi.id]);
+                                dataCache.put(runId+"_"+gi.id, generalItemsStatus[runId][gi.section][gi.id]);
                             });
                         });
                     });
@@ -316,13 +330,13 @@ angular.module('DojoIBL')
             getActivitiesStatus: function () {
                 return generalItemsStatus;
             },
-            refreshActivityStatus: function(id, gameId, runId, phase) {
+            refreshActivityStatus: function(gItemId, gameId, runId, phase) {
                 var dataCache = CacheFactory.get('activitiesStatusCache');
-                if (dataCache.get(runId+"_"+id)) {
-                    delete generalItemsStatus[runId][phase][id];
-                    dataCache.remove(runId+"_"+id);
+                if (dataCache.get(runId+"_"+gItemId)) {
+                    delete generalItemsStatus[runId][phase][gItemId];
+                    dataCache.remove(runId+"_"+gItemId);
                 }
-                return this.getActivityByIdRun(id, gameId, runId);
+                return this.getActivityByIdRun(gItemId, gameId, runId);
             },
             changeActivityStatus: function(runId, gItemId, status, phase, id){
                 var deferred = $q.defer();
@@ -336,10 +350,10 @@ angular.module('DojoIBL')
                     id: id
                 };
 
-                Activity.changeActivityStatus({ runId:runId, generalItemId: gItemId, status: status, generalItemStatusString: object }).$promise.then(function(data){
+                Activity.changeActivityStatus(object).$promise.then(function(data){
                         generalItemsStatus[runId][phase][gItemId]["status"] = data;
 
-                        dataCache.put(runId+"_"+generalItemsStatus[runId][phase][gItemId].id, generalItemsStatus[runId][phase][gItemId]);
+                        dataCache.put(runId+"_"+gItemId, generalItemsStatus[runId][phase][gItemId]);
 
                         deferred.resolve(data);
                     }
@@ -351,7 +365,8 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('activitiesStatusCache');
 
                 if (dataCache.get(runId+"_"+gItemId)) {
-                    deferred.resolve(dataCache.get(runId+"_"+gItemId));
+
+                    deferred.resolve(dataCache.get(runId+"_"+gItemId)["status"]);
                 } else {
                     Activity.getActivityStatus({ runId:runId, generalItemId: gItemId}).$promise.then(function(data){
                             deferred.resolve(data);
@@ -403,7 +418,7 @@ angular.module('DojoIBL')
                         function(){
                             service.getActivityStatus(runId, itemId).then(function(status) {
                                 generalItemsStatus[runId][gi.section][gi.id]["status"] = status;
-                                dataCache.put(runId+"_"+generalItemsStatus[runId][gi.section][gi.id].id, generalItemsStatus[runId][gi.section][gi.id]);
+                                dataCache.put(runId+"_"+itemId, generalItemsStatus[runId][gi.section][gi.id]);
                             });
                         });
                 }

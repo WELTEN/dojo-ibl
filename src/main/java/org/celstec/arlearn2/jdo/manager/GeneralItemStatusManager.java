@@ -38,19 +38,19 @@ public class GeneralItemStatusManager {
     private static final String types[] = new String[]{"Long", "Long", "Integer"};
 
 
-    public static GeneralItemsStatus addGeneralItemStatus(GeneralItemsStatus generalItemsStatus ) {
+    public static Long addGeneralItemStatus(GeneralItemsStatus generalItemsStatus) {
         PersistenceManager pm = PMF.get().getPersistenceManager();
 
         GeneralItemStatusJDO gis = new GeneralItemStatusJDO();
-
+        gis.setIdentifier(generalItemsStatus.getId());
         gis.setRunId(generalItemsStatus.getRunId());
         gis.setGeneralItemId(generalItemsStatus.getGeneralItemId());
         gis.setStatus(generalItemsStatus.getStatus());
         gis.setServerCreationTime(System.currentTimeMillis());
 
         try {
-            gis.setIdentifier(pm.makePersistent(gis).getGeneralItemStatusId());
-            return toBean(gis);
+            GeneralItemStatusJDO persistentGame = pm.makePersistent(gis);
+            return persistentGame.getGeneralItemStatusId();
         } finally {
             pm.close();
         }
@@ -90,7 +90,7 @@ public class GeneralItemStatusManager {
         JsonBeanDeserializer jbd;
         GeneralItemsStatus gis = new GeneralItemsStatus();
 
-//		gis.setIdentifier(jdo.getGeneralItemStatusId());
+        gis.setId(jdo.getGeneralItemStatusId());
         gis.setGeneralItemId(jdo.getGeneralItemId());
         gis.setRunId(jdo.getRunId());
         gis.setStatus(jdo.getStatus());
