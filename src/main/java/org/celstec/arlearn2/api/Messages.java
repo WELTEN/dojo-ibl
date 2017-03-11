@@ -8,6 +8,7 @@ import com.google.appengine.tools.mapreduce.inputs.DatastoreInput;
 import com.google.appengine.tools.mapreduce.outputs.InMemoryOutput;
 import org.celstec.arlearn2.beans.run.Message;
 import org.celstec.arlearn2.beans.run.Thread;
+import org.celstec.arlearn2.delegators.MailDelegator;
 import org.celstec.arlearn2.delegators.MessageDelegator;
 import org.celstec.arlearn2.delegators.ThreadDelegator;
 
@@ -38,6 +39,20 @@ public class Messages extends Service implements Serializable{
 		MessageDelegator rd = new MessageDelegator(this);
 		return serialise(rd.sendMessage(message, userId), accept);
 	}
+
+    @POST
+    @Path("/send/email")
+    public String sendReminder(@HeaderParam("Authorization") String token,
+                               @PathParam("account") String account, @DefaultValue("application/json") @HeaderParam("Accept") String accept) {
+        if (!validCredentials(token))
+            return serialise(getInvalidCredentialsBean(), accept);
+
+        MailDelegator md = new MailDelegator(token);
+
+        md.sendReminders();
+
+        return null;
+    }
 
     @POST
     @Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })

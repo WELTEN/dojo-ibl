@@ -32,6 +32,9 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('messagesCache');
                 return newMessage.$save();
             },
+            sendEmail: function(jsonMessage){
+                Message.sendEmail();
+            },
             refreshMessage: function(runId, messageId){
                 var dataCache = CacheFactory.get('messagesCache');
                 if(dataCache.get(messageId)){

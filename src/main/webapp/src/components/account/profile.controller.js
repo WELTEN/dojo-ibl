@@ -1,6 +1,8 @@
 angular.module('DojoIBL')
 
-    .controller('ProfileController', function ($scope, $sce, $stateParams, $state, Session, AccountService, Upload, config) {
+    .controller('ProfileController', function ($scope, $sce, $stateParams, $state, Session,
+                                               MessageService,
+                                               AccountService, Upload, config) {
         AccountService.myDetails().then(function(data){
             $scope.myAccount = data;
             $scope.nameValue = $scope.myAccount.familyName+" "+$scope.myAccount.givenName;
@@ -20,6 +22,11 @@ angular.module('DojoIBL')
                 "picture": $scope.myAccount.picture,
                 "name": $scope.user.name
             });
+        };
+
+        $scope.send = function(){
+            console.log("J")
+            MessageService.sendEmail()
         };
 
         $scope.upload = function (file) {

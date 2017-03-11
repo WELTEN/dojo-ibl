@@ -11,6 +11,11 @@ angular.module('DojoIBL')
                 method: 'GET',
                 isArray: false,
                 url: config.server + '/rest/messages/messageId/:messageId'
+            },
+            'sendEmail': {
+                method: 'POST',
+                isArray: false,
+                url: config.server + '/rest/messages/send/email'
             }
         });
     }

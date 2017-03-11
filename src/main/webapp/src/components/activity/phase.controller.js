@@ -32,9 +32,6 @@ angular.module('DojoIBL')
             receive: function(event, ui) {
                 var item = ui.item.scope().activity;
 
-                console.log(item.status);
-
-
                 var group = event.target;
                 ActivityStatusService.changeActivityStatus($stateParams.runId, item.id,group.id, $stateParams.phase, item.status.id).then(function (data) {
 
