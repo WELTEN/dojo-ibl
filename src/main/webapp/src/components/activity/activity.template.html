@@ -98,10 +98,13 @@
              'mail-body':  activity.type != 'org.celstec.arlearn2.beans.generalItem.ScanTag'  }">
                 <div class="text-center">
                     <div class="small text-muted">
-                        <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'fullDate' }}
+                        <i class="fa fa-clock-o"></i> {{ activity.timestamp | date:'fullDate' }}
                     </div>
                 </div>
                 <h1>
+                    <i ng-hide="activity.status.status == 1 || activity.status.status == 2" title="To Do" class="fa fa-check-square red"></i>
+                    <i ng-show="activity.status.status == 1" title="In progress" class="fa fa-check-square yellow"></i>
+                    <i ng-show="activity.status.status == 2" title="Done" class="fa fa-check-square green"></i>
                     {{ activity.name }}
                 </h1>
                 <div class="" ng-bind-html="activity.richText || activity.description"></div>

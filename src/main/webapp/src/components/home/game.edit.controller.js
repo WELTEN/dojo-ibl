@@ -763,8 +763,6 @@ angular.module('DojoIBL')
 
                 file.name = (file.name).replace(/\s+/g, '_');
 
-                console.log(activity, file);
-
                 ActivityService.uploadUrl($stateParams.gameId, activity.id, file.name.replace(/\s+/g, '_')).$promise
                     .then(function(url){
 

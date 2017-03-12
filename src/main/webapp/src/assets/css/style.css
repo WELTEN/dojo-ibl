@@ -9249,3 +9249,15 @@ text-angular > p{
 p > span:first-child > p:last-child {
   display: inline;
 }
+
+.green {
+  color: #7ad600;
+}
+
+.yellow {
+  color: #d6cd00;
+}
+
+.red {
+  color: #d64002;
+}
