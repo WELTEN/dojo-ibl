@@ -1,5 +1,6 @@
 angular.module('DojoIBL')
-    .directive('responseQuestion', function ($compile, ResponseService, AccountService, $stateParams, UserService, ActivityService,RunService) {
+    .directive('responseQuestion', function ($compile, ResponseService, AccountService, $stateParams, UserService,
+                                             ActivityService,RunService, $modal) {
         return {
             restrict: "E",
             replace: true,
@@ -68,7 +69,41 @@ angular.module('DojoIBL')
                 };
 
                 $("div[data-item='"+scope.response.parentId+"']").parent().append(element);
+
+
+                scope.editResponse = function () {
+
+                    var modalInstance = $modal.open({
+                        templateUrl: '/src/components/response/edit.question.modal.html',
+                        controller: 'EditQuestCtrl',
+                        resolve: {
+                            resp: function () { return scope.response; }
+                        }
+                    });
+
+                    //modalInstance.result.then(function (result){
+                    //    angular.extend($scope.usersRun[$scope.runVar], result);
+                    //});
+                };
             }
         };
     }
-);
+).controller('EditQuestCtrl', function ($scope, $modalInstance, GameService, ActivityService, resp) {
+
+        console.log(resp)
+
+        $scope.ok = function () {
+
+            console.log(resp)
+
+            //GameService.newGame($scope.resp).then(function(data){
+            //
+            //});
+            $modalInstance.close();
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+    });
