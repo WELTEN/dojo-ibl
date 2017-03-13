@@ -1,7 +1,8 @@
 <div class="faq-item">
     <div class="row">
         <div class="col-md-12">
-            <a data-toggle="collapse" ng-click="hiddenDiv = !hiddenDiv" class="faq-question collapsed" aria-expanded="false">{{ response.responseValue }}</a>
+            <p class="faq-question collapsed">{{ response.responseValue }}</p>
+            <!--<a data-toggle="collapse" ng-click="editResponse()" class="faq-question collapsed" aria-expanded="false">{{ response.responseValue }}</a>-->
             <small>Added by <a href="#/profile/{{ response.user.accountType }}:{{ response.user.localId }}"><strong>{{ response.user.name }}</strong></a> <i class="fa fa-clock-o"></i> {{ response.lastModificationDate | date:'HH:ss a - dd.MM.yyyy' }}</small> <span ng-show="myAccount.localId == response.user.localId">-</span>
             <a class="small" ng-show="myAccount.localId == response.user.localId" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>
         </div>
