@@ -11,9 +11,13 @@
 
         <br/>
 
-        <a ng-show="response.parentId!=0" uib-popover="On the Left!" popover-placement="left"  ng-attr-title="{{ response.parentValue.responseValue }}" class="navigationalLink">#{{ response.parentId }}</a>
-        <p  dd-text-collapse dd-text-collapse-max-length="250" dd-text-collapse-text="{{ response.responseValueNew }}" ></p>
+        <div class="alert alert-info2 ng-scope">
+        <!--<a ng-show="response.parentId!=0" uib-popover="On the Left!" popover-placement="left"  ng-attr-title="{{ response.parentValue.responseValue }}" class="navigationalLink">#{{ response.parentId }}</a>-->
 
+        <p class="alert alert-info2 ng-scope" ng-show="response.parentId!=0" ng-bind-html="response.parentValue.responseValue"></p>
+
+        <p dd-text-collapse dd-text-collapse-max-length="250" dd-text-collapse-text="{{ response.responseValueNew }}" ></p>
+        </div>
         <div>
 
             <a data="{{ response.responseId }}" gItem="{{ response.generalItemId }}" class="small reply" ng-click="hiddenDiv = !hiddenDiv"> <i class="fa fa-mail-reply"></i> Reply</a> •
