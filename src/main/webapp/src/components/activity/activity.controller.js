@@ -65,6 +65,9 @@ angular.module('DojoIBL')
 
             ActivityStatusService.getActivityByIdRun($stateParams.activityId, data.game.gameId, $stateParams.runId).then(function (data) {
                 $scope.activity = data;
+                //ActivityStatusService.getActivityStatus($stateParams.runId,data.id).then(function(data){
+                //    $scope.activityStatus = data;
+                //});
             });
 
             GameService.getGameAssets(data.game.gameId).then(function(data){
@@ -72,7 +75,7 @@ angular.module('DojoIBL')
             });
         });
 
-        $scope.activityStatus = ActivityStatusService.getActivitiesStatus()[$stateParams.runId][$stateParams.phase];
+        //$scope.activityStatus = ActivityStatusService.getActivitiesStatus()[$stateParams.runId][$stateParams.phase];
 
         AccountService.myDetails().then(function(data){
             $scope.myAccount = data;
