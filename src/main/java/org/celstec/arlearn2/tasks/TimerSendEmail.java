@@ -18,31 +18,65 @@
  ******************************************************************************/
 package org.celstec.arlearn2.tasks;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.celstec.arlearn2.beans.account.Account;
+import org.celstec.arlearn2.beans.run.RunAccess;
+import org.celstec.arlearn2.delegators.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.celstec.arlearn2.tasks.beans.GenericBean;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class TimerSendEmail extends HttpServlet {
 
-    private static final Logger log = Logger.getLogger(TimerSendEmail.class.getName());
+	private static final long MILLIS_PER_DAY =  1 * 1 * 60 * 1000L; // 1 minute
+    private static String token;
+    private static Long runId;
+	private static final Logger logger = Logger.getLogger(TimerSendEmail.class.getName());
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			BeanDeserialiser bd = new BeanDeserialiser(request);
-			GenericBean gb = bd.deserialize();
-			gb.run();
+
+			token = request.getParameter("token");
+			runId = Long.parseLong(request.getParameter("name"));
+
+			RunAccessDelegator rad = new RunAccessDelegator(token);
+			AccountDelegator ad = new AccountDelegator(token);
+			NotificationDelegator nd = new NotificationDelegator(token);
+			MailDelegator md = new MailDelegator(token);
+
+			for(RunAccess ra: rad.getRunAccess(runId).getRunAccess()) {
+
+				Account account1 = ad.getContactDetails(ra.getAccount());
+
+				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				Date date = new Date();
+				System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
+
+				md.sendReminders();
+
+				//				if(Math.abs(account1.getLastModificationDate() -  date.getTime()) < MILLIS_PER_DAY){
+				//					System.out.print("["+account1.getEmail()+"] "+account1.getName()+" login less than 1 minutes ago");
+				//				}else{
+				//					System.out.print("["+account1.getEmail()+"] "+account1.getName()+" login more than 1 minutes ago");
+				//				}
+			}
+
+
 		} catch (Exception e) {
-			log.log(Level.SEVERE, e.getMessage(), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
+
+
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doGet(req, resp);

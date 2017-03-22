@@ -37,6 +37,7 @@ import java.util.logging.Logger;
 public class MailDelegator extends GoogleDelegator {
 
     private static final Logger logger = Logger.getLogger(ActionDelegator.class.getName());
+    private static final long MILLIS_PER_DAY =  1 * 5 * 60 * 1000L; // 5 minutes
 
     public MailDelegator(String authtoken) {
         super(authtoken);

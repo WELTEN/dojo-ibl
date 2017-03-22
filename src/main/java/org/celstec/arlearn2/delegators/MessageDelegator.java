@@ -7,7 +7,11 @@ import org.celstec.arlearn2.beans.run.RunAccess;
 import org.celstec.arlearn2.jdo.manager.MessageManager;
 import org.celstec.arlearn2.jdo.manager.ThreadManager;
 
+import java.util.logging.Logger;
+
 public class MessageDelegator extends GoogleDelegator {
+    private static final Logger logger = Logger.getLogger(MessageDelegator.class.getName());
+    private static final long MILLIS_PER_DAY =  1 * 5 * 60 * 1000L; // 1 minute
 
     public MessageDelegator(Service service) {
         super(service);
@@ -26,9 +30,37 @@ public class MessageDelegator extends GoogleDelegator {
         }
         Message returnMessage = MessageManager.createMessage(message);
 
+        /*
+        * Angel
+        *
+        * Added task which starts a timer of 1 minutes.
+        * If five minutes have passed after the last message the task will send and email
+        * to all the account that participate in the inquiry that did not login in the
+        * last 1 minutes.
+        * */
+
+//        Queue q = QueueFactory.getDefaultQueue();
+////        Queue q = QueueFactory.getQueue(String.valueOf(message.getRunId()));
+//        q.purge();
+//
+////        q.deleteTask(String.valueOf(message.getRunId()));
+//
+//
+//
+//        q.add(TaskOptions.Builder.withUrl("/setTimerEmailNotification").countdownMillis(MILLIS_PER_DAY)
+//                .param("token", this.getAuthToken())
+//                .param("name", String.valueOf(message.getRunId())));
+
         RunAccessDelegator rad = new RunAccessDelegator(this);
         NotificationDelegator nd = new NotificationDelegator(this);
         for (RunAccess ra : rad.getRunAccess(message.getRunId()).getRunAccess()) {
+
+            /*
+            * 1) new message is created
+            * 2) create a task, which sends an email after 2 hours
+            * 3) send the email only for users that did not login in the last two hours
+            * */
+
             nd.broadcast(returnMessage, ra.getAccount());
         }
 

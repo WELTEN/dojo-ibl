@@ -143,7 +143,8 @@ public class NotificationAPI extends Service {
 	@POST
 	@Path("/reminders")
 	public String sendReminder(@HeaderParam("Authorization") String token,
-							 @PathParam("account") String account, @DefaultValue("application/json") @HeaderParam("Accept") String accept) {
+							 @PathParam("account") String account,
+							 @DefaultValue("application/json") @HeaderParam("Accept") String accept) {
 		if (!validCredentials(token))
 			return serialise(getInvalidCredentialsBean(), accept);
 		MailDelegator md = new MailDelegator(token);

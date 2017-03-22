@@ -43,12 +43,14 @@ public class Messages extends Service implements Serializable{
     @POST
     @Path("/send/email")
     public String sendReminder(@HeaderParam("Authorization") String token,
-                               @PathParam("account") String account, @DefaultValue("application/json") @HeaderParam("Accept") String accept) {
+                               @PathParam("account") String account,
+                               @DefaultValue("application/json") @HeaderParam("Accept") String accept) {
         if (!validCredentials(token))
             return serialise(getInvalidCredentialsBean(), accept);
 
         MailDelegator md = new MailDelegator(token);
 
+        String tomail = "suarezfdz86@gmail.com";
         md.sendReminders();
 
         return null;
