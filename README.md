@@ -5,6 +5,16 @@ DojoIBL will help young students to carry on their inquiry activities in a colla
 simple and clear way. Based on phases and activities, the students will DojoIBL as a mentor to 
 structure their own process.
 
+Version 32
+----------
+- Tagging a person [#XXX](https://github.com/WELTEN/dojo-ibl/issues/XXX)
+
+
+Version 31
+----------
+- Simplify responses in Activity [#282](https://github.com/WELTEN/dojo-ibl/issues/282)
+
+
 Version 30
 ----------
 - Security access to inquiries [#275](https://github.com/WELTEN/dojo-ibl/issues/275)
