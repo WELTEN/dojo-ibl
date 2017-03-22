@@ -11,12 +11,12 @@
     },
     "sidebar": {
       "inquiries": "Home",
-      "backend": "Backend",
       "profile": "Your profile",
       "timeline": "Timeline",
       "calendar": "Calendar",
       "phases": "Overview",
       "createinquiry": "Create inquiry",
+      "documentation": "Documentation",
       "joininquiry": "Join inquiry"
     },
     "header": {
