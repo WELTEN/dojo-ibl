@@ -9274,4 +9274,22 @@ p > span:first-child > p:last-child {
   background-color: rgba(200, 166, 35, 0.21) !important;
   margin: 3px 0px 3px 0px !important;
   padding: 5px 8px 6px 12px !important;
+  overflow: hidden;
+}
+
+.author-reply {
+  float: left;
+  margin: 1px;
+  font-size: 14px;
+}
+
+.author-2-reply {
+  float: left;
+  margin: 1px;
+  font-size: 14px;
+  color: #000000;
+}
+
+.alert-info2 p{
+  margin: 0px !important;
 }

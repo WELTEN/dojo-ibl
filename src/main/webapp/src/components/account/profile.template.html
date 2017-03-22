@@ -150,10 +150,10 @@
                     <div class="ibox-content social-body">
                         <h3>Private message</h3>
 
-                        <p class="small">
-                            Send private message to Alex Smith
-                        </p>
-
+                        <div class="form-group">
+                            <label>To</label>
+                            <input type="tomail" ng-model="message.tomail" class="form-control" placeholder="Email to">
+                        </div>
                         <div class="form-group">
                             <label>Subject</label>
                             <input type="subject" ng-model="message.subject" class="form-control" placeholder="Message subject">

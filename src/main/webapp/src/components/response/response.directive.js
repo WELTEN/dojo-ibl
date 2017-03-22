@@ -60,7 +60,17 @@ angular.module('DojoIBL')
                         ActivityService.getActivityById(data.generalItemId, run.gameId).then(function(act){
                             var controllerElement = document.querySelector('[ng-controller=InstantMessagingController]');
                             var controllerScope = angular.element(controllerElement).scope();
-                            controllerScope.bodyMessage = act.name+"@"+UserService.getUserFromCache(data.userEmail.split(':')[1]).name+": "+data.responseValue;
+
+                            controllerScope.bodyMessage = '<div class="alert alert-info2 ng-scope"> <div class="alert alert-info2 ng-scope" ng-show="data.parentId!=0" > ' +
+                            '<a href="" class="pull-left"> ' +
+                                '<ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="data.parentValue.user.picture == \'\'" ' +
+                            'data="{{ data.parentValue.user.name }}"></ng-letter-avatar> <img class="message-avatar" ng-if="data.parentValue.user.picture != \'\'" ' +
+                            'ng-src="{{ data.parentValue.user.picture }}" alt=""> </a> <a href="#/profile/{{ data.parentValue.user.accountType }}:{{ data.parentValue.user.localId }}"> ' +
+                            '{{ data.parentValue.user.name }} </a> <p class="message-reply" ng-bind-html="data.parentValue.responseValue"></p> </div> ' +
+                            '<p ng-bind-html="data.responseValue" ></p> <!--<p dd-text-collapse dd-text-collapse-max-length="250" dd-text-collapse-text="{{ response.responseValueNew }}" ></p>--> ' +
+                            '</div>'
+
+                            //controllerScope.bodyMessage = act.name+"@"+UserService.getUserFromCache(data.userEmail.split(':')[1]).name+": "+data.responseValue;
                         });
                     });
                 };
