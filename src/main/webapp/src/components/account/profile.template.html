@@ -11,16 +11,16 @@
         <div class="row m-b-lg m-t-lg">
             <div class="col-md-6">
 
-                <div class="profile-image">
-                    <ng-letter-avatar class="img-circle pointer circle-border m-b-md" ng-if="user.picture == ''" data="{{ user.name }}" ngf-capture="'camera'" ngf-select="upload($file)"> </ng-letter-avatar>
-                    <img alt="image"  class="img-circle pointer circle-border m-b-md" ng-if="user.picture != ''" ng-src="{{ user.picture }}" ngf-capture="'camera'" ngf-select="upload($file)">
+                <div class="profile-image" ngf-select="upload($file)">
+                    <ng-letter-avatar class="img-circle pointer circle-border m-b-md" ng-if="user.picture == ''" data="{{ user.name }}" ngf-capture="'camera'" > </ng-letter-avatar>
+                    <img alt="image"  class="img-circle pointer circle-border m-b-md" ng-if="user.picture != ''" ng-src="{{ user.picture }}" ngf-capture="'camera'" >
                     <!--<img src="src/img/avatar.png" ng-src="{{ user.picture }}"  class="img-circle pointer circle-border m-b-md" alt="profile">-->
                 </div>
                 <div class="profile-info">
                     <div class="">
                         <div>
                             <h2>
-                                <!--a<input type="text" ng-model="user.localId" ng-keyup="$event.keyCode == 13 && ok()"/>-->
+                                <!--<input type="text" ng-model="user.picture"/>-->
                                 <!--<br/>-->
                                 <!--b<input type="text" ng-model="user.accountType" ng-keyup="$event.keyCode == 13 && ok()"/>-->
                                 <!--<br/>-->
