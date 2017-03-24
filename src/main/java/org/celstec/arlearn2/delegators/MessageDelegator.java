@@ -1,9 +1,13 @@
 package org.celstec.arlearn2.delegators;
 
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 import org.celstec.arlearn2.api.Service;
 import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.beans.run.Message;
 import org.celstec.arlearn2.beans.run.MessageList;
+import org.celstec.arlearn2.beans.run.Run;
 import org.celstec.arlearn2.beans.run.RunAccess;
 import org.celstec.arlearn2.jdo.manager.MessageManager;
 import org.celstec.arlearn2.jdo.manager.ThreadManager;
@@ -13,7 +17,9 @@ import java.util.logging.Logger;
 
 public class MessageDelegator extends GoogleDelegator {
     private static final Logger logger = Logger.getLogger(MessageDelegator.class.getName());
-        private static final long MILLIS_PER_DAY =  1 * 5 * 60 * 1000L; // 1 minute
+        private static final long HOURS =  1; // hours
+        private static final long MINUTES =  60; // minutes
+        private static final long MILLIS_PER_DAY =  HOURS * MINUTES * 60 * 1000L;
 
     public MessageDelegator(Service service) {
         super(service);
@@ -41,19 +47,14 @@ public class MessageDelegator extends GoogleDelegator {
         * last 1 minutes.
         * */
 
-//        Queue q = QueueFactory.getDefaultQueue();
+        Queue q = QueueFactory.getDefaultQueue();
 ////        Queue q = QueueFactory.getQueue(String.valueOf(message.getRunId()));
 //        q.purge();
 //
 ////        q.deleteTask(String.valueOf(message.getRunId()));
-//
-//
-//
-//        q.add(TaskOptions.Builder.withUrl("/setTimerEmailNotification").countdownMillis(MILLIS_PER_DAY)
-//                .param("token", this.getAuthToken())
-//                .param("name", String.valueOf(message.getRunId())));
 
         RunAccessDelegator rad = new RunAccessDelegator(this);
+        RunDelegator rd = new RunDelegator(this);
         NotificationDelegator nd = new NotificationDelegator(this);
         MailDelegator md = new MailDelegator(this);
         AccountDelegator ad = new AccountDelegator(this);
@@ -77,7 +78,27 @@ public class MessageDelegator extends GoogleDelegator {
             nd.broadcast(returnMessage, ra.getAccount());
         }
 
-        md.sendReminders(returnMessage, email_list);
+        Run run = rd.getRun(message.getRunId());
+
+
+        if(run.getAvoidNotification() == null){
+            run.setAvoidNotification(0l);
+            rd.updateRun(run, run.getRunId());
+        }
+
+        // 0l = false
+        // 1l = true
+
+        if (run.getAvoidNotification() != 1l){
+            md.sendReminders(returnMessage, email_list);
+
+            q.add(TaskOptions.Builder.withUrl("/setTimerEmailNotification").countdownMillis(MILLIS_PER_DAY)
+                    .param("token", this.getAuthToken())
+                    .param("name", String.valueOf(message.getRunId())));
+            run.setAvoidNotification(1l);
+            rd.updateRun(run, run.getRunId());
+        }
+
 
         return returnMessage;
     }

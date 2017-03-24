@@ -18,18 +18,14 @@
  ******************************************************************************/
 package org.celstec.arlearn2.tasks;
 
-import org.celstec.arlearn2.beans.account.Account;
-import org.celstec.arlearn2.beans.run.RunAccess;
-import org.celstec.arlearn2.delegators.*;
+import org.celstec.arlearn2.beans.run.Run;
+import org.celstec.arlearn2.delegators.RunDelegator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,27 +44,35 @@ public class TimerSendEmail extends HttpServlet {
 			token = request.getParameter("token");
 			runId = Long.parseLong(request.getParameter("name"));
 
-			RunAccessDelegator rad = new RunAccessDelegator(token);
-			AccountDelegator ad = new AccountDelegator(token);
-			NotificationDelegator nd = new NotificationDelegator(token);
-			MailDelegator md = new MailDelegator(token);
 
-			for(RunAccess ra: rad.getRunAccess(runId).getRunAccess()) {
 
-				Account account1 = ad.getContactDetails(ra.getAccount());
+			RunDelegator rd = new RunDelegator(token);
 
-				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-				Date date = new Date();
-				System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
+			Run run = rd.getRun(runId);
+			run.setAvoidNotification(0l);
+			rd.updateRun(run, run.getRunId());
 
-//				md.sendReminders("HOLA", ra.getAccount());
 
-				//				if(Math.abs(account1.getLastModificationDate() -  date.getTime()) < MILLIS_PER_DAY){
-				//					System.out.print("["+account1.getEmail()+"] "+account1.getName()+" login less than 1 minutes ago");
-				//				}else{
-				//					System.out.print("["+account1.getEmail()+"] "+account1.getName()+" login more than 1 minutes ago");
-				//				}
-			}
+//			AccountDelegator ad = new AccountDelegator(token);
+//			NotificationDelegator nd = new NotificationDelegator(token);
+//			MailDelegator md = new MailDelegator(token);
+//
+//			for(RunAccess ra: rad.getRunAccess(runId).getRunAccess()) {
+//
+//				Account account1 = ad.getContactDetails(ra.getAccount());
+//
+//				DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//				Date date = new Date();
+//				System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
+//
+////				md.sendReminders("HOLA", ra.getAccount());
+//
+//				//				if(Math.abs(account1.getLastModificationDate() -  date.getTime()) < MILLIS_PER_DAY){
+//				//					System.out.print("["+account1.getEmail()+"] "+account1.getName()+" login less than 1 minutes ago");
+//				//				}else{
+//				//					System.out.print("["+account1.getEmail()+"] "+account1.getName()+" login more than 1 minutes ago");
+//				//				}
+//			}
 
 
 		} catch (Exception e) {

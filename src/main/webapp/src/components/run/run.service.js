@@ -96,6 +96,9 @@ angular.module('DojoIBL')
                 ////////////////////////////////////////
                 if(runAsJson.runId)
                     dataCache.put(runAsJson.runId, runAsJson);
+
+                runAsJson.avoidNotification = 0;
+
                 return newrun.$save();
             },
             updateRun: function(runAsJson){

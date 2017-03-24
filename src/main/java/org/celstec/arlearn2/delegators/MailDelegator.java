@@ -18,6 +18,9 @@
  ******************************************************************************/
 package org.celstec.arlearn2.delegators;
 
+import org.celstec.arlearn2.beans.account.Account;
+import org.celstec.arlearn2.beans.run.Run;
+
 import javax.mail.Message;
 import javax.mail.Multipart;
 import javax.mail.Session;
@@ -37,7 +40,8 @@ import java.util.logging.Logger;
 public class MailDelegator extends GoogleDelegator {
 
     private static final Logger logger = Logger.getLogger(ActionDelegator.class.getName());
-    private static final long MILLIS_PER_DAY =  1 * 5 * 60 * 1000L; // 5 minutes
+    private static final long MINUTES =  1; // 1 minute
+    private static final long MILLIS_PER_DAY =  1 * MINUTES * 60 * 1000L;
 
     public MailDelegator(String authtoken) {
         super(authtoken);
@@ -121,12 +125,20 @@ public class MailDelegator extends GoogleDelegator {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
 
-        String content = "You have missed <strong>a message</strong> from "+message.getSenderId()+" in the last week.";
-        String message_missed = message.getBody();
+        AccountDelegator ad = new AccountDelegator(this);
+        RunDelegator rd = new RunDelegator(this);
+
+        Account account = ad.getContactDetails(message.getSenderProviderId() + ":" + message.getSenderId());
+        Run run = rd.getRun(message.getRunId());
+
+        String content = "You have missed <strong>a message</strong> in "+run.getTitle()+" in the last "+MINUTES+" minutes.";
+        String message_missed = "<strong>"+account.getName()+"</strong>: "+message.getBody();
+        String button = "<a href=\"http://dojo-ibl.appspot.com/main.html#/inquiry/"+run.getRunId()+"\" class=\"btn-primary\">Catch up now!</a>";
+        String email_header = "Message missed - DojoIBL";
+        String subject = "("+run.getTitle()+") Someone sent a message in DojoIBL";
 
         String from = "titogelo@gmail.com";
-        String fromName = "DojoIBL board";
-//        String toMail = account.getEmail();
+        String fromName = account.getGivenName()+" (DojoIBL)";
 
         String msgBody = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">";
         msgBody += "<html xmlns=\"http://www.w3.org/1999/xhtml\">";
@@ -413,7 +425,7 @@ public class MailDelegator extends GoogleDelegator {
         msgBody += "<table class=\"main\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">";
         msgBody += "<tr>";
         msgBody += "<td class=\"alert alert-good\">";
-        msgBody += "Weekly digest - DojoIBL";
+        msgBody += email_header;
         msgBody += "</td>";
         msgBody += "</tr>";
         msgBody += "<tr>";
@@ -439,7 +451,7 @@ public class MailDelegator extends GoogleDelegator {
         msgBody += "</tr>";
         msgBody += "<tr>";
         msgBody += "<td class=\"content-block\">";
-        msgBody += "<a href=\"http://dojo-ibl.appspot.com/main.html#/home\" class=\"btn-primary\">Catch up now!</a>";
+        msgBody += button;
         msgBody += "</td>";
         msgBody += "</tr>";
         msgBody += "<tr>";
@@ -454,7 +466,7 @@ public class MailDelegator extends GoogleDelegator {
         msgBody += "<div class=\"footer\">";
         msgBody += "<table width=\"100%\">";
         msgBody += "<tr>";
-        msgBody += "<td class=\"aligncenter content-block\"><a href=\"http://dojo-ibl.appspot.com/main.html#/home\">http://dojo-ibl.appspot.com/main.html#/home</a> by the Open Universiteit</td>";
+        msgBody += "<td class=\"aligncenter content-block\"><a href=\"http://dojo-ibl.appspot.com/main.html#/home\">http://dojo-ibl.appspot.com</a> - Welten Institute</td>";
         msgBody += "</tr>";
         msgBody += "</table>";
         msgBody += "</div></div>";
@@ -496,7 +508,7 @@ public class MailDelegator extends GoogleDelegator {
 
             msg.addRecipient(Message.RecipientType.TO, new InternetAddress(from));
             msg.addRecipient(Message.RecipientType.BCC, new InternetAddress(from));
-            msg.setSubject("Someone sent a message in DojoIBL");
+            msg.setSubject(subject);
 
             final MimeBodyPart htmlPart = new MimeBodyPart();
             htmlPart.setContent(msgBody, "text/html");

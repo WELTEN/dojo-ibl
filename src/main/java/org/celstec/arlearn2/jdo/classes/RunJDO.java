@@ -55,6 +55,9 @@ public class RunJDO extends RunClass{
 	@Persistent
 	private String code;
 
+	@Persistent
+	private Long avoidNotification;
+
 	public Long getRunId() {
 		return id.getId();
 	}
@@ -140,6 +143,11 @@ public class RunJDO extends RunClass{
 		this.code = code;
 	}
 
+	public Long getAvoidNotification() {
+		return avoidNotification;
+	}
 
-
+	public void setAvoidNotification(Long avoidNotification) {
+		this.avoidNotification = avoidNotification;
+	}
 }
