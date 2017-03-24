@@ -7,6 +7,7 @@ structure their own process.
 
 Version 32
 ----------
+- Delay email notifications [#288](https://github.com/WELTEN/dojo-ibl/issues/288)
 - Tagging a person [#XXX](https://github.com/WELTEN/dojo-ibl/issues/XXX)
 
 
