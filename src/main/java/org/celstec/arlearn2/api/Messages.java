@@ -51,7 +51,10 @@ public class Messages extends Service implements Serializable{
         MailDelegator md = new MailDelegator(token);
 
         String tomail = "suarezfdz86@gmail.com";
-        md.sendReminders();
+
+
+
+//        md.sendReminders("HOLA", ra.getAccount());
 
         return null;
     }

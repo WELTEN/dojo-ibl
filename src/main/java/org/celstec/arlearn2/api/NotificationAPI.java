@@ -148,7 +148,7 @@ public class NotificationAPI extends Service {
 		if (!validCredentials(token))
 			return serialise(getInvalidCredentialsBean(), accept);
 		MailDelegator md = new MailDelegator(token);
-		md.sendReminders();
+//		md.sendReminders(returnMessage, ra.getAccount());
 		return null;
 	}
 }

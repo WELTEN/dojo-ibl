@@ -112,7 +112,7 @@ public class MailDelegator extends GoogleDelegator {
         }
     }
 
-    public void sendReminders() {
+    public void sendReminders(org.celstec.arlearn2.beans.run.Message message, String list_email) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
@@ -121,9 +121,12 @@ public class MailDelegator extends GoogleDelegator {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
 
+        String content = "You have missed <strong>a message</strong> from "+message.getSenderId()+" in the last week.";
+        String message_missed = message.getBody();
+
         String from = "titogelo@gmail.com";
         String fromName = "DojoIBL board";
-        String toMail = "suarezfdz86@gmail.com";
+//        String toMail = account.getEmail();
 
         String msgBody = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">";
         msgBody += "<html xmlns=\"http://www.w3.org/1999/xhtml\">";
@@ -426,12 +429,12 @@ public class MailDelegator extends GoogleDelegator {
 //
 //        messageDelegator.getMessagesForDefaultThread();
 
-        msgBody += "You have missed <strong>some contributions</strong> from other users in the last week.";
+        msgBody += content;
         msgBody += "</td>";
         msgBody += "</tr>";
         msgBody += "<tr>";
         msgBody += "<td class=\"content-block\">";
-        msgBody += "This last week other participants in your inquiries have been contributing with some comments. Please go DojoIBL and checkout your inquiries. <strong>Tip:</strong> Use the timeline to quickly catch up with the most recent updates in your groups. Don't let your team down!! Join them!!";
+        msgBody += message_missed;
         msgBody += "</td>";
         msgBody += "</tr>";
         msgBody += "<tr>";
@@ -484,9 +487,16 @@ public class MailDelegator extends GoogleDelegator {
         try {
             Message msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress(from, fromName));
-            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(toMail));
+
+            String[] parts = list_email.split(";");
+
+            for (int i = 0; i < parts.length; i++) {
+                msg.addRecipient(Message.RecipientType.BCC, new InternetAddress(parts[i]));
+            }
+
+            msg.addRecipient(Message.RecipientType.TO, new InternetAddress(from));
             msg.addRecipient(Message.RecipientType.BCC, new InternetAddress(from));
-            msg.setSubject("Weekly digest DojoIBL");
+            msg.setSubject("Someone sent a message in DojoIBL");
 
             final MimeBodyPart htmlPart = new MimeBodyPart();
             htmlPart.setContent(msgBody, "text/html");

@@ -61,7 +61,7 @@ public class TimerSendEmail extends HttpServlet {
 				Date date = new Date();
 				System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
 
-				md.sendReminders();
+//				md.sendReminders("HOLA", ra.getAccount());
 
 				//				if(Math.abs(account1.getLastModificationDate() -  date.getTime()) < MILLIS_PER_DAY){
 				//					System.out.print("["+account1.getEmail()+"] "+account1.getName()+" login less than 1 minutes ago");

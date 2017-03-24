@@ -1,17 +1,19 @@
 package org.celstec.arlearn2.delegators;
 
 import org.celstec.arlearn2.api.Service;
+import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.beans.run.Message;
 import org.celstec.arlearn2.beans.run.MessageList;
 import org.celstec.arlearn2.beans.run.RunAccess;
 import org.celstec.arlearn2.jdo.manager.MessageManager;
 import org.celstec.arlearn2.jdo.manager.ThreadManager;
 
+import java.util.Date;
 import java.util.logging.Logger;
 
 public class MessageDelegator extends GoogleDelegator {
     private static final Logger logger = Logger.getLogger(MessageDelegator.class.getName());
-    private static final long MILLIS_PER_DAY =  1 * 5 * 60 * 1000L; // 1 minute
+        private static final long MILLIS_PER_DAY =  1 * 5 * 60 * 1000L; // 1 minute
 
     public MessageDelegator(Service service) {
         super(service);
@@ -53,6 +55,12 @@ public class MessageDelegator extends GoogleDelegator {
 
         RunAccessDelegator rad = new RunAccessDelegator(this);
         NotificationDelegator nd = new NotificationDelegator(this);
+        MailDelegator md = new MailDelegator(this);
+        AccountDelegator ad = new AccountDelegator(this);
+        Date date = new Date();
+
+        String email_list = "";
+
         for (RunAccess ra : rad.getRunAccess(message.getRunId()).getRunAccess()) {
 
             /*
@@ -61,10 +69,15 @@ public class MessageDelegator extends GoogleDelegator {
             * 3) send the email only for users that did not login in the last two hours
             * */
 
+            Account account1 = ad.getContactDetails(ra.getAccount());
+
+            if(!returnMessage.getSenderId().equals(account1.getLocalId()))
+                email_list += account1.getEmail()+";";
+
             nd.broadcast(returnMessage, ra.getAccount());
         }
 
-//        (new NotifyUsersForMessage(authToken, returnMessage)).scheduleTask();
+        md.sendReminders(returnMessage, email_list);
 
         return returnMessage;
     }
