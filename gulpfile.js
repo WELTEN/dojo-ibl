@@ -7,21 +7,6 @@ var uglify = require('gulp-uglify');
 var bytediff = require('gulp-bytediff');
 var rename = require('gulp-rename');
 
-//'src/main/webapp/src/app.js',
-//'src/main/webapp/src/routes.js',
-//'src/main/webapp/src/components/home/*.js',
-//'src/main/webapp/src/components/account/*.js',
-//'src/main/webapp/src/components/activity/*.js',
-//'src/main/webapp/src/components/common/*.controller.js',
-//'src/main/webapp/src/components/common/*.directive.js',
-//'src/main/webapp/src/components/landing/*.js',
-//'src/main/webapp/src/components/message/*.js',
-//'src/main/webapp/src/components/oauth/*.js',
-//'src/main/webapp/src/components/response/*.js',
-//'src/main/webapp/src/components/run/*.js',
-//'src/main/webapp/src/components/user/*.js',
-//'src/main/webapp/src/components/channel/*.js'
-
 // Minify JS
 gulp.task('app', function() {
     return gulp.src([
@@ -140,6 +125,8 @@ gulp.task('vendor', function() {
         'src/main/webapp/src/assets/vendor/fullcalendar/gcal.js',
         'src/main/webapp/src/assets/vendor/fullcalendar/calendar.js',
         'src/main/webapp/src/assets/vendor/angular-datapicker/angular-datepicker.js',
+        'node_modules/ment.io/dis/*.',
+        //'node_modules/ment.io/src/*.js'
     ])
         .pipe(plumber())
         .pipe(concat('vendor.js', {newLine: ';'}))
