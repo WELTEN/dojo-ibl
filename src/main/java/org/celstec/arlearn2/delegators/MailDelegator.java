@@ -19,6 +19,7 @@
 package org.celstec.arlearn2.delegators;
 
 import org.celstec.arlearn2.beans.account.Account;
+import org.celstec.arlearn2.beans.run.Response;
 import org.celstec.arlearn2.beans.run.Run;
 
 import javax.mail.Message;
@@ -116,6 +117,35 @@ public class MailDelegator extends GoogleDelegator {
         }
     }
 
+    public void commentReminder(Response reply, Account account_quoted) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        System.out.println(dateFormat.format(date)); //2016/11/16 12:08:43
+        logger.log(Level.SEVERE, dateFormat.format(date));
+
+        Properties props = new Properties();
+        Session session = Session.getDefaultInstance(props, null);
+
+        AccountDelegator ad = new AccountDelegator(this);
+        RunDelegator rd = new RunDelegator(this);
+
+        Run run = rd.getRun(reply.getRunId());
+
+        Account author = ad.getContactDetails(reply.getUserEmail());
+
+        String content = "You have missed <strong>a comment</strong> in '"+run.getTitle()+"' group. It is part of the inquiry: '" +
+                run.getGame().getTitle()+"'";
+        String message_missed = "<strong>"+author.getName()+"</strong> replied: "+reply.getResponseValue();
+        String button = "<a href=\"http://dojo-ibl.appspot.com/main.html#/inquiry/"+run.getRunId()+"\" class=\"btn-primary\">Catch up now!</a>";
+        String email_header = account_quoted.getName()+", you got a reply - DojoIBL";
+        String subject = "("+run.getTitle()+") Someone replied to your comment in DojoIBL";
+
+        String from = "titogelo@gmail.com";
+        String fromName = account_quoted.getGivenName()+" (DojoIBL)";
+
+        sendEmail(account_quoted.getEmail(), session, content, message_missed, button, email_header, subject, from, fromName);
+    }
+
     public void sendReminders(org.celstec.arlearn2.beans.run.Message message, String list_email) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
@@ -140,6 +170,10 @@ public class MailDelegator extends GoogleDelegator {
         String from = "titogelo@gmail.com";
         String fromName = account.getGivenName()+" (DojoIBL)";
 
+        sendEmail(list_email, session, content, message_missed, button, email_header, subject, from, fromName);
+    }
+
+    private void sendEmail(String list_email, Session session, String content, String message_missed, String button, String email_header, String subject, String from, String fromName) {
         String msgBody = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">";
         msgBody += "<html xmlns=\"http://www.w3.org/1999/xhtml\">";
         msgBody += "<head>";
