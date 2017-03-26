@@ -1,0 +1,183 @@
+[
+  {
+  "inquiry": "Empty structure",
+  "author": "-",
+  "paper_url": "-",
+  "purpose": "-",
+  "description": "-",
+  "i18n": "EN",
+  "phases": [ ]
+  },
+  {
+    "inquiry": "Metacognitive facilitation",
+    "author": "Barbara Y. White; John R. Frederiksen",
+    "paper_url": "http://thinkertools.org/Pages/paper.html",
+    "purpose": "metacognitive facilitation",
+    "description": "The process of inquiry follows the Inquiry Cycle, shown in Figure 1, which is presented to students as a basis for organizing their explorations into the physics of force and motion. Inquiry begins with finding research questions, that is, finding situations or phenomena students do not yet understand which become new areas for investigation. Students then use their intuitions (which are often incorrect) to make conjectures about what might happen in such situations. These predictions provide them with a focus as they design experiments that allow them to observe phenomena and test their conjectures. Students then use their findings as a basis for constructing formal laws and models. By applying their models to new situations, students test the range of applicability of their models and, in so doing, identify new research questions for further inquiry.",
+    "i18n": "EN",
+    "phases": [
+      {
+        "phase": "Question",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 1",
+          "description": "Description"
+        }
+        ]
+      },
+      {
+        "phase": "Predict",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }
+        ]
+      },
+      {
+        "phase": "Experiment",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      },
+      {
+        "phase": "Model",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      },
+      {
+        "phase": "Apply",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      }
+    ]
+  },
+  {
+    "inquiry": "Inquiry-based framework",
+    "author": "Margus Pedaste",
+    "paper_url": "http://www.sciencedirect.com/science/article/pii/S1747938X15000068",
+    "purpose": "literature review, inquiry-based learning framework",
+    "description": "The current article focuses on identifying and summarizing the core features of inquiry-based learning by means of a systematic literature review and develops a synthesized inquiry cycle that combines the strengths of existing inquiry-based learning frameworks.",
+    "i18n": "EN",
+    "phases": [
+      {
+        "phase": "Orientation",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 1",
+          "description": "Description"
+        }
+        ]
+      },
+      {
+        "phase": "Questioning",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }
+        ]
+      },
+      {
+        "phase": "Hypothesis Generation",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      },
+      {
+        "phase": "Exploration",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      },
+      {
+        "phase": "Experimentation",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      },
+      {
+        "phase": "Data Interpretation",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      },
+      {
+        "phase": "Conclusion",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      }
+    ]
+  },
+  {
+    "inquiry": "Digital literacy",
+    "author": "Bruce & Casey, 2012",
+    "paper_url": "http://www.tandfonline.com/doi/abs/10.1080/07380569.2012.657994",
+    "purpose": "literature review, inquiry-based learning framework",
+    "description": "In this article the authors introduce the practice of inquiry and discuss the case for it as a signature pedagogy for digital literacy. The Inquiry Cycle is presented as a summary of important aspects of inquiry. Further, the Practice Profile of Inquiry provides a practical tool, which can be incorporated into everyday classroom practice. Examples from the Digital Literacy in Irish Primary Schools project are presented to show how surface, deep, and implicit structures of curriculum are enacted within an inquiry perspective. The Inquiry Cycle and the Practice Profile of Inquiry offer a means for educators to foster inquiry-based learning while making the best use of new digital media and tools.",
+    "i18n": "EN",
+    "phases": [
+      {
+        "phase": "Ask",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 1",
+          "description": "Description"
+        }
+        ]
+      },
+      {
+        "phase": "Investigate",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }
+        ]
+      },
+      {
+        "phase": "Create",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      },
+      {
+        "phase": "Discuss",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      },
+      {
+        "phase": "Reflect",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      }
+    ]
+  }
+]

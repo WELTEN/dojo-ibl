@@ -1,5 +1,7 @@
 angular.module('DojoIBL')
-
+    .factory('InquiryTemplate', function($http) {
+        return $http.get('/src/assets/resources/catalogue.json');
+    })
     .factory('Game', function GameFactory($resource, $http, config) {
         return $resource(config.server+'/rest/myGames/:id', {}, {
             access: {
@@ -69,5 +71,5 @@ angular.module('DojoIBL')
                 url: config.server + '/rest/myGames/gameContent/gameId/:gameId'
             }
         });
-    }
-);
+    })
+;

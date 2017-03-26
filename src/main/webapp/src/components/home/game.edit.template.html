@@ -117,6 +117,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="pull-right tooltip-demo">
+                        <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit#bookmark=id.x798b8mfm6if" class="btn btn-white btn-sm" data-toggle="tooltip"
+                           data-placement="top" title="Move to draft folder"><i class="fa fa-question"></i>
+                            Help</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -127,6 +132,11 @@
                     {{ 'dibl.inquiry.new-edit.inquiry-phases-activities' | translate }}
                 </div>
                 <div class="padding">
+                    <div class="pull-right tooltip-demo">
+                        <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit#bookmark=id.7a3mjfdhvuar" class="btn btn-white btn-sm" data-toggle="tooltip"
+                           data-placement="top" title="Move to draft folder"><i class="fa fa-question"></i>
+                            Help</a>
+                    </div>
                     <p>{{ 'dibl.inquiry.new-edit.configuration-dashboard' | translate }}</p>
                 </div>
                 <div class="padding row show-grid">
@@ -166,6 +176,7 @@
                                 <i class="fa fa-plus"></i>
                             </button>
                         </aside>
+
                     </div>
 
             </div>
@@ -184,7 +195,14 @@
 
                 <div class="ibox-content ui-calendar mail-body">
                     <div ui-calendar="uiConfig.calendar" calendar="myCalendar1" class="calendar" ng-model="eventSources"></div>
+                    <br/>
+                    <div class="pull-right tooltip-demo">
+                        <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit#bookmark=id.34boqohhq24w" class="btn btn-white btn-sm" data-toggle="tooltip"
+                           data-placement="top" title="Move to draft folder"><i class="fa fa-question"></i>
+                            Help</a>
+                    </div>
                 </div>
+
             </div>
         </div>
 
@@ -201,6 +219,9 @@
                             <h3>{{'dibl.inquiry.new-edit.run-inquiries-title' | translate}}</h3>
 
                             <p>{{'dibl.inquiry.new-edit.run-inquiries-description' | translate}}</p>
+
+                            <br/>
+
                         </div>
 
                         <div class="col-md-6">
@@ -267,6 +288,11 @@
                                 </tr>
                                 </tbody>
                             </table>
+                            <div class="pull-right tooltip-demo">
+                                <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit#bookmark=id.72ysjs7fgklv" class="btn btn-white btn-sm" data-toggle="tooltip"
+                                   data-placement="top" title="Move to draft folder"><i class="fa fa-question"></i>
+                                    Help</a>
+                            </div>
                         </div>
 
                     </div>
@@ -274,7 +300,7 @@
             </div>
         </div>
 
-        <div id="editor" class="col-md-7 wrapper wrapper-content animated fadeInpanel-body">
+        <div id="editor" class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
             <div class="ibox-content">
                 <div class="heading ng-binding">
                     {{'dibl.inquiry.new-edit.editor-management' | translate}}
@@ -310,6 +336,19 @@
                             </table>
 
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="delete" class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
+            <div class="ibox-content">
+                <div class="heading ng-binding">
+                    {{'dibl.inquiry.new-edit.delete-inquiry' | translate}}
+                </div>
+                <div class="padding">
+                    <div class="ibox-content profile-content text-center">
+                        <button type="button" ng-click="deleteInquiry(game.gameId)" class="btn btn-w-l btn-danger">Delete Inquiry</button>
                     </div>
                 </div>
             </div>

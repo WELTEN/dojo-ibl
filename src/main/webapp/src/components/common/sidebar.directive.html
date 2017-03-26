@@ -34,7 +34,7 @@
                 </a>
             </li>
             <li>
-                <a id="add-inquiry-new" ng-click="createNewInquiry()">
+                <a id="add-inquiry-new" href="#/catalogue/inquiry" >
                     <i class="fa fa-plus"></i>{{'dibl.sidebar.createinquiry' | translate}}</a>
             </li>
             <!--<li>-->
@@ -84,6 +84,9 @@
                     </li>
                     <li>
                         <a ng-click="gotoAnchor('editor')"><i class="fa fa-key"></i>{{'dibl.inquiry.new-edit.editor-management' | translate}}</a>
+                    </li>
+                    <li>
+                        <a ng-click="gotoAnchor('delete')"><i class="fa fa-key"></i>{{'dibl.inquiry.new-edit.delete-inquiry' | translate}}</a>
                     </li>
                 </ul>
             </li>

@@ -78,6 +78,14 @@ angular.module('DojoIBL')
                     label: "{{'dibl.toolbar.editstructure' | translate}}"
                 }
             })
+            .state('gamecatalogue', {
+                url: '/catalogue/inquiry',
+                templateUrl: '/src/components/home/game.new.template.html',
+                controller: 'InquiryNewGameController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.selectstructure' | translate}}"
+                }
+            })
             .state('editrun', {
                 url: '/inquiry/:gameId/run/:runId/edit',
                 templateUrl: '/src/components/run/inquiry.edit.template.html',

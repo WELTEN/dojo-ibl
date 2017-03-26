@@ -618,6 +618,11 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .btn-w-m {
   min-width: 120px;
 }
+
+.btn-w-l {
+  min-width: 240px;
+}
+
 .btn-primary.btn-outline {
   color: #1ab394;
 }
