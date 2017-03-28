@@ -9,33 +9,99 @@
   "phases": [ ]
   },
   {
-    "inquiry": "Metacognitive facilitation",
-    "author": "Barbara Y. White; John R. Frederiksen",
-    "paper_url": "http://thinkertools.org/Pages/paper.html",
-    "purpose": "metacognitive facilitation",
-    "description": "The process of inquiry follows the Inquiry Cycle, shown in Figure 1, which is presented to students as a basis for organizing their explorations into the physics of force and motion. Inquiry begins with finding research questions, that is, finding situations or phenomena students do not yet understand which become new areas for investigation. Students then use their intuitions (which are often incorrect) to make conjectures about what might happen in such situations. These predictions provide them with a focus as they design experiments that allow them to observe phenomena and test their conjectures. Students then use their findings as a basis for constructing formal laws and models. By applying their models to new situations, students test the range of applicability of their models and, in so doing, identify new research questions for further inquiry.",
+    "inquiry": "weSPOT",
+    "author": "Specht, M., Bedek, M., Duval, E., Held, P., Okada, A., Stevanov, K., Parodi, E., Kikis-Papadakis, K. & Strahovnik, V.",
+    "paper_url": "http://portal.ou.nl/en_GB/web/wespot/for-educators",
+    "purpose": "complete inquiry cycle",
+    "description": "The weSPOT inquiry-based learning model consists of six phases, placed within the context, that mirror the phases that researchers need to go through in order to conduct their research. Each phase also consists of a number of activities and it aims to support the teachers and students in their inquiries by providing a suggestive “check list”. The teachers can start from the problem phase but also from any other phase depending on their lesson focus. Not all phases and sub-phases need to be completed for a successful inquiry. The teachers and the learners can choose the ones that fit their needs.",
     "i18n": "EN",
     "phases": [
       {
-        "phase": "Question",
+        "phase": "Question/Hypothesis",
         "description": "Description",
-        "activities": [{
-          "activity": "Activity 1",
-          "description": "Description"
-        }
+        "activities": [
+          {
+            "activity": "Empirical meaning",
+            "description": "Description"
+          },
+          {
+            "activity": "Embedding",
+            "description": "Description"
+          },
+          {
+            "activity": "Existing knowledge",
+            "description": "Description"
+          },
+          {
+            "activity": "Mental representation",
+            "description": "Description"
+          },
+          {
+            "activity": "Language definitions",
+            "description": "Description"
+          },
+          {
+            "activity": "Field of research",
+            "description": "Description"
+          },
+          {
+            "activity": "Ethics",
+            "description": "Description"
+          },
+          {
+            "activity": "Reflection",
+            "description": "Description"
+          }
         ]
       },
       {
-        "phase": "Predict",
+        "phase": "Operationalization",
         "description": "Description",
-        "activities": [{
-          "activity": "Activity 2.1",
-          "description": "Description"
-        }
+        "activities": [
+          {
+            "activity": "Hypothesis",
+            "description": "Description"
+          },
+          {
+            "activity": "Question",
+            "description": "Description"
+          },
+          {
+            "activity": "Empirical meaning",
+            "description": "Description"
+          },
+          {
+            "activity": "Activity 2.1",
+            "description": "Description"
+          },
+          {
+            "activity": "Activity 2.1",
+            "description": "Description"
+          },
+          {
+            "activity": "Activity 2.1",
+            "description": "Description"
+          },
+          {
+            "activity": "Activity 2.1",
+            "description": "Description"
+          },
+          {
+            "activity": "Activity 2.1",
+            "description": "Description"
+          },
+          {
+            "activity": "Activity 2.1",
+            "description": "Description"
+          },
+          {
+            "activity": "Activity 2.1",
+            "description": "Description"
+          }
         ]
       },
       {
-        "phase": "Experiment",
+        "phase": "Data collection",
         "description": "Description",
         "activities": [{
           "activity": "Activity 2.1",
@@ -43,7 +109,7 @@
         }]
       },
       {
-        "phase": "Model",
+        "phase": "Data analysis",
         "description": "Description",
         "activities": [{
           "activity": "Activity 2.1",
@@ -51,7 +117,15 @@
         }]
       },
       {
-        "phase": "Apply",
+        "phase": "Interpretation",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      },
+      {
+        "phase": "Communication",
         "description": "Description",
         "activities": [{
           "activity": "Activity 2.1",
@@ -120,6 +194,58 @@
       },
       {
         "phase": "Conclusion",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      }
+    ]
+  },
+  {
+    "inquiry": "Metacognitive facilitation",
+    "author": "Barbara Y. White; John R. Frederiksen",
+    "paper_url": "http://thinkertools.org/Pages/paper.html",
+    "purpose": "metacognitive facilitation",
+    "description": "The process of inquiry follows the Inquiry Cycle, shown in Figure 1, which is presented to students as a basis for organizing their explorations into the physics of force and motion. Inquiry begins with finding research questions, that is, finding situations or phenomena students do not yet understand which become new areas for investigation. Students then use their intuitions (which are often incorrect) to make conjectures about what might happen in such situations. These predictions provide them with a focus as they design experiments that allow them to observe phenomena and test their conjectures. Students then use their findings as a basis for constructing formal laws and models. By applying their models to new situations, students test the range of applicability of their models and, in so doing, identify new research questions for further inquiry.",
+    "i18n": "EN",
+    "phases": [
+      {
+        "phase": "Question",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 1",
+          "description": "Description"
+        }
+        ]
+      },
+      {
+        "phase": "Predict",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }
+        ]
+      },
+      {
+        "phase": "Experiment",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      },
+      {
+        "phase": "Model",
+        "description": "Description",
+        "activities": [{
+          "activity": "Activity 2.1",
+          "description": "Description"
+        }]
+      },
+      {
+        "phase": "Apply",
         "description": "Description",
         "activities": [{
           "activity": "Activity 2.1",
