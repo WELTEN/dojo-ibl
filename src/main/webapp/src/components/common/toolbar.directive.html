@@ -28,7 +28,7 @@
 
             <div ng-show="state.current.name == 'home'">
                 <div class="input-group" >
-                    <input type="text" class="form-control ng-pristine ng-untouched ng-valid" ng-model="inquiryCode">
+                    <input type="text" placeholder="{{'dibl.toolbar.placeholder-inquiry-code' | translate }}" class="form-control ng-pristine ng-untouched ng-valid" ng-model="inquiryCode">
                 <span class="input-group-btn">
                     <button type="button" ng-disabled="inquiryCode.length < 4 || !inquiryCode" ng-click="findAndJoin()" class="btn btn-warning ng-binding" disabled="disabled"><i class="fa fa-plus"></i> {{'dibl.toolbar.join' | translate }}
                     </button>

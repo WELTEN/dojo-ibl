@@ -43,7 +43,7 @@
                 </div>
                 <div class="form-chat">
                     <div class="input-group input-group-sm">
-                        <input id="add-new-message" ng-keyup="$event.keyCode == 13 && sendMessage()" type="text" class="form-control" ng-model="bodyMessage">
+                        <input id="add-new-message" placeholder="{{'dibl.toolbar.placeholder-message' | translate }}" ng-keyup="$event.keyCode == 13 && sendMessage()" type="text" class="form-control" ng-model="bodyMessage">
                         <!--<text-angular ta-toolbar="[]" ng-enter="sendMessage()" ng-model="bodyMessage"></text-angular>-->
                         <span class="input-group-btn">
                             <button ng-click="sendMessage()" ng-disabled="!bodyMessage" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>

@@ -43,7 +43,10 @@
       "editrun": "Editing inquiry run",
       "newinquiry": "New inquiry",
       "profile": "Profile",
-      "calendar": "Calendar"
+      "calendar": "Calendar",
+      "placeholder-inquiry-code": "Type an inquiry code here...",
+      "placeholder-comments": "Type your comments here...",
+      "placeholder-message": "Type your message here..."
     },
     "inquiry": {
       "structure": {
