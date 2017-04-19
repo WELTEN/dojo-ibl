@@ -1705,7 +1705,7 @@ a.DTTT_button:hover:not(.DTTT_disabled) {
   background-color: #eee !important;
   margin: 5px;
   width: 23%;
-  min-width: 20em;
+  min-width: 18.5em;
   padding: 10px;
 }
 .show-grid aside {

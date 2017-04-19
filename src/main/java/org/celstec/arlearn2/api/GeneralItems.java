@@ -52,27 +52,46 @@ public class GeneralItems extends Service {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Path("/gameId/{gameIdentifier}")
 	public String getArtifacts(
-			@HeaderParam("Authorization") String token, 
-			@PathParam("gameIdentifier") Long gameIdentifier, 
+			@HeaderParam("Authorization") String token,
+			@PathParam("gameIdentifier") Long gameIdentifier,
 			@DefaultValue("application/json") @HeaderParam("Accept") String accept,
 			@QueryParam("from") Long from,
 			@QueryParam("until") Long until)
-			 {
-                 GameDelegator qg = new GameDelegator(account, token);
-                 Game g = qg.getGame(gameIdentifier);
-                 if (g.getSharing() == null || g.getSharing() == Game.PRIVATE) {
-                     if (!validCredentials(token))
-                         return serialise(getInvalidCredentialsBean(), accept);
-                 }
+	{
+		GameDelegator qg = new GameDelegator(account, token);
+		Game g = qg.getGame(gameIdentifier);
+		if (g.getSharing() == null || g.getSharing() == Game.PRIVATE) {
+			if (!validCredentials(token))
+				return serialise(getInvalidCredentialsBean(), accept);
+		}
 //		if (!validCredentials(token))
 //			return serialise(getInvalidCredentialsBean(), accept);
-                GeneralItemDelegator gid = new GeneralItemDelegator(token);
-                if (from == null && until == null) {
-                    return serialise(gid.getGeneralItems(gameIdentifier), accept);
-                } else {
-                    return serialise(gid.getGeneralItems(gameIdentifier, from, until), accept);
-                }
+		GeneralItemDelegator gid = new GeneralItemDelegator(token);
+		if (from == null && until == null) {
+			return serialise(gid.getGeneralItems(gameIdentifier), accept);
+		} else {
+			return serialise(gid.getGeneralItems(gameIdentifier, from, until), accept);
+		}
 	}
+
+
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Path("/recent")
+	public String getRecentGeneralItems(
+			@HeaderParam("Authorization") String token,
+			@DefaultValue("application/json") @HeaderParam("Accept") String accept)
+	{
+		GameDelegator qg = new GameDelegator(account, token);
+
+		if (!validCredentials(token))
+			return serialise(getInvalidCredentialsBean(), accept);
+
+		GeneralItemDelegator gid = new GeneralItemDelegator(token);
+		return serialise(gid.getRecentGeneralItems(), accept);
+
+	}
+
 
 	@GET
 	@Produces({ MediaType.TEXT_HTML })

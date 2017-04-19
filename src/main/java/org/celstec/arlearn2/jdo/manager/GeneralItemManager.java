@@ -40,6 +40,8 @@ public class GeneralItemManager {
 	private static final String paramsNames[] = new String[]{"gameParam", "generalItemIdParam", "typeParam", "sectionParam"};
 	private static final String types[] = new String[]{"Long", "com.google.appengine.api.datastore.Key", "String", "String"};
 
+	private static final int RECENT_DAYS = 15;
+	private static final int ONE_DAY_MILISECOND = 86400000;
 
 	public static void addGeneralItem(GeneralItem bean) {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -121,6 +123,31 @@ public class GeneralItemManager {
 			args = new Object[]{gameId, from, until};
 		}
 		
+		query.setFilter(filter);
+		query.declareParameters(params);
+		Iterator<GeneralItemJDO> it = ((List<GeneralItemJDO>) query.executeWithArray(args)).iterator();
+		while (it.hasNext()) {
+			returnProgressDefinitions.add(toBean((GeneralItemJDO) it.next()));
+		}
+		return returnProgressDefinitions;
+	}
+
+	public static List<GeneralItem> getGeneralitemsFromUntil(Long gameId) {
+		ArrayList<GeneralItem> returnProgressDefinitions = new ArrayList<GeneralItem>();
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query query = pm.newQuery(GeneralItemJDO.class);
+		String filter = null;
+		String params = null;
+		Object args[] = null;
+
+		Long until = System.currentTimeMillis() + RECENT_DAYS * ONE_DAY_MILISECOND;
+		Long today = System.currentTimeMillis();
+
+
+		filter = "gameId == gameParam & timeStamp <= untilParam & timeStamp > today";
+		params = "Long gameParam, Long untilParam, Long today";
+		args = new Object[]{gameId, until, today};
+
 		query.setFilter(filter);
 		query.declareParameters(params);
 		Iterator<GeneralItemJDO> it = ((List<GeneralItemJDO>) query.executeWithArray(args)).iterator();

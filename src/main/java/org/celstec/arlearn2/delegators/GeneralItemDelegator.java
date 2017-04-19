@@ -186,6 +186,23 @@ public class GeneralItemDelegator extends DependencyDelegator {
         return gil;
     }
 
+    public GeneralItemList getRecentGeneralItems() {
+        GeneralItemList gil = new GeneralItemList();
+
+        List<GeneralItem> generalItems = new ArrayList<GeneralItem>();
+
+        GameDelegator qg = new GameDelegator(this);
+
+        for (Game game : qg.getParticipateGames().getGames()) {
+            generalItems.addAll(GeneralItemManager.getGeneralitemsFromUntil(game.getGameId()));
+        }
+
+        gil.setGeneralItems(generalItems);
+
+        gil.setServerTime(System.currentTimeMillis());
+        return gil;
+    }
+
     public GeneralItemList getGeneralItems(Long gameId, String section) {
 //        GeneralItemList gil = GeneralitemsCache.getInstance().getGeneralitems(gameId, null, null);
 //        if (gil == null) {
