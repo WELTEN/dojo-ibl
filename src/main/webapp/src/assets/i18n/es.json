@@ -41,7 +41,11 @@
       "editstructure": "Modificar estructura ",
       "editrun": "Modificar ",
       "newinquiry": "Nueva investigacion",
-      "profile": "Perfil"
+      "profile": "Perfil",
+      "calendar": "Calendario",
+      "placeholder-inquiry-code": "Inserte código aqui...",
+      "placeholder-comments": "Escribe tu comentario aqui...",
+      "placeholder-message": "Escribe tu mensaje aqui..."
     },
     "inquiry": {
       "structure": {

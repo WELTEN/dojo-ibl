@@ -1,0 +1,130 @@
+{
+  "dibl": {
+    "login": {
+      "signmessage": "Влезте, за да започнете сесия",
+      "signinfacebook": "Влезте с Facebook",
+      "signingoogle": "Влезте с Google",
+      "signinlinkedin": "Влезте с LinkedIn",
+      "signintwitter": "Влезте с Twitter",
+      "signinwespot": "Sign in with weSPOT",
+      "signineco": "Влезте с ECO"
+    },
+    "sidebar": {
+      "inquiries": "Начало",
+      "profile": "Вашият профил",
+      "timeline": "Времева линия",
+      "calendar": "календар",
+      "phases": "Преглед",
+      "createinquiry": "Създаване на изследване",
+      "documentation": "Документация",
+      "joininquiry": "Присъединяване към изследване"
+    },
+    "header": {
+      "logout": "Изход",
+      "feedback": "Обратна връзка",
+      "version": "Alpha версия"
+    },
+    "toolbar": {
+      "back": "Връщане към",
+      "new": "Създаване на изследване",
+      "join": "Присъединяване",
+      "edit-structure": "Редактиране на структурата на ",
+      "edit-run": "Редакция ",
+      "edit-inquiry-structure": "Редактирате структурата на",
+      "edit-inquiry-run": "Редактиране ",
+      "home": "Начало",
+      "backend": "Backend",
+      "phases": "Изследване",
+      "phase": "Фаза",
+      "activity": "Дейност",
+      "timeline": "Времева линия",
+      "editstructure": "Редактиране на структурата на изследването",
+      "selectstructure": "Каталог на изследвания",
+      "editrun": "Редактиране на реализацията на изследването",
+      "newinquiry": "Ново изследване",
+      "profile": "Профил",
+      "calendar": "Календар",
+      "placeholder-inquiry-code": "Въведете кода за изследването тук...",
+      "placeholder-comments": "Напишете коментарите си тук...",
+      "placeholder-message": "Напишете съобщение тук..."
+    },
+    "inquiry": {
+      "structure": {
+        "chat": "Чат",
+        "send": "Изпрати",
+        "no-phases": "Няма намерени фази..."
+      },
+      "home": {
+        "click-first": "Избери",
+        "click-first-1": "Впиши предоставения за изследването код",
+        "click-first-2": "и избери",
+        "join-inquiry": "включи се в изледване",
+        "new-inquiry": "създай изследване",
+        "to-start": "създай собствена структура за изследване",
+        "to-use": "получи достъп до съществуващо изследване."
+      },
+      "phase": {
+        "instruction": "Моля, прочетете и изпълнете всички дейности. След като направите промени по тях, преминете към правилния списък."
+      },
+      "activity": {
+        "post-comment": "Публикувай коментар",
+        "placeholder-comment": "Напиши коментар...",
+        "add-list-item-placeholder": "Добави нов елемент към списъка...",
+        "reply-comment": "Отговори"
+      },
+      "create": {
+        "modal":{
+          "create": "Създай",
+          "cancel": "Откажи"
+        }
+      },
+      "new-edit": {
+        "inquiry-metadata": "1. Метаданни за изследването",
+        "inquiry-catalogue": "Каталог на структурата на изследването",
+        "inquiry-title": "Заглавие на изследване",
+        "inquiry-title-placeholder": "Въведи заглавие на изследването",
+        "inquiry-description": "Описание на изследването",
+        "inquiry-save": "Запази промените",
+        "inquiry-roles": "2. Роли",
+        "roles-title": "Роли",
+        "p-available-roles": "Списък с налични роли в",
+        "no-roles": "Все още няма роли",
+        "add-role": "Добави роля",
+        "edit-role": "Запази промените",
+        "placeholder-role": "Въведи името на ролята",
+        "remove-role": "Премахни роля",
+        "inquiry-phases-activities": "3. Изследване",
+        "configuration-dashboard": "Конфигурирай виртуалното табло за дейности и фази.",
+        "phases": "Добави фази",
+        "add-phase-button": "Добави",
+        "add-phase-placeholder": "Въведи името на фазата",
+        "activities": "Добави дейности",
+        "add-run-button": "Добави",
+        "add-run-placeholder": "Въведете име на реализацията на изследването",
+        "click-first": "Изберете първо",
+        "adding-phases": "за да започнете добавяне на фази в изследването.",
+        "adding-activities": "Сега изберете зелените бутони, за да започнете да добавяте дейности и фази.",
+        "editing-activities": "Сега изберете една от сините дейности, за да ги редактирате тук.",
+        "title-activity": "Заглавие:",
+        "type-activity": "Тип:",
+        "video-activity": "Видео връзка:",
+        "google-activity": "Връзка към ресурс в Google:",
+        "description-activity": "Описание:",
+        "roles-activity": "Роли:",
+        "save-activity": "Запази",
+        "delete-activity": "Изтрий",
+        "run-inquiries": "5. Групи",
+        "run-inquiries-title": "Създай групи за това изследване",
+        "run-inquiries-description": "Този панел позволява създаване на групи за това изследване. Студентите/учениците могат да се включат посредством груповия код.",
+        "run-inquiries-subtitle": "Създаване на нова група",
+        "activity-order": "Ред на дейностите:",
+        "export-import": "5. Експортирай/импортирай [Само за администратор]",
+        "editor-management": "6. Управление на редактори",
+        "run-participants": "2. Участници в групата на изследването",
+        "dueto": "Предаване:",
+        "calendar": "4. Календар",
+        "delete-inquiry": "7. Изтрий изследване"
+      }
+    }
+  }
+}
