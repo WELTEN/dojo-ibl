@@ -43,7 +43,7 @@
       "newinquiry": "Nueva investigacion",
       "profile": "Perfil",
       "calendar": "Calendario",
-      "placeholder-inquiry-code": "Inserte código aqui...",
+      "placeholder-inquiry-code": "Inserta un código y únete a la investigación...",
       "placeholder-comments": "Escribe tu comentario aqui...",
       "placeholder-message": "Escribe tu mensaje aqui..."
     },
@@ -53,6 +53,9 @@
         "send": "Enviar",
         "no-phases": "No hay fases todavia..."
       },
+      "view":{
+        "description": "Fases y actividades de"
+      },
       "home": {
         "click-first": "Primero haz click",
         "click-first-1": "o pega aqui",
@@ -60,7 +63,15 @@
         "join-inquiry": "unir a una investigacion",
         "new-inquiry": "crear una investigacion",
         "to-start": "para organizar tu investigacion",
-        "to-use": "para utilizar una que ya existe."
+        "to-use": "para utilizar una que ya existe.",
+        "inquiries-title-inquiry": "Nombre de la investigación",
+        "inquiries-title-date": "Ultima modificación",
+        "inquiries-title-menu": "Menu",
+        "inquiries-button-clone": "Duplicar",
+        "inquiries-button-teacher-view": "Vista profesor",
+        "inquiries-button-student": "Vista alumno",
+        "inquiries-list": "Tus investigaciones"
+
       },
       "phase": {
         "instruction": "Please read and do all the activities. As soon as you change something on them move to the correct list."
@@ -71,32 +82,41 @@
         "add-list-item-placeholder": "Añade un nuevo elemento a la lista...",
         "reply-comment": "Responder"
       },
+      "create": {
+        "modal":{
+          "create": "Crear",
+          "cancel": "Cancelar"
+        }
+      },
       "new-edit": {
-        "inquiry-metadata": "1. Inquiry metadata",
-        "inquiry-title": "Inquiry title",
-        "inquiry-title-placeholder": "Enter an inquiry title",
-        "inquiry-description": "Inquiry description",
+        "inquiry-metadata": "1. Información general",
+        "inquiry-catalogue": "Catálogo de estructuras de investigación",
+        "inquiry-title": "Nombre investigación",
+        "inquiry-title-placeholder": "Escribe el nombre de la investigación",
+        "inquiry-description": "Descripción de la investigación",
         "inquiry-save": "Guardar cambios",
+        "inquiry-discard": "Cancelar cambios",
+        "help": "Ayuda",
         "inquiry-roles": "2. Roles",
         "roles-title": "Roles",
-        "p-available-roles": "List of available roles in",
-        "no-roles": "No roles yet",
+        "p-available-roles": "Roles disponibles en la investigación",
+        "no-roles": "No hay roles. Sé el primero!",
         "add-role": "Añadir rol",
         "edit-role": "Guardar cambios",
-        "placeholder-role": "Type the name of the role",
+        "placeholder-role": "Elige el nombre del nuevo rol",
         "remove-role": "Eliminar",
-        "inquiry-phases-activities": "3. Phases & activities",
-        "configuration-dashboard": "Configuration dashboard for activities and phases.",
+        "inquiry-phases-activities": "3. Fases y actividades",
+        "configuration-dashboard": "Panel de configuración de actividades y fases",
         "phases": "Añadir fase",
         "add-phase-button": "Añadir",
         "add-phase-placeholder": "Escribe el nombre de la fase",
         "activities": "Añadir actividades",
         "add-run-button": "Añadir",
-        "add-run-placeholder": "Type the name of the inquiry run",
+        "add-run-placeholder": "Elige un nombre para el nuevo grupo",
         "click-first": "Click first on",
-        "adding-phases": "to start adding phases to the inquiry.",
-        "adding-activities": "Now click on the green buttons to start adding activities to the phase.",
-        "editing-activities": "Now click on one of the blue activities to edit it here.",
+        "adding-phases": "para añadir una fase nueva.",
+        "adding-activities": "Haz clic en el boton verde para añadir una actividad a la fase.",
+        "editing-activities": "Haz clic en uno de los botones azules para modificar una actividad.",
         "title-activity": "Titulo:",
         "type-activity": "Tipo:",
         "video-activity": "Enlace video:",
@@ -105,16 +125,29 @@
         "roles-activity": "Roles:",
         "save-activity": "Guardar",
         "delete-activity": "Eliminar",
-        "run-inquiries": "4. Grupos",
+        "run-inquiries": "5. Grupos de investigación",
         "run-inquiries-title": "Crear nuevo grupo",
-        "run-inquiries-description": "This panel allows you to create more runs for this inquiry structure. Students can be added later",
-        "run-inquiries-subtitle": "Crear nuevo grupo que utilice la estructura de proyecto",
+        "run-inquiries-description": "Con este panel puedes crear tantos grupos como desees. Cada grupo trenda su espacio independiente de trabajo, pero utilizar la misma estructura que hayas definido en el paso 3. Los alumnos se puede unir mas adelante utilizando el codigo de investigación.",
+        "run-inquiries-subtitle": "Crear nuevo grupo de alumnos para esta investigación",
         "activity-order": "Orden de la actividad:",
-        "export-import": "5. Exportar/importar",
-        "editor-management": "6. Gestión de editores",
+        "export-import": "6. Exportar/importar",
+        "editor-management": "6. Gestión de acceso de edición",
         "run-participants": "2. Participantes en los grupos",
         "dueto": "Fecha:",
-        "calendar": "4. Calendario"
+        "calendar": "4. Calendario",
+        "runs-status": "Estado",
+        "runs-inquiry-code": "Código de investigación",
+        "runs-metadata": "Información general",
+        "runs-participants": "Participantes del grupo",
+        "runs-options": "Opciones",
+        "delete-inquiry": "7. Eliminar investigación",
+        "options-view": "Ver",
+        "options-edit": "Modificar",
+        "options-delete": "Eliminar",
+        "editor-user": "Usuario",
+        "editor-editor": "Editor",
+        "editor-promote-editor": "Ascender a nivel editor",
+        "editor-relegate-user": "Relegar a nivel usuario"
       }
     }
   }

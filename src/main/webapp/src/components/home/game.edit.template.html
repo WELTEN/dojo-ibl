@@ -42,7 +42,7 @@
                         <div class="pull-right tooltip-demo">
                             <a ng-hide="game.gameId == 4913623780556800" class="btn btn-white btn-sm" data-toggle="tooltip"
                                data-placement="top" title="Move to draft folder"><i class="fa fa-times"></i>
-                                Discard</a>
+                                {{ 'dibl.inquiry.new-edit.inquiry-discard' | translate }}</a>
 
                             <a ng-hide="game.gameId == 4913623780556800" class="btn btn-primary btn-sm" data-toggle="tooltip"
                                data-placement="top" ng-click="ok()" title="Save inquiry"><i class="fa fa-check"></i>
@@ -120,7 +120,7 @@
                     <div class="pull-right tooltip-demo">
                         <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit#bookmark=id.x798b8mfm6if" class="btn btn-white btn-sm" data-toggle="tooltip"
                            data-placement="top" title="Move to draft folder"><i class="fa fa-question"></i>
-                            Help</a>
+                            {{ 'dibl.inquiry.new-edit.help' | translate }}</a>
                     </div>
                 </div>
             </div>
@@ -135,7 +135,7 @@
                     <div class="pull-right tooltip-demo">
                         <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit#bookmark=id.7a3mjfdhvuar" class="btn btn-white btn-sm" data-toggle="tooltip"
                            data-placement="top" title="Move to draft folder"><i class="fa fa-question"></i>
-                            Help</a>
+                            {{ 'dibl.inquiry.new-edit.help' | translate }}</a>
                     </div>
                     <p>{{ 'dibl.inquiry.new-edit.configuration-dashboard' | translate }}</p>
                 </div>
@@ -199,7 +199,7 @@
                     <div class="pull-right tooltip-demo">
                         <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit#bookmark=id.34boqohhq24w" class="btn btn-white btn-sm" data-toggle="tooltip"
                            data-placement="top" title="Move to draft folder"><i class="fa fa-question"></i>
-                            Help</a>
+                            {{ 'dibl.inquiry.new-edit.help' | translate }}</a>
                     </div>
                 </div>
 
@@ -241,6 +241,15 @@
 
                         <div class="project-list">
                             <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th><b>{{'dibl.inquiry.new-edit.runs-status' | translate}}</b></th>
+                                        <th><b>{{'dibl.inquiry.new-edit.runs-inquiry-code' | translate}}</b></th>
+                                        <th><b>{{'dibl.inquiry.new-edit.runs-metadata' | translate}}</b></th>
+                                        <th><b>{{'dibl.inquiry.new-edit.runs-participants' | translate}}</b></th>
+                                        <th><b>{{'dibl.inquiry.new-edit.runs-options' | translate}}</b></th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                 <tr ng-repeat="(key, run) in gameRuns | orderByDayNumber:'serverCreationTime'">
                                     <td class="project-status">
@@ -248,7 +257,7 @@
                                         <span ng-hide="run.deleted" class="label label-primary">Active</span>
                                     </td>
                                     <td class="project-completion">
-                                        <p><b>Code</b></p>
+                                        <!--<p><b>{{'dibl.inquiry.new-edit.inquiry-code' | translate}}</b></p>-->
                                         <small>{{ run.code }}</small>
                                         <!--<div class="progress progress-mini">-->
                                         <!--<div style="width: 48%;" class="progress-bar"></div>-->
@@ -277,13 +286,13 @@
                                     </td>
                                     <td class="project-actions">
                                         <a href="#inquiry/{{ run.runId }}" class="btn btn-white btn-sm"><i
-                                                class="fa fa-eye"></i> View </a>
+                                                class="fa fa-eye"></i> {{'dibl.inquiry.new-edit.options-view' | translate}} </a>
                                         <!--<a ng-click="addUsersToRun(run.runId, run.gameId)"-->
                                            <!--class="btn btn-white btn-sm"><i class="fa fa-user"></i> Add users </a>-->
                                         <a href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit" class="btn btn-white btn-sm"><i
-                                                class="fa fa-pencil"></i> Edit </a>
+                                                class="fa fa-pencil"></i> {{'dibl.inquiry.new-edit.options-edit' | translate}}  </a>
                                         <a ng-click="removeRun(run)" class="btn btn-default btn-sm"><i
-                                                class="fa fa-times"></i> Delete </a>
+                                                class="fa fa-times"></i> {{'dibl.inquiry.new-edit.options-delete' | translate}}  </a>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -291,7 +300,7 @@
                             <div class="pull-right tooltip-demo">
                                 <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit#bookmark=id.72ysjs7fgklv" class="btn btn-white btn-sm" data-toggle="tooltip"
                                    data-placement="top" title="Move to draft folder"><i class="fa fa-question"></i>
-                                    Help</a>
+                                    {{ 'dibl.inquiry.new-edit.help' | translate }}</a>
                             </div>
                         </div>
 
@@ -313,8 +322,8 @@
 
                                     <tr ng-repeat="(key, account) in accountsAccesGame">
                                         <td class="project-status">
-                                            <span ng-show="account.accessRights == 2" class="label label-primary">User</span>
-                                            <span ng-show="account.accessRights == 1" class="label label-danger">Editor</span>
+                                            <span ng-show="account.accessRights == 2" class="label label-primary">{{'dibl.inquiry.new-edit.editor-user' | translate}}</span>
+                                            <span ng-show="account.accessRights == 1" class="label label-danger">{{'dibl.inquiry.new-edit.editor-editor' | translate}}</span>
                                         </td>
                                         <td class="client-avatar">
                                             <ng-letter-avatar shape="round" ng-if="account.picture == ''" data="{{ account.name }}"></ng-letter-avatar>
@@ -327,9 +336,9 @@
                                         <td> {{ account.email }}</td>
                                         <td class="project-actions">
                                             <a ng-show="account.accessRights == 2 && me.localId != account.localId" ng-click="grantEditorAccess(game, account)"
-                                               class="btn btn-white btn-sm"><i class="fa fa-arrow-up"></i> Promote to editor </a>
+                                               class="btn btn-white btn-sm"><i class="fa fa-arrow-up"></i> {{'dibl.inquiry.new-edit.editor-promote-editor' | translate}} </a>
                                             <a ng-show="account.accessRights == 1 && me.localId != account.localId" ng-click="revokeEditorAccess(game, account)"
-                                               class="btn btn-white btn-sm"><i class="fa fa-arrow-down"></i> Relegate to user </a>
+                                               class="btn btn-white btn-sm"><i class="fa fa-arrow-down"></i> {{'dibl.inquiry.new-edit.editor-relegate-user' | translate}}</a>
                                         </td>
                                     </tr>
                                 </tbody>

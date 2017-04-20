@@ -54,6 +54,9 @@
         "send": "Send",
         "no-phases": "No phases found..."
       },
+      "view":{
+        "description": "Phases and activities of"
+      },
       "home": {
         "click-first": "Click",
         "click-first-1": "Insert the inquiry code provided ",
@@ -61,7 +64,14 @@
         "join-inquiry": "join inquiry",
         "new-inquiry": "create inquiry",
         "to-start": "to setup your own inquiry structure",
-        "to-use": "to get access to an existing inquiry."
+        "to-use": "to get access to an existing inquiry.",
+        "inquiries-title-inquiry": "Inquiry title",
+        "inquiries-title-date": "Last modification",
+        "inquiries-title-menu": "Options",
+        "inquiries-button-clone": "Clone",
+        "inquiries-button-teacher-view": "Teacher view",
+        "inquiries-button-student": "Student access",
+        "inquiries-list": "Your inquiries"
       },
       "phase": {
         "instruction": "Please read and do all the activities. As soon as you change something on them move to the correct list."
@@ -85,6 +95,8 @@
         "inquiry-title-placeholder": "Enter an inquiry title",
         "inquiry-description": "Inquiry description",
         "inquiry-save": "Save changes",
+        "inquiry-discard": "Discard changes",
+        "help": "Help",
         "inquiry-roles": "2. Roles",
         "roles-title": "Roles",
         "p-available-roles": "List of available roles in",
@@ -123,7 +135,19 @@
         "run-participants": "2. Inquiry group's participants",
         "dueto": "Due:",
         "calendar": "4. Calendar",
-        "delete-inquiry": "7. Delete inquiry"
+        "runs-status": "Gruop status",
+        "runs-inquiry-code": "Inquiry code",
+        "runs-metadata": "General information",
+        "runs-participants": "Group participants",
+        "runs-options": "Options",
+        "delete-inquiry": "7. Delete inquiry",
+        "options-view": "View",
+        "options-edit": "Edit",
+        "options-delete": "Delete",
+        "editor-user": "Usuario",
+        "editor-editor": "Editor",
+        "editor-promote-editor": "Promote to editor",
+        "editor-relegate-user": "Relegate to user"
       }
     }
   }
