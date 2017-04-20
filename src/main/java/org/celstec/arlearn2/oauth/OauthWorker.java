@@ -34,7 +34,7 @@ public abstract class OauthWorker {
     private static final Logger log = Logger.getLogger(OauthWorker.class.getName());
 	
 	protected String code;
-	private HttpServletResponse resp;
+	protected HttpServletResponse resp;
 	protected String baseUrl;
 
 	public void setCode(String code) {
