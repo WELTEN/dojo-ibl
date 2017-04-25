@@ -5,6 +5,10 @@ DojoIBL will help young students to carry on their inquiry activities in a colla
 simple and clear way. Based on phases and activities, the students will DojoIBL as a mentor to 
 structure their own process.
 
+Version 33
+----------
+- Mobile login [#290](https://github.com/WELTEN/dojo-ibl/issues/290)
+
 Version 32
 ----------
 - Delay email notifications [#288](https://github.com/WELTEN/dojo-ibl/issues/288)

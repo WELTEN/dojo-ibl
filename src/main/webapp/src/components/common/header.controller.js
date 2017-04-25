@@ -12,11 +12,15 @@ angular.module('DojoIBL')
         }, {
             icon: 'src/assets/img/i18n/United-States.png',
             name: 'English',
-            id: 'en'
+            id: 'en-US'
         }, {
             icon: 'src/assets/img/i18n/Netherlands.png',
             name: 'Dutch',
             id: 'nl'
+        }, {
+            icon: 'src/assets/img/i18n/Bulgaria.png',
+            name: 'Bulgarian',
+            id: 'bg'
         }];
 
         if (Session.getAccessToken()) {
@@ -30,6 +34,7 @@ angular.module('DojoIBL')
 
         $scope.setLanguage = function (lang) {
             $translate.use(lang);
+            localStorage.setItem('i18', lang);
         };
 
         $scope.signout = function() {

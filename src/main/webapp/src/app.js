@@ -22,8 +22,27 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
             template: 'bootstrap2'
         });
     })
-    .run(function ($http, $location, $window) {
+    .run(function ($http, $location, $translate) {
         var absUrl = $location.absUrl();
+
+        if(localStorage.getItem('i18')){
+            $translate.use(localStorage.getItem('i18'));
+        }else{
+            var lang = window.navigator.languages[0] || window.navigator.userLanguage;
+
+            if (lang === 'bg') {
+                $translate.use(lang);
+            }
+            if (lang === 'en-US') {
+                $translate.use(lang);
+            }
+            if (lang === 'es') {
+                $translate.use(lang);
+            }
+            if (lang === 'nl') {
+                $translate.use(lang);
+            }
+        }
 
         if(localStorage.getItem('accessToken')){
             //if(location.host == "localhost:8080"){

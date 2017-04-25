@@ -19,12 +19,12 @@
 package org.celstec.arlearn2.oauth;
 
 import org.celstec.arlearn2.jdo.classes.AccountJDO;
-import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 public class OauthServlet  extends HttpServlet {
@@ -34,6 +34,7 @@ public class OauthServlet  extends HttpServlet {
 	private static final String LINKEDIN = "linkedin";
     private static final String TWITTER = "twitter";
     private static final String WESPOT = "wespot";
+    private static final String WESPOTMOBILE = "wespotmobile";
     private static final String ECO = "eco";
 
 	@Override
@@ -73,6 +74,8 @@ public class OauthServlet  extends HttpServlet {
             }
         } else if (req.getPathInfo().contains(WESPOT)) {
             worker = new OauthWespotWorker();
+        } else if (req.getPathInfo().contains(WESPOTMOBILE)) {
+            worker = new OauthWespotMobileWorker();
         } else if (req.getPathInfo().contains(ECO)) {
             worker = new OauthEcoWorker();
         }
