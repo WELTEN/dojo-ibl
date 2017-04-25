@@ -5453,6 +5453,13 @@ del {
   position: relative;
   margin: 0;
 }
+
+.social-footer-2 {
+  border-top: 1px solid #e7eaec;
+  background: #f9f9f9;
+  position: relative;
+  margin: 0;
+}
 .social-footer .social-comment img, .social-footer .social-comment i.profile-response {
   font-size: 40px;
   margin-right: 10px;
@@ -9248,4 +9255,23 @@ text-angular > p{
 
 p > span:first-child > p:last-child {
   display: inline;
+}
+
+.green {
+  color: #7ad600;
+}
+
+.yellow {
+  color: #d6cd00;
+}
+
+.red {
+  color: #d64002;
+}
+
+
+.alert-info2 {
+  background-color: rgba(200, 166, 35, 0.21) !important;
+  margin: 3px 0px 3px 0px !important;
+  padding: 5px 8px 6px 12px !important;
 }

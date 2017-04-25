@@ -1,7 +1,7 @@
 <div class="row wrapper border-bottom white-bg page-heading p-sm">
     <div class="col-md-4">
         <h2 class="m-t-none">
-            {{ run.title }} - <small>{{ run.code }}</small>
+            {{ game.title }} - {{ run.title }} - <small>{{ run.code }}</small>
         </h2>
         <ol class="breadcrumb">
             <li>
@@ -20,7 +20,6 @@
             <ui-select ng-show="game.accessRights == 1" ng-change="selectChange(selected.value)" theme="bootstrap" ng-model="selected.value">
                 <ui-select-match>
                     <span ng-bind="$select.selected.title"></span>
-
                 </ui-select-match>
                 <ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.runId">
                     <span ng-bind="item.title"></span>
@@ -39,46 +38,4 @@
 
         </div>
     </div>
-
-    <!--<div class="col-md-6">-->
-        <!--<div class="title-action">-->
-            <!--<div class="col-md-12">-->
-                <!--<ui-select class="m-md" ng-show="game.accessRights == 1" ng-change="selectChange(selected.value)" theme="bootstrap" ng-model="selected.value">-->
-                    <!--<ui-select-match>-->
-                        <!--<span ng-bind="$select.selected.title"></span>-->
-
-                    <!--</ui-select-match>-->
-                    <!--<ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.runId">-->
-                        <!--<span ng-bind="item.title"></span>-->
-                    <!--</ui-select-choices>-->
-                <!--</ui-select>-->
-            <!--</div>-->
-            <!--&lt;!&ndash;<div class="col-md-5">&ndash;&gt;-->
-                <!--&lt;!&ndash;<a ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"class="btn btn-danger m-md">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-structure' | translate }} <b>{{ run.game.title }}</b>&ndash;&gt;-->
-                <!--&lt;!&ndash;</a>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-            <!--&lt;!&ndash;<a ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"class="btn btn-danger m-md">&ndash;&gt;-->
-                <!--&lt;!&ndash;<i class="fa fa-pencil"></i> {{'dibl.toolbar.edit-structure' | translate }} <b>{{ run.game.title }}</b>&ndash;&gt;-->
-            <!--&lt;!&ndash;</a>&ndash;&gt;-->
-
-            <!--<div class="m-md" ng-show="state.current.name == 'home'">-->
-                <!--<div class="input-group" >-->
-                    <!--<input type="text" class="form-control ng-pristine ng-untouched ng-valid" ng-model="inquiryCode">-->
-                <!--<span class="input-group-btn">-->
-                    <!--<button type="button" ng-disabled="inquiryCode.length < 4 || !inquiryCode" ng-click="findAndJoin()" class="btn btn-warning ng-binding" disabled="disabled"><i class="fa fa-plus"></i> {{'dibl.toolbar.join' | translate }}-->
-                    <!--</button>-->
-                <!--</span>-->
-                <!--</div>-->
-            <!--</div>-->
-
-            <!--&lt;!&ndash;<div class="col-md-2" ng-show="state.current.name == 'home'">&ndash;&gt;-->
-                <!--&lt;!&ndash;<a  href="#create/inquiry"  class="btn btn-success m-md"><i class="fa fa-plus"></i> {{'dibl.toolbar.new' | translate }} </a>&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-
-
-            <!--&lt;!&ndash;<a  href="" ng-show="state.current.name == 'home'" class="btn btn-warning  m-md" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-in"></i> </a>&ndash;&gt;-->
-        <!--</div>-->
-    <!--</div>-->
 </div>

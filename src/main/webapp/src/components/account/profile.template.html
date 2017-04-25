@@ -146,26 +146,26 @@
                     <!--</div>-->
                 <!--</div>-->
 
-                <!--<div class="ibox">-->
-                    <!--<div class="ibox-content">-->
-                        <!--<h3>Private message</h3>-->
+                <div class="ibox">
+                    <div class="ibox-content social-body">
+                        <h3>Private message</h3>
 
-                        <!--<p class="small">-->
-                            <!--Send private message to Alex Smith-->
-                        <!--</p>-->
+                        <p class="small">
+                            Send private message to Alex Smith
+                        </p>
 
-                        <!--<div class="form-group">-->
-                            <!--<label>Subject</label>-->
-                            <!--<input type="email" class="form-control" placeholder="Message subject">-->
-                        <!--</div>-->
-                        <!--<div class="form-group">-->
-                            <!--<label>Message</label>-->
-                            <!--<textarea class="form-control" placeholder="Your message" rows="3"></textarea>-->
-                        <!--</div>-->
-                        <!--<button class="btn btn-primary btn-block">Send</button>-->
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="subject" ng-model="message.subject" class="form-control" placeholder="Message subject">
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea class="form-control" ng-model="message.body" placeholder="Your message" rows="3"></textarea>
+                        </div>
+                        <button ng-click="send()" class="btn btn-primary btn-block">Send</button>
 
-                    <!--</div>-->
-                <!--</div>-->
+                    </div>
+                </div>
 
             <!--</div>-->
 

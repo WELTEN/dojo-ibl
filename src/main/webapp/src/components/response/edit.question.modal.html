@@ -1,0 +1,19 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <!--<i class="fa fa-laptop modal-icon"></i>-->
+        <h4 class="modal-title">Edit</h4>
+    </div>
+    <div class="modal-body form-horizontal" >
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Title</label>
+            <div class="col-sm-9">
+                <input type="text" ng-model="response.responseValue" class="form-control">
+            </div>
+        </div>
+        <div class="hr-line-dashed"></div>
+    </div>
+    <div class="modal-footer">
+        <button id="inquiry-new-close" type="button" class="btn btn-white" ng-click="cancel()">{{ 'dibl.inquiry.create.modal.cancel' | translate }}</button>
+        <button id="inquiry-new-create" type="button" class="btn btn-primary" ng-click="ok()">{{ 'dibl.inquiry.create.modal.create' | translate }}</button>
+    </div>
+</div>

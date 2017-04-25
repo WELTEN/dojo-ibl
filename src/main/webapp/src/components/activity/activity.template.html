@@ -98,10 +98,13 @@
              'mail-body':  activity.type != 'org.celstec.arlearn2.beans.generalItem.ScanTag'  }">
                 <div class="text-center">
                     <div class="small text-muted">
-                        <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'fullDate' }}
+                        <i class="fa fa-clock-o"></i> {{ activity.timestamp | date:'fullDate' }}
                     </div>
                 </div>
                 <h1>
+                    <i ng-hide="activity.status.status == 1 || activity.status.status == 2" title="To Do" class="fa fa-check-square red"></i>
+                    <i ng-show="activity.status.status == 1" title="In progress" class="fa fa-check-square yellow"></i>
+                    <i ng-show="activity.status.status == 2" title="Done" class="fa fa-check-square green"></i>
                     {{ activity.name }}
                 </h1>
                 <div class="" ng-bind-html="activity.richText || activity.description"></div>
@@ -140,31 +143,6 @@
                 </div>
             </div>
 
-            <!--<div class="social-avatar">-->
-
-                <!--<div class="media-body">-->
-                    <!--<div class="small text-muted">-->
-                        <!--<i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'fullDate' }}-->
-                    <!--</div>-->
-                    <!--&lt;!&ndash;<p class="small font-bold">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<span><i class="fa fa-circle text-warning"></i>&ndash;&gt;-->
-                            <!--&lt;!&ndash;Creation date: <b>{{ activity.lastModificationDate | date:'fullDate' }}</b></span>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<br/>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<span ng-repeat="role in roles track by $index">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<i class="fa fa-circle text-navy" ng-style="getRoleColor(activity.roles)"></i>&ndash;&gt;-->
-                            <!--&lt;!&ndash;Role: <b>{{ role.name }}</b>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<br/>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</p>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<a href="#">&ndash;&gt;-->
-                        <!--&lt;!&ndash;Andrew Williams&ndash;&gt;-->
-                    <!--&lt;!&ndash;</a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<small class="text-muted">Today 4:21 pm - 12.06.2014</small>&ndash;&gt;-->
-                <!--</div>-->
-            <!--</div>-->
-
-
-
             <div ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="input-group create-question">
                 <input responseid="0" ng-enter="sendComment()" class="form-control response" ng-model="response" placeholder="{{'dibl.inquiry.activity.add-list-item-placeholder' | translate }}">
                 <span class="input-group-btn">
@@ -172,7 +150,7 @@
                 </span>
             </div>
 
-            <div id="list_answers" class="row m-t-sm social-footer" ng-hide="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
+            <div id="list_answers" ng-class="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject' ? 'social-footer-2' : 'social-footer'" class="row m-t-sm" ng-hide="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
 
                 <div class="alert alert-warning" ng-show="responses | isEmpty">
                     No comments so far. <a class="alert-link"> Be the first one {{ myAccount.givenName }}</a>.
@@ -180,17 +158,6 @@
 
                 <!--<responses responses="responses" ng-if="activity.type != 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></responses>-->
                 <response ng-repeat='response in responses | orderByDayNumber:"lastModificationDate"' response='response' ng-if="activity.type != 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></response>
-
-                <!--<div class="m-b-lg" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'">-->
-
-                    <!--<div class="input-group">-->
-                        <!--<input ng-model="searchText.responseValue">-->
-                        <!--&lt;!&ndash;<input type="text" ng-model="search" placeholder="Search issue by name..." class=" form-control">&ndash;&gt;-->
-                        <!--<span class="input-group-btn">-->
-                            <!--<button type="button" class="btn btn-red"> Search</button>-->
-                        <!--</span>-->
-                    <!--</div>-->
-                <!--</div>-->
 
                 <response-question ng-repeat="(key, response) in responses | orderByDayNumber:'lastModificationDate':true | filter:searchText" response='response' ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></response-question>
 

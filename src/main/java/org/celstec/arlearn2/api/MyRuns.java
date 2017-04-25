@@ -345,18 +345,19 @@ public class MyRuns extends Service {
 
 	@POST
 	@Consumes({ MediaType.APPLICATION_JSON })
-	@Path("/runId/{runId}/generalItem/{generalItemId}/status/{status}")
+	@Path("/runId/gItemStatus")
 	public String setStatusGiItem(@HeaderParam("Authorization") String token, String generalItemStatusString,
-								  @PathParam("generalItemId") Long generalItemId,
-								  @PathParam("runId") Long runId,
-								  @PathParam("status") Integer status,
 								  @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
 								  @DefaultValue("application/json") @HeaderParam("Accept") String accept)   {
 		if (!validCredentials(token))
 			return serialise(getInvalidCredentialsBean(), accept);
 
+		Object ingeneralItemStatusString = deserialise(generalItemStatusString, GeneralItemsStatus.class, contentType);
+		if (ingeneralItemStatusString instanceof java.lang.String)
+			return serialise(getBeanDoesNotParseException((String) ingeneralItemStatusString), accept);
+
 		GeneralItemStatusDelegator gisd = new GeneralItemStatusDelegator(token);
-		return serialise(gisd.changeItemStatus(runId, generalItemId, status), accept);
+		return serialise(gisd.changeItemStatus((GeneralItemsStatus) ingeneralItemStatusString), accept);
 	}
 
 	@GET
