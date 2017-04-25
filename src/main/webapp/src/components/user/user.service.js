@@ -82,13 +82,10 @@ angular.module('DojoIBL')
                 }
                 return deferred.promise;
             },
-            checkAccess: function() {
-                var runId = $stateParams.runId;
+            checkAccess: function(runId) {
                 var self = this;
                 AccountService.myDetails().then(function(me){
-                    //console.log(runId, me);
                     self.getUsersForRun(runId).then(function(data){
-                        //console.log(arrayObjectIndexOf(data, me.localId, "localId"));
                         if(arrayObjectIndexOf(data, me.localId, "localId") == -1){
                             $location.path('home');
                             toaster.error({
@@ -105,65 +102,7 @@ angular.module('DojoIBL')
                     }
                     return -1;
                 }
-
-
-                //console.log(users);
-                //
-                //if(angular.isUndefined(users[runId])){
-                //    console.log("user runId undefined")
-                //
-                //    users[runId] = {};
-                //    this.getUsersForRun(runId).$promise.then(function (results) {
-                //        if(angular.isUndefined(users[runId][data.accountType+":"+data.localId])){
-                //            console.log("user runId was undefined y user undefined")
-                //
-                //            //console.log("salida 2")
-                //            //return !angular.isUndefined(users[runId][data.accountType+":"+data.localId]);
-                //            return false;
-                //        }else{
-                //            console.log("user runId was undefined y user exists")
-                //
-                //            return true;
-                //        }
-                //    });
-                //}else{
-                //    console.log("user runId exists", angular.isUndefined(users[runId][data.accountType+":"+data.localId]), users[runId], data.accountType+":"+data.localId, users[runId][data.accountType+":"+data.localId])
-                //
-                //    if(angular.isUndefined(users[runId][data.accountType+":"+data.localId])){
-                //        console.log("user runId exists y user undefined")
-                //
-                //        return false;
-                //    }else{
-                //        console.log("user runId exists y user exists")
-                //
-                //        return true;
-                //    }
-                //}
-                //
-                //if(angular.isUndefined(users[runId])){
-                //    users[runId] = {};
-                //    this.getUsersForRun(runId).$promise.then(function (results) {
-                //        console.log("salida 2")
-                //        return !angular.isUndefined(users[runId][data.accountType+":"+data.localId]);
-                //    });
-                //}else{
-                //    console.log("salida 1")
-                //    return !angular.isUndefined(users[runId][data.accountType+":"+data.localId]);
-                //}
-                //
-                //
-                //
-                //return !angular.isUndefined(users[runId]) && !angular.isUndefined(users[runId][data.accountType+":"+data.localId])
             }
-            //refreshAccount: function(account) {
-            //    console.log(account)
-            //    var dataCache = CacheFactory.get('usersCache');
-            //    if (dataCache.get(account.email)) {
-            //        console.log(dataCache.get(account.email));
-            //        dataCache.remove(account.email);
-            //    }
-            //    //return this.getUserByAccount(account.email);
-            //}
         }
     }
 );

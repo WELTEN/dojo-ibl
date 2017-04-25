@@ -64,6 +64,12 @@
     </servlet>
 
     <servlet>
+        <servlet-name>SetTimerEmailNotification</servlet-name>
+        <servlet-class>org.celstec.arlearn2.tasks.TimerSendEmail</servlet-class>
+    </servlet>
+
+
+    <servlet>
         <servlet-name>BlobStoreServlet</servlet-name>
         <servlet-class>org.celstec.arlearn2.upload.BlobStoreServlet</servlet-class>
     </servlet>
@@ -131,6 +137,11 @@
     <servlet-mapping>
         <servlet-name>AsyncTasksServlet</servlet-name>
         <url-pattern>/asyncTask</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>SetTimerEmailNotification</servlet-name>
+        <url-pattern>/setTimerEmailNotification</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

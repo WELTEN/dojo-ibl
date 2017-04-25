@@ -11,12 +11,12 @@
     },
     "sidebar": {
       "inquiries": "Home",
-      "backend": "Backend",
       "profile": "Your profile",
       "timeline": "Timeline",
       "calendar": "Calendar",
       "phases": "Overview",
       "createinquiry": "Create inquiry",
+      "documentation": "Documentation",
       "joininquiry": "Join inquiry"
     },
     "header": {
@@ -39,10 +39,14 @@
       "activity": "Activity",
       "timeline": "Timeline",
       "editstructure": "Editing inquiry structure",
+      "selectstructure": "Inquiries catalogue",
       "editrun": "Editing inquiry run",
       "newinquiry": "New inquiry",
       "profile": "Profile",
-      "calendar": "Calendar"
+      "calendar": "Calendar",
+      "placeholder-inquiry-code": "Type an inquiry code here...",
+      "placeholder-comments": "Type your comments here...",
+      "placeholder-message": "Type your message here..."
     },
     "inquiry": {
       "structure": {
@@ -76,6 +80,7 @@
       },
       "new-edit": {
         "inquiry-metadata": "1. Inquiry metadata",
+        "inquiry-catalogue": "Inquiry structure catalogue",
         "inquiry-title": "Inquiry title",
         "inquiry-title-placeholder": "Enter an inquiry title",
         "inquiry-description": "Inquiry description",
@@ -88,7 +93,7 @@
         "edit-role": "Save changes",
         "placeholder-role": "Type the name of the role",
         "remove-role": "Remove role",
-        "inquiry-phases-activities": "3. Phases & activities",
+        "inquiry-phases-activities": "3. Inquiry",
         "configuration-dashboard": "Configuration dashboard for activities and phases.",
         "phases": "Add phases",
         "add-phase-button": "Add",
@@ -108,16 +113,17 @@
         "roles-activity": "Roles:",
         "save-activity": "Save",
         "delete-activity": "Delete",
-        "run-inquiries": "5. Inquiry groups",
-        "run-inquiries-title": "Create new runs for this inquiry structure",
-        "run-inquiries-description": "This panel allows you to create more runs for this inquiry structure. Students can be added later",
-        "run-inquiries-subtitle": "Create a new inquiry run",
+        "run-inquiries": "5. Groups",
+        "run-inquiries-title": "Create groups for this inquiry",
+        "run-inquiries-description": "This panel allows you to create groups for this inquiry. Students can join using the group code.",
+        "run-inquiries-subtitle": "Create new group",
         "activity-order": "Activity order:",
         "export-import": "5. Export/import [Just for the admin]",
         "editor-management": "6. Editors management",
         "run-participants": "2. Inquiry group's participants",
         "dueto": "Due:",
-        "calendar": "4. Calendar"
+        "calendar": "4. Calendar",
+        "delete-inquiry": "7. Delete inquiry"
       }
     }
   }

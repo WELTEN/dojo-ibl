@@ -19,6 +19,7 @@
 package org.celstec.arlearn2.delegators;
 
 import org.celstec.arlearn2.api.Service;
+import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.beans.run.Response;
 import org.celstec.arlearn2.beans.run.ResponseList;
 import org.celstec.arlearn2.beans.run.Run;
@@ -48,6 +49,9 @@ public class ResponseDelegator extends GoogleDelegator {
             return r;
         }
         UsersDelegator qu = new UsersDelegator(this);
+        AccountDelegator ad = new AccountDelegator(this);
+        MailDelegator md = new MailDelegator(this);
+
         r.setUserEmail(qu.getCurrentUserAccount());
 
         long id = ResponseManager.addResponse(r.getGeneralItemId(), r.getResponseValue(), run.getRunId(), r.getUserEmail(), r.getTimestamp(), r.getLat(), r.getLng(), r.getParentId());
@@ -58,6 +62,15 @@ public class ResponseDelegator extends GoogleDelegator {
         for (RunAccess ra : rad.getRunAccess(r.getRunId()).getRunAccess()) {
             nd.broadcast(r, ra.getAccount());
         }
+
+        if(r.getParentId() != 0){
+            Response parent = ResponseManager.getResponse(r.getParentId());
+            Account account_quoted = ad.getContactDetails(parent.getUserEmail());
+
+            md.commentReminder(r, account_quoted);
+
+        }
+
         return r;
     }
 

@@ -2,7 +2,7 @@ angular.module('DojoIBL')
 
     .controller('InquiryEditGameController', function ($scope, $sce, $stateParams, $state, $modal, Session, RunService, ActivityService,
                                                        AccountService, ChannelService, GameService, UserService, toaster, $interval,
-                                                       uiCalendarConfig, $anchorScroll, $location) {
+                                                       uiCalendarConfig, $anchorScroll, $location, config) {
 
 
 
@@ -74,6 +74,26 @@ angular.module('DojoIBL')
 
             ActivityService.getActivitiesServer($stateParams.gameId);
         });
+
+        $scope.deleteInquiry = function (id) {
+
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this inquiry!",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it!",
+                closeOnConfirm: false
+            }, function () {
+                swal("Deleted!", "Your inquiry has been deleted.", "success");
+
+                GameService.deleteGame(id);
+                window.location.href=config.server+'/main.html#/home';
+
+            });
+
+        };
 
         $scope.activities = ActivityService.getActivities();
 

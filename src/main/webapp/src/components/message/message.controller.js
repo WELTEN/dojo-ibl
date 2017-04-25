@@ -110,6 +110,13 @@ angular.module('DojoIBL')
             $scope.notifications.length == 0;
         };
 
+
+        $scope.people = [
+            { label: 'Joe'},
+            { label: 'Mike'},
+            { label: 'Diane'}
+        ]
+
         function notifyMe(message) {
 
             var not = {};

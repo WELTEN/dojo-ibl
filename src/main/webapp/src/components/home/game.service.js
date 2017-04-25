@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .service('GameService', function ($q, $sce, Game, CacheFactory, RunService, ActivityService) {
+    .service('GameService', function ($q, $sce, Game, CacheFactory, RunService, ActivityService, InquiryTemplate) {
 
         CacheFactory('gamesCache', {
             maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day

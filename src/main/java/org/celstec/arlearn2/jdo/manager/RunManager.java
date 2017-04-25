@@ -48,6 +48,10 @@ public class RunManager {
 		runJdo.setServerCreationTime(serverCreationTime);
 		runJdo.setLastModificationDate(serverCreationTime);
 		runJdo.setPayload(new Text(run.toString()));
+
+		runJdo.setCode(run.getCode());
+		runJdo.setAvoidNotification(run.getAvoidNotification());
+
 		if (run.getRunConfig() != null) {
 			runJdo.setTagId(run.getRunConfig().getNfcTag());
 		}
@@ -70,6 +74,8 @@ public class RunManager {
 		runJdo.setLastModificationDate(run.getServerCreationTime());
 		runJdo.setPayload(new Text(run.toString()));
 		runJdo.setCode(run.getCode());
+		runJdo.setAvoidNotification(run.getAvoidNotification());
+
 		if (run.getRunConfig() != null) {
 			runJdo.setTagId(run.getRunConfig().getNfcTag());
 		}
@@ -166,6 +172,10 @@ public class RunManager {
 				jdo.setServerCreationTime(run.getServerCreationTime());
 				jdo.setDeleted(false);
 				jdo.setCode(run.getCode());
+
+				jdo.setAvoidNotification(run.getAvoidNotification());
+
+
 				if (run.getRunConfig() != null) {
 					jdo.setTagId(run.getRunConfig().getNfcTag());
 				}
@@ -198,6 +208,7 @@ public class RunManager {
 		run.setServerCreationTime(jdo.getServerCreationTime());
 		run.setLastModificationDate(jdo.getLastModificationDate());
 		run.setCode(jdo.getCode());
+		run.setAvoidNotification(jdo.getAvoidNotification());
 		return run;
 	}
 

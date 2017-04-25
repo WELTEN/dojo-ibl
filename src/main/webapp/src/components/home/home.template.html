@@ -47,7 +47,7 @@
                                             <td class="project-actions footable-visible footable-last-column">
                                                 <!--<a class="btn btn-danger btn-sm" ng-click="deleteInquiry(game.gameId)"  ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-trash"></i> Delete </a>-->
                                                 <a class="btn btn-success btn-sm" ng-click="cloneInquiry(game.gameId)"   ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-copy"></i> Clone </a>
-                                                <a class="btn btn-warning btn-sm" href="#inquiry/{{ game.gameId }}/edit" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-pencil-square"></i> Teacher view</a>
+                                                <a class="btn btn-warning btn-sm" href="#inquiry/{{ game.gameId }}/edit" ng-click="ga('send', {  hitType: 'event', eventCategory: 'Inquiry',  eventAction: 'access',  eventLabel: '{{ game.title }}' });" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-pencil-square"></i> Teacher view</a>
                                             </td>
                                         </tr>
                                         <tr ng-if="game.gameId == run.gameId" ng-repeat="run in runs[gameSelected]">

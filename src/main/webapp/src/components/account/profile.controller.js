@@ -25,8 +25,7 @@ angular.module('DojoIBL')
         };
 
         $scope.send = function(){
-            console.log("J")
-            MessageService.sendEmail()
+            MessageService.sendEmail($scope.message.tomail);
         };
 
         $scope.upload = function (file) {
