@@ -135,7 +135,7 @@
         "run-participants": "2. Inquiry group's participants",
         "dueto": "Due:",
         "calendar": "4. Calendar",
-        "runs-status": "Gruop status",
+        "runs-status": "Group status",
         "runs-inquiry-code": "Inquiry code",
         "runs-metadata": "General information",
         "runs-participants": "Group participants",
@@ -144,7 +144,7 @@
         "options-view": "View",
         "options-edit": "Edit",
         "options-delete": "Delete",
-        "editor-user": "Usuario",
+        "editor-user": "User",
         "editor-editor": "Editor",
         "editor-promote-editor": "Promote to editor",
         "editor-relegate-user": "Relegate to user"
