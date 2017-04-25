@@ -54,6 +54,9 @@
         "send": "Изпрати",
         "no-phases": "Няма намерени фази..."
       },
+      "view":{
+        "description": "<<PHASES AND ACTIVITIES OF>>"
+      },
       "home": {
         "click-first": "Избери",
         "click-first-1": "Впиши предоставения за изследването код",
@@ -61,7 +64,14 @@
         "join-inquiry": "включи се в изледване",
         "new-inquiry": "създай изследване",
         "to-start": "създай собствена структура за изследване",
-        "to-use": "получи достъп до съществуващо изследване."
+        "to-use": "получи достъп до съществуващо изследване.",
+        "inquiries-title-inquiry": "<<INQUIRY TITLE>>",
+        "inquiries-title-date": "<<LAST MODIFICATION>>",
+        "inquiries-title-menu": "<<OPTIONS>>",
+        "inquiries-button-clone": "<<CLONE>>",
+        "inquiries-button-teacher-view": "<<TEACHER VIEW>>",
+        "inquiries-button-student": "<<STUDENT VIEW>>",
+        "inquiries-list": "<<YOUR INQUIRIES>>"
       },
       "phase": {
         "instruction": "Моля, прочетете и изпълнете всички дейности. След като направите промени по тях, преминете към правилния списък."
@@ -86,6 +96,8 @@
         "inquiry-description": "Описание на изследването",
         "inquiry-save": "Запази промените",
         "inquiry-roles": "2. Роли",
+        "inquiry-discard": "<< DISCARD CHANGES >>",
+        "help": "<< HELP >>",
         "roles-title": "Роли",
         "p-available-roles": "Списък с налични роли в",
         "no-roles": "Все още няма роли",
@@ -123,7 +135,19 @@
         "run-participants": "2. Участници в групата на изследването",
         "dueto": "Предаване:",
         "calendar": "4. Календар",
-        "delete-inquiry": "7. Изтрий изследване"
+        "delete-inquiry": "7. Изтрий изследване",
+        "runs-status": "<< GROUP STATUS >>",
+        "runs-inquiry-code": "<< INQUIRY CODE >>",
+        "runs-metadata": "<< GENERAL INFORMATION >>",
+        "runs-participants": "<< GROUP PARTICIPANTS >>",
+        "runs-options": "<< OPTIONS >>",
+        "options-view": "<< VIEW >>",
+        "options-edit": "<< EDIT >>",
+        "options-delete": "<< DELETE >>",
+        "editor-user": "<< USER >>",
+        "editor-editor": "<< EDITOR >>",
+        "editor-promote-editor": "<< PROMOTO TO EDITOR >>",
+        "editor-relegate-user": "<< RELEGATE TO USER >>"
       }
     }
   }
