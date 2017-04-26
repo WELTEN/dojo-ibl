@@ -230,6 +230,27 @@ angular.module('DojoIBL')
             removeCachedActivity: function(){
                 var dataCache = CacheFactory.get('activitiesTempCache');
                 dataCache.remove("cachedActivity");
+            },
+            getActivitiesRecentDue: function(){
+                var deferred = $q.defer();
+                var service = this;
+
+                var dataCache = CacheFactory.get('activitiesCache');
+                //if (dataCache.get(itemId)) {
+                //    deferred.resolve(dataCache.get(itemId));
+                //} else {
+
+                    Activity.recent().$promise.then(
+                        function(data){
+                            if (!data.deleted) {
+                                if (!data.error) {
+                                    deferred.resolve(data.generalItems);
+                                }
+                            }
+                        }
+                    );
+                //}
+                return deferred.promise;
             }
         }
     })

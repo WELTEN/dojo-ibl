@@ -2,7 +2,7 @@ angular.module('DojoIBL')
 
     .controller('ProfileController', function ($scope, $sce, $stateParams, $state, Session,
                                                MessageService,
-                                               AccountService, Upload, config) {
+                                               AccountService, Upload, config, ActivityService) {
         AccountService.myDetails().then(function(data){
             $scope.myAccount = data;
             $scope.nameValue = $scope.myAccount.familyName+" "+$scope.myAccount.givenName;
@@ -10,6 +10,10 @@ angular.module('DojoIBL')
 
         AccountService.accountDetailsById($stateParams.fullId).then(function(data){
             $scope.user = data;
+        });
+
+        ActivityService.getActivitiesRecentDue().then(function(data){
+            $scope.activitiesRecentDue = data;
         });
 
         $scope.ok = function(){

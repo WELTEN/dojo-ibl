@@ -50,6 +50,11 @@ angular.module('DojoIBL')
                 method: 'GET',
                 isArray: false,
                 url: config.server + '/rest/generalItems/pictureUrl/gameId/:gameId/generalItem/:itemId/:key'
+            },
+            'recent': {
+                method: 'GET',
+                isArray: false,
+                url: config.server + '/rest/generalItems/recent'
             }
         });
     }
