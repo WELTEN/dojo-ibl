@@ -6,11 +6,11 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-language"></i>
+                    <i class="fa fa-language"/> Lang
                 </a>
-                <ul class="dropdown-menu dropdown-messages">
+                <ul class="dropdown-menu dropdown-messages langs">
                     <li ng-repeat="flag in flags">
-                        <div class="text-center link-block" ng-click="setLanguage(flag.id)">
+                        <div class="link-block" ng-click="setLanguage(flag.id)">
                             <a><img ng-src="{{ flag.icon }}" alt="flag"> <strong>{{ flag.name }}</strong></a>
                         </div>
                         <div ng-hide="$last" class="divider"></div>

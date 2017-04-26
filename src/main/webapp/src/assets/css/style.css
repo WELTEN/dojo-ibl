@@ -136,6 +136,9 @@ h5 {
   width: 310px;
   min-width: 0;
 }
+.langs {
+  width: 15em !important;
+}
 .navbar-top-links .dropdown-messages {
   margin-left: 5px;
 }
