@@ -11,7 +11,7 @@
     },
     "sidebar": {
       "inquiries": "Начало",
-      "profile": "Вашият профил",
+      "profile": "Моят профил",
       "timeline": "Времева линия",
       "calendar": "календар",
       "phases": "Преглед",
@@ -55,7 +55,7 @@
         "no-phases": "Няма намерени фази..."
       },
       "view":{
-        "description": "<<PHASES AND ACTIVITIES OF>>"
+        "description": "Фази и дейности на"
       },
       "home": {
         "click-first": "Избери",
@@ -65,13 +65,13 @@
         "new-inquiry": "създай изследване",
         "to-start": "създай собствена структура за изследване",
         "to-use": "получи достъп до съществуващо изследване.",
-        "inquiries-title-inquiry": "<<INQUIRY TITLE>>",
-        "inquiries-title-date": "<<LAST MODIFICATION>>",
-        "inquiries-title-menu": "<<OPTIONS>>",
-        "inquiries-button-clone": "<<CLONE>>",
-        "inquiries-button-teacher-view": "<<TEACHER VIEW>>",
-        "inquiries-button-student": "<<STUDENT VIEW>>",
-        "inquiries-list": "<<YOUR INQUIRIES>>"
+        "inquiries-title-inquiry": "Име на изследването",
+        "inquiries-title-date": "Последна промяна",
+        "inquiries-title-menu": "Възможности",
+        "inquiries-button-clone": "Клонирай",
+        "inquiries-button-teacher-view": "Преподавателски изглед",
+        "inquiries-button-student": "Студентски изглед",
+        "inquiries-list": "Моите изследвания"
       },
       "phase": {
         "instruction": "Моля, прочетете и изпълнете всички дейности. След като направите промени по тях, преминете към правилния списък."
@@ -96,8 +96,8 @@
         "inquiry-description": "Описание на изследването",
         "inquiry-save": "Запази промените",
         "inquiry-roles": "2. Роли",
-        "inquiry-discard": "<< DISCARD CHANGES >>",
-        "help": "<< HELP >>",
+        "inquiry-discard": "Отмени промените",
+        "help": "Помощ",
         "roles-title": "Роли",
         "p-available-roles": "Списък с налични роли в",
         "no-roles": "Все още няма роли",
@@ -136,18 +136,18 @@
         "dueto": "Предаване:",
         "calendar": "4. Календар",
         "delete-inquiry": "7. Изтрий изследване",
-        "runs-status": "<< GROUP STATUS >>",
-        "runs-inquiry-code": "<< INQUIRY CODE >>",
-        "runs-metadata": "<< GENERAL INFORMATION >>",
-        "runs-participants": "<< GROUP PARTICIPANTS >>",
-        "runs-options": "<< OPTIONS >>",
-        "options-view": "<< VIEW >>",
-        "options-edit": "<< EDIT >>",
-        "options-delete": "<< DELETE >>",
-        "editor-user": "<< USER >>",
-        "editor-editor": "<< EDITOR >>",
-        "editor-promote-editor": "<< PROMOTO TO EDITOR >>",
-        "editor-relegate-user": "<< RELEGATE TO USER >>"
+        "runs-status": "Статус на групата",
+        "runs-inquiry-code": "Код на изследването",
+        "runs-metadata": "Обща информация>",
+        "runs-participants": "Участници в групата",
+        "runs-options": "Възможности",
+        "options-view": "Изглед",
+        "options-edit": "Редактирай",
+        "options-delete": "Изтрий",
+        "editor-user": "Потребител",
+        "editor-editor": "Редактор",
+        "editor-promote-editor": "Направи редактор",
+        "editor-relegate-user": "Понижи до потребител"
       }
     }
   }
