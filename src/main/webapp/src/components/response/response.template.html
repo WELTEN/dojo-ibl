@@ -12,7 +12,7 @@
         <br/>
 
         <div class="alert alert-info2 ng-scope">
-            <div class="alert alert-info2 ng-scope" ng-show="response.parentId!=0" >
+            <div ng-if="response.parentId!=0 && !!response.parentValue" class="alert alert-info2 ng-scope"  >
                 <a href="" class="pull-left">
                     <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="response.parentValue.user.picture == ''" data="{{ response.parentValue.user.name }}"></ng-letter-avatar>
                     <img class="message-avatar" ng-if="response.parentValue.user.picture != ''" ng-src="{{ response.parentValue.user.picture }}" alt="">
@@ -21,6 +21,11 @@
                     {{ response.parentValue.user.name }}
                 </a> - <small class="text-muted">{{ response.parentValue.lastModificationDate | date:'medium' }}</small>
                 <p class="message-reply" ng-bind-html="response.parentValue.responseValue"></p>
+            </div>
+            <div ng-if="response.parentId!=0 && !response.parentValue" class="alert alert-info2 ng-scope">
+                <a href="#/profile/{{ response.parentValue.user.accountType }}:{{ response.parentValue.user.localId }}">
+                    The comment has been removed
+                </a>
             </div>
             <p ng-bind-html="response.responseValueNew" ></p>
             <!--<p dd-text-collapse dd-text-collapse-max-length="250" dd-text-collapse-text="{{ response.responseValueNew }}" ></p>-->
