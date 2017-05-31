@@ -42,6 +42,7 @@ import org.celstec.arlearn2.tasks.beans.GenericBean;
 import org.celstec.arlearn2.tasks.beans.NotifyRunsFromGame;
 import org.htmlparser.util.Translate;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class GeneralItemDelegator extends DependencyDelegator {
@@ -75,6 +76,25 @@ public class GeneralItemDelegator extends DependencyDelegator {
         if (gi.getDependsOn() != null) {
             GeneralItemVisibilityManager.delete(null, gi.getId(), null, null);
         }
+
+        UsersDelegator qu = new UsersDelegator(this);
+        String myAccount = qu.getCurrentUserAccount();
+
+        try {
+            new DojoAnalyticsDelegator(this).registerStatement(qu.getCurrentAccount().getEmail(), "created", "http://localhost:8080/main.html#/inquiry/"+gi.getGameId()+"/activity/"+gi.getId());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+
         return gi;
     }
 
@@ -162,6 +182,21 @@ public class GeneralItemDelegator extends DependencyDelegator {
 
         (new NotifyRunsFromGame(authToken, gi.getGameId(), gi, GeneralItemModification.DELETED)).scheduleTask();
 //        (new RemoveDeleteGiFromDependencies(authToken, gi.getGameId(), gi.getId())).scheduleTask();
+
+        try {
+            new DojoAnalyticsDelegator(this).registerStatement(qu.getCurrentAccount().getEmail(), "deleted", "http://localhost:8080/main.html#/inquiry/"+gi.getGameId()+"/activity/"+gi.getId());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
         return gi;
     }
 

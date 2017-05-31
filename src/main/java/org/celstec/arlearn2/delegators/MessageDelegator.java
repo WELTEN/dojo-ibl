@@ -12,6 +12,7 @@ import org.celstec.arlearn2.beans.run.RunAccess;
 import org.celstec.arlearn2.jdo.manager.MessageManager;
 import org.celstec.arlearn2.jdo.manager.ThreadManager;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -97,6 +98,20 @@ public class MessageDelegator extends GoogleDelegator {
                     .param("name", String.valueOf(message.getRunId())));
             run.setAvoidNotification(1l);
             rd.updateRun(run, run.getRunId());
+        }
+
+        try {
+            new DojoAnalyticsDelegator(this).registerStatement(account.getEmail(), "sent", "http://localhost:8080/main.html#/message/"+returnMessage.getMessageId());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
         }
 
 

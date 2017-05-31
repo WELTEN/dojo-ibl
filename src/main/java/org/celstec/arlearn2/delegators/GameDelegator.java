@@ -36,6 +36,7 @@ import org.celstec.arlearn2.tasks.beans.DeleteRuns;
 import org.celstec.arlearn2.tasks.beans.GameSearchIndex;
 import org.celstec.arlearn2.tasks.beans.NotifyRunsFromGame;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -273,6 +274,20 @@ public class GameDelegator extends GoogleDelegator {
 
         (new NotifyRunsFromGame(authToken, game.getGameId(), null, modificationType)).scheduleTask();
 
+        try {
+            new DojoAnalyticsDelegator(this).registerStatement(account.getEmail(), "created", "http://localhost:8080/main.html#/inquiry/"+game.getGameId());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
         return game;
 //		}
 
@@ -285,8 +300,6 @@ public class GameDelegator extends GoogleDelegator {
 //            if(oldGame.getConfig() != null)
 //                game.setConfig(oldGame.getConfig());
         }
-
-
 
         game.setGameId(GameManager.addGame(game));
         MyGamesCache.getInstance().removeGame(game.getGameId());
@@ -303,7 +316,19 @@ public class GameDelegator extends GoogleDelegator {
             checkSharing(oldGame, game);
         }
 
-
+        try {
+            new DojoAnalyticsDelegator(this).registerStatement(account.getEmail(), "created", "http://localhost:8080/main.html#/inquiry/"+game.getGameId());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
         return game;
     }
@@ -341,7 +366,19 @@ public class GameDelegator extends GoogleDelegator {
         gm.setModificationType(GameModification.DELETED);
         gm.setGame(g);
 
-
+        try {
+            new DojoAnalyticsDelegator(this).registerStatement(account.getEmail(), "deleted", "http://localhost:8080/main.html#/inquiry/"+g.getGameId());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
         if (this.account != null) {
             new NotificationDelegator(this).broadcast(g, account.getFullId());

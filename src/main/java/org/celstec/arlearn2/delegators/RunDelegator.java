@@ -30,6 +30,7 @@ import org.celstec.arlearn2.jdo.manager.UserManager;
 import org.celstec.arlearn2.tasks.beans.*;
 import org.celstec.arlearn2.util.RunsCache;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -224,6 +225,21 @@ public class RunDelegator extends GoogleDelegator {
             return run;
         }
 
+        try {
+            new DojoAnalyticsDelegator(this).registerStatement(account.getEmail(), "created", "http://localhost:8080/main.html#/group/"+run.getRunId());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+
 //		if (account != null) {
         return createRunWithAccount(run);
 //		} else {
@@ -299,6 +315,21 @@ public class RunDelegator extends GoogleDelegator {
     public Run deleteRun(Long runId) {
         UsersDelegator qu = new UsersDelegator(this);
         String myAccount = qu.getCurrentUserAccount();
+
+        try {
+            new DojoAnalyticsDelegator(this).registerStatement(account.getEmail(), "deleted", "http://localhost:8080/main.html#/group/"+runId);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
         return deleteRun(getRun(runId), myAccount);
     }
 

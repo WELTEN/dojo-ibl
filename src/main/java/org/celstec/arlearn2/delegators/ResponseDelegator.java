@@ -26,6 +26,8 @@ import org.celstec.arlearn2.beans.run.Run;
 import org.celstec.arlearn2.beans.run.RunAccess;
 import org.celstec.arlearn2.jdo.manager.ResponseManager;
 
+import java.lang.reflect.InvocationTargetException;
+
 
 public class ResponseDelegator extends GoogleDelegator {
 
@@ -71,6 +73,20 @@ public class ResponseDelegator extends GoogleDelegator {
 
         }
 
+        try {
+            new DojoAnalyticsDelegator(this).registerStatement(qu.getCurrentAccount().getEmail(), "created", "http://localhost:8080/main.html#/group/"+r.getRunId()+"/activity/"+r.getGeneralItemId()+"/response/"+r.getResponseId());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
         return r;
     }
 
@@ -97,10 +113,43 @@ public class ResponseDelegator extends GoogleDelegator {
     }
 
     public Response revokeResponse(Long responseId) {
+        UsersDelegator qu = new UsersDelegator(this);
+
+        try {
+            new DojoAnalyticsDelegator(this).registerStatement(qu.getCurrentAccount().getEmail(), "deleted", "http://localhost:8080/main.html#/group/"+getResponse(responseId).getRunId()+"/activity/"+getResponse(responseId).getGeneralItemId()+"/response/"+getResponse(responseId).getResponseId());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+
         return ResponseManager.revokeResponse(responseId);
     }
 
     public Response revokeResponse(Response r) {
+        UsersDelegator qu = new UsersDelegator(this);
+
+        try {
+            new DojoAnalyticsDelegator(this).registerStatement(qu.getCurrentAccount().getEmail(), "deleted", "http://localhost:8080/main.html#/group/"+r.getRunId()+"/activity/"+r.getGeneralItemId()+"/response/"+r.getResponseId());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
         return ResponseManager.revokeResponse(r.getRunId(), r.getGeneralItemId(), r.getUserEmail(), r.getTimestamp());
     }
 
