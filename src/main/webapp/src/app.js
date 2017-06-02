@@ -28,19 +28,27 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
         if(localStorage.getItem('i18')){
             $translate.use(localStorage.getItem('i18'));
         }else{
-            var lang = window.navigator.languages[0] || window.navigator.userLanguage;
+            if(angular.isUndefined(window.navigator)){
+                $translate.use('en-US');
+            }else{
+                if(angular.isUndefined(window.navigator.languages)){
+                    $translate.use('en-US');
+                }else {
+                    var lang = window.navigator.languages[0] || window.navigator.userLanguage;
 
-            if (lang === 'bg') {
-                $translate.use(lang);
-            }
-            if (lang === 'en-US') {
-                $translate.use(lang);
-            }
-            if (lang === 'es') {
-                $translate.use(lang);
-            }
-            if (lang === 'nl') {
-                $translate.use(lang);
+                    if (lang === 'bg') {
+                        $translate.use(lang);
+                    }
+                    if (lang === 'en-US') {
+                        $translate.use(lang);
+                    }
+                    if (lang === 'es') {
+                        $translate.use(lang);
+                    }
+                    if (lang === 'nl') {
+                        $translate.use(lang);
+                    }
+                }
             }
         }
 
