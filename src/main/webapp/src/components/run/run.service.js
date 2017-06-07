@@ -118,7 +118,12 @@ angular.module('DojoIBL')
 
             },
             addUserToRun: function(json){
-                return Run.addUserToRun(json);
+                var deferred = $q.defer();
+                Run.addUserToRun(json).$promise.then(function(data){
+                    console.log(data, "hola")
+                    deferred.resolve(true);
+                });
+                return deferred.promise;
             },
             deleteRun: function(runId){
                 var dataCache = CacheFactory.get('runsCache');

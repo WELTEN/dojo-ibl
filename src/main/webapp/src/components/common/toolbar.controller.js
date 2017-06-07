@@ -145,13 +145,6 @@ angular.module('DojoIBL')
 
                 AccountService.myDetails().then(function(user){
 
-                    //////
-                    // AccessRight explanation
-                    // 1: Editor
-                    // 2: User
-
-                    console.log(user);
-
                     GameService.giveAccess(run.game.gameId, user.accountType+":"+user.localId,2);
 
                     RunService.giveAccess(run.runId, user.accountType+":"+user.localId,2);
@@ -161,9 +154,12 @@ angular.module('DojoIBL')
                         email: user.accountType+":"+user.localId,
                         accountType: user.accountType,
                         localId: user.localId,
-                        gameId: run.game.gameId });
+                        gameId: run.game.gameId }).then(function(){
 
-                    window.location.href=config.server+'/main.html#/inquiry/'+run.runId;
+                        window.location.href=config.server+'/main.html#/inquiry/'+run.runId;
+                    });
+
+
                 });
             });
 
@@ -171,7 +167,7 @@ angular.module('DojoIBL')
         };
 
         ChannelService.register('org.celstec.arlearn2.beans.run.User', function (notification) {
-            console.info("[Notification][User]", notification);
+            //console.info("[Notification][User]", notification);
             UserService.getUserByAccount(notification.runId, notification.accountType+":"+notification.localId);
         });
     }
