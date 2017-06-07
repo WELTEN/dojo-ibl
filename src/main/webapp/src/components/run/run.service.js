@@ -120,7 +120,6 @@ angular.module('DojoIBL')
             addUserToRun: function(json){
                 var deferred = $q.defer();
                 Run.addUserToRun(json).$promise.then(function(data){
-                    console.log(data, "hola")
                     deferred.resolve(true);
                 });
                 return deferred.promise;
