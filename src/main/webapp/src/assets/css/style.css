@@ -5959,6 +5959,11 @@ body.body-small .vote-icon {
   -webkit-animation: sk-pulseScaleOut 1s infinite ease-in-out;
   animation: sk-pulseScaleOut 1s infinite ease-in-out;
 }
+
+.spinner-joining{
+  margin: 0px 8px -7px 0px !important;
+}
+
 @-webkit-keyframes sk-pulseScaleOut {
   0% {
     -webkit-transform: scale(0);

@@ -87,8 +87,6 @@ angular.module('DojoIBL')
                 AccountService.myDetails().then(function(me){
                     self.getUsersForRun(runId).then(function(data){
 
-                        console.log(data);
-
                         if(arrayObjectIndexOf(data, me.localId, "localId") == -1){
                             $location.path('home');
                             toaster.error({

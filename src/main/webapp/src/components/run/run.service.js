@@ -41,11 +41,11 @@ angular.module('DojoIBL')
             getRunByCode: function (code) {
                 var deferred = $q.defer();
 
-                Run.getRunByCode({ code: code }).$promise.then(
-                    function (data) {
+                Run.getRunByCode({ code: code }).$promise.then(function (data) {
                         deferred.resolve(data);
-                    }
-                );
+                    }).catch(function() {
+                        deferred.reject('Please provide a valid inquiry code. (Capital letters)');
+                });
 
                 return deferred.promise;
             },

@@ -1,10 +1,13 @@
 angular.module('DojoIBL')
 
-    .controller('ToolbarController', function ($scope, $rootScope, $state, $location, $stateParams,RunService, ActivityService, Session, Game, GameService, AccountService, config, ChannelService, UserService) {
+    .controller('ToolbarController', function ($scope, toaster, $rootScope, $state, $location, $stateParams,RunService, ActivityService, Session, Game, GameService, AccountService, config, ChannelService, UserService) {
         $scope.test = "foo";
 
         $scope.name = "your name";
         $scope.inquiryCode;
+
+
+        $scope.showSpinerJoin = false;
 
         $scope.leftDisabled = false;
 
@@ -140,6 +143,7 @@ angular.module('DojoIBL')
         }
 
         $scope.findAndJoin = function(){
+            $scope.showSpinerJoin = true;
 
             RunService.getRunByCode($scope.inquiryCode).then(function(run){
 
@@ -157,13 +161,24 @@ angular.module('DojoIBL')
                         gameId: run.game.gameId }).then(function(){
 
                         window.location.href=config.server+'/main.html#/inquiry/'+run.runId;
+
+                        $scope.showSpinerJoin = false;
+                        $scope.inquiryCode = null;
                     });
 
 
                 });
+            }, function(fallback) {
+
+                $scope.showSpinerJoin = false;
+
+                toaster.error({
+                    title: 'Invalid code ',
+                    body: 'Please provide a valid inquiry code in capital letters.'
+                });
             });
 
-            $scope.inquiryCode = null;
+
         };
 
         ChannelService.register('org.celstec.arlearn2.beans.run.User', function (notification) {
