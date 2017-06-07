@@ -5089,10 +5089,10 @@ dd.project-people {
 }
 .left .message{
   background-color: rgba(12, 10, 8, 0.3);
-  border-radius: 1px 20px 20px 20px;
+  border-radius: 1px 10px 10px 10px;
 }
 .right .message{
-  border-radius: 20px 1px 20px 20px;
+  border-radius: 10px 1px 10px 10px;
 }
 .message {
   background-color: #b3991a;
@@ -5137,7 +5137,7 @@ dd.project-people {
   margin-right: 1em;
 }
 .message-content {
-  padding: 8px 0px;
+  padding-top: 4px;
   display: block;
 }
 .chat-discussion {
@@ -5615,7 +5615,7 @@ body.body-small .vote-icon {
   padding-bottom: 20px;
 }
 .small-chat-box .content .chat-message, .chat-discussion .chat-message {
-  padding: 5px 10px;
+  padding: 3px 6px;
   border-radius: 6px;
   font-size: 11px;
   line-height: 14px;
