@@ -49,10 +49,10 @@ public class LearningLockerDelegator extends GoogleDelegator{
 
     public void registerStatement(String actor, String verb, String object) {
         //TODO validations
-        submitStatment(actor,verb,object);
+        submitStatement(actor, verb, object);
     }
 
-    private void submitStatment(String actor, String verb, String object) {
+    private void submitStatement(String actor, String verb, String object) {
         try {
             URL url = new URL("http://"+host+baseUrl+"/data/xAPI/statements");
 
