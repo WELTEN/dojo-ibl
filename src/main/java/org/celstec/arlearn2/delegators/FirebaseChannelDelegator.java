@@ -1,4 +1,4 @@
-package org.celstec.arlearn2.firebase;
+package org.celstec.arlearn2.delegators;
 
 /**
  * ****************************************************************************
@@ -24,8 +24,15 @@ package org.celstec.arlearn2.firebase;
 
 import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.*;
 import com.google.common.io.CharStreams;
+import com.google.gson.Gson;
+import org.celstec.arlearn2.api.Service;
+import org.celstec.arlearn2.beans.Bean;
+import org.celstec.arlearn2.beans.account.Account;
+import org.celstec.arlearn2.beans.serializer.json.JsonBeanSerialiser;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,10 +41,14 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class FirebaseChannel {
+public class FirebaseChannelDelegator extends GoogleDelegator{
 
-    private static final String FIREBASE_SNIPPET_PATH = "WEB-INF/view/firebase_config.jspf";
+    private static final String FIREBASE_SNIPPET_PATH = "WEB-INF/dojo-ibl-firebase-adminsdk-ofvly-57bc30f6da.json";
     static InputStream firebaseConfigStream = null;
     private static final Collection FIREBASE_SCOPES = Arrays.asList(
             "https://www.googleapis.com/auth/firebase.database",
@@ -51,15 +62,38 @@ public class FirebaseChannel {
     // Keep this a package-private member variable, so that it can be mocked for unit tests
     HttpTransport httpTransport;
 
-    private static FirebaseChannel instance;
+    private static FirebaseChannelDelegator instance;
+
+    private static final Logger log = Logger.getLogger(FirebaseChannelDelegator.class.getName());
+
+
+
+    public FirebaseChannelDelegator(String authtoken) {
+        super(authtoken);
+    }
+
+    public FirebaseChannelDelegator(GoogleDelegator gd) {
+        super(gd);
+    }
+
+    public FirebaseChannelDelegator(Service service) {
+        super(service);
+    }
+
+
+
+
+    public FirebaseChannelDelegator(Account account, String token) {
+        super(account, token);
+    }
 
     /**
      * FirebaseChannel is a singleton, since it's just utility functions.
      * The class derives auth information when first instantiated.
      */
-    public static FirebaseChannel getInstance() {
+    public static FirebaseChannelDelegator getInstance() {
         if (instance == null) {
-            instance = new FirebaseChannel();
+            instance = new FirebaseChannelDelegator();
         }
         return instance;
     }
@@ -71,7 +105,9 @@ public class FirebaseChannel {
      * communicate with Firebase is derived from App Engine's default credentials, and given
      * Firebase's OAuth scopes.
      */
-    private FirebaseChannel() {
+    public FirebaseChannelDelegator() {
+        super();
+
         try {
             // This variables exist primarily so it can be stubbed out in unit tests.
             if (null == firebaseConfigStream) {
@@ -104,6 +140,69 @@ public class FirebaseChannel {
         int openQuote = firebaseSnippet.indexOf('"', idx);
         int closeQuote = firebaseSnippet.indexOf('"', openQuote + 1);
         return firebaseSnippet.substring(openQuote + 1, closeQuote);
+    }
+
+    public void sendFirebaseMessage(String channelKey, JSONObject game)
+            throws IOException {
+        // Make requests auth'ed using Application Default Credentials
+        HttpRequestFactory requestFactory = httpTransport.createRequestFactory(credential);
+        GenericUrl url = new GenericUrl(
+                String.format("%s/channels/%s.json", firebaseDbUrl, channelKey));
+        HttpResponse response = null;
+
+        try {
+            if (null == game) {
+                response = requestFactory.buildDeleteRequest(url).execute();
+            } else {
+                String gameJson = new Gson().toJson(game);
+                response = requestFactory.buildPatchRequest(
+                        url, new ByteArrayContent("application/json", gameJson.getBytes())).execute();
+            }
+
+            if (response.getStatusCode() != 200) {
+                throw new RuntimeException(
+                        "Error code while updating Firebase: " + response.getStatusCode());
+            }
+
+        } finally {
+            if (null != response) {
+                response.disconnect();
+            }
+        }
+    }
+
+    public void broadcast(Bean bean, String account) {
+        broadcast(JsonBeanSerialiser.serialiseToJson(bean), account);
+    }
+
+    public void broadcast(String notification, String account) {
+        try {
+            JSONObject json = new JSONObject(notification);
+            broadcast(json, account);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void broadcast(JSONObject notification, String account) {
+        try {
+            Iterator<String> it = notification.keys();
+            HashMap<String, Object> valueMap = new HashMap<String, Object>();
+            while (it.hasNext()) {
+                String key = it.next();
+                if (!(notification.get(key) instanceof JSONObject))
+                    valueMap.put(key, notification.get(key));
+
+            }
+            log.log(Level.WARNING, "about to send channel message to "+account);
+            FirebaseChannelDelegator.getInstance().sendFirebaseMessage(account, notification);
+            log.log(Level.WARNING, "channel message sent to ");
+        } catch (Exception e) {
+
+            log.log(Level.SEVERE, e.getMessage(), e);
+        }
+
     }
 
 }

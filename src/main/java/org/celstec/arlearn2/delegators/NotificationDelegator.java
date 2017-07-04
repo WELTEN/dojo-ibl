@@ -311,6 +311,7 @@ public class NotificationDelegator extends GoogleDelegator {
             sendiOSNotificationAsJson(account, valueMap); //TODO rename
 //            sendGlassNotification(account, valueMap);
             log.log(Level.WARNING, "about to send channel message to "+account);
+
             channelService.sendMessage(new ChannelMessage(account, notification.toString()));
             log.log(Level.WARNING, "channel message sent to ");
         } catch (Exception e) {
