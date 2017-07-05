@@ -80,9 +80,6 @@ public class FirebaseChannelDelegator extends GoogleDelegator{
         super(service);
     }
 
-
-
-
     public FirebaseChannelDelegator(Account account, String token) {
         super(account, token);
     }
