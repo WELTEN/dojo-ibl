@@ -9,85 +9,85 @@ angular.module('DojoIBL')
             storageMode: 'localStorage' // This cache will use `localStorage`.
         });
 
-        var dataCache = CacheFactory.get('channelAPICache');
-
-        var SocketHandler = function () {
-            this.messageCallback = function () {
-            };
-
-            this.onMessage = function (callback) {
-                var theCallback = function (message) {
-                    callback(JSON.parse(message.data));
-                }
-
-                if (this.channelSocket == undefined) {
-                    this.messageCallback = theCallback;
-                } else {
-                    this.channelSocket.onmessage = theCallback;
-                }
-            }
-
-            var context = this;
-            this.socketCreationCallback = function (channelData) {
-                var channel = new goog.appengine.Channel(channelData.token);
-                dataCache.put("tokenChannelApi", channelData);
-                context.channelId = channelData.channelId;
-                var socket = channel.open();
-                socket.onerror = function () {
-                    console.log("Channel error");
-                };
-                socket.onclose = function () {
-                    console.log("Channel closed, reopening");
-                    //We reopen the channel
-                    context.messageCallback = context.channelSocket.onmessage;
-                    context.channelSocket = undefined;
-                    $.getJSON("chats/channel", context.socketCreationCallback);
-                    dataCache.remove("tokenChannelApi");
-                    swal({
-                        title: "Timeout!",
-                        text: "The session has timed out. Refresh!",
-                        type: "warning",
-                        showCancelButton: false,
-                        confirmButtonColor: "#DD6B55",
-                        confirmButtonText: "Refresh!!",
-                        closeOnConfirm: false
-                    }, function () {
-                        //window.location.replace(window.location.href);
-                        location.reload();
-                        //swal("Timeout!", "Refresh this page to continue.", "success");
-                    });
-                };
-                context.channelSocket = socket;
-                context.channelSocket.onmessage = context.messageCallback;
-            };
-
-            //if (!dataCache.get("tokenChannelApi")) {
-                ChannelApi.getToken().$promise.then(
-                    this.socketCreationCallback
-                );
-                //console.log("Invoke tokenChannelApi")
-            //}else {
-            //    console.log("Hit cache tokenChannelApi");
-            //}
-        };
-
-        var callBackFunctions = {};
-        var socket = new SocketHandler();
-        socket.onMessage(function (data) {
-            $rootScope.$apply(function () {
-                console.info(data.type);
-
-                if (callBackFunctions[data.type]) callBackFunctions[data.type](data);
-
-            });
-
-        });
-        return {
-            register: function (type, callBackFunction) {
-                callBackFunctions[type] = callBackFunction;
-            }
-
-        };
+        //var dataCache = CacheFactory.get('channelAPICache');
+        //
+        //var SocketHandler = function () {
+        //    this.messageCallback = function () {
+        //    };
+        //
+        //    this.onMessage = function (callback) {
+        //        var theCallback = function (message) {
+        //            callback(JSON.parse(message.data));
+        //        }
+        //
+        //        if (this.channelSocket == undefined) {
+        //            this.messageCallback = theCallback;
+        //        } else {
+        //            this.channelSocket.onmessage = theCallback;
+        //        }
+        //    }
+        //
+        //    var context = this;
+        //    this.socketCreationCallback = function (channelData) {
+        //        var channel = new goog.appengine.Channel(channelData.token);
+        //        dataCache.put("tokenChannelApi", channelData);
+        //        context.channelId = channelData.channelId;
+        //        var socket = channel.open();
+        //        socket.onerror = function () {
+        //            console.log("Channel error");
+        //        };
+        //        socket.onclose = function () {
+        //            console.log("Channel closed, reopening");
+        //            //We reopen the channel
+        //            context.messageCallback = context.channelSocket.onmessage;
+        //            context.channelSocket = undefined;
+        //            $.getJSON("chats/channel", context.socketCreationCallback);
+        //            dataCache.remove("tokenChannelApi");
+        //            swal({
+        //                title: "Timeout!",
+        //                text: "The session has timed out. Refresh!",
+        //                type: "warning",
+        //                showCancelButton: false,
+        //                confirmButtonColor: "#DD6B55",
+        //                confirmButtonText: "Refresh!!",
+        //                closeOnConfirm: false
+        //            }, function () {
+        //                //window.location.replace(window.location.href);
+        //                location.reload();
+        //                //swal("Timeout!", "Refresh this page to continue.", "success");
+        //            });
+        //        };
+        //        context.channelSocket = socket;
+        //        context.channelSocket.onmessage = context.messageCallback;
+        //    };
+        //
+        //    //if (!dataCache.get("tokenChannelApi")) {
+        //        ChannelApi.getToken().$promise.then(
+        //            this.socketCreationCallback
+        //        );
+        //        //console.log("Invoke tokenChannelApi")
+        //    //}else {
+        //    //    console.log("Hit cache tokenChannelApi");
+        //    //}
+        //};
+        //
+        //var callBackFunctions = {};
+        //var socket = new SocketHandler();
+        //socket.onMessage(function (data) {
+        //    $rootScope.$apply(function () {
+        //        console.info(data.type);
+        //
+        //        if (callBackFunctions[data.type]) callBackFunctions[data.type](data);
+        //
+        //    });
+        //
+        //});
+        //return {
+        //    register: function (type, callBackFunction) {
+        //        callBackFunctions[type] = callBackFunction;
+        //    }
+        //
+        //};
 
         //return {
         //    SocketHandler: function(user){

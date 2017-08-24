@@ -19,35 +19,17 @@
 package org.celstec.arlearn2.api;
 
 import com.google.appengine.tools.mapreduce.MapSettings;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseCredentials;
-import com.google.firebase.auth.FirebaseToken;
-import com.google.firebase.internal.NonNull;
-import com.google.firebase.tasks.OnFailureListener;
-import com.google.firebase.tasks.OnSuccessListener;
 import org.celstec.arlearn2.beans.Bean;
 import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.beans.deserializer.json.JsonBeanDeserializer;
 import org.celstec.arlearn2.delegators.UsersDelegator;
 import org.codehaus.jettison.json.JSONException;
-import org.glassfish.jersey.server.Uri;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 
 public class Service {
 
-	public interface OntaskCompleted{
-		void onSuccess(Uri returnurl);
-		void onfail();
-	}
 
-	private static final String FIREBASE_SNIPPET_PATH = "WEB-INF/dojo-ibl-firebase-adminsdk-ofvly-57bc30f6da.json";
+	private static final String FIREBASE_SNIPPET_PATH = "WEB-INF/dojo-ibl-firebase-adminsdk-ofvly-bf28455fa0.json";
 
 	protected Account account;
 	protected String token;
@@ -73,47 +55,12 @@ public class Service {
 
 	protected boolean validCredentials(String authToken) {
 
-		final AtomicBoolean authenticated = new AtomicBoolean(false);
-		final AtomicBoolean done = new AtomicBoolean(false);
-		final AtomicReference uidRef = new AtomicReference<>();
-
-		FileInputStream serviceAccount = null;
-		try {
-			serviceAccount = new FileInputStream(FIREBASE_SNIPPET_PATH);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		FirebaseOptions options = new FirebaseOptions.Builder()
-				.setCredential(FirebaseCredentials.fromCertificate(serviceAccount))
-				.setDatabaseUrl("https://fir-oauth-fcm.firebaseio.com")
-				.build();
-
-		FirebaseApp.initializeApp(options, "fir-oauth-fcm");
-
-		FirebaseApp app = FirebaseApp.getInstance("fir-oauth-fcm");
-
-		FirebaseAuth.getInstance(app).verifyIdToken(authToken)
-				.addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
-					@Override
-					public void onSuccess(FirebaseToken decodedToken) {
-						uidRef.set(decodedToken.getUid());
-						authenticated.set(true);
-						done.set(true);
-//						FirebaseDatabase.getInstance().getReference("/messages");
-					}
-				})
-				.addOnFailureListener(new OnFailureListener() {
-					@Override
-					public void onFailure(@NonNull Exception e) {
-						uidRef.set("error");
-						authenticated.set(false);
-						done.set(true);
-					}
-				});
-
-		while (!done.get());
-		return authenticated.get();
+		UsersDelegator qu;
+		qu = new UsersDelegator(authToken);
+		account = qu.getCurrentAccount();
+		token = qu.getAuthToken();
+		if (account != null) return true;
+		return (qu.getCurrentUserAccount() != null);
 	}
 
     public boolean isAdministrator(String authToken) {

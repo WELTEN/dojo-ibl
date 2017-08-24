@@ -59,8 +59,19 @@
     <link href="/src/assets/vendor/ui-bootstrap-2.5.0.css" rel="stylesheet">
 
     <link href="/src/assets/css/style.css" rel="stylesheet">
-
-
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBqdNjX3HNZStyuBklf3FQRGxRLTAbb2hc",
+            authDomain: "dojo-ibl.firebaseapp.com",
+            databaseURL: "https://dojo-ibl.firebaseio.com",
+            projectId: "dojo-ibl",
+            storageBucket: "dojo-ibl.appspot.com",
+            messagingSenderId: "518897628174"
+        };
+        firebase.initializeApp(config);
+    </script>
 </head>
 
 <body ng-app="DojoIBL" scroll>
@@ -70,6 +81,8 @@
     <script src="/public/src/vendor.min.js"></script>
 
     <script type="text/javascript" src="/_ah/channel/jsapi"></script>
+
+    <script src="https://cdn.firebase.com/libs/angularfire/2.3.0/angularfire.min.js"></script>
 
     <script src="/src/app.js"></script>
     <script src="/src/routes.js"></script>

@@ -181,9 +181,9 @@ angular.module('DojoIBL')
 
         };
 
-        ChannelService.register('org.celstec.arlearn2.beans.run.User', function (notification) {
-            //console.info("[Notification][User]", notification);
-            UserService.getUserByAccount(notification.runId, notification.accountType+":"+notification.localId);
-        });
+        //ChannelService.register('org.celstec.arlearn2.beans.run.User', function (notification) {
+        //    //console.info("[Notification][User]", notification);
+        //    UserService.getUserByAccount(notification.runId, notification.accountType+":"+notification.localId);
+        //});
     }
 );

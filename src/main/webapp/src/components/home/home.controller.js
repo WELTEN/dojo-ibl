@@ -118,13 +118,13 @@ angular.module('DojoIBL')
             return false;
         };
 
-        ChannelService.register('org.celstec.arlearn2.beans.game.Game', function (notification) {
-            //console.info("[Notification][Game]", notification);
-
-            if(!angular.isUndefined(notification.gameId)){
-                GameService.refreshGame(notification.gameId);
-            }
-        });
+        //ChannelService.register('org.celstec.arlearn2.beans.game.Game', function (notification) {
+        //    //console.info("[Notification][Game]", notification);
+        //
+        //    if(!angular.isUndefined(notification.gameId)){
+        //        GameService.refreshGame(notification.gameId);
+        //    }
+        //});
 
         $scope.findAndJoin = function(){
 

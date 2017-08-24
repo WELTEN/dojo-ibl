@@ -23,6 +23,49 @@
     <link href="/src/assets/vendor/fullcalendar/fullcalendar.css" rel="stylesheet">
     <link href="/src/assets/css/plugins/codemirror.css" rel="stylesheet">
     <link href="/src/assets/vendor/angular-datapicker/angular-datapicker.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.css" />
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBqdNjX3HNZStyuBklf3FQRGxRLTAbb2hc",
+            authDomain: "dojo-ibl.firebaseapp.com",
+            databaseURL: "https://dojo-ibl.firebaseio.com",
+            projectId: "dojo-ibl",
+            storageBucket: "dojo-ibl.appspot.com",
+            messagingSenderId: "518897628174"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.2.1/firebaseui.css" />
+
+    <script type="text/javascript">
+
+
+
+        // FirebaseUI config.
+        var uiConfig = {
+            signInSuccessUrl: '/main.html',
+            signInOptions: [
+                // Leave the lines as is for the providers you want to offer your users.
+                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+                firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+                firebase.auth.GithubAuthProvider.PROVIDER_ID,
+                firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                firebase.auth.PhoneAuthProvider.PROVIDER_ID
+            ],
+            // Terms of service url.
+            tosUrl: '/main.html'
+        };
+
+        // Initialize the FirebaseUI Widget using Firebase.
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        // The start method will wait until the DOM is loaded.
+        ui.start('#firebaseui-auth-container', uiConfig);
+    </script>
+
 </head>
 
 <body ng-app="DojoIBL">
@@ -49,10 +92,13 @@
             <div class="contents text-right">
                 <h1 class="wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="300ms">DojoIBL - Structuring collaborative processes</h1>
                 <p class="wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="400ms">Finding the optimal support for collaborative inquiry-based learning processes</p>
-                <a analytics-on="click" analytics-event="Login" ng-class="{'myClass': loading}" href="{{ wespotUrl }}" class="myClass btn btn-lg btn-primary wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="400ms">Login</a>
-                <a ng-class="{'myClass': !loading}" class="btn btn-lg btn-warning wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="400ms">Loading ...</a>
-                <a target="_blank" href="http://wespot-arlearn.appspot.com/Account.jsp" class="btn btn-lg btn-border wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms">Register</a>
-                <a target="_blank" href="http://wespot-arlearn.appspot.com/ResetPassword.html" class="btn btn-lg btn-border wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms">Recover password</a>
+                <div id="firebaseui-auth-container">
+
+                </div>
+                <!--<a analytics-on="click" analytics-event="Login" ng-class="{'myClass': loading}" href="{{ wespotUrl }}" class="myClass btn btn-lg btn-primary wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="400ms">Login</a>-->
+                <!--<a ng-class="{'myClass': !loading}" class="btn btn-lg btn-warning wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="400ms">Loading ...</a>-->
+                <!--<a target="_blank" href="http://wespot-arlearn.appspot.com/Account.jsp" class="btn btn-lg btn-border wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms">Register</a>-->
+                <!--<a target="_blank" href="http://wespot-arlearn.appspot.com/ResetPassword.html" class="btn btn-lg btn-border wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms">Recover password</a>-->
                 <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit?usp=sharing" class="btn btn-lg btn-border wow fadeInUp" data-wow-duration="1000ms" data-wow-delay="500ms"><i class="fa fa-files-o"></i> Docs</a>
             </div>
         </div>
@@ -112,7 +158,6 @@
 
 <script type="text/javascript" src="/_ah/channel/jsapi"></script>
 
-
 <script src="/src/app.js"></script>
 <script src="/src/routes.js"></script>
 
@@ -120,6 +165,7 @@
 <script src="/public/src/services.js"></script>
 <script src="/public/src/resources.js"></script>
 <script src="/public/src/controllers.js"></script>
+
 
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
