@@ -41,6 +41,7 @@ public class DojoAnalyticsDelegator extends GoogleDelegator {
 
     private static final Class[] dbTypes = new Class[]{
             LearningLockerDelegator.class,
+            LearningLockerDelegatorBerlin.class,
             LemoToolDelegator.class
     };
 
