@@ -18,12 +18,6 @@
  ******************************************************************************/
 package org.celstec.arlearn2.api;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseCredentials;
-import com.google.firebase.auth.FirebaseToken;
-import com.google.firebase.tasks.Task;
 import org.celstec.arlearn2.jdo.manager.ApplicationKeyManager;
 import org.celstec.arlearn2.jdo.manager.OauthKeyManager;
 
@@ -31,10 +25,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
+
+import static org.celstec.arlearn2.util.FirebaseUtils.getEmailOfToken;
 
 //import javax.servlet.http.Cookie;
 
@@ -68,123 +64,139 @@ public class Oauth extends Service {
 
 	@POST
 	@Path("/authenticate")
-	public boolean authenticate(@HeaderParam("Authorization") String atoken,
+	public boolean authenticate(@HeaderParam("Authorization") String token,
 								@DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
 								@DefaultValue("application/json") @HeaderParam("Accept") String accept,
-								String account)  {
+								String account) {
 
+		String email = getEmailOfToken(token);
 
-
-		final AtomicBoolean authenticated = new AtomicBoolean(false);
-		final AtomicBoolean done = new AtomicBoolean(false);
-		final AtomicReference uidRef = new AtomicReference<>();
-
-//		String atoken = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjMxMjNlMWE3ZTY5MTEyNTI4NDQ2M2ZjOWJmNmEyNGM0YmVkOGQ5NTIifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZG9qby1pYmwiLCJuYW1lIjoiQW5nZWwgU3VhcmV6IEZlcm5hbmRleiIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vLXFpaTNQejlTUndjL0FBQUFBQUFBQUFJL0FBQUFBQUFBTS1rL0x3clBHT29YSFVNL3Bob3RvLmpwZyIsImF1ZCI6ImRvam8taWJsIiwiYXV0aF90aW1lIjoxNTAyODA1MjI3LCJ1c2VyX2lkIjoiMnZiUTIzck9LelpsclZ2VHpVb3JrVDhxdGFIMiIsInN1YiI6IjJ2YlEyM3JPS3pabHJWdlR6VW9ya1Q4cXRhSDIiLCJpYXQiOjE1MDI4MDUyMjcsImV4cCI6MTUwMjgwODgyNywiZW1haWwiOiJ0aXRvZ2Vsb0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJnb29nbGUuY29tIjpbIjExNzc2OTg3MTcxMDQwNDk0MzU4MyJdLCJlbWFpbCI6WyJ0aXRvZ2Vsb0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJnb29nbGUuY29tIn19.yMMxIkWljBmHNe6wSuACqKGfw3kRNlvfP7Zr4lvg707AOO97GY9lSS35OKDvKqt1FBFc_9LGqx_mPR3Cwo7EbtvY0HRQmDDNuLuf_T4nC3aaZLS0FxnfQ-AehOOQ5QYdcwaVbW-ryBqJ4D2qgpWfFRCnsBqoWq8F8qwIqq5oe8kyCIKfi6gjcVJWy0yxH5asypeVKstdnx8uhJPHiy6qYaAspVnc7vlTNURZkyV-leyNpJpE1foQ0mOcBG00CbATJE9FVz8hfX7j6K27FiVOeW_RwjzoKxddbl8bC2y0QT-eHMKv7AAhTJqj-gzKTjjjqwAMhHQFzPVot2UWQVR6cw";
-
-
-		FileInputStream serviceAccount = null;
-		try {
-			serviceAccount = new FileInputStream(FIREBASE_SNIPPET_PATH);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		if (email != null) {
+			return true;
 		}
 
-		if (FirebaseApp.getApps().isEmpty()) {
-
-			FirebaseOptions options = null;
-			try {
-				options = new FirebaseOptions.Builder()
-                        .setCredential(FirebaseCredentials.fromCertificate(serviceAccount))
-                        .setDatabaseUrl("https://dojo-ibl.firebaseio.com")
-                        .build();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			FirebaseApp.initializeApp(options, "dojo-ibl");
-		}
-
-		FirebaseApp app = FirebaseApp.getInstance("dojo-ibl");
-
-//		FirebaseDatabase db = FirebaseDatabase.getInstance(app);
-//
-//		DatabaseReference ref = FirebaseDatabase
-//				.getInstance(app)
-//				.getReference("accounts");
-//		ref.addListenerForSingleValueEvent(new ValueEventListener() {
-//
-//			@Override
-//			public void onDataChange(DataSnapshot dataSnapshot) {
-//				Object document = dataSnapshot.getValue();
-////				Log.info("new value: " + document);
-//
-//				String todoText = "Don't forget to...\n\n";
-//
-//				Iterator<DataSnapshot> children = dataSnapshot.getChildren().iterator();
-//
-//				while(children.hasNext()){
-//					DataSnapshot childSnapshot = (DataSnapshot) children.next();
-//					todoText = todoText + " * " + childSnapshot.getValue().toString() + "\n";
-//				}
-//
-//			}
-//
-//			@Override
-//			public void onCancelled(DatabaseError error){
-//				System.out.println("Error: "+error);
-//			}
-//		});
-
-		Task<FirebaseToken> task = FirebaseAuth.getInstance(app).verifyIdToken(atoken);
-
-
-//		.addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
-//			@Override
-//			public void onSuccess(FirebaseToken decodedToken) {
-//				uidRef.set(decodedToken.getUid());
-//				authenticated.set(true);
-//				done.set(true);
-//				//FirebaseDatabase.getInstance().getReference("/messages");
-//			}
-//		})
-//				.addOnFailureListener(new OnFailureListener() {
-//					@Override
-//					public void onFailure(@NonNull Exception e) {
-//						uidRef.set("error");
-//						authenticated.set(false);
-//						done.set(true);
-//					}
-//				})
-//				.addOnCompleteListener(new OnCompleteListener<FirebaseToken>() {
-//					@Override
-//					public void onComplete(@NonNull Task<FirebaseToken> task) {
-//						uidRef.set("error");
-//						authenticated.set(false);
-//						done.set(true);
-//					}
-//				})
-
-		while (!task.isComplete()) {
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if (task.isSuccessful()) {
-			uidRef.set(task.getResult().getUid());
-			authenticated.set(true);
-			done.set(true);
-		}
-		else {
-			task.getException().printStackTrace();
-			authenticated.set(false);
-			done.set(true);
-		}
-
-		return authenticated.get();
+		return false;
 	}
+
+//@POST
+//	@Path("/authenticate")
+//	public boolean authenticate(@HeaderParam("Authorization") String atoken,
+//								@DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+//								@DefaultValue("application/json") @HeaderParam("Accept") String accept,
+//								String account)  {
+//
+//
+//
+//		final AtomicBoolean authenticated = new AtomicBoolean(false);
+//		final AtomicBoolean done = new AtomicBoolean(false);
+//		final AtomicReference uidRef = new AtomicReference<>();
+//
+////		String atoken = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjMxMjNlMWE3ZTY5MTEyNTI4NDQ2M2ZjOWJmNmEyNGM0YmVkOGQ5NTIifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZG9qby1pYmwiLCJuYW1lIjoiQW5nZWwgU3VhcmV6IEZlcm5hbmRleiIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vLXFpaTNQejlTUndjL0FBQUFBQUFBQUFJL0FBQUFBQUFBTS1rL0x3clBHT29YSFVNL3Bob3RvLmpwZyIsImF1ZCI6ImRvam8taWJsIiwiYXV0aF90aW1lIjoxNTAyODA1MjI3LCJ1c2VyX2lkIjoiMnZiUTIzck9LelpsclZ2VHpVb3JrVDhxdGFIMiIsInN1YiI6IjJ2YlEyM3JPS3pabHJWdlR6VW9ya1Q4cXRhSDIiLCJpYXQiOjE1MDI4MDUyMjcsImV4cCI6MTUwMjgwODgyNywiZW1haWwiOiJ0aXRvZ2Vsb0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJnb29nbGUuY29tIjpbIjExNzc2OTg3MTcxMDQwNDk0MzU4MyJdLCJlbWFpbCI6WyJ0aXRvZ2Vsb0BnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJnb29nbGUuY29tIn19.yMMxIkWljBmHNe6wSuACqKGfw3kRNlvfP7Zr4lvg707AOO97GY9lSS35OKDvKqt1FBFc_9LGqx_mPR3Cwo7EbtvY0HRQmDDNuLuf_T4nC3aaZLS0FxnfQ-AehOOQ5QYdcwaVbW-ryBqJ4D2qgpWfFRCnsBqoWq8F8qwIqq5oe8kyCIKfi6gjcVJWy0yxH5asypeVKstdnx8uhJPHiy6qYaAspVnc7vlTNURZkyV-leyNpJpE1foQ0mOcBG00CbATJE9FVz8hfX7j6K27FiVOeW_RwjzoKxddbl8bC2y0QT-eHMKv7AAhTJqj-gzKTjjjqwAMhHQFzPVot2UWQVR6cw";
+//
+//
+//		FileInputStream serviceAccount = null;
+//		try {
+//			serviceAccount = new FileInputStream(FIREBASE_SNIPPET_PATH);
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//
+//		if (FirebaseApp.getApps().isEmpty()) {
+//
+//			FirebaseOptions options = null;
+//			try {
+//				options = new FirebaseOptions.Builder()
+//                        .setCredential(FirebaseCredentials.fromCertificate(serviceAccount))
+//                        .setDatabaseUrl("https://dojo-ibl.firebaseio.com")
+//                        .build();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//
+//			FirebaseApp.initializeApp(options, "dojo-ibl");
+//		}
+//
+//		FirebaseApp app = FirebaseApp.getInstance("dojo-ibl");
+//
+////		FirebaseDatabase db = FirebaseDatabase.getInstance(app);
+////
+////		DatabaseReference ref = FirebaseDatabase
+////				.getInstance(app)
+////				.getReference("accounts");
+////		ref.addListenerForSingleValueEvent(new ValueEventListener() {
+////
+////			@Override
+////			public void onDataChange(DataSnapshot dataSnapshot) {
+////				Object document = dataSnapshot.getValue();
+//////				Log.info("new value: " + document);
+////
+////				String todoText = "Don't forget to...\n\n";
+////
+////				Iterator<DataSnapshot> children = dataSnapshot.getChildren().iterator();
+////
+////				while(children.hasNext()){
+////					DataSnapshot childSnapshot = (DataSnapshot) children.next();
+////					todoText = todoText + " * " + childSnapshot.getValue().toString() + "\n";
+////				}
+////
+////			}
+////
+////			@Override
+////			public void onCancelled(DatabaseError error){
+////				System.out.println("Error: "+error);
+////			}
+////		});
+//
+//		Task<FirebaseToken> task = FirebaseAuth.getInstance(app).verifyIdToken(atoken);
+//
+//
+////		.addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
+////			@Override
+////			public void onSuccess(FirebaseToken decodedToken) {
+////				uidRef.set(decodedToken.getUid());
+////				authenticated.set(true);
+////				done.set(true);
+////				//FirebaseDatabase.getInstance().getReference("/messages");
+////			}
+////		})
+////				.addOnFailureListener(new OnFailureListener() {
+////					@Override
+////					public void onFailure(@NonNull Exception e) {
+////						uidRef.set("error");
+////						authenticated.set(false);
+////						done.set(true);
+////					}
+////				})
+////				.addOnCompleteListener(new OnCompleteListener<FirebaseToken>() {
+////					@Override
+////					public void onComplete(@NonNull Task<FirebaseToken> task) {
+////						uidRef.set("error");
+////						authenticated.set(false);
+////						done.set(true);
+////					}
+////				})
+//
+//		while (!task.isComplete()) {
+//			try {
+//				Thread.sleep(50);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		if (task.isSuccessful()) {
+//			uidRef.set(task.getResult().getUid());
+//			authenticated.set(true);
+//			done.set(true);
+//		}
+//		else {
+//			task.getException().printStackTrace();
+//			authenticated.set(false);
+//			done.set(true);
+//		}
+//
+//		return authenticated.get();
+//	}
 
 	@GET
 	@Path("/getOauthInfo")
