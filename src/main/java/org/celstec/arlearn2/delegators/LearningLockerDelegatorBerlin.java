@@ -33,9 +33,9 @@ import java.util.logging.Logger;
 public class LearningLockerDelegatorBerlin extends GoogleDelegator{
     protected static final Logger logger = Logger.getLogger(LearningLockerDelegatorBerlin.class.getName());
 
-    protected String host = "141.45.146.229";
-    protected String baseUrl = "/learninglocker/public";
-    protected String basicToken = "NGU3YTVjYjdiNGYzMWVlNjg4OTgxZGJmM2JhZDhmOWJhZjhiNWE1MjpjNzZlMGIxNDU3Y2Q4MTczYWY3ODJmNTc1YzNkZTEzY2RkZDVmYzAx";
+    protected String host = "tel-lrs";
+    protected String baseUrl = ".f4.htw-berlin.de";
+    protected String basicToken = "ZDViNzA0MzZlZWYxMGEwODA2ODUzZDQzMDI2NmIxNWUxMzlmMDkxNzpkNzhkODFlNDgxMjdmNThlYTBiYWUzNDM5MzJiNDcxNTM1ZjU1Yjg2";
 
     private static LearningLockerDelegatorBerlin learningLockerDelegator;
 

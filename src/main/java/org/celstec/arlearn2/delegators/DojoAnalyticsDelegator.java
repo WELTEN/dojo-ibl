@@ -40,9 +40,9 @@ public class DojoAnalyticsDelegator extends GoogleDelegator {
     }
 
     private static final Class[] dbTypes = new Class[]{
-            LearningLockerDelegator.class,
+//            LearningLockerDelegator.class,
             LearningLockerDelegatorBerlin.class,
-            LemoToolDelegator.class
+//            LemoToolDelegator.class
     };
 
     public void registerStatement(String actor, String verb, String object) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
