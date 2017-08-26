@@ -120,6 +120,11 @@
     </servlet>
 
     <servlet>
+        <servlet-name>OauthServletFirebase</servlet-name>
+        <servlet-class>org.celstec.arlearn2.oauth.OauthServletFirebase</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>FacebookServlet</servlet-name>
         <servlet-class>org.celstec.arlearn2.facebook.FacebookServlet</servlet-class>
     </servlet>
@@ -127,6 +132,11 @@
     <servlet-mapping>
         <servlet-name>OauthServlet</servlet-name>
         <url-pattern>/oauth/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>OauthServletFirebase</servlet-name>
+        <url-pattern>/authenticate/*</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

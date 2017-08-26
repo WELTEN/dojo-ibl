@@ -30,8 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import static org.celstec.arlearn2.util.FirebaseUtils.getEmailOfToken;
-
 //import javax.servlet.http.Cookie;
 
 
@@ -62,21 +60,21 @@ public class Oauth extends Service {
 		return "{}";
 	}
 
-	@POST
-	@Path("/authenticate")
-	public boolean authenticate(@HeaderParam("Authorization") String token,
-								@DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
-								@DefaultValue("application/json") @HeaderParam("Accept") String accept,
-								String account) {
-
-		String email = getEmailOfToken(token);
-
-		if (email != null) {
-			return true;
-		}
-
-		return false;
-	}
+//	@POST
+//	@Path("/authenticate")
+//	public boolean authenticate(@HeaderParam("Authorization") String token,
+//								@DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+//								@DefaultValue("application/json") @HeaderParam("Accept") String accept,
+//								String account) {
+//
+//		String email = getEmailOfToken(token);
+//
+//		if (email != null) {
+//			return true;
+//		}
+//
+//		return false;
+//	}
 
 //@POST
 //	@Path("/authenticate")
