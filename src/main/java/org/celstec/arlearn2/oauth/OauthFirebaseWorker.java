@@ -1,4 +1,4 @@
-package org.celstec.arlearn2.util;
+package org.celstec.arlearn2.oauth;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -10,12 +10,17 @@ import com.google.firebase.tasks.OnCompleteListener;
 import com.google.firebase.tasks.OnFailureListener;
 import com.google.firebase.tasks.OnSuccessListener;
 import com.google.firebase.tasks.Task;
+import org.celstec.arlearn2.jdo.UserLoggedInManager;
+import org.celstec.arlearn2.jdo.classes.AccountJDO;
+import org.celstec.arlearn2.jdo.manager.AccountManager;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
@@ -40,16 +45,19 @@ import java.util.concurrent.TimeUnit;
  * ****************************************************************************
  */
 
-public class FirebaseUtils {
+public class OauthFirebaseWorker {
 
 //    private static final Logger logger = (Logger) LoggerFactory.getLogger(FirebaseUtils.class);
 
     private static final String FIREBASE_SNIPPET_PATH = "WEB-INF/dojo-ibl-firebase-adminsdk-ofvly-bf28455fa0.json";
 
-    public static String getEmailOfToken(String token) {
+    public static String validateToken(final String token) {
+
+        final AtomicBoolean authenticated = new AtomicBoolean(false);
+        final StringBuilder stringToken = new StringBuilder("");
 
         if (token == null || token.isEmpty()) {
-            return null;
+            return stringToken.toString();
         }
 
         FileInputStream serviceAccount = null;
@@ -74,7 +82,6 @@ public class FirebaseUtils {
 			FirebaseApp.initializeApp(options, "dojo-ibl");
 		}
 
-        final StringBuilder email = new StringBuilder();
         final CountDownLatch countDownLatch = new CountDownLatch(1);
 
         FirebaseApp app = FirebaseApp.getInstance("dojo-ibl");
@@ -82,29 +89,42 @@ public class FirebaseUtils {
                 .addOnSuccessListener(new OnSuccessListener<FirebaseToken>() {
                     @Override
                     public void onSuccess(FirebaseToken decodedToken) {
-                        email.append(decodedToken.getEmail());
+
+                        UUID uuid = UUID.randomUUID();
+                        saveAccount(decodedToken, uuid.toString());
+                        stringToken.append(uuid.toString());
+
                         countDownLatch.countDown();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-        //                logger.error("verifyIdToken: ", e);
-                        countDownLatch.countDown();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<FirebaseToken>() {
-                    @Override
-                    public void onComplete(@NonNull Task<FirebaseToken> task) {
-                        System.out.print("d");
-                    }
-                });
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                countDownLatch.countDown();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<FirebaseToken>() {
+            @Override
+            public void onComplete(@NonNull Task<FirebaseToken> task) {
+            }
+        });
 
         try {
             countDownLatch.await(30L, TimeUnit.SECONDS);
-            return email.toString();
+            return "{ \"token\": \""+stringToken.toString()+"\"}";
         } catch (InterruptedException e) {
-//            logger.error("verifyIdToken: ", e);
-            return null;
+            return stringToken.toString();
         }
     }
+    public static final void saveAccount(FirebaseToken firebaseToken, String token) {
+        AccountJDO account = AccountManager.addAccount(
+                firebaseToken.getUid(),
+                AccountJDO.FIREBASECLIENT,
+                firebaseToken.getEmail(),
+                firebaseToken.getName(),
+                firebaseToken.getIssuer(),
+                firebaseToken.getName(),
+                firebaseToken.getPicture(), false);
 
+        UserLoggedInManager.submitOauthUser(account.getUniqueId(), token);
+
+    }
 }

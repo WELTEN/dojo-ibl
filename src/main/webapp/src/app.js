@@ -22,7 +22,7 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
             template: 'bootstrap2'
         });
     })
-    .run(function ($http, $location, $translate) {
+    .run(function ($http, $location, $translate, Session) {
         var absUrl = $location.absUrl();
 
         if(localStorage.getItem('i18')){
@@ -63,7 +63,15 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
                 var phoneNumber = user.phoneNumber;
                 var providerData = user.providerData;
                 user.getIdToken().then(function(accessToken) {
-                    localStorage.setItem('accessToken', accessToken)
+
+                    $http.defaults.headers.common['Authorization'] = accessToken;
+
+                    Session.authenticate().then(function(data){
+                        localStorage.setItem('accessToken', data)
+                    });
+
+                    //;
+
                 });
 
             } else {

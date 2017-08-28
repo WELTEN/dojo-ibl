@@ -86,7 +86,6 @@ public class OauthServletFirebase extends HttpServlet {
 				}).addOnFailureListener(new OnFailureListener() {
 			@Override
 			public void onFailure(@NonNull Exception e) {
-				//                logger.error("verifyIdToken: ", e);
 				countDownLatch.countDown();
 			}
 		}).addOnCompleteListener(new OnCompleteListener<FirebaseToken>() {
@@ -100,11 +99,8 @@ public class OauthServletFirebase extends HttpServlet {
 			countDownLatch.await(30L, TimeUnit.SECONDS);
 			email.toString();
 		} catch (InterruptedException e) {
-//            logger.error("verifyIdToken: ", e);
 			;
 		}
-
-//		String email = getEmailOfToken(token);
 	}
 
 	@Override

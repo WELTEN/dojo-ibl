@@ -1,6 +1,6 @@
     angular.module('DojoIBL')
 
-    .factory('Session', function SessionFactory($http, CacheFactory) {
+    .factory('Session', function SessionFactory($q, $http, Oauth, CacheFactory) {
         function getCookie(name) {
             var value = "; " + document.cookie;
             var parts = value.split("; " + name + "=");
@@ -48,6 +48,16 @@
                 if(messages) messages.removeAll();
                 localStorage.removeItem('oauth');
                 localStorage.removeItem('accessToken');
+            },
+            authenticate: function(){
+                var service = this;
+
+                var deferred = $q.defer();
+                Oauth.authenticate().$promise.then(function(data){
+                    deferred.resolve(data.toJSON().token);
+                });
+
+                return deferred.promise;
             }
         }
     }

@@ -6,6 +6,11 @@ angular.module('DojoIBL')
                 method: 'GET',
                 isArray: false,
                 url: config.server+'/rest/oauth/getOauthInfo/'
+            },
+            'authenticate': {
+                method: 'POST',
+                isArray: false,
+                url: config.server + '/rest/oauth/authenticate'
             }
         });
     }
