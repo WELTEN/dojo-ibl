@@ -10,6 +10,10 @@ angular.module('DojoIBL')
                     label: "{{'dibl.toolbar.home' | translate}}"
                 }
             })
+            .state('authentication', {
+                url: '/authentication',
+                controller: 'AuthenticationController'
+            })
             .state('inquiry', {
                 url : '/inquiry',
                 abstract: true,
