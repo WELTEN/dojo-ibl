@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('LandingController', function ($scope, Session, Oauth, firebase) {
+    .controller('LandingController', function ($scope, Session, Oauth) {
 
 
         //firebase.auth().onAuthStateChanged(function(user) {
