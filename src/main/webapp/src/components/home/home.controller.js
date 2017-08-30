@@ -170,35 +170,7 @@ angular.module('DojoIBL')
     })
     .controller('AuthenticationController', function(firebase, $http, Session){
 
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                // User is signed in.
-                var displayName = user.displayName;
-                var email = user.email;
-                var emailVerified = user.emailVerified;
-                var photoURL = user.photoURL;
-                var uid = user.uid;
-                var phoneNumber = user.phoneNumber;
-                var providerData = user.providerData;
-                user.getIdToken().then(function(accessToken) {
 
-                    $http.defaults.headers.common['Authorization'] = accessToken;
 
-                    Session.authenticate().then(function(data){
-                        localStorage.setItem('accessToken', data)
-                    });
 
-                    //;
-
-                });
-
-            } else {
-                // User is signed out.
-
-            }
-        }, function(error) {
-            console.log(error);
-        });
-
-        window.location.href='/main.html#/home';
     });

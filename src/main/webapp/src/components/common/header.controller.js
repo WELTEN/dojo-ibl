@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('HeaderController', function ($scope, Session, $translate,$state, $location, config) {
+    .controller('HeaderController', function ($scope, Session, $translate,$state, $location, config, firebase) {
         $scope.test = "foo";
 
         $scope.name = "your name";
@@ -37,10 +37,22 @@ angular.module('DojoIBL')
             localStorage.setItem('i18', lang);
         };
 
+
+
         $scope.signout = function() {
+
+            firebase.auth().signOut().then(function() {
+
+                console.log("logout")
+
+
+            }).catch(function(error) {
+                // An error happened.
+            });
+
             Session.reset();
             document.cookie =  'arlearn.AccessToken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
-            window.location.href=config.server+'/index.html';
+            window.location.href=config.server+'/#/login';
         }
     }
 );

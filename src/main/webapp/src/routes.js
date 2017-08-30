@@ -14,6 +14,16 @@ angular.module('DojoIBL')
                 url: '/authentication',
                 controller: 'AuthenticationController'
             })
+            .state('login', {
+                url: '/login',
+                controller: 'LoginController',
+                templateUrl: '/src/components/login/login.template.html'
+            })
+            .state('landing', {
+                url: '/landing',
+                controller: 'LoginController',
+                templateUrl: '/src/components/landing/landing.template.html'
+            })
             .state('inquiry', {
                 url : '/inquiry',
                 abstract: true,

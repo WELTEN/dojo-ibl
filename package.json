@@ -1,0 +1,41 @@
+{
+  "name": "dojo-ibl-gae",
+  "version": "1.0.0",
+  "description": "DojoIBL  ========",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "angular-animate": "^1.6.6",
+    "angularfire": "^2.3.0",
+    "angularjs-toaster": "^2.2.0",
+    "firebase": "^4.3.0",
+    "gulp": "^3.9.1",
+    "gulp-bytediff": "^1.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.1.2",
+    "jasmine-core": "^2.8.0",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-safari-launcher": "^1.0.0",
+    "ment.io": "^0.9.23",
+    "uglify-js": "^2.8.29"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WELTEN/dojo-ibl.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WELTEN/dojo-ibl/issues"
+  },
+  "homepage": "https://github.com/WELTEN/dojo-ibl#readme"
+}
