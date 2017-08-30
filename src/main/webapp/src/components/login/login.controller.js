@@ -38,7 +38,8 @@ angular.module('DojoIBL')
                     $http.defaults.headers.common['Authorization'] = result.user.De;
 
                     Session.authenticate().then(function(data){
-                        localStorage.setItem('accessToken', data);
+
+                        Session.setAccessToken(data);
                         window.location.href='/#/home';
                     });
 

@@ -52,36 +52,6 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
             }
         }
 
-        //if(localStorage.getItem('accessToken')){
-        //    //if(location.host == "localhost:8080"){
-        //    //    //if(/absUrl/.test("8080(\/)?(index.html)?"))
-        //    //    if(location.protocol+"//"+location.host+"/" == absUrl ||
-        //    //        location.protocol+"//"+location.host+"/index.html" == absUrl)
-        //    //        window.location = location.protocol+"//"+location.host+"/main.html#/home";
-        //    //}else{
-        //    //    if("http://dojo-ibl.appspot.com/" == absUrl || "http://dojo-ibl.appspot.com/index.html" == absUrl
-        //    //    || "https://dojo-ibl.appspot.com/" == absUrl || "https://dojo-ibl.appspot.com/index.html" == absUrl)
-        //    //        window.location = "https://dojo-ibl.appspot.com/main.html#/home";
-        //    //}
-        //
-        //    if(location.protocol+"//"+location.host+"/" == absUrl || location.protocol+"//"+location.host+"/index.html" == absUrl)
-        //        window.location = location.protocol+"//"+location.host+"/main.html#/home";
-        //
-        //}else{
-        //
-        //    if(absUrl.indexOf(location.protocol+"//"+location.host+"/main.html#/oauth/") == -1 && absUrl.indexOf(location.protocol+"//"+location.host+"/main.html#/") !== -1)
-        //        window.location = location.protocol+"//"+location.host+"/";
-        //
-        //    //if(location.host == "localhost:8080"){
-        //    //    if(absUrl.indexOf("localhost:8080/main.html#/oauth/") == -1 && absUrl.indexOf("localhost:8080/main.html#/") !== -1  )
-        //    //        window.location = "http://localhost:8080";
-        //    //}else{
-        //    //    if(absUrl.indexOf("dojo-ibl.appspot.com/main.html#/oauth/") == -1 && absUrl.indexOf("dojo-ibl.appspot.com/main.html#/") !== -1)
-        //    //        window.location = "http://dojo-ibl.appspot.com";
-        //    //}
-        //}
-
-        //$http.defaults.headers.common['Authorization'] = 'GoogleLogin auth='+localStorage.getItem('accessToken');
         $http.defaults.headers.common['Authorization'] = localStorage.getItem('accessToken');
     })
     .filter('unsafe', function($sce) {

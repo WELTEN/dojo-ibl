@@ -123,6 +123,11 @@ angular.module('DojoIBL')
                     );
                 }
                 return deferred.promise;
+            },
+            emptyMessagesCache: function(){
+                var dataCache = CacheFactory.get('messagesCache');
+                if(dataCache) dataCache.removeAll();
+                messages = {};
             }
         }
     }

@@ -230,6 +230,12 @@ angular.module('DojoIBL')
             removeCachedActivity: function(){
                 var dataCache = CacheFactory.get('activitiesTempCache');
                 dataCache.remove("cachedActivity");
+            },
+            emptyActivitiesCache: function(){
+                var dataCache = CacheFactory.get('activitiesCache');
+                if(dataCache) dataCache.removeAll();
+                generalItems = {};
+                calendarItems = {};
             }
         }
     })
@@ -423,6 +429,11 @@ angular.module('DojoIBL')
                         });
                 }
                 return deferred.promise;
+            },
+            emptyActivityStatusCache: function(){
+                var dataCache = CacheFactory.get('activitiesStatusCache');
+                if(dataCache) dataCache.removeAll();
+                generalItemsStatus = {};
             }
         };
     })

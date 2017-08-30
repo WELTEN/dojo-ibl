@@ -103,6 +103,11 @@ angular.module('DojoIBL')
                     }
                     return -1;
                 }
+            },
+            emptyUsersCache: function(){
+                var dataCache = CacheFactory.get('usersCache');
+                if(dataCache) dataCache.removeAll();
+                users = {};
             }
         }
     }

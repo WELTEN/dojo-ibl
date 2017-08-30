@@ -6,6 +6,8 @@ angular.module('DojoIBL')
         $scope.games = {};
         $scope.runs = {};
 
+        $scope.games = GameService.getGames();
+
         function loadGames() {
             GameService.resumeLoadingGames().then(function (data) {
                 if (data.error) {
@@ -23,7 +25,7 @@ angular.module('DojoIBL')
         loadGames();
         //}
 
-        $scope.games = GameService.getGames();
+
 
         $scope.thumbnailUrl = function(gameId) {
 

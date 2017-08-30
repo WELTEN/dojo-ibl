@@ -80,6 +80,10 @@ angular.module('DojoIBL')
                     //dataCache.remove("me");
                 }
                 return this.accountDetailsById(id);
+            },
+            emptyAccountsCache: function(){
+                var dataCache = CacheFactory.get('accountCache');
+                if(dataCache) dataCache.removeAll();
             }
         }
 
