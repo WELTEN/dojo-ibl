@@ -15,6 +15,60 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
         });
 
         $translateProvider.preferredLanguage('en');
+
+        var config = {
+            apiKey: "AIzaSyBqdNjX3HNZStyuBklf3FQRGxRLTAbb2hc",
+            authDomain: "dojo-ibl.firebaseapp.com",
+            databaseURL: "https://dojo-ibl.firebaseio.com",
+            projectId: "dojo-ibl",
+            storageBucket: "dojo-ibl.appspot.com",
+            messagingSenderId: "518897628174"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(config);
+        }
+
+        const messaging = firebase.messaging();
+
+        messaging.requestPermission()
+            .then(function() {
+                console.log('Notification permission granted.');
+                // TODO(developer): Retrieve an Instance ID token for use with FCM.
+                // ...
+            })
+            .catch(function(err) {
+                console.log('Unable to get permission to notify.', err);
+            });
+
+
+
+
+        // Get Instance ID token. Initially this makes a network call, once retrieved
+        // subsequent calls to getToken will return from cache.
+        messaging.getToken()
+            .then(function(currentToken) {
+
+                console.log(currentToken)
+
+                //ChannelService.saveDeviceRegistrationTokenMessaging(currentToken);
+                localStorage.setItem('deviceRegistrationToken', currentToken)
+                //if (currentToken) {
+                //    sendTokenToServer(currentToken);
+                //    updateUIForPushEnabled(currentToken);
+                //} else {
+                //    // Show permission request.
+                //    console.log('No Instance ID token available. Request permission to generate one.');
+                //    // Show permission UI.
+                //    updateUIForPushPermissionRequired();
+                //    setTokenSentToServer(false);
+                //}
+            })
+            .catch(function(err) {
+                console.log('An error occurred while retrieving token. ', err);
+                //showToken('Error retrieving Instance ID token. ', err);
+                //setTokenSentToServer(false);
+            });
     })
     .config(function($breadcrumbProvider) {
         $breadcrumbProvider.setOptions({
@@ -96,8 +150,8 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
         };
     }).run(run);
 
-    run.$inject = ['$rootScope', '$location', '$window'];
-    function run($rootScope, $location, $window) {
+    run.$inject = ['$rootScope', '$location', '$window', 'Session'];
+    function run($rootScope, $location, $window, Session) {
         // initialise google analytics
         $window.ga('create', 'UA-75878329-2', 'auto');
 
@@ -105,5 +159,21 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
         $rootScope.$on('$stateChangeSuccess', function (event) {
             $window.ga('send', 'pageview', $location.path());
         });
+
+        $rootScope.$on("$stateChangeSuccess", function (event, next, current) {
+            //if (next && next.$$route && next.$$route.secure) {
+                //if (!authService.user.isAuthenticated) {
+                //    authService.redirectToLogin();
+                //}
+
+
+                if(!Session.getAccessToken()){
+
+                    if($location.path() != "/register")
+                        window.location.href='/#/login';
+                }
+            //}
+        });
+
     }
 ;

@@ -1,7 +1,8 @@
     angular.module('DojoIBL')
 
     .factory('Session', function SessionFactory($q, $http, Oauth, CacheFactory,
-                                                ActivityService, GameService, AccountService, ActivityStatusService, ResponseService, RunService, UserService, MessageService) {
+                                                ActivityService, GameService, AccountService, ActivityStatusService, ResponseService, RunService, UserService, MessageService
+        ,firebase, toaster) {
         function getCookie(name) {
             var value = "; " + document.cookie;
             var parts = value.split("; " + name + "=");
@@ -43,7 +44,7 @@
                 localStorage.removeItem('oauth');
                 localStorage.removeItem('accessToken');
             },
-            authenticate: function(){
+            authenticate: function(name){
                 var service = this;
 
                 var deferred = $q.defer();

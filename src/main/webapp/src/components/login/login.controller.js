@@ -1,22 +1,8 @@
 angular.module('DojoIBL')
 
-    .controller('LoginController', function ($scope, Session, Oauth, $http, firebase) {
+    .controller('LoginController', function ($scope, Session, Oauth, $http, firebase, toaster) {
 
-
-        var config = {
-            apiKey: "AIzaSyBqdNjX3HNZStyuBklf3FQRGxRLTAbb2hc",
-            authDomain: "dojo-ibl.firebaseapp.com",
-            databaseURL: "https://dojo-ibl.firebaseio.com",
-            projectId: "dojo-ibl",
-            storageBucket: "dojo-ibl.appspot.com",
-            messagingSenderId: "518897628174"
-        };
-
-        if (!firebase.apps.length) {
-            firebase.initializeApp(config);
-        }
-
-        $scope.google = function () {
+        $scope.googleProvider = function () {
 
             var provider = new firebase.auth.GoogleAuthProvider();
 
@@ -58,5 +44,71 @@ angular.module('DojoIBL')
 
         }
 
-    }
-);
+        $scope.emailProvider = function () {
+
+            firebase.auth().signInWithEmailAndPassword($scope.email, $scope.password).then(function(result) {
+
+
+                $http.defaults.headers.common['Authorization'] = result.De;
+
+                Session.authenticate().then(function(data){
+
+                    Session.setAccessToken(data);
+                    window.location.href='/#/home';
+                });
+
+            }).catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+
+                toaster.warning({
+                    title: errorCode,
+                    body: errorMessage
+                });
+            });
+
+
+
+        }
+
+    })
+    .controller('RegisterController', function ($scope, Session, firebase, $http, toaster, AccountService){
+        $scope.register = function() {
+            firebase.auth().createUserWithEmailAndPassword($scope.email, $scope.password).then(function(result) {
+
+
+                $http.defaults.headers.common['Authorization'] = result.De;
+
+                $scope.uid = result.uid;
+
+                Session.authenticate().then(function(data){
+                    Session.setAccessToken(data);
+
+                    AccountService.update({
+                        "accountType": 7,
+                        "localId": $scope.uid,
+                        "email": $scope.email,
+                        "name": $scope.name,
+                        "given_name": $scope.name
+                    })
+
+
+                    window.location.href='/#/login';
+                });
+
+            }).catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+
+                console.log(errorCode)
+
+                toaster.error({
+                    title: errorCode,
+                    body: errorMessage
+                });
+            });
+        }
+    })
+;

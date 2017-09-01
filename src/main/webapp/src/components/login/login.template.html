@@ -25,13 +25,14 @@
             <div>
                 <form class="m-t" role="form">
                     <div class="form-group">
-                        <input type="email" class="form-control" placeholder="Username" required="">
+                        <input type="email" ng-model="email" class="form-control" placeholder="Username" required="">
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" placeholder="Password" required="">
+                        <input type="password" ng-model="password" class="form-control" placeholder="Password" required="">
                     </div>
                     <!--<a class="btn btn-primary block full-width m-b"><i class="fa fa-address-card"></i> Login with DojoIBL account</a>-->
-                    <a ng-click="google()" class="btn btn-primary block full-width m-b"><i class="fa fa-google"></i> Login with Google</a>
+                    <a ng-click="emailProvider()" class="btn btn-primary block full-width m-b"><i class="fa fa-google"></i> Login with Email</a>
+                    <a ng-click="googleProvider()" class="btn btn-primary block full-width m-b"><i class="fa fa-google"></i> Login with Google</a>
 
                     <a href="#">
                         <small>Forgot password?</small>
@@ -40,11 +41,9 @@
                     <p class="text-muted text-center">
                         <small>Do not have an account?</small>
                     </p>
-                    <a class="btn btn-sm btn-white btn-block" href="register.html">Create an account in DojoIBL</a>
+                    <a class="btn btn-sm btn-white btn-block" href="/#/register">Create an account in DojoIBL</a>
                 </form>
-                <p class="m-t">
-                    <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small>
-                </p>
+                <p class="m-t"> <small>DojoIBL &copy; 2015-2017</small> </p>
             </div>
         </div>
     </div>
