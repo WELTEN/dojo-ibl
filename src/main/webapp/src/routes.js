@@ -1,5 +1,6 @@
 angular.module('DojoIBL')
-    .config(['$stateProvider','$routeProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    .config(['$stateProvider','$routeProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, Session) {
+
 
         $stateProvider
             .state('home', {
@@ -18,6 +19,11 @@ angular.module('DojoIBL')
                 url: '/login',
                 controller: 'LoginController',
                 templateUrl: '/src/components/login/login.template.html'
+            })
+            .state('register', {
+                url: '/register',
+                controller: 'RegisterController',
+                templateUrl: '/src/components/login/register.template.html'
             })
             .state('landing', {
                 url: '/landing',
@@ -41,8 +47,9 @@ angular.module('DojoIBL')
                     label: "{{'dibl.toolbar.phases' | translate}} "
                 },
                 resolve: {
-                    security: ['$q', '$stateParams', 'AccountService', 'UserService', 'toaster', '$location'
-                        , function($q, $stateParams, AccountService, UserService){
+                    security: ['$q', '$stateParams', 'UserService'
+                        , function($q, $stateParams, UserService){
+
                             UserService.checkAccess($stateParams.runId);
                     }]
                 }

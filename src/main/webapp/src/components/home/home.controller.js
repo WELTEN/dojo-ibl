@@ -3,6 +3,7 @@ angular.module('DojoIBL')
     .controller('HomeController', function ($scope, $sce, Game, GameService, ActivityService, config, Session, RunService, ChannelService,
                                             toaster, AccountService) {
 
+
         $scope.games = {};
         $scope.runs = {};
 
@@ -115,10 +116,6 @@ angular.module('DojoIBL')
             fillLastPage: true
         };
 
-        $scope.isLoggedIn = function () {
-            if (Session.getAccessToken() ) return true;
-            return false;
-        };
 
         //ChannelService.register('org.celstec.arlearn2.beans.game.Game', function (notification) {
         //    //console.info("[Notification][Game]", notification);
@@ -152,7 +149,7 @@ angular.module('DojoIBL')
                         localId: user.localId,
                         gameId: run.game.gameId });
 
-                    window.location.href=config.server+'/main.html#/inquiry/'+run.runId;
+                    window.location.href=config.server+'/#/inquiry/'+run.runId;
                 });
             });
 
