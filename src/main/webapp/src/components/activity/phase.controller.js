@@ -3,16 +3,16 @@ angular.module('DojoIBL')
     .controller('PhaseController', function ($scope, $sce, $location, $stateParams, $state, toaster, Session, ActivityStatusService, RunService, ChannelService) {
         $scope.runId = $stateParams.runId;
 
-        ChannelService.register('org.celstec.arlearn2.beans.run.GeneralItemsStatus', function (notification) {
-            //
-            //console.log(notification)
-            //
-            ActivityStatusService.refreshActivityStatus(notification.generalItemId, $scope.gameId, $stateParams.runId, $stateParams.phase);
-            //toaster.success({
-            //    title: 'Activity modified',
-            //    body: 'The structure of the activity has been modified.'
-            //});
-        });
+        //ChannelService.register('org.celstec.arlearn2.beans.run.GeneralItemsStatus', function (notification) {
+        //    //
+        //    //console.log(notification)
+        //    //
+        //    ActivityStatusService.refreshActivityStatus(notification.generalItemId, $scope.gameId, $stateParams.runId, $stateParams.phase);
+        //    //toaster.success({
+        //    //    title: 'Activity modified',
+        //    //    body: 'The structure of the activity has been modified.'
+        //    //});
+        //});
 
         $scope.phase = "holaaaaaaa";
 

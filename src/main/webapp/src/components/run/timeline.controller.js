@@ -12,41 +12,41 @@ angular.module('DojoIBL')
         var old_item_id = 0;
         var old_side_left = true;
 
-        ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
-            if(data.runId == $stateParams.runId){
-                var responses = [];
-
-                if(data.generalItemId != old_item_id){
-                    if(old_side_left){
-                        data.move_right = false;
-                    }else{
-                        data.move_right = true;
-                    }
-                }
-
-                old_item_id = data.generalItemId;
-                old_side_left = data.move_right;
-
-                RunService.getRunById($stateParams.runId).then(function (run) {
-                    ActivityService.getActivityById(data.generalItemId, run.gameId).then(function(act){
-                        data.activity = act;
-                    });
-                });
-
-                //UserService.getUserByAccount($stateParams.runId, data.userEmail.split(':')[1]).then(function(user){
-                //    data.user = user;
-                //});
-                data.user = UserService.getUser($stateParams.runId, data.userEmail);
-
-
-                responses.push(data);
-                $scope.games.games = responses.concat($scope.games.games)
-                //$scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
-                //if((user.localId != data.userEmail.split(':')[1]) && data.generalItemId == $stateParams.activityId && data.runId == $stateParams.runId)
-                //    //ResponseService.addResponse(data, $stateParams.runId, $stateParams.activityId);
-                //console.info("[Notification][Response]", data, $stateParams.runId, $stateParams.activityId);
-            }
-        });
+        //ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
+        //    if(data.runId == $stateParams.runId){
+        //        var responses = [];
+        //
+        //        if(data.generalItemId != old_item_id){
+        //            if(old_side_left){
+        //                data.move_right = false;
+        //            }else{
+        //                data.move_right = true;
+        //            }
+        //        }
+        //
+        //        old_item_id = data.generalItemId;
+        //        old_side_left = data.move_right;
+        //
+        //        RunService.getRunById($stateParams.runId).then(function (run) {
+        //            ActivityService.getActivityById(data.generalItemId, run.gameId).then(function(act){
+        //                data.activity = act;
+        //            });
+        //        });
+        //
+        //        //UserService.getUserByAccount($stateParams.runId, data.userEmail.split(':')[1]).then(function(user){
+        //        //    data.user = user;
+        //        //});
+        //        data.user = UserService.getUser($stateParams.runId, data.userEmail);
+        //
+        //
+        //        responses.push(data);
+        //        $scope.games.games = responses.concat($scope.games.games)
+        //        //$scope.responses.responses = ResponseService.getResponses($stateParams.runId, $stateParams.activityId);
+        //        //if((user.localId != data.userEmail.split(':')[1]) && data.generalItemId == $stateParams.activityId && data.runId == $stateParams.runId)
+        //        //    //ResponseService.addResponse(data, $stateParams.runId, $stateParams.activityId);
+        //        //console.info("[Notification][Response]", data, $stateParams.runId, $stateParams.activityId);
+        //    }
+        //});
 
 
         $scope.loadMoreGames = function () {

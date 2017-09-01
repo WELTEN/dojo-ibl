@@ -4,41 +4,41 @@ angular.module('DojoIBL')
                                                 Response, ResponseService, RunService, ChannelService, Upload, config,
                                                 ActivityStatusService, toaster, GameService) {
 
-        ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
-
-            console.log(data);
-
-            if($stateParams.activityId == data.generalItemId && $stateParams.runId == data.runId){
-                ResponseService.refreshResponse(data, $stateParams.runId, $stateParams.activityId);
-            }
-            if($stateParams.runId == data.runId){
-                //console.log(data.userEmail, AccountService.myDetailsCache().fullId);
-                //
-                //if(data.userEmail == AccountService.myDetailsCache().fullId){
-                //    toaster.success({
-                //        title: 'You added a response',
-                //        body: 'You have contributed to an activity.'
-                //    });
-                //}else{
-
-                    toaster.success({
-                        title: UserService.getUser($stateParams.runId, data.userEmail).name+' added a response',
-                        body: UserService.getUser($stateParams.runId, data.userEmail).name+' has contributed to an activity.'
-                    });
-                //}
-
-            }
-        });
-
-        ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
-            ActivityService.refreshActivity(notification.itemId, notification.gameId).then(function (data) {
-                $scope.activity = data;
-            });
-            toaster.success({
-                title: 'Activity modified',
-                body: 'The structure of the activity has been modified.'
-            });
-        });
+        //ChannelService.register('org.celstec.arlearn2.beans.run.Response', function (data) {
+        //
+        //    console.log(data);
+        //
+        //    if($stateParams.activityId == data.generalItemId && $stateParams.runId == data.runId){
+        //        ResponseService.refreshResponse(data, $stateParams.runId, $stateParams.activityId);
+        //    }
+        //    if($stateParams.runId == data.runId){
+        //        //console.log(data.userEmail, AccountService.myDetailsCache().fullId);
+        //        //
+        //        //if(data.userEmail == AccountService.myDetailsCache().fullId){
+        //        //    toaster.success({
+        //        //        title: 'You added a response',
+        //        //        body: 'You have contributed to an activity.'
+        //        //    });
+        //        //}else{
+        //
+        //            toaster.success({
+        //                title: UserService.getUser($stateParams.runId, data.userEmail).name+' added a response',
+        //                body: UserService.getUser($stateParams.runId, data.userEmail).name+' has contributed to an activity.'
+        //            });
+        //        //}
+        //
+        //    }
+        //});
+        //
+        //ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
+        //    ActivityService.refreshActivity(notification.itemId, notification.gameId).then(function (data) {
+        //        $scope.activity = data;
+        //    });
+        //    toaster.success({
+        //        title: 'Activity modified',
+        //        body: 'The structure of the activity has been modified.'
+        //    });
+        //});
 
         $scope.responses = {};
 
