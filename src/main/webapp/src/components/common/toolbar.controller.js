@@ -160,7 +160,7 @@ angular.module('DojoIBL')
                         localId: user.localId,
                         gameId: run.game.gameId }).then(function(){
 
-                        window.location.href=config.server+'/main.html#/inquiry/'+run.runId;
+                        window.location.href=config.server+'/#/inquiry/'+run.runId;
 
                         $scope.showSpinerJoin = false;
                         $scope.inquiryCode = null;

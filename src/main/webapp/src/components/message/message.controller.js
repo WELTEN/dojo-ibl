@@ -1,40 +1,41 @@
 angular.module('DojoIBL')
 
     .controller('InstantMessagingController', function ($window, $scope, $stateParams, Message, MessageService,
-                                                        ChannelService, AccountService, UserService, ngAudio, firebase) {
+                                                        ChannelService, AccountService, UserService, ngAudio, firebase, $firebaseArray) {
 
-        $scope.messages = {};
-        var commentsRef = firebase.database().ref("messages/"+$stateParams.runId).limitToLast(20);
-        commentsRef.on('child_added', function(data) {
-            $scope.messages[data.key] = data.val();
-        });
+        var ctrl = this;
 
-        commentsRef.on('child_changed', function(data) {
-            $scope.messages[data.key] = data.val();
-        });
+        $scope.account = AccountService.myDetailsCache();
 
-        commentsRef.on('child_removed', function(data) {
-            $scope.messages[data] = data.val().message;
-        });
 
+        $scope.pageSize = 25;
+        $scope.page = 1;
+
+        var messagesRef = firebase.database().ref("messages").child($stateParams.runId);
+
+        ctrl.getMessages = function() {
+            $scope.messages = $firebaseArray(messagesRef.limitToLast($scope.pageSize * $scope.page));
+        };
+
+        ctrl.getMessages();
 
         $scope.sendMessage = function() {
-            var m = $scope.bodyMessage;
-            $scope.bodyMessage = null;
             AccountService.myDetails().then(function(data){
+                $scope.account = data;
+                //console.log(data)
+                if($scope.bodyMessage){
 
-                $scope.myAccount = data;
-
-                if(m){
-                    var ref = firebase.database().ref("messages/"+$stateParams.runId).push()
-                    ref.set({
+                    $scope.messages.$add({
                         localId: data.localId,
                         name: data.name,
-                        body: m,
+                        body: $scope.bodyMessage,
                         picture: data.picture,
                         date: firebase.database.ServerValue.TIMESTAMP
                     });
-                    MessageService.sendNotification();
+
+                    $scope.bodyMessage = '';
+
+                    //MessageService.sendNotification();
 
 
                     //MessageService.newMessage({
@@ -49,18 +50,33 @@ angular.module('DojoIBL')
 
                 }
             });
+
         };
 
-        const messaging = firebase.messaging();
 
-        // Handle incoming messages. Called when:
-        // - a message is received while the app has focus
-        // - the user clicks on an app notification created by a sevice worker
-        //   `messaging.setBackgroundMessageHandler` handler.
-        messaging.onMessage(function(payload) {
-            console.log("Message received. ", payload);
-            // ...
-        });
+        $scope.bodyMessage;
+        $scope.glued = true;
+
+
+        //var detachOnAuth = Auth.authObj.$onAuth(function(authData) {
+        //    if (!authData) {
+        //        return;
+        //    }
+        //    roomUserRef = roomUsersRef.child(authData.uid);
+        //    roomUserRef.set(true);
+        //    roomUserRef.onDisconnect().remove(); // User disconnected
+        //});
+
+
+        //const messaging = firebase.messaging();
+        //
+        //// Handle incoming messages. Called when:
+        //// - a message is received while the app has focus
+        //// - the user clicks on an app notification created by a sevice worker
+        ////   `messaging.setBackgroundMessageHandler` handler.
+        //messaging.onMessage(function(payload) {
+        //    console.log("Message received. ", payload);
+        //});
 
 
         //var loadMessages = function(anyThing){
@@ -117,14 +133,11 @@ angular.module('DojoIBL')
         //    loadMessages(args.runId)
         //});
         //
-        //$scope.account = AccountService.myDetailsCache();
         //
         //loadMessages($stateParams.runId);
         //
         //
         //
-        $scope.bodyMessage;
-        $scope.glued = true;
 
 
 
