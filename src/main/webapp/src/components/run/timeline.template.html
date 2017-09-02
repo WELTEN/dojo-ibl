@@ -33,21 +33,18 @@
     </div>
 
 
-    <div id="vertical-timeline" class="vertical-container dark-timeline center-orientation"
-         infinite-scroll='loadMoreGames()'
-         infinite-scroll-distance='1'
-         infinite-scroll-immediate-check="true" infinite-scroll-disabled="disableGameLoading">
+    <div id="vertical-timeline" class="vertical-container dark-timeline center-orientation">
 
+        <!--<a ng-click="responses.$scroll()">DALE MAS</a>-->
 
-        <div class="feed-element" ng-repeat="response in games.games | filter:filterByCategory">
+        <div class="feed-element" >
             <div class="vertical-timeline-block ">
-
-                <item response="response"></item>
+                <!--<item ng-repeat='response in responses | orderByDayNumber:"lastModificationDate"' response="response"></item>-->
             </div>
         </div>
 
-        <div class="spiner-example" ng-show="games.resumptionToken">
-            <div class="sk-spinner sk-spinner-three-bounce" ng-show="disableGameLoading">
+        <div class="spiner-example">
+            <div  class="sk-spinner sk-spinner-three-bounce" ng-show="disableGameLoading">
                 <div class="sk-bounce1"></div>
                 <div class="sk-bounce2"></div>
                 <div class="sk-bounce3"></div>
