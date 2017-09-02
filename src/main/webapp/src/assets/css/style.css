@@ -9,7 +9,7 @@
 p{
   color: black;
   line-height: 21px;
-  font-size: 14px;
+  font-size: 12px;
 }
 h1,
 h2,
@@ -5493,7 +5493,7 @@ del {
   margin-top: 0;
 }
 .social-comment {
-  margin-top: 25px;
+  margin-top: 15px;
 }
 .social-comment textarea {
   font-size: 12px;
