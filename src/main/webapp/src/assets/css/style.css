@@ -1238,6 +1238,13 @@ button.dim:active:before {
   position: relative;
 }
 /* PAGINATIN */
+
+.pagination {
+  margin: 21px 18px;
+  position: absolute;
+  right: 0;
+}
+
 .pagination > .active > a,
 .pagination > .active > span,
 .pagination > .active > a:hover,
@@ -5431,7 +5438,7 @@ del {
   /*padding: 15px;*/
   border: 1px solid #e7eaec;
   background: #fff;
-  margin-bottom: 15px;
+  /*margin-bottom: 15px;*/
 }
 .article .social-feed-box {
   margin-bottom: 0;

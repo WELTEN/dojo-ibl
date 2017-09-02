@@ -1,54 +1,87 @@
 angular.module('DojoIBL')
 
-    //.factory('$pageArray', function($firebaseArray) {
-    //    return function(ref, field) {
-    //        // create a Paginate reference
-    //        var pageRef = new Firebase.util.Paginate(ref, field, {maxCacheSize: 250});
-    //        // generate a synchronized array using the special page ref
-    //        var list = $firebaseArray(pageRef);
-    //        // store the "page" scope on the synchronized array for easy access
-    //        list.page = pageRef.page;
-    //
-    //        // when the page count loads, update local scope vars
-    //        pageRef.page.onPageCount(function(currentPageCount, couldHaveMore) {
-    //            list.pageCount = currentPageCount;
-    //            list.couldHaveMore = couldHaveMore;
-    //        });
-    //
-    //        // when the current page is changed, update local scope vars
-    //        pageRef.page.onPageChange(function(currentPageNumber) {
-    //            list.currentPageNumber = currentPageNumber;
-    //        });
-    //
-    //        // load the first page
-    //        pageRef.page.next();
-    //
-    //        return list;
-    //    }
-    //})
+    .factory("$paginated", ["$firebaseArray", "$rootScope",
+        function ($firebaseArray, $rootScope) {
+            return function (ref, pageMax) {
+                var main;
+                var current = pageMax;
+                var endingId;
+                var startingId;
+                //console.log(1, ref.path.toString());
+                //console.log(2, ref.database.ref().child(ref.path.toString()));
+                var result = $firebaseArray(ref.database.ref().child(ref.path.toString()).limitToFirst(pageMax));
+                var $$added = result.$$added;
+                result.$$added = function ($snapshot, $prev, paginated) {
+                    if (paginated) return $$added.apply(result, arguments);
+                }
+                var $$removed = result.$$removed;
+                result.$$removed = function ($snapshot, paginated) {
+                    if (paginated) return $$removed.apply(result, arguments);
+                }
+                var $$updated = result.$$updated;
+                result.$$updated = function ($snapshot, paginated) {
+                    if (paginated) return $$updated.apply(result, arguments);
+                }
+                var $$updated = result.$$updated;
+                result.$$updated = function ($snapshot, $prev, paginated) {
+                    if (paginated) return $$updated.apply(result, arguments);
+                }
+                result.$next = function () {
+                    //console.log(3, pageMax > result.length, pageMax, result.length);
+                    if (pageMax > result.length) return false;
+                    if (main) {
+                        main.off("child_added");
+                        main.off("child_removed");
+                        main.off("child_changed");
+                        main.off("child_moved");
+                    }
+                    current += pageMax;
+                    endingId = result[result.length - 1].$id;
+                    startingId = null;
+                    main = ref.database.ref().child(ref.path.toString()).orderByKey().startAt(endingId).limitToFirst(pageMax + 1);
+                    while (result.length) result.$$process("child_removed", result[0]);
+                    main.on("child_added", function ($snapshot, $prev) { if (result.$$added($snapshot, $prev, true) && $snapshot.key != endingId) { result.$$process("child_added", result.$$added($snapshot, $prev, true), $prev); $rootScope.$digest(); } });
+                    main.on("child_removed", function ($snapshot) { if (result.$$removed($snapshot, true) && $snapshot.key != endingId) { result.$$process("child_removed", result.$getRecord($snapshot.key)); $rootScope.$digest(); } });
+                    main.on("child_changed", function ($snapshot) { if (result.$$updated($snapshot, true) && $snapshot.key != endingId) { result.$$process("child_changed", result.$getRecord($snapshot.key)); $rootScope.$digest(); } });
+                    main.on("child_moved", function ($snapshot, $prev) { if (result.$$moved($snapshot, $prev, true) && $snapshot.key != endingId) { result.$$process("child_moved", result.$getRecord($snapshot.key), $prev); $rootScope.$digest(); } });
+                }
+
+                result.$prev = function () {
+                    console.log(5, pageMax > result.length, pageMax, result.length);
+
+                    if (current <= pageMax) return false;
+                    if (main) {
+                        main.off("child_added");
+                        main.off("child_removed");
+                        main.off("child_changed");
+                        main.off("child_moved");
+                    }
+                    current -= pageMax;
+                    //console.log(4, current/pageMax);
+                    startingId = result[0].$id;
+                    endingId = null;
+                    main = ref.database.ref().child(ref.path.toString()).orderByKey().endAt(startingId).limitToLast(pageMax + 1);
+                    while (result.length) result.$$process("child_removed", result[0]);
+                    main.on("child_added", function ($snapshot, $prev) { if (result.$$added($snapshot, $prev, true) && $snapshot.key != startingId) { result.$$process("child_added", result.$$added($snapshot, $prev, true), $prev); $rootScope.$digest(); } });
+                    main.on("child_removed", function ($snapshot) { if (result.$$removed($snapshot, true) && $snapshot.key != startingId) { result.$$process("child_removed", result.$getRecord($snapshot.key)); $rootScope.$digest(); } });
+                    main.on("child_changed", function ($snapshot) { if (result.$$updated($snapshot, true) && $snapshot.key != startingId) { result.$$process("child_changed", result.$getRecord($snapshot.key)); $rootScope.$digest(); } });
+                    main.on("child_moved", function ($snapshot, $prev) { if (result.$$moved($snapshot, $prev, true) && $snapshot.key != startingId) { result.$$process("child_moved", result.$getRecord($snapshot.key), $prev); $rootScope.$digest(); } });
+                }
+                return result;
+            }
+        }
+    ])
 
     .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService, UserService, AccountService,
                                                 Response, ResponseService, RunService, ChannelService, Upload, config,
-                                                ActivityStatusService, toaster, GameService, $firebaseArray, firebase) {
+                                                ActivityStatusService, toaster, GameService, $firebaseArray, firebase, $paginated) {
 
 
-        var ctrl = this;
         $scope.account = AccountService.myDetailsCache();
 
-
-        $scope.pageSize = 25;
-        $scope.page = 1;
-
-        //var responseValidRed = Firebase("https://dojo-ibl.firebaseio.com/responses");
         var responsesRef = firebase.database().ref("responses").child($stateParams.runId).child($stateParams.activityId);
 
-        ctrl.getResponses = function() {
-            $scope.responses = $firebaseArray(responsesRef.limitToLast($scope.pageSize * $scope.page));
-        };
-
-        //$scope.pageItems = $pageArray(responseValidRed, 'number');
-
-        ctrl.getResponses();
+        $scope.responses = $paginated(responsesRef, 8);
 
         $scope.sendComment = function() {
 
@@ -59,6 +92,7 @@ angular.module('DojoIBL')
                         "runId": $stateParams.runId,
                         "deleted": false,
                         "generalItemId": $stateParams.activityId,
+                        "userAccountType": data.accountType,
                         "userLocalId": data.localId,
                         "userName": data.name,
                         "userProfile": data.picture,

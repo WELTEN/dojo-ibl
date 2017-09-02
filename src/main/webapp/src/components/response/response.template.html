@@ -1,56 +1,39 @@
-<div class="social-comment highlight" id="{{ response.responseId }}" >
+<div class="social-comment">
     <a href="" class="pull-left">
-        <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="response.user.picture == ''" data="{{ response.user.name }}"></ng-letter-avatar>
-        <img class="message-avatar" ng-if="response.user.picture != ''" ng-src="{{ response.user.picture }}" alt="">
+        <img class="message-avatar" alt="image" ng-src="{{ response.userProfile }}">
     </a>
-
-    <div class="media-body" data-item="{{ response.responseId }}">
-        <a href="#/profile/{{ response.user.accountType }}:{{ response.user.localId }}">
-            {{ response.user.name }}
-        </a> - <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small>
-
-        <br/>
-
-        <div class="alert alert-info2 ng-scope">
-            <div ng-if="response.parentId!=0 && !!response.parentValue" class="alert alert-info2 ng-scope"  >
-                <a href="" class="pull-left">
-                    <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="response.parentValue.user.picture == ''" data="{{ response.parentValue.user.name }}"></ng-letter-avatar>
-                    <img class="message-avatar" ng-if="response.parentValue.user.picture != ''" ng-src="{{ response.parentValue.user.picture }}" alt="">
-                </a>
-                <a href="#/profile/{{ response.parentValue.user.accountType }}:{{ response.parentValue.user.localId }}">
-                    {{ response.parentValue.user.name }}
-                </a> - <small class="text-muted">{{ response.parentValue.lastModificationDate | date:'medium' }}</small>
-                <p class="message-reply" ng-bind-html="response.parentValue.responseValue"></p>
-            </div>
-            <div ng-if="response.parentId!=0 && !response.parentValue" class="alert alert-info2 ng-scope">
-                <a href="#/profile/{{ response.parentValue.user.accountType }}:{{ response.parentValue.user.localId }}">
-                    The comment has been removed
-                </a>
-            </div>
-            <p ng-bind-html="response.responseValueNew" ></p>
-            <!--<p dd-text-collapse dd-text-collapse-max-length="250" dd-text-collapse-text="{{ response.responseValueNew }}" ></p>-->
-        </div>
-
-        <div>
-            <a data="{{ response.responseId }}" gItem="{{ response.generalItemId }}" class="small reply" ng-click="hiddenDiv = !hiddenDiv"> <i class="fa fa-mail-reply"></i> Reply</a> •
-            <!--<a class="small" ng-click="share(response)"><i class="fa fa-share"></i> Share in chat</a> <span ng-show="myAccount.localId == response.user.localId"> • </span>-->
-            <a class="small" ng-show="myAccount.localId == response.user.localId" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>
-        </div>
-    </div>
-    <div class="social-comment" ng-show="hiddenDiv">
-        <a href="" class="pull-left">
-            <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="myAccount.picture == ''" data="{{ myAccount.name }}"></ng-letter-avatar>
-            <img class="message-avatar" ng-if="myAccount.picture != ''" ng-src="{{ myAccount.picture }}" alt="">
+    <div class="media-body">
+        <a href="#/profile/{{ response.userAccountType }}:{{ response.userLocalId }}">
+            {{ response.userName }}
         </a>
-        <div class="media-body">
-            <text-angular class="pruebas" ta-toolbar="[
-                                                                ['bold','italics'],
-                                                                ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
-                                                                ['insertImage', 'insertLink']]
-                                                                "ng-model="responseChildren"></text-angular>
-            <div class="text-right">
-                <button type="submit" ng-disabled="!responseChildren" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendChildComment(response, responseChildren )"><strong>{{'dibl.inquiry.activity.post-comment' | translate }}</strong></button>
-            </div>
-        </div>
+        <div ng-bind-html="response.responseValue" ></div>
+        <!--<a data="{{ response.responseId }}" gItem="{{ response.generalItemId }}" class="small reply" ng-click="hiddenDiv = !hiddenDiv"> <i class="fa fa-mail-reply"></i> Reply</a> •-->
+
+        <!--<a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> --->
+        <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small>
+        <!----->
+        <a class="small" ng-show="myAccount.localId == response.userLocalId" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>
     </div>
+
+
+    <!--<div class="social-comment" ng-show="hiddenDiv">-->
+        <!--<a href="" class="pull-left">-->
+            <!--<img class="message-avatar" alt="w" ng-src="{{ myAccount.picture }}">-->
+        <!--</a>-->
+        <!--<div class="media-body">-->
+            <!--<text-angular class="pruebas"-->
+                          <!--placeholder="{{'dibl.toolbar.placeholder-comments' | translate }}"-->
+                          <!--ta-toolbar="[-->
+                                                                <!--['bold','italics'],-->
+                                                                <!--['justifyCenter', 'justifyLeft'], ['ul', 'ol']-->
+                                                                <!--]-->
+                                                                <!--" ng-model="responseChildren"  ng-model-options="{debounce: 750}"></text-angular>-->
+            <!--<div class="text-right">-->
+                <!--&lt;!&ndash;<div class="button" ngf-select="upload($file)">Upload on file select</div>&ndash;&gt;-->
+                <!--<a class="btn btn-sm btn-primary m-t-sm save" ng-click="sendComment(response, responseChildren)" ng-disabled="!responseText"><strong>Post comment</strong></a>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+
 </div>
