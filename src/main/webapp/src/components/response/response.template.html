@@ -10,30 +10,31 @@
         <!--<a data="{{ response.responseId }}" gItem="{{ response.generalItemId }}" class="small reply" ng-click="hiddenDiv = !hiddenDiv"> <i class="fa fa-mail-reply"></i> Reply</a> •-->
 
         <!--<a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> --->
-        <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small>
+        <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small> •
         <!----->
+        <a class="small" ng-show="myAccount.localId == response.userLocalId" ng-click="hiddenDiv = !hiddenDiv"><i class="fa fa-edit"></i> Edit</a> •
         <a class="small" ng-show="myAccount.localId == response.userLocalId" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>
     </div>
 
 
-    <!--<div class="social-comment" ng-show="hiddenDiv">-->
-        <!--<a href="" class="pull-left">-->
-            <!--<img class="message-avatar" alt="w" ng-src="{{ myAccount.picture }}">-->
-        <!--</a>-->
-        <!--<div class="media-body">-->
-            <!--<text-angular class="pruebas"-->
-                          <!--placeholder="{{'dibl.toolbar.placeholder-comments' | translate }}"-->
-                          <!--ta-toolbar="[-->
-                                                                <!--['bold','italics'],-->
-                                                                <!--['justifyCenter', 'justifyLeft'], ['ul', 'ol']-->
-                                                                <!--]-->
-                                                                <!--" ng-model="responseChildren"  ng-model-options="{debounce: 750}"></text-angular>-->
-            <!--<div class="text-right">-->
-                <!--&lt;!&ndash;<div class="button" ngf-select="upload($file)">Upload on file select</div>&ndash;&gt;-->
-                <!--<a class="btn btn-sm btn-primary m-t-sm save" ng-click="sendComment(response, responseChildren)" ng-disabled="!responseText"><strong>Post comment</strong></a>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
+    <div class="social-comment" ng-show="hiddenDiv">
+        <a href="" class="pull-left">
+            <img class="message-avatar" alt="w" ng-src="{{ myAccount.picture }}">
+        </a>
+        <div class="media-body">
+            <text-angular class="pruebas"
+                          placeholder="{{'dibl.toolbar.placeholder-comments' | translate }}"
+                          ta-toolbar="[
+                                                                ['bold','italics'],
+                                                                ['justifyCenter', 'justifyLeft'], ['ul', 'ol']
+                                                                ]
+                                                                " ng-model="newText"  ng-model-options="{debounce: 750}"></text-angular>
+            <div class="text-right">
+                <!--<div class="button" ngf-select="upload($file)">Upload on file select</div>-->
+                <a class="btn btn-sm btn-primary m-t-sm save" ng-click="saveComment(newText)"><strong>Post comment</strong></a>
+            </div>
+        </div>
+    </div>
 
 
 </div>
