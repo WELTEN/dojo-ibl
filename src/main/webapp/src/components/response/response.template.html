@@ -10,9 +10,9 @@
         <div ng-bind-html="response.responseValue" ></div>
         <!--<a data="{{ response.responseId }}" gItem="{{ response.generalItemId }}" class="small reply" ng-click="hiddenDiv = !hiddenDiv"> <i class="fa fa-mail-reply"></i> Reply</a> •-->
 
-        <a ng-click="likedComment(response, myAccount.localId)" class="small" ><i class="fa fa-thumbs-up"></i> <span ng-show="!response.like[myAccount.localId]">Like</span> <span ng-show="response.like[myAccount.localId]">Liked</span> </a> <span ng-show="response.likeCount > 0">{{ response.likeCount }}</span> •
+        <a ng-click="likedComment(response, myAccount.localId)" class="small" ><i class="fa fa-thumbs-up"></i> <span ng-show="!response.like[myAccount.localId]">Like</span> <span ng-show="response.like[myAccount.localId]">Liked</span> </a> <span ng-show="response.likeCount > 0">{{ response.likeCount }}</span> <span ng-show="myAccount.localId == response.userLocalId"> • </span>
         <!----->
-        <a class="small" ng-show="myAccount.localId == response.userLocalId" ng-click="hiddenDiv = !hiddenDiv"><i class="fa fa-edit"></i> Edit</a> •
+        <a class="small" ng-show="myAccount.localId == response.userLocalId" ng-click="hiddenDiv = !hiddenDiv"><i class="fa fa-edit"></i> Edit</a> <span ng-show="myAccount.localId == response.userLocalId"> • </span>
         <a class="small" ng-show="myAccount.localId == response.userLocalId" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>
         <span ng-show="response.edited">•</span>
         <small ng-show="response.edited" class="text-muted">Edited</small>
