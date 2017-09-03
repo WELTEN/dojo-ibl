@@ -92,15 +92,17 @@ angular.module('DojoIBL')
                         }
                         return response;
                     });
-
                 };
 
 
                 //console.log(scope);
 
-                //scope.sendComment = function(responseParent, responseChildren) {
+                //scope.sendComment = function(responseParent) {
                 //
                 //    AccountService.myDetails().then(function(data){
+                //
+                //
+                //        response.replies[uid] = true;
                 //
                 //        scope.responses.$add({
                 //            "type": "org.celstec.arlearn2.beans.run.Response",
@@ -117,13 +119,11 @@ angular.module('DojoIBL')
                 //            "lastModificationDate": firebase.database.ServerValue.TIMESTAMP
                 //        });
                 //
+                //        responsesRef = firebase.database().ref("responses").child(scope.response.runId).child(scope.response.generalItemId).child(scope.response.$id)
+                //
                 //    });
                 //};
 
-                //if (angular.isArray(scope.response.children)) {
-                //    element.append("<collection collection='member.children'></collection>");
-                //    $compile(element.contents())(scope)
-                //}
             }
         };
     })
