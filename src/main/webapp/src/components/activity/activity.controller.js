@@ -106,30 +106,6 @@ angular.module('DojoIBL')
                 });
         };
 
-        $scope.removeComment = function(data){
-
-            swal({
-                title: "Are you sure?",
-                text: "You will not be able to recover it in the future!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, remove it!",
-                closeOnConfirm: false
-            }, function () {
-                swal("Removed!", "Your contribution has been removed from the inquiry", "success");
-
-                responsesRef.child(data.$id).remove(function(error){
-                    if (error) {
-                        console.log("Error:", error);
-                    } else {
-                        console.log("Removed successfully!");
-                    }
-                });
-
-            });
-        };
-
         var storageRef = firebase.storage().ref();
 
         $scope.upload = function(file) {
