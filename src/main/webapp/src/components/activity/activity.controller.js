@@ -26,6 +26,11 @@ angular.module('DojoIBL')
                 result.$$updated = function ($snapshot, $prev, paginated) {
                     if (paginated) return $$updated.apply(result, arguments);
                 }
+
+                result.$current = function(){
+                    return current/pageMax
+                }
+
                 result.$next = function () {
                     //console.log(3, pageMax > result.length, pageMax, result.length);
                     if (pageMax > result.length) return false;

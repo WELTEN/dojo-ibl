@@ -59,7 +59,8 @@ angular.module('DojoIBL')
                             "responseValue": newValue,
                             "parentId": scope.response.parentId,
                             "revoked": scope.response.revoked,
-                            "lastModificationDate": firebase.database.ServerValue.TIMESTAMP
+                            "edited": true,
+                            "lastModificationDate": scope.response.lastModificationDate
                         };
 
                         scope.newText = '';

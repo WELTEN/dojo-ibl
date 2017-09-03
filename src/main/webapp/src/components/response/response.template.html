@@ -14,6 +14,8 @@
         <!----->
         <a class="small" ng-show="myAccount.localId == response.userLocalId" ng-click="hiddenDiv = !hiddenDiv"><i class="fa fa-edit"></i> Edit</a> •
         <a class="small" ng-show="myAccount.localId == response.userLocalId" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>
+        <span ng-show="response.edited">•</span>
+        <small ng-show="response.edited" class="text-muted">Edited</small>
     </div>
 
 
