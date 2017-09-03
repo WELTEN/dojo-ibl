@@ -23,6 +23,7 @@ import org.celstec.arlearn2.beans.notification.RunModification;
 import org.celstec.arlearn2.beans.run.*;
 import org.celstec.arlearn2.cache.UserLoggedInCache;
 import org.celstec.arlearn2.cache.UsersCache;
+import org.celstec.arlearn2.delegators.notification.FirebaseNotifications;
 import org.celstec.arlearn2.delegators.notification.NotificationEngine;
 import org.celstec.arlearn2.jdo.UserLoggedInManager;
 import org.celstec.arlearn2.jdo.manager.AccountManager;
@@ -66,6 +67,11 @@ public class UsersDelegator extends GoogleDelegator {
         RunModification rm = new RunModification();
         rm.setModificationType(RunModification.CREATED);
         rm.setRun(run);
+
+
+
+        FirebaseNotifications.getInstance();
+
 //		NotificationEngine.getInstance().notify(u.getEmail(), rm);
         new NotificationDelegator(this).broadcast(run, u.getFullId());
         if (this.account != null) {

@@ -49,20 +49,22 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
         messaging.getToken()
             .then(function(currentToken) {
 
-                console.log(currentToken)
+                if (currentToken) {
 
-                //ChannelService.saveDeviceRegistrationTokenMessaging(currentToken);
-                localStorage.setItem('deviceRegistrationToken', currentToken)
-                //if (currentToken) {
-                //    sendTokenToServer(currentToken);
-                //    updateUIForPushEnabled(currentToken);
-                //} else {
-                //    // Show permission request.
-                //    console.log('No Instance ID token available. Request permission to generate one.');
-                //    // Show permission UI.
-                //    updateUIForPushPermissionRequired();
-                //    setTokenSentToServer(false);
-                //}
+                    console.log(currentToken)
+
+                    //ChannelService.saveDeviceRegistrationTokenMessaging(currentToken);
+                    localStorage.setItem('deviceRegistrationToken', currentToken)
+
+                    //sendTokenToServer(currentToken);
+                    //updateUIForPushEnabled(currentToken);
+                } else {
+                    // Show permission request.
+                    console.log('No Instance ID token available. Request permission to generate one.');
+                    // Show permission UI.
+                    //updateUIForPushPermissionRequired();
+                    //setTokenSentToServer(false);
+                }
             })
             .catch(function(err) {
                 console.log('An error occurred while retrieving token. ', err);
