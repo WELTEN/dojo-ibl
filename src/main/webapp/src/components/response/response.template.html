@@ -5,12 +5,12 @@
     <div class="media-body">
         <a href="#/profile/{{ response.userAccountType }}:{{ response.userLocalId }}">
             {{ response.userName }}
-        </a>
+        </a> • <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small>
+
         <div ng-bind-html="response.responseValue" ></div>
         <!--<a data="{{ response.responseId }}" gItem="{{ response.generalItemId }}" class="small reply" ng-click="hiddenDiv = !hiddenDiv"> <i class="fa fa-mail-reply"></i> Reply</a> •-->
 
-        <!--<a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> --->
-        <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small> •
+        <a ng-click="likedComment(response, myAccount.localId)" class="small" ><i class="fa fa-thumbs-up"></i> <span ng-show="!response.like[myAccount.localId]">Like</span> <span ng-show="response.like[myAccount.localId]">Liked</span> </a> <span ng-show="response.likeCount > 0">{{ response.likeCount }}</span> •
         <!----->
         <a class="small" ng-show="myAccount.localId == response.userLocalId" ng-click="hiddenDiv = !hiddenDiv"><i class="fa fa-edit"></i> Edit</a> •
         <a class="small" ng-show="myAccount.localId == response.userLocalId" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>

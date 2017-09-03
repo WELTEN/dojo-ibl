@@ -103,6 +103,7 @@ angular.module('DojoIBL')
                         "userProfile": data.picture,
                         "responseValue": $scope.responseText,
                         "parentId": 0,
+                        "likeCount": 0,
                         "revoked": false,
                         "lastModificationDate": firebase.database.ServerValue.TIMESTAMP
                     });

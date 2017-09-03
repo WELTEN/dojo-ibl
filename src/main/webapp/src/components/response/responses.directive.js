@@ -47,26 +47,51 @@ angular.module('DojoIBL')
 
                     var updates = {};
 
-                        updates['/responses/' + scope.response.runId + '/' + scope.response.generalItemId + '/' + scope.response.$id ] = {
-                            "type": "org.celstec.arlearn2.beans.run.Response",
-                            "runId": scope.response.runId,
-                            "deleted": scope.response.deleted,
-                            "generalItemId": scope.response.generalItemId,
-                            "userAccountType": scope.response.userAccountType,
-                            "userLocalId": scope.response.userLocalId,
-                            "userName": scope.response.userName,
-                            "userProfile": scope.response.userProfile,
-                            "responseValue": newValue,
-                            "parentId": scope.response.parentId,
-                            "revoked": scope.response.revoked,
-                            "edited": true,
-                            "lastModificationDate": scope.response.lastModificationDate
-                        };
+                    updates['/responses/' + scope.response.runId + '/' + scope.response.generalItemId + '/' + scope.response.$id ] = {
+                        "type": "org.celstec.arlearn2.beans.run.Response",
+                        "runId": scope.response.runId,
+                        "deleted": scope.response.deleted,
+                        "generalItemId": scope.response.generalItemId,
+                        "userAccountType": scope.response.userAccountType,
+                        "userLocalId": scope.response.userLocalId,
+                        "userName": scope.response.userName,
+                        "userProfile": scope.response.userProfile,
+                        "responseValue": newValue,
+                        "parentId": scope.response.parentId,
+                        "revoked": scope.response.revoked,
+                        "edited": true,
+                        "likeCount":  scope.response.likeCount,
+                        "likes": (scope.response.likes ? scope.response.likes : {} ),
+                        "lastModificationDate": scope.response.lastModificationDate
+                    };
 
-                        scope.newText = '';
-                        scope.hiddenDiv = false;
+                    //scope.newText = '';
+                    scope.hiddenDiv = false;
 
-                        return firebase.database().ref().update(updates);
+                    return firebase.database().ref().update(updates);
+
+                };
+
+
+                scope.likedComment = function(user, uid){
+
+                    var responsesRef = firebase.database().ref("responses").child(scope.response.runId).child(scope.response.generalItemId).child(scope.response.$id);
+
+                    responsesRef.transaction(function(response) {
+                        if (response) {
+                            if (response.likes && response.likes[uid]) {
+                                response.likeCount--;
+                                response.likes[uid] = null;
+                            } else {
+                                response.likeCount++;
+                                if (!response.likes) {
+                                    response.likes = {};
+                                }
+                                response.likes[uid] = true;
+                            }
+                        }
+                        return response;
+                    });
 
                 };
 
