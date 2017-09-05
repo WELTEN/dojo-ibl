@@ -29,7 +29,7 @@ angular.module('DojoIBL')
                         localId: data.localId,
                         name: data.name,
                         body: $scope.bodyMessage,
-                        picture: data.picture,
+                        picture: (data.picture == undefined ? "" : data.picture ),
                         date: firebase.database.ServerValue.TIMESTAMP
                     });
 

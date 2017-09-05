@@ -5,7 +5,7 @@
 
     </div>
     <div class="message">
-        <a class="message-author" href="#/profile/{{ message.user.accountType }}:{{ message.user.localId}}"> {{ message.name }} </a>
+        <a class="message-author" href="#/profile/{{ message.localId}}"> {{ message.name }} </a>
         <span class="message-date"> {{ message.date | date:'short' }}</span>
         <span class="message-content" ng-bind-html="message.body | emoticons:{linkTarget:'_blank'}">
         {{ message.body }}
