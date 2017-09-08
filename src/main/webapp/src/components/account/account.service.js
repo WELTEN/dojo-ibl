@@ -35,9 +35,6 @@ angular.module('DojoIBL')
                 return me;
             },
             accountDetailsById: function(fullId) {
-
-                fullId = "7:"+fullId;
-
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('accountCache');
                 if (dataCache.get(fullId)) {
