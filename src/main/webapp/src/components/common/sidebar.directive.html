@@ -4,12 +4,12 @@
             <li class="nav-header">
                 <div class="dropdown profile-element">
                     <span>
-                        <a href="#/profile/{{ myAccount.accountType }}:{{ myAccount.localId }}">
+                        <a href="#/profile/{{ myAccount.localId }}">
                             <ng-letter-avatar shape="round" ng-if="myAccount.picture == ''" data="{{ myAccount.name }}"></ng-letter-avatar>
                             <img alt="image" class="img-circle" ng-if="myAccount.picture != ''" ng-src="{{ myAccount.picture }}">
                         </a>
                     </span>
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#/profile/{{ myAccount.accountType }}:{{ myAccount.localId }}">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#/profile/{{ myAccount.localId }}">
                         <span class="clear">
                             <span class="block m-t-xs">
                                 <strong class="font-bold">{{ myAccount.name }}</strong>
