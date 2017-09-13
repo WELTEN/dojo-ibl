@@ -100,7 +100,7 @@ angular.module('DojoIBL')
                         "userAccountType": data.accountType,
                         "userLocalId": data.localId,
                         "userName": data.name,
-                        "userProfile": data.picture,
+                        "userProfile": (data.picture == undefined ? "" : data.picture ),
                         "responseValue": $scope.responseText,
                         "parentId": 0,
                         "likeCount": 0,

@@ -28,10 +28,10 @@ public class AccountManager {
 				account.setAccountType(accountType);
 				account.setUniqueId();
 				account.setEmail(email);
-				account.setGiven_name(given_name);
-				account.setFamily_name(family_name);
-				account.setName(name);
-				account.setPicture(picture);
+				if(given_name != null) account.setGiven_name(given_name);
+				if(family_name != null) account.setFamily_name(family_name);
+				if(name != null) account.setName(name);
+				if(picture != null)account.setPicture(picture);
 				account.setLastModificationDate(System.currentTimeMillis());
                 account.setAllowTrackLocation(allowTrackLocation);
 

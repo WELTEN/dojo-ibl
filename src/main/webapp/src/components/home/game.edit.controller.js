@@ -89,7 +89,7 @@ angular.module('DojoIBL')
                 swal("Deleted!", "Your inquiry has been deleted.", "success");
 
                 GameService.deleteGame(id);
-                window.location.href=config.server+'/main.html#/home';
+                window.location.href=config.server+'/#/home';
 
             });
 

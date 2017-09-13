@@ -100,7 +100,8 @@
 
                     <div class="social-comment">
                         <a href="" class="pull-left">
-                            <img class="message-avatar" alt="image" src="{{ myAccount.picture }}">
+                            <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="account.picture == ''" data="{{  account.givenName }}"></ng-letter-avatar>
+                            <img class="message-avatar" ng-if="account.picture != ''" ng-src="{{  account.picture }}" alt="">
                         </a>
                         <div class="media-body">
                             <text-angular class="pruebas"

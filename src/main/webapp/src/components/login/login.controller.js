@@ -78,23 +78,31 @@ angular.module('DojoIBL')
             firebase.auth().createUserWithEmailAndPassword($scope.email, $scope.password).then(function(result) {
 
 
-                $http.defaults.headers.common['Authorization'] = result.De;
+                result.updateProfile({
+                    displayName: $scope.name
+                }).then(function() {
+                    // Update successful.
+                    $http.defaults.headers.common['Authorization'] = result.De;
 
-                $scope.uid = result.uid;
+                    $scope.uid = result.uid;
 
-                Session.authenticate().then(function(data){
-                    Session.setAccessToken(data);
+                    Session.authenticate().then(function(data){
+                        Session.setAccessToken(data);
 
-                    AccountService.update({
-                        "accountType": 7,
-                        "localId": $scope.uid,
-                        "email": $scope.email,
-                        "name": $scope.name,
-                        "given_name": $scope.name
-                    })
+                        AccountService.update({
+                            "accountType": 7,
+                            "localId": $scope.uid,
+                            "email": $scope.email,
+                            "name": $scope.name,
+                            "givenName": $scope.name,
+                            "picture": "/src/assets/img/avatar5.png"
+                        })
 
 
-                    window.location.href='/#/login';
+                        window.location.href='/#/login';
+                    });
+                }, function(error) {
+                    // An error happened.
                 });
 
             }).catch(function(error) {

@@ -55,7 +55,7 @@ angular.module('DojoIBL')
                         "userAccountType": scope.response.userAccountType,
                         "userLocalId": scope.response.userLocalId,
                         "userName": scope.response.userName,
-                        "userProfile": scope.response.userProfile,
+                        "userProfile": (scope.response.userProfile == undefined ? "" : scope.response.userProfile ),
                         "responseValue": newValue,
                         "parentId": scope.response.parentId,
                         "revoked": scope.response.revoked,
