@@ -9330,3 +9330,34 @@ p > span:first-child > p:last-child {
 .alert-info2 p{
   margin: 0px !important;
 }
+
+.logoFamilyGuy{
+  width: 26em;
+  margin: 4em 0;
+}
+
+.instructionArrowBegin {
+  position: absolute;
+  right: 0;
+  margin-right: 12em;
+  top: 0;
+  margin-top: 8em;
+}
+
+.instructionArrowBegin p {
+  font-family: serif;
+  font-size: 15px;
+}
+
+.arrowBegin{
+  width: 152px;
+  transform: rotate(310deg);
+}
+
+.groupButtonToolbar{
+  margin-right: 8em;
+}
+
+.inquiry-sidebar{
+  padding: 1em 0em 0em;
+}
