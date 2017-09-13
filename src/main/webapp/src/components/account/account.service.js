@@ -63,7 +63,7 @@ angular.module('DojoIBL')
             update: function(accountAsJson){
                 var service = this;
                 Account.update(accountAsJson).$promise.then(function(data){
-                    service.refreshAccount(data.email);
+                    service.refreshAccount(data.accountType+":"+data.localId);
                 });
             },
             searchAccount: function(query) {
@@ -81,8 +81,8 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('accountCache');
                 if (dataCache.get(id)) {
                     dataCache.remove(id);
-                    //delete me;
-                    //dataCache.remove("me");
+                    delete me;
+                    dataCache.remove("me");
                 }
                 return this.accountDetailsById(id);
             },

@@ -51,7 +51,7 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
 
                 if (currentToken) {
 
-                    console.log(currentToken)
+                    //console.log(currentToken)
 
                     //ChannelService.saveDeviceRegistrationTokenMessaging(currentToken);
                     localStorage.setItem('deviceRegistrationToken', currentToken)
