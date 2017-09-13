@@ -85,6 +85,7 @@ angular.module('DojoIBL')
             checkAccess: function(runId) {
                 var self = this;
                 AccountService.myDetails().then(function(me){
+
                     self.getUsersForRun(runId).then(function(data){
 
                         if(arrayObjectIndexOf(data, me.localId, "localId") == -1){
