@@ -135,6 +135,10 @@ angular.module('DojoIBL')
                     dataCache.remove(run.runId);
                 }
                 dataCache.put(run.runId, run);
+            },
+            emptyRunsCache: function(){
+                var dataCache = CacheFactory.get('runsCache');
+                if(dataCache) dataCache.removeAll();
             }
         }
     }

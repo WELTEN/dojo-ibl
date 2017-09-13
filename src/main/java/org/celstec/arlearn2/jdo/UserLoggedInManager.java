@@ -18,12 +18,11 @@
  ******************************************************************************/
 package org.celstec.arlearn2.jdo;
 
-import javax.jdo.PersistenceManager;
-
-import org.celstec.arlearn2.beans.run.User;
-
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import org.celstec.arlearn2.beans.run.User;
+
+import javax.jdo.PersistenceManager;
 
 public class UserLoggedInManager {
 
@@ -47,7 +46,11 @@ public class UserLoggedInManager {
         uli.setAuthToken(authToken);
 		try {
 			pm.makePersistent(uli);
-		} finally {
+		}
+		catch (Exception e){
+			pm.close();
+		}
+		finally {
 			pm.close();
 		}
 	}

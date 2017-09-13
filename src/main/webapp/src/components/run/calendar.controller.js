@@ -5,13 +5,13 @@ angular.module('DojoIBL')
                                                 ChannelService, $location) {
 
 
-        ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
-            ActivityService.refreshActivity(notification.itemId, notification.gameId);
-            toaster.success({
-                title: 'Activity modified',
-                body: 'The structure of the activity has been modified.'
-            });
-        });
+        //ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
+        //    ActivityService.refreshActivity(notification.itemId, notification.gameId);
+        //    toaster.success({
+        //        title: 'Activity modified',
+        //        body: 'The structure of the activity has been modified.'
+        //    });
+        //});
 
         $scope.events = [];
 

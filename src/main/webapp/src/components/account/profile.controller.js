@@ -37,12 +37,12 @@ angular.module('DojoIBL')
                     url: url.uploadUrl,
                     data: {file: file, 'username': $scope.username}
                 }).then(function (resp) {
+
                     AccountService.update({
-                        "type": "org.celstec.arlearn2.beans.account.Account",
-                        "accountType": $scope.myAccount.accountType,
+                        "accountType": 7,
+                        "email": $scope.myAccount.email,
+                        "name": $scope.myAccount.name,
                         "localId": $scope.myAccount.localId,
-                        "email": $scope.myAccount.accountType+":"+$scope.myAccount.localId,
-                        "name": $scope.myAccount.familyName+" "+$scope.myAccount.givenName,
                         "picture": config.server+"/uploadUserContent/"+resp.config.data.file.name+"?account="+$scope.myAccount.accountType+":"+$scope.myAccount.localId
                     });
 

@@ -27,9 +27,9 @@ angular.module('DojoIBL')
             }
         });
 
-        UserService.getUsersForRun($stateParams.runId).then(function(data){
-            $scope.usersRun = data;
-        });
+        //UserService.getUsersForRun(parseInt($stateParams.runId)).then(function(data){
+        //    $scope.usersRun = data;
+        //});
 
         $scope.ok = function(){
             if($scope.run.runId){

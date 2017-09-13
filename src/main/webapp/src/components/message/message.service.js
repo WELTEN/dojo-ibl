@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .service('MessageService', function ($q, Message, CacheFactory, UserService) {
+    .service('MessageService', function ($q, Message, CacheFactory, UserService, ChannelService) {
 
         CacheFactory('messagesCache', {
             maxAge: 24 * 60 * 60 * 1000, // Items added to this cache expire after 1 day
@@ -23,6 +23,28 @@ angular.module('DojoIBL')
         var serverTimeFirstInvocation;
 
         return {
+            sendNotification: function(){
+              Message.notification( {
+                  "notification": {
+                      "title": "Portugal vs. Denmark",
+                      "body": "5 to 1",
+                      "icon": "firebase-logo.png",
+                      "click_action": "http://localhost:8081"
+                  },
+                  "to": 'cgm4qWkp5qY:APA91bGxIK9jbV9VaY6VhiQ6feFsnSneEyFYcQex5sLrDED9wvXKjI2qa6RSh0LGqzMFdZTdZy5oeiL_Psf9nckJ0YYaqhG25w5dVufOqXkEQpi4W3Te8U0sKRfoWzmegg5tyYyI4Omm'
+              });
+            },
+            sendNotificationTopic: function(topic){
+              Message.notificationTopic( {
+                  "notification": {
+                      "title": "Portugal vs. Denmark",
+                      "body": "5 to 1",
+                      "icon": "firebase-logo.png",
+                      "click_action": "http://localhost:8081"
+                  },
+                  "to": '/topics/'+topic
+              });
+            },
             getMessagesDefaultByRun: function(runId){
                 //console.log(messages[runId]);
                 return messages[runId];
@@ -123,6 +145,11 @@ angular.module('DojoIBL')
                     );
                 }
                 return deferred.promise;
+            },
+            emptyMessagesCache: function(){
+                var dataCache = CacheFactory.get('messagesCache');
+                if(dataCache) dataCache.removeAll();
+                messages = {};
             }
         }
     }

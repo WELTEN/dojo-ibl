@@ -36,6 +36,16 @@ angular.module('DojoIBL')
             AccountService.myDetails();
         }
 
+        if (Session.getAccessToken()) {
+            Account.accountDetails().$promise.then(
+                function(data){
+                    $scope.myAccount = data;
+                    $scope.pictureUrl = data.picture;
+                    $scope.name = data.name;
+                }
+            );
+        }
+
         $scope.myAccount = AccountService.myDetailsCache();
 
         $scope.createNewInquiry = function () {

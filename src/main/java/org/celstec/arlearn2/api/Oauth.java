@@ -25,20 +25,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-//import javax.servlet.http.Cookie;
-
+import static org.celstec.arlearn2.oauth.OauthFirebaseWorker.validateToken;
 
 @Path("/oauth")
 public class Oauth extends Service {
 
-	
+	private static final String FIREBASE_SNIPPET_PATH = "WEB-INF/dojo-ibl-firebase-adminsdk-ofvly-bf28455fa0.json";
+
 	@GET
 	@Path("/addkey")
 	public String addKey(
@@ -62,62 +60,14 @@ public class Oauth extends Service {
 	}
 
 	@POST
-	@Produces({ MediaType.MULTIPART_FORM_DATA })
 	@Path("/authenticate")
-	public Response authenticate(
-			@DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
-								 @DefaultValue("application/json") @HeaderParam("Accept") String accept,
-								 String account)  {
+	public String authenticate(@HeaderParam("Authorization") String token,
+							   @DefaultValue("application/json") @HeaderParam("Content-Type") String contentType,
+							   @DefaultValue("application/json") @HeaderParam("Accept") String accept,
+							   String account) {
 
+		return validateToken(token);
 
-//if (true) {
-	String output = "File saved to server location : test" ;
-	return Response.status(200).entity(output).build();
-//}
-
-
-//		try {
-//			JSONObject toWespot = new JSONObject();
-//			toWespot.put("username", account.get("email").get(0));
-//			toWespot.put("password", account.get("password").get(0));
-//
-//			URL url = new URL("http://wespot-arlearn.appspot.com/oauth/account/authenticate");
-//
-//			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//			connection.setDoOutput(true);
-//			connection.setRequestMethod("POST");
-//
-//			OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-//			writer.write(toWespot.toString());
-//			writer.close();
-//
-//			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-//				System.out.println(" ok");
-//				 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//				InputStream is = connection.getInputStream();
-//				int r;
-//				while ((r = is.read()) != -1) {
-//					baos.write(r);
-//				}
-//				String result = new String(baos.toByteArray());
-//				JSONObject resultJson = new JSONObject(result);
-//				System.out.println(resultJson);
-//
-////				response.addCookie(new Cookie("arlearn.AccessToken", resultJson.getString("token")));
-////				response.addCookie(new Cookie("arlearn.OauthType", "5"));
-//				new OauthWespotWorker().saveAccount(resultJson.getString("token"));
-////				return result;
-////				return Response.ok().entity(new ArrayList<>()).cookie(new NewCookie("arlearn.AccessToken", resultJson.getString("token"))).build();
-//				String output = "File saved to server location : test" ;
-//				return Response.status(200).entity(output).build();
-//			} else {
-//				System.out.println("not ok");
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		return null;
 	}
 
 	@GET

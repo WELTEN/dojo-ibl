@@ -160,7 +160,7 @@ angular.module('DojoIBL')
                         localId: user.localId,
                         gameId: run.game.gameId }).then(function(){
 
-                        window.location.href=config.server+'/main.html#/inquiry/'+run.runId;
+                        window.location.href=config.server+'/#/inquiry/'+run.runId;
 
                         $scope.showSpinerJoin = false;
                         $scope.inquiryCode = null;
@@ -181,9 +181,9 @@ angular.module('DojoIBL')
 
         };
 
-        ChannelService.register('org.celstec.arlearn2.beans.run.User', function (notification) {
-            //console.info("[Notification][User]", notification);
-            UserService.getUserByAccount(notification.runId, notification.accountType+":"+notification.localId);
-        });
+        //ChannelService.register('org.celstec.arlearn2.beans.run.User', function (notification) {
+        //    //console.info("[Notification][User]", notification);
+        //    UserService.getUserByAccount(notification.runId, notification.accountType+":"+notification.localId);
+        //});
     }
 );

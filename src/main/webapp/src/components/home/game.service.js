@@ -145,6 +145,11 @@ angular.module('DojoIBL')
             getGames: function(){
                 return games;
             },
+            emptyGamesCache: function(){
+                var dataCache = CacheFactory.get('gamesCache');
+                if(dataCache) dataCache.removeAll();
+                games = {};
+            },
             deleteGame: function(gameId){
                 var dataCache = CacheFactory.get('gamesCache');
                 dataCache.remove(gameId);

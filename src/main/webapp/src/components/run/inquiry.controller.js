@@ -3,6 +3,10 @@ angular.module('DojoIBL')
     .controller('InquiryController', function ($scope, $sce, $location, $stateParams, $state, Session, MessageService,
                                                ActivityService, AccountService, ChannelService, RunService) {
 
+        if(!Session.getAccessToken()){
+            window.location.href='/#/login';
+        }
+
         $scope.chat = true;
         $scope.visualization = true;
         $scope.state = $state.current.name;
@@ -32,6 +36,8 @@ angular.module('DojoIBL')
         $scope.goToActivity = function(inqId, index, activity) {
             $location.path('inquiry/'+inqId+'/phase/'+ index + '/activity/' +activity);
         };
+
+
 
 
         $scope.getRoleName = function(roles){
@@ -94,42 +100,6 @@ angular.module('DojoIBL')
 
             return Math.round(height/2 + radius * Math.sin(angle) - height/2);
         };
-
-        //
-        //$scope.arrangeInCircle = function(index){
-        //    var radius = 170;
-        //    var fields = $(this.el).find('#circlemenu li'),
-        //        container = $(this.el).find('#circlemenu'),
-        //        width = container.width(),
-        //        height = container.height(),
-        //        angle = 300,
-        //        step = (2*Math.PI) / fields.length,
-        //        x_initial = -4,
-        //        y_initial = ;
-        //
-        //
-        //
-        //    //console.log(fields, container);
-        //
-        //    fields.each(function() {
-        //
-        //        //console.log(width, $(this).width());
-        //
-        //        var x = Math.round(width/2 + radius * Math.cos(angle) - $(this).width()/2);
-        //        var y = Math.round(height/2 + radius * Math.sin(angle) - $(this).height()/2);
-        //        //console.log(x,y);
-        //        if(window.console) {
-        //            //console.log($(this).text(), x, y);
-        //        }
-        //        $(this).css({
-        //            left: x + 'px',
-        //            top: y + 'px'
-        //        });
-        //        angle += step;
-        //    });
-        //};
-
-        //
 
     }
 );

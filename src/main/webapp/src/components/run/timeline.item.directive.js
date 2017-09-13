@@ -8,10 +8,14 @@ angular.module('DojoIBL')
             },
             templateUrl: '/src/components/run/timeline.item.directive.html',
             link: function (scope, elem, attr) {
+
+
+
                 if(scope.response.responseValue.indexOf("{") == -1){
                     scope.extension = "text"
                     scope.resource = scope.response.responseValue;
-                }else{
+                }else
+                {
                     var json = JSON.parse(scope.response.responseValue);
 
                     if (json.documentUrl){

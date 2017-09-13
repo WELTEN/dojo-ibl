@@ -27,9 +27,9 @@
                 <div style="position: relative; height: 400px;">
                     <div class="chat-discussion" scroll-glue="glued" style="height: 400px;">
 
-                        <div ng-repeat="message in messages.messages">
-                            <message-l  message="message" ng-if="message.senderId != account.localId"></message-l>
-                            <message-r  message="message" ng-if="message.senderId == account.localId"></message-r>
+                        <div ng-repeat="message in messages">
+                            <message-l  message="message" ng-if="message.localId != account.localId"></message-l>
+                            <message-r  message="message" ng-if="message.localId == account.localId"></message-r>
                         </div>
 
                         <!--<div class="spiner-example" ng-show="!messages.messages">-->
@@ -52,6 +52,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <dibl-footer></dibl-footer>

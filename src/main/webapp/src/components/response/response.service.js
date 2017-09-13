@@ -238,6 +238,11 @@ angular.module('DojoIBL')
             removeCachedResponse: function(activityId){
                 var dataCache = CacheFactory.get('responsesTempCache');
                 dataCache.remove("cachedResponse"+activityId);
+            },
+            emptyResponsesCache: function(){
+                var dataCache = CacheFactory.get('responsesCache');
+                if(dataCache) dataCache.removeAll();
+                responses = {};
             }
         }
     }

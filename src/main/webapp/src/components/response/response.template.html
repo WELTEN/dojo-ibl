@@ -1,56 +1,65 @@
-<div class="social-comment highlight" id="{{ response.responseId }}" >
+<div class="social-comment">
     <a href="" class="pull-left">
-        <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="response.user.picture == ''" data="{{ response.user.name }}"></ng-letter-avatar>
-        <img class="message-avatar" ng-if="response.user.picture != ''" ng-src="{{ response.user.picture }}" alt="">
+        <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="response.userProfile == ''" data="{{ response.userName }}"></ng-letter-avatar>
+        <img class="message-avatar" ng-if="response.userProfile != ''" ng-src="{{ response.userProfile }}" alt="">
     </a>
+    <div class="media-body">
+        <a href="#/profile/{{ response.userAccountType }}:{{ response.userLocalId }}">
+            {{ response.userName }}
+        </a> • <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small>
 
-    <div class="media-body" data-item="{{ response.responseId }}">
-        <a href="#/profile/{{ response.user.accountType }}:{{ response.user.localId }}">
-            {{ response.user.name }}
-        </a> - <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small>
+        <div ng-bind-html="response.responseValue" ></div>
+        <!--<a class="small reply" ng-click="hiddenDivReply = !hiddenDivReply"> <i class="fa fa-mail-reply"></i> Reply</a> •-->
 
-        <br/>
-
-        <div class="alert alert-info2 ng-scope">
-            <div ng-if="response.parentId!=0 && !!response.parentValue" class="alert alert-info2 ng-scope"  >
-                <a href="" class="pull-left">
-                    <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="response.parentValue.user.picture == ''" data="{{ response.parentValue.user.name }}"></ng-letter-avatar>
-                    <img class="message-avatar" ng-if="response.parentValue.user.picture != ''" ng-src="{{ response.parentValue.user.picture }}" alt="">
-                </a>
-                <a href="#/profile/{{ response.parentValue.user.accountType }}:{{ response.parentValue.user.localId }}">
-                    {{ response.parentValue.user.name }}
-                </a> - <small class="text-muted">{{ response.parentValue.lastModificationDate | date:'medium' }}</small>
-                <p class="message-reply" ng-bind-html="response.parentValue.responseValue"></p>
-            </div>
-            <div ng-if="response.parentId!=0 && !response.parentValue" class="alert alert-info2 ng-scope">
-                <a href="#/profile/{{ response.parentValue.user.accountType }}:{{ response.parentValue.user.localId }}">
-                    The comment has been removed
-                </a>
-            </div>
-            <p ng-bind-html="response.responseValueNew" ></p>
-            <!--<p dd-text-collapse dd-text-collapse-max-length="250" dd-text-collapse-text="{{ response.responseValueNew }}" ></p>-->
-        </div>
-
-        <div>
-            <a data="{{ response.responseId }}" gItem="{{ response.generalItemId }}" class="small reply" ng-click="hiddenDiv = !hiddenDiv"> <i class="fa fa-mail-reply"></i> Reply</a> •
-            <!--<a class="small" ng-click="share(response)"><i class="fa fa-share"></i> Share in chat</a> <span ng-show="myAccount.localId == response.user.localId"> • </span>-->
-            <a class="small" ng-show="myAccount.localId == response.user.localId" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>
-        </div>
+        <a ng-click="likedComment(response, myAccount.localId)" class="small" ><i class="fa fa-thumbs-up"></i> <span ng-show="!response.likes[myAccount.localId]">Like</span> <span ng-show="response.likes[myAccount.localId]">Liked</span> </a> <span ng-show="response.likeCount > 0">{{ response.likeCount }}</span> <span ng-show="myAccount.localId == response.userLocalId"> • </span>
+        <!----->
+        <a class="small" ng-show="myAccount.localId == response.userLocalId" ng-click="hiddenDiv = !hiddenDiv"><i class="fa fa-edit"></i> Edit</a> <span ng-show="myAccount.localId == response.userLocalId"> • </span>
+        <a class="small" ng-show="myAccount.localId == response.userLocalId" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>
+        <span ng-show="response.edited">•</span>
+        <small ng-show="response.edited" class="text-muted">Edited</small>
     </div>
+
+
     <div class="social-comment" ng-show="hiddenDiv">
         <a href="" class="pull-left">
-            <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="myAccount.picture == ''" data="{{ myAccount.name }}"></ng-letter-avatar>
-            <img class="message-avatar" ng-if="myAccount.picture != ''" ng-src="{{ myAccount.picture }}" alt="">
+            <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if=" myAccount.picture == ''" data="{{  myAccount.name }}"></ng-letter-avatar>
+            <img class="message-avatar" ng-if=" myAccount.picture != ''" ng-src="{{  myAccount.picture }}" alt="">
         </a>
         <div class="media-body">
-            <text-angular class="pruebas" ta-toolbar="[
+            <text-angular class="pruebas"
+                          placeholder="{{'dibl.toolbar.placeholder-comments' | translate }}"
+                          ta-toolbar="[
                                                                 ['bold','italics'],
-                                                                ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
-                                                                ['insertImage', 'insertLink']]
-                                                                "ng-model="responseChildren"></text-angular>
+                                                                ['justifyCenter', 'justifyLeft'], ['ul', 'ol']
+                                                                ]
+                                                                " ng-model="newText"  ng-model-options="{debounce: 750}"></text-angular>
             <div class="text-right">
-                <button type="submit" ng-disabled="!responseChildren" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendChildComment(response, responseChildren )"><strong>{{'dibl.inquiry.activity.post-comment' | translate }}</strong></button>
+                <!--<div class="button" ngf-select="upload($file)">Upload on file select</div>-->
+                <a class="btn btn-sm btn-primary m-t-sm save" ng-click="saveComment(newText)"><strong>Post comment</strong></a>
             </div>
         </div>
     </div>
+
+
+    <div class="social-comment" ng-show="hiddenDivReply">
+        <a href="" class="pull-left">
+            <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if=" myAccount.picture == ''" data="{{  myAccount.name }}"></ng-letter-avatar>
+            <img class="message-avatar" ng-if=" myAccount.picture != ''" ng-src="{{  myAccount.picture }}" alt="">
+        </a>
+        <div class="media-body">
+            <text-angular class="pruebas"
+                          placeholder="{{'dibl.toolbar.placeholder-comments' | translate }}"
+                          ta-toolbar="[
+                                                                ['bold','italics'],
+                                                                ['justifyCenter', 'justifyLeft'], ['ul', 'ol']
+                                                                ]
+                                                                " ng-model="newReply"  ng-model-options="{debounce: 750}"></text-angular>
+            <div class="text-right">
+                <!--<div class="button" ngf-select="upload($file)">Upload on file select</div>-->
+                <a class="btn btn-sm btn-primary m-t-sm save" ng-click="sendComment(newReply)"><strong>Post comment</strong></a>
+            </div>
+        </div>
+    </div>
+
+
 </div>

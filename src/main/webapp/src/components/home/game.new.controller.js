@@ -40,7 +40,7 @@ angular.module('DojoIBL')
             GameService.newGame($scope.game).then(function(data){
                 $scope.game = data;
                 $scope.game.config.roles = [];
-                window.location.href=config.server+'/main.html#/inquiry/'+data.gameId+'/edit';
+                window.location.href=config.server+'/#/inquiry/'+data.gameId+'/edit';
             });
             $modalInstance.close();
         };

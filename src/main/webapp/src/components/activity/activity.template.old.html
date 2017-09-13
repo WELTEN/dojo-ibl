@@ -1,0 +1,191 @@
+<div class="tabs-container">
+
+    <div class="panel-body no-padding-no-border-radius">
+        <div class="ibox-content">
+            <div class="heading" ng-repeat="role in activity.roles2 track by $index" ng-show="$first"  ng-style="{'background-color': role.color }">
+                <small  class="chat-date pull-right" >
+                    <a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                </small>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'"><i class="fa fa-file-video-o"></i> {{ activity.name }} | Video activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"><i class="fa fa-file-text"></i> {{ activity.name }} | Discussion activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'"><i class="fa fa-picture-o"></i> {{ activity.name }} | Data collection activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"><i class="fa fa-tasks"></i> {{ activity.name }} | List activity</span>
+                <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
+                    <div class="sk-rect1"></div>
+                    <div class="sk-rect2"></div>
+                    <div class="sk-rect3"></div>
+                    <div class="sk-rect4"></div>
+                    <div class="sk-rect5"></div>
+                </div>
+            </div>
+            <div class="heading" ng-show="activity.roles2 == ''">
+                <small  class="chat-date pull-right" >
+                    <div class="ibox-tools">
+                        <a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"
+                           title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </div>
+                </small>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'"><i class="fa fa-file-video-o"></i> {{ activity.name }} | Video activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"><i class="fa fa-file-text"></i> {{ activity.name }} | Discussion activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'"><i class="fa fa-picture-o"></i> {{ activity.name }} | Data collection activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"><i class="fa fa-tasks"></i> {{ activity.name }} | List activity</span>
+                <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
+                    <div class="sk-rect1"></div>
+                    <div class="sk-rect2"></div>
+                    <div class="sk-rect3"></div>
+                    <div class="sk-rect4"></div>
+                    <div class="sk-rect5"></div>
+                </div>
+            </div>
+
+
+
+            <div class="col-lg-3 m-t-xl" ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div class="file-manager">
+                            <!--<h5>Show:</h5>-->
+                            <!--<a href="#" class="file-control active">All</a>-->
+                            <!--<a href="#" class="file-control">Documents</a>-->
+                            <!--<a href="#" class="file-control">Audio</a>-->
+                            <!--<a href="#" class="file-control">Images</a>-->
+                            <!--<div class="hr-line-dashed"></div>-->
+
+                            <!--<button ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"-->
+                                    <!--ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"-->
+                                    <!--ngf-resize="{width: 100, height: 100}">Upload Files</button>-->
+
+
+                            <div class="btn btn-primary btn-block" ngf-capture="'camera'" ngf-select="upload($file)">Upload Files</div>
+                            <div class="progress  progress-striped">
+                                <div ng-style="{ 'width' : progressPercentage + '%' }" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{ progressPercentage }}" role="progressbar" class="progress-bar progress-bar-success">
+                                    <span class="sr-only">{{ progressPercentage }}% Complete (success)</span>
+                                </div>
+                            </div>
+
+                            <!--<div class="hr-line-dashed"></div>-->
+                            <!--<h5>Folders</h5>-->
+                            <!--<ul class="folder-list" style="padding: 0">-->
+                                <!--<li><a href=""><i class="fa fa-folder"></i> Files</a></li>-->
+                                <!--<li><a href=""><i class="fa fa-folder"></i> Pictures</a></li>-->
+                                <!--<li><a href=""><i class="fa fa-folder"></i> Web pages</a></li>-->
+                                <!--<li><a href=""><i class="fa fa-folder"></i> Illustrations</a></li>-->
+                                <!--<li><a href=""><i class="fa fa-folder"></i> Films</a></li>-->
+                                <!--<li><a href=""><i class="fa fa-folder"></i> Books</a></li>-->
+                            <!--</ul>-->
+                            <!--<h5 class="tag-title">Tags</h5>-->
+                            <!--<ul class="tag-list" style="padding: 0">-->
+                                <!--<li><a href="">Family</a></li>-->
+                                <!--<li><a href="">Work</a></li>-->
+                                <!--<li><a href="">Home</a></li>-->
+                                <!--<li><a href="">Children</a></li>-->
+                                <!--<li><a href="">Holidays</a></li>-->
+                                <!--<li><a href="">Music</a></li>-->
+                                <!--<li><a href="">Photography</a></li>-->
+                                <!--<li><a href="">Film</a></li>-->
+                            <!--</ul>-->
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-class="{ 'col-lg-9 m-t-sm p-m':  activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag',
+             'mail-body':  activity.type != 'org.celstec.arlearn2.beans.generalItem.ScanTag'  }">
+                <div class="text-center">
+                    <div class="small text-muted">
+                        <i class="fa fa-clock-o"></i> {{ activity.timestamp | date:'fullDate' }}
+                    </div>
+                </div>
+                <h1>
+                    <i ng-hide="activity.status.status == 1 || activity.status.status == 2" title="To Do" class="fa fa-check-square red"></i>
+                    <i ng-show="activity.status.status == 1" title="In progress" class="fa fa-check-square yellow"></i>
+                    <i ng-show="activity.status.status == 2" title="Done" class="fa fa-check-square green"></i>
+                    {{ activity.name }}
+                </h1>
+                <div class="" ng-bind-html="activity.richText || activity.description"></div>
+                <iframe ng-show="activity.videoFeed" style="width: 100%; height: 600px;"  ng-src="{{trustSrc(activity.videoFeed)}}" frameborder="0"></iframe>
+                <div class="m-t-lg">
+                    <p>
+                        <span><i class="fa fa-paperclip"></i> {{ (assets|filter:'/generalItems/'+activity.id).length }} attachments </span>
+                        <!--<a href="#">Download all</a>-->
+                    </p>
+
+                    <div class="attachment">
+                        <div class="file-box" ng-repeat="asset in assets|filter:'/generalItems/'+activity.id">
+                            <div class="file">
+                                <a target="_self" href="uploadGameContent{{ asset.path }}?gameId={{activity.gameId}}" download="{{ asset.path | limitTo : 15:asset.path.length-15 }}">
+                                    <span class="corner"></span>
+
+                                    <div class="icon">
+                                        <i class="fa fa-file"></i>
+                                    </div>
+                                    <div class="file-name">
+                                        ...{{ asset.path | limitTo : 15:asset.path.length-15 }}
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9 animated fadeInRight m-t-sm" ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
+                <div class="lightBoxGallery">
+                    <div class="file-box" ng-repeat="response in responses | orderByDayNumber:'lastModificationDate':true">
+                        <data response="response"></data>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="input-group create-question">
+                <input responseid="0" ng-enter="sendComment()" class="form-control response" ng-model="response" placeholder="{{'dibl.inquiry.activity.add-list-item-placeholder' | translate }}">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary save" ng-disabled="!response" ng-click="sendComment()" responseid="0">Add </button>
+                </span>
+            </div>
+
+            <div id="list_answers" ng-class="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject' ? 'social-footer-2' : 'social-footer'" class="row m-t-sm" ng-hide="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'">
+
+                <div class="alert alert-warning" ng-show="responses | isEmpty">
+                    No comments so far. <a class="alert-link"> Be the first one {{ myAccount.givenName }}</a>.
+                </div>
+
+                <!--<responses responses="responses" ng-if="activity.type != 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></responses>-->
+                <response ng-repeat='response in responses | orderByDayNumber:"lastModificationDate"' response='response' ng-if="activity.type != 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></response>
+
+                <response-question ng-repeat="(key, response) in responses | orderByDayNumber:'lastModificationDate':true | filter:searchText" response='response' ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></response-question>
+
+                <div class="social-comment" >
+                    <a class="btn btn-primary btn-rounded btn-block" ng-show="resum"  ng-click="loadResponses()"><i class="fa fa-info-circle"></i> Click to load more</a>
+                </div>
+                <div class="social-comment" ng-hide="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'">
+                    <a href="" class="pull-left">
+                        <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="myAccount.picture == ''" data="{{ myAccount.name }}"></ng-letter-avatar>
+                        <img class="message-avatar" ng-if="myAccount.picture != ''" ng-src="{{ myAccount.picture }}" alt="">
+                    </a>
+                    <div class="media-body">
+                        <!--<textarea class="form-control" ng-model="response" -->
+                                  <!--placeholder="{{'dibl.inquiry.activity.placeholder-comment' | translate }}"></textarea>-->
+
+                        <text-angular class="pruebas"
+                                      placeholder="{{'dibl.toolbar.placeholder-comments' | translate }}"
+                                      ta-toolbar="[
+                                                                ['bold','italics'],
+                                                                ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
+                                                                ['insertImage', 'insertLink']]
+                                                                "ng-model="response" ng-change="saveResponse()" ng-model-options="{debounce: 750}"></text-angular>
+                        <div class="text-right">
+                            <button type="submit" ng-disabled="!response" class="btn btn-sm btn-primary m-t-sm save" responseid="0" ng-click="sendComment()"><strong>Post comment</strong></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

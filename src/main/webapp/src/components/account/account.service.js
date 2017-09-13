@@ -35,8 +35,13 @@ angular.module('DojoIBL')
                 return me;
             },
             accountDetailsById: function(fullId) {
+
                 var deferred = $q.defer();
                 var dataCache = CacheFactory.get('accountCache');
+
+
+                fullId = "7:"+fullId;
+
                 if (dataCache.get(fullId)) {
                     deferred.resolve(dataCache.get(fullId));
                 } else {
@@ -58,7 +63,7 @@ angular.module('DojoIBL')
             update: function(accountAsJson){
                 var service = this;
                 Account.update(accountAsJson).$promise.then(function(data){
-                    service.refreshAccount(data.email);
+                    service.refreshAccount(data.accountType+":"+data.localId);
                 });
             },
             searchAccount: function(query) {
@@ -76,10 +81,14 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('accountCache');
                 if (dataCache.get(id)) {
                     dataCache.remove(id);
-                    //delete me;
-                    //dataCache.remove("me");
+                    delete me;
+                    dataCache.remove("me");
                 }
                 return this.accountDetailsById(id);
+            },
+            emptyAccountsCache: function(){
+                var dataCache = CacheFactory.get('accountCache');
+                if(dataCache) dataCache.removeAll();
             }
         }
 

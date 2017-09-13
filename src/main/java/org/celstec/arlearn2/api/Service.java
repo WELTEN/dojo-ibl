@@ -18,18 +18,19 @@
  ******************************************************************************/
 package org.celstec.arlearn2.api;
 
-import com.google.appengine.tools.mapreduce.MapReduceSettings;
 import com.google.appengine.tools.mapreduce.MapSettings;
 import org.celstec.arlearn2.beans.Bean;
 import org.celstec.arlearn2.beans.account.Account;
 import org.celstec.arlearn2.beans.deserializer.json.JsonBeanDeserializer;
-import org.celstec.arlearn2.beans.run.Action;
-import org.celstec.arlearn2.beans.serializer.json.JsonBeanSerialiser;
 import org.celstec.arlearn2.delegators.UsersDelegator;
 import org.codehaus.jettison.json.JSONException;
 
+
 public class Service {
-	
+
+
+	private static final String FIREBASE_SNIPPET_PATH = "WEB-INF/dojo-ibl-firebase-adminsdk-ofvly-bf28455fa0.json";
+
 	protected Account account;
 	protected String token;
 
@@ -53,13 +54,13 @@ public class Service {
 	}
 
 	protected boolean validCredentials(String authToken) {
-		UsersDelegator qu;
-			qu = new UsersDelegator(authToken);
-			account = qu.getCurrentAccount();
-			token = qu.getAuthToken();
-			if (account != null) return true;
-			return (qu.getCurrentUserAccount() != null);
 
+		UsersDelegator qu;
+		qu = new UsersDelegator(authToken);
+		account = qu.getCurrentAccount();
+		token = qu.getAuthToken();
+		if (account != null) return true;
+		return (qu.getCurrentUserAccount() != null);
 	}
 
     public boolean isAdministrator(String authToken) {

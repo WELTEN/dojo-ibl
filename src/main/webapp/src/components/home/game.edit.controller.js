@@ -6,24 +6,24 @@ angular.module('DojoIBL')
 
 
 
-        ChannelService.register('org.celstec.arlearn2.beans.game.Game', function (notification) {
-            GameService.refreshGame(notification.gameId).then(function (data) {
-                $scope.game = data;
-                $scope.phases = data.phases;
-            });
-            toaster.success({
-                title: 'Inquiry template modified',
-                body: 'The inquiry "'+$scope.game.title+'" has been modified.'
-            });
-        });
-
-        ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
-            ActivityService.refreshActivity(notification.itemId, notification.gameId);
-            toaster.success({
-                title: 'Activity modified',
-                body: 'The structure of the activity has been modified.'
-            });
-        });
+        //ChannelService.register('org.celstec.arlearn2.beans.game.Game', function (notification) {
+        //    GameService.refreshGame(notification.gameId).then(function (data) {
+        //        $scope.game = data;
+        //        $scope.phases = data.phases;
+        //    });
+        //    toaster.success({
+        //        title: 'Inquiry template modified',
+        //        body: 'The inquiry "'+$scope.game.title+'" has been modified.'
+        //    });
+        //});
+        //
+        //ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
+        //    ActivityService.refreshActivity(notification.itemId, notification.gameId);
+        //    toaster.success({
+        //        title: 'Activity modified',
+        //        body: 'The structure of the activity has been modified.'
+        //    });
+        //});
 
         // Managing different tabs activities
         $scope.lists = [];
@@ -89,7 +89,7 @@ angular.module('DojoIBL')
                 swal("Deleted!", "Your inquiry has been deleted.", "success");
 
                 GameService.deleteGame(id);
-                window.location.href=config.server+'/main.html#/home';
+                window.location.href=config.server+'/#/home';
 
             });
 

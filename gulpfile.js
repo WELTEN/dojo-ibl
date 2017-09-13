@@ -125,8 +125,9 @@ gulp.task('vendor', function() {
         'src/main/webapp/src/assets/vendor/fullcalendar/gcal.js',
         'src/main/webapp/src/assets/vendor/fullcalendar/calendar.js',
         'src/main/webapp/src/assets/vendor/angular-datapicker/angular-datepicker.js',
-        'node_modules/ment.io/dis/*.',
-        //'node_modules/ment.io/src/*.js'
+        'node_modules/firebase/firebase.js',
+        'node_modules/angularfire/dist/angularfire.js',
+        'node_modules/ment.io/dis/*.'
     ])
         .pipe(plumber())
         .pipe(concat('vendor.js', {newLine: ';'}))

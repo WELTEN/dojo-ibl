@@ -85,6 +85,7 @@ angular.module('DojoIBL')
             checkAccess: function(runId) {
                 var self = this;
                 AccountService.myDetails().then(function(me){
+
                     self.getUsersForRun(runId).then(function(data){
 
                         if(arrayObjectIndexOf(data, me.localId, "localId") == -1){
@@ -103,6 +104,11 @@ angular.module('DojoIBL')
                     }
                     return -1;
                 }
+            },
+            emptyUsersCache: function(){
+                var dataCache = CacheFactory.get('usersCache');
+                if(dataCache) dataCache.removeAll();
+                users = {};
             }
         }
     }
