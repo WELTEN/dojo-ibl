@@ -37,10 +37,41 @@ angular.module('DojoIBL')
                 });
             });
 
-            GameService.newGame($scope.game).then(function(data){
-                $scope.game = data;
+            GameService.newGame($scope.game).then(function(game){
+                $scope.game = game;
                 $scope.game.config.roles = [];
-                window.location.href=config.server+'/#/inquiry/'+data.gameId+'/edit';
+
+                var i = 0;
+
+
+                angular.forEach(structure.phases, function(phase){
+                    $scope.game.phases.push({
+                        title: phase.phase,
+                        type: "org.celstec.arlearn2.beans.game.Phase"
+                    });
+
+                    angular.forEach(phase.activities, function(activity){
+                        ActivityService.newActivity({
+                            "type": "org.celstec.arlearn2.beans.generalItem.NarratorItem",
+                            "gameId": game.gameId,
+                            "deleted": false,
+                            "scope": "user",
+                            "name": activity.activity,
+                            "description": activity.description,
+                            "richText": "<p>"+activity.description+"<\/p>",
+                            "autoLaunch": false,
+                            "section": i,
+                            "roles2": [],
+                            "fileReferences": []
+                        });
+                    });
+
+                    i++;
+
+                });
+
+                window.location.href=config.server+'/#/inquiry/'+game.gameId+'/edit';
+
             });
             $modalInstance.close();
         };

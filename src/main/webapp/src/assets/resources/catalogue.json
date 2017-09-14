@@ -1,12 +1,134 @@
 [
   {
-  "inquiry": "Empty structure",
-  "author": "-",
-  "paper_url": "-",
-  "purpose": "-",
-  "description": "-",
-  "i18n": "EN",
-  "phases": [ ]
+    "inquiry": "Empty structure",
+    "author": "-",
+    "paper_url": "-",
+    "purpose": "-",
+    "description": "-",
+    "i18n": "EN",
+    "phases": [ ]
+  },
+  {
+    "inquiry": "Niekeé - Template 1 - Basic",
+    "author": "-",
+    "paper_url": "-",
+    "purpose": "-",
+    "description": "Basic template for simple challenges.",
+    "i18n": "EN",
+    "phases": [{
+      "phase": "Preparation",
+      "description": "Description",
+      "activities": [
+        {
+          "activity": "Why?",
+          "description": "Description"
+        },
+        {
+          "activity": "Definition of done?",
+          "description": "Description"
+        },
+        {
+          "activity": "How much time?",
+          "description": "Description"
+        }
+      ]
+    },{
+      "phase": "Execution",
+      "description": "Description",
+      "activities": [
+        {
+          "activity": "Logging",
+          "description": "Description"
+        }
+      ]
+    },{
+      "phase": "Result",
+      "description": "Description",
+      "activities": [
+        {
+          "activity": "End point / Product",
+          "description": "Description"
+        }
+      ]
+    },{
+      "phase": "Evaluation",
+      "description": "Description",
+      "activities": [
+        {
+          "activity": "Reflection",
+          "description": "Description"
+        },
+        {
+          "activity": "Conclusions",
+          "description": "Description"
+        }
+      ]
+    } ]
+  },
+  {
+    "inquiry": "Niekeé - Template 2 - Layered",
+    "author": "-",
+    "paper_url": "-",
+    "purpose": "-",
+    "description": "Layered template for several challenges integrated in one project.",
+    "i18n": "EN",
+    "phases": [ {
+      "phase": "Preparation",
+      "description": "Description",
+      "activities": [
+        {
+          "activity": "Why?",
+          "description": "Description"
+        },
+        {
+          "activity": "Definition of done?",
+          "description": "Description"
+        },
+        {
+          "activity": "How much time?",
+          "description": "Description"
+        }
+      ]
+    },{
+      "phase": "Iteration 1",
+      "description": "Replace this by description of challenge 1.",
+      "activities": [
+        {
+          "activity": "Why?",
+          "description": "Description"
+        },
+        {
+          "activity": "Definition of done?",
+          "description": "Description"
+        },
+        {
+          "activity": "How much time?",
+          "description": "Description"
+        }
+      ]
+    },{
+      "phase": "Result",
+      "description": "Description",
+      "activities": [
+        {
+          "activity": "End point / Product",
+          "description": "Description"
+        }
+      ]
+    },{
+      "phase": "Evaluation",
+      "description": "Description",
+      "activities": [
+        {
+          "activity": "Reflection",
+          "description": "Description"
+        },
+        {
+          "activity": "Conclusions",
+          "description": "Description"
+        }
+      ]
+    }]
   },
   {
     "inquiry": "weSPOT",
