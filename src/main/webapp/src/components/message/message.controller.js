@@ -13,6 +13,12 @@ angular.module('DojoIBL')
 
         var messagesRef = firebase.database().ref("messages").child($stateParams.runId);
 
+        $scope.$on('inquiry-run', function(event, args) {
+            messagesRef = firebase.database().ref("messages").child(args.runId);
+            $scope.messages = $firebaseArray(messagesRef.limitToLast($scope.pageSize * $scope.page));
+        });
+
+
         ctrl.getMessages = function() {
             $scope.messages = $firebaseArray(messagesRef.limitToLast($scope.pageSize * $scope.page));
         };

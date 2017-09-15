@@ -45,12 +45,15 @@ angular.module('DojoIBL')
                 });
 
                 RunService.getParticipateRunsForGame(run.gameId).then(function(data){
-                    var aux = []
-                    $scope.itemArray = aux;
+                    var aux = {}
+                    var aux1 = []
+                    $scope.itemArray = aux1;
                     angular.forEach(data, function(_b){
-                        aux.push(_b)
+                        aux[_b.runId] = _b
+                        aux1.push(_b)
                     });
-                    $scope.selected = { value: $scope.itemArray[0] };
+
+                    $scope.selected = { value: aux[$stateParams.runId] };
                 });
 
                 $scope.selectChange = function(run) {
