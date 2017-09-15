@@ -9369,7 +9369,8 @@ p > span:first-child > p:last-child {
 
 .pinned{
   display: flex;
-  flex: 2;
+  flex: 4;
+  flex-flow: row wrap;
 }
 
 .pinned .feed-element{
