@@ -97,6 +97,8 @@ angular.module('DojoIBL')
                         "runId": $stateParams.runId,
                         "deleted": false,
                         "generalItemId": $stateParams.activityId,
+                        "generalItemName": $scope.activity.name,
+                        "phase": $scope.activity.section,
                         "userAccountType": data.accountType,
                         "userLocalId": data.localId,
                         "userName": data.name,

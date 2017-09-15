@@ -9361,3 +9361,19 @@ p > span:first-child > p:last-child {
 .inquiry-sidebar{
   padding: 1em 0em 0em;
 }
+
+.pr-t{
+  position: relative;
+  top: 1em;
+}
+
+.pinned{
+  display: flex;
+  flex: 2;
+}
+
+.pinned .feed-element{
+  margin: 0px !important;
+  padding: 1em !important;
+  border-bottom: 0px !important;
+}

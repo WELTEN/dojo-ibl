@@ -1,0 +1,30 @@
+<div class="panel-body no-padding-no-border-radius col-md-12 wrapper wrapper-content animated fadeInpanel-body">
+    <div class="ibox-content">
+        <div class="heading ng-binding">
+            <i class="fa fa-bookmark"></i>
+            {{ 'dibl.inquiry.view.pinned' | translate }}
+            <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
+                <div class="sk-rect1"></div>
+                <div class="sk-rect2"></div>
+                <div class="sk-rect3"></div>
+                <div class="sk-rect4"></div>
+                <div class="sk-rect5"></div>
+            </div>
+        </div>
+
+        <div class="pinned">
+            <div class="feed-element" ng-repeat="pin in pinned_messages">
+                <div class="media-body">
+                    <small class="pull-right">{{ pin.lastModificationDate | timeago }}</small>
+                    <strong>{{ pin.userName }}</strong> commented on <strong><a href="/#/inquiry/{{ pin.runId }}/phase/{{ pin.phase }}/activity/{{ pin.generalItemId }}">{{ pin.generalItemName }}</a></strong>. <br>
+                    <small class="text-muted">{{ pin.lastModificationDate | date:'medium' }}</small>
+                    <div class="well" ng-bind-html="pin.responseValue">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
