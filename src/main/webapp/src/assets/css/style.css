@@ -9378,3 +9378,13 @@ p > span:first-child > p:last-child {
   padding: 1em !important;
   border-bottom: 0px !important;
 }
+
+.activity-status-completed{
+  background: rgba(122, 214, 1, 0.37) !important;
+}
+.activity-status-inprogress{
+  background: rgba(214, 182, 1, 0.37) !important;
+}
+.activity-status-todo{
+  background: rgba(214, 1, 1, 0.23) !important;
+}

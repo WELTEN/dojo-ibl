@@ -24,8 +24,13 @@
                 <h3 style="margin-top: 0px;">
                     <span><a ng-click="goToPhase(inqId, $index)">{{ $index }}. {{ phase.title }}</a></span>
                 </h3>
+
+
                 <ul id="{{$index}}" class="sortable-list connectList agile-list ui-sortable">
-                    <li ng-click="goToActivity(inqId, activity.section, activity.id)" id="{{ activity }}" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[game.gameId][$index] | orderByDayNumber:'sortKey'">
+                    <li ng-click="goToActivity(inqId, activity.section, activity.id)" id="{{ activity }}"
+                        ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}"
+                        ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'"
+                        ng-class="{'activity-status-todo': activity.status.status == 0 || !activity.status.status ,'activity-status-inprogress': activity.status.status == 1,'activity-status-completed': activity.status.status == 2}">
 
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
