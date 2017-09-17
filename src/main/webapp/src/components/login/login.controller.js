@@ -39,7 +39,7 @@ angular.module('DojoIBL')
                 // The firebase.auth.AuthCredential type that was used.
                 var credential = error.credential;
                 // ...
-                console.log(4, errorCode);
+                console.log(4, errorCode, errorMessage);
             });
 
         }

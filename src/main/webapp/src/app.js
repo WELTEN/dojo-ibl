@@ -17,7 +17,7 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
         $translateProvider.preferredLanguage('en');
 
         var config = {
-            apiKey: "AIzaSyBqdNjX3HNZStyuBklf3FQRGxRLTAbb2hc",
+            apiKey: "AIzaSyBRRKRZ068429qJphWdbrOd8oyLY6zPgCU",
             authDomain: "dojo-ibl.firebaseapp.com",
             databaseURL: "https://dojo-ibl.firebaseio.com",
             projectId: "dojo-ibl",
@@ -51,7 +51,7 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
 
                 if (currentToken) {
 
-                    console.log(currentToken)
+                    //console.log(currentToken)
 
                     //ChannelService.saveDeviceRegistrationTokenMessaging(currentToken);
                     localStorage.setItem('deviceRegistrationToken', currentToken)

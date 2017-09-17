@@ -49,7 +49,7 @@ public class OauthFirebaseWorker {
 
 //    private static final Logger logger = (Logger) LoggerFactory.getLogger(FirebaseUtils.class);
 
-    private static final String FIREBASE_SNIPPET_PATH = "WEB-INF/dojo-ibl-firebase-adminsdk-ofvly-bf28455fa0.json";
+    private static final String FIREBASE_SNIPPET_PATH = "WEB-INF/dojo-ibl-firebase-adminsdk-ofvly-4e5a54f674.json";
 
     public static String validateToken(final String token) {
 

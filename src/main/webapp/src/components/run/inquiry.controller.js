@@ -25,9 +25,6 @@ angular.module('DojoIBL')
             $scope.disableInquiryLoading = true;
 
             angular.forEach(data.game.phases, function(value, key) {
-
-                console.log(value, key)
-
                 ActivityStatusService.getActivitiesServerStatus(data.game.gameId, $stateParams.runId, key);
             });
 
