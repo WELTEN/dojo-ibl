@@ -12,7 +12,9 @@
         <!--<a class="small reply" ng-click="hiddenDivReply = !hiddenDivReply"> <i class="fa fa-mail-reply"></i> Reply</a> •-->
 
         <a ng-click="likedComment(response, myAccount.localId)" class="small" ><i class="fa fa-thumbs-up"></i> <span ng-show="!response.likes[myAccount.localId]">Like</span> <span ng-show="response.likes[myAccount.localId]">Liked</span> </a> <span ng-show="response.likeCount > 0">{{ response.likeCount }}</span> <span ng-show="myAccount.localId == response.userLocalId"> • </span>
-        <!----->
+
+        <a ng-click="pinnedComment(response, myAccount.localId)" class="small" ><i ng-show="!response.pinned" class="fa fa-bookmark-o"></i> <i ng-show="response.pinned" class="fa fa-bookmark"></i> <span ng-show="!response.pinned">Pin</span> <span ng-show="response.pinned">Pinned</span> </a> <span ng-show="myAccount.localId == response.userLocalId"> • </span>
+
         <a class="small" ng-show="myAccount.localId == response.userLocalId" ng-click="hiddenDiv = !hiddenDiv"><i class="fa fa-edit"></i> Edit</a> <span ng-show="myAccount.localId == response.userLocalId"> • </span>
         <a class="small" ng-show="myAccount.localId == response.userLocalId" ng-click="removeComment(response)"><i class="fa fa-times"></i> Delete</a>
         <span ng-show="response.edited">•</span>

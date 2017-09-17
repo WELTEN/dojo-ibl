@@ -9361,3 +9361,30 @@ p > span:first-child > p:last-child {
 .inquiry-sidebar{
   padding: 1em 0em 0em;
 }
+
+.pr-t{
+  position: relative;
+  top: 1em;
+}
+
+.pinned{
+  display: flex;
+  flex: 4;
+  flex-flow: row wrap;
+}
+
+.pinned .feed-element{
+  margin: 0px !important;
+  padding: 1em !important;
+  border-bottom: 0px !important;
+}
+
+.activity-status-completed{
+  background: rgba(122, 214, 1, 0.37) !important;
+}
+.activity-status-inprogress{
+  background: rgba(214, 182, 1, 0.37) !important;
+}
+.activity-status-todo{
+  background: rgba(214, 1, 1, 0.23) !important;
+}

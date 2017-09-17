@@ -54,7 +54,8 @@
         "no-phases": "No hay fases todavia..."
       },
       "view":{
-        "description": "Fases y actividades de"
+        "description": "Fases y actividades de",
+        "pinned": "Contenido fijado"
       },
       "home": {
         "click-first": "Primero haz click",

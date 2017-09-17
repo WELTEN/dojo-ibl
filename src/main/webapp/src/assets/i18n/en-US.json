@@ -55,7 +55,8 @@
         "no-phases": "No phases found..."
       },
       "view":{
-        "description": "Phases and activities of"
+        "description": "Phases and activities of",
+        "pinned": "Pinned content"
       },
       "home": {
         "click-first": "Click",

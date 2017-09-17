@@ -1,7 +1,7 @@
 angular.module('DojoIBL')
 
     .controller('InquiryController', function ($scope, $sce, $location, $stateParams, $state, Session, MessageService,
-                                               ActivityService, AccountService, ChannelService, RunService) {
+                                               ActivityService, AccountService, ChannelService, RunService, ActivityStatusService) {
 
         if(!Session.getAccessToken()){
             window.location.href='/#/login';
@@ -24,10 +24,16 @@ angular.module('DojoIBL')
             $scope.serverCreationTime = data.serverCreationTime;
             $scope.disableInquiryLoading = true;
 
-            ActivityService.getActivitiesServer(data.gameId);
+            angular.forEach(data.game.phases, function(value, key) {
+
+                console.log(value, key)
+
+                ActivityStatusService.getActivitiesServerStatus(data.game.gameId, $stateParams.runId, key);
+            });
+
         });
 
-        $scope.activities = ActivityService.getActivities();
+        $scope.activities = ActivityStatusService.getActivitiesStatus();
 
         $scope.goToPhase = function(inqId, index) {
             $location.path('inquiry/'+inqId+'/phase/'+ index);

@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .directive('responses', function(AccountService) {
+    .directive('responses', function(AccountService, $firebaseArray) {
         return  {
             restrict: "E",
             replace: true,
@@ -43,7 +43,7 @@ angular.module('DojoIBL')
 
                 scope.newText = scope.response.responseValue;
 
-                    scope.saveComment = function(newValue) {
+                scope.saveComment = function(newValue) {
 
                     var updates = {};
 
@@ -52,6 +52,9 @@ angular.module('DojoIBL')
                         "runId": scope.response.runId,
                         "deleted": scope.response.deleted,
                         "generalItemId": scope.response.generalItemId,
+                        "generalItemName": scope.response.generalItemName,
+                        "phase": scope.response.phase,
+                        "pinned": (scope.response.pinned == undefined ? "" : scope.response.pinned ),
                         "userAccountType": scope.response.userAccountType,
                         "userLocalId": scope.response.userLocalId,
                         "userName": scope.response.userName,
@@ -72,7 +75,6 @@ angular.module('DojoIBL')
 
                 };
 
-
                 scope.likedComment = function(user, uid){
 
                     var responsesRef = firebase.database().ref("responses").child(scope.response.runId).child(scope.response.generalItemId).child(scope.response.$id);
@@ -92,6 +94,63 @@ angular.module('DojoIBL')
                         }
                         return response;
                     });
+                };
+
+                scope.pinnedComment = function(user, uid){
+
+                    var responsesRef = firebase.database().ref("responses").child(scope.response.runId).child(scope.response.generalItemId).child(scope.response.$id);
+
+                    responsesRef.transaction(function(response) {
+                        if (response) {
+                            if (response.pinned) {
+                                response.pinned = false;
+                            } else {
+                                response.pinned = true;
+                            }
+                        }
+                        return response;
+                    });
+
+
+
+                    var responseRef = firebase.database().ref("responses_pinned").child(scope.response.runId).child(scope.response.generalItemId);
+
+                    var id = scope.response.$id;
+
+                    responseRef.transaction(function(response) {
+                        if (response) {
+
+                            console.log(response[id]);
+
+                            if (response[id]) {
+                                response[id] = false;
+                            } else {
+                                if (!response[id]) {
+                                    response[id] = {};
+                                }
+                                response[id] = true;
+                            }
+                        }
+
+                        return response;
+                    });
+
+
+
+                    //var messagesRef = firebase.database().ref("responses_pinned").child(scope.response.runId).child(scope.response.generalItemId);
+                    //
+                    //
+                    //messages = $firebaseArray(messagesRef);
+
+
+
+
+
+
+
+
+
+                    //responseRef.set(true);
                 };
 
 
