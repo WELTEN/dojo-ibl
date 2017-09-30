@@ -4,7 +4,7 @@
         <img class="message-avatar" ng-if="response.userProfile != ''" ng-src="{{ response.userProfile }}" alt="">
     </a>
     <div class="media-body">
-        <a href="#/profile/{{ response.userAccountType }}:{{ response.userLocalId }}">
+        <a href="#/profile/{{ response.userLocalId }}">
             {{ response.userName }}
         </a> • <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small>
 

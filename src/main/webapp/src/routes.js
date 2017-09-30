@@ -54,22 +54,22 @@ angular.module('DojoIBL')
                     }]
                 }
             })
-            .state('inquiry.phase', {
-                url: '/:runId/phase/:phase',
-                templateUrl: '/src/components/activity/phase.template.html',
-                controller: 'PhaseController',
-                ncyBreadcrumb: {
-                    label: "{{'dibl.toolbar.phase' | translate}}",
-                    parent: 'inquiry.home' // Override the parent state (only for the breadcrumb).
-                }
-            })
+            //.state('inquiry.phase', {
+            //    url: '/:runId/phase/:phase',
+            //    templateUrl: '/src/components/activity/phase.template.html',
+            //    controller: 'PhaseController',
+            //    ncyBreadcrumb: {
+            //        label: "{{'dibl.toolbar.phase' | translate}}",
+            //        parent: 'inquiry.home' // Override the parent state (only for the breadcrumb).
+            //    }
+            //})
             .state('inquiry.activity', {
                 url: '/:runId/phase/:phase/activity/:activityId',
                 templateUrl: '/src/components/activity/activity.template.html',
                 controller: 'ActivityController',
                 ncyBreadcrumb: {
                     label: "{{'dibl.toolbar.activity' | translate}}",
-                    parent: 'inquiry.phase' // Override the parent state (only for the breadcrumb).
+                    parent: 'inquiry.home' // Override the parent state (only for the breadcrumb).
 
                 }
             })
