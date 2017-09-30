@@ -125,8 +125,11 @@ gulp.task('vendor', function() {
         'src/main/webapp/src/assets/vendor/fullcalendar/gcal.js',
         'src/main/webapp/src/assets/vendor/fullcalendar/calendar.js',
         'src/main/webapp/src/assets/vendor/angular-datapicker/angular-datepicker.js',
+        'src/main/webapp/src/assets/vendor/angular-bootstrap-duallistbox.min.js',
         'node_modules/firebase/firebase.js',
         'node_modules/angularfire/dist/angularfire.js',
+        'node_modules/chosen-js/chosen.proto.js',
+        'node_modules/chosen-js/chosen.jquery.js',
         'node_modules/ment.io/dis/*.'
     ])
         .pipe(plumber())

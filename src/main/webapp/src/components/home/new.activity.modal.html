@@ -88,7 +88,7 @@
 
             </div>
             <div class="col-sm-8">
-                <div class="form-group">
+                <div class="form-group" ng-hide="activity.type == 'org.celstec.arlearn2.beans.generalItem.ResearchQuestion'">
                     <div class="col-sm-12">
                         <text-angular class="pruebas" ta-toolbar="[
                                                                 ['bold','italics'],
@@ -98,6 +98,9 @@
                                       ng-model-options="{debounce: 750}"></text-angular>
                     </div>
                 </div>
+
+                <multi-activity activity='activity' ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ResearchQuestion'"></multi-activity>
+
             </div>
 
 
