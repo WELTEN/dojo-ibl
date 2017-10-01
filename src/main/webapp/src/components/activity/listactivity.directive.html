@@ -1,0 +1,32 @@
+<div class="social-body">
+    <h1>
+        <i ng-hide="activity.status.status == 1 || activity.status.status == 2" title="To Do" class="fa fa-check-square red"></i>
+        <i ng-show="activity.status.status == 1" title="In progress" class="fa fa-check-square yellow"></i>
+        <i ng-show="activity.status.status == 2" title="Done" class="fa fa-check-square green"></i>
+        {{ activity.name }}
+    </h1>
+
+    <div class="" ng-bind-html="activity.richText || activity.description"></div>
+
+    <ul class="todo-list m-t small-list">
+        <li>
+            <div class="input-group">
+                <input ng-enter="addItem(activity)" type="text" ng-model="item" class="form-control">
+                <span class="input-group-btn">
+                    <button ng-click="addItem(activity) " type="button" class="btn btn-primary"> Add item
+                    </button>
+                </span>
+            </div>
+        </li>
+        <li ng-repeat="item in items">
+            <a ng-click="changeStatus(item, activity)" class="check-link"><i ng-class="{'fa-square-o': !item.checked , 'fa-check-square': item.checked }" class="fa "></i> </a>
+            <span ng-class="{'todo-completed': item.checked }" class="m-l-xs">{{item.title}}</span>
+            <div class="ibox-tools">
+                <a class="close-link" ng-click="removeItem(item, activity)">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </li>
+
+    </ul>
+</div>
