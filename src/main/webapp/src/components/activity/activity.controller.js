@@ -192,6 +192,9 @@ angular.module('DojoIBL')
 
             ActivityStatusService.getActivityByIdRun($stateParams.activityId, data.game.gameId, $stateParams.runId).then(function (data) {
                 $scope.activity = data;
+
+                console.log(data)
+
             });
 
             GameService.getGameAssets(data.game.gameId).then(function(data){
@@ -202,51 +205,6 @@ angular.module('DojoIBL')
         AccountService.myDetails().then(function(data){
             $scope.myAccount = data;
         });
-
-        //$scope.sendComment = function(){
-        //    if($scope.response != null && $scope.response.length > 0){
-        //
-        //        if(angular.isUndefined($scope.response.id)){
-        //            ResponseService.removeCachedResponse($stateParams.activityId);
-        //        }
-        //
-        //        AccountService.myDetails().then(function(data){
-        //            ResponseService.newResponse({
-        //                "type": "org.celstec.arlearn2.beans.run.Response",
-        //                "runId": $stateParams.runId,
-        //                "deleted": false,
-        //                "generalItemId": $stateParams.activityId,
-        //                "userEmail": data.accountType+":"+data.localId,
-        //                "responseValue": $scope.response,
-        //                "parentId": 0,
-        //                "revoked": false,
-        //                "lastModificationDate": new Date().getTime()
-        //            }).then(function(data){
-        //                $scope.response = null;
-        //            });
-        //        });
-        //    }
-        //};
-        //
-        //$scope.sendChildComment = function(responseParent, responseChildren) {
-        //
-        //    AccountService.myDetails().then(function(data){
-        //        ResponseService.newResponse({
-        //            "type": "org.celstec.arlearn2.beans.run.Response",
-        //            "runId": $stateParams.runId,
-        //            "deleted": false,
-        //            "generalItemId": $stateParams.activityId,
-        //            "userEmail": data.accountType+":"+data.localId,
-        //            "responseValue": responseChildren,
-        //            "parentId": responseParent.responseId,
-        //            "revoked": false,
-        //            "lastModificationDate": new Date().getTime()
-        //        }).then(function(childComment){
-        //            $scope.responseChildren = null;
-        //        });
-        //    });
-        //};
-
 
 
         $scope.trustSrc = function(src) {
