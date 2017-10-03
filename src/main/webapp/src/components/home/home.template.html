@@ -46,7 +46,7 @@
                                             <td class="hide-when-small"></td>
                                             <td class="project-actions footable-visible footable-last-column">
                                                 <!--<a class="btn btn-danger btn-sm" ng-click="deleteInquiry(game.gameId)"  ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-trash"></i> Delete </a>-->
-                                                <a class="btn btn-success btn-sm" ng-click="cloneInquiry(game.gameId)"   ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-copy"></i> {{ 'dibl.inquiry.home.inquiries-button-clone' | translate }} </a>
+                                                <a class="btn btn-success btn-sm hide-when-small" ng-click="cloneInquiry(game.gameId)"   ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-copy"></i> {{ 'dibl.inquiry.home.inquiries-button-clone' | translate }} </a>
                                                 <a class="btn btn-warning btn-sm" href="#inquiry/{{ game.gameId }}/edit" ng-click="ga('send', {  hitType: 'event', eventCategory: 'Inquiry',  eventAction: 'access',  eventLabel: '{{ game.title }}' });" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-pencil-square"></i> {{ 'dibl.inquiry.home.inquiries-button-teacher-view' | translate }}</a>
                                             </td>
                                         </tr>
