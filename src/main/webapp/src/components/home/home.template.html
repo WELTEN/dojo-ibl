@@ -34,16 +34,16 @@
                                     <thead>
                                     <tr>
                                         <th class="footable-visible footable-first-column footable-sortable">{{ 'dibl.inquiry.home.inquiries-title-inquiry' | translate }}</th>
-                                        <th class="footable-sortable">{{ 'dibl.inquiry.home.inquiries-title-date' | translate }}</th>
-                                        <th class="footable-sortable"></th>
+                                        <th class="footable-sortable hide-when-small">{{ 'dibl.inquiry.home.inquiries-title-date' | translate }}</th>
+                                        <th class="footable-sortable hide-when-small"></th>
                                         <th class="footable-visible footable-last-column footable-sortable">{{ 'dibl.inquiry.home.inquiries-title-menu' | translate }}</th>
                                     </tr>
                                     </thead>
                                     <tbody ng-repeat="(key, game) in games | orderByDayNumber:'lastModificationDate':true">
                                         <tr ng-class-even="'footable-even'" ng-click="showRuns(game.gameId);">
                                             <td class="footable-visible"><a class="btn btn-primary btn-sm"><i class="fa fa-mortar-board"></i>  {{ game.title | limitTo: 20 }}</a></td>
-                                            <td class="footable-visible">{{ game.lastModificationDate | timeago }}</td>
-                                            <td></td>
+                                            <td class="footable-visible hide-when-small">{{ game.lastModificationDate | timeago }}</td>
+                                            <td class="hide-when-small"></td>
                                             <td class="project-actions footable-visible footable-last-column">
                                                 <!--<a class="btn btn-danger btn-sm" ng-click="deleteInquiry(game.gameId)"  ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-trash"></i> Delete </a>-->
                                                 <a class="btn btn-success btn-sm" ng-click="cloneInquiry(game.gameId)"   ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1"><i class="fa fa-copy"></i> {{ 'dibl.inquiry.home.inquiries-button-clone' | translate }} </a>
@@ -52,11 +52,11 @@
                                         </tr>
                                         <tr ng-if="game.gameId == run.gameId" ng-repeat="run in runs[gameSelected]">
 
-                                            <td>&nbsp;</td>
+                                            <td class="hide-when-small">&nbsp;</td>
                                             <td class="project-title">
                                                 <a>{{ run.title | limitTo: 20 }}</a>
                                             </td>
-                                            <td>{{ run.code }}</td>
+                                            <td class="hide-when-small">{{ run.code }}</td>
                                             <td class="project-actions footable-visible">
                                                 <a href="#inquiry/{{ run.runId }}" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square"></i> {{ 'dibl.inquiry.home.inquiries-button-student' | translate }}</a>
                                             </td>
@@ -69,7 +69,12 @@
                 </div>
             </div>
         </div>
-
+        <div id="small-chat">
+            <span class="badge badge-warning pull-right">{{ numberMessages }}</span>
+            <a class="open-small-chat" href="#/catalogue/inquiry">
+                <i class="fa fa-plus"></i>
+            </a>
+        </div>
         <dibl-footer></dibl-footer>
 
     </div>

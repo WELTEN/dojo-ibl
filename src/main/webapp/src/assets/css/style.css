@@ -5569,6 +5569,12 @@ del {
 body.body-small .vote-icon {
   display: none;
 }
+#back-screen{
+  position: fixed;
+  bottom: 20px;
+  z-index: 100;
+  display: none;
+}
 #small-chat {
   position: fixed;
   bottom: 20px;
@@ -8338,7 +8344,54 @@ body.md-skin {
   }
 
 }
+
+@media (max-width: 420px) {
+
+  .panel-body {
+    padding: 0!important;
+    margin: 0 !important;
+  }
+  .ibox-content {
+    border-radius: 0px !important;
+  }
+
+  .ibox-content .heading{
+    border-radius: 0px !important;
+  }
+
+  .wrapper-content{
+    padding: 0!important;
+    margin: 0 !important;
+  }
+
+  /*.col-md-12{*/
+    /*padding: 0!important;*/
+    /*margin: 0 !important;*/
+  /*}*/
+
+  .feedback, .breadcrumb-header, .hide-when-small{
+    display: none !important;
+  }
+  
+  #back-screen{
+    display: block !important;
+  }
+
+  .m-sm{
+    margin: 0 !important;
+  }
+
+  .show-grid section {
+    width: 100%;
+  }
+}
+
 @media (max-width: 350px) {
+
+  .ibox-content .heading {
+    width: 100%;
+  }
+
   .timeline-item .date {
     text-align: left;
     width: 110px;
