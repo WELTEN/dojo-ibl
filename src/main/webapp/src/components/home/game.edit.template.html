@@ -182,7 +182,7 @@
             </div>
         </div>
 
-        <div id="calendar" class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
+        <div id="calendar" class="col-md-12 wrapper wrapper-content animated fadeInpanel-body hide-when-small">
             <div class="ibox-content">
                 <div class="heading ng-binding">
                     {{'dibl.inquiry.new-edit.calendar' | translate}}
@@ -243,16 +243,16 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th><b>{{'dibl.inquiry.new-edit.runs-status' | translate}}</b></th>
+                                        <th class="hide-when-small"><b>{{'dibl.inquiry.new-edit.runs-status' | translate}}</b></th>
                                         <th><b>{{'dibl.inquiry.new-edit.runs-inquiry-code' | translate}}</b></th>
                                         <th><b>{{'dibl.inquiry.new-edit.runs-metadata' | translate}}</b></th>
-                                        <th><b>{{'dibl.inquiry.new-edit.runs-participants' | translate}}</b></th>
+                                        <th class="hide-when-small"><b>{{'dibl.inquiry.new-edit.runs-participants' | translate}}</b></th>
                                         <th><b>{{'dibl.inquiry.new-edit.runs-options' | translate}}</b></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="(key, run) in gameRuns | orderByDayNumber:'serverCreationTime'">
-                                    <td class="project-status">
+                                    <td class="project-status hide-when-small">
                                         <span ng-show="run.deleted" class="label label-danger">Deleted</span>
                                         <span ng-hide="run.deleted" class="label label-primary">Active</span>
                                     </td>
@@ -265,10 +265,10 @@
                                     </td>
                                     <td class="project-title">
                                         <a href="#inquiry/{{ run.runId }}">{{ run.title }}</a>
-                                        <br>
-                                        <small>Created {{ run.serverCreationTime | date:'medium' }}</small>
-                                        <br/>
-                                        <small>Modification {{ run.lastModificationDate | date:'medium' }}</small>
+                                        <br class="hide-when-small">
+                                        <small class="hide-when-small">Created {{ run.serverCreationTime | date:'medium' }}</small>
+                                        <br class="hide-when-small" />
+                                        <small class="hide-when-small">Modification {{ run.lastModificationDate | date:'medium' }}</small>
                                     </td>
                                     <!--<td class="project-completion">-->
                                         <!--<small>Completion with: 48%</small>-->
@@ -276,7 +276,7 @@
                                             <!--<div style="width: 48%;" class="progress-bar"></div>-->
                                         <!--</div>-->
                                     <!--</td>-->
-                                    <td class="project-people" data-toggle="tooltip" data-placement="left" title="Tooltip on left">
+                                    <td class="project-people hide-when-small" data-toggle="tooltip" data-placement="left" title="Tooltip on left">
                                         <a href="#/profile/{{user.accountType}}:{{user.localId}}" ng-repeat="user in usersRun[run.runId]">
                                             <ng-letter-avatar shape="round" ng-if="user.picture == ''" data="{{ user.name }}"></ng-letter-avatar>
                                             <img
@@ -289,9 +289,9 @@
                                                 class="fa fa-eye"></i> {{'dibl.inquiry.new-edit.options-view' | translate}} </a>
                                         <!--<a ng-click="addUsersToRun(run.runId, run.gameId)"-->
                                            <!--class="btn btn-white btn-sm"><i class="fa fa-user"></i> Add users </a>-->
-                                        <a href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit" class="btn btn-white btn-sm"><i
+                                        <a href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit" class="btn btn-white btn-sm hide-when-small"><i
                                                 class="fa fa-pencil"></i> {{'dibl.inquiry.new-edit.options-edit' | translate}}  </a>
-                                        <a ng-click="removeRun(run)" class="btn btn-default btn-sm"><i
+                                        <a ng-click="removeRun(run)" class="btn btn-default btn-sm hide-when-small"><i
                                                 class="fa fa-times"></i> {{'dibl.inquiry.new-edit.options-delete' | translate}}  </a>
                                     </td>
                                 </tr>
