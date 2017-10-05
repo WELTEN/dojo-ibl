@@ -27,16 +27,47 @@
                     <!--&lt;!&ndash; <span class="label label-warning pull-right">Current</span> &ndash;&gt;-->
                 <!--</a>-->
             <!--</li>-->
-            <li>
+            <!--<li>-->
+            <!--<a href="#/home">-->
+            <!--<i class="fa fa-home"></i> <span class="nav-label">{{'dibl.sidebar.inquiries' | translate}}</span>-->
+            <!--&lt;!&ndash; <span class="label label-warning pull-right">Current</span> &ndash;&gt;-->
+            <!--</a>-->
+            <!--</li>-->
+
+            <li ng-class="{ 'active': $state.includes('home')  }">
                 <a href="#/home">
-                    <i class="fa fa-home"></i> <span class="nav-label">{{'dibl.sidebar.inquiries' | translate}}</span>
-                    <!-- <span class="label label-warning pull-right">Current</span> -->
+                    <i class="fa fa-folder"></i> <span class="nav-label">Inquiry Projects</span>
                 </a>
             </li>
-            <li>
-                <a id="add-inquiry-new" href="#/catalogue/inquiry" >
-                    <i class="fa fa-plus"></i>{{'dibl.sidebar.createinquiry' | translate}}</a>
+            <li ng-show="game" class="active inquiry-sidebar">
+                <a><i class="fa fa-asterisk"></i> <span class="nav-label sidebar-inquiry-title">{{ game.title | limitTo: 15 }} {{ game.title.length > 15 ? '...' : ''}}</span></a>
+                <ul class="nav nav-second-level">
+                    <li ng-class="{ 'active': $state.includes('metadata')  }">
+                        <a href="#/project/{{ gameId }}/edit/metadata"><i class="fa fa-edit"></i>{{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}</a>
+                    </li>
+                    <li ng-class="{ 'active': $state.includes('structure')  }">
+                        <a href="#/project/{{ gameId }}/edit/structure"><i class="fa fa-circle"></i>{{ 'dibl.inquiry.new-edit.inquiry-phases-activities' | translate }}</a>
+                    </li>
+                    <li ng-class="{ 'active': $state.includes('calendar')  }">
+                        <a href="#/project/{{ gameId }}/edit/calendar"><i class="fa fa-calendar"></i>{{'dibl.inquiry.new-edit.calendar' | translate}}</a>
+                    </li>
+                    <li ng-class="{ 'active': $state.includes('groups')  }">
+                        <a href="#/project/{{ gameId }}/edit/groups"><i class="fa fa-group"></i>{{'dibl.inquiry.new-edit.run-inquiries' | translate}}</a>
+                    </li>
+                    <li ng-class="{ 'active': $state.includes('editors')  }">
+                        <a href="#/project/{{ gameId }}/edit/editors"><i class="fa fa-key"></i>{{'dibl.inquiry.new-edit.editor-management' | translate}}</a>
+                    </li>
+                </ul>
             </li>
+            <li ng-class="{ 'active': $state.includes('groups')  }">
+                <a href="#/groups">
+                    <i class="fa fa-group"></i> <span class="nav-label">Groups joined</span>
+                </a>
+            </li>
+            <!--<li>-->
+                <!--<a id="add-inquiry-new" href="#/catalogue/inquiry" >-->
+                    <!--<i class="fa fa-plus"></i>{{'dibl.sidebar.createinquiry' | translate}}</a>-->
+            <!--</li>-->
             <!--<li>-->
                 <!--<a href="#/home"><i class="fa fa-home"></i> <span class="nav-label">{{ run.game.title | limitTo: 15 }} {{ run.game.title.length > 15 ? '...' : ''}} [{{ run.code }}]</span></a>-->
             <!--</li>-->
@@ -47,8 +78,10 @@
                         <!--<a href="#inquiry/{{ run.runId }}/timeline"><i class="fa fa-clock-o"></i>{{'dibl.sidebar.timeline' | translate}}</a>-->
                     </li>
                     <li class="sidebar-inquiry-calendar" ng-class="{ 'active':statePhase == 'inquiry.calendar'  }">
-                        <a href="#inquiry/{{run.gameId}}/{{ run.runId }}/calendar"><i class="fa fa-calendar"></i>{{'dibl.sidebar.calendar' | translate}}
-                        <!--<span class="label label-danger pull-right">Unavailable</span>--></a>
+                        <a href="#inquiry/{{run.gameId}}/{{ run.runId }}/calendar"><i class="fa fa-calendar"></i>{{'dibl.sidebar.calendar' | translate}}</a>
+                    </li>
+                    <li class="sidebar-inquiry-calendar">
+                        <a href="#inquiry/{{ run.runId }}/dashboard"><i class="fa fa-sliders"></i>{{'dibl.sidebar.dashboard' | translate}}</a>
                     </li>
                     <li ng-class="{ 'active':statePhase == 'inquiry.home'  }" >
                         <a href="#inquiry/{{ run.runId }}"><i class="fa fa-share-alt"></i>{{'dibl.sidebar.phases' | translate}} </a>
@@ -62,36 +95,11 @@
                     </li>
                 </ul>
             </li>
-            <li ng-show="game" class="active inquiry-sidebar">
-                <a><i class="fa fa-asterisk"></i> <span class="nav-label sidebar-inquiry-title">{{ game.title | limitTo: 15 }} {{ game.title.length > 15 ? '...' : ''}}</span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a ng-click="gotoAnchor('metadata')"><i class="fa fa-edit"></i>{{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}</a>
-                    </li>
-                    <li>
-                        <a ng-click="gotoAnchor('roles')"><i class="fa fa-user"></i>{{ 'dibl.inquiry.new-edit.inquiry-roles' | translate }}</a>
-                    </li>
-                    <li>
-                        <a ng-click="gotoAnchor('phase-activity')"><i class="fa fa-circle"></i>{{ 'dibl.inquiry.new-edit.inquiry-phases-activities' | translate }}</a>
-                    </li>
-                    <li>
-                        <a ng-click="gotoAnchor('calendar')"><i class="fa fa-calendar"></i>{{'dibl.inquiry.new-edit.calendar' | translate}}</a>
-                    </li>
-                    <li>
-                        <a ng-click="gotoAnchor('inquiry-group')"><i class="fa fa-sitemap"></i>{{'dibl.inquiry.new-edit.run-inquiries' | translate}}</a>
-                    </li>
-                    <li>
-                        <a ng-click="gotoAnchor('editor')"><i class="fa fa-key"></i>{{'dibl.inquiry.new-edit.editor-management' | translate}}</a>
-                    </li>
-                    <li>
-                        <a ng-click="gotoAnchor('delete')"><i class="fa fa-key"></i>{{'dibl.inquiry.new-edit.delete-inquiry' | translate}}</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#/profile/{{ myAccount.localId }}"><i class="fa fa-user"></i> <span class="nav-label">{{'dibl.sidebar.profile' | translate}}</span>
-                    <!-- <span class="label label-warning pull-right">Current</span> --></a>
-            </li>
+
+            <!--<li>-->
+                <!--<a href="#/profile/{{ myAccount.localId }}"><i class="fa fa-user"></i> <span class="nav-label">{{'dibl.sidebar.profile' | translate}}</span>-->
+                    <!--&lt;!&ndash; <span class="label label-warning pull-right">Current</span> &ndash;&gt;</a>-->
+            <!--</li>-->
             <li>
                 <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit?usp=sharing"><i class="fa fa-file"></i> <span class="nav-label">{{'dibl.sidebar.documentation' | translate}}</span>
                     <span class="label label-info pull-right">NEW</span></a>

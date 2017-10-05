@@ -20,13 +20,13 @@
         </div>
 
         <div class="m">
-            <p ng-show="$index == 0">
-                <span class="badge badge-info">Important</span> <i class="fa fa-info"></i> {{'dibl.inquiry.phase.instruction' | translate}}
-            </p>
+            <!--<p ng-show="$index == 0">-->
+                <!--<span class="badge badge-info">Important</span> <i class="fa fa-info"></i> {{'dibl.inquiry.phase.instruction' | translate}}-->
+            <!--</p>-->
 
             <div class="col-lg-4 separator">
                 <h3 ng-show="$index == 0">ToDo</h3>
-                <p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities to be done</p>
+                <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities to be done</p>-->
                 <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="0">
                     <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-hide="activity.status.status == 1 || activity.status.status == 2"
                         ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">
@@ -40,7 +40,7 @@
                         <p class="small">{{ activity.description | limitTo: 20 }}</p>
                         <div class="agile-detail">
                             <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
-                            <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'medium' }}
+                            <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
                         </div>
                     </li>
                 </ul>
@@ -48,7 +48,7 @@
 
             <div class="col-lg-4 separator">
                 <h3 ng-show="$index == 0">In progress</h3>
-                <p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities in progress</p>
+                <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities in progress</p>-->
                 <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="1">
                     <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-show="activity.status.status == 1" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
@@ -61,7 +61,7 @@
                         <p class="small">{{ activity.description | limitTo: 20 }}</p>
                         <div class="agile-detail">
                             <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
-                            <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'medium' }}
+                            <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
                         </div>
                     </li>
                 </ul>
@@ -69,7 +69,7 @@
 
             <div class="col-lg-4">
                 <h3 ng-show="$index == 0">Completed</h3>
-                <p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities completed</p>
+                <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities completed</p>-->
                 <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="2">
                     <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-show="activity.status.status == 2" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
@@ -82,7 +82,7 @@
                         <p class="small">{{ activity.description | limitTo: 20 }}</p>
                         <div class="agile-detail">
                             <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
-                            <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'medium' }}
+                            <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
                         </div>
                     </li>
                 </ul>

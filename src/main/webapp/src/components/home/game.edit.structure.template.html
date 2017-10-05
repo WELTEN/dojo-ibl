@@ -1,0 +1,55 @@
+<div id="phase-activity" class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
+    <div class="ibox-content">
+        <div class="heading ng-binding">
+            {{ 'dibl.inquiry.new-edit.inquiry-phases-activities' | translate }}
+        </div>
+        <div class="padding">
+            <div class="pull-right tooltip-demo">
+                <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit#bookmark=id.7a3mjfdhvuar" class="btn btn-white btn-sm" data-toggle="tooltip"
+                   data-placement="top" title="Move to draft folder"><i class="fa fa-question"></i>
+                    {{ 'dibl.inquiry.new-edit.help' | translate }}</a>
+            </div>
+            <p>{{ 'dibl.inquiry.new-edit.configuration-dashboard' | translate }}</p>
+        </div>
+        <div class="padding row show-grid">
+
+            <section ng-repeat="phase in phases track by $index"  >
+                <h3 style="margin-top: 0px;">
+                    <button class="btn btn-danger dim" ng-hide="game.gameId == 4913623780556800" ng-click="removePhase($index)" type="button">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <span class="title-phase" ng-click="renamePhase($index)">{{ $index }}. {{ phase.title }}</span>
+                </h3>
+                <ul id="{{$index}}" ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable">
+                    <li id="{{ activity }}" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[game.gameId][$index] | orderByDayNumber:'sortKey'">
+
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+
+                        <a ng-click="editActivity(activity, game)">{{ activity.sortKey }}. {{ activity.name | limitTo: 25 }}</a>
+                        <br/>
+                        <p class="small">{{ activity.description | limitTo: 20 }}</p>
+                        <div class="agile-detail">
+                            <a class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
+                            <i class="fa fa-clock-o"></i> {{ activity.timestamp | timeago }}
+                        </div>
+                    </li>
+                </ul>
+                <div class="new_activity">
+                    <button ng-hide="game.gameId == 4913623780556800" class="btn btn-warning btn-circle new_activity_button"  ng-click="addNewActivity($index, game)" type="button">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </section>
+            <aside>
+                <button ng-hide="game.gameId == 4913623780556800" class="btn btn-primary dim" ng-click="addPhase()" type="button">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </aside>
+
+        </div>
+
+    </div>
+</div>

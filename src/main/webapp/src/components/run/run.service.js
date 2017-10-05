@@ -10,6 +10,14 @@ angular.module('DojoIBL')
 
         });
 
+        var runs = {};
+        var dataCache = CacheFactory.get('runsCache');
+        var runsIds = dataCache.keys();
+        for (var i=0; i < runsIds.length; i++) {
+            runs[runsIds[i]] = dataCache.get(runsIds[i]);
+        }
+
+
         return {
             getRunById: function (id) {
                 var deferred = $q.defer();
@@ -38,6 +46,9 @@ angular.module('DojoIBL')
                 }
                 return deferred.promise;
             },
+            getRuns: function(){
+                return runs;
+            },
             getRunByCode: function (code) {
                 var deferred = $q.defer();
 
@@ -46,6 +57,26 @@ angular.module('DojoIBL')
                     }).catch(function() {
                         deferred.reject('Please provide a valid inquiry code. (Capital letters)');
                 });
+
+                return deferred.promise;
+            },
+            getParticipatedRuns: function () {
+                var service = this;
+                var deferred = $q.defer();
+                Run.getParticipateRuns().$promise.then(
+                    function (data) {
+                        var runAccess={};
+                        for (var i = 0; i < data.runs.length; i++) {
+                            //runAccess['id'+data.runAccess[i].runId] = data.runAccess[i];
+                            //service.getRunById(data.runAccess[i].runId).then(function (runObject) {
+                            //    runAccess['id'+runObject.runId].run = runObject;
+                                runs[data.runs[i].runId] = data.runs[i];
+
+                            //});
+                        }
+                        deferred.resolve(data);
+                    }
+                );
 
                 return deferred.promise;
             },

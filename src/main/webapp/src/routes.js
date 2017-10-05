@@ -11,6 +11,14 @@ angular.module('DojoIBL')
                     label: "{{'dibl.toolbar.home' | translate}}"
                 }
             })
+            .state('groups', {
+                url: '/groups',
+                templateUrl: '/src/components/home/groups.template.html',
+                controller: 'GroupsController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.home' | translate}}"
+                }
+            })
             .state('authentication', {
                 url: '/authentication',
                 controller: 'AuthenticationController'
@@ -91,10 +99,60 @@ angular.module('DojoIBL')
                     parent: 'inquiry.home' // Override the parent state (only for the breadcrumb).
                 }
             })
+            .state('inquiry.dashboard', {
+                url: '/:runId/dashboard',
+                templateUrl: '/src/components/run/dashboard.template.html',
+                controller: 'DashboardController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.dashboard' | translate}}",
+                    parent: 'inquiry.home' // Override the parent state (only for the breadcrumb).
+                }
+            })
             .state('editgame', {
-                url: '/inquiry/:gameId/edit',
+                url: '/project/:gameId/edit',
+                abstract: true,
                 templateUrl: '/src/components/home/game.edit.template.html',
                 controller: 'InquiryEditGameController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.editstructure' | translate}}"
+                }
+            })
+            .state('editgame.metadata', {
+                url: '/metadata',
+                templateUrl: '/src/components/home/game.edit.metadata.template.html',
+                controller: 'InquiryEditGameController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.editstructure' | translate}}"
+                }
+            })
+            .state('editgame.structure', {
+                url: '/structure',
+                templateUrl: '/src/components/home/game.edit.structure.template.html',
+                controller: 'InquiryEditGameController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.editstructure' | translate}}"
+                }
+            })
+            .state('editgame.groups', {
+                url: '/groups',
+                templateUrl: '/src/components/home/game.edit.groups.template.html',
+                controller: 'InquiryEditGameController',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.editstructure' | translate}}"
+                }
+            })
+            .state('editgame.calendar', {
+                url: '/calendar',
+                controller: 'InquiryEditGameController',
+                templateUrl: '/src/components/home/game.edit.calendar.template.html',
+                ncyBreadcrumb: {
+                    label: "{{'dibl.toolbar.editstructure' | translate}}"
+                }
+            })
+            .state('editgame.editors', {
+                url: '/editors',
+                controller: 'InquiryEditGameController',
+                templateUrl: '/src/components/home/game.edit.editors.template.html',
                 ncyBreadcrumb: {
                     label: "{{'dibl.toolbar.editstructure' | translate}}"
                 }

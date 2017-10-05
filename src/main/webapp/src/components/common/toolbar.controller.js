@@ -13,6 +13,10 @@ angular.module('DojoIBL')
 
         $scope.state = $state;
 
+        if ($stateParams.gameId) {
+            $scope.gameId = $stateParams.gameId;
+        }
+
         if ($stateParams.runId) {
             $scope.$on('inquiry-run', function(event, args) {
                 RunService.getRunById(args.runId).then(function(run) {

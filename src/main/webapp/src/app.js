@@ -152,10 +152,12 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
         };
     }).run(run);
 
-    run.$inject = ['$rootScope', '$location', '$window', 'Session'];
-    function run($rootScope, $location, $window, Session) {
+    run.$inject = ['$rootScope', '$location', '$window', 'Session', '$state'];
+    function run($rootScope, $location, $window, Session, $state) {
         // initialise google analytics
         $window.ga('create', 'UA-75878329-2', 'auto');
+
+        $rootScope.$state = $state;
 
         // track pageview on state change
         $rootScope.$on('$stateChangeSuccess', function (event) {

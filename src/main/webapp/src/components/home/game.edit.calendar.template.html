@@ -1,0 +1,24 @@
+
+<div id="calendar" class="col-md-12 wrapper wrapper-content animated fadeInpanel-body hide-when-small">
+    <div class="ibox-content">
+        <div class="heading ng-binding">
+            {{'dibl.inquiry.new-edit.calendar' | translate}}
+            <div class="ibox-tools">
+                <a class="close-link">
+                    <i ng-click="updateCalendar()" class="fa fa-refresh"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="ibox-content ui-calendar mail-body">
+            <div ui-calendar="uiConfig.calendar" calendar="myCalendar1" class="calendar" ng-model="eventSources"></div>
+            <br/>
+            <div class="pull-right tooltip-demo">
+                <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit#bookmark=id.34boqohhq24w" class="btn btn-white btn-sm" data-toggle="tooltip"
+                   data-placement="top" title="Move to draft folder"><i class="fa fa-question"></i>
+                    {{ 'dibl.inquiry.new-edit.help' | translate }}</a>
+            </div>
+        </div>
+
+    </div>
+</div>

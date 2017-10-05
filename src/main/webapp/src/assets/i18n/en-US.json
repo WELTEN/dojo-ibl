@@ -17,7 +17,8 @@
       "phases": "Overview",
       "createinquiry": "Create inquiry",
       "documentation": "Documentation",
-      "joininquiry": "Join inquiry"
+      "joininquiry": "Join inquiry",
+      "dashboard": "Dashboard"
     },
     "header": {
       "logout": "Logout",
@@ -46,7 +47,8 @@
       "calendar": "Calendar",
       "placeholder-inquiry-code": "Type an inquiry code here...",
       "placeholder-comments": "Type your comments here...",
-      "placeholder-message": "Type your message here..."
+      "placeholder-message": "Type your message here...",
+      "dashboard": "Dashboard"
     },
     "inquiry": {
       "structure": {
@@ -72,7 +74,8 @@
         "inquiries-button-clone": "Clone",
         "inquiries-button-teacher-view": "Editor mode",
         "inquiries-button-student": "Student access",
-        "inquiries-list": "Your inquiries"
+        "inquiries-list": "List of inquiry project",
+        "inquiries-groups": "List of groups you have joined"
       },
       "phase": {
         "instruction": "Please read and do all the activities. As soon as you change something on them move to the correct list."

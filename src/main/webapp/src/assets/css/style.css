@@ -9441,3 +9441,11 @@ p > span:first-child > p:last-child {
 .activity-status-todo{
   background: rgba(214, 1, 1, 0.23) !important;
 }
+
+iframe {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}

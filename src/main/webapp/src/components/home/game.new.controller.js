@@ -70,7 +70,7 @@ angular.module('DojoIBL')
 
                 });
 
-                window.location.href=config.server+'/#/inquiry/'+game.gameId+'/edit';
+                window.location.href=config.server+'/#/project/'+game.gameId+'/edit/structure';
 
             });
             $modalInstance.close();

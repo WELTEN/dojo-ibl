@@ -509,10 +509,11 @@ angular.module('DojoIBL')
                     $scope.usersRun = []
                 }
 
-
                 angular.forEach($scope.accountsAccesGame, function (gameAccess) {
                     if(gameAccess.accessRights == 1){
                         RunService.giveAccess(run.runId, gameAccess.account, 2);
+
+                        console.log(gameAccess)
 
                         RunService.addUserToRun({
                             runId: run.runId,
