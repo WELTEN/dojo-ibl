@@ -1,7 +1,7 @@
 angular.module('DojoIBL')
 
     .controller('InquiryController', function ($scope, $sce, $location, $stateParams, $state, Session, MessageService,
-                                               ActivityService, AccountService, ChannelService, RunService, ActivityStatusService) {
+                                               ActivityService, AccountService, ChannelService, RunService, ActivityStatusService, toaster) {
 
         if(!Session.getAccessToken()){
             window.location.href='/#/login';
@@ -31,6 +31,55 @@ angular.module('DojoIBL')
         });
 
         $scope.activities = ActivityStatusService.getActivitiesStatus();
+
+
+        $scope.sortableOptions = {
+            connectWith: ".connectList",
+            scroll: false,
+            receive: function(event, ui) {
+                var item = ui.item.scope().activity;
+                var group = event.target;
+
+                //console.log(item.id, group.id, item.status.id, item)
+
+                ActivityStatusService.changeActivityStatus($stateParams.runId, item.id, group.id, item.section, item.status.id).then(function (data) {
+
+                    switch(data.status){
+                        case 0:
+                            toaster.success({
+                                title: 'Moved to ToDo list',
+                                body: 'The activity has been successfully moved to ToDo list.'
+                            });
+                            break;
+                        case 1:
+                            toaster.success({
+                                title: 'Moved to In Progress list',
+                                body: 'The activity has been successfully moved to In Progress list.'
+                            });
+                            break;
+                        case 2:
+                            toaster.success({
+                                title: 'Moved to Completed list',
+                                body: 'The activity has been successfully moved to Completed list.'
+                            });
+                            break;
+                    }
+
+                });
+            },
+            'ui-floating': 'auto',
+            'start': function (event, ui) {
+                if($scope.sortableFirst){
+                    $scope.wscrolltop = $(window).scrollTop();
+                }
+                $scope.sortableFirst = true;
+            },
+            'sort': function (event, ui) {
+                ui.helper.css({'top': ui.position.top + $scope.wscrolltop + 'px'});
+            }
+        };
+
+
 
         $scope.goToPhase = function(inqId, index) {
             $location.path('inquiry/'+inqId+'/phase/'+ index);
