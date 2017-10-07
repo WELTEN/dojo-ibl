@@ -113,7 +113,7 @@
 
         </div>
 
-        <div id="activity-view" ng-class="{'col-md-0' : !toggle, 'col-md-9': toggle || $state.includes('inquiry.activity') }" ui-view></div>
+        <div id="activity-view" ng-class="{'col-md-0' : !toggle, 'col-md-9': toggle || $state.includes('inquiry.activity') || $state.includes('inquiry.dashboard') || $state.includes('inquiry.calendar') }" ui-view></div>
 
     </div>
 

@@ -4,7 +4,7 @@ angular.module('DojoIBL')
                                                 ActivityService, UserService, GameService, RunService, AccountService,
                                                 ChannelService, $location) {
 
-
+        $scope.$parent.toggle = true;
         //ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
         //    ActivityService.refreshActivity(notification.itemId, notification.gameId);
         //    toaster.success({

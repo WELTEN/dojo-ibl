@@ -85,7 +85,7 @@ angular.module('DojoIBL')
                 }
             })
             .state('inquiry.timeline', {
-                url: '/:runId/timeline',
+                url: '/timeline',
                 templateUrl: '/src/components/run/timeline.template.html',
                 controller: 'TimelineController',
                 ncyBreadcrumb: {
@@ -94,7 +94,7 @@ angular.module('DojoIBL')
                 }
             })
             .state('inquiry.calendar', {
-                url: '/:runId/calendar',
+                url: '/:gameId/calendar',
                 templateUrl: '/src/components/run/calendar.template.html',
                 controller: 'CalendarController',
                 ncyBreadcrumb: {
