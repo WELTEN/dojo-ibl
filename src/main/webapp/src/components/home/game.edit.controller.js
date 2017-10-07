@@ -420,7 +420,8 @@ angular.module('DojoIBL')
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "Yes, rename it!",
                 inputPlaceholder: "New phase name",
-                closeOnConfirm: false
+                closeOnConfirm: false,
+                inputValue: $scope.phases[index].title
             }, function (inputValue) {
 
                 if (inputValue === false)

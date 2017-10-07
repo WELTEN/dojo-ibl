@@ -154,10 +154,13 @@
             <!--</div>-->
             <section ng-repeat="phase in phases track by $index"  >
                 <h3 style="margin-top: 0px;">
-                    <button class="btn btn-danger dim" ng-hide="game.gameId == 4913623780556800" ng-click="removePhase($index)" type="button">
+                    <button class="btn btn-sm btn-danger dim" ng-hide="game.gameId == 4913623780556800" ng-click="removePhase($index)" type="button">
                         <i class="fa fa-minus"></i>
                     </button>
-                    <span class="title-phase" ng-click="renamePhase($index)">{{ $index }}. {{ phase.title }}</span>
+                    <span>{{ $index }}. {{ phase.title }}</span>
+                    <a ng-click="renamePhase($index)" class="btn btn-white btn-xs btn-bitbucket">
+                        <i class="fa fa-edit"></i>
+                    </a>
                 </h3>
                 <ul id="{{$index}}" ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable">
                     <li id="{{ activity }}" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[game.gameId][$index] | orderByDayNumber:'sortKey'">
