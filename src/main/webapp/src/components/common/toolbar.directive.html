@@ -1,14 +1,14 @@
 <div class="row wrapper page-heading m-t">
 
     <a class="btn btn-m btn-info" ng-hide="$state.includes('home') || $state.includes('groups') "  ng-click="backInHistory()" ><i class="fa fa-arrow-left"/> </a>
-    <a class="btn btn-m btn-info" ng-hide="$state.includes('home') || $state.includes('groups') || $state.includes('inquiry')" href="#/home" ><i class="fa fa-arrow-up"/> </a>
-    <a class="btn btn-m btn-info" ng-hide="$state.includes('home') || $state.includes('groups') || $state.includes('editgame')"  href="#/groups" ><i class="fa fa-arrow-up"/> </a>
+    <a class="btn btn-m btn-info" ng-hide="$state.includes('profileAccount') ||$state.includes('home') || $state.includes('groups') || $state.includes('inquiry')" href="#/home" ><i class="fa fa-arrow-up"/> </a>
+    <a class="btn btn-m btn-info" ng-hide="$state.includes('profileAccount') || $state.includes('home') || $state.includes('groups') || $state.includes('editgame')"  href="#/groups" ><i class="fa fa-arrow-up"/> </a>
 
-    <a class="btn btn-sm btn-success put-item-timeline-right m-l" ng-show="$state.includes('editgame')" href="#/project/{{ gameId }}/edit/editors" ><i class="fa fa-plus"/> 5. Editor management</a>
-    <a class="btn btn-sm btn-success put-item-timeline-right m-l" ng-show="$state.includes('editgame')" href="#/project/{{ gameId }}/edit/groups" ><i class="fa fa-plus"/> 4. Groups management</a>
-    <a class="btn btn-sm btn-success put-item-timeline-right m-l" ng-show="$state.includes('editgame')" href="#/project/{{ gameId }}/edit/calendar" ><i class="fa fa-plus"/> 3. Calendar</a>
-    <a class="btn btn-sm btn-success put-item-timeline-right m-l" ng-show="$state.includes('editgame')" href="#/project/{{ gameId }}/edit/structure" ><i class="fa fa-plus"/> 2. Inquiry structure</a>
-    <a class="btn btn-sm btn-success put-item-timeline-right" ng-show="$state.includes('editgame')" aria-pressed="$state.includes('metadata')" href="#/project/{{ gameId }}/edit/metadata" ><i class="fa fa-plus"/> 1. Metadata & Roles</a>
+    <!--<a class="btn btn-sm btn-success put-item-timeline-right m-l" ng-show="$state.includes('editgame')" href="#/project/{{ gameId }}/edit/editors" ><i class="fa fa-plus"/> 5. Editor management</a>-->
+    <!--<a class="btn btn-sm btn-success put-item-timeline-right m-l" ng-show="$state.includes('editgame')" href="#/project/{{ gameId }}/edit/groups" ><i class="fa fa-plus"/> 4. Groups management</a>-->
+    <!--<a class="btn btn-sm btn-success put-item-timeline-right m-l" ng-show="$state.includes('editgame')" href="#/project/{{ gameId }}/edit/calendar" ><i class="fa fa-plus"/> 3. Calendar</a>-->
+    <!--<a class="btn btn-sm btn-success put-item-timeline-right m-l" ng-show="$state.includes('editgame')" href="#/project/{{ gameId }}/edit/structure" ><i class="fa fa-plus"/> 2. Inquiry structure</a>-->
+    <!--<a class="btn btn-sm btn-success put-item-timeline-right" ng-show="$state.includes('editgame')" aria-pressed="$state.includes('metadata')" href="#/project/{{ gameId }}/edit/metadata" ><i class="fa fa-plus"/> 1. Metadata & Roles</a>-->
 
     <a class="btn btn-sm btn-success put-item-timeline-right" ng-show="$state.includes('inquiry') && game.accessRights == 1" aria-pressed="$state.includes('metadata')" href="#/project/{{ gameId }}/edit/structure" ><i class="fa fa-plus"/> Edit project</a>
 

@@ -97,6 +97,29 @@ angular.module('DojoIBL')
 
         $scope.activities = ActivityService.getActivities();
 
+
+        $scope.isActiveGroup1 = false;
+        $scope.isActiveGroup2 = false;
+        $scope.isActiveGroup3 = true;
+        $scope.isActiveGroup4 = false;
+        $scope.isActiveGroup5 = false;
+        $scope.isActiveGroup6 = false;
+        //
+        //$scope.change = function(val) {
+        //
+        //    switch(val){
+        //        case '1':
+        //            $scope.isActiveGroup1 = !$scope.isActiveGroup1
+        //            break;
+        //        case '2':
+        //            $scope.isActiveGroup2 = !$scope.isActiveGroup2
+        //            break;
+        //        case '3':
+        //            break;
+        //    }
+        //
+        //}
+
         /********
          Calendar
          *******/
