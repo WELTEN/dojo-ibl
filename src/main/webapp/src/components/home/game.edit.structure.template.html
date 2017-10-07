@@ -166,6 +166,7 @@
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest'" class="fa fa-list-alt"></i>
 
                         <a ng-click="editActivity(activity, game)">{{ activity.sortKey }}. {{ activity.name | limitTo: 25 }}</a>
                         <br/>

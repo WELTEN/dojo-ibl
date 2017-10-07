@@ -1,11 +1,11 @@
 <div class="panel-body no-padding-no-border-radius col-md-12 wrapper wrapper-content animated fadeInpanel-body m-b-sm" ng-hide="pinned_messages | isEmpty">
     <div class="ibox-content">
-        <div class="heading ng-binding">
+        <div class="heading ng-binding" ng-click="activeButton()" >
             <small  class="ibox-tools pull-right" >
                 <!--<a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit">-->
                 <!--<i class="fa fa-pencil"></i>-->
                 <!--</a>-->
-                <a class="close-link" ng-click="activeButton()" title="Collapse pin content">
+                <a class="close-link" title="Collapse pin content">
                     <i ng-class="{ 'fa-chevron-down': isActive,  'fa-chevron-left': !isActive}" class="fa"></i>
                 </a>
             </small>

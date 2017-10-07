@@ -105,21 +105,6 @@ angular.module('DojoIBL')
         $scope.isActiveGroup4 = false;
         $scope.isActiveGroup5 = false;
         $scope.isActiveGroup6 = false;
-        //
-        //$scope.change = function(val) {
-        //
-        //    switch(val){
-        //        case '1':
-        //            $scope.isActiveGroup1 = !$scope.isActiveGroup1
-        //            break;
-        //        case '2':
-        //            $scope.isActiveGroup2 = !$scope.isActiveGroup2
-        //            break;
-        //        case '3':
-        //            break;
-        //    }
-        //
-        //}
 
         /********
          Calendar
@@ -787,7 +772,7 @@ angular.module('DojoIBL')
             {'name': 'List activity', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-tasks'},
             {'name': 'Data collection', 'type': 'org.celstec.arlearn2.beans.generalItem.ScanTag', 'icon': 'fa-picture-o'},
             {'name': 'Insert text', 'type': 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceTest', 'icon': 'fa-file-text'},
-            {'name': 'Multi activity', 'type': 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest', 'icon': 'fa-folder-o'}
+            {'name': 'Multi activity', 'type': 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest', 'icon': 'fa-list-alt'}
         ];
 
         $scope.game = game;
