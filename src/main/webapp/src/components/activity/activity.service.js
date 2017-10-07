@@ -83,8 +83,6 @@ angular.module('DojoIBL')
                 dataCache.remove(item.id);
                 var service = this;
 
-                //console.log(generalItems[gameId][item.section][item.id]);
-
                 delete generalItems[gameId][item.section][item.id];
 
                 var index = service.arrayObjectIndexOf(calendarItems[gameId], item.id, "_id");

@@ -3,7 +3,6 @@ angular.module('DojoIBL')
     .controller('HomeController', function ($scope, $sce, Game, GameService, ActivityService, config, Session, RunService, ChannelService,
                                             toaster, AccountService) {
 
-
         $scope.games = {};
         $scope.runs = {};
 
@@ -22,11 +21,7 @@ angular.module('DojoIBL')
             });
         }
 
-        //if(isEmpty($scope.games)){
         loadGames();
-        //}
-
-
 
         $scope.thumbnailUrl = function(gameId) {
 
@@ -51,8 +46,7 @@ angular.module('DojoIBL')
             });
         };
 
-        AccountService.myDetails().then(
-            function(data){
+        AccountService.myDetails().then(function(data){
                 $scope.myAccount = data;
             }
         );
@@ -82,8 +76,6 @@ angular.module('DojoIBL')
 
             });
         };
-
-
 
         $scope.deleteInquiry = function (id) {
 
@@ -116,15 +108,6 @@ angular.module('DojoIBL')
             fillLastPage: true
         };
 
-
-        //ChannelService.register('org.celstec.arlearn2.beans.game.Game', function (notification) {
-        //    //console.info("[Notification][Game]", notification);
-        //
-        //    if(!angular.isUndefined(notification.gameId)){
-        //        GameService.refreshGame(notification.gameId);
-        //    }
-        //});
-
         $scope.findAndJoin = function(){
 
             RunService.getRunByCode($scope.inquiryCode).then(function(run){
@@ -135,8 +118,6 @@ angular.module('DojoIBL')
                     // AccessRight explanation
                     // 1: Editor
                     // 2: User
-
-                    console.log(user);
 
                     GameService.giveAccess(run.game.gameId, user.accountType+":"+user.localId,2);
 
@@ -155,7 +136,6 @@ angular.module('DojoIBL')
 
             $scope.inquiryCode = null;
         }
-
 
         // New home page
         $scope.gameSelected;
@@ -177,49 +157,16 @@ angular.module('DojoIBL')
     .controller('GroupsController', function ($scope, $sce, Game, GameService, ActivityService, config, Session, RunService, ChannelService,
                                             toaster, AccountService) {
 
-
         $scope.runs = {};
-
-
 
         $scope.runs = RunService.getRuns();
 
         RunService.getParticipatedRuns();
 
-
-        AccountService.myDetails().then(
-            function(data){
+        AccountService.myDetails().then(function(data){
                 $scope.myAccount = data;
             }
         );
-
-        $scope.cloneInquiry = function(id){
-            swal({
-                title: "Clone inquiry",
-                text: "Are you sure you want to clone the inquiry?",
-                type: "input",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, clone it!",
-                inputPlaceholder: "Title of the cloned inquiry",
-                closeOnConfirm: false
-            }, function (inputValue) {
-
-                if (inputValue === false)
-                    return false;
-                if (inputValue === "") {
-                    swal.showInputError("You need to write something!");
-                    return false
-                }
-
-                swal("Well done!", "You have cloned the inquiry", "success");
-
-                GameService.cloneInquiry(id, inputValue);
-
-            });
-        };
-
-
 
         $scope.deleteInquiry = function (id) {
 
@@ -252,15 +199,6 @@ angular.module('DojoIBL')
             fillLastPage: true
         };
 
-
-        //ChannelService.register('org.celstec.arlearn2.beans.game.Game', function (notification) {
-        //    //console.info("[Notification][Game]", notification);
-        //
-        //    if(!angular.isUndefined(notification.gameId)){
-        //        GameService.refreshGame(notification.gameId);
-        //    }
-        //});
-
         $scope.findAndJoin = function(){
 
             RunService.getRunByCode($scope.inquiryCode).then(function(run){
@@ -271,8 +209,6 @@ angular.module('DojoIBL')
                     // AccessRight explanation
                     // 1: Editor
                     // 2: User
-
-                    console.log(user);
 
                     GameService.giveAccess(run.game.gameId, user.accountType+":"+user.localId,2);
 
@@ -291,7 +227,6 @@ angular.module('DojoIBL')
 
             $scope.inquiryCode = null;
         }
-
 
         // New home page
         $scope.gameSelected;

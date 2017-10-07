@@ -522,7 +522,7 @@ angular.module('DojoIBL')
                     if(gameAccess.accessRights == 1){
                         RunService.giveAccess(run.runId, gameAccess.account, 2);
 
-                        console.log(gameAccess)
+                        //console.log(gameAccess)
 
                         RunService.addUserToRun({
                             runId: run.runId,
@@ -676,17 +676,9 @@ angular.module('DojoIBL')
 
                     });
                 });
-                console.log("Modal Accepted!!!");
-                //if (angular.isDefined(stop)) {
-                //    $interval.cancel(stop);
-                //    stop = undefined;
-                //}
+
             }, function(){
-                console.log("Modal Dismissed!!!");
-                //if (angular.isDefined(stop)) {
-                //    $interval.cancel(stop);
-                //    stop = undefined;
-                //}
+
                 ActivityService.saveActivityInCache($scope.activity);
             });
         };
@@ -702,15 +694,7 @@ angular.module('DojoIBL')
             });
 
             modalInstance.result.then(function (result){
-
-                console.log("hola", result);
-
-                ActivityService.newActivity(result).then(function(data){
-
-                    console.log(data);
-
-                    //ActivityService.refreshActivity(data.id, data.gameId);
-                });
+                ActivityService.newActivity(result).then(function(data){});
             });
         };
 
@@ -733,17 +717,12 @@ angular.module('DojoIBL')
             stop: function(e, ui) {
                 var item = ui.item.scope().activity;
                 var group = event.target;
-                //console.log(e.target.id);
                 $.map($(this).find('li'), function(el) {
                     var sortKey = $(el).index();
                     el = angular.fromJson(el.id);
 
-                    //console.log(e.target.id, el.section);
-
                     el.sortKey = sortKey;
-                    ActivityService.newActivity(el).then(function(data){
-                        //console.log(data);
-                    });
+                    ActivityService.newActivity(el).then(function(data){});
                 });
             }
         };
@@ -831,9 +810,9 @@ angular.module('DojoIBL')
                                     break;
                                 case /image/.test(resp.config.data.file.type):
 
-                                    console.log(resp)
-                                    console.log(config)
-                                    console.log(config.server +"/generalItems/"+activity.gameId+"/"+file.name.replace(/\s+/g, '_'))
+                                    //console.log(resp)
+                                    //console.log(config)
+                                    //console.log(config.server +"/generalItems/"+activity.gameId+"/"+file.name.replace(/\s+/g, '_'))
                                     ///generalItems/5784321700921344/requst-a-demo.jpg
 
                                     //ResponseService.newResponse({
@@ -899,7 +878,7 @@ angular.module('DojoIBL')
                                     //});
                                     break;
                                 case /wordprocessingml|msword/.test(resp.config.data.file.type):
-                                    console.log(resp.config.data.file.type);
+                                    //console.log(resp.config.data.file.type);
                                     //ResponseService.newResponse({
                                     //    "type": "org.celstec.arlearn2.beans.run.Response",
                                     //    "runId": $stateParams.runId,
@@ -921,7 +900,7 @@ angular.module('DojoIBL')
                                     //});
                                     break;
                                 case /vnd.ms-excel|spreadsheetml/.test(resp.config.data.file.type):
-                                    console.log(resp.config.data.file.type);
+                                    //console.log(resp.config.data.file.type);
                                     //ResponseService.newResponse({
                                     //    "type": "org.celstec.arlearn2.beans.run.Response",
                                     //    "runId": $stateParams.runId,
@@ -964,17 +943,17 @@ angular.module('DojoIBL')
                                 $scope.assets = data;
                             });
 
-                            console.log(resp)
-                            console.log('Success ' + resp.config.data.file.name + ' uploaded by: ' + resp.config.data);
+                            //console.log(resp)
+                            //console.log('Success ' + resp.config.data.file.name + ' uploaded by: ' + resp.config.data);
 
                         }, function (resp) {
-                            console.log(resp)
-                            console.log('Error ' + resp.config.data.file.name + ' from: ' + resp.config.data.username);
-                            console.log('Error status: ' + resp.status);
+                            //console.log(resp)
+                            //console.log('Error ' + resp.config.data.file.name + ' from: ' + resp.config.data.username);
+                            //console.log('Error status: ' + resp.status);
                         }, function (evt) {
                             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                             $scope.progressPercentage = progressPercentage;
-                            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                            //console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
                         });
                 });
 
