@@ -69,7 +69,8 @@ angular.module('DojoIBL')
                 //{'name': 'External widget', 'type': 'org.celstec.arlearn2.beans.generalItem.OpenBadge', 'icon': 'fa-link'},
                 //{'name': 'Research question', 'type': 'org.celstec.arlearn2.beans.generalItem.ResearchQuestion', 'icon': 'fa-question'}
                 {'name': 'Add list activity', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-tasks'},
-                {'name': 'Add data collection', 'type': 'org.celstec.arlearn2.beans.generalItem.ScanTag', 'icon': 'fa-picture-o'}
+                {'name': 'Add data collection', 'type': 'org.celstec.arlearn2.beans.generalItem.ScanTag', 'icon': 'fa-picture-o'},
+                {'name': 'Add multi activity', 'type': 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest', 'icon': 'fa-folder-o'}
             ];
 
             ActivityService.getActivitiesServer($stateParams.gameId);
@@ -717,10 +718,13 @@ angular.module('DojoIBL')
 
             modalInstance.result.then(function (result){
 
-                console.log(result);
+                console.log("hola", result);
 
                 ActivityService.newActivity(result).then(function(data){
-                    ActivityService.refreshActivity(data.id, data.gameId);
+
+                    console.log(data);
+
+                    //ActivityService.refreshActivity(data.id, data.gameId);
                 });
             });
         };
@@ -781,7 +785,9 @@ angular.module('DojoIBL')
             //{'name': 'External widget', 'type': 'org.celstec.arlearn2.beans.generalItem.OpenBadge', 'icon': 'fa-link'},
             //{'name': 'Research question', 'type': 'org.celstec.arlearn2.beans.generalItem.ResearchQuestion', 'icon': 'fa-question'}
             {'name': 'List activity', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-tasks'},
-            {'name': 'Data collection', 'type': 'org.celstec.arlearn2.beans.generalItem.ScanTag', 'icon': 'fa-picture-o'}
+            {'name': 'Data collection', 'type': 'org.celstec.arlearn2.beans.generalItem.ScanTag', 'icon': 'fa-picture-o'},
+            {'name': 'Insert text', 'type': 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceTest', 'icon': 'fa-file-text'},
+            {'name': 'Multi activity', 'type': 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest', 'icon': 'fa-folder-o'}
         ];
 
         $scope.game = game;
@@ -1002,6 +1008,13 @@ angular.module('DojoIBL')
                 _aux.push(angular.fromJson(role));
             });
             $scope.activity.roles2 = _aux;
+
+            var _activities = [];
+
+            angular.forEach($scope.activity.multiactivities, function(role){
+                _activities.push(angular.fromJson(role));
+            });
+            $scope.activity.multiactivities = _activities;
 
             if($scope.activity.type == "org.celstec.arlearn2.beans.generalItem.AudioObject"){
                 if($scope.activity.audioFeed == ""){

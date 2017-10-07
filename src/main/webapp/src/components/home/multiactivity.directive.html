@@ -1,0 +1,33 @@
+
+<div>
+
+    <select style="width: 100%" chosen
+            multiple
+            data-placeholder-text-single="'Choose an activity'"
+            no-results-text="'Could not find any activity'"
+            ng-model="activity.multiactivities"
+            ng-options="obj as obj.name for obj in list track by obj.id">
+        <option value=""></option>
+    </select>
+
+    <ul id="{{$index}}" ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable">
+
+        <li id="{{ activity }}" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activity.multiactivities">
+
+            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
+            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
+            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
+            <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+
+            <a ng-click="editActivity(activity, game)">{{ activity.sortKey }}. {{ activity.name | limitTo: 25 }}</a>
+            <br/>
+            <p class="small">{{ activity.description | limitTo: 20 }}</p>
+            <div class="agile-detail">
+                <a class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
+                <i class="fa fa-clock-o"></i> {{ activity.timestamp | timeago }}
+            </div>
+        </li>
+    </ul>
+</div>
+
+

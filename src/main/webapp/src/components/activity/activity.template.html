@@ -1,4 +1,4 @@
-<!--<div class="tabs-container">-->
+<div>
 
     <div class="panel-body no-padding-no-border-radius" >
         <div class="ibox-content">
@@ -15,6 +15,9 @@
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"><i class="fa fa-file-text"></i> {{ activity.name }} | Discussion activity</span>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'"><i class="fa fa-picture-o"></i> {{ activity.name }} | Data collection activity</span>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"><i class="fa fa-tasks"></i> {{ activity.name }} | List activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest'"><i class="fa fa-tasks"></i> {{ activity.name }} | Multi activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceTest'"><i class="fa fa-file-text"></i> {{ activity.name }} | Insert text activity</span>
+
                 <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
                     <div class="sk-rect1"></div>
                     <div class="sk-rect2"></div>
@@ -39,6 +42,8 @@
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"><i class="fa fa-file-text"></i> {{ activity.name }} | Discussion activity</span>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'"><i class="fa fa-picture-o"></i> {{ activity.name }} | Data collection activity</span>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"><i class="fa fa-tasks"></i> {{ activity.name }} | List activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest'"><i class="fa fa-tasks"></i> {{ activity.name }} | Multi activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceTest'"><i class="fa fa-file-text"></i> {{ activity.name }} | Insert text activity</span>
                 <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
                     <div class="sk-rect1"></div>
                     <div class="sk-rect2"></div>
@@ -51,29 +56,14 @@
 
             <div class="social-feed-box">
 
-                <!--<div class="pull-right social-action dropdown">-->
-                    <!--<button data-toggle="dropdown" class="dropdown-toggle btn-white">-->
-                        <!--<i class="fa fa-angle-down"></i>-->
-                    <!--</button>-->
-                    <!--<ul class="dropdown-menu m-t-xs">-->
-                        <!--<li><a href="#">Config</a></li>-->
-                    <!--</ul>-->
-                <!--</div>-->
+                <discussion-activity activity="activity" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"></discussion-activity>
 
-                <div class="social-body">
-                    <h1>
-                        <i ng-hide="activity.status.status == 1 || activity.status.status == 2" title="To Do" class="fa fa-check-square red"></i>
-                        <i ng-show="activity.status.status == 1" title="In progress" class="fa fa-check-square yellow"></i>
-                        <i ng-show="activity.status.status == 2" title="Done" class="fa fa-check-square green"></i>
-                        {{ activity.name }}
-                    </h1>
-                    <div class="" ng-bind-html="activity.richText || activity.description"></div>
-                    <!--<div class="btn-group">-->
-                        <!--<button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like this!</button>-->
-                        <!--<button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>-->
-                        <!--<button class="btn btn-white btn-xs"><i class="fa fa-share"></i> Share</button>-->
-                    <!--</div>-->
-                </div>
+                <list-activity activity="activity" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></list-activity>
+
+                <text-activity activity="activity" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceTest'"></text-activity>
+
+                <act-multi-activity list="activity.multiactivities" ng-if="activity.multiactivities != ''"></act-multi-activity>
+
                 <div class="social-footer">
                     <p>Page {{responses.$current()}}  of comments</p>
                 </div>
@@ -116,7 +106,7 @@
                                                                 ['bold','italics'],
                                                                 ['justifyCenter', 'justifyLeft'], ['ul', 'ol']
                                                                 ]
-                                                                " ng-model="responseText"  ng-model-options="{debounce: 750}"></text-angular>
+                                                                " ng-model="responseText" ></text-angular>
                             <div class="text-right">
                                 <!--<div class="button" ngf-select="upload($file)">Upload on file select</div>-->
                                 <button class="btn btn-sm btn-primary m-t-sm save" ng-click="sendComment()" ng-disabled="!responseText"><strong>Post comment</strong></button>
@@ -130,4 +120,5 @@
 
         </div>
     </div>
-<!--</div>-->
+
+</div>

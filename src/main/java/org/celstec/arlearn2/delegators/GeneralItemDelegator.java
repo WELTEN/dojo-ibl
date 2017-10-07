@@ -176,12 +176,12 @@ public class GeneralItemDelegator extends DependencyDelegator {
     }
 
     public GeneralItemList getGeneralItems(Long gameId) {
-        GeneralItemList gil = GeneralitemsCache.getInstance().getGeneralitems(gameId, null, null);
-        if (gil == null) {
-            gil = new GeneralItemList();
+//        GeneralItemList gil = GeneralitemsCache.getInstance().getGeneralitems(gameId, null, null);
+//        if (gil == null) {
+            GeneralItemList gil = new GeneralItemList();
             gil.setGeneralItems(GeneralItemManager.getGeneralitems(gameId, null, null, null));
-            GeneralitemsCache.getInstance().putGeneralItemList(gil, gameId, null, null);
-        }
+//            GeneralitemsCache.getInstance().putGeneralItemList(gil, gameId, null, null);
+//        }
         gil.setServerTime(System.currentTimeMillis());
         return gil;
     }
