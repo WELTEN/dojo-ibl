@@ -6,57 +6,111 @@
 
     <dibl-toolbar></dibl-toolbar>
 
-    <div class="row inquiry">
+    <div class="row inquiry  wrapper wrapper-content row-fluid">
+        <dibl-pinned></dibl-pinned>
 
-        <div class="col-md-6 wrapper wrapper-content animated fadeIn">
+        <div id="structure-view" ng-class="{'col-md-12' : !toggle, 'col-md-3': toggle }" class=" animated fadeIn">
 
-            <dibl-pinned></dibl-pinned>
+            <div class="panel-body no-padding-no-border-radius col-md-12 wrapper wrapper-content animated fadeInpanel-body m-b-sm" ng-repeat="phase in phases track by $index">
+                <div class="ibox-content">
+                    <div class="heading ng-binding">
+                        <small  class="chat-date " >
+                            <div class="ibox-tools">
+                                <!--<a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit" title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">-->
+                                    <!--<i class="fa fa-pencil"></i>-->
+                                <!--</a>-->
+                            </div>
+                        </small>
+                        {{ $index }}. {{ phase.title }} phase
+                        <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
+                            <div class="sk-rect1"></div>
+                            <div class="sk-rect2"></div>
+                            <div class="sk-rect3"></div>
+                            <div class="sk-rect4"></div>
+                            <div class="sk-rect5"></div>
+                        </div>
+                    </div>
 
-            <div ui-view></div>
+                    <div class="m">
+                        <!--<p ng-show="$index == 0">-->
+                        <!--<span class="badge badge-info">Important</span> <i class="fa fa-info"></i> {{'dibl.inquiry.phase.instruction' | translate}}-->
+                        <!--</p>-->
+
+                        <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle}" class="separator">
+                            <h3>ToDo</h3>
+                            <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities to be done</p>-->
+                            <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="0">
+                                <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-hide="activity.status.status == 1 || activity.status.status == 2"
+                                    ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+
+                                    <a href="#inquiry/{{ run.runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}" ng-click="gotoElement('structure-view')">{{ activity.name }}</a>
+                                    <br/>
+                                    <p class="small" ng-hide="toggle">{{ activity.description | limitTo: 20 }}</p>
+                                    <div class="agile-detail" ng-hide="toggle">
+                                        <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
+                                        <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle}" class="separator">
+                            <h3>In progress</h3>
+                            <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities in progress</p>-->
+                            <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="1">
+                                <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-show="activity.status.status == 1" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+
+                                    <a href="#inquiry/{{ run.runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}" ng-click="gotoElement('structure-view')">{{ activity.name }}</a>
+                                    <br/>
+                                    <p class="small" ng-hide="toggle">{{ activity.description | limitTo: 20 }}</p>
+                                    <div class="agile-detail" ng-hide="toggle">
+                                        <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
+                                        <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle}" >
+                            <h3 >Completed</h3>
+                            <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities completed</p>-->
+                            <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="2">
+                                <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-show="activity.status.status == 2" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+
+                                    <a href="#inquiry/{{ run.runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}" ng-click="gotoElement('structure-view')">{{ activity.name }}</a>
+                                    <br/>
+                                    <p class="small" ng-hide="toggle">{{ activity.description | limitTo: 20 }}</p>
+                                    <div class="agile-detail" ng-hide="toggle">
+                                        <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
+                                        <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+
+
         </div>
 
-        <!--<div class="col-lg-4 wrapper wrapper-content small-chat-float" scroll-position="scroll" >-->
-            <!--<div class="ibox-chat-content" ng-style="{'top': scroll > 148 ? scroll - 148 : 0, 'position': scroll > 148 ? 'relative': 'none'}">-->
-                <!--<div class="heading">-->
-                    <!--<small class="chat-date pull-right">-->
-                    <!--</small>-->
-                    <!--{{'dibl.inquiry.structure.chat' | translate }}-->
-                    <!--<div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">-->
-                        <!--<div class="sk-rect1"></div>-->
-                        <!--<div class="sk-rect2"></div>-->
-                        <!--<div class="sk-rect3"></div>-->
-                        <!--<div class="sk-rect4"></div>-->
-                        <!--<div class="sk-rect5"></div>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div style="position: relative; height: 400px;">-->
-                    <!--<div class="chat-discussion" scroll-glue="glued" style="height: 400px;">-->
-
-                        <!--<div ng-repeat="message in messages">-->
-                            <!--<message-l  message="message" ng-if="message.localId != account.localId"></message-l>-->
-                            <!--<message-r  message="message" ng-if="message.localId == account.localId"></message-r>-->
-                        <!--</div>-->
-
-                        <!--&lt;!&ndash;<div class="spiner-example" ng-show="!messages.messages">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<div class="sk-spinner sk-spinner-three-bounce" ng-show="disableGameLoading">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div class="sk-bounce1"></div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div class="sk-bounce2"></div>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<div class="sk-bounce3"></div>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<div class="form-chat">-->
-                    <!--<div class="input-group input-group-sm">-->
-                        <!--<input id="add-new-message" placeholder="{{'dibl.toolbar.placeholder-message' | translate }}" ng-keyup="$event.keyCode == 13 && sendMessage()" type="text" class="form-control" ng-model="bodyMessage">-->
-                        <!--&lt;!&ndash;<text-angular ta-toolbar="[]" ng-enter="sendMessage()" ng-model="bodyMessage"></text-angular>&ndash;&gt;-->
-                        <!--<span class="input-group-btn">-->
-                            <!--<button ng-click="sendMessage()" ng-disabled="!bodyMessage" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>-->
-                        <!--</span>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+        <div id="activity-view" ng-class="{'col-md-0' : !toggle, 'col-md-9': toggle || $state.includes('inquiry.activity') }" ui-view></div>
 
     </div>
 

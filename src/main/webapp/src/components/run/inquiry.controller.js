@@ -32,7 +32,6 @@ angular.module('DojoIBL')
 
         $scope.activities = ActivityStatusService.getActivitiesStatus();
 
-
         $scope.sortableOptions = {
             connectWith: ".connectList",
             scroll: false,
@@ -79,18 +78,21 @@ angular.module('DojoIBL')
             }
         };
 
-
-
         $scope.goToPhase = function(inqId, index) {
             $location.path('inquiry/'+inqId+'/phase/'+ index);
         };
 
+        $scope.toggle = false;
+
         $scope.goToActivity = function(inqId, index, activity) {
+            $scope.toggle = true;
             $location.path('inquiry/'+inqId+'/phase/'+ index + '/activity/' +activity);
         };
 
-
-
+        if($stateParams.activityId){
+            $scope.toggle = true;
+            $location.path('inquiry/'+$stateParams.runId+'/phase/'+ $stateParams.phase + '/activity/' +$stateParams.activityId);
+        }
 
         $scope.getRoleName = function(roles){
             if(!angular.isUndefined(roles)) {
@@ -125,32 +127,11 @@ angular.module('DojoIBL')
             };
         };
 
-        var fields = $(this.el).find('#circlemenu li'),
-            container = $('#circlemenu'),
-            width = container.width(),
-            height = 200,
-            angle = 300,
-            radius = 100;
+        $scope.gotoElement = function (eID){
+            // set the location.hash to the id of
+            // the element you wish to scroll to.
+            $location.hash('structure-view');
 
-        $scope.calculateLeft = function(i) {
-
-            angle += (2*Math.PI) / $scope.phases.length;
-
-            angle *= i;
-            //console.log(angle, width, height)
-
-
-            return Math.round(width/2 + radius * Math.cos(angle) - width/2);
-        };
-
-        $scope.calculateTop = function(phases, i) {
-            angle += (2*Math.PI) / phases.length;
-
-            angle *= i;
-
-            //console.log(angle, height)
-
-            return Math.round(height/2 + radius * Math.sin(angle) - height/2);
         };
 
     }

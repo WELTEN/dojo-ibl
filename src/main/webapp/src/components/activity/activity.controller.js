@@ -79,8 +79,11 @@ angular.module('DojoIBL')
 
     .controller('ActivityController', function ($scope, $sce, $stateParams, Session, ActivityService, UserService, AccountService,
                                                 Response, ResponseService, RunService, ChannelService, Upload, config,
-                                                ActivityStatusService, toaster, GameService, $firebaseArray, firebase, $paginated) {
+                                                ActivityStatusService, toaster, GameService, $firebaseArray, firebase, $paginated, $location) {
 
+        //$scope.topDistance = 120;
+
+        $scope.$parent.toggle = true;
 
         $scope.account = AccountService.myDetailsCache();
 
@@ -164,6 +167,13 @@ angular.module('DojoIBL')
         }
 
         $scope.responseText;
+
+        $scope.closeActivity = function() {
+            console.log("test")
+            $scope.$parent.toggle = false;
+            $location.path('inquiry/'+$stateParams.runId);
+        };
+
 
         // ===============
 

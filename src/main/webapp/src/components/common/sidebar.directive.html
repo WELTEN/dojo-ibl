@@ -85,13 +85,6 @@
                     </li>
                     <li ng-class="{ 'active':statePhase == 'inquiry.home'  }" >
                         <a href="#inquiry/{{ run.runId }}"><i class="fa fa-share-alt"></i>{{'dibl.sidebar.phases' | translate}} </a>
-                        <ul class="nav nav-third-level">
-                            <li ng-repeat="phase in run.game.phases" ng-class="{ 'active':phaseNumber == $index  }">
-                                <a href="#inquiry/{{ run.runId }}/phase/{{ $index }}">
-                                    <i class="fa fa-circle"></i> {{ phase.title | limitTo: 15 }}
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
             </li>

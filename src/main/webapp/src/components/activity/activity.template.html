@@ -1,11 +1,14 @@
 <!--<div class="tabs-container">-->
 
-    <div class="panel-body no-padding-no-border-radius">
+    <div class="panel-body no-padding-no-border-radius" >
         <div class="ibox-content">
             <div class="heading" ng-repeat="role in activity.roles2 track by $index" ng-show="$first"  ng-style="{'background-color': role.color }">
-                <small  class="chat-date pull-right" >
-                    <a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit">
-                        <i class="fa fa-pencil"></i>
+                <small  class="ibox-tools chat-date pull-right" >
+                    <!--<a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit">-->
+                        <!--<i class="fa fa-pencil"></i>-->
+                    <!--</a>-->
+                    <a class="close-link" ng-click="closeActivity()" title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">
+                        <i class="fa fa-times"></i>
                     </a>
                 </small>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'"><i class="fa fa-file-video-o"></i> {{ activity.name }} | Video activity</span>
@@ -23,9 +26,12 @@
             <div class="heading" ng-show="activity.roles2 == ''">
                 <small  class="chat-date pull-right" >
                     <div class="ibox-tools">
-                        <a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"
-                           title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">
-                            <i class="fa fa-pencil"></i>
+                        <!--<a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"-->
+                           <!--title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">-->
+                            <!--<i class="fa fa-pencil"></i>-->
+                        <!--</a>-->
+                        <a class="close-link" ng-click="closeActivity()" title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">
+                            <i class="fa fa-times"></i>
                         </a>
                     </div>
                 </small>

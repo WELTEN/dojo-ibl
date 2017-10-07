@@ -39,29 +39,32 @@ angular.module('DojoIBL')
                 templateUrl: '/src/components/landing/landing.template.html'
             })
             .state('inquiry', {
-                url : '/inquiry',
-                abstract: true,
-                views: {
-                    '': {
-                        templateUrl: '/src/components/run/inquiry.structure.template.html'
-                    }
-                }
-            })
-            .state('inquiry.home', {
-                url: '/:runId',
-                templateUrl: '/src/components/run/inquiry.template.html',
+                url : '/inquiry/:runId',
                 controller: 'InquiryController',
-                ncyBreadcrumb: {
-                    label: "{{'dibl.toolbar.phases' | translate}} "
-                },
-                resolve: {
-                    security: ['$q', '$stateParams', 'UserService'
-                        , function($q, $stateParams, UserService){
-
-                            UserService.checkAccess($stateParams.runId);
-                    }]
-                }
+                templateUrl: '/src/components/run/inquiry.structure.template.html'
+                //resolve: {
+                //    security: ['$q', '$stateParams', 'UserService'
+                //        , function($q, $stateParams, UserService){
+                //
+                //            UserService.checkAccess($stateParams.runId);
+                //        }]
+                //}
             })
+            //.state('inquiry.home', {
+            //    url: '/:runId',
+            //    templateUrl: '/src/components/run/inquiry.template.html',
+            //    controller: 'InquiryController',
+            //    ncyBreadcrumb: {
+            //        label: "{{'dibl.toolbar.phases' | translate}} "
+            //    },
+            //    resolve: {
+            //        security: ['$q', '$stateParams', 'UserService'
+            //            , function($q, $stateParams, UserService){
+            //
+            //                UserService.checkAccess($stateParams.runId);
+            //        }]
+            //    }
+            //})
             //.state('inquiry.phase', {
             //    url: '/:runId/phase/:phase',
             //    templateUrl: '/src/components/activity/phase.template.html',
@@ -72,7 +75,7 @@ angular.module('DojoIBL')
             //    }
             //})
             .state('inquiry.activity', {
-                url: '/:runId/phase/:phase/activity/:activityId',
+                url: '/phase/:phase/activity/:activityId',
                 templateUrl: '/src/components/activity/activity.template.html',
                 controller: 'ActivityController',
                 ncyBreadcrumb: {
@@ -91,7 +94,7 @@ angular.module('DojoIBL')
                 }
             })
             .state('inquiry.calendar', {
-                url: '/:gameId/:runId/calendar',
+                url: '/:runId/calendar',
                 templateUrl: '/src/components/run/calendar.template.html',
                 controller: 'CalendarController',
                 ncyBreadcrumb: {
@@ -100,7 +103,7 @@ angular.module('DojoIBL')
                 }
             })
             .state('inquiry.dashboard', {
-                url: '/:runId/dashboard',
+                url: '/dashboard',
                 templateUrl: '/src/components/run/dashboard.template.html',
                 controller: 'DashboardController',
                 ncyBreadcrumb: {

@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .controller('PinnedController', function ($scope, firebase, $firebaseArray, $stateParams, RunService) {
+    .controller('PinnedController', function ($scope, firebase, $firebaseArray, $stateParams, $location) {
 
 
         $scope.$on('inquiry-run', function(event, args) {
@@ -11,6 +11,11 @@ angular.module('DojoIBL')
         });
 
 
+        $scope.isActive = false;
+        $scope.activeButton = function() {
+            $scope.isActive = !$scope.isActive;
+        }
+
         function loadPinnedContent(runId) {
             var rootRef = firebase.database().ref();
             var regionMessagesRef = rootRef.child("responses/" + runId);
@@ -19,7 +24,6 @@ angular.module('DojoIBL')
                 var responsesRef = firebase.database().ref("responses").child(runId).child(rmSnap.key);
                 responsesRef.once("value", function (snapshot) {
 
-                    //console.log(snapshot.val(), snapshot.key)
                     snapshot.forEach(function (child) {
                         var responsesRef = firebase.database().ref("responses").child(runId).child(child.val().generalItemId);
                         responsesRef.on('child_removed', function (rmSnap) {
@@ -46,5 +50,11 @@ angular.module('DojoIBL')
         }
 
         loadPinnedContent($stateParams.runId);
+
+        $scope.goToActivity = function(inqId, index, activity) {
+            $scope.toggle = true;
+            $location.path('inquiry/'+inqId+'/phase/'+ index + '/activity/' +activity);
+        };
+
     }
 );

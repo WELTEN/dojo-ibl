@@ -1,6 +1,14 @@
 <div class="panel-body no-padding-no-border-radius col-md-12 wrapper wrapper-content animated fadeInpanel-body m-b-sm" ng-hide="pinned_messages | isEmpty">
     <div class="ibox-content">
         <div class="heading ng-binding">
+            <small  class="ibox-tools pull-right" >
+                <!--<a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit">-->
+                <!--<i class="fa fa-pencil"></i>-->
+                <!--</a>-->
+                <a class="close-link" ng-click="activeButton()" title="Collapse pin content">
+                    <i ng-class="{ 'fa-chevron-down': isActive,  'fa-chevron-left': !isActive}" class="fa"></i>
+                </a>
+            </small>
             <i class="fa fa-bookmark"></i>
             {{ 'dibl.inquiry.view.pinned' | translate }}
             <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
@@ -13,13 +21,17 @@
         </div>
 
         <div class="pinned">
-            <div class="feed-element" ng-repeat="pin in pinned_messages">
-                <div class="media-body">
+            <div  class="feed-element" ng-repeat="pin in pinned_messages">
+                <div ng-class="{ 'toggled': !isActive }" class="media-body">
                     <small class="pull-right">{{ pin.lastModificationDate | timeago }}</small>
-                    <strong>{{ pin.userName }}</strong> commented on <strong><a href="/#/inquiry/{{ pin.runId }}/phase/{{ pin.phase }}/activity/{{ pin.generalItemId }}">{{ pin.generalItemName }}</a></strong>. <br>
+                    <strong>{{ pin.userName }}</strong> commented on <strong><a ng-click="goToActivity(pin.runId, pin.phase, pin.generalItemId)" >{{ pin.generalItemName }}</a></strong>. <br>
                     <small class="text-muted">{{ pin.lastModificationDate | date:'medium' }}</small>
                     <div class="well" ng-bind-html="pin.responseValue">
                     </div>
+                </div>
+                <div ng-class="{ 'toggled': isActive }">
+                    <a title="{{ pin.generalItemName }}" tooltip-placement="bottom" uib-tooltip="On the Bottom!" ng-click="goToActivity(pin.runId, pin.phase, pin.generalItemId)" ><i class="fa fa-square"></i></a>
+
                 </div>
             </div>
 

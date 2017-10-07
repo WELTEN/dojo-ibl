@@ -611,6 +611,10 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   .menu-visible-lg {
     display: block !important;
   }
+
+  #structure-view.col-md-4{
+    display: none;
+  }
 }
 .btn {
   border-radius: 3px;
@@ -8384,6 +8388,8 @@ body.md-skin {
   .show-grid section {
     width: 100%;
   }
+
+
 }
 
 @media (max-width: 350px) {
@@ -8858,7 +8864,7 @@ i.edit-phase{
 }
 
 ul.sortable-list{
-  min-height: 100px !important;
+  /*min-height: 100px !important;*/
 }
 
 .wizard > .content > .body ul.sortable-list {
@@ -9432,6 +9438,11 @@ p > span:first-child > p:last-child {
   border-bottom: 0px !important;
 }
 
+.pinned .feed-element .toggled{
+  display: none;
+}
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
 .activity-status-completed{
   background: rgba(122, 214, 1, 0.37) !important;
 }
@@ -9448,4 +9459,21 @@ iframe {
   height: 100%;
   width: 100%;
   overflow: auto;
+}
+
+.row-fluid div {
+  -webkit-transition: width 0.3s ease, margin 0.3s ease;
+  -moz-transition: width 0.3s ease, margin 0.3s ease;
+  -o-transition: width 0.3s ease, margin 0.3s ease;
+  transition: width 0.3s ease, margin 0.3s ease;
+}
+
+#structure-view{
+  padding: 0;
+  margin: 0;
+}
+
+#activity-view{
+  padding: 0 0 0 15px;
+  margin: 0;
 }
