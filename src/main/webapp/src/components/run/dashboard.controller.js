@@ -7,5 +7,10 @@ angular.module('DojoIBL')
 
         $scope.$parent.toggle = true;
 
+        $scope.closeActivity = function() {
+            $scope.$parent.toggle = false;
+            $location.path('inquiry/'+$stateParams.runId);
+        };
+
     }
 );

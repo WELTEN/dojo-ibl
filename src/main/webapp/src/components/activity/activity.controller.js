@@ -169,7 +169,6 @@ angular.module('DojoIBL')
         $scope.responseText;
 
         $scope.closeActivity = function() {
-            console.log("test")
             $scope.$parent.toggle = false;
             $location.path('inquiry/'+$stateParams.runId);
         };
