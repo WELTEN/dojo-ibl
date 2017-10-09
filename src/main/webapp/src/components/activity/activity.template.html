@@ -107,9 +107,18 @@
                                                                 ['justifyCenter', 'justifyLeft'], ['ul', 'ol']
                                                                 ]
                                                                 " ng-model="responseText" ></text-angular>
+
+                            <img ngf-src="picFile" class="thumb">
+                              <span class="progress" ng-show="picFile.progress >= 0">
+                                  <div style="width:{{picFile.progress}}%" ng-bind="picFile.progress + '%'"></div>
+                              </span>
+                            <span ng-show="picFile.result">Upload Successful</span>
+
+                            <img ngf-src="multimedia" ng-repeat="multimedia in arrayMultimedia" class="thumb">
+
                             <div class="text-right">
-                                <!--<div class="button" ngf-select="upload($file)">Upload on file select</div>-->
-                                <button class="btn btn-sm btn-primary m-t-sm save" ng-click="sendComment()" ng-disabled="!responseText"><strong>Post comment</strong></button>
+                                <button class="btn btn-sm btn-primary m-t-sm " ngf-select="upload($file)"><strong><i class="fa fa-image"></i></strong></button>
+                                <button class="btn btn-sm btn-primary m-t-sm save" ng-click="sendComment()" ng-show="responseText"><strong>Post comment</strong></button>
                             </div>
                         </div>
                     </div>

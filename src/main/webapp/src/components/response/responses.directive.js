@@ -58,6 +58,7 @@ angular.module('DojoIBL')
                         "userAccountType": scope.response.userAccountType,
                         "userLocalId": scope.response.userLocalId,
                         "userName": scope.response.userName,
+                        "multimedia": (scope.response.multimedia == undefined ? "" : scope.response.multimedia ),
                         "userProfile": (scope.response.userProfile == undefined ? "" : scope.response.userProfile ),
                         "responseValue": newValue,
                         "parentId": scope.response.parentId,

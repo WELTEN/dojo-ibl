@@ -9325,7 +9325,7 @@ text-angular > p{
 }
 
 .media-body img, .feed-element img{
-  max-width: 300px;
+  max-width: 150px;
 }
 
 .ibox-tools-left {

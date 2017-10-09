@@ -106,6 +106,7 @@ angular.module('DojoIBL')
                         "userLocalId": data.localId,
                         "userName": data.name,
                         "userProfile": (data.picture == undefined ? "" : data.picture ),
+                        "multimedia": $scope.arrayMultimedia,
                         "responseValue": $scope.responseText,
                         "parentId": 0,
                         "likeCount": 0,
@@ -114,6 +115,7 @@ angular.module('DojoIBL')
                     });
 
                     $scope.responseText = '';
+                    $scope.arrayMultimedia = [];
                 });
         };
 
@@ -219,6 +221,102 @@ angular.module('DojoIBL')
         $scope.trustSrc = function(src) {
             return $sce.trustAsResourceUrl(src);
         };
+
+
+        $scope.arrayMultimedia = [];
+
+        $scope.upload = function (file){
+            // File or Blob named mountains.jpg
+
+            $scope.picFile = file;
+
+            $scope.picFile.name = (file.name).replace(/\s+/g, '_');
+
+            // Create the file metadata
+            var metadata = {
+                contentType: 'image/jpeg'
+            };
+
+            // Upload file and metadata to the object 'images/mountains.jpg'
+            var uploadTask = storageRef.child('images/' + file.name).put(file, metadata);
+
+            // Listen for state changes, errors, and completion of the upload.
+            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+                function(snapshot) {
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    $scope.picFile.progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + $scope.picFile.progress + '% done');
+                    switch (snapshot.state) {
+                        case firebase.storage.TaskState.PAUSED: // or 'paused'
+                            console.log('Upload is paused');
+                            break;
+                        case firebase.storage.TaskState.RUNNING: // or 'running'
+                            console.log('Upload is running');
+                            break;
+                    }
+                }, function(error) {
+
+                    // A full list of error codes is available at
+                    // https://firebase.google.com/docs/storage/web/handle-errors
+                    switch (error.code) {
+                        case 'storage/unauthorized':
+                            // User doesn't have permission to access the object
+                            break;
+
+                        case 'storage/canceled':
+                            // User canceled the upload
+                            break;
+
+                        case 'storage/unknown':
+                            // Unknown error occurred, inspect error.serverResponse
+                            break;
+                    }
+                }, function() {
+                    // Upload completed successfully, now we can get the download URL
+                    $scope.picFile.url = uploadTask.snapshot.downloadURL;
+
+                    $scope.arrayMultimedia.push($scope.picFile);
+
+                    $scope.picFile = null;
+                    file = null;
+
+                    //console.log(downloadURL)
+
+
+                    //var starsRef = storageRef.child('images/2017-10-03-16-07-localhost-8182.png');
+                    //
+                    //// Get the download URL
+                    //starsRef.getDownloadURL().then(function(url) {
+                    //    // Insert url into an <img> tag to "download"
+                    //
+                    //    console.log(url)
+                    //
+                    //
+                    //}).catch(function(error) {
+                    //
+                    //    // A full list of error codes is available at
+                    //    // https://firebase.google.com/docs/storage/web/handle-errors
+                    //    switch (error.code) {
+                    //        case 'storage/object_not_found':
+                    //            // File doesn't exist
+                    //            break;
+                    //
+                    //        case 'storage/unauthorized':
+                    //            // User doesn't have permission to access the object
+                    //            break;
+                    //
+                    //        case 'storage/canceled':
+                    //            // User canceled the upload
+                    //            break;
+                    //
+                    //            case 'storage/unknown':
+                    //            // Unknown error occurred, inspect the server response
+                    //            break;
+                    //    }
+                    //});
+                });
+        }
+
 
         ////////////////////////////
         // Response cache management
