@@ -65,34 +65,14 @@
                 <act-multi-activity list="activity.multiactivities" ng-if="activity.multiactivities != ''"></act-multi-activity>
 
                 <div class="social-footer">
-                    <p>Page {{responses.$current()}}  of comments</p>
-                </div>
-
-                <div class="social-footer">
 
                     <!--<div class="alert alert-warning" ng-show="responses">-->
                         <!--No comments so far. <a class="alert-link"> Be the first one {{ myAccount.givenName }}</a>.-->
                     <!--</div>-->
 
-                    <ul class="pagination">
-                        <!--<li class="footable-page-arrow disabled"><a data-page="first" href="#first">«</a></li>-->
-                        <li class="footable-page-arrow"><button class="p-xxs" data-page="prev" ng-click="responses.$prev()">‹</button></li>
-                        <!--<li class="footable-page active"><a data-page="0" href="#">1</a></li>-->
-                        <!--<li class="footable-page"><a data-page="1" href="#">{{ responses.$$updated }}</a></li>-->
-                        <li class="footable-page-arrow"><button class="p-xxs" data-page="next" ng-click="responses.$next()">›</button></li>
-                        <!--<li class="footable-page-arrow"><a data-page="last" href="#last">»</a></li>-->
-                    </ul>
 
                     <responses ng-repeat='response in responses | orderByDayNumber:"lastModificationDate"' response='response'></responses>
 
-                    <ul class="pagination">
-                        <!--<li class="footable-page-arrow disabled"><a data-page="first" href="#first">«</a></li>-->
-                        <li class="footable-page-arrow"><button class="p-xxs" data-page="prev" ng-click="responses.$prev()">‹</button></li>
-                        <!--<li class="footable-page active"><a data-page="0" href="#">1</a></li>-->
-                        <!--<li class="footable-page"><a data-page="1" href="#">2</a></li>-->
-                        <li class="footable-page-arrow"><button class="p-xxs"  data-page="next" ng-click="responses.$next()">›</button></li>
-                        <!--<li class="footable-page-arrow"><a data-page="last" href="#last">»</a></li>-->
-                    </ul>
 
                     <div class="social-comment">
                         <a href="" class="pull-left">
