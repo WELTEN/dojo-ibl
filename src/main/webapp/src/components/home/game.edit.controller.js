@@ -78,12 +78,37 @@ angular.module('DojoIBL')
         $scope.activities = ActivityService.getActivities();
 
 
-        $scope.isActiveGroup1 = false;
-        $scope.isActiveGroup2 = false;
-        $scope.isActiveGroup3 = true;
-        $scope.isActiveGroup4 = false;
-        $scope.isActiveGroup5 = false;
-        $scope.isActiveGroup6 = false;
+        $scope.editorOptions = {
+            lineWrapping : true,
+            lineNumbers: true,
+            readOnly: 'nocursor',
+            mode: 'json'
+        };
+
+
+        $scope.resultJSON = {
+            "select": [],
+            "where": {
+                "rules": []
+            },
+            "groupby":[{
+                id: "time_group"
+            }]
+        }
+
+        $scope.result = JSON.stringify($scope.resultJSON, undefined, 2)
+
+        $scope.fields = [
+            { field: 'verbId' ,name: 'Action', type: 'string' },
+            { field: 'objectId' ,name: 'Object', type: 'string' },
+            { field: 'timestamp' ,name: 'Timestamp', type: 'timestamp' },
+            { field: 'COUNT(1)' ,name: 'Count', type: 'count' },
+            { field: 'CURRENT_DATE()' ,name: 'Current date', type: 'function', fun: "CURRENT_DATE()" },
+            { field: 'CURRENT_TIME()' ,name: 'Current time', type: 'function', fun: "CURRENT_TIME()" }
+        ];
+
+        $scope.select = [];
+
 
         /********
          Calendar

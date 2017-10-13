@@ -1,0 +1,78 @@
+<div class="col-md-6 ">
+    <div class="alert alert-warning alert-group">
+        <div class="form-inline">
+            <h1>SELECT Statements</h1>
+            <p>Please select which elements do you want to visualize</p>
+            <select ng-options="o as o.name for o in fields" ng-model="field" class="form-control input-sm"></select>
+            <select ng-show="field.type == 'timestamp'" ng-options="time as time.name for time in timestamp_functions" ng-model="function" class="form-control input-sm"></select>
+            <span>Name: </span><input class="form-control input-sm" type="text" ngRequired="true" ng-trim="true" ng-model="asName" />
+            <button style="margin-left: 5px" ng-click="addSelectCondition()" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Add Condition</button>
+        </div>
+        <div class="form-inline m">
+            <div ng-repeat="select in group.select" class="condition">
+                <div class="form-inline m">
+                    <input style="margin-left: 5px" type="text" ng-model="select.asName" class="form-control input-sm"/>
+                    <button style="margin-left: 5px" ng-click="removeSelectStatement($index)" class="btn btn-sm btn-danger">
+                        <span class="glyphicon glyphicon-minus-sign"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-inline">
+            <h1>WHERE clauses</h1>
+            <p>Add filters</p>
+            <select ng-show="group.where.rules.length > 0" ng-options="o as o.name for o in operators" ng-model="whereOpe" class="form-control input-sm"></select>
+            <select ng-options="o as o.name for o in fields" ng-model="whereField" class="form-control input-sm"></select>
+            <select ng-options="c as c.name for c in conditions" ng-model="whereCondition" class="form-control input-sm"></select>
+            <span>Value: </span><input class="form-control input-sm" type="text" ngRequired="true" ng-trim="true" ng-model="fieldValue" />
+            <button style="margin-left: 5px" ng-click="addWhereRule()" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Add Rule</button>
+            <!--<button style="margin-left: 5px" ng-click="addWhereGroup()" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Add Group</button>-->
+        </div>
+        <div class="form-inline m">
+            <div ng-repeat="select in group.where.rules" class="condition">
+                <div class="form-inline m">
+                    <input style="margin-left: 5px" type="text" ng-model="select.field" class="form-control input-sm"/>
+                    <input style="margin-left: 5px" type="text" ng-model="select.condition" class="form-control input-sm"/>
+                    <input style="margin-left: 5px" type="text" ng-model="select.data" class="form-control input-sm"/>
+                    <button style="margin-left: 5px" ng-click="removeWhereRule($index)" class="btn btn-sm btn-danger">
+                        <span class="glyphicon glyphicon-minus-sign"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!--<div class="form-inline">-->
+            <!--<h1>GROUP BY clause</h1>-->
+            <!--<p>Select these field for the aggrupations</p>-->
+            <!--<select ng-show="group.where.rules.length > 0" ng-options="o as o.name for o in operators" ng-model="whereOpe" class="form-control input-sm"></select>-->
+            <!--<select ng-options="o as o.name for o in fields" ng-model="whereField" class="form-control input-sm"></select>-->
+            <!--<select ng-options="c as c.name for c in conditions" ng-model="whereCondition" class="form-control input-sm"></select>-->
+            <!--<span>Value: </span><input class="form-control input-sm" type="text" ngRequired="true" ng-trim="true" ng-model="fieldValue" />-->
+            <!--<button style="margin-left: 5px" ng-click="addWhereRule()" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Add Rule</button>-->
+        <!--</div>-->
+        <!--<div class="form-inline m">-->
+            <!--<div ng-repeat="select in group.where.rules" class="condition">-->
+                <!--<div class="form-inline m">-->
+                    <!--<input style="margin-left: 5px" type="text" ng-model="select.field" class="form-control input-sm"/>-->
+                    <!--<input style="margin-left: 5px" type="text" ng-model="select.condition" class="form-control input-sm"/>-->
+                    <!--<input style="margin-left: 5px" type="text" ng-model="select.data" class="form-control input-sm"/>-->
+                    <!--<button style="margin-left: 5px" ng-click="removeWhereRule($index)" class="btn btn-sm btn-danger">-->
+                        <!--<span class="glyphicon glyphicon-minus-sign"></span>-->
+                    <!--</button>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+    </div>
+
+    <pre>{{ query }}</pre>
+</div>
+
+
+
+<div class="col-md-6">
+    <pre>{{ group | json : spacing}}</pre>
+</div>
