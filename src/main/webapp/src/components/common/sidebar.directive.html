@@ -41,23 +41,23 @@
             </li>
             <li ng-show="game" class="active inquiry-sidebar">
                 <a><i class="fa fa-asterisk"></i> <span class="nav-label sidebar-inquiry-title">{{ game.title | limitTo: 15 }} {{ game.title.length > 15 ? '...' : ''}}</span></a>
-                <ul class="nav nav-second-level">
-                    <li ng-class="{ 'active': $state.includes('metadata')  }">
-                        <a href="#/project/{{ gameId }}/edit/metadata"><i class="fa fa-edit"></i>{{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}</a>
-                    </li>
-                    <li ng-class="{ 'active': $state.includes('structure')  }">
-                        <a href="#/project/{{ gameId }}/edit/structure"><i class="fa fa-circle"></i>{{ 'dibl.inquiry.new-edit.inquiry-phases-activities' | translate }}</a>
-                    </li>
-                    <li ng-class="{ 'active': $state.includes('calendar')  }">
-                        <a href="#/project/{{ gameId }}/edit/calendar"><i class="fa fa-calendar"></i>{{'dibl.inquiry.new-edit.calendar' | translate}}</a>
-                    </li>
-                    <li ng-class="{ 'active': $state.includes('groups')  }">
-                        <a href="#/project/{{ gameId }}/edit/groups"><i class="fa fa-group"></i>{{'dibl.inquiry.new-edit.run-inquiries' | translate}}</a>
-                    </li>
-                    <li ng-class="{ 'active': $state.includes('editors')  }">
-                        <a href="#/project/{{ gameId }}/edit/editors"><i class="fa fa-key"></i>{{'dibl.inquiry.new-edit.editor-management' | translate}}</a>
-                    </li>
-                </ul>
+                <!--<ul class="nav nav-second-level">-->
+                    <!--<li ng-class="{ 'active': $state.includes('metadata')  }">-->
+                        <!--<a href="#/project/{{ gameId }}/edit/metadata"><i class="fa fa-edit"></i>{{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}</a>-->
+                    <!--</li>-->
+                    <!--<li ng-class="{ 'active': $state.includes('structure')  }">-->
+                        <!--<a href="#/project/{{ gameId }}/edit/structure"><i class="fa fa-circle"></i>{{ 'dibl.inquiry.new-edit.inquiry-phases-activities' | translate }}</a>-->
+                    <!--</li>-->
+                    <!--<li ng-class="{ 'active': $state.includes('calendar')  }">-->
+                        <!--<a href="#/project/{{ gameId }}/edit/calendar"><i class="fa fa-calendar"></i>{{'dibl.inquiry.new-edit.calendar' | translate}}</a>-->
+                    <!--</li>-->
+                    <!--<li ng-class="{ 'active': $state.includes('groups')  }">-->
+                        <!--<a href="#/project/{{ gameId }}/edit/groups"><i class="fa fa-group"></i>{{'dibl.inquiry.new-edit.run-inquiries' | translate}}</a>-->
+                    <!--</li>-->
+                    <!--<li ng-class="{ 'active': $state.includes('editors')  }">-->
+                        <!--<a href="#/project/{{ gameId }}/edit/editors"><i class="fa fa-key"></i>{{'dibl.inquiry.new-edit.editor-management' | translate}}</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
             </li>
             <li ng-class="{ 'active': $state.includes('groups')  }">
                 <a href="#/groups">
@@ -93,10 +93,10 @@
                 <!--<a href="#/profile/{{ myAccount.localId }}"><i class="fa fa-user"></i> <span class="nav-label">{{'dibl.sidebar.profile' | translate}}</span>-->
                     <!--&lt;!&ndash; <span class="label label-warning pull-right">Current</span> &ndash;&gt;</a>-->
             <!--</li>-->
-            <li>
-                <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit?usp=sharing"><i class="fa fa-file"></i> <span class="nav-label">{{'dibl.sidebar.documentation' | translate}}</span>
-                    <span class="label label-info pull-right">NEW</span></a>
-            </li>
+            <!--<li>-->
+                <!--<a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit?usp=sharing"><i class="fa fa-file"></i> <span class="nav-label">{{'dibl.sidebar.documentation' | translate}}</span>-->
+                    <!--<span class="label label-info pull-right">NEW</span></a>-->
+            <!--</li>-->
         </ul>
 
     </div>
