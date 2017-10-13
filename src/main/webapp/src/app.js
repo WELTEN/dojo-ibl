@@ -29,48 +29,48 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
             firebase.initializeApp(config);
         }
 
-        const messaging = firebase.messaging();
-
-        messaging.requestPermission()
-            .then(function() {
-                console.log('Notification permission granted.');
-                // TODO(developer): Retrieve an Instance ID token for use with FCM.
-                // ...
-            })
-            .catch(function(err) {
-                console.log('Unable to get permission to notify.', err);
-            });
-
-
-
-
-        // Get Instance ID token. Initially this makes a network call, once retrieved
-        // subsequent calls to getToken will return from cache.
-        messaging.getToken()
-            .then(function(currentToken) {
-
-                if (currentToken) {
-
-                    //console.log(currentToken)
-
-                    //ChannelService.saveDeviceRegistrationTokenMessaging(currentToken);
-                    localStorage.setItem('deviceRegistrationToken', currentToken)
-
-                    //sendTokenToServer(currentToken);
-                    //updateUIForPushEnabled(currentToken);
-                } else {
-                    // Show permission request.
-                    console.log('No Instance ID token available. Request permission to generate one.');
-                    // Show permission UI.
-                    //updateUIForPushPermissionRequired();
-                    //setTokenSentToServer(false);
-                }
-            })
-            .catch(function(err) {
-                console.log('An error occurred while retrieving token. ', err);
-                //showToken('Error retrieving Instance ID token. ', err);
-                //setTokenSentToServer(false);
-            });
+        //const messaging = firebase.messaging();
+        //
+        //messaging.requestPermission()
+        //    .then(function() {
+        //        console.log('Notification permission granted.');
+        //        // TODO(developer): Retrieve an Instance ID token for use with FCM.
+        //        // ...
+        //    })
+        //    .catch(function(err) {
+        //        console.log('Unable to get permission to notify.', err);
+        //    });
+        //
+        //
+        //
+        //
+        //// Get Instance ID token. Initially this makes a network call, once retrieved
+        //// subsequent calls to getToken will return from cache.
+        //messaging.getToken()
+        //    .then(function(currentToken) {
+        //
+        //        if (currentToken) {
+        //
+        //            //console.log(currentToken)
+        //
+        //            //ChannelService.saveDeviceRegistrationTokenMessaging(currentToken);
+        //            localStorage.setItem('deviceRegistrationToken', currentToken)
+        //
+        //            //sendTokenToServer(currentToken);
+        //            //updateUIForPushEnabled(currentToken);
+        //        } else {
+        //            // Show permission request.
+        //            console.log('No Instance ID token available. Request permission to generate one.');
+        //            // Show permission UI.
+        //            //updateUIForPushPermissionRequired();
+        //            //setTokenSentToServer(false);
+        //        }
+        //    })
+        //    .catch(function(err) {
+        //        console.log('An error occurred while retrieving token. ', err);
+        //        //showToken('Error retrieving Instance ID token. ', err);
+        //        //setTokenSentToServer(false);
+        //    });
     })
     .config(function($breadcrumbProvider) {
         $breadcrumbProvider.setOptions({
