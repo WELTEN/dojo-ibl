@@ -31,13 +31,13 @@
                         </div>
                     </div>
 
-                    <div class="m">
+                    <div ng-class="{'m' : !toggle}">
                         <!--<p ng-show="$index == 0">-->
                         <!--<span class="badge badge-info">Important</span> <i class="fa fa-info"></i> {{'dibl.inquiry.phase.instruction' | translate}}-->
                         <!--</p>-->
 
-                        <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle}" class="separator">
-                            <h3>ToDo</h3>
+                        <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle, 'separator': !toggle}" class="">
+                            <h3 ng-hide="toggle">ToDo</h3>
                             <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities to be done</p>-->
                             <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="0">
                                 <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-hide="activity.status.status == 1 || activity.status.status == 2"
@@ -59,8 +59,8 @@
                             </ul>
                         </div>
 
-                        <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle}" class="separator">
-                            <h3>In progress</h3>
+                        <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle, 'separator': !toggle}" class="">
+                            <h3 ng-hide="toggle">In progress</h3>
                             <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities in progress</p>-->
                             <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="1">
                                 <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-show="activity.status.status == 1" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">
@@ -82,7 +82,7 @@
                         </div>
 
                         <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle}" >
-                            <h3 >Completed</h3>
+                            <h3 ng-hide="toggle">Completed</h3>
                             <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities completed</p>-->
                             <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="2">
                                 <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-show="activity.status.status == 2" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">

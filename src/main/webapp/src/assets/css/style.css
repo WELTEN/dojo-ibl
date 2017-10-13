@@ -9534,3 +9534,8 @@ ul.nav.nav-tabs.backgroundtab > li{
 ul.nav.nav-tabs.backgroundtab > li:not(.active) > .heading{
   background: #d3d3d3!important;
 }
+
+.sel-right-marg{
+  float: right;
+  margin: 1em;
+}

@@ -56,6 +56,14 @@
 
             <div class="social-feed-box">
 
+                <div class="form-group sel-right-marg">
+                    <select id="type_activity" class="form-control" ng-change="changeStatus()" ng-model="activity.status.status">
+                        <option value="0">To Do</option>
+                        <option value="1">In progress</option>
+                        <option value="2">Done</option>
+                    </select>
+                </div>
+
                 <discussion-activity activity="activity" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"></discussion-activity>
 
                 <list-activity activity="activity" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></list-activity>
