@@ -23,6 +23,14 @@ angular.module('DojoIBL')
             $scope.messages = $firebaseArray(messagesRef.limitToLast($scope.pageSize * $scope.page));
         };
 
+        //$scope.minimizeChat = function() {
+        //    $scope.messages = $firebaseArray(messagesRef.limitToLast($scope.pageSize * $scope.page));
+        //};
+        //
+        //$scope.closeChat = function() {
+        //    $scope.messages = $firebaseArray(messagesRef.limitToLast($scope.pageSize * $scope.page));
+        //};
+
         ctrl.getMessages();
 
         $scope.sendMessage = function() {

@@ -120,17 +120,22 @@
     <dibl-footer></dibl-footer>
 
 
-    <div ng-class="{ 'active': hiddenDiv }" class="small-chat-box fadeInRight animated" scroll-position="scroll" >
+    <div ng-class="{ 'active': hiddenDiv }" class="small-chat-box" scroll-position="scroll" >
 
         <div class="heading" draggable="true">
-            <small class="chat-date pull-right">
-
-            </small>
-            Small chat
+            <!--<small class="chat-date pull-right">-->
+                <!--<a class="close-link" ng-click="minimizeChat()" title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">-->
+                    <!--<i class="fa fa-minus"></i>-->
+                <!--</a>-->
+                <!--<a class="close-link" ng-click="closeChat()" title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">-->
+                    <!--<i class="fa fa-times"></i>-->
+                <!--</a>-->
+            <!--</small>-->
+            Chat group
         </div>
 
-        <div style="position: relative; width: auto; height: 234px;">
-            <div class="chat-discussion" scroll-glue="glued" style="width: auto; height: 234px;">
+        <div style="position: relative; width: auto; height: 258px;">
+            <div class="chat-discussion" scroll-glue="glued" style="width: auto; height: 265px;">
 
                 <div ng-repeat="message in messages">
                     <message-l  message="message" ng-if="message.localId != account.localId"></message-l>
@@ -140,12 +145,12 @@
             </div>
         </div>
         <div class="form-chat">
-            <div class="input-group input-group-sm">
-                <input ng-enter="sendMessage()" type="text" class="form-control" ng-model="bodyMessage">
+            <div class="input-group input-group-sm full-width">
+                <input ng-enter="sendMessage()" type="text" placeholder="Type your message" class="form-control borderless" ng-model="bodyMessage">
                 <!--<text-angular ta-toolbar="[]" ng-enter="sendMessage()" ng-model="bodyMessage"></text-angular>-->
-            <span class="input-group-btn">
-                <button ng-click="sendMessage()" ng-disabled="!bodyMessage" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>
-            </span>
+            <!--<span class="input-group-btn">-->
+                <!--<button ng-click="sendMessage()" ng-disabled="!bodyMessage" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>-->
+            <!--</span>-->
             </div>
         </div>
     </div>

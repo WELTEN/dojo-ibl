@@ -5104,7 +5104,7 @@ dd.project-people {
   /*padding: 10px 20px;*/
 }
 .message-avatar {
-  height: 48px;
+  /*height: 48px;*/
   width: 48px;
   /*border: 1px solid #e7eaec;*/
   border-radius: 4px;
@@ -5125,6 +5125,12 @@ dd.project-people {
   /*margin-left: 10px;*/
   padding-left: 0px !important;
 }
+.round-pic{
+  border-radius: 6em;
+  height: 40px !important;
+  width: 40px !important;
+}
+
 .left .message{
   background-color: rgba(12, 10, 8, 0.3);
   border-radius: 1px 10px 10px 10px;
@@ -5151,11 +5157,11 @@ dd.project-people {
 }
 .chat-discussion .chat-message.left .message {
   text-align: left;
-  margin-left: 55px;
+  margin-left: 48px;
 }
 .chat-discussion .chat-message.right .message {
   text-align: right;
-  margin-right: 55px;
+  /*margin-right: 48px;*/
 }
 .message-date {
   font-size: 10px;
@@ -5617,16 +5623,22 @@ body.body-small .vote-icon {
 .small-chat-box {
   display: none;
   position: fixed;
-  bottom: 20px;
+  bottom: 0px;
   right: 75px;
   background: #fff;
   border: 1px solid #e7eaec;
-  width: 400px;
-  height: 320px;
-  border-radius: 4px;
+  width: 300px;
+  height: 334px;
+  border-radius: 4px 4px 0px 0px;
 }
 .small-chat-box.ng-small-chat {
   display: block;
+}
+.borderless{
+  border-top: 1px;
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
 }
 .body-small .small-chat-box {
   bottom: 70px;
@@ -5659,7 +5671,7 @@ body.body-small .vote-icon {
   padding-bottom: 20px;
 }
 .small-chat-box .content .chat-message, .chat-discussion .chat-message {
-  padding: 3px 6px;
+  padding: 0px 3px 2px;
   border-radius: 6px;
   font-size: 11px;
   line-height: 14px;
@@ -5684,7 +5696,8 @@ body.body-small .vote-icon {
   float: right;
 }
 .small-chat-box .form-chat {
-  padding: 4px 9px;
+  /*padding: 4px 9px;*/
+  border-top: 1px solid #d3d3d3;
 }
 /*
  * metismenu - v2.0.2
