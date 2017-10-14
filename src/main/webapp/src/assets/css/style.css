@@ -5630,6 +5630,7 @@ body.body-small .vote-icon {
   width: 300px;
   height: 334px;
   border-radius: 4px 4px 0px 0px;
+  z-index: 100;
 }
 .small-chat-box.ng-small-chat {
   display: block;
