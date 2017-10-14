@@ -102,6 +102,7 @@ angular.module('DojoIBL')
 
             ActivityStatusService.getActivityByIdRun($stateParams.activityId, data.game.gameId, $stateParams.runId).then(function (data) {
                 $scope.activity = data;
+                $scope.status =   data.status.status;
             });
 
             GameService.getGameAssets(data.game.gameId).then(function(data){
@@ -109,9 +110,30 @@ angular.module('DojoIBL')
             });
         });
 
+        //$scope.$watch('activity', function(newValue, oldValue) {
+        //    $scope.status =   newValue.status;
+        //    $scope.status.id =   newValue.status.status;
+        //    console.log(newValue.status.status)
+        //
+        //});
+
+        $scope.data = [{
+            id: '-1',
+            name: '--Select--'
+        }, {
+            id: '0',
+            name: 'To Do'
+        }, {
+            id: '1',
+            name: 'In progress'
+        }, {
+            id: '2',
+            name: 'Done'
+        }];
 
         $scope.changeStatus = function(){
-            ActivityStatusService.changeActivityStatus($stateParams.runId, $scope.activity.id, $scope.activity.status.status, $scope.activity.section, $scope.activity.status.id).then(function (data) {
+
+            ActivityStatusService.changeActivityStatus($stateParams.runId, $scope.activity.id, $scope.status, $scope.activity.section, $scope.activity.status.id).then(function (data) {
 
                 switch(data.status){
                     case 0:
