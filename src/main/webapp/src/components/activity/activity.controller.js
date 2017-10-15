@@ -110,13 +110,6 @@ angular.module('DojoIBL')
             });
         });
 
-        //$scope.$watch('activity', function(newValue, oldValue) {
-        //    $scope.status =   newValue.status;
-        //    $scope.status.id =   newValue.status.status;
-        //    console.log(newValue.status.status)
-        //
-        //});
-
         $scope.data = [{
             id: '-1',
             name: '--Select--'
