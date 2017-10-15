@@ -17,6 +17,11 @@ angular.module('DojoIBL')
                 isArray: false,
                 url: config.server+'/rest/myRuns/participate/gameId/:id'
             },
+            getParticipateRuns: {
+                method: 'GET',
+                isArray: false,
+                url: config.server+'/rest/myRuns/participate'
+            },
             getOwnedRunsForGame: {
                 method: 'GET',
                 isArray: false,

@@ -1,17 +1,23 @@
-<!--<div class="tabs-container">-->
+<div>
 
-    <div class="panel-body no-padding-no-border-radius">
+    <div class="panel-body no-padding-no-border-radius" >
         <div class="ibox-content">
             <div class="heading" ng-repeat="role in activity.roles2 track by $index" ng-show="$first"  ng-style="{'background-color': role.color }">
-                <small  class="chat-date pull-right" >
-                    <a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit">
-                        <i class="fa fa-pencil"></i>
+                <small  class="ibox-tools chat-date pull-right" >
+                    <!--<a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit">-->
+                        <!--<i class="fa fa-pencil"></i>-->
+                    <!--</a>-->
+                    <a class="close-link" ng-click="closeActivity()" title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">
+                        <i class="fa fa-times"></i>
                     </a>
                 </small>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'"><i class="fa fa-file-video-o"></i> {{ activity.name }} | Video activity</span>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"><i class="fa fa-file-text"></i> {{ activity.name }} | Discussion activity</span>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'"><i class="fa fa-picture-o"></i> {{ activity.name }} | Data collection activity</span>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"><i class="fa fa-tasks"></i> {{ activity.name }} | List activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest'"><i class="fa fa-list-alt"></i> {{ activity.name }} | Multi activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceTest'"><i class="fa fa-file-text"></i> {{ activity.name }} | Insert text activity</span>
+
                 <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
                     <div class="sk-rect1"></div>
                     <div class="sk-rect2"></div>
@@ -23,9 +29,12 @@
             <div class="heading" ng-show="activity.roles2 == ''">
                 <small  class="chat-date pull-right" >
                     <div class="ibox-tools">
-                        <a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"
-                           title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">
-                            <i class="fa fa-pencil"></i>
+                        <!--<a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit"-->
+                           <!--title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">-->
+                            <!--<i class="fa fa-pencil"></i>-->
+                        <!--</a>-->
+                        <a class="close-link" ng-click="closeActivity()" title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">
+                            <i class="fa fa-times"></i>
                         </a>
                     </div>
                 </small>
@@ -33,6 +42,8 @@
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"><i class="fa fa-file-text"></i> {{ activity.name }} | Discussion activity</span>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'"><i class="fa fa-picture-o"></i> {{ activity.name }} | Data collection activity</span>
                 <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"><i class="fa fa-tasks"></i> {{ activity.name }} | List activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest'"><i class="fa fa-tasks"></i> {{ activity.name }} | Multi activity</span>
+                <span ng-show="activity.type == 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceTest'"><i class="fa fa-file-text"></i> {{ activity.name }} | Insert text activity</span>
                 <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
                     <div class="sk-rect1"></div>
                     <div class="sk-rect2"></div>
@@ -45,32 +56,31 @@
 
             <div class="social-feed-box">
 
-                <!--<div class="pull-right social-action dropdown">-->
-                    <!--<button data-toggle="dropdown" class="dropdown-toggle btn-white">-->
-                        <!--<i class="fa fa-angle-down"></i>-->
-                    <!--</button>-->
-                    <!--<ul class="dropdown-menu m-t-xs">-->
-                        <!--<li><a href="#">Config</a></li>-->
-                    <!--</ul>-->
-                <!--</div>-->
+                <div class="form-group sel-right-marg">
 
-                <div class="social-body">
-                    <h1>
-                        <i ng-hide="activity.status.status == 1 || activity.status.status == 2" title="To Do" class="fa fa-check-square red"></i>
-                        <i ng-show="activity.status.status == 1" title="In progress" class="fa fa-check-square yellow"></i>
-                        <i ng-show="activity.status.status == 2" title="Done" class="fa fa-check-square green"></i>
-                        {{ activity.name }}
-                    </h1>
-                    <div class="" ng-bind-html="activity.richText || activity.description"></div>
-                    <!--<div class="btn-group">-->
-                        <!--<button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like this!</button>-->
-                        <!--<button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>-->
-                        <!--<button class="btn btn-white btn-xs"><i class="fa fa-share"></i> Share</button>-->
-                    <!--</div>-->
+                    <select name="repeatSelect"
+                            class="form-control"
+                            id="repeatSelect"
+                            ng-model="status"
+                            ng-change="changeStatus()"
+                            ng-options="option.id as option.name for option in data">
+                    </select>
+                    <!--<select id="type_activity"  -->
+                            <!--ng-init="status = activity.status.status"-->
+                            <!--ng-model="status">-->
+                        <!--<option value="0">To Do</option>-->
+                        <!--<option value="1">In progress</option>-->
+                        <!--<option value="2">Done</option>-->
+                    <!--</select>-->
                 </div>
-                <div class="social-footer">
-                    <p>Page {{responses.$current()}}  of comments</p>
-                </div>
+
+                <discussion-activity activity="activity" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"></discussion-activity>
+
+                <list-activity activity="activity" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></list-activity>
+
+                <text-activity activity="activity" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceTest'"></text-activity>
+
+                <act-multi-activity list="activity.multiactivities" ng-if="activity.multiactivities != ''"></act-multi-activity>
 
                 <div class="social-footer">
 
@@ -78,25 +88,9 @@
                         <!--No comments so far. <a class="alert-link"> Be the first one {{ myAccount.givenName }}</a>.-->
                     <!--</div>-->
 
-                    <ul class="pagination">
-                        <!--<li class="footable-page-arrow disabled"><a data-page="first" href="#first">«</a></li>-->
-                        <li class="footable-page-arrow"><button class="p-xxs" data-page="prev" ng-click="responses.$prev()">‹</button></li>
-                        <!--<li class="footable-page active"><a data-page="0" href="#">1</a></li>-->
-                        <!--<li class="footable-page"><a data-page="1" href="#">{{ responses.$$updated }}</a></li>-->
-                        <li class="footable-page-arrow"><button class="p-xxs" data-page="next" ng-click="responses.$next()">›</button></li>
-                        <!--<li class="footable-page-arrow"><a data-page="last" href="#last">»</a></li>-->
-                    </ul>
 
                     <responses ng-repeat='response in responses | orderByDayNumber:"lastModificationDate"' response='response'></responses>
 
-                    <ul class="pagination">
-                        <!--<li class="footable-page-arrow disabled"><a data-page="first" href="#first">«</a></li>-->
-                        <li class="footable-page-arrow"><button class="p-xxs" data-page="prev" ng-click="responses.$prev()">‹</button></li>
-                        <!--<li class="footable-page active"><a data-page="0" href="#">1</a></li>-->
-                        <!--<li class="footable-page"><a data-page="1" href="#">2</a></li>-->
-                        <li class="footable-page-arrow"><button class="p-xxs"  data-page="next" ng-click="responses.$next()">›</button></li>
-                        <!--<li class="footable-page-arrow"><a data-page="last" href="#last">»</a></li>-->
-                    </ul>
 
                     <div class="social-comment">
                         <a href="" class="pull-left">
@@ -110,10 +104,19 @@
                                                                 ['bold','italics'],
                                                                 ['justifyCenter', 'justifyLeft'], ['ul', 'ol']
                                                                 ]
-                                                                " ng-model="responseText"  ng-model-options="{debounce: 750}"></text-angular>
+                                                                " ng-model="responseText" ></text-angular>
+
+                            <img ngf-src="picFile" class="thumb">
+                              <span class="progress" ng-show="picFile.progress >= 0">
+                                  <div style="width:{{picFile.progress}}%" ng-bind="picFile.progress + '%'"></div>
+                              </span>
+                            <span ng-show="picFile.result">Upload Successful</span>
+
+                            <img ngf-src="multimedia" ng-repeat="multimedia in arrayMultimedia" class="thumb">
+
                             <div class="text-right">
-                                <!--<div class="button" ngf-select="upload($file)">Upload on file select</div>-->
-                                <button class="btn btn-sm btn-primary m-t-sm save" ng-click="sendComment()" ng-disabled="!responseText"><strong>Post comment</strong></button>
+                                <button class="btn btn-sm btn-primary m-t-sm " ngf-select="upload($file)"><strong><i class="fa fa-image"></i></strong></button>
+                                <button class="btn btn-sm btn-primary m-t-sm save" ng-click="sendComment()" ng-show="responseText"><strong>Post comment</strong></button>
                             </div>
                         </div>
                     </div>
@@ -124,4 +127,5 @@
 
         </div>
     </div>
-<!--</div>-->
+
+</div>

@@ -1,0 +1,45 @@
+<div class="social-body">
+    <h1>
+        <i ng-hide="activity.status.status == 1 || activity.status.status == 2" title="To Do" class="fa fa-check-square red"></i>
+        <i ng-show="activity.status.status == 1" title="In progress" class="fa fa-check-square yellow"></i>
+        <i ng-show="activity.status.status == 2" title="Done" class="fa fa-check-square green"></i>
+        {{ activity.name }}
+    </h1>
+
+    <div class="" ng-bind-html="activity.richText || activity.description"></div>
+
+    <text-angular class="pruebas"
+                  placeholder="{{'dibl.toolbar.placeholder-comments' | translate }}"
+                  ta-toolbar="[
+                                                                ['bold','italics'],
+                                                                ['justifyCenter', 'justifyLeft'], ['ul', 'ol']
+                                                                ]
+                                                                " ng-model="richtext"  ></text-angular>
+
+    <div class="text-right">
+        <button ng-if="!updateMode" class="btn btn-sm btn-primary m-t-sm save" ng-click="addText()" ><strong>Post text</strong></button>
+        <button ng-if="updateMode" class="btn btn-sm btn-primary m-t-sm save" ng-click="saveText(richtext)" ><strong>Save text</strong></button>
+    </div>
+
+    <div class="feed-activity-list">
+
+        <div class="feed-element" ng-repeat="richtext in richtexts">
+            <div>
+                <small class="pull-right text-navy">{{ richtext.date | timeago }}</small>
+                <strong> {{ richtext.name }} </strong>
+                <div ng-bind-html="richtext.text" ></div>
+                <small class="text-muted">{{ richtext.date | date:'medium' }}</small>
+                <div class="ibox-tools">
+                    <a class="close-link" ng-click="updateText(richtext, activity)">
+                        <i class="fa fa-pencil"></i>
+                    </a>
+                    <a class="close-link" ng-click="removeText(richtext)">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

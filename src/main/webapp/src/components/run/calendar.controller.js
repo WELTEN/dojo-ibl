@@ -4,14 +4,12 @@ angular.module('DojoIBL')
                                                 ActivityService, UserService, GameService, RunService, AccountService,
                                                 ChannelService, $location) {
 
+        $scope.$parent.toggle = true;
 
-        //ChannelService.register('org.celstec.arlearn2.beans.notification.GeneralItemModification', function (notification) {
-        //    ActivityService.refreshActivity(notification.itemId, notification.gameId);
-        //    toaster.success({
-        //        title: 'Activity modified',
-        //        body: 'The structure of the activity has been modified.'
-        //    });
-        //});
+        $scope.closeActivity = function() {
+            $scope.$parent.toggle = false;
+            $location.path('inquiry/'+$stateParams.runId);
+        };
 
         $scope.events = [];
 

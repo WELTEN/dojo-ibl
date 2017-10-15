@@ -1,0 +1,104 @@
+
+<div id="inquiry-group" class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
+    <div class="ibox-content">
+        <div class="heading ng-binding">
+            {{'dibl.inquiry.new-edit.run-inquiries' | translate}}
+        </div>
+        <div class="padding">
+            <div class="ibox-content profile-content">
+
+
+                <div class="col-md-6">
+                    <h3>{{'dibl.inquiry.new-edit.run-inquiries-title' | translate}}</h3>
+
+                    <p>{{'dibl.inquiry.new-edit.run-inquiries-description' | translate}}</p>
+
+                    <br/>
+
+                </div>
+
+                <div class="col-md-6">
+                    <h3>{{'dibl.inquiry.new-edit.run-inquiries-subtitle' | translate}}</h3>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-keyup="$event.keyCode == 13 && createInquiryRun()" ng-model="run.title" placeholder="{{'dibl.inquiry.new-edit.add-run-placeholder' | translate}}">
+                                <span class="input-group-btn" >
+                                    <button
+                                            type="button"  ng-disabled="run.title.length < 4 || !run.title"
+                                            ng-click="createInquiryRun()" class="btn btn-success"><i class="fa fa-plus"></i>
+                                        {{'dibl.inquiry.new-edit.add-run-button' | translate}}
+                                    </button>
+                                </span>
+                    </div>
+                </div>
+
+                <div class="project-list">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th class="hide-when-small"><b>{{'dibl.inquiry.new-edit.runs-status' | translate}}</b></th>
+                            <th><b>{{'dibl.inquiry.new-edit.runs-inquiry-code' | translate}}</b></th>
+                            <th><b>{{'dibl.inquiry.new-edit.runs-metadata' | translate}}</b></th>
+                            <th class="hide-when-small"><b>{{'dibl.inquiry.new-edit.runs-participants' | translate}}</b></th>
+                            <th><b>{{'dibl.inquiry.new-edit.runs-options' | translate}}</b></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="(key, run) in gameRuns | orderByDayNumber:'serverCreationTime'">
+                            <td class="project-status hide-when-small">
+                                <span ng-show="run.deleted" class="label label-danger">Deleted</span>
+                                <span ng-hide="run.deleted" class="label label-primary">Active</span>
+                            </td>
+                            <td class="project-completion">
+                                <!--<p><b>{{'dibl.inquiry.new-edit.inquiry-code' | translate}}</b></p>-->
+                                <small>{{ run.code }}</small>
+                                <!--<div class="progress progress-mini">-->
+                                <!--<div style="width: 48%;" class="progress-bar"></div>-->
+                                <!--</div>-->
+                            </td>
+                            <td class="project-title">
+                                <a href="#inquiry/{{ run.runId }}">{{ run.title }}</a>
+                                <br class="hide-when-small">
+                                <small class="hide-when-small">Created {{ run.serverCreationTime | date:'medium' }}</small>
+                                <br class="hide-when-small" />
+                                <small class="hide-when-small">Modification {{ run.lastModificationDate | date:'medium' }}</small>
+                            </td>
+                            <!--<td class="project-completion">-->
+                            <!--<small>Completion with: 48%</small>-->
+                            <!--<div class="progress progress-mini">-->
+                            <!--<div style="width: 48%;" class="progress-bar"></div>-->
+                            <!--</div>-->
+                            <!--</td>-->
+                            <td class="project-people hide-when-small" data-toggle="tooltip" data-placement="left" title="Tooltip on left">
+                                <a href="#/profile/{{user.accountType}}:{{user.localId}}" ng-repeat="user in usersRun[run.runId]">
+                                    <ng-letter-avatar shape="round" ng-if="user.picture == ''" data="{{ user.name }}"></ng-letter-avatar>
+                                    <img
+                                            alt="{{ user.name }}" title="{{ user.name }}" class="img-circle"
+                                            ng-if="user.picture != ''"
+                                            ng-src="{{ user.picture }}"></a>
+                            </td>
+                            <td class="project-actions">
+                                <a href="#inquiry/{{ run.runId }}" class="btn btn-white btn-sm"><i
+                                        class="fa fa-eye"></i> {{'dibl.inquiry.new-edit.options-view' | translate}} </a>
+                                <!--<a ng-click="addUsersToRun(run.runId, run.gameId)"-->
+                                <!--class="btn btn-white btn-sm"><i class="fa fa-user"></i> Add users </a>-->
+                                <a href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit" class="btn btn-white btn-sm hide-when-small"><i
+                                        class="fa fa-pencil"></i> {{'dibl.inquiry.new-edit.options-edit' | translate}}  </a>
+                                <a ng-click="removeRun(run)" class="btn btn-default btn-sm hide-when-small"><i
+                                        class="fa fa-times"></i> {{'dibl.inquiry.new-edit.options-delete' | translate}}  </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="pull-right tooltip-demo">
+                        <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit#bookmark=id.72ysjs7fgklv" class="btn btn-white btn-sm" data-toggle="tooltip"
+                           data-placement="top" title="Move to draft folder"><i class="fa fa-question"></i>
+                            {{ 'dibl.inquiry.new-edit.help' | translate }}</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

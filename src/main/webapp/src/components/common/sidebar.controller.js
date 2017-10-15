@@ -14,10 +14,15 @@ angular.module('DojoIBL')
             });
         });
 
+        if($stateParams.gameId){
+            $scope.gameId = $stateParams.gameId;
+        }
+
         if ($stateParams.runId) {
 
             RunService.getRunById($stateParams.runId).then(function(data){
                 $scope.run = data;
+                $scope.gameId = data.gameId;
                 AccountService.myDetails();
             });
 

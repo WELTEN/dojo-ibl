@@ -1,14 +1,28 @@
-<div class="social-comment">
+<div class="social-comment" id="{{ response.$id }}" ng-class="{ 'highlight-hash-link': currentHash() == response.$id  }">
+    <small class="chat-date pull-right" ng-show="currentHash() == response.$id">
+        <a class="close-link" href="#inquiry/{{ response.runId }}/phase/{{ response.phase }}/activity/{{ response.generalItemId }}">
+            <i class="fa fa-times"></i>
+        </a>
+    </small>
     <a href="" class="pull-left">
         <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="response.userProfile == ''" data="{{ response.userName }}"></ng-letter-avatar>
         <img class="message-avatar" ng-if="response.userProfile != ''" ng-src="{{ response.userProfile }}" alt="">
     </a>
     <div class="media-body">
-        <a href="#/profile/{{ response.userAccountType }}:{{ response.userLocalId }}">
+        <a href="#/profile/{{ response.userLocalId }}">
             {{ response.userName }}
         </a> • <small class="text-muted">{{ response.lastModificationDate | date:'medium' }}</small>
 
         <div ng-bind-html="response.responseValue" ></div>
+
+
+
+        <div class="lightBoxGallery">
+            <a href="{{ multimedia.url }}" data-gallery ng-repeat="multimedia in response.multimedia" ><img ngf-src="multimedia.url" class="thumb"></a>
+        </div>
+
+
+        <br/>
         <!--<a class="small reply" ng-click="hiddenDivReply = !hiddenDivReply"> <i class="fa fa-mail-reply"></i> Reply</a> •-->
 
         <a ng-click="likedComment(response, myAccount.localId)" class="small" ><i class="fa fa-thumbs-up"></i> <span ng-show="!response.likes[myAccount.localId]">Like</span> <span ng-show="response.likes[myAccount.localId]">Liked</span> </a> <span ng-show="response.likeCount > 0">{{ response.likeCount }}</span> <span ng-show="myAccount.localId == response.userLocalId"> • </span>

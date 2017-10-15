@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .directive('responses', function(AccountService, $firebaseArray) {
+    .directive('responses', function(AccountService, $firebaseArray, NotificationService, $location) {
         return  {
             restrict: "E",
             replace: true,
@@ -58,6 +58,7 @@ angular.module('DojoIBL')
                         "userAccountType": scope.response.userAccountType,
                         "userLocalId": scope.response.userLocalId,
                         "userName": scope.response.userName,
+                        "multimedia": (scope.response.multimedia == undefined ? "" : scope.response.multimedia ),
                         "userProfile": (scope.response.userProfile == undefined ? "" : scope.response.userProfile ),
                         "responseValue": newValue,
                         "parentId": scope.response.parentId,
@@ -75,7 +76,7 @@ angular.module('DojoIBL')
 
                 };
 
-                scope.likedComment = function(user, uid){
+                scope.likedComment = function(response, uid){
 
                     var responsesRef = firebase.database().ref("responses").child(scope.response.runId).child(scope.response.generalItemId).child(scope.response.$id);
 
@@ -90,8 +91,23 @@ angular.module('DojoIBL')
                                     response.likes = {};
                                 }
                                 response.likes[uid] = true;
+
+                                NotificationService.notify(response.userLocalId, {
+                                    description: scope.response.userName + " liked your comment.",
+                                    message: "",
+                                    type: "like_response",
+                                    user_id: uid,
+                                    groupId: scope.response.runId,
+                                    activityId: scope.response.generalItemId,
+                                    responseId: scope.response.$id,
+                                    phaseId: scope.response.phase,
+                                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                                });
+
                             }
                         }
+
+
                         return response;
                     });
                 };
@@ -153,6 +169,10 @@ angular.module('DojoIBL')
                     //responseRef.set(true);
                 };
 
+
+                scope.currentHash = function() {
+                    return $location.hash();
+                };
 
                 //console.log(scope);
 

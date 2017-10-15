@@ -1,6 +1,7 @@
 angular.module('DojoIBL')
 
-    .controller('ToolbarController', function ($scope, toaster, $rootScope, $state, $location, $stateParams,RunService, ActivityService, Session, Game, GameService, AccountService, config, ChannelService, UserService) {
+    .controller('ToolbarController', function ($scope, toaster, $rootScope, $state, $location, $stateParams,RunService, ActivityService,
+                                               Session, Game, GameService, AccountService, config, ChannelService, UserService, $window) {
         $scope.test = "foo";
 
         $scope.name = "your name";
@@ -12,6 +13,10 @@ angular.module('DojoIBL')
         $scope.leftDisabled = false;
 
         $scope.state = $state;
+
+        if ($stateParams.gameId) {
+            $scope.gameId = $stateParams.gameId;
+        }
 
         if ($stateParams.runId) {
             $scope.$on('inquiry-run', function(event, args) {
@@ -182,6 +187,9 @@ angular.module('DojoIBL')
             });
 
 
+        };
+        $scope.backInHistory = function(){
+            $window.history.back();
         };
 
         //ChannelService.register('org.celstec.arlearn2.beans.run.User', function (notification) {

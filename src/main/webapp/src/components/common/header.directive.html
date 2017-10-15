@@ -1,7 +1,6 @@
 <div class="row border-bottom">
     <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
-            <a ng-show="state.current.name != 'home'" class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#/home" ><i class="fa fa-bars"/> Go to Home page </a>
         </div>
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
@@ -18,18 +17,40 @@
 
                 </ul>
             </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle count-info" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-bell"></i>  <span class="label label-primary" ng-show="notifications.length > 0">{{ notifications.length }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-alerts" >
+                    <li ng-repeat="notification in notifications" ng-show="notifications.length > 0">
+                        <a ng-click="notificationRead(notification)" href="#inquiry/{{ notification.groupId }}/phase/{{ notification.phaseId }}/activity/{{ notification.activityId }}#{{ notification.responseId }}">
+                            <div>
+                                <i ng-class="{ 'fa-thumbs-up': notification.type == 'like_response' }" class="fa fa-fw"></i> {{ notification.description }}
+                                <span class="pull-right text-muted small">{{ notification.timestamp | timeago }}</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li ng-show="notifications.length == 0">
+                        <div class="bg-success p-xs b-r-sm"> Your notification panel is clean</div>
+                    </li>
+                    <!--<li class="divider"></li>-->
+                    <!--<li>-->
+                        <!--<div class="text-center link-block">-->
+                            <!--<a href="notifications.html">-->
+                                <!--<strong>See All Alerts</strong>-->
+                                <!--<i class="fa fa-angle-right"></i>-->
+                            <!--</a>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                </ul>
+            </li>
             <li>
                 <a ng-click="signout()">
                     <i class="fa fa-sign-out"></i> {{'dibl.header.logout' | translate }}
-                </a>
-            </li>
-            <li class=" feedback">
-
-                <a target="_blank" href="https://github.com/WELTEN/dojo-ibl/issues">
-                    <i class="fa fa-tasks"></i> <span>{{'dibl.header.version' | translate }}.</span> {{'dibl.header.feedback' | translate }}?
                 </a>
             </li>
         </ul>
 
     </nav>
 </div>
+

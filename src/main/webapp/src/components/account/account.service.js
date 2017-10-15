@@ -40,7 +40,9 @@ angular.module('DojoIBL')
                 var dataCache = CacheFactory.get('accountCache');
 
 
-                fullId = "7:"+fullId;
+                if(fullId.indexOf("7:") == -1){
+                    fullId = "7:"+fullId;
+                }
 
                 if (dataCache.get(fullId)) {
                     deferred.resolve(dataCache.get(fullId));

@@ -1,0 +1,339 @@
+<div id="all" class="col-md-12 wrapper wrapper-content animated fadeInpanel-body" >
+    <div class="ibox-content">
+        <div class="tabs-container">
+            <ul class="nav nav-tabs backgroundtab">
+                <li class="active">
+                    <div class="heading ng-binding" data-toggle="tab" data-target="#tab-1" aria-expanded="true">
+                        {{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}
+                    </div>
+                </li>
+                <li class="">
+                    <div class="heading ng-binding" data-toggle="tab" data-target="#tab-2" aria-expanded="true">
+                        {{'dibl.inquiry.new-edit.inquiry-phases-activities' | translate}}
+                    </div>
+                </li>
+                <li class="">
+                    <div class="heading ng-binding" data-toggle="tab" data-target="#tab-3" aria-expanded="true">
+                        {{'dibl.inquiry.new-edit.calendar' | translate}}
+                    </div>
+                </li>
+                <li class="">
+                    <div class="heading ng-binding" data-toggle="tab" data-target="#tab-4" aria-expanded="true">
+                        {{'dibl.inquiry.new-edit.run-inquiries' | translate}}
+                    </div>
+                </li>
+                <li class="">
+                    <div class="heading ng-binding" data-toggle="tab" data-target="#tab-5" aria-expanded="true">
+                        {{'dibl.inquiry.new-edit.editor-management' | translate}}
+                    </div>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane active">
+                    <div class="panel-body">
+                        <div class="ibox-content profile-content col-md-7">
+                            <form role="form">
+                                <div class="box-body">
+                                    <form novalidate>
+                                        <div class="form-group">
+                                            <label for="gameTitle">{{'dibl.inquiry.new-edit.inquiry-title' |
+                                                translate}}</label>
+                                            <input required type="name" class="form-control" id="gameTitle"
+                                                   placeholder="{{'dibl.inquiry.new-edit.inquiry-title-placeholder' | translate}}"
+                                                   ng-model="game.title">
+                                        </div>
+                                    </form>
+
+                                    <label>{{ 'dibl.inquiry.new-edit.inquiry-description' | translate }}</label>
+                                    <text-angular class="edit-game-desc"  ta-toolbar="[
+                                    ['bold','italics'],
+                                    ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
+                                    ['insertImage', 'insertLink','insertVideo']]
+                                    "ng-model="game.description"></text-angular>
+                                </div>
+
+
+                            </form>
+
+                            <div class="pull-right tooltip-demo">
+                                <a ng-hide="game.gameId == 4913623780556800" class="btn btn-white btn-sm" data-toggle="tooltip"
+                                   data-placement="top" title="Move to draft folder"><i class="fa fa-times"></i>
+                                    {{ 'dibl.inquiry.new-edit.inquiry-discard' | translate }}</a>
+
+                                <a ng-hide="game.gameId == 4913623780556800" class="btn btn-primary btn-sm" data-toggle="tooltip"
+                                   data-placement="top" ng-click="ok()" title="Save inquiry"><i class="fa fa-check"></i>
+                                    {{ 'dibl.inquiry.new-edit.inquiry-save' | translate }}</a>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="ibox-content profile-content">
+                                <!--<h4><strong>{{ 'dibl.inquiry.new-edit.roles-title' | translate }} </strong></h4>-->
+
+                                <p>{{ 'dibl.inquiry.new-edit.p-available-roles' | translate }} <b>{{ game.title }}</b></p>
+
+                                <ul class="tag-list" style="padding: 0; display: inline-block;">
+                                    <li ng-repeat="role in game.config.roles2 track by $index"><a href=""  ng-click="selectRole($index)">
+                                        <i class="fa fa-circle" ng-style="{ 'color': role.color }"></i> {{ role.name }}</a></li>
+                                    <li ng-show="game.config.roles2 == 0"><a href=""><i class="fa fa-tag"></i> {{
+                                        'dibl.inquiry.new-edit.no-roles' | translate }}</a></li>
+                                </ul>
+                                <br/>
+
+                                <div class="btn-group" style="width: 100%">
+                                    <input required type="name" class="form-control" id="roleName"
+                                           placeholder="{{ 'dibl.inquiry.new-edit.placeholder-role' | translate }}"
+                                           ng-keyup="$event.keyCode == 13 && addRole()"
+                                           ng-hide="game.gameId == 4913623780556800"
+                                           ng-model="role.name">
+                                    <span ng-hide="game.gameId == 4913623780556800" ng-click="clearRole()" id="roleclear" class="glyphicon glyphicon-remove-circle"></span>
+                                </div>
+
+
+                                <br/>
+                                <br/>
+
+                                <input required type="color" class="form-control" id="roleColor"
+                                       placeholder="{{ 'dibl.inquiry.new-edit.placeholder-role' | translate }}"
+                                       ng-model="role.color">
+
+
+                                <br/>
+                                <!--<p>{{ game.config.roles }}</p>-->
+
+                                <div class="user-button">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <button type="button" ng-show="!role.type && role.name" ng-click="addRole()"
+                                                    class="btn btn-primary btn-sm btn-block"><i
+                                                    class="fa fa-envelope"></i> {{ 'dibl.inquiry.new-edit.add-role' |
+                                                translate }}
+                                            </button>
+                                            <button type="button" ng-show="role.type && role.name" style="margin-top: 0px;" ng-click="editRole()"
+                                                    class="btn btn-success btn-sm btn-block"><i
+                                                    class="fa fa-envelope"></i> {{ 'dibl.inquiry.new-edit.edit-role' |
+                                                translate }}
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button type="button" ng-show="role.type && role.name" ng-click="removeRole()"
+                                                    class="btn btn-danger btn-sm btn-block"><i
+                                                    class="fa fa-coffee"></i> {{ 'dibl.inquiry.new-edit.remove-role' |
+                                                translate }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="padding">
+                        <div class="ibox-content profile-content text-center">
+                            <button type="button" ng-click="deleteInquiry(game.gameId)" class="btn btn-w-l btn-danger">Delete Inquiry</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab-2" class="tab-pane">
+                    <div class="padding row show-grid" >
+                        <section ng-repeat="phase in phases track by $index"  >
+                            <h3 style="margin-top: 0px;">
+                                <button class="btn btn-sm btn-danger dim" ng-hide="game.gameId == 4913623780556800" ng-click="removePhase($index)" type="button">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                                <span>{{ $index }}. {{ phase.title }}</span>
+                                <a ng-click="renamePhase($index)" class="btn btn-white btn-xs btn-bitbucket">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </h3>
+                            <ul id="{{$index}}" ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable">
+                                <li id="{{ activity }}" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[game.gameId][$index] | orderByDayNumber:'sortKey'">
+
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+                                    <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest'" class="fa fa-list-alt"></i>
+
+                                    <a ng-click="editActivity(activity, game)">{{ activity.sortKey }}. {{ activity.name | limitTo: 25 }}</a>
+                                    <br/>
+                                    <p class="small">{{ activity.description | limitTo: 20 }}</p>
+                                    <div class="agile-detail">
+                                        <span class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</span>
+                                        <i class="fa fa-clock-o"></i> {{ activity.timestamp | timeago }}
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="new_activity">
+                                <button ng-hide="game.gameId == 4913623780556800" class="btn btn-warning btn-circle new_activity_button"  ng-click="addNewActivity($index, game)" type="button">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </section>
+                        <aside>
+                            <button ng-hide="game.gameId == 4913623780556800" class="btn btn-primary dim" ng-click="addPhase()" type="button">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </aside>
+
+                    </div>
+                </div>
+                <div id="tab-3" class="tab-pane">
+                    <div class="ibox-content ui-calendar mail-body">
+
+                        <div ui-calendar="uiConfig.calendar" calendar="myCalendar1" class="calendar" ng-model="eventSources"></div>
+                        <br/>
+                        <div class="pull-right tooltip-demo">
+                            <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit#bookmark=id.34boqohhq24w" class="btn btn-white btn-sm" data-toggle="tooltip"
+                               data-placement="top" title="Move to draft folder"><i class="fa fa-question"></i>
+                                {{ 'dibl.inquiry.new-edit.help' | translate }}</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab-4" class="tab-pane">
+
+                    <div class="padding" >
+                        <div class="ibox-content profile-content">
+
+
+                            <div class="col-md-6">
+                                <h3>{{'dibl.inquiry.new-edit.run-inquiries-title' | translate}}</h3>
+
+                                <p>{{'dibl.inquiry.new-edit.run-inquiries-description' | translate}}</p>
+
+                                <br/>
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <h3>{{'dibl.inquiry.new-edit.run-inquiries-subtitle' | translate}}</h3>
+
+                                <div class="input-group">
+                                    <input type="text" class="form-control" ng-keyup="$event.keyCode == 13 && createInquiryRun()" ng-model="run.title" placeholder="{{'dibl.inquiry.new-edit.add-run-placeholder' | translate}}">
+                                <span class="input-group-btn" >
+                                    <button
+                                            type="button"  ng-disabled="run.title.length < 4 || !run.title"
+                                            ng-click="createInquiryRun()" class="btn btn-success"><i class="fa fa-plus"></i>
+                                        {{'dibl.inquiry.new-edit.add-run-button' | translate}}
+                                    </button>
+                                </span>
+                                </div>
+                            </div>
+
+                            <div class="project-list">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th class="hide-when-small"><b>{{'dibl.inquiry.new-edit.runs-status' | translate}}</b></th>
+                                        <th><b>{{'dibl.inquiry.new-edit.runs-inquiry-code' | translate}}</b></th>
+                                        <th><b>{{'dibl.inquiry.new-edit.runs-metadata' | translate}}</b></th>
+                                        <th class="hide-when-small"><b>{{'dibl.inquiry.new-edit.runs-participants' | translate}}</b></th>
+                                        <th><b>{{'dibl.inquiry.new-edit.runs-options' | translate}}</b></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="(key, run) in gameRuns | orderByDayNumber:'serverCreationTime'">
+                                        <td class="project-status hide-when-small">
+                                            <span ng-show="run.deleted" class="label label-danger">Deleted</span>
+                                            <span ng-hide="run.deleted" class="label label-primary">Active</span>
+                                        </td>
+                                        <td class="project-completion">
+                                            <!--<p><b>{{'dibl.inquiry.new-edit.inquiry-code' | translate}}</b></p>-->
+                                            <small>{{ run.code }}</small>
+                                            <!--<div class="progress progress-mini">-->
+                                            <!--<div style="width: 48%;" class="progress-bar"></div>-->
+                                            <!--</div>-->
+                                        </td>
+                                        <td class="project-title">
+                                            <a href="#inquiry/{{ run.runId }}">{{ run.title }}</a>
+                                            <br class="hide-when-small">
+                                            <small class="hide-when-small">Created {{ run.serverCreationTime | date:'medium' }}</small>
+                                            <br class="hide-when-small" />
+                                            <small class="hide-when-small">Modification {{ run.lastModificationDate | date:'medium' }}</small>
+                                        </td>
+                                        <!--<td class="project-completion">-->
+                                        <!--<small>Completion with: 48%</small>-->
+                                        <!--<div class="progress progress-mini">-->
+                                        <!--<div style="width: 48%;" class="progress-bar"></div>-->
+                                        <!--</div>-->
+                                        <!--</td>-->
+                                        <td class="project-people hide-when-small" data-toggle="tooltip" data-placement="left" title="Tooltip on left">
+                                            <a href="#/profile/{{user.accountType}}:{{user.localId}}" ng-repeat="user in usersRun[run.runId]">
+                                                <ng-letter-avatar shape="round" ng-if="user.picture == ''" data="{{ user.name }}"></ng-letter-avatar>
+                                                <img
+                                                        alt="{{ user.name }}" title="{{ user.name }}" class="img-circle"
+                                                        ng-if="user.picture != ''"
+                                                        ng-src="{{ user.picture }}"></a>
+                                        </td>
+                                        <td class="project-actions">
+                                            <a href="#inquiry/{{ run.runId }}" class="btn btn-white btn-sm"><i
+                                                    class="fa fa-eye"></i> {{'dibl.inquiry.new-edit.options-view' | translate}} </a>
+                                            <!--<a ng-click="addUsersToRun(run.runId, run.gameId)"-->
+                                            <!--class="btn btn-white btn-sm"><i class="fa fa-user"></i> Add users </a>-->
+                                            <a href="#/inquiry/{{ run.gameId }}/run/{{ run.runId }}/edit" class="btn btn-white btn-sm hide-when-small"><i
+                                                    class="fa fa-pencil"></i> {{'dibl.inquiry.new-edit.options-edit' | translate}}  </a>
+                                            <a ng-click="removeRun(run)" class="btn btn-default btn-sm hide-when-small"><i
+                                                    class="fa fa-times"></i> {{'dibl.inquiry.new-edit.options-delete' | translate}}  </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="pull-right tooltip-demo">
+                                    <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit#bookmark=id.72ysjs7fgklv" class="btn btn-white btn-sm" data-toggle="tooltip"
+                                       data-placement="top" title="Move to draft folder"><i class="fa fa-question"></i>
+                                        {{ 'dibl.inquiry.new-edit.help' | translate }}</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div id="tab-5" class="tab-pane">
+                    <div class="padding">
+                        <div class="ibox-content profile-content">
+                            <div class="project-list">
+                                <table class="table table-hover">
+                                    <tbody>
+
+                                    <tr ng-repeat="(key, account) in accountsAccesGame">
+                                        <td class="project-status">
+                                            <span ng-show="account.accessRights == 2" class="label label-primary">{{'dibl.inquiry.new-edit.editor-user' | translate}}</span>
+                                            <span ng-show="account.accessRights == 1" class="label label-danger">{{'dibl.inquiry.new-edit.editor-editor' | translate}}</span>
+                                        </td>
+                                        <td class="client-avatar">
+                                            <ng-letter-avatar shape="round" ng-if="account.picture == ''" data="{{ account.name }}"></ng-letter-avatar>
+                                            <img alt="{{ account.name }}" title="{{ account.name }}" class="img-circle"
+                                                 ng-if="account.picture != ''"
+                                                 ng-src="{{ account.picture }}"></a>
+                                        </td>
+                                        <td><a data-toggle="tab" href="#contact-1" class="client-link">{{ account.name }}</a></td>
+                                        <td class="contact-type"><i class="fa fa-envelope"> </i></td>
+                                        <td> {{ account.email }}</td>
+                                        <td class="project-actions">
+                                            <a ng-show="account.accessRights == 2 && me.localId != account.localId" ng-click="grantEditorAccess(game, account)"
+                                               class="btn btn-white btn-sm"><i class="fa fa-arrow-up"></i> {{'dibl.inquiry.new-edit.editor-promote-editor' | translate}} </a>
+                                            <a ng-show="account.accessRights == 1 && me.localId != account.localId" ng-click="revokeEditorAccess(game, account)"
+                                               class="btn btn-white btn-sm"><i class="fa fa-arrow-down"></i> {{'dibl.inquiry.new-edit.editor-relegate-user' | translate}}</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-6" class="tab-pane">
+                    <div class="padding">
+                        <div class="ibox-content profile-content">
+
+                            <query-builder query-json="resultJSON" query="query1" fields="fields" result="result"></query-builder>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

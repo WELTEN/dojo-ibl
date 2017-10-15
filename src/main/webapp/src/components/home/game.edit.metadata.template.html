@@ -1,0 +1,121 @@
+<div>
+
+
+    <div id="metadata" class="col-md-7 wrapper wrapper-content animated fadeInpanel-body">
+        <div class="ibox-content">
+            <div class="heading ng-binding">
+                {{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}
+            </div>
+            <div class="padding">
+                <div class="ibox-content profile-content">
+                    <form role="form">
+                        <div class="box-body">
+                            <form novalidate>
+                                <div class="form-group">
+                                    <label for="gameTitle">{{'dibl.inquiry.new-edit.inquiry-title' |
+                                        translate}}</label>
+                                    <input required type="name" class="form-control" id="gameTitle"
+                                           placeholder="{{'dibl.inquiry.new-edit.inquiry-title-placeholder' | translate}}"
+                                           ng-model="game.title">
+                                </div>
+                            </form>
+
+                            <label>{{ 'dibl.inquiry.new-edit.inquiry-description' | translate }}</label>
+                            <text-angular class="edit-game-desc"  ta-toolbar="[
+                                    ['bold','italics'],
+                                    ['justifyCenter', 'justifyLeft'], ['ul', 'ol'],
+                                    ['insertImage', 'insertLink','insertVideo']]
+                                    "ng-model="game.description"></text-angular>
+                        </div>
+
+
+                    </form>
+
+                    <div class="pull-right tooltip-demo">
+                        <a ng-hide="game.gameId == 4913623780556800" class="btn btn-white btn-sm" data-toggle="tooltip"
+                           data-placement="top" title="Move to draft folder"><i class="fa fa-times"></i>
+                            {{ 'dibl.inquiry.new-edit.inquiry-discard' | translate }}</a>
+
+                        <a ng-hide="game.gameId == 4913623780556800" class="btn btn-primary btn-sm" data-toggle="tooltip"
+                           data-placement="top" ng-click="ok()" title="Save inquiry"><i class="fa fa-check"></i>
+                            {{ 'dibl.inquiry.new-edit.inquiry-save' | translate }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="roles" class="col-md-5 wrapper wrapper-content animated fadeInpanel-body">
+        <div class="ibox-content">
+            <div class="heading ng-binding">
+                {{ 'dibl.inquiry.new-edit.inquiry-roles' | translate }}
+            </div>
+            <div class="padding">
+                <div class="ibox-content profile-content">
+                    <!--<h4><strong>{{ 'dibl.inquiry.new-edit.roles-title' | translate }} </strong></h4>-->
+
+                    <p>{{ 'dibl.inquiry.new-edit.p-available-roles' | translate }} <b>{{ game.title }}</b></p>
+
+                    <ul class="tag-list" style="padding: 0; display: inline-block;">
+                        <li ng-repeat="role in game.config.roles2 track by $index"><a href=""  ng-click="selectRole($index)">
+                            <i class="fa fa-circle" ng-style="{ 'color': role.color }"></i> {{ role.name }}</a></li>
+                        <li ng-show="game.config.roles2 == 0"><a href=""><i class="fa fa-tag"></i> {{
+                            'dibl.inquiry.new-edit.no-roles' | translate }}</a></li>
+                    </ul>
+                    <br/>
+
+                    <div class="btn-group" style="width: 100%">
+                        <input required type="name" class="form-control" id="roleName"
+                               placeholder="{{ 'dibl.inquiry.new-edit.placeholder-role' | translate }}"
+                               ng-keyup="$event.keyCode == 13 && addRole()"
+                               ng-hide="game.gameId == 4913623780556800"
+                               ng-model="role.name">
+                        <span ng-hide="game.gameId == 4913623780556800" ng-click="clearRole()" id="roleclear" class="glyphicon glyphicon-remove-circle"></span>
+                    </div>
+
+
+                    <br/>
+                    <br/>
+
+                    <input required type="color" class="form-control" id="roleColor"
+                           placeholder="{{ 'dibl.inquiry.new-edit.placeholder-role' | translate }}"
+                           ng-model="role.color">
+
+
+                    <br/>
+                    <!--<p>{{ game.config.roles }}</p>-->
+
+                    <div class="user-button">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="button" ng-show="!role.type && role.name" ng-click="addRole()"
+                                        class="btn btn-primary btn-sm btn-block"><i
+                                        class="fa fa-envelope"></i> {{ 'dibl.inquiry.new-edit.add-role' |
+                                    translate }}
+                                </button>
+                                <button type="button" ng-show="role.type && role.name" style="margin-top: 0px;" ng-click="editRole()"
+                                        class="btn btn-success btn-sm btn-block"><i
+                                        class="fa fa-envelope"></i> {{ 'dibl.inquiry.new-edit.edit-role' |
+                                    translate }}
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" ng-show="role.type && role.name" ng-click="removeRole()"
+                                        class="btn btn-danger btn-sm btn-block"><i
+                                        class="fa fa-coffee"></i> {{ 'dibl.inquiry.new-edit.remove-role' |
+                                    translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right tooltip-demo">
+                    <a target="_blank" href="https://docs.google.com/document/d/1Sgw4YJ4AzZnAVrI6M61apo7fw49hHXihVeIyG348BC4/edit#bookmark=id.x798b8mfm6if" class="btn btn-white btn-sm" data-toggle="tooltip"
+                       data-placement="top" title="Move to draft folder"><i class="fa fa-question"></i>
+                        {{ 'dibl.inquiry.new-edit.help' | translate }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

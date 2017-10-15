@@ -1,5 +1,5 @@
 
-<div class="panel-body no-padding-no-border-radius col-md-12 wrapper wrapper-content animated fadeInpanel-body">
+<div class="panel-body no-padding-no-border-radius col-md-12 wrapper wrapper-content animated fadeInpanel-body m-b-sm" ng-repeat="phase in phases track by $index">
     <div class="ibox-content">
         <div class="heading ng-binding">
             <small  class="chat-date " >
@@ -9,7 +9,7 @@
                     </a>
                 </div>
             </small>
-            {{ 'dibl.inquiry.view.description' | translate }} <b>{{ inqTitle }}</b>
+            {{ $index }}. {{ phase.title }} phase
             <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
                 <div class="sk-rect1"></div>
                 <div class="sk-rect2"></div>
@@ -19,34 +19,76 @@
             </div>
         </div>
 
-        <div class="padding row top-buffer show-grid">
-            <section ng-repeat="phase in phases track by $index"  >
-                <h3 style="margin-top: 0px;">
-                    <span><a ng-click="goToPhase(inqId, $index)">{{ $index }}. {{ phase.title }}</a></span>
-                </h3>
+        <div class="m">
+            <!--<p ng-show="$index == 0">-->
+                <!--<span class="badge badge-info">Important</span> <i class="fa fa-info"></i> {{'dibl.inquiry.phase.instruction' | translate}}-->
+            <!--</p>-->
 
-
-                <ul id="{{$index}}" class="sortable-list connectList agile-list ui-sortable">
-                    <li ng-click="goToActivity(inqId, activity.section, activity.id)" id="{{ activity }}"
-                        ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}"
-                        ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'"
-                        ng-class="{'activity-status-todo': activity.status.status == 0 || !activity.status.status ,'activity-status-inprogress': activity.status.status == 1,'activity-status-completed': activity.status.status == 2}">
-
+            <div class="col-lg-4 separator">
+                <h3 ng-show="$index == 0">ToDo</h3>
+                <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities to be done</p>-->
+                <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="0">
+                    <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-hide="activity.status.status == 1 || activity.status.status == 2"
+                        ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
                         <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
 
-                        <a ng-click="goToActivity(inqId, activity.section, activity.id)"><!--<i class="fa fa-circle"></i>--> {{ activity.name | limitTo: 20 }}</a>
+                        <a href="#inquiry/{{ run.runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}">{{ activity.name }}</a>
                         <br/>
                         <p class="small">{{ activity.description | limitTo: 20 }}</p>
                         <div class="agile-detail">
-                            <a class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
-                            <i class="fa fa-clock-o"></i> {{ activity.timestamp | timeago }}
+                            <span>{{ getRoleName(activity.roles2) }}</span>
+                            <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
                         </div>
                     </li>
                 </ul>
-            </section>
+            </div>
+
+            <div class="col-lg-4 separator">
+                <h3 ng-show="$index == 0">In progress</h3>
+                <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities in progress</p>-->
+                <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="1">
+                    <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-show="activity.status.status == 1" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+
+                        <a href="#inquiry/{{ run.runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}">{{ activity.name }}</a>
+                        <br/>
+                        <p class="small">{{ activity.description | limitTo: 20 }}</p>
+                        <div class="agile-detail">
+                            <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
+                            <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-lg-4">
+                <h3 ng-show="$index == 0">Completed</h3>
+                <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities completed</p>-->
+                <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="2">
+                    <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-show="activity.status.status == 2" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'" class="fa fa-tasks"></i>
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'" class="fa fa-file-text"></i>
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.VideoObject'" class="fa fa-file-movie-o"></i>
+                        <i ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.ScanTag'" class="fa fa-folder"></i>
+
+                        <a href="#inquiry/{{ run.runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}">{{ activity.name }}</a>
+                        <br/>
+                        <p class="small">{{ activity.description | limitTo: 20 }}</p>
+                        <div class="agile-detail">
+                            <a href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</a>
+                            <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+
         </div>
 
     </div>

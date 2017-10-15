@@ -1,7 +1,7 @@
 angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache', 'ngDragDrop', 'localytics.directives',
     'summernote', 'ui.select', 'ngSanitize',  'infinite-scroll', 'textAngular', 'pascalprecht.translate', 'ngFileUpload',
     'ncy-angular-breadcrumb', 'angular-table', 'luegg.directives', 'ngEmoticons', 'vButton', 'ui.sortable', 'ngAudio', 'ui.bootstrap',
-    'ui.codemirror', 'ngLetterAvatar', 'toaster', 'ngAnimate', 'ui.footable', 'ui.calendar', 'datePicker', 'firebase'])
+    'ui.codemirror', 'ngLetterAvatar', 'toaster', 'ngAnimate', 'ui.footable', 'ui.calendar', 'datePicker', 'firebase', 'localytics.directives'])
 
     .config(function ($translateProvider, $urlRouterProvider) {
 
@@ -29,48 +29,48 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
             firebase.initializeApp(config);
         }
 
-        const messaging = firebase.messaging();
-
-        messaging.requestPermission()
-            .then(function() {
-                console.log('Notification permission granted.');
-                // TODO(developer): Retrieve an Instance ID token for use with FCM.
-                // ...
-            })
-            .catch(function(err) {
-                console.log('Unable to get permission to notify.', err);
-            });
-
-
-
-
-        // Get Instance ID token. Initially this makes a network call, once retrieved
-        // subsequent calls to getToken will return from cache.
-        messaging.getToken()
-            .then(function(currentToken) {
-
-                if (currentToken) {
-
-                    //console.log(currentToken)
-
-                    //ChannelService.saveDeviceRegistrationTokenMessaging(currentToken);
-                    localStorage.setItem('deviceRegistrationToken', currentToken)
-
-                    //sendTokenToServer(currentToken);
-                    //updateUIForPushEnabled(currentToken);
-                } else {
-                    // Show permission request.
-                    console.log('No Instance ID token available. Request permission to generate one.');
-                    // Show permission UI.
-                    //updateUIForPushPermissionRequired();
-                    //setTokenSentToServer(false);
-                }
-            })
-            .catch(function(err) {
-                console.log('An error occurred while retrieving token. ', err);
-                //showToken('Error retrieving Instance ID token. ', err);
-                //setTokenSentToServer(false);
-            });
+        //const messaging = firebase.messaging();
+        //
+        //messaging.requestPermission()
+        //    .then(function() {
+        //        console.log('Notification permission granted.');
+        //        // TODO(developer): Retrieve an Instance ID token for use with FCM.
+        //        // ...
+        //    })
+        //    .catch(function(err) {
+        //        console.log('Unable to get permission to notify.', err);
+        //    });
+        //
+        //
+        //
+        //
+        //// Get Instance ID token. Initially this makes a network call, once retrieved
+        //// subsequent calls to getToken will return from cache.
+        //messaging.getToken()
+        //    .then(function(currentToken) {
+        //
+        //        if (currentToken) {
+        //
+        //            //console.log(currentToken)
+        //
+        //            //ChannelService.saveDeviceRegistrationTokenMessaging(currentToken);
+        //            localStorage.setItem('deviceRegistrationToken', currentToken)
+        //
+        //            //sendTokenToServer(currentToken);
+        //            //updateUIForPushEnabled(currentToken);
+        //        } else {
+        //            // Show permission request.
+        //            console.log('No Instance ID token available. Request permission to generate one.');
+        //            // Show permission UI.
+        //            //updateUIForPushPermissionRequired();
+        //            //setTokenSentToServer(false);
+        //        }
+        //    })
+        //    .catch(function(err) {
+        //        console.log('An error occurred while retrieving token. ', err);
+        //        //showToken('Error retrieving Instance ID token. ', err);
+        //        //setTokenSentToServer(false);
+        //    });
     })
     .config(function($breadcrumbProvider) {
         $breadcrumbProvider.setOptions({
@@ -137,6 +137,15 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
             return true;
         };
     })
+    .filter('removeHTMLTags', function(){
+        return function(string){
+            if (typeof string == 'undefined')
+                string = 'undefined';
+            if (typeof string != 'string')
+                string = JSON.stringify(string);
+            return string.replace(/<(?:.|\n)*?>/gm, '');
+        }
+    })
     .filter('timeago', function(){
         return function(date){
             return moment(date).fromNow();
@@ -152,10 +161,12 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
         };
     }).run(run);
 
-    run.$inject = ['$rootScope', '$location', '$window', 'Session'];
-    function run($rootScope, $location, $window, Session) {
+    run.$inject = ['$rootScope', '$location', '$window', 'Session', '$state'];
+    function run($rootScope, $location, $window, Session, $state) {
         // initialise google analytics
         $window.ga('create', 'UA-75878329-2', 'auto');
+
+        $rootScope.$state = $state;
 
         // track pageview on state change
         $rootScope.$on('$stateChangeSuccess', function (event) {

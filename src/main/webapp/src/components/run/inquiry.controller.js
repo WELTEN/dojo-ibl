@@ -1,7 +1,7 @@
 angular.module('DojoIBL')
 
     .controller('InquiryController', function ($scope, $sce, $location, $stateParams, $state, Session, MessageService,
-                                               ActivityService, AccountService, ChannelService, RunService, ActivityStatusService) {
+                                               ActivityService, AccountService, ChannelService, RunService, ActivityStatusService, toaster) {
 
         if(!Session.getAccessToken()){
             window.location.href='/#/login';
@@ -32,16 +32,67 @@ angular.module('DojoIBL')
 
         $scope.activities = ActivityStatusService.getActivitiesStatus();
 
+        $scope.sortableOptions = {
+            connectWith: ".connectList",
+            scroll: false,
+            receive: function(event, ui) {
+                var item = ui.item.scope().activity;
+                var group = event.target;
+
+                //console.log(item.id, group.id, item.status.id, item)
+
+                ActivityStatusService.changeActivityStatus($stateParams.runId, item.id, group.id, item.section, item.status.id).then(function (data) {
+
+                    switch(data.status){
+                        case 0:
+                            toaster.success({
+                                title: 'Moved to ToDo list',
+                                body: 'The activity has been successfully moved to ToDo list.'
+                            });
+                            break;
+                        case 1:
+                            toaster.success({
+                                title: 'Moved to In Progress list',
+                                body: 'The activity has been successfully moved to In Progress list.'
+                            });
+                            break;
+                        case 2:
+                            toaster.success({
+                                title: 'Moved to Completed list',
+                                body: 'The activity has been successfully moved to Completed list.'
+                            });
+                            break;
+                    }
+
+                });
+            },
+            'ui-floating': 'auto',
+            'start': function (event, ui) {
+                if($scope.sortableFirst){
+                    $scope.wscrolltop = $(window).scrollTop();
+                }
+                $scope.sortableFirst = true;
+            },
+            'sort': function (event, ui) {
+                ui.helper.css({'top': ui.position.top + $scope.wscrolltop + 'px'});
+            }
+        };
+
         $scope.goToPhase = function(inqId, index) {
             $location.path('inquiry/'+inqId+'/phase/'+ index);
         };
 
+        $scope.toggle = false;
+
         $scope.goToActivity = function(inqId, index, activity) {
+            $scope.toggle = true;
             $location.path('inquiry/'+inqId+'/phase/'+ index + '/activity/' +activity);
         };
 
-
-
+        if($stateParams.activityId){
+            $scope.toggle = true;
+            $location.path('inquiry/'+$stateParams.runId+'/phase/'+ $stateParams.phase + '/activity/' +$stateParams.activityId);
+        }
 
         $scope.getRoleName = function(roles){
             if(!angular.isUndefined(roles)) {
@@ -76,32 +127,11 @@ angular.module('DojoIBL')
             };
         };
 
-        var fields = $(this.el).find('#circlemenu li'),
-            container = $('#circlemenu'),
-            width = container.width(),
-            height = 200,
-            angle = 300,
-            radius = 100;
+        $scope.gotoElement = function (eID){
+            // set the location.hash to the id of
+            // the element you wish to scroll to.
+            $location.hash('structure-view');
 
-        $scope.calculateLeft = function(i) {
-
-            angle += (2*Math.PI) / $scope.phases.length;
-
-            angle *= i;
-            //console.log(angle, width, height)
-
-
-            return Math.round(width/2 + radius * Math.cos(angle) - width/2);
-        };
-
-        $scope.calculateTop = function(phases, i) {
-            angle += (2*Math.PI) / phases.length;
-
-            angle *= i;
-
-            //console.log(angle, height)
-
-            return Math.round(height/2 + radius * Math.sin(angle) - height/2);
         };
 
     }

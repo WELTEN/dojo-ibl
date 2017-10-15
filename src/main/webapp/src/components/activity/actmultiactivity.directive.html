@@ -1,0 +1,11 @@
+<div ng-repeat='activity in list'>
+
+    <text-activity activity="activity" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceTest'"></text-activity>
+
+    <discussion-activity activity="activity" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"></discussion-activity>
+
+    <list-activity activity="activity" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></list-activity>
+
+    <hr ng-hide="$last">
+
+</div>
