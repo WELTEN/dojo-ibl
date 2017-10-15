@@ -137,6 +137,15 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
             return true;
         };
     })
+    .filter('removeHTMLTags', function(){
+        return function(string){
+            if (typeof string == 'undefined')
+                string = 'undefined';
+            if (typeof string != 'string')
+                string = JSON.stringify(string);
+            return string.replace(/<(?:.|\n)*?>/gm, '');
+        }
+    })
     .filter('timeago', function(){
         return function(date){
             return moment(date).fromNow();

@@ -9482,11 +9482,17 @@ p > span:first-child > p:last-child {
 }
 .activity-status-inprogress{
   background: rgba(214, 182, 1, 0.37) !important;
+}.activity-status-inprogress{
+  background: rgba(214, 182, 1, 0.37) !important;
 }
 .activity-status-todo{
   background: rgba(214, 1, 1, 0.23) !important;
 }
-
+.highlight-hash-link{
+  background: rgba(214, 182, 1, 0.37) !important;
+  padding: 1em;
+  border-radius: 1em;
+}
 iframe {
   margin: 0;
   padding: 0;

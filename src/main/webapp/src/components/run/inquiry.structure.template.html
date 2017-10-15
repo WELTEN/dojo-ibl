@@ -53,7 +53,7 @@
                                     <p class="small" ng-hide="toggle">{{ activity.description | limitTo: 20 }}</p>
                                     <div class="agile-detail" ng-hide="toggle">
                                         <span class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</span>
-                                        <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
+                                        <i class="fa fa-clock-o"></i> {{ activity.timestamp | timeago }}
                                     </div>
                                 </li>
                             </ul>
@@ -75,7 +75,7 @@
                                     <p class="small" ng-hide="toggle">{{ activity.description | limitTo: 20 }}</p>
                                     <div class="agile-detail" ng-hide="toggle">
                                         <span class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</span>
-                                        <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
+                                        <i class="fa fa-clock-o"></i> {{ activity.timestamp | timeago }}
                                     </div>
                                 </li>
                             </ul>
@@ -94,10 +94,10 @@
 
                                     <a href="#inquiry/{{ run.runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}" >{{ activity.name }}</a>
                                     <br/>
-                                    <p class="small" ng-hide="toggle">{{ activity.description | limitTo: 20 }}</p>
+                                    <p class="small" ng-hide="toggle">{{ activity.richText | limitTo: 200 | removeHTMLTags}}</p>
                                     <div class="agile-detail" ng-hide="toggle">
                                         <span href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</span>
-                                        <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
+                                        <i class="fa fa-clock-o"></i> {{ activity.timestamp | timeago }}
                                     </div>
                                 </li>
                             </ul>
