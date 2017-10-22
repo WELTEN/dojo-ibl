@@ -11,15 +11,24 @@
 
         <div id="structure-view" ng-class="{'col-md-12' : !toggle, 'col-md-3': toggle }" class=" animated fadeIn">
 
-            <div class="panel-body no-padding-no-border-radius col-md-12 wrapper wrapper-content animated fadeInpanel-body m-b-sm" ng-repeat="phase in phases track by $index">
+            <div id="{{$index}}" class="panel-body no-padding-no-border-radius col-md-12 wrapper wrapper-content animated fadeInpanel-body m-b-sm" ng-repeat="phase in phases track by $index">
                 <div class="ibox-content">
-                    <div class="heading ng-binding">
-                        <small  class="chat-date " >
-                            <div class="ibox-tools">
-                                <!--<a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit" title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">-->
-                                    <!--<i class="fa fa-pencil"></i>-->
-                                <!--</a>-->
-                            </div>
+                    <div class="heading ng-binding" ng-click="active($index)">
+                        <!--<small  class="chat-date " >-->
+                            <!--&lt;!&ndash;<div class="ibox-tools">&ndash;&gt;-->
+                                <!--&lt;!&ndash;&lt;!&ndash;<a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit" title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">&ndash;&gt;&ndash;&gt;-->
+                                    <!--&lt;!&ndash;&lt;!&ndash;<i class="fa fa-pencil"></i>&ndash;&gt;&ndash;&gt;-->
+                                <!--&lt;!&ndash;&lt;!&ndash;</a>&ndash;&gt;&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                        <!--</small>-->
+                        <small  class="ibox-tools pull-right" >
+                            <!--<a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit">-->
+                            <!--<i class="fa fa-pencil"></i>-->
+                            <!--</a>-->
+                            <a class="close-link" title="Collapse pin content">
+                                <i ng-class="{ 'fa-chevron-down': isOpenArray[$index],  'fa-chevron-left': !isOpenArray[$index]}" class="fa"></i>
+                            </a>
                         </small>
                         {{ $index }}. {{ phase.title }} phase
                         <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
@@ -31,7 +40,7 @@
                         </div>
                     </div>
 
-                    <div ng-class="{'m' : !toggle}">
+                    <div ng-class="{'m' : !toggle, 'toggled': !isOpenArray[$index] }">
                         <!--<p ng-show="$index == 0">-->
                         <!--<span class="badge badge-info">Important</span> <i class="fa fa-info"></i> {{'dibl.inquiry.phase.instruction' | translate}}-->
                         <!--</p>-->

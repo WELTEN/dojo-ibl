@@ -7,6 +7,8 @@ angular.module('DojoIBL')
             window.location.href='/#/login';
         }
 
+        $scope.isOpenArray = []
+
         $scope.chat = true;
         $scope.visualization = true;
         $scope.state = $state.current.name;
@@ -25,9 +27,11 @@ angular.module('DojoIBL')
             $scope.disableInquiryLoading = true;
 
             angular.forEach(data.game.phases, function(value, key) {
+                $scope.isOpenArray[key] = false;
                 ActivityStatusService.getActivitiesServerStatus(data.game.gameId, $stateParams.runId, key);
             });
 
+            $scope.isOpenArray[0] = true;
         });
 
         $scope.activities = ActivityStatusService.getActivitiesStatus();
@@ -83,6 +87,12 @@ angular.module('DojoIBL')
         };
 
         $scope.toggle = false;
+
+        $scope.active = function(phaseClicked) {
+            $scope.isOpenArray[$scope.isOpenArray.indexOf(true)] = false;
+            $scope.isOpenArray[phaseClicked] = true;
+
+        }
 
         $scope.goToActivity = function(inqId, index, activity) {
             $scope.toggle = true;
