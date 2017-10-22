@@ -93,7 +93,7 @@ angular.module('DojoIBL')
                                 response.likes[uid] = true;
 
                                 NotificationService.notify(response.userLocalId, {
-                                    description: scope.response.userName + " liked your comment.",
+                                    description: scope.myAccount.name + " liked your comment.",
                                     message: "",
                                     type: "like_response",
                                     user_id: uid,
