@@ -72,18 +72,18 @@
                                <!--class="form-control">-->
                     <!--</div>-->
                 <!--</div>-->
-                <div class="form-group">
-                    <ul class="list-unstyled project-files" >
-                        <li ng-repeat="asset in assets|filter:'/generalItems/'+activity.id"><a href=""><i class="fa fa-file"></i> ... {{ asset.path | limitTo : 30:asset.path.length-30 }}</a></li>
-                    </ul>
-                    <div class="btn btn-primary btn-block" ngf-capture="'camera'" ngf-select="upload($file)">Upload Files</div>
-                    <div class="progress  progress-striped">
-                        <div ng-style="{ 'width' : progressPercentage + '%' }" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{ progressPercentage }}" role="progressbar" class="progress-bar progress-bar-success">
-                            <span class="sr-only">{{ progressPercentage }}% Complete (success)</span>
-                        </div>
-                    </div>
+                <!--<div class="form-group">-->
+                    <!--<ul class="list-unstyled project-files" >-->
+                        <!--<li ng-repeat="asset in assets|filter:'/generalItems/'+activity.id"><a href=""><i class="fa fa-file"></i> ... {{ asset.path | limitTo : 30:asset.path.length-30 }}</a></li>-->
+                    <!--</ul>-->
+                    <!--<div class="btn btn-primary btn-block" ngf-capture="'camera'" ngf-select="upload($file)">Upload Files</div>-->
+                    <!--<div class="progress  progress-striped">-->
+                        <!--<div ng-style="{ 'width' : progressPercentage + '%' }" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{ progressPercentage }}" role="progressbar" class="progress-bar progress-bar-success">-->
+                            <!--<span class="sr-only">{{ progressPercentage }}% Complete (success)</span>-->
+                        <!--</div>-->
+                    <!--</div>-->
 
-                </div>
+                <!--</div>-->
 
 
             </div>
