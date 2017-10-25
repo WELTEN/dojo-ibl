@@ -9308,7 +9308,7 @@ text-angular > p{
 }
 
 .edit-game-desc .ta-editor{
-  height: 102px !important;
+  height: 18em !important;
   min-height: 100px !important;
 }
 

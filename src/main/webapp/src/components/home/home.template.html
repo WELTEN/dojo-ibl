@@ -45,8 +45,11 @@
                                     </thead>
                                     <tbody>
                                     <tr ng-repeat="(key, game) in games | orderByDayNumber:'lastModificationDate':true" foo-repeat-done>
-                                        <td>
-                                            <a href="#/project/{{ game.gameId }}/edit/structure">{{ game.title }}</a>
+                                        <td style="width: 18em;" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1">
+                                            <a  href="#/project/{{ game.gameId }}/edit/structure">{{ game.title }}</a>
+                                        </td>
+                                        <td style="width: 18em;" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights != 1">
+                                            {{ game.title }}
                                         </td>
                                         <td style="max-width: 34em;" ng-bind-html="game.description"></td>
                                         <td>
