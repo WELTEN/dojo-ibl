@@ -48,13 +48,13 @@
                                         <td>
                                             <a href="#/project/{{ game.gameId }}/edit/structure">{{ game.title }}</a>
                                         </td>
-                                        <td>{{ game.description }}</td>
+                                        <td style="max-width: 34em;" ng-bind-html="game.description"></td>
                                         <td>
                                             {{ game.lastModificationDate | date:'medium'}} - {{ game.lastModificationDate | timeago }}
                                         </td>
                                         <td class="text-right">
 
-                                            <div class="btn-group">
+                                            <div class="btn-group" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1">
                                                 <button data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">Action <span class="caret"></span></button>
                                                 <ul class="dropdown-menu">
                                                     <li><a ng-click="cloneInquiry(game.gameId)">Clone inquiry</a></li>
@@ -62,7 +62,7 @@
                                                     <li><a ng-click="deleteInquiry(game.gameId)">Remove inquiry</a></li>
                                                 </ul>
                                             </div>
-                                            <div class="btn-group">
+                                            <div class="btn-group" ng-show="game.access[myAccount.accountType+':'+myAccount.localId].accessRights == 1">
                                                 <a href="#/project/{{ game.gameId }}/edit/structure" class="btn-white btn btn-sm"><i class="fa fa-pencil"/>Edit</a>
                                             </div>
 
