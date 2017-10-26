@@ -67,12 +67,12 @@ angular.module('DojoIBL')
                     function (data) {
                         var runAccess={};
                         for (var i = 0; i < data.runs.length; i++) {
-                            //runAccess['id'+data.runAccess[i].runId] = data.runAccess[i];
-                            //service.getRunById(data.runAccess[i].runId).then(function (runObject) {
-                            //    runAccess['id'+runObject.runId].run = runObject;
-                                runs[data.runs[i].runId] = data.runs[i];
 
-                            //});
+                            if (data.runs[i].deleted) {
+                                //delete games[data.games[i].gameId];
+                            } else {
+                                runs[data.runs[i].runId] = data.runs[i];
+                            }
                         }
                         deferred.resolve(data);
                     }
@@ -157,8 +157,13 @@ angular.module('DojoIBL')
             },
             deleteRun: function(runId){
                 var dataCache = CacheFactory.get('runsCache');
+
+                console.log(runs);
+                delete runs[runId];
+                console.log(runs);
+
                 dataCache.remove(runId);
-                return Run.delete({ id: runId });
+                return Run.delete({ runId: runId });
             },
             storeInCache:function(run){
                 var dataCache = CacheFactory.get('runsCache');

@@ -39,9 +39,10 @@ angular.module('DojoIBL')
                 url: config.server + '/rest/myRuns/runId/:runId'
             },
             'delete': {
+                params: { runId: '@runId' },
                 method: 'DELETE',
                 isArray: false,
-                url: config.server + '/rest/myRuns/runId/:id'
+                url: config.server + '/rest/myRuns/runId/:runId'
             },
             giveAccess: {
                 params: { runId: '@runId', accountId: '@accountId', accessRight: '@accessRight' },
