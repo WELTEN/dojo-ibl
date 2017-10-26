@@ -471,12 +471,7 @@ angular.module('DojoIBL')
             }, function () {
                 swal("Inquiry run deleted!", "The Inquiry Run has been removed from the list of inquiry runs.", "success");
 
-                var idx = arrayObjectIndexOf($scope.gameRuns, run.runId, "runId");
-
-                // is currently selected
-                if (idx > -1) {
-                    $scope.gameRuns.splice(idx, 1);
-                }
+                delete $scope.gameRuns["id"+run.runId];
 
                 var updatedRun = RunService.deleteRun(run.runId);
             });
