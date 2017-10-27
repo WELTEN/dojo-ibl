@@ -1,7 +1,7 @@
 <div class="inmodal" about="sss">
     <div class="modal-header">
-        <h4 ng-if="activity.id" class="modal-title">Edit activity</h4>
-        <h4 ng-if="!activity.id" class="modal-title">Create activity</h4>
+        <h4 ng-if="activity.id" class="modal-title">{{ 'project-structure-activity-header-edit' | translate }}</h4>
+        <h4 ng-if="!activity.id" class="modal-title">{{ 'project-structure-activity-header-create' | translate }}</h4>
     </div>
     <div class="modal-body form-horizontal" >
         <form class="form-horizontal" method="get">
@@ -9,15 +9,15 @@
             <div class="col-sm-4">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">{{
-                        'dibl.inquiry.new-edit.title-activity' | translate
+                        'project-structure-activity-title' | translate
                         }}</label>
 
                     <div class="col-sm-9">
-                        <input type="text" ng-model="activity.name" ng-keyup="activity.gameId != 4913623780556800 && $event.keyCode == 13 && ok()" class="form-control">
+                        <input type="text" ng-model="activity.name" placeholder="{{ 'project-structure-activity-title-placeholder' | translate }}" ng-keyup="activity.gameId != 4913623780556800 && $event.keyCode == 13 && ok()" class="form-control">
                     </div>
                 </div>
                 <div class="form-group ">
-                    <label class="col-sm-3 control-label">{{ 'dibl.inquiry.new-edit.type-activity' | translate }}</label>
+                    <label class="col-sm-3 control-label">{{ 'project-structure-activity-type' | translate }}</label>
                     <div class="col-sm-9">
                         <select id="type_activity" class="form-control" ng-model="activity.type">
                             <option ng-repeat="option in list_original" value="{{option.type}}">{{option.name}}</option>
@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">{{
-                        'dibl.inquiry.new-edit.dueto' | translate
+                        'project-structure-activity-date' | translate
                         }}</label>
 
                     <div class="col-sm-9">
@@ -50,7 +50,7 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-3 control-label">{{
-                        'dibl.inquiry.new-edit.roles-activity' | translate
+                        'project-structure-activity-roles' | translate
                         }}</label>
 
                     <!-- Roles -->
@@ -108,8 +108,8 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button id="inquiry-new-close" type="button" class="btn btn-white" ng-click="cancel()">Close</button>
-        <button ng-hide="activity.gameId == 4913623780556800" id="inquiry-new-delete" type="button" class="btn btn-danger" ng-click="removeActivity(activity)">Delete</button>
-        <button ng-hide="activity.gameId == 4913623780556800" id="inquiry-new-create" type="button" class="btn btn-primary" ng-click="ok()">Save</button>
+        <button id="inquiry-new-close" type="button" class="btn btn-white" ng-click="cancel()">{{ 'project-structure-activity-close' | translate }}</button>
+        <button ng-hide="activity.gameId == 4913623780556800" id="inquiry-new-delete" type="button" class="btn btn-danger" ng-click="removeActivity(activity)">{{ 'project-structure-activity-delete' | translate }}</button>
+        <button ng-hide="activity.gameId == 4913623780556800" id="inquiry-new-create" type="button" class="btn btn-primary" ng-click="ok()">{{ 'project-structure-activity-save' | translate }}</button>
     </div>
 </div>

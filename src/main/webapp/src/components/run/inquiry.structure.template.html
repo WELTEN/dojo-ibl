@@ -46,7 +46,7 @@
                         <!--</p>-->
 
                         <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle, 'separator': !toggle}" class="">
-                            <h3 ng-hide="toggle">ToDo</h3>
+                            <h3 ng-hide="toggle">{{'student-todo' | translate }}</h3>
                             <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities to be done</p>-->
                             <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="0">
                                 <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-hide="activity.status.status == 1 || activity.status.status == 2"
@@ -69,7 +69,7 @@
                         </div>
 
                         <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle, 'separator': !toggle}" class="">
-                            <h3 ng-hide="toggle">In progress</h3>
+                            <h3 ng-hide="toggle">{{'student-inprogress' | translate }}</h3>
                             <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities in progress</p>-->
                             <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="1">
                                 <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-show="activity.status.status == 1" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">
@@ -91,7 +91,7 @@
                         </div>
 
                         <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle}" >
-                            <h3 ng-hide="toggle">Completed</h3>
+                            <h3 ng-hide="toggle">{{'student-complete' | translate }}</h3>
                             <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities completed</p>-->
                             <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="2">
                                 <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-show="activity.status.status == 2" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">
@@ -132,15 +132,7 @@
     <div ng-class="{ 'active': hiddenDiv }" class="small-chat-box" scroll-position="scroll" >
 
         <div class="heading" draggable="true">
-            <!--<small class="chat-date pull-right">-->
-                <!--<a class="close-link" ng-click="minimizeChat()" title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">-->
-                    <!--<i class="fa fa-minus"></i>-->
-                <!--</a>-->
-                <!--<a class="close-link" ng-click="closeChat()" title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">-->
-                    <!--<i class="fa fa-times"></i>-->
-                <!--</a>-->
-            <!--</small>-->
-            Chat group
+            {{'student-chat' | translate }}
         </div>
 
         <div style="position: relative; width: auto; height: 258px;">
@@ -155,7 +147,7 @@
         </div>
         <div class="form-chat">
             <div class="input-group input-group-sm full-width">
-                <input ng-enter="sendMessage()" type="text" placeholder="Type your message" class="form-control borderless" ng-model="bodyMessage">
+                <input ng-enter="sendMessage()" type="text" placeholder="{{'student-chat-placeholder' | translate }}" class="form-control borderless" ng-model="bodyMessage">
                 <!--<text-angular ta-toolbar="[]" ng-enter="sendMessage()" ng-model="bodyMessage"></text-angular>-->
             <!--<span class="input-group-btn">-->
                 <!--<button ng-click="sendMessage()" ng-disabled="!bodyMessage" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>-->
