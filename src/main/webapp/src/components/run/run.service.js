@@ -47,6 +47,7 @@ angular.module('DojoIBL')
                 return deferred.promise;
             },
             getRuns: function(){
+                console.log(runs);
                 return runs;
             },
             getRunByCode: function (code) {
@@ -158,10 +159,7 @@ angular.module('DojoIBL')
             deleteRun: function(runId){
                 var dataCache = CacheFactory.get('runsCache');
 
-                console.log(runs);
                 delete runs[runId];
-                console.log(runs);
-
                 dataCache.remove(runId);
                 return Run.delete({ runId: runId });
             },
@@ -173,6 +171,7 @@ angular.module('DojoIBL')
                 dataCache.put(run.runId, run);
             },
             emptyRunsCache: function(){
+                runs = {};
                 var dataCache = CacheFactory.get('runsCache');
                 if(dataCache) dataCache.removeAll();
             }

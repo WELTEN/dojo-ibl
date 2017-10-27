@@ -185,6 +185,10 @@ angular.module('DojoIBL', ['ui.router', 'ngRoute', 'ngResource', 'angular-cache'
 
                     if($location.path() != "/register")
                         window.location.href='/#/login';
+                }else{
+                    if($location.path() == "/login" || $location.path() == "/register")
+                        window.location.href='/#/home';
+
                 }
             //}
         });
