@@ -11,15 +11,24 @@
 
         <div id="structure-view" ng-class="{'col-md-12' : !toggle, 'col-md-3': toggle }" class=" animated fadeIn">
 
-            <div class="panel-body no-padding-no-border-radius col-md-12 wrapper wrapper-content animated fadeInpanel-body m-b-sm" ng-repeat="phase in phases track by $index">
+            <div id="{{$index}}" class="panel-body no-padding-no-border-radius col-md-12 wrapper wrapper-content animated fadeInpanel-body m-b-sm" ng-repeat="phase in phases track by $index">
                 <div class="ibox-content">
-                    <div class="heading ng-binding">
-                        <small  class="chat-date " >
-                            <div class="ibox-tools">
-                                <!--<a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit" title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">-->
-                                    <!--<i class="fa fa-pencil"></i>-->
-                                <!--</a>-->
-                            </div>
+                    <div class="heading ng-binding" ng-click="active($index)">
+                        <!--<small  class="chat-date " >-->
+                            <!--&lt;!&ndash;<div class="ibox-tools">&ndash;&gt;-->
+                                <!--&lt;!&ndash;&lt;!&ndash;<a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit" title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">&ndash;&gt;&ndash;&gt;-->
+                                    <!--&lt;!&ndash;&lt;!&ndash;<i class="fa fa-pencil"></i>&ndash;&gt;&ndash;&gt;-->
+                                <!--&lt;!&ndash;&lt;!&ndash;</a>&ndash;&gt;&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                        <!--</small>-->
+                        <small  class="ibox-tools pull-right" >
+                            <!--<a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit">-->
+                            <!--<i class="fa fa-pencil"></i>-->
+                            <!--</a>-->
+                            <a class="close-link" title="Collapse pin content">
+                                <i ng-class="{ 'fa-chevron-down': isOpenArray[$index],  'fa-chevron-left': !isOpenArray[$index]}" class="fa"></i>
+                            </a>
                         </small>
                         {{ $index }}. {{ phase.title }} phase
                         <div ng-show="disableMessagesLoading" class="sk-spinner sk-spinner-wave loading-switch">
@@ -31,13 +40,17 @@
                         </div>
                     </div>
 
-                    <div ng-class="{'m': !toggle}" >
+
+                    <div ng-class="{'m' : !toggle, 'toggled': !isOpenArray[$index] }">
+
                         <!--<p ng-show="$index == 0">-->
                         <!--<span class="badge badge-info">Important</span> <i class="fa fa-info"></i> {{'dibl.inquiry.phase.instruction' | translate}}-->
                         <!--</p>-->
 
                         <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle, 'separator': !toggle}" class="">
-                            <h3 ng-hide="toggle">ToDo</h3>
+
+                            <h3 ng-hide="toggle">{{'student-todo' | translate }}</h3>
+
                             <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities to be done</p>-->
                             <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="0">
                                 <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-hide="activity.status.status == 1 || activity.status.status == 2"
@@ -53,14 +66,16 @@
                                     <p class="small" ng-hide="toggle">{{ activity.description | limitTo: 20 }}</p>
                                     <div class="agile-detail" ng-hide="toggle">
                                         <span class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</span>
-                                        <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
+                                        <i class="fa fa-clock-o"></i> {{ activity.timestamp | timeago }}
                                     </div>
                                 </li>
                             </ul>
                         </div>
 
-                        <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle, 'separator': !toggle}" >
-                            <h3 ng-hide="toggle">In progress</h3>
+
+                        <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle, 'separator': !toggle}" class="">
+                            <h3 ng-hide="toggle">{{'student-inprogress' | translate }}</h3>
+
                             <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities in progress</p>-->
                             <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="1">
                                 <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-show="activity.status.status == 1" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">
@@ -75,14 +90,16 @@
                                     <p class="small" ng-hide="toggle">{{ activity.description | limitTo: 20 }}</p>
                                     <div class="agile-detail" ng-hide="toggle">
                                         <span class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</span>
-                                        <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
+                                        <i class="fa fa-clock-o"></i> {{ activity.timestamp | timeago }}
                                     </div>
                                 </li>
                             </ul>
                         </div>
 
                         <div ng-class="{'col-lg-4' : !toggle, 'col-lg-12': toggle}" >
-                            <h3 ng-hide="toggle">Completed</h3>
+
+                            <h3 ng-hide="toggle">{{'student-complete' | translate }}</h3>
+
                             <!--<p ng-show="$index == 0" class="small"><i class="fa fa-list"></i> List of activities completed</p>-->
                             <ul ui-sortable="sortableOptions" class="sortable-list connectList agile-list ui-sortable" id="2">
                                 <li ng-click="goToActivity(run.runId, activity.section, activity.id)" ng-show="activity.status.status == 2" ng-style="getRoleColor(activity.roles2)" data="{{ activity.id }}" ng-repeat="(key, activity) in activities[run.runId][$index] | orderByDayNumber:'sortKey'">
@@ -94,10 +111,10 @@
 
                                     <a href="#inquiry/{{ run.runId }}/phase/{{ activity.section }}/activity/{{ activity.id }}" >{{ activity.name }}</a>
                                     <br/>
-                                    <p class="small" ng-hide="toggle">{{ activity.description | limitTo: 20 }}</p>
+                                    <p class="small" ng-hide="toggle">{{ activity.richText | limitTo: 200 | removeHTMLTags}}</p>
                                     <div class="agile-detail" ng-hide="toggle">
                                         <span href="#" class="pull-right btn btn-xs btn-white">{{ getRoleName(activity.roles2) }}</span>
-                                        <i class="fa fa-clock-o"></i> {{ activity.lastModificationDate | date:'short' }}
+                                        <i class="fa fa-clock-o"></i> {{ activity.timestamp | timeago }}
                                     </div>
                                 </li>
                             </ul>
@@ -120,17 +137,14 @@
     <dibl-footer></dibl-footer>
 
 
-    <div ng-class="{ 'active': hiddenDiv }" class="small-chat-box fadeInRight animated" scroll-position="scroll" >
+    <div ng-class="{ 'active': hiddenDiv }" class="small-chat-box" scroll-position="scroll" >
 
         <div class="heading" draggable="true">
-            <small class="chat-date pull-right">
-
-            </small>
-            Small chat
+            {{'student-chat' | translate }}
         </div>
 
-        <div style="position: relative; width: auto; height: 234px;">
-            <div class="chat-discussion" scroll-glue="glued" style="width: auto; height: 234px;">
+        <div style="position: relative; width: auto; height: 258px;">
+            <div class="chat-discussion" scroll-glue="glued" style="width: auto; height: 265px;">
 
                 <div ng-repeat="message in messages">
                     <message-l  message="message" ng-if="message.localId != account.localId"></message-l>
@@ -140,12 +154,12 @@
             </div>
         </div>
         <div class="form-chat">
-            <div class="input-group input-group-sm">
-                <input ng-enter="sendMessage()" type="text" class="form-control" ng-model="bodyMessage">
+            <div class="input-group input-group-sm full-width">
+                <input ng-enter="sendMessage()" type="text" placeholder="{{'student-chat-placeholder' | translate }}" class="form-control borderless" ng-model="bodyMessage">
                 <!--<text-angular ta-toolbar="[]" ng-enter="sendMessage()" ng-model="bodyMessage"></text-angular>-->
-            <span class="input-group-btn">
-                <button ng-click="sendMessage()" ng-disabled="!bodyMessage" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>
-            </span>
+            <!--<span class="input-group-btn">-->
+                <!--<button ng-click="sendMessage()" ng-disabled="!bodyMessage" class="btn btn-primary" type="button">{{'dibl.inquiry.structure.send' | translate }} </button>-->
+            <!--</span>-->
             </div>
         </div>
     </div>

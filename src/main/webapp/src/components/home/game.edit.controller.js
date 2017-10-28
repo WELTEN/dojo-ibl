@@ -496,12 +496,7 @@ angular.module('DojoIBL')
             }, function () {
                 swal("Inquiry run deleted!", "The Inquiry Run has been removed from the list of inquiry runs.", "success");
 
-                var idx = arrayObjectIndexOf($scope.gameRuns, run.runId, "runId");
-
-                // is currently selected
-                if (idx > -1) {
-                    $scope.gameRuns.splice(idx, 1);
-                }
+                delete $scope.gameRuns["id"+run.runId];
 
                 var updatedRun = RunService.deleteRun(run.runId);
             });
@@ -644,6 +639,28 @@ angular.module('DojoIBL')
             return -1;
         }
 
+        function count(obj) {
+
+            if (obj.__count__ !== undefined) { // Old FF
+                return obj.__count__;
+            }
+
+            if (Object.keys) { // ES5
+                return Object.keys(obj).length;
+            }
+
+            // Everything else:
+
+            var c = 0, p;
+            for (p in obj) {
+                if (obj.hasOwnProperty(p)) {
+                    c += 1;
+                }
+            }
+
+            return c;
+
+        }
 
         ////////////////////
         // Manage activities
@@ -657,12 +674,16 @@ angular.module('DojoIBL')
 
             $scope.activity.section = phase;
 
+            var activitySortKey = count($scope.activities[game.gameId][phase]);
+
             var modalInstance = $modal.open({
                 templateUrl: '/src/components/home/new.activity.modal.html',
                 controller: 'NewActivityController',
                 resolve: {
                     activity: function () { return $scope.activity; },
-                    game: function () { return game; }
+                    game: function () { return game; },
+                    key: function () { return activitySortKey; }
+
                 }
             });
 
@@ -689,12 +710,14 @@ angular.module('DojoIBL')
         };
 
         $scope.editActivity = function (activity, game) {
+
             var modalInstance = $modal.open({
                 templateUrl: '/src/components/home/new.activity.modal.html',
                 controller: 'NewActivityController',
                 resolve: {
                     activity: function () { return activity; },
-                    game: function () { return game; }
+                    game: function () { return game; },
+                    key: function () { return activity.sortKey; }
                 }
             });
 
@@ -734,7 +757,7 @@ angular.module('DojoIBL')
     })
     .controller('NewActivityController', function ($scope, $stateParams, $modalInstance,
                                                    GameService, ActivityService, Upload,
-                                                   activity, game, config, $interval) {
+                                                   activity, game, key, config, $interval) {
 
         $scope.saveActivity = function (){
             if(angular.isUndefined($scope.activity.id)){
@@ -748,22 +771,24 @@ angular.module('DojoIBL')
 
         $scope.list_original = [
             //{'name': 'Google Resources', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-file-text'},
-            {'name': 'Discussion activity', 'type': 'org.celstec.arlearn2.beans.generalItem.NarratorItem', 'icon': 'fa-file-text'},
-            {'name': 'External resource', 'type': 'org.celstec.arlearn2.beans.generalItem.VideoObject', 'icon': 'fa-external-link'},
+            {'name': 'Discussion', 'type': 'org.celstec.arlearn2.beans.generalItem.NarratorItem', 'icon': 'fa-file-text'},
+            //{'name': 'External resource', 'type': 'org.celstec.arlearn2.beans.generalItem.VideoObject', 'icon': 'fa-external-link'},
             //{'name': 'Concept map', 'type': 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest', 'icon': 'fa-sitemap'},
             //{'name': 'External widget', 'type': 'org.celstec.arlearn2.beans.generalItem.OpenBadge', 'icon': 'fa-link'},
             //{'name': 'Research question', 'type': 'org.celstec.arlearn2.beans.generalItem.ResearchQuestion', 'icon': 'fa-question'}
-            {'name': 'List activity', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-tasks'},
-            {'name': 'Data collection', 'type': 'org.celstec.arlearn2.beans.generalItem.ScanTag', 'icon': 'fa-picture-o'},
-            {'name': 'Insert text', 'type': 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceTest', 'icon': 'fa-file-text'},
+            {'name': 'List + Discussion', 'type': 'org.celstec.arlearn2.beans.generalItem.AudioObject', 'icon': 'fa-tasks'},
+            //{'name': 'Data collection', 'type': 'org.celstec.arlearn2.beans.generalItem.ScanTag', 'icon': 'fa-picture-o'},
+            {'name': 'Text input + Discussion', 'type': 'org.celstec.arlearn2.beans.generalItem.MultipleChoiceTest', 'icon': 'fa-file-text'},
             {'name': 'Multi activity', 'type': 'org.celstec.arlearn2.beans.generalItem.SingleChoiceImageTest', 'icon': 'fa-list-alt'}
         ];
 
         $scope.game = game;
         $scope.activity = activity;
+        $scope.key = key;
 
         $scope.activity.fileReferences = [];
         $scope.activity.gameId = $stateParams.gameId;
+        $scope.activity.sortKey = key;
 
         $scope.dateOptions = {format: 'dd/mm/yyyy'}
 

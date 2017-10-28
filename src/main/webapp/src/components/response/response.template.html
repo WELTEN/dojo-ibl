@@ -1,4 +1,9 @@
-<div class="social-comment">
+<div class="social-comment" id="{{ response.$id }}" ng-class="{ 'highlight-hash-link': currentHash() == response.$id  }">
+    <small class="chat-date pull-right" ng-show="currentHash() == response.$id">
+        <a class="close-link" href="#inquiry/{{ response.runId }}/phase/{{ response.phase }}/activity/{{ response.generalItemId }}">
+            <i class="fa fa-times"></i>
+        </a>
+    </small>
     <a href="" class="pull-left">
         <ng-letter-avatar class="message-avatar" avatarcustomborder="border-radius: 4px" ng-if="response.userProfile == ''" data="{{ response.userName }}"></ng-letter-avatar>
         <img class="message-avatar" ng-if="response.userProfile != ''" ng-src="{{ response.userProfile }}" alt="">

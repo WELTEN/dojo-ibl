@@ -56,6 +56,24 @@
 
             <div class="social-feed-box">
 
+                <div class="form-group sel-right-marg">
+
+                    <select name="repeatSelect"
+                            class="form-control"
+                            id="repeatSelect"
+                            ng-model="status"
+                            ng-change="changeStatus()"
+                            ng-options="option.id as option.name for option in data">
+                    </select>
+                    <!--<select id="type_activity"  -->
+                            <!--ng-init="status = activity.status.status"-->
+                            <!--ng-model="status">-->
+                        <!--<option value="0">To Do</option>-->
+                        <!--<option value="1">In progress</option>-->
+                        <!--<option value="2">Done</option>-->
+                    <!--</select>-->
+                </div>
+
                 <discussion-activity activity="activity" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.NarratorItem'"></discussion-activity>
 
                 <list-activity activity="activity" ng-if="activity.type == 'org.celstec.arlearn2.beans.generalItem.AudioObject'"></list-activity>
@@ -64,9 +82,6 @@
 
                 <act-multi-activity list="activity.multiactivities" ng-if="activity.multiactivities != ''"></act-multi-activity>
 
-                <!--<div class="social-footer">-->
-                    <!--<p>Page {{responses.$current()}}  of comments</p>-->
-                <!--</div>-->
 
                 <div class="social-footer">
 
@@ -74,25 +89,8 @@
                         <!--No comments so far. <a class="alert-link"> Be the first one {{ myAccount.givenName }}</a>.-->
                     <!--</div>-->
 
-                    <!--<ul class="pagination">-->
-                        <!--&lt;!&ndash;<li class="footable-page-arrow disabled"><a data-page="first" href="#first">«</a></li>&ndash;&gt;-->
-                        <!--<li class="footable-page-arrow"><button class="p-xxs" data-page="prev" ng-click="responses.$prev()">‹</button></li>-->
-                        <!--&lt;!&ndash;<li class="footable-page active"><a data-page="0" href="#">1</a></li>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<li class="footable-page"><a data-page="1" href="#">{{ responses.$$updated }}</a></li>&ndash;&gt;-->
-                        <!--<li class="footable-page-arrow"><button class="p-xxs" data-page="next" ng-click="responses.$next()">›</button></li>-->
-                        <!--&lt;!&ndash;<li class="footable-page-arrow"><a data-page="last" href="#last">»</a></li>&ndash;&gt;-->
-                    <!--</ul>-->
-
                     <responses ng-repeat='response in responses | orderByDayNumber:"lastModificationDate"' response='response'></responses>
 
-                    <!--<ul class="pagination">-->
-                        <!--&lt;!&ndash;<li class="footable-page-arrow disabled"><a data-page="first" href="#first">«</a></li>&ndash;&gt;-->
-                        <!--<li class="footable-page-arrow"><button class="p-xxs" data-page="prev" ng-click="responses.$prev()">‹</button></li>-->
-                        <!--&lt;!&ndash;<li class="footable-page active"><a data-page="0" href="#">1</a></li>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<li class="footable-page"><a data-page="1" href="#">2</a></li>&ndash;&gt;-->
-                        <!--<li class="footable-page-arrow"><button class="p-xxs"  data-page="next" ng-click="responses.$next()">›</button></li>-->
-                        <!--&lt;!&ndash;<li class="footable-page-arrow"><a data-page="last" href="#last">»</a></li>&ndash;&gt;-->
-                    <!--</ul>-->
 
                     <div class="social-comment">
                         <a href="" class="pull-left">
@@ -101,7 +99,7 @@
                         </a>
                         <div class="media-body">
                             <text-angular class="pruebas"
-                                          placeholder="{{'dibl.toolbar.placeholder-comments' | translate }}"
+                                          placeholder="{{'student-comment-placeholder' | translate }}"
                                           ta-toolbar="[
                                                                 ['bold','italics'],
                                                                 ['justifyCenter', 'justifyLeft'], ['ul', 'ol']
@@ -118,7 +116,7 @@
 
                             <div class="text-right">
                                 <button class="btn btn-sm btn-primary m-t-sm " ngf-select="upload($file)"><strong><i class="fa fa-image"></i></strong></button>
-                                <button class="btn btn-sm btn-primary m-t-sm save" ng-click="sendComment()" ng-show="responseText"><strong>Post comment</strong></button>
+                                <button class="btn btn-sm btn-primary m-t-sm save" ng-click="sendComment()" ng-show="responseText"><strong>{{'student-post-comment' | translate }}</strong></button>
                             </div>
                         </div>
                     </div>
