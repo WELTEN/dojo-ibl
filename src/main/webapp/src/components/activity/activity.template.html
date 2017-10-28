@@ -99,7 +99,7 @@
                         </a>
                         <div class="media-body">
                             <text-angular class="pruebas"
-                                          placeholder="{{'dibl.toolbar.placeholder-comments' | translate }}"
+                                          placeholder="{{'student-comment-placeholder' | translate }}"
                                           ta-toolbar="[
                                                                 ['bold','italics'],
                                                                 ['justifyCenter', 'justifyLeft'], ['ul', 'ol']
@@ -116,7 +116,7 @@
 
                             <div class="text-right">
                                 <button class="btn btn-sm btn-primary m-t-sm " ngf-select="upload($file)"><strong><i class="fa fa-image"></i></strong></button>
-                                <button class="btn btn-sm btn-primary m-t-sm save" ng-click="sendComment()" ng-show="responseText"><strong>Post comment</strong></button>
+                                <button class="btn btn-sm btn-primary m-t-sm save" ng-click="sendComment()" ng-show="responseText"><strong>{{'student-post-comment' | translate }}</strong></button>
                             </div>
                         </div>
                     </div>

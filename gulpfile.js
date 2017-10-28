@@ -102,7 +102,7 @@ gulp.task('vendor', function() {
         'src/main/webapp/src/assets/vendor/textAngular-sanitize.min.js',
         'src/main/webapp/src/assets/vendor/textAngular-rangy.min.js',
         'src/main/webapp/src/assets/vendor/textAngularSetup.js',
-        'src/main/webapp/src/assets/vendor/textAngular.min.js',
+        //'src/main/webapp/src/assets/vendor/textAngular.min.js',
         'src/main/webapp/src/assets/vendor/ng-file-upload-shim.js',
         'src/main/webapp/src/assets/vendor/ng-file-upload.js',
         'src/main/webapp/src/assets/vendor/jquery.blueimp-gallery.min.js',

@@ -168,31 +168,48 @@ angular.module('DojoIBL')
             }
         );
 
-        $scope.deleteInquiry = function (id) {
+        $scope.removeRun = function(run){
 
             swal({
-                title: "Are you sure?",
-                text: "You will not be able to recover this inquiry!",
+                title: "Are you sure you want to delete the inquiry run?",
+                text: "You will not be able to recover this inquiry run!",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, delete it!",
+                confirmButtonText: "Yes, delete the run!",
                 closeOnConfirm: false
             }, function () {
-                swal("Deleted!", "Your inquiry has been deleted.", "success");
+                swal("Inquiry run deleted!", "The Inquiry Run has been removed from the list of inquiry runs.", "success");
 
-                var idx = arrayObjectIndexOf($scope.games, GameService.getGameFromCache(id).gameId, "gameId");
-
-                // is currently selected
-                if (idx > -1) {
-                    $scope.games.splice(idx, 1);
-                }
-
-                GameService.deleteGame(id);
-
+                var updatedRun = RunService.deleteRun(run.runId);
             });
-
         };
+
+        //$scope.deleteInquiry = function (id) {
+        //
+        //    swal({
+        //        title: "Are you sure?",
+        //        text: "You will not be able to recover this inquiry!",
+        //        type: "warning",
+        //        showCancelButton: true,
+        //        confirmButtonColor: "#DD6B55",
+        //        confirmButtonText: "Yes, delete it!",
+        //        closeOnConfirm: false
+        //    }, function () {
+        //        swal("Deleted!", "Your inquiry has been deleted.", "success");
+        //
+        //        var idx = arrayObjectIndexOf($scope.games, GameService.getGameFromCache(id).gameId, "gameId");
+        //
+        //        // is currently selected
+        //        if (idx > -1) {
+        //            $scope.games.splice(idx, 1);
+        //        }
+        //
+        //        GameService.deleteGame(id);
+        //
+        //    });
+        //
+        //};
 
         $scope.config = {
             itemsPerPage: 5,

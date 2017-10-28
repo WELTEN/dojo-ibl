@@ -5,7 +5,7 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-language"/> Lang
+                    <i class="fa fa-language"/> {{'lang' | translate }}
                 </a>
                 <ul class="dropdown-menu dropdown-messages langs">
                     <li ng-repeat="flag in flags">
@@ -31,13 +31,13 @@
                         </a>
                     </li>
                     <li ng-show="notifications.length == 0">
-                        <div class="bg-success p-xs b-r-sm"> Your notification panel is clean</div>
+                        <div class="bg-success p-xs b-r-sm"> {{'notification-panel-clean' | translate }}</div>
                     </li>
                 </ul>
             </li>
             <li>
                 <a ng-click="signout()">
-                    <i class="fa fa-sign-out"></i> {{'dibl.header.logout' | translate }}
+                    <i class="fa fa-sign-out"></i> {{'logout' | translate }}
                 </a>
             </li>
         </ul>
