@@ -1,7 +1,8 @@
 angular.module('DojoIBL')
 
     .controller('InstantMessagingController', function ($window, $scope, $stateParams, Message, MessageService,
-                                                        ChannelService, AccountService, UserService, ngAudio, firebase, $firebaseArray) {
+                                                        ChannelService, AccountService, UserService, ngAudio, firebase, $firebaseArray,
+                                                        LaService) {
 
         var ctrl = this;
 
@@ -46,6 +47,20 @@ angular.module('DojoIBL')
                         picture: (data.picture == undefined ? "" : data.picture ),
                         date: firebase.database.ServerValue.TIMESTAMP
                     });
+
+                    LaService.sendMessageStatement(
+                        $scope.bodyMessage,
+                        data,
+                        0,
+                        0,
+                        "Activity Name",
+                        "Activity Description",
+                        $stateParams.runId,
+                        "Group title",
+                        "Group description",
+                        0,
+                        "Project",
+                        "Project description");
 
                     $scope.bodyMessage = '';
 

@@ -7,14 +7,16 @@
                 </a>
             </div>
         </small>
-        <i class="fa fa-calendar"/> Calendar
+        <i class="fa fa-calendar"/> {{'student-dashboard' | translate }}
     </div>
 
-    <div class="intrinsic-container intrinsic-container-16x9">
-        <iframe src="https://xapi-proxy.appspot.com/embed.html?queryId=5735644751986688&visualisationId=linechart" style="float:left; height: 100%; width: 100%; position: absolute;" frameborder="0"></iframe>
+    <div ng-repeat="widget in listwidgets">
+        <h2>{{ widget.title }}</h2>
+        <p>{{ widget.description }}</p>
+        <div class="intrinsic-container intrinsic-container-16x9" >
+            <iframe ng-src="{{trustSrc(widget.url)}}" style="float:left; height: 100%; width: 100%; position: absolute;" frameborder="0"></iframe>
+        </div>
     </div>
 
-    <div class="m">
 
-    </div>
 </div>

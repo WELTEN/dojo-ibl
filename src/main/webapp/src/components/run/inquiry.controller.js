@@ -1,7 +1,8 @@
 angular.module('DojoIBL')
 
     .controller('InquiryController', function ($scope, $sce, $location, $stateParams, $state, Session, MessageService,
-                                               ActivityService, AccountService, ChannelService, RunService, ActivityStatusService, toaster) {
+                                               ActivityService, AccountService, ChannelService, RunService, ActivityStatusService, toaster,
+                                               LaService) {
 
         if(!Session.getAccessToken()){
             window.location.href='/#/login';
@@ -25,6 +26,7 @@ angular.module('DojoIBL')
             $scope.code = data.code;
             $scope.serverCreationTime = data.serverCreationTime;
             $scope.disableInquiryLoading = true;
+            $scope.gameId = data.game.gameId;
 
             angular.forEach(data.game.phases, function(value, key) {
                 $scope.isOpenArray[key] = false;
@@ -46,28 +48,69 @@ angular.module('DojoIBL')
                 //console.log(item.id, group.id, item.status.id, item)
 
                 ActivityStatusService.changeActivityStatus($stateParams.runId, item.id, group.id, item.section, item.status.id).then(function (data) {
+                        AccountService.myDetails().then(function(user) {
+                            switch (data.status) {
+                                case 0:
+                                    toaster.success({
+                                        title: 'Moved to ToDo list',
+                                        body: 'The activity has been successfully moved to ToDo list.'
+                                    });
 
-                    switch(data.status){
-                        case 0:
-                            toaster.success({
-                                title: 'Moved to ToDo list',
-                                body: 'The activity has been successfully moved to ToDo list.'
-                            });
-                            break;
-                        case 1:
-                            toaster.success({
-                                title: 'Moved to In Progress list',
-                                body: 'The activity has been successfully moved to In Progress list.'
-                            });
-                            break;
-                        case 2:
-                            toaster.success({
-                                title: 'Moved to Completed list',
-                                body: 'The activity has been successfully moved to Completed list.'
-                            });
-                            break;
-                    }
+                                    LaService.sendUpdateStatusStatement(
+                                        "To Do",
+                                        user,
+                                        item.section,
+                                        item.id,
+                                        "Activity Name",
+                                        "Activity Description",
+                                        $stateParams.runId,
+                                        "Group title",
+                                        "Group description",
+                                        $scope.gameId,
+                                        "Project",
+                                        "Project description");
 
+                                    break;
+                                case 1:
+                                    toaster.success({
+                                        title: 'Moved to In Progress list',
+                                        body: 'The activity has been successfully moved to In Progress list.'
+                                    });
+                                    LaService.sendUpdateStatusStatement(
+                                        "In Progress",
+                                        user,
+                                        item.section,
+                                        item.id,
+                                        "Activity Name",
+                                        "Activity Description",
+                                        $stateParams.runId,
+                                        "Group title",
+                                        "Group description",
+                                        $scope.gameId,
+                                        "Project",
+                                        "Project description");
+                                    break;
+                                case 2:
+                                    toaster.success({
+                                        title: 'Moved to Completed list',
+                                        body: 'The activity has been successfully moved to Completed list.'
+                                    });
+                                    LaService.sendUpdateStatusStatement(
+                                        "Done",
+                                        user,
+                                        item.section,
+                                        item.id,
+                                        "Activity Name",
+                                        "Activity Description",
+                                        $stateParams.runId,
+                                        "Group title",
+                                        "Group description",
+                                        $scope.gameId,
+                                        "Project",
+                                        "Project description");
+                                    break;
+                            }
+                        });
                 });
             },
             'ui-floating': 'auto',

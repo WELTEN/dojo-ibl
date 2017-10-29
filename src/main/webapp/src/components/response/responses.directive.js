@@ -1,6 +1,6 @@
 angular.module('DojoIBL')
 
-    .directive('responses', function(AccountService, $firebaseArray, NotificationService, $location) {
+    .directive('responses', function(AccountService, $firebaseArray, NotificationService, $location, LaService) {
         return  {
             restrict: "E",
             replace: true,
@@ -85,6 +85,21 @@ angular.module('DojoIBL')
                             if (response.likes && response.likes[uid]) {
                                 response.likeCount--;
                                 response.likes[uid] = null;
+
+                                LaService.sendUnlikeActivityStatement(
+                                    scope.response.$id,
+                                    uid,
+                                    scope.response.phase,
+                                    scope.response.generalItemId,
+                                    "Activity Name",
+                                    "Activity Description",
+                                    scope.response.runId,
+                                    "Group title",
+                                    "Group description",
+                                    0,
+                                    "Project",
+                                    "Project description");
+
                             } else {
                                 response.likeCount++;
                                 if (!response.likes) {
@@ -103,6 +118,20 @@ angular.module('DojoIBL')
                                     phaseId: scope.response.phase,
                                     timestamp: firebase.database.ServerValue.TIMESTAMP
                                 });
+
+                                LaService.sendLikeActivityStatement(
+                                    scope.response.$id,
+                                    uid,
+                                    scope.response.phase,
+                                    scope.response.generalItemId,
+                                    "Activity Name",
+                                    "Activity Description",
+                                    scope.response.runId,
+                                    "Group title",
+                                    "Group description",
+                                    0,
+                                    "Project",
+                                    "Project description");
 
                             }
                         }
@@ -136,7 +165,7 @@ angular.module('DojoIBL')
                     responseRef.transaction(function(response) {
                         if (response) {
 
-                            console.log(response[id]);
+                            //console.log(response[id]);
 
                             if (response[id]) {
                                 response[id] = false;

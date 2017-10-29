@@ -57,7 +57,9 @@ public class Analytics extends Service {
             e.printStackTrace();
         }
 
-        return "{ value: 'ok' }";
+        return "{\n" +
+                "\t\"value\": \"ok\"\n" +
+                "}";
     }
 
 }

@@ -1,6 +1,8 @@
 angular.module('DojoIBL')
 
-    .controller('InquiryEditRunController', function ($scope, $sce, $stateParams, $state, Session, RunService, UserService, Contacts ) {
+    .controller('InquiryEditRunController', function ($scope, $sce,
+                                                      $stateParams, $state, Session, RunService, UserService, Contacts,
+                                                      $firebaseArray, firebase) {
 
         $scope.roles = [];
 
@@ -73,6 +75,27 @@ angular.module('DojoIBL')
                 }
             }
         );
+
+        //////
+        // Visualizations
+        /////
+
+        var visualizationsRef = firebase.database().ref("visualizations").child($stateParams.runId);
+
+        $scope.visualizations = $firebaseArray(visualizationsRef);
+
+        $scope.addVisualization = function() {
+            if($scope.visualization){
+                $scope.visualizations.$add({
+                    url: $scope.visualization.url,
+                    title: $scope.visualization.title,
+                    description: $scope.visualization.description,
+                    date: firebase.database.ServerValue.TIMESTAMP
+                });
+
+                $scope.visualization = {};
+            }
+        };
 
         //////////////////
         // Extra functions

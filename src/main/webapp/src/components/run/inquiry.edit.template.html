@@ -11,11 +11,9 @@
         <div class="col-md-6 wrapper wrapper-content animated fadeInpanel-body">
                 <div class="ibox-content">
                     <div class="heading ng-binding">
-                        {{'dibl.inquiry.new-edit.inquiry-metadata' | translate}}
+                        {{'edit-group-header' | translate}}
                         <div class="ibox-tools">
-                            <a class="close-link" ng-show="game.accessRights == 1" href="#/inquiry/{{ run.gameId }}/edit" title="{{'dibl.toolbar.edit-structure' | translate }} {{ run.game.title }}">
-                                <i class="fa fa-pencil"></i>
-                            </a>
+
                         </div>
                     </div>
                     <div class="padding">
@@ -24,7 +22,7 @@
                                 <div class="box-body">
                                     <form novalidate>
                                         <div class="form-group">
-                                            <label for="gameTitle">{{'dibl.inquiry.new-edit.inquiry-title' |
+                                            <label for="gameTitle">{{'edit-group-title' |
                                                 translate}}</label>
                                             <input required type="name" class="form-control" id="gameTitle"
                                                    placeholder="{{'dibl.inquiry.new-edit.inquiry-title-placeholder' | translate}}"
@@ -32,7 +30,7 @@
                                         </div>
                                     </form>
 
-                                    <label>{{ 'dibl.inquiry.new-edit.inquiry-description' | translate }}</label>
+                                    <label>{{ 'edit-group-description' | translate }}</label>
                                     <!--<div summernote></div>-->
 
                                     <text-angular ta-toolbar="[
@@ -57,8 +55,7 @@
                                     Discard</a>
 
                                 <a class="btn btn-primary btn-sm" data-toggle="tooltip"
-                                   data-placement="top" ng-click="ok()" title="Save inquiry"><i class="fa fa-check"></i>
-                                    {{ 'dibl.inquiry.new-edit.inquiry-save' | translate }}</a>
+                                   data-placement="top" ng-click="ok()" title="Save inquiry"><i class="fa fa-save"></i></a>
                             </div>
                         </div>
                     </div>
@@ -67,7 +64,7 @@
         <div class="col-md-6 wrapper wrapper-content animated fadeInpanel-body">
             <div class="ibox-content">
                 <div class="heading ng-binding">
-                    {{ 'dibl.inquiry.new-edit.run-participants' | translate }}
+                    {{ 'edit-group-participants' | translate }}
                 </div>
                 <div class="padding">
                     <div class="ibox-content profile-content">
@@ -102,6 +99,76 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-12 wrapper wrapper-content animated fadeInpanel-body">
+            <div class="ibox-content">
+                <div class="heading ng-binding">
+                    {{ 'edit-group-visualizations' | translate }}
+                </div>
+                <div class="padding">
+                    <div class="ibox-content profile-content">
+
+                        <form role="form" ng-submit="addVisualization()">
+                            <div class="box-body">
+                                <div class="form-group col-md-4">
+
+                                    <label>{{'edit-group-visualization-title' | translate}}</label>
+                                    <input required type="name" class="form-control"
+                                           placeholder="{{'edit-group-visualization-title-placeholder' | translate}}"
+                                           ng-model="visualization.title">
+                                </div>
+
+                                <div class="form-group col-md-8">
+
+                                    <label>{{ 'edit-group-visualization-description' | translate }}</label>
+                                    <input required type="name" class="form-control"
+                                           placeholder="{{'edit-group-visualization-description-placeholder' | translate}}"
+                                           ng-model="visualization.description">
+                                </div>
+
+                                <div class="form-group col-md-12">
+
+                                    <label>{{ 'edit-group-visualization-url' | translate }}</label>
+                                    <input required type="name" class="form-control"
+                                           placeholder="{{'edit-group-visualization-url-placeholder' | translate}}"
+                                           ng-model="visualization.url">
+                                    <input class="btn m-t btn-primary btn-sm pull-right" type="submit" id="submit" value="Submit" />
+
+                                </div>
+
+
+                            </div>
+
+
+                        </form>
+
+                        <br/>
+
+
+                        <table class="table table-bordered col-md-12">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>{{'edit-group-table-title' | translate}}</th>
+                                <th>{{'edit-group-table-description' | translate}}</th>
+                                <th>{{'edit-group-table-url' | translate}}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="item in visualizations">
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ item.title }}</td>
+                                <td>{{ item.description }}</td>
+                                <td>{{ item.url }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <dibl-footer></dibl-footer>
