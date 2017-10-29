@@ -8,16 +8,6 @@
 
     <div class="row inquiry">
 
-        <!--<div class="input-group">-->
-            <!--<input type="text" placeholder="Admin Theme" name="search" class="form-control input-lg">-->
-            <!--<div class="input-group-btn">-->
-                <!--<button class="btn btn-lg btn-primary" type="submit">-->
-                    <!--Search-->
-                <!--</button>-->
-            <!--</div>-->
-        <!--</div>-->
-
-        <!-- Module 1-->
         <div id="metadata" class="col-md-4 wrapper wrapper-content animated fadeInpanel-body" ng-repeat="template in catalogue track by $index">
             <div class="ibox-content">
                 <div class="heading ng-binding">
@@ -25,7 +15,7 @@
                     {{ template.inquiry }}
                 </div>
 
-                <div class="ibox-content table-responsive" >
+                <div class="ibox-content table-responsive">
                     <div class="col-md-12 p-xs">
 
                         <h2 class="font-bold m-b-xs">
@@ -37,14 +27,14 @@
                         </div>
                         <hr>
 
-                        <h4>Inquiry structure description</h4>
+                        <h4>{{ 'new-project-structure' | translate }}</h4>
 
                         <div class="small text-muted">
                             {{ template.description }}
                         </div>
                         <hr>
 
-                        <h4>Phases of the inquiry</h4>
+                        <h4>{{ 'new-project-structure-phases' | translate }}</h4>
 
                         <div class="mail-tools tooltip-demo m-t-md">
                             <div ng-repeat="phase in template.phases" class="m-xxs btn btn-white btn-sm" data-toggle="tooltip" data-placement="left" title="" data-original-title="Refresh inbox"><i class="fa fa-square"></i> {{ $index+1 }}. {{ phase.phase }}</div>
@@ -53,8 +43,8 @@
 
                         <div class="text-right">
                             <div class="btn-group">
-                                <button class="btn btn-primary btn-sm" ng-click="createNewSelInquiry(template)"><i class="fa fa-copy"></i> Reuse structure</button>
-                                <a target="_blank" href="{{ template.paper_url }}" class="btn btn-white btn-sm"><i class="fa fa-info"></i> More info </a>
+                                <button class="btn btn-primary btn-sm" ng-click="createNewSelInquiry(template)"><i class="fa fa-copy"></i> {{ 'template-reuse-template' | translate }}</button>
+                                <a target="_blank" href="{{ template.paper_url }}" class="btn btn-white btn-sm"><i class="fa fa-info"></i> {{ 'template-more-info' | translate }} </a>
                             </div>
                         </div>
 

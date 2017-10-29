@@ -47,7 +47,6 @@ angular.module('DojoIBL')
                 return deferred.promise;
             },
             getRuns: function(){
-                console.log(runs);
                 return runs;
             },
             getRunByCode: function (code) {
