@@ -328,10 +328,8 @@ angular.module('DojoIBL')
                     });
                 });
 
-                ActivityService.getActivitiesForPhase($scope.game.gameId, index).then(function(data){
-                    angular.forEach(data, function(i, a){
-                        ActivityService.deleteActivity(i.gameId, i.id);
-                    });
+                angular.forEach($scope.activities[$stateParams.gameId][index], function(i, a){
+                    ActivityService.deleteActivity(i.gameId, i);
                 });
             });
 
@@ -615,6 +613,9 @@ angular.module('DojoIBL')
         }
 
         function count(obj) {
+            if (obj === undefined) { // Old FF
+                return 0;
+            }
 
             if (obj.__count__ !== undefined) { // Old FF
                 return obj.__count__;
