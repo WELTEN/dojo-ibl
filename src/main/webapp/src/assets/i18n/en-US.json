@@ -19,6 +19,9 @@
   "groups-group-access": "Access",
   "project-list": "Your projects",
   "groups-list": "Your groups",
+  "project-empty-1": "You do not have projects yet, please type a code ",
+  "project-empty-2": "and join an existing one",
+  "project-empty-join": "Join",
   "project-name": "Name",
   "project-description": "Description",
   "project-last-modification-date": "Last modification",
@@ -98,5 +101,12 @@
   "student-chat": "Chat group",
   "student-chat-placeholder": "Type your message",
   "student-calendar": "Calendar",
-  "student-dashboard": "Dashboard"
+  "student-dashboard": "Dashboard",
+  "student-video-activity-title": "Video activity",
+  "student-discussion-activity-title": "Discussion activity",
+  "student-datacollection-activity-title": "Data collection activity",
+  "student-list-activity-title": "List activity",
+  "student-multiactivity-title": "Multi activity",
+  "student-text-activity-title": "Text activity",
+  "pinned-title": "Pinned content"
 }

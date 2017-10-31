@@ -10,13 +10,12 @@
         <div class="row inquiry">
 
             <div ng-show="games | isEmpty" class="tip" style="color: #000; font-size: 18px; text-align: center; padding-top: 150px; width:90%; margin:0 auto; z-index: 1;">
-                {{ 'dibl.inquiry.home.click-first-1' | translate }}
+                {{ 'project-empty-1' | translate }}
                 <input type="text" class="form-control ng-pristine ng-untouched ng-valid inqCode" ng-model="inquiryCode">
-                {{ 'dibl.inquiry.home.click-first-2' | translate }}
+                {{ 'project-empty-2' | translate }}
                 <button class="btn btn-warning dropped" ng-disabled="inquiryCode.length < 4 || !inquiryCode" ng-click="findAndJoin()" style="width: 10em; vertical-align: baseline;">
-                    <i class="fa fa-plus"></i> {{ 'dibl.inquiry.home.join-inquiry' | translate }}
+                    <i class="fa fa-plus"></i> {{ 'project-empty-join' | translate }}
                 </button>
-                {{ 'dibl.inquiry.home.to-use' | translate }}
             </div>
 
             <div ng-hide="games | isEmpty" class="col-md-12 wrapper wrapper-content animated fadeIn">

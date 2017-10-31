@@ -19,6 +19,9 @@
   "groups-group-access": "Toegang",
   "project-list": "Jouw projecten",
   "groups-list": "Jouw groepen",
+  "project-empty-1": "Je hebt nog geen projecten, typ een code",
+  "project-empty-2": "en deelnemen aan een van de projecten",
+  "project-empty-join": "Aanmelden",
   "project-name": "Project naam",
   "project-description": "Project omschrijving",
   "project-last-modification-date": "Laatste aanpassing",
@@ -98,5 +101,6 @@
   "student-chat": "Chat groep",
   "student-chat-placeholder": "Type je bericht",
   "student-calendar": "Activiteiten kalender",
-  "student-dashboard": "Dashboard"
+  "student-dashboard": "Dashboard",
+  "pinned-title": "Ingesloten inhoud"
 }

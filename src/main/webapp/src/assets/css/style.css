@@ -9564,3 +9564,7 @@ ul.nav.nav-tabs.backgroundtab > li:not(.active) > .heading{
   width: 100%;
   height: 19em;
 }
+
+.google-background-button{
+  background: #DD4B39;
+}
