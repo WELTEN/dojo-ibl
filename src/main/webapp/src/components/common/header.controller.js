@@ -21,6 +21,10 @@ angular.module('DojoIBL')
             icon: 'src/assets/img/i18n/Bulgaria.png',
             name: 'Bulgarian',
             id: 'bg'
+        }, {
+            icon: 'src/assets/img/i18n/Greece.png',
+            name: 'Greek',
+            id: 'gr'
         }];
 
         if (Session.getAccessToken()) {

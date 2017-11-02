@@ -1,12 +1,17 @@
 angular.module('DojoIBL')
 
-    .controller('InquiryNewGameController', function ($scope, $sce, $stateParams, GameService, $http, $modal) {
+    .controller('InquiryNewGameController', function ($scope, $sce, $stateParams,
+                                                      GameService, $http, $modal, $firebaseArray) {
 
 
-        $http.get('/src/assets/resources/catalogue.json')
-            .then(function(res){
-                $scope.catalogue = res.data;
-            });
+        var templatesRef = firebase.database().ref("catalogue");
+
+        $scope.catalogue = $firebaseArray(templatesRef);
+
+        //$http.get('/src/assets/resources/catalogue.json')
+        //    .then(function(res){
+        //        $scope.catalogue = res.data;
+        //    });
 
 
         $scope.createNewSelInquiry = function (template) {
