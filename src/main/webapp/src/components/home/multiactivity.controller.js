@@ -5,10 +5,10 @@ angular.module('DojoIBL')
 
         $scope.list = [];
 
-        angular.forEach($scope.activities[$scope.activity.gameId][$scope.activity.section], function(_b){
-            $scope.list.push(_b)
-        });
-
-
+        if(!angular.equals({}, $scope.activities)){
+            angular.forEach($scope.activities[$scope.activity.gameId][$scope.activity.section], function(_b){
+                $scope.list.push(_b)
+            });
+        }
     }
 );

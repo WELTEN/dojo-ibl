@@ -650,7 +650,13 @@ angular.module('DojoIBL')
 
             $scope.activity.section = phase;
 
-            var activitySortKey = count($scope.activities[game.gameId][phase]);
+            var activitySortKey;
+
+            if(!angular.equals({}, $scope.activities)){
+                activitySortKey = count($scope.activities[game.gameId][phase]);
+            }else{
+                activitySortKey = 0;
+            }
 
             var modalInstance = $modal.open({
                 templateUrl: '/src/components/home/new.activity.modal.html',
@@ -659,7 +665,6 @@ angular.module('DojoIBL')
                     activity: function () { return $scope.activity; },
                     game: function () { return game; },
                     key: function () { return activitySortKey; }
-
                 }
             });
 
